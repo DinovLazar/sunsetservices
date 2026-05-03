@@ -81,7 +81,7 @@ placeholder generator (`scripts/gen-home-placeholders.mjs`) — not a runtime de
 - **Last commit (Phase 1.02):** `9a12047` — `chore(scaffold): bootstrap Next.js 16 + React 19 + Tailwind v4 + next-intl (Phase 1.02)`
 - **Phase 1.04 commit:** `120939e` — design tokens, fonts, motion helpers, /dev/system smoke test.
 - **Phase 1.05 commit:** `f0cb003` — `feat(layout): navbar, footer, base shell, language switcher (Phase 1.05)`.
-- **Phase 1.07 commit:** _pending_ — homepage + seven sections, Lighthouse 95+ desktop / 86 mobile.
+- **Phase 1.07 commit:** `b66b61c` — homepage + seven sections, Lighthouse 95+ desktop / 86 mobile.
 
 ---
 

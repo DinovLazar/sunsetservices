@@ -1,5 +1,163 @@
 {
   "home": {
+    "meta": {
+      "title": "Sunset Services — Aurora & Naperville Landscaping & Hardscape",
+      "description": "Family-run landscaping, hardscape, and snow management for residential and commercial properties across DuPage County. 25+ years. Free estimates."
+    },
+    "hero": {
+      "kicker": "Aurora · Naperville · DuPage County",
+      "h1": "Outdoor spaces, built to last 25+ years.",
+      "sub": "Premium hardscape, full-service landscaping, and snow management across DuPage County. Family-run, Unilock-authorized, since 2000.",
+      "alt": "Paver patio with a stone fire feature at golden hour, surrounded by mature plantings.",
+      "primary": "Get a Free Estimate",
+      "secondary": "View Our Work",
+      "trust": {
+        "rating": "★ 4.8 on Google · 200+ reviews",
+        "years": "25+ years",
+        "unilock": "Unilock Authorized",
+        "area": "Aurora · Naperville · DuPage"
+      }
+    },
+    "audience": {
+      "eyebrow": "Find your fit",
+      "h2": "Three ways we work.",
+      "sub": "Self-segment by property type — every audience gets the team and the playbook that fits.",
+      "residential": {
+        "tag": "Residential",
+        "h3": "For your home.",
+        "desc": "Lawn care, design, and seasonal services for the home you're proud of.",
+        "cta": "Explore Residential",
+        "alt": "A curated home lawn with mature plantings and a paver walkway in late spring."
+      },
+      "commercial": {
+        "tag": "Commercial",
+        "h3": "For your property.",
+        "desc": "Year-round maintenance and snow management for properties that can't afford to look untended.",
+        "cta": "Explore Commercial",
+        "alt": "Clean turf and defined planting beds at the front of a commercial property in mid-day light."
+      },
+      "hardscape": {
+        "tag": "Hardscape",
+        "h3": "For your patio.",
+        "desc": "Paver patios, retaining walls, and outdoor kitchens. Unilock-authorized, 25 years building.",
+        "cta": "Explore Hardscape",
+        "alt": "A paver patio with a stone fire feature in warm late-afternoon light."
+      }
+    },
+    "services": {
+      "eyebrow": "What we do",
+      "h2": "Built for the property, not the brochure.",
+      "sub": "Nine of our most-asked services. Sixteen total — the audience landings cover the rest.",
+      "tile": {
+        "lawnCare": "Lawn Care",
+        "patios": "Patios & Walkways",
+        "walls": "Retaining Walls",
+        "design": "Landscape Design",
+        "trees": "Tree Services",
+        "sprinklers": "Sprinkler Systems",
+        "snow": "Snow Removal",
+        "kitchens": "Outdoor Kitchens",
+        "fire": "Fire Pits & Features"
+      },
+      "alt": {
+        "lawnCare": "Freshly mowed lawn with crisp edges in mid-afternoon light.",
+        "patios": "A paver patio with mortared joints, leading to a walkway through plantings.",
+        "walls": "A multi-tier retaining wall in cut stone, holding a sloped backyard.",
+        "design": "A landscape design plan rendered on paper next to plant cuttings.",
+        "trees": "An arborist trimming a mature tree from a bucket lift.",
+        "sprinklers": "A sprinkler head misting a green lawn at dusk.",
+        "snow": "A plowed driveway and walkway after fresh snowfall.",
+        "kitchens": "An outdoor kitchen with a stone counter, grill, and pendant lighting.",
+        "fire": "A circular paver fire pit with a wood fire and surrounding seating walls."
+      },
+      "audience": {
+        "residential": "Residential",
+        "commercial": "Commercial",
+        "hardscape": "Hardscape"
+      },
+      "cta": {
+        "residential": "All Residential Services",
+        "commercial": "All Commercial Services",
+        "hardscape": "All Hardscape Services"
+      }
+    },
+    "social": {
+      "eyebrow": "From the people who hire us",
+      "h2": "Reviewed by neighbors.",
+      "aggregate": "{rating} on Google · {count}+ reviews",
+      "aggregateBody": "on Google · {count}+ reviews",
+      "aggregateAria": "{rating} out of 5 stars on Google, {count} or more reviews",
+      "via": "via Google",
+      "reviews": {
+        "one": {
+          "quote": "They took a backyard slope no one would touch and turned it into our favorite room of the house.",
+          "name": "Sarah K.",
+          "city": "Wheaton"
+        },
+        "two": {
+          "quote": "Snow at 5am, every storm. Drive was clear before I had coffee. Worth every dollar.",
+          "name": "David R.",
+          "city": "Naperville"
+        },
+        "three": {
+          "quote": "Erick's crew rebuilt our front walk in two days. Cleaner than the day we moved in.",
+          "name": "Patricia M.",
+          "city": "Aurora"
+        }
+      },
+      "cred": {
+        "unilockAlt": "Unilock Authorized Contractor",
+        "unilockPlaceholder": "UNILOCK MARK",
+        "yearsBig": "25+",
+        "yearsLabelLine1": "years building",
+        "yearsLabelLine2": "in DuPage County",
+        "top5": "Top 5 Landscaping",
+        "top5sub": "DuPage Tribune · 2024"
+      }
+    },
+    "about": {
+      "eyebrow": "Family-run, second-generation",
+      "h2Line1": "Started in 2000 by Nick.",
+      "h2Line2": "Run today by his son, Erick.",
+      "body1": "Sunset Services has been mowing lawns, building patios, and clearing snow in DuPage County for 25+ years. Same family, same crew of long-tenure workers, same 6:30am start.",
+      "body2": "Erick took the company over from Nick in 2018 and added the Unilock-authorized hardscape division. Everything else stayed.",
+      "cta": "Read our story",
+      "alt": "Erick Solis, owner of Sunset Services, on a job site in Aurora."
+    },
+    "projects": {
+      "eyebrow": "Recent work",
+      "h2": "Built last season, aging into the property.",
+      "tag": {
+        "hardscape": "HARDSCAPE",
+        "residential": "RESIDENTIAL",
+        "commercial": "COMMERCIAL"
+      },
+      "tile": {
+        "napervillePatio": "Naperville Patio",
+        "wheatonLawn": "Wheaton Lawn Reset",
+        "auroraHoa": "Aurora HOA Curb",
+        "glenEllynFire": "Glen Ellyn Fire Pit",
+        "lisleWall": "Lisle Retaining Wall",
+        "warrenvilleGarden": "Warrenville Garden"
+      },
+      "alt": {
+        "napervillePatio": "Recently completed paver patio with a built-in fire feature in Naperville.",
+        "wheatonLawn": "A reseeded lawn with crisp edging on a residential property in Wheaton.",
+        "auroraHoa": "Maintained landscaping along a commercial frontage in Aurora.",
+        "glenEllynFire": "A circular fire pit with seating walls in a Glen Ellyn backyard.",
+        "lisleWall": "A multi-tier retaining wall in cut stone in Lisle.",
+        "warrenvilleGarden": "A planted garden bed with mature shrubs in Warrenville."
+      },
+      "cta": "See all projects"
+    },
+    "cta": {
+      "eyebrow": "Ready to start?",
+      "h2": "Let's design your outdoor space.",
+      "body": "Tell us about the property and we'll come measure, sketch, and price it. Free, no obligation, usually within a week.",
+      "primary": "Get a Free Estimate",
+      "phonePrefix": "or call",
+      "phoneNumber": "(630) 946-9321"
+    },
     "placeholder": {
       "headline": "Sunset Services",
       "body": "Premium landscaping, hardscape, and outdoor living for DuPage County since 2000."

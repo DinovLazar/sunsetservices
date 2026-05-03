@@ -38,12 +38,12 @@
 - `src/i18n/routing.ts` — next-intl routing config (locales, defaultLocale, localePrefix).
 - `src/i18n/request.ts` — server-side request config (loads messages per locale).
 - `src/i18n/navigation.ts` — locale-aware `<Link>`, `useRouter`, etc.
-- `src/messages/en.json` — English UI strings; top-level keys: `home.placeholder` + `chrome.*` (skip-link, nav, cta, mobile, lang, footer).
-- `src/messages/es.json` — Spanish UI strings; mirror of `en.json`. Hardscape children + a few entries flagged for native review in Phase 2.13 per handover §11.
-- `src/app/globals.css` — Tailwind v4 entry; full `@theme` token block + `@layer base` + `@layer components` (12 component families) live here as of Phase 1.04. No additions in 1.05.
+- `src/messages/en.json` — English UI strings; top-level keys: `home.*` (full namespace per Phase 1.06 handover §12) + `home.placeholder` (legacy) + `chrome.*` (skip-link, nav, cta, mobile, lang, footer).
+- `src/messages/es.json` — Spanish UI strings; mirror of `en.json`. Several `home.*` strings flagged `[TBR]` in handover §12 for Phase 2.13 native-speaker review.
+- `src/app/globals.css` — Tailwind v4 entry; full `@theme` token block + `@layer base` + `@layer components` (12 component families) plus the Phase 1.07 `.btn-ghost.btn-on-dark` modifier for the homepage hero's on-photo secondary CTA.
 - `src/app/favicon.ico` — placeholder favicon (replace later).
 - `src/app/[locale]/layout.tsx` — locale-aware root layout. Mounts `next/font/google` (Manrope + Onest), `NextIntlClientProvider`, `<MotionRoot>`, the chrome (`<SkipLink>`, `<Navbar>`, `<main id="main">`, `<Footer>`) plus `#toast-root` / `#chat-root` mount points and the `LocalBusiness` JSON-LD `<script>` in `<head>`.
-- `src/app/[locale]/page.tsx` — homepage placeholder (one `<h1>` + paragraph) wrapped by the layout's chrome. Real content arrives in Phase 1.07.
+- `src/app/[locale]/page.tsx` — homepage. Composes the seven `Home*` section components per Phase 1.06 handover, sets locale-aware `<title>` / `<meta name="description">` via `generateMetadata`, and injects the `WebSite` JSON-LD (sitelinks search action) at the body's start. `Organization` and `LocalBusiness` are sitewide from the locale layout — not duplicated here.
 - `src/app/[locale]/dev/system/page.tsx` — dev-only design-system smoke test. Inner skip-link and `<main>` were removed in 1.05 so the page doesn't duplicate the chrome's landmarks.
 - `src/app/[locale]/dev/system/_client-demos.tsx` — client-only Dialog and Tooltip demos used by the smoke page.
 - `src/components/global/Logo.tsx` — server component. Two skins (`light` for navbar, `dark` for footer); inline-SVG sunset arc + Manrope wordmark; wraps in locale-aware `<Link>` to `/` with translated `aria-label`.
@@ -76,12 +76,32 @@
 - `src/components/layout/icons/FacebookIcon.tsx` — hand-rolled monochrome FB glyph (lucide-react@1.14.0 dropped brand icons).
 - `src/components/layout/icons/InstagramIcon.tsx` — hand-rolled monochrome IG glyph.
 - `src/components/layout/icons/YoutubeIcon.tsx` — hand-rolled monochrome YT glyph.
-- `src/components/{sections,forms,chat,ui}/` — component homes (still empty; sections start Phase 1.07+).
+- `src/components/{forms,chat,ui}/` — component homes (still empty; populated in 2.06 / 2.09 / future work).
+- `src/components/sections/home/HomeHero.tsx` — server. Layout A hero (full-bleed photo + text overlay). Photo is the LCP element via `next/image` with `priority` + `fetchPriority="high"` + blur placeholder. Two layered gradient overlays (mobile / desktop variants). Kicker, H1, subhead, primary green + ghost-on-dark CTAs, trust microbar with hairline. **No entrance animation** per handover §3.8.
+- `src/components/sections/home/HomeAudienceEntries.tsx` — server. Three `card-photo` tiles (Residential / Commercial / Hardscape). 4:3 photo + content block (eyebrow tag + H3 + 1-sentence descriptor + inline CTA with lucide `ArrowRight`). Whole tile is the click target. Wrapped in `<StaggerContainer>` + 3 `<StaggerItem>`s; section header in `<AnimateIn fade-up>`.
+- `src/components/sections/home/HomeServicesOverview.tsx` — server. Curated 9-tile grid (handover §5.4) on `--color-bg-cream`. Each tile is `card-photo` with 1:1 photo + H3 (sized via `--text-h6`) + audience-color dot meta line (green/charcoal/amber-700). Wrapped in `<StaggerContainer>` + 9 `<StaggerItem>`s. Below the grid: three `btn-secondary btn-md` audience-CTA buttons (D3 ratified) wrapped in a single `<AnimateIn fade-up>`.
+- `src/components/sections/home/HomeSocialProof.tsx` — server. Aggregate row (5 amber lucide `Star`s + 4.8 + on-Google body, `aria-label` announces the rating as text). Three `card-testimonial card-cream` review cards with green left rule wrapped in `<StaggerContainer>`. Credentials row below with a 1px top rule: Unilock placeholder, "25+" big number + label, "Top 5 Landscaping · DuPage Tribune · 2024" (D6), and a hidden BBB placeholder slot (D5 — `visibility: hidden` so layout doesn't shift if Cowork adds a membership in 2.04). Mobile: horizontal scroll-snap.
+- `src/components/sections/home/HomeAbout.tsx` — server. Two-column on lg+ (40/60), stacked on mobile. Image is 1:1 mobile / 4:5 lg+. Eyebrow + two-line H2 + 2 paragraphs + "Read our story →" inline link (`link link-inline` with weight 600 — green-700, underline at 40% rest → 100% hover). `<AnimateIn fade-left>` on image + `<AnimateIn fade-up>` on copy.
+- `src/components/sections/home/HomeProjects.tsx` — server. 6 project tiles in 3 cols desktop / 2 cols md / 1 col mobile. Each tile is `card-photo` 4:3 with bottom-up overlay, tag pill upper-left (HARDSCAPE / RESIDENTIAL / COMMERCIAL), title lower-left in cream-on-dark. Wrapped in `<StaggerContainer>` + 6 `<StaggerItem>`s. Below: centered "See all projects →" `btn-secondary btn-md`.
+- `src/components/sections/home/HomeCTA.tsx` — server. Cream surface (D4 — no charcoal band on the homepage). Container-narrow (960 px) centered. Eyebrow + `--text-h1`-sized H2 + body + Amber × lg CTA (`min-width: 280px`) + `tel:` link below. Wrapped in `<AnimateIn fade-up>`. **The page's only amber CTA in `<main>`** — verified by `document.querySelectorAll('main .btn-amber').length === 1`.
 - `src/hooks/useScrollState.ts` — `"use client"`. rAF-throttled `scrollY > threshold` boolean. Used by `<NavbarScrollState>`.
 - `src/hooks/useBodyScrollLock.ts` — `"use client"`. Locks `<html>` overflow + compensates scrollbar gutter while active. Belt-and-braces with @base-ui/react Dialog's built-in lock.
 - `src/lib/constants/business.ts` — single source of truth for NAP. Exports `BUSINESS_NAME`, `BUSINESS_PHONE`, `BUSINESS_PHONE_TEL`, `BUSINESS_EMAIL`, `BUSINESS_URL`, `BUSINESS_ADDRESS_LINE1`/`LINE2`, structured `BUSINESS_ADDRESS`, `BUSINESS_AREA_SERVED`. Used by footer, mobile drawer, JSON-LD.
 - `src/lib/constants/navigation.ts` — single source of truth for nav IA. Exports `NAV_TOP_LEVEL`, `SERVICES_PANEL`, `RESOURCES_PANEL`, `FOOTER_LINKS`, `SERVICE_AREAS_CITIES`. Consumed by desktop nav, mobile drawer accordions, footer.
 - `src/_project-state/` — this folder; living docs.
+
+## src/assets/
+
+- `src/assets/home/hero.jpg` — hero LCP placeholder, 1920×1080 16:9 noise-textured gradient JPEG (~408 KB source; `next/image` serves a ~9 KB WebP at mobile widths, well under the ≤350 KB budget for the optimized output). High-entropy noise is intentional — Lighthouse's LCP picker excludes "low-entropy" placeholder-looking images, so the noise floor lifts it into the realistic-photo bucket.
+- `src/assets/home/audience-{residential,commercial,hardscape}.jpg` — three 4:3 audience-tile placeholders (~3 KB source each).
+- `src/assets/home/service-{lawnCare,patios,walls,design,trees,sprinklers,snow,kitchens,fire}.jpg` — nine 1:1 service-tile placeholders (~2.5 KB source each).
+- `src/assets/home/project-{1..6}-{slug}.jpg` — six 4:3 projects-teaser placeholders (~3 KB source each).
+- `src/assets/home/about-portrait.jpg` — about-teaser portrait placeholder, 4:5 (~3.6 KB source).
+- `src/assets/home/README.md` — placeholder documentation; instructs Phase 2.04 to swap in real photos from Erick's Drive.
+
+## scripts/
+
+- `scripts/gen-home-placeholders.mjs` — dev-time generator for the home assets above. Uses `sharp` (a transitive Next.js dep) to produce gradient + per-pixel chroma noise JPEGs. Run via `node scripts/gen-home-placeholders.mjs` from the repo root. Not invoked by the build.
 
 ## sanity/
 

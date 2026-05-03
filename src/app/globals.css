@@ -385,6 +385,23 @@
   .btn-ghost:hover  { background: var(--color-sunset-green-50); }
   .btn-ghost:active { background: var(--color-sunset-green-100); }
 
+  /* On-dark Ghost variant — for the homepage hero secondary CTA over a dark
+     photographic surface (Phase 1.06 handover §16.1). The locked .btn-ghost
+     uses green text on transparent, which is invisible on a dark photo;
+     this modifier swaps to on-dark cream text + 1.5px cream border. */
+  .btn-ghost.btn-on-dark {
+    color: var(--color-text-on-dark);
+    border: 1.5px solid var(--color-text-on-dark);
+    background: transparent;
+  }
+  .btn-ghost.btn-on-dark:hover {
+    background: rgba(250, 247, 241, 0.08);
+    border-color: var(--color-text-on-dark);
+  }
+  .btn-ghost.btn-on-dark:focus-visible {
+    outline-color: var(--color-text-on-dark);
+  }
+
   /* Amber — THE one CTA per page. Label is charcoal (8.0:1), not white (2.4:1). */
   .btn-amber {
     background: var(--color-sunset-amber-500);

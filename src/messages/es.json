@@ -1,5 +1,163 @@
 {
   "home": {
+    "meta": {
+      "title": "Sunset Services — Paisajismo en Aurora y Naperville",
+      "description": "Paisajismo, hardscape y manejo de nieve para hogares y empresas en el Condado de DuPage. Empresa familiar, 25+ años. Presupuestos gratis."
+    },
+    "hero": {
+      "kicker": "Aurora · Naperville · Condado de DuPage",
+      "h1": "Espacios exteriores, construidos para durar 25+ años.",
+      "sub": "Hardscape premium, paisajismo integral y manejo de nieve en el Condado de DuPage. Empresa familiar, autorizada Unilock, desde 2000.",
+      "alt": "Patio de adoquines con chimenea de piedra al atardecer, rodeado de plantaciones maduras.",
+      "primary": "Solicita un Presupuesto Gratis",
+      "secondary": "Ver Nuestro Trabajo",
+      "trust": {
+        "rating": "★ 4.8 en Google · 200+ reseñas",
+        "years": "25+ años",
+        "unilock": "Autorizado Unilock",
+        "area": "Aurora · Naperville · DuPage"
+      }
+    },
+    "audience": {
+      "eyebrow": "Encuentra tu encaje",
+      "h2": "Tres formas de trabajar.",
+      "sub": "Segmenta por tipo de propiedad — cada audiencia recibe el equipo y el plan que le corresponde.",
+      "residential": {
+        "tag": "Residencial",
+        "h3": "Para tu hogar.",
+        "desc": "Cuidado de césped, diseño y servicios de temporada para el hogar del que te enorgulleces.",
+        "cta": "Explorar Residencial",
+        "alt": "Un césped residencial cuidado con plantaciones maduras y un sendero de adoquines a finales de primavera."
+      },
+      "commercial": {
+        "tag": "Comercial",
+        "h3": "Para tu propiedad.",
+        "desc": "Mantenimiento todo el año y manejo de nieve para propiedades que no pueden verse descuidadas.",
+        "cta": "Explorar Comercial",
+        "alt": "Césped limpio y arriates definidos al frente de una propiedad comercial con luz de mediodía."
+      },
+      "hardscape": {
+        "tag": "Hardscape",
+        "h3": "Para tu patio.",
+        "desc": "Patios de adoquines, muros de contención y cocinas exteriores. Autorizados por Unilock, 25 años construyendo.",
+        "cta": "Explorar Hardscape",
+        "alt": "Un patio de adoquines con chimenea de piedra bajo la cálida luz de la tarde."
+      }
+    },
+    "services": {
+      "eyebrow": "Lo que hacemos",
+      "h2": "Construido para la propiedad, no para el folleto.",
+      "sub": "Nueve de nuestros servicios más solicitados. Dieciséis en total — las páginas de audiencia cubren el resto.",
+      "tile": {
+        "lawnCare": "Cuidado de Césped",
+        "patios": "Patios y Senderos",
+        "walls": "Muros de Contención",
+        "design": "Diseño de Paisaje",
+        "trees": "Servicios de Árboles",
+        "sprinklers": "Sistemas de Riego",
+        "snow": "Remoción de Nieve",
+        "kitchens": "Cocinas Exteriores",
+        "fire": "Chimeneas y Elementos de Fuego"
+      },
+      "alt": {
+        "lawnCare": "Césped recién cortado con bordes definidos a media tarde.",
+        "patios": "Un patio de adoquines con juntas selladas que conecta con un sendero entre plantaciones.",
+        "walls": "Un muro de contención de varios niveles en piedra cortada, sosteniendo un patio inclinado.",
+        "design": "Un plano de diseño paisajístico sobre papel junto a esquejes de plantas.",
+        "trees": "Un arborista podando un árbol maduro desde una plataforma elevadora.",
+        "sprinklers": "Una cabeza de aspersor regando un césped verde al anochecer.",
+        "snow": "Una entrada de auto y acera despejadas tras una nevada reciente.",
+        "kitchens": "Una cocina exterior con encimera de piedra, parrilla y luminarias colgantes.",
+        "fire": "Una chimenea circular de adoquines con leña encendida y muros de asiento alrededor."
+      },
+      "audience": {
+        "residential": "Residencial",
+        "commercial": "Comercial",
+        "hardscape": "Hardscape"
+      },
+      "cta": {
+        "residential": "Todos los Servicios Residenciales",
+        "commercial": "Todos los Servicios Comerciales",
+        "hardscape": "Todos los Servicios de Hardscape"
+      }
+    },
+    "social": {
+      "eyebrow": "De la gente que nos contrata",
+      "h2": "Reseñados por vecinos.",
+      "aggregate": "{rating} en Google · {count}+ reseñas",
+      "aggregateBody": "en Google · {count}+ reseñas",
+      "aggregateAria": "{rating} de 5 estrellas en Google, {count} o más reseñas",
+      "via": "en Google",
+      "reviews": {
+        "one": {
+          "quote": "Tomaron una pendiente del jardín que nadie quería tocar y la convirtieron en nuestra habitación favorita de la casa.",
+          "name": "Sarah K.",
+          "city": "Wheaton"
+        },
+        "two": {
+          "quote": "Nieve a las 5am, en cada tormenta. La entrada estaba despejada antes del café. Vale cada dólar.",
+          "name": "David R.",
+          "city": "Naperville"
+        },
+        "three": {
+          "quote": "El equipo de Erick reconstruyó nuestra acera en dos días. Más limpio que el día que nos mudamos.",
+          "name": "Patricia M.",
+          "city": "Aurora"
+        }
+      },
+      "cred": {
+        "unilockAlt": "Contratista autorizado Unilock",
+        "unilockPlaceholder": "MARCA UNILOCK",
+        "yearsBig": "25+",
+        "yearsLabelLine1": "años construyendo",
+        "yearsLabelLine2": "en el Condado de DuPage",
+        "top5": "Top 5 Paisajismo",
+        "top5sub": "DuPage Tribune · 2024"
+      }
+    },
+    "about": {
+      "eyebrow": "Negocio familiar, segunda generación",
+      "h2Line1": "Empezado en 2000 por Nick.",
+      "h2Line2": "Hoy lo dirige su hijo, Erick.",
+      "body1": "Sunset Services ha cortado césped, construido patios y limpiado nieve en el Condado de DuPage durante 25+ años. Misma familia, mismo equipo de trabajadores con larga trayectoria, mismo arranque a las 6:30am.",
+      "body2": "Erick tomó la empresa de Nick en 2018 y agregó la división de hardscape autorizada por Unilock. Todo lo demás se mantuvo.",
+      "cta": "Lee nuestra historia",
+      "alt": "Erick Solis, dueño de Sunset Services, en una obra en Aurora."
+    },
+    "projects": {
+      "eyebrow": "Trabajos recientes",
+      "h2": "Construido la temporada pasada, integrándose en la propiedad.",
+      "tag": {
+        "hardscape": "HARDSCAPE",
+        "residential": "RESIDENCIAL",
+        "commercial": "COMERCIAL"
+      },
+      "tile": {
+        "napervillePatio": "Patio en Naperville",
+        "wheatonLawn": "Renovación de Césped en Wheaton",
+        "auroraHoa": "Frontón HOA en Aurora",
+        "glenEllynFire": "Chimenea en Glen Ellyn",
+        "lisleWall": "Muro de Contención en Lisle",
+        "warrenvilleGarden": "Jardín en Warrenville"
+      },
+      "alt": {
+        "napervillePatio": "Patio de adoquines con chimenea integrada recién terminado en Naperville.",
+        "wheatonLawn": "Un césped resembrado con borde definido en una propiedad residencial en Wheaton.",
+        "auroraHoa": "Paisajismo mantenido a lo largo de un frontón comercial en Aurora.",
+        "glenEllynFire": "Una chimenea circular con muros de asiento en un patio en Glen Ellyn.",
+        "lisleWall": "Un muro de contención de varios niveles en piedra cortada en Lisle.",
+        "warrenvilleGarden": "Un arriate plantado con arbustos maduros en Warrenville."
+      },
+      "cta": "Ver todos los proyectos"
+    },
+    "cta": {
+      "eyebrow": "¿Listo para empezar?",
+      "h2": "Diseñemos tu espacio exterior.",
+      "body": "Cuéntanos sobre la propiedad y vamos a medir, dibujar y cotizar. Gratis, sin compromiso, normalmente en una semana.",
+      "primary": "Solicita un Presupuesto Gratis",
+      "phonePrefix": "o llama al",
+      "phoneNumber": "(630) 946-9321"
+    },
     "placeholder": {
       "headline": "Sunset Services",
       "body": "Paisajismo, hardscape y vida al aire libre premium para el condado de DuPage desde el año 2000."

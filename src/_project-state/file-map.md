@@ -40,11 +40,20 @@
 - `src/i18n/navigation.ts` — locale-aware `<Link>`, `useRouter`, etc.
 - `src/messages/en.json` — English UI strings (placeholder).
 - `src/messages/es.json` — Spanish UI strings (placeholder).
-- `src/app/globals.css` — Tailwind v4 entry; design tokens land here in Phase 1.04.
-- `src/app/favicon.ico` — placeholder favicon (replace in Phase 1.04 or later).
-- `src/app/[locale]/layout.tsx` — locale-aware root layout, NextIntlClientProvider.
+- `src/app/globals.css` — Tailwind v4 entry; full `@theme` token block + `@layer base` + `@layer components` (12 component families) live here as of Phase 1.04.
+- `src/app/favicon.ico` — placeholder favicon (replace later).
+- `src/app/[locale]/layout.tsx` — locale-aware root layout. Mounts `next/font/google` (Manrope + Onest), `NextIntlClientProvider`, and `<MotionRoot>` (which hosts `MotionConfig reducedMotion="user"`).
 - `src/app/[locale]/page.tsx` — smoke-test homepage.
-- `src/components/{global,layout,sections,forms,chat,ui}/` — component homes (empty).
+- `src/app/[locale]/dev/system/page.tsx` — dev-only design-system smoke test (renders one of every component variant × state × size + motion sandbox + color swatches). Un-linked, deletable before launch.
+- `src/app/[locale]/dev/system/_client-demos.tsx` — client-only Dialog and Tooltip demos used by the smoke page.
+- `src/components/global/motion/easings.ts` — three named easings + four duration constants.
+- `src/components/global/motion/variants.ts` — six `<AnimateIn>` variants (fade, fade-up/down/left/right, scale).
+- `src/components/global/motion/stagger.ts` — `staggerContainer` + `staggerItem` Framer-style variants.
+- `src/components/global/motion/AnimateIn.tsx` — client component, polymorphic `as`, defaults to `fade-up`, fires on `whileInView` once with `margin: '-10% 0px'`. Honors `delay` prop.
+- `src/components/global/motion/StaggerContainer.tsx` — client component wrapping children with `staggerContainer` + `whileInView`.
+- `src/components/global/motion/StaggerItem.tsx` — client component consuming `staggerItem`.
+- `src/components/global/motion/MotionRoot.tsx` — `"use client"` wrapper that mounts `MotionConfig reducedMotion="user"`. Used from the server `LocaleLayout` to keep the client boundary tight.
+- `src/components/{global,layout,sections,forms,chat,ui}/` — component homes (mostly empty; `global/motion/` populated this phase).
 - `src/lib/` — domain helpers (empty; ai.ts, sanity.ts, resend.ts etc. land in Part 2).
 - `src/_project-state/` — this folder; living docs.
 

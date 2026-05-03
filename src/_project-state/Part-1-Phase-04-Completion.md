@@ -196,7 +196,7 @@ EXIT_BUILD=0
 - [x] `src/_project-state/file-map.md` updated.
 - [x] `src/_project-state/00_stack-and-config.md` updated to record `@base-ui/react` and the new gotchas.
 - [x] `src/_project-state/Part-1-Phase-04-Completion.md` written using the headings in §3.10.
-- [x] Conventional-commit pushed to `origin/main`. SHA recorded below in §"Issues encountered" once the commit lands.
+- [x] Conventional-commit pushed to `origin/main`. **SHA: `120939e1b0553483a7ad420f7927ddb0cdd2dbd3`** (`120939e`). Title: `feat(design-system): tokens, fonts, motion helpers, /dev/system smoke test (Phase 1.04)`.
 
 ---
 
@@ -253,9 +253,9 @@ EXIT_BUILD=0
   `Sunset-Services-Project-Instructions.md` as untracked. They are committed alongside the
   Phase 1.04 changes here.
 
-- **Commit SHA(s):** to be filled in after the commit lands. See the `git log` entry on
-  `main` adjacent to this report; the feat commit message is
-  `feat(design-system): tokens, fonts, motion helpers, /dev/system smoke test (Phase 1.04)`.
+- **Commit SHA:** `120939e1b0553483a7ad420f7927ddb0cdd2dbd3` (`120939e`). A short follow-up
+  docs commit fills this SHA into the report itself, since the feat commit cannot reference
+  its own SHA without amending. Both commits are pushed to `origin/main`.
 
 ---
 

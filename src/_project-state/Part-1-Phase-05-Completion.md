@@ -187,3 +187,9 @@ These weren't in the handover; Code made them and is logging here:
 ## 8. Quick reference for Phase 1.06
 
 The chrome is mounted from `src/app/[locale]/layout.tsx`. Pages render inside `<main id="main" tabIndex={-1}>{children}</main>`. To test on the homepage placeholder: `npm run dev`, open `http://localhost:3000/`. Real homepage design hands off in 1.06; Code starts in 1.07 against the new handover.
+
+---
+
+## 9. Commit
+
+`f0cb003` — `feat(layout): navbar, footer, base shell, language switcher (Phase 1.05)`. Pushed to `origin/main`.

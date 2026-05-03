@@ -76,7 +76,7 @@ Onest (body, weights 400–700). Subsets: `latin`, `latin-ext`. `display: 'swap'
 - **Visibility:** Private
 - **Last commit (Phase 1.02):** `9a12047` — `chore(scaffold): bootstrap Next.js 16 + React 19 + Tailwind v4 + next-intl (Phase 1.02)`
 - **Phase 1.04 commit:** `120939e` — design tokens, fonts, motion helpers, /dev/system smoke test.
-- **Phase 1.05 commit:** see `Part-1-Phase-05-Completion.md` (recorded after push).
+- **Phase 1.05 commit:** `f0cb003` — `feat(layout): navbar, footer, base shell, language switcher (Phase 1.05)`.
 
 ---
 

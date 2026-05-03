@@ -1,7 +1,132 @@
 {
-  "scaffold": {
-    "headline": "Sunset Services",
-    "subline": "Local scaffold OK — Phase 1.02 Code complete.",
-    "switchLanguage": "Español"
+  "home": {
+    "placeholder": {
+      "headline": "Sunset Services",
+      "body": "Premium landscaping, hardscape, and outdoor living for DuPage County since 2000."
+    }
+  },
+  "chrome": {
+    "skipLink": "Skip to main content",
+    "nav": {
+      "logoAriaLabel": "Sunset Services — Home",
+      "primaryAriaLabel": "Primary",
+      "services": "Services",
+      "projects": "Projects",
+      "serviceAreas": "Service Areas",
+      "about": "About",
+      "resources": "Resources",
+      "contact": "Contact",
+      "servicesPanel": {
+        "residentialTitle": "Residential",
+        "commercialTitle": "Commercial",
+        "hardscapeTitle": "Hardscape",
+        "residential": {
+          "lawnCare": "Lawn Care",
+          "landscapeDesign": "Landscape Design",
+          "treeServices": "Tree Services",
+          "sprinklerSystems": "Sprinkler Systems",
+          "snowRemoval": "Snow Removal",
+          "seasonalCleanup": "Seasonal Cleanup"
+        },
+        "commercial": {
+          "maintenance": "Landscape Maintenance",
+          "snowRemoval": "Snow Removal",
+          "propertyEnhancement": "Property Enhancement",
+          "turfManagement": "Turf Management"
+        },
+        "hardscape": {
+          "patiosWalkways": "Patios & Walkways",
+          "retainingWalls": "Retaining Walls",
+          "firePitsFeatures": "Fire Pits & Features",
+          "pergolasPavilions": "Pergolas & Pavilions",
+          "driveways": "Driveways",
+          "outdoorKitchens": "Outdoor Kitchens"
+        },
+        "photoCaption": "See recent projects →",
+        "photoSubcaption": "30+ residential, commercial & hardscape"
+      },
+      "resourcesPanel": {
+        "resourcesTitle": "Resources",
+        "blogTitle": "Blog",
+        "resourcesPlaceholders": {
+          "one": "Spring Lawn Care Calendar",
+          "two": "When to Re-seal Your Patio",
+          "three": "Choosing Hardscape Materials",
+          "four": "Snow Removal Cost Guide"
+        },
+        "blogPlaceholders": {
+          "one": "Designing for Winter Interest",
+          "two": "Drought-Tolerant Plants for DuPage",
+          "three": "Pergola vs. Pavilion — Which Fits Your Yard?"
+        }
+      }
+    },
+    "cta": {
+      "getQuote": "Get a Free Estimate",
+      "callUs": {
+        "label": "Call us",
+        "linkLabel": "Call (630) 946-9321"
+      }
+    },
+    "mobile": {
+      "openMenu": "Open menu",
+      "closeMenu": "Close menu",
+      "menuEyebrow": "Menu",
+      "drawerTitle": "Site navigation"
+    },
+    "lang": {
+      "groupLabel": "Language",
+      "en": "EN",
+      "es": "ES",
+      "enFull": "English",
+      "esFull": "Spanish",
+      "switchToEs": "View this page in Spanish",
+      "switchToEn": "View this page in English"
+    },
+    "footer": {
+      "tagline": "Premium landscaping & hardscape in DuPage County since 2000.",
+      "navAriaLabel": "Footer",
+      "servicesHeading": "Services",
+      "companyHeading": "Company",
+      "resourcesHeading": "Resources",
+      "serviceAreasHeading": "Service Areas",
+      "serviceAreasNavAriaLabel": "Service areas",
+      "links": {
+        "residential": "Residential",
+        "commercial": "Commercial",
+        "hardscape": "Hardscape",
+        "snowRemoval": "Snow Removal",
+        "allServices": "All services →",
+        "blog": "Blog"
+      },
+      "cities": {
+        "aurora": "Aurora",
+        "naperville": "Naperville",
+        "batavia": "Batavia",
+        "wheaton": "Wheaton",
+        "lisle": "Lisle",
+        "bolingbrook": "Bolingbrook"
+      },
+      "newsletter": {
+        "heading": "Newsletter",
+        "helper": "Seasonal tips & project stories. Twice a month.",
+        "fieldLabel": "Email address",
+        "placeholder": "your@email.com",
+        "submit": "Subscribe",
+        "placeholderNote": "Newsletter sign-up coming soon."
+      },
+      "copyright": "© {year} Sunset Services. All rights reserved.",
+      "privacy": "Privacy",
+      "terms": "Terms",
+      "accessibility": "Accessibility",
+      "localeSwitchToEs": "Sitio en español",
+      "localeSwitchToEn": "English version",
+      "social": {
+        "gbp": "Google Business Profile",
+        "facebook": "Facebook",
+        "instagram": "Instagram",
+        "youtube": "YouTube"
+      }
+    }
   }
 }

@@ -1,7 +1,10 @@
-import {useTranslations} from 'next-intl';
-import {setRequestLocale} from 'next-intl/server';
-import {Link} from '@/i18n/navigation';
+import {getTranslations, setRequestLocale} from 'next-intl/server';
 
+/**
+ * Phase 1.05 homepage placeholder. The chrome (navbar, footer, skip-link)
+ * needs *something* to wrap, but real homepage content arrives in Phase
+ * 1.06 (Design) → 1.07 (Code). One headline + one paragraph; nothing else.
+ */
 export default async function HomePage({
   params,
 }: {
@@ -9,22 +12,16 @@ export default async function HomePage({
 }) {
   const {locale} = await params;
   setRequestLocale(locale);
-  return <Smoke />;
-}
+  const t = await getTranslations('home.placeholder');
 
-function Smoke() {
-  const t = useTranslations('scaffold');
   return (
-    <main className="min-h-screen flex items-center justify-center p-8">
-      <div className="text-center space-y-4 max-w-xl">
-        <h1 className="text-4xl font-bold">{t('headline')}</h1>
-        <p className="text-lg text-neutral-600">{t('subline')}</p>
-        <p className="text-sm text-neutral-500">
-          <Link href="/" locale="en">English</Link>
-          {' · '}
-          <Link href="/" locale="es">Español</Link>
-        </p>
-      </div>
-    </main>
+    <section className="mx-auto max-w-[var(--container-narrow)] px-4 sm:px-6 lg:px-8 xl:px-12 py-24 lg:py-32">
+      <h1 className="text-h1 font-heading font-bold text-[var(--color-text-primary)]">
+        {t('headline')}
+      </h1>
+      <p className="text-body-lg text-[var(--color-text-secondary)] mt-4 max-w-[60ch]">
+        {t('body')}
+      </p>
+    </section>
   );
 }

@@ -38,14 +38,15 @@
 - `src/i18n/routing.ts` — next-intl routing config (locales, defaultLocale, localePrefix).
 - `src/i18n/request.ts` — server-side request config (loads messages per locale).
 - `src/i18n/navigation.ts` — locale-aware `<Link>`, `useRouter`, etc.
-- `src/messages/en.json` — English UI strings (placeholder).
-- `src/messages/es.json` — Spanish UI strings (placeholder).
-- `src/app/globals.css` — Tailwind v4 entry; full `@theme` token block + `@layer base` + `@layer components` (12 component families) live here as of Phase 1.04.
+- `src/messages/en.json` — English UI strings; top-level keys: `home.placeholder` + `chrome.*` (skip-link, nav, cta, mobile, lang, footer).
+- `src/messages/es.json` — Spanish UI strings; mirror of `en.json`. Hardscape children + a few entries flagged for native review in Phase 2.13 per handover §11.
+- `src/app/globals.css` — Tailwind v4 entry; full `@theme` token block + `@layer base` + `@layer components` (12 component families) live here as of Phase 1.04. No additions in 1.05.
 - `src/app/favicon.ico` — placeholder favicon (replace later).
-- `src/app/[locale]/layout.tsx` — locale-aware root layout. Mounts `next/font/google` (Manrope + Onest), `NextIntlClientProvider`, and `<MotionRoot>` (which hosts `MotionConfig reducedMotion="user"`).
-- `src/app/[locale]/page.tsx` — smoke-test homepage.
-- `src/app/[locale]/dev/system/page.tsx` — dev-only design-system smoke test (renders one of every component variant × state × size + motion sandbox + color swatches). Un-linked, deletable before launch.
+- `src/app/[locale]/layout.tsx` — locale-aware root layout. Mounts `next/font/google` (Manrope + Onest), `NextIntlClientProvider`, `<MotionRoot>`, the chrome (`<SkipLink>`, `<Navbar>`, `<main id="main">`, `<Footer>`) plus `#toast-root` / `#chat-root` mount points and the `LocalBusiness` JSON-LD `<script>` in `<head>`.
+- `src/app/[locale]/page.tsx` — homepage placeholder (one `<h1>` + paragraph) wrapped by the layout's chrome. Real content arrives in Phase 1.07.
+- `src/app/[locale]/dev/system/page.tsx` — dev-only design-system smoke test. Inner skip-link and `<main>` were removed in 1.05 so the page doesn't duplicate the chrome's landmarks.
 - `src/app/[locale]/dev/system/_client-demos.tsx` — client-only Dialog and Tooltip demos used by the smoke page.
+- `src/components/global/Logo.tsx` — server component. Two skins (`light` for navbar, `dark` for footer); inline-SVG sunset arc + Manrope wordmark; wraps in locale-aware `<Link>` to `/` with translated `aria-label`.
 - `src/components/global/motion/easings.ts` — three named easings + four duration constants.
 - `src/components/global/motion/variants.ts` — six `<AnimateIn>` variants (fade, fade-up/down/left/right, scale).
 - `src/components/global/motion/stagger.ts` — `staggerContainer` + `staggerItem` Framer-style variants.
@@ -53,8 +54,33 @@
 - `src/components/global/motion/StaggerContainer.tsx` — client component wrapping children with `staggerContainer` + `whileInView`.
 - `src/components/global/motion/StaggerItem.tsx` — client component consuming `staggerItem`.
 - `src/components/global/motion/MotionRoot.tsx` — `"use client"` wrapper that mounts `MotionConfig reducedMotion="user"`. Used from the server `LocaleLayout` to keep the client boundary tight.
-- `src/components/{global,layout,sections,forms,chat,ui}/` — component homes (mostly empty; `global/motion/` populated this phase).
-- `src/lib/` — domain helpers (empty; ai.ts, sanity.ts, resend.ts etc. land in Part 2).
+- `src/components/layout/Navbar.tsx` — server composer. Renders sticky `<header>` containing `<NavbarScrollState>` with desktop + mobile bars.
+- `src/components/layout/NavbarScrollState.tsx` — `"use client"` island. Owns `useScrollState`/`usePathname`; writes `data-scrolled` and `data-over-hero` for state A/B/C styling per §3.3.
+- `src/components/layout/NavbarDesktop.tsx` — server. 72px row, container-wide, hidden below `lg`. Composes `<Logo>`, mega-panel triggers, `<NavbarLink>`s, `<PhoneLink>`, `<LanguageSwitcher>`, Get-a-Quote.
+- `src/components/layout/NavbarMobile.tsx` — `"use client"`. 64px bar (phone left, logo center, hamburger right). Drawer via `@base-ui/react`'s `Dialog` with focus-trap + Esc + backdrop-click; slide animation keyed on `data-starting-style`/`data-ending-style`. `useBodyScrollLock` belt-and-braces with base-ui's lock.
+- `src/components/layout/NavbarLink.tsx` — `"use client"`. Desktop primary nav link. Active page (matches `usePathname`) gets weight 600 + 2px underline; hover is 1px underline (left-anchored, grows rightward).
+- `src/components/layout/MegaPanelTrigger.tsx` — `"use client"`. Shared button used by `<ServicesMegaPanel>` and `<ResourcesMegaPanel>`. Caret rotates 180° on open. ARIA: `aria-haspopup="menu"`, `aria-expanded`, `aria-controls`.
+- `src/components/layout/ServicesMegaPanel.tsx` — `"use client"`. 3-col mega-panel (Residential / Commercial / Hardscape) + photo column at xl. Hover-intent (150ms open / 250ms close), `Esc` returns focus to trigger, click-outside closes, `↓` opens + focuses first link.
+- `src/components/layout/ResourcesMegaPanel.tsx` — `"use client"`. Same patterns as Services; 2 columns (Resources / Blog) populated by static `messages/*.json` placeholders pending Sanity (Phase 2.x).
+- `src/components/layout/LanguageSwitcher.tsx` — `"use client"`. Segmented EN | ES toggle. Two surfaces (`light` / `dark`); two sizes (`sm` desktop / `md` drawer). Path-preserving via next-intl `<Link>` + explicit `locale` prop. ←/→ keyboard navigation between segments.
+- `src/components/layout/PhoneLink.tsx` — server. Pulls `BUSINESS_PHONE_TEL` from constants. `variant="auto"` collapses to icon-only at lg–xl per Spanish overflow plan §3.11; `variant="text"` always shows label; `variant="icon"` always icon-only.
+- `src/components/layout/SkipLink.tsx` — server. Renders the `.skip-link` (globals.css §6.12) targeting `#main`; first focusable element on every page.
+- `src/components/layout/SocialIcons.tsx` — server. Four icons (GBP, Facebook, Instagram, YouTube). 32px visual + padded to 44×44 hit area. Hover swaps border + icon to `--color-sunset-green-300`.
+- `src/components/layout/Footer.tsx` — server composer. Charcoal surface; one `<AnimateIn variant="fade">` wrap (no per-element stagger).
+- `src/components/layout/FooterBrand.tsx` — server. Dark-skin `<Logo>`, tagline, `<address>` NAP block, Unilock badge placeholder.
+- `src/components/layout/FooterLinks.tsx` — server. Three columns (Services / Company / Resources) inside `<nav aria-label="Footer">`.
+- `src/components/layout/FooterServiceAreas.tsx` — server. Six-city flat list inside `<nav aria-label="Service areas">`. Includes `<SocialIcons>` right-aligned on desktop.
+- `src/components/layout/FooterNewsletter.tsx` — `"use client"`. Email field + Subscribe button. `onSubmit` prevents default and renders an inline "coming soon" note (D1.05-J). No POST; Resend wires up in 2.08.
+- `src/components/layout/FooterLegal.tsx` — server. `#0E0E0E` strip; `© {year} ...` (dynamic via `new Date().getFullYear()`); Privacy / Terms / Accessibility / locale-switch links.
+- `src/components/layout/icons/GoogleBusinessProfileIcon.tsx` — hand-rolled monochrome `currentColor` "G" SVG (lucide doesn't ship one).
+- `src/components/layout/icons/FacebookIcon.tsx` — hand-rolled monochrome FB glyph (lucide-react@1.14.0 dropped brand icons).
+- `src/components/layout/icons/InstagramIcon.tsx` — hand-rolled monochrome IG glyph.
+- `src/components/layout/icons/YoutubeIcon.tsx` — hand-rolled monochrome YT glyph.
+- `src/components/{sections,forms,chat,ui}/` — component homes (still empty; sections start Phase 1.07+).
+- `src/hooks/useScrollState.ts` — `"use client"`. rAF-throttled `scrollY > threshold` boolean. Used by `<NavbarScrollState>`.
+- `src/hooks/useBodyScrollLock.ts` — `"use client"`. Locks `<html>` overflow + compensates scrollbar gutter while active. Belt-and-braces with @base-ui/react Dialog's built-in lock.
+- `src/lib/constants/business.ts` — single source of truth for NAP. Exports `BUSINESS_NAME`, `BUSINESS_PHONE`, `BUSINESS_PHONE_TEL`, `BUSINESS_EMAIL`, `BUSINESS_URL`, `BUSINESS_ADDRESS_LINE1`/`LINE2`, structured `BUSINESS_ADDRESS`, `BUSINESS_AREA_SERVED`. Used by footer, mobile drawer, JSON-LD.
+- `src/lib/constants/navigation.ts` — single source of truth for nav IA. Exports `NAV_TOP_LEVEL`, `SERVICES_PANEL`, `RESOURCES_PANEL`, `FOOTER_LINKS`, `SERVICE_AREAS_CITIES`. Consumed by desktop nav, mobile drawer accordions, footer.
 - `src/_project-state/` — this folder; living docs.
 
 ## sanity/

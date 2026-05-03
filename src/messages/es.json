@@ -1,7 +1,132 @@
 {
-  "scaffold": {
-    "headline": "Sunset Services",
-    "subline": "Andamio local OK — Fase 1.02 (Código) completa.",
-    "switchLanguage": "English"
+  "home": {
+    "placeholder": {
+      "headline": "Sunset Services",
+      "body": "Paisajismo, hardscape y vida al aire libre premium para el condado de DuPage desde el año 2000."
+    }
+  },
+  "chrome": {
+    "skipLink": "Saltar al contenido principal",
+    "nav": {
+      "logoAriaLabel": "Sunset Services — Inicio",
+      "primaryAriaLabel": "Principal",
+      "services": "Servicios",
+      "projects": "Proyectos",
+      "serviceAreas": "Áreas de Servicio",
+      "about": "Nosotros",
+      "resources": "Recursos",
+      "contact": "Contacto",
+      "servicesPanel": {
+        "residentialTitle": "Residencial",
+        "commercialTitle": "Comercial",
+        "hardscapeTitle": "Hardscape",
+        "residential": {
+          "lawnCare": "Cuidado del Césped",
+          "landscapeDesign": "Diseño de Paisajismo",
+          "treeServices": "Servicios de Árboles",
+          "sprinklerSystems": "Sistemas de Riego",
+          "snowRemoval": "Remoción de Nieve",
+          "seasonalCleanup": "Limpieza de Temporada"
+        },
+        "commercial": {
+          "maintenance": "Mantenimiento de Paisajismo",
+          "snowRemoval": "Remoción de Nieve",
+          "propertyEnhancement": "Mejora de Propiedades",
+          "turfManagement": "Manejo de Césped"
+        },
+        "hardscape": {
+          "patiosWalkways": "Patios y Senderos",
+          "retainingWalls": "Muros de Contención",
+          "firePitsFeatures": "Fogatas y Elementos",
+          "pergolasPavilions": "Pérgolas y Pabellones",
+          "driveways": "Entradas de Auto",
+          "outdoorKitchens": "Cocinas Exteriores"
+        },
+        "photoCaption": "Ver proyectos recientes →",
+        "photoSubcaption": "Más de 30 proyectos residenciales, comerciales y de hardscape"
+      },
+      "resourcesPanel": {
+        "resourcesTitle": "Recursos",
+        "blogTitle": "Blog",
+        "resourcesPlaceholders": {
+          "one": "Calendario de Cuidado del Césped en Primavera",
+          "two": "Cuándo Resellar tu Patio",
+          "three": "Cómo Elegir Materiales de Hardscape",
+          "four": "Guía de Costos de Remoción de Nieve"
+        },
+        "blogPlaceholders": {
+          "one": "Diseñando para el Interés Invernal",
+          "two": "Plantas Tolerantes a la Sequía para DuPage",
+          "three": "Pérgola vs. Pabellón — ¿Cuál se Adapta a tu Jardín?"
+        }
+      }
+    },
+    "cta": {
+      "getQuote": "Solicitar Presupuesto Gratis",
+      "callUs": {
+        "label": "Llámanos",
+        "linkLabel": "Llamar al (630) 946-9321"
+      }
+    },
+    "mobile": {
+      "openMenu": "Abrir menú",
+      "closeMenu": "Cerrar menú",
+      "menuEyebrow": "Menú",
+      "drawerTitle": "Navegación del sitio"
+    },
+    "lang": {
+      "groupLabel": "Idioma",
+      "en": "EN",
+      "es": "ES",
+      "enFull": "Inglés",
+      "esFull": "Español",
+      "switchToEs": "Ver esta página en español",
+      "switchToEn": "Ver esta página en inglés"
+    },
+    "footer": {
+      "tagline": "Paisajismo y hardscape premium en el condado de DuPage desde el año 2000.",
+      "navAriaLabel": "Pie de página",
+      "servicesHeading": "Servicios",
+      "companyHeading": "Empresa",
+      "resourcesHeading": "Recursos",
+      "serviceAreasHeading": "Áreas de Servicio",
+      "serviceAreasNavAriaLabel": "Áreas de servicio",
+      "links": {
+        "residential": "Residencial",
+        "commercial": "Comercial",
+        "hardscape": "Hardscape",
+        "snowRemoval": "Remoción de Nieve",
+        "allServices": "Todos los servicios →",
+        "blog": "Blog"
+      },
+      "cities": {
+        "aurora": "Aurora",
+        "naperville": "Naperville",
+        "batavia": "Batavia",
+        "wheaton": "Wheaton",
+        "lisle": "Lisle",
+        "bolingbrook": "Bolingbrook"
+      },
+      "newsletter": {
+        "heading": "Boletín",
+        "helper": "Consejos de temporada e historias de proyectos. Dos veces al mes.",
+        "fieldLabel": "Correo electrónico",
+        "placeholder": "tu@correo.com",
+        "submit": "Suscribirse",
+        "placeholderNote": "El registro al boletín estará disponible pronto."
+      },
+      "copyright": "© {year} Sunset Services. Todos los derechos reservados.",
+      "privacy": "Privacidad",
+      "terms": "Términos",
+      "accessibility": "Accesibilidad",
+      "localeSwitchToEs": "Sitio en español",
+      "localeSwitchToEn": "English version",
+      "social": {
+        "gbp": "Perfil de Empresa de Google",
+        "facebook": "Facebook",
+        "instagram": "Instagram",
+        "youtube": "YouTube"
+      }
+    }
   }
 }

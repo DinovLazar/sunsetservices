@@ -6,31 +6,36 @@
 
 ## Where we are
 
-- **Last completed phase:** Part 1 — Phase 1.04 (Code: Design tokens & global styles)
-- **Next phase:** Part 1 — Phase 1.05 (Design: navbar / footer / base-layout mockups)
+- **Last completed phase:** Part 1 — Phase 1.05 (Code: Navbar, Footer, Base Layout)
+- **Next phase:** Part 1 — Phase 1.06 (Design: homepage mockup)
 - **Date:** 2026-05-03
 
 ---
 
 ## What works on `localhost:3000`
 
-- `/` — English smoke-test homepage with placeholder copy.
-- `/es` — Spanish smoke-test homepage with placeholder copy.
-- `/dev/system` — design-system smoke-test page (English route).
+- `/` — homepage placeholder (one `<h1>` + tagline) wrapped in the live chrome.
+- `/es` — Spanish homepage placeholder wrapped in the live chrome.
+- `/dev/system` — design-system smoke-test page wrapped in the live chrome.
 - `/es/dev/system` — design-system smoke-test page (Spanish route, English copy — dev tool only).
-- Language toggle links between EN and ES.
+- Sticky desktop navbar with Services + Resources mega-panels, language switcher, phone CTA, Get-a-Quote button. State A → B (homepage at top) → C (scrolled) transitions correctly.
+- Mobile navbar (≤lg / 1024px) with always-visible tap-to-call, centered logo, and hamburger that opens a right-slide drawer with focus trap, body-scroll lock, and inline accordions for Services / Resources.
+- Footer (charcoal surface) with brand block, three quick-links columns, newsletter placeholder, service-areas band, social icons, and legal microbar.
+- Skip-link as first focusable element on every page.
+- Language switcher swaps EN ↔ ES while preserving the path; `<html lang>` updates accordingly.
+- `LocalBusiness` JSON-LD in `<head>` of every page (single source of truth: `lib/constants/business.ts`).
 - Hot reload via Turbopack.
 
-`/dev/system` renders, in 15 numbered sections, every component variant × state × size from the
-Phase 1.03 design handover (§6) plus the type scale, color swatches with WCAG ratios, and the
-`<AnimateIn>` / `<StaggerContainer>` motion sandbox. It exists to verify tokens compile and the
-motion helpers work — un-linked from the rest of the site, deletable before launch.
+`/dev/system` still renders the Phase 1.03 component matrix; its inner `<a class="skip-link">` and
+`<main id="main">` were removed so it doesn't duplicate the chrome's landmarks.
 
 ## What does NOT work yet
 
-Everything except the smoke-test page and the design-system smoke. No real content, no real
-navigation, no homepage sections, no forms, no AI chat, no analytics, no Sanity content, no
-email — all of those land in later phases.
+The chrome is real, but the routes it points to are placeholders (Projects, Service Areas, About,
+Contact, Resources, Blog, all the Services children, /request-quote, /privacy, /terms,
+/accessibility) — those return Next.js 404s until later phases populate them. No real homepage
+sections (1.07+), no forms (2.06), no AI chat (1.20 / 2.09), no analytics (2.10), no Sanity
+content (2.03), no email (2.08).
 
 ---
 
@@ -70,7 +75,8 @@ Onest (body, weights 400–700). Subsets: `latin`, `latin-ext`. `display: 'swap'
 - **Default branch:** `main`
 - **Visibility:** Private
 - **Last commit (Phase 1.02):** `9a12047` — `chore(scaffold): bootstrap Next.js 16 + React 19 + Tailwind v4 + next-intl (Phase 1.02)`
-- **Phase 1.04 commit:** see `Part-1-Phase-04-Completion.md` (recorded after push).
+- **Phase 1.04 commit:** `120939e` — design tokens, fonts, motion helpers, /dev/system smoke test.
+- **Phase 1.05 commit:** see `Part-1-Phase-05-Completion.md` (recorded after push).
 
 ---
 
@@ -86,3 +92,5 @@ Onest (body, weights 400–700). Subsets: `latin`, `latin-ext`. `display: 'swap'
 - `postcss` is not a direct dep — Tailwind v4's `@tailwindcss/postcss` bundles its own PostCSS handling and the scaffolder no longer pulls `postcss` in directly. The Plan's stack table lists it; reality differs slightly. Build still works.
 - **No root `src/app/layout.tsx`** — the `[locale]/layout.tsx` IS the root layout (per Next 16 docs, "the root layout can be under a dynamic segment"). This is the canonical `next-intl` pattern; the handover's example file tree showed both, but only one root layout is permitted by Next.js. Documented in `00_stack-and-config.md`.
 - **Featured-card discipline (D2, ratified):** any future page-level handover that sets `featuredCard: true` on a section must NOT also include an amber CTA on that same page. Carry forward from 1.06+.
+- **State B (over-hero translucent navbar) is on by default at the homepage when not scrolled.** With no hero photo yet on the placeholder homepage, this renders as a translucent white bar over a white page background — the visual difference is invisible until Phase 1.06 ships the hero image, at which point the blur becomes meaningful. The CSS hooks (`data-over-hero` on the navbar root) are already in place.
+- **Brand social icons hand-rolled.** `lucide-react@1.14.0` no longer ships Facebook / Instagram / YouTube glyphs (trademark concerns). Monochrome `currentColor` SVGs were authored under `src/components/layout/icons/`. Same approach as the Google Business Profile mark — see Phase 1.05 completion report §6.

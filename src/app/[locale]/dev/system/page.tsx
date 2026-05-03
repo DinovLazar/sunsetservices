@@ -45,11 +45,8 @@ export default async function DevSystemPage({
   setRequestLocale(locale);
 
   return (
-    <>
-      <a href="#main" className="skip-link">Skip to main content</a>
-
-      <main id="main" tabIndex={-1} className="min-h-screen bg-[var(--color-bg)]">
-        <header className="border-b border-[var(--color-border)] px-4 sm:px-6 lg:px-8 xl:px-12 py-6">
+    <div className="min-h-screen bg-[var(--color-bg)]">
+      <header className="border-b border-[var(--color-border)] px-4 sm:px-6 lg:px-8 xl:px-12 py-6">
           <div className="mx-auto max-w-[var(--container-default)]">
             <p className="text-[var(--color-sunset-green-700)] text-[12px] font-semibold uppercase tracking-[0.12em] mb-2">
               dev only — delete before launch
@@ -634,8 +631,7 @@ export default async function DevSystemPage({
             </p>
           </Section>
         </div>
-      </main>
-    </>
+    </div>
   );
 }
 

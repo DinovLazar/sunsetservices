@@ -49,6 +49,7 @@
   /* ---------- Amber accent (locked) ---------- */
   --color-sunset-amber-50:  #FDF7E8;
   --color-sunset-amber-100: #FAEBC2;
+  --color-sunset-amber-200: #F6D896;
   --color-sunset-amber-300: #F2C66A;
   --color-sunset-amber-500: #E8A33D;
   --color-sunset-amber-700: #B47821;
@@ -849,6 +850,32 @@
     gap: var(--spacing-2);
     width: auto;
     padding-inline: var(--spacing-3);
+  }
+
+  /* ---------- Audience-accent custom properties (Phase 1.09 §3X.1) ----------
+   * Scoped per audience-landing / service-detail page wrapper. Components
+   * read --audience-accent + --audience-chip-bg via var(); avoids
+   * prop-drilling the audience down the tree. Buttons stay green/amber
+   * regardless of variant — only kicker text, eyebrow chips, icon-tile
+   * backgrounds, and section underlines pick up the audience accent.
+   *
+   * Hardscape uses --color-sunset-amber-700 (NOT 500 — 500 is reserved
+   * for amber CTAs).
+   */
+  [data-audience='residential'] {
+    --audience-accent: var(--color-sunset-green-700);
+    --audience-accent-strong: var(--color-sunset-green-700);
+    --audience-chip-bg: var(--color-sunset-green-100);
+  }
+  [data-audience='commercial'] {
+    --audience-accent: var(--color-text-primary);
+    --audience-accent-strong: var(--color-text-primary);
+    --audience-chip-bg: var(--color-bg-stone);
+  }
+  [data-audience='hardscape'] {
+    --audience-accent: var(--color-sunset-amber-700);
+    --audience-accent-strong: var(--color-sunset-amber-700);
+    --audience-chip-bg: var(--color-sunset-amber-50);
   }
 
   /* ---------- 6.12 Skip link ---------- */

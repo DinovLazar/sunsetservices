@@ -163,6 +163,338 @@
       "body": "Paisajismo, hardscape y vida al aire libre premium para el condado de DuPage desde el año 2000."
     }
   },
+  "audience": {
+    "breadcrumbHome": "Inicio",
+    "residential": {
+      "label": "Residencial",
+      "meta": {
+        "title": "Paisajismo Residencial en el Condado de DuPage — Sunset Services",
+        "description": "Cuidado de césped, diseño paisajístico, riego y servicios de temporada para hogares en Aurora, Naperville, Wheaton y todo DuPage. 25+ años."
+      },
+      "hero": {
+        "kicker": "RESIDENCIAL",
+        "h1": "Espacios al aire libre que se sienten como hogar.",
+        "subhead": "Cuidado de césped, diseño paisajístico y servicios de temporada para hogares en el Condado de DuPage. Confiado por más de 1,200 vecinos en Aurora, Naperville y Wheaton.",
+        "alt": "Un césped delantero cuidado con plantaciones maduras al atardecer en Naperville.",
+        "primary": "Solicita un Presupuesto Gratis",
+        "secondary": "Ver Proyectos Residenciales"
+      },
+      "qualifier": {
+        "eyebrow": "PARA DUEÑOS DE CASA EN DUPAGE",
+        "h2": "Para quién es esto.",
+        "body": "Si tienes una casa en Aurora, Naperville o Wheaton y quieres un solo equipo para césped, patio y nieve — sin malabarear tres proveedores — esta página es para ti.",
+        "pills": {
+          "one": "Mismo equipo cada visita",
+          "two": "Bilingüe EN · ES",
+          "three": "Presupuesto en 48 horas",
+          "four": "25 años de experiencia"
+        }
+      },
+      "servicesGrid": {
+        "eyebrow": "SEIS SERVICIOS · UN EQUIPO",
+        "h2": "Servicios para hogares residenciales.",
+        "sub": "Elige un servicio para ver qué incluye, nuestro proceso y proyectos recientes."
+      },
+      "featuredProjects": {
+        "eyebrow": "TRABAJO RECIENTE",
+        "h2": "Proyectos residenciales destacados.",
+        "viewAll": "Ver todo residencial",
+        "tiles": {
+          "one": {"title": "Transformación de patio trasero", "meta": "Naperville · 2024"},
+          "two": {"title": "Renovación de fachada", "meta": "Wheaton · 2024"},
+          "three": {"title": "Frente HOA moderno", "meta": "Aurora · 2024"}
+        }
+      },
+      "whySunset": {
+        "eyebrow": "POR QUÉ SUNSET",
+        "h2": "Construido sobre veinticinco años.",
+        "props": {
+          "one": {"headline": "25+ años en hogares de DuPage", "description": "Erick fundó Sunset Services en 2000. Hemos visto las temporadas.", "icon": "Award"},
+          "two": {"headline": "Mismo equipo cada visita", "description": "Tu líder no cambia. La calidad se mantiene constante.", "icon": "Users"},
+          "three": {"headline": "Equipo bilingüe · EN · ES", "description": "Los líderes hablan ambos. Cotizaciones en cualquiera.", "icon": "Languages"},
+          "four": {"headline": "Autorizado Unilock", "description": "Adoquines premium, instalación entrenada.", "icon": "Unilock"}
+        }
+      },
+      "socialProof": {
+        "eyebrow": "DE TUS VECINOS",
+        "h2": "Reseñado por dueños de casa residenciales.",
+        "reviews": {
+          "one": {"quote": "Tomaron una pendiente del jardín que nadie quería tocar y la convirtieron en nuestra habitación favorita de la casa.", "name": "Sarah K.", "city": "Wheaton"},
+          "two": {"quote": "Mismo equipo, misma calidad, semana tras semana. Cinco años ya.", "name": "Marco D.", "city": "Aurora"}
+        },
+        "credentials": {
+          "rating": "★ 4.9",
+          "ratingSub": "Google · 287 reseñas",
+          "unilock": "Unilock",
+          "unilockSub": "Contratista autorizado",
+          "years": "25+",
+          "yearsSub": "años en el Condado de DuPage",
+          "homes": "1,200+",
+          "homesSub": "hogares atendidos"
+        }
+      },
+      "faq": {
+        "eyebrow": "PREGUNTAS · RESPUESTAS",
+        "h2": "Preguntas comunes de propietarios.",
+        "items": {
+          "one": {"q": "¿Ofrecen visitas únicas o solo contratos?", "a": "Ambas. La mayoría de clientes de césped prefieren un contrato de temporada por consistencia, pero hacemos limpiezas únicas, consultas de diseño y proyectos sin compromiso recurrente."},
+          "two": {"q": "¿Qué tan rápido pueden empezar?", "a": "El cuidado de césped y la limpieza de temporada normalmente empiezan en dos semanas. Diseño y hardscape dependen del alcance — la mayoría agendan en cuatro a seis semanas tras aprobar el presupuesto."},
+          "three": {"q": "¿Los presupuestos son gratis?", "a": "Sí — visita, mediciones y presupuesto detallado son gratis. Los cotizaciones llegan a tu correo en 48 horas tras la visita."},
+          "four": {"q": "¿Atienden a HOAs?", "a": "Sí — trabajamos con propietarios individuales dentro de HOAs y con juntas de HOA directamente. Manejamos documentación de cumplimiento, RFPs y facturación estandarizada."},
+          "five": {"q": "¿Están asegurados?", "a": "Sí — $2M de responsabilidad general y compensación laboral completa. Certificados de seguro disponibles a pedido antes de la primera visita."}
+        }
+      },
+      "cta": {
+        "eyebrow": "LISTOS CUANDO TÚ LO ESTÉS",
+        "h2": "Cuéntanos sobre la propiedad.",
+        "body": "Presupuesto gratis en 48 horas. Sin presiones — solo un precio claro.",
+        "button": "Solicita un Presupuesto Gratis",
+        "phonePrefix": "o llama al",
+        "phoneNumber": "(630) 946-9321"
+      }
+    },
+    "commercial": {
+      "label": "Comercial",
+      "meta": {
+        "title": "Paisajismo Comercial y Nieve en DuPage — Sunset Services",
+        "description": "Mantenimiento todo el año, respuesta de nieve y manejo de césped para oficinas, HOAs y comercio en el Condado de DuPage. COIs antes del primer día."
+      },
+      "hero": {
+        "kicker": "COMERCIAL",
+        "h1": "Cuidado de propiedades que merece contratos.",
+        "subhead": "Mantenimiento, respuesta de nieve y programas de césped para parques de oficinas, HOAs y comercio en los suburbios del oeste. COIs en archivo antes del primer día.",
+        "alt": "Una entrada comercial limpia con jardinería cuidada a media mañana.",
+        "primary": "Solicita un Presupuesto Gratis",
+        "secondary": "Ver Proyectos Comerciales"
+      },
+      "qualifier": {
+        "eyebrow": "PARA PROPERTY MANAGERS DE DUPAGE",
+        "h2": "Para quién es esto.",
+        "body": "Si manejas oficinas, HOAs o propiedades comerciales en DuPage y quieres un solo equipo con un solo property manager — equipos uniformados, COI en archivo, sin carreras fuera de horario — esta página es para ti.",
+        "pills": {
+          "one": "COI antes del día 1",
+          "two": "Property manager dedicado",
+          "three": "Equipos uniformados",
+          "four": "Respuesta fuera de horario"
+        }
+      },
+      "servicesGrid": {
+        "eyebrow": "CUATRO PROGRAMAS · UN CONTRATO",
+        "h2": "Servicios para propiedades comerciales.",
+        "sub": "Elige un programa para ver qué incluye, nuestro proceso y propiedades recientes."
+      },
+      "featuredProjects": {
+        "eyebrow": "TRABAJO RECIENTE",
+        "h2": "Propiedades comerciales destacadas.",
+        "viewAll": "Ver todo comercial",
+        "tiles": {
+          "one": {"title": "Parque corporativo en Aurora", "meta": "Aurora · 2024"},
+          "two": {"title": "HOA en Naperville", "meta": "Naperville · 2024"},
+          "three": {"title": "Centro comercial en Lisle", "meta": "Lisle · 2024"}
+        }
+      },
+      "whySunset": {
+        "eyebrow": "POR QUÉ SUNSET",
+        "h2": "Construido para property managers.",
+        "props": {
+          "one": {"headline": "COI antes del primer día", "description": "Certificado de seguro enviado durante la integración.", "icon": "ShieldCheck"},
+          "two": {"headline": "Equipos uniformados con vehículos de marca", "description": "Responsabilidad visible en cada sitio.", "icon": "Truck"},
+          "three": {"headline": "Respuesta de nieve fuera de horario", "description": "Operador en vivo, respuesta de 2 horas tras activar.", "icon": "Snowflake"},
+          "four": {"headline": "Property manager dedicado", "description": "Un solo contacto, móvil y correo — nunca una cola.", "icon": "UserCheck"}
+        }
+      },
+      "socialProof": {
+        "eyebrow": "DE PROPERTY MANAGERS",
+        "h2": "Reseñado por managers comerciales.",
+        "reviews": {
+          "one": {"quote": "Mismo property manager por cuatro años seguidos. Conocen nuestros edificios y nuestros ciclos de presupuesto.", "name": "Lisa R.", "city": "Parque de oficinas en Naperville"},
+          "two": {"quote": "Los reportes de tormenta llegan a mi correo antes de levantarme. Salvaron una queja de inquilino el invierno pasado.", "name": "Mark T.", "city": "Comercio en Aurora"}
+        },
+        "credentials": {
+          "rating": "★ 4.9",
+          "ratingSub": "Google · 287 reseñas",
+          "insured": "Asegurado y Avalado",
+          "insuredSub": "$2M GL · compensación laboral",
+          "years": "25+",
+          "yearsSub": "años en el Condado de DuPage",
+          "homes": "60+",
+          "homesSub": "cuentas comerciales"
+        }
+      },
+      "faq": {
+        "eyebrow": "PREGUNTAS · RESPUESTAS",
+        "h2": "Preguntas comunes de managers.",
+        "items": {
+          "one": {"q": "¿Atienden a HOAs?", "a": "Sí — alrededor del 30% de nuestro portafolio comercial son HOAs. Atendemos juntas, RFPs y reportes estandarizados con cadencia trimestral."},
+          "two": {"q": "¿Cuál es el contrato mínimo?", "a": "$2,500 mensuales recurrentes en contratos de 12 meses. Las mejoras puntuales tienen alcance y mínimo aparte."},
+          "three": {"q": "¿Pueden enviar un COI?", "a": "Sí — $2M de responsabilidad general más compensación laboral completa. El COI se envía en la integración antes de la primera visita; endosos de asegurado adicional a pedido."},
+          "four": {"q": "¿Qué tan rápido es la respuesta de nieve?", "a": "Respuesta de 2 horas tras activar para cuentas comerciales. Reportes de evento incluidos; despacho de operador en vivo 24/7 en temporada."},
+          "five": {"q": "¿Asignan property manager único?", "a": "Sí — cada cuenta comercial recibe un manager nombrado con móvil directo y correo. Sin cola de llamadas, sin transferencias entre representantes."}
+        }
+      },
+      "cta": {
+        "eyebrow": "LISTOS CUANDO TÚ LO ESTÉS",
+        "h2": "Cuéntanos sobre la propiedad.",
+        "body": "Recorrido gratis y propuesta detallada en 48 horas. COI adjunto, sin compromiso.",
+        "button": "Solicita un Presupuesto Gratis",
+        "phonePrefix": "o llama al",
+        "phoneNumber": "(630) 946-9321"
+      }
+    },
+    "hardscape": {
+      "label": "Hardscape",
+      "meta": {
+        "title": "Hardscape y Adoquines Unilock en DuPage — Sunset Services",
+        "description": "Patios, muros, chimeneas y cocinas exteriores por un Contratista Autorizado Unilock. Garantía de instalación de 5 años. 25+ años en DuPage."
+      },
+      "hero": {
+        "kicker": "DIVISIÓN HARDSCAPE",
+        "h1": "Construido para durar veinticinco años y contando.",
+        "subhead": "Patios, muros, chimeneas y cocinas exteriores — instalado por un Contratista Autorizado Unilock con dos décadas de experiencia.",
+        "alt": "Un patio de adoquines Unilock con muro asiento y chimenea al atardecer.",
+        "primary": "Solicita un Presupuesto Gratis",
+        "secondary": "Ver Proyectos de Hardscape"
+      },
+      "qualifier": {
+        "eyebrow": "PARA DUEÑOS DE CASA EN DUPAGE",
+        "h2": "Para quién es esto.",
+        "body": "Si quieres un patio, sendero, muro de contención o cocina exterior construido por un Contratista Autorizado Unilock — con ingeniería revisada, base hecha en casa y garantía de instalación de 5 años — esta página es para ti.",
+        "pills": {
+          "one": "Autorizado Unilock",
+          "two": "Garantía de 5 años",
+          "three": "Diseñado para el suelo",
+          "four": "20+ años en hardscape"
+        }
+      },
+      "servicesGrid": {
+        "eyebrow": "SEIS SERVICIOS DE HARDSCAPE",
+        "h2": "Servicios para vida al aire libre.",
+        "sub": "Elige un servicio para ver qué incluye, nuestro proceso e instalaciones recientes."
+      },
+      "featuredProjects": {
+        "eyebrow": "INSTALACIONES RECIENTES",
+        "h2": "Proyectos destacados de hardscape.",
+        "viewAll": "Ver todo hardscape",
+        "tiles": {
+          "one": {"title": "Patio + chimenea en Naperville", "meta": "Naperville · 2024"},
+          "two": {"title": "Chimenea en Glen Ellyn", "meta": "Glen Ellyn · 2024"},
+          "three": {"title": "Muro multi-nivel en Lisle", "meta": "Lisle · 2024"}
+        }
+      },
+      "whySunset": {
+        "eyebrow": "POR QUÉ SUNSET",
+        "h2": "Dos décadas en adoquines.",
+        "props": {
+          "one": {"headline": "Contratista Autorizado Unilock", "description": "Otorgado — no comprado. Mantenido por quince años y contando.", "icon": "Unilock"},
+          "two": {"headline": "Garantía de instalación de 5 años", "description": "Mano de obra cubierta cinco años, sin preguntas.", "icon": "BadgeCheck"},
+          "three": {"headline": "Diseño interno", "description": "Diseñador, ingeniero y líder de equipo bajo un techo.", "icon": "PencilRuler"},
+          "four": {"headline": "20+ años en hardscape", "description": "El equipo de Marcin lleva colocando adoquines desde 2003.", "icon": "Hammer"}
+        }
+      },
+      "unilock": {
+        "eyebrow": "CONTRATISTA AUTORIZADO UNILOCK",
+        "h2": "La marca de adoquines que eligen los pros.",
+        "body": "La autorización Unilock se otorga — no se compra — a contratistas que demuestran calidad de instalación consistente. Llevamos quince años con ella y contando.",
+        "stat": "QUINCE AÑOS · 380+ INSTALACIONES · GARANTÍA DE 5 AÑOS",
+        "viewProjects": "Ver proyectos Unilock",
+        "badgeAlt": "Contratista Autorizado Unilock"
+      },
+      "socialProof": {
+        "eyebrow": "DE CLIENTES DE HARDSCAPE",
+        "h2": "Reseñado por clientes de hardscape.",
+        "reviews": {
+          "one": {"quote": "El equipo de Erick reconstruyó nuestra acera en dos días. Tres inviernos después, la arena de las juntas se ve igual que el primer día.", "name": "Patricia M.", "city": "Aurora"},
+          "two": {"quote": "Nuestro patio es la razón por la que nos quedamos. Mismo equipo lo selló la primavera siguiente sin pedírselo.", "name": "James K.", "city": "Naperville"}
+        },
+        "credentials": {
+          "rating": "★ 4.9",
+          "ratingSub": "Google · 287 reseñas",
+          "unilock": "Unilock",
+          "unilockSub": "Contratista autorizado",
+          "warranty": "5 años",
+          "warrantySub": "garantía de instalación",
+          "installs": "380+",
+          "installsSub": "instalaciones Unilock"
+        }
+      },
+      "faq": {
+        "eyebrow": "PREGUNTAS · RESPUESTAS",
+        "h2": "Preguntas comunes de clientes de hardscape.",
+        "items": {
+          "one": {"q": "¿Cuánto tarda un patio típico?", "a": "Un patio residencial de adoquines de 400–600 pies² toma 5–8 días desde el inicio hasta el recorrido. Alcances mayores o semanas con clima difícil pueden estirarse a dos semanas."},
+          "two": {"q": "¿Qué garantía cubre las instalaciones Unilock?", "a": "Garantía de mano de obra de 5 años en la instalación. La garantía del fabricante Unilock sobre los adoquines corre aparte y depende de la línea."},
+          "three": {"q": "¿Diseñan antes de construir?", "a": "Sí — la mayoría de proyectos comienzan con una conversación de concepto, planos a escala y un recorrido de materiales. Diseño y construcción son contratos aparte; los planos son tuyos sin importar."},
+          "four": {"q": "¿Qué materiales usan típicamente?", "a": "Principalmente Unilock — Contratista Autorizado desde 2010. También trabajamos con Belgard u otras líneas premium si se pide, aunque nuestro equipo es más eficiente con sistemas Unilock."},
+          "five": {"q": "¿Cómo funciona su calendario de proyectos?", "a": "Las construcciones de primavera normalmente se llenan a finales de febrero; las de verano y otoño se abren hasta abril. Confirmamos una ventana en la cotización y fijamos la fecha al recibir el depósito."}
+        }
+      },
+      "cta": {
+        "eyebrow": "LISTOS CUANDO TÚ LO ESTÉS",
+        "h2": "Cuéntanos sobre el proyecto.",
+        "body": "Recorrido gratis y boceto de concepto en una semana. Permisos e ingeniería incluidos en la cotización.",
+        "button": "Solicita un Presupuesto Gratis",
+        "phonePrefix": "o llama al",
+        "phoneNumber": "(630) 946-9321"
+      }
+    }
+  },
+  "servicePage": {
+    "breadcrumbHome": "Inicio",
+    "hero": {
+      "callCta": "(630) 946-9321",
+      "callAria": "Llamar al (630) 946-9321"
+    },
+    "whatsIncluded": {
+      "eyebrow": "QUÉ INCLUYE",
+      "h2": "En cada visita, cada vez."
+    },
+    "process": {
+      "eyebrow": "CÓMO FUNCIONA",
+      "h2": "Nuestro proceso — {steps} pasos."
+    },
+    "whyUs": {
+      "eyebrowTemplate": "POR QUÉ SUNSET PARA {service}",
+      "h2": "Tres razones para llamarnos."
+    },
+    "pricing": {
+      "explainer": {
+        "eyebrow": "CÓMO FUNCIONAN LOS PRECIOS",
+        "h2": "Sin matemáticas ocultas.",
+        "lead": "El precio en propiedades de DuPage normalmente depende de tres cosas:",
+        "cta": "Obtén una cotización real en 48 horas"
+      },
+      "price": {
+        "eyebrow": "PRECIO",
+        "startingAtTemplate": "Desde ${price}",
+        "cta": "Ver presupuesto completo"
+      }
+    },
+    "featuredProjects": {
+      "eyebrow": "TRABAJO RECIENTE",
+      "h2Template": "Proyectos de {service} cerca.",
+      "viewAllTemplate": "Ver todo {service}"
+    },
+    "faq": {
+      "eyebrow": "PREGUNTAS · RESPUESTAS",
+      "h2Template": "Preguntas sobre {service}."
+    },
+    "related": {
+      "eyebrow": "LOS CLIENTES TAMBIÉN PIDEN",
+      "h2": {
+        "residential": "Más de Sunset Residencial.",
+        "commercial": "Más de Sunset Comercial.",
+        "hardscape": "Frecuentemente combinado con esto."
+      }
+    },
+    "cta": {
+      "eyebrow": "LISTOS CUANDO TÚ LO ESTÉS",
+      "h2Template": "Empieza tu {service}.",
+      "body": "Presupuesto gratis en 48 horas. Sin presiones — solo un precio claro.",
+      "button": "Solicita un Presupuesto Gratis",
+      "phonePrefix": "o llama al",
+      "phoneNumber": "(630) 946-9321"
+    }
+  },
   "chrome": {
     "skipLink": "Saltar al contenido principal",
     "nav": {

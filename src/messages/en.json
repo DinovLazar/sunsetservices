@@ -163,6 +163,338 @@
       "body": "Premium landscaping, hardscape, and outdoor living for DuPage County since 2000."
     }
   },
+  "audience": {
+    "breadcrumbHome": "Home",
+    "residential": {
+      "label": "Residential",
+      "meta": {
+        "title": "Residential Landscaping in DuPage County — Sunset Services",
+        "description": "Lawn care, landscape design, sprinklers, and seasonal services for homes in Aurora, Naperville, Wheaton, and across DuPage County. 25+ years."
+      },
+      "hero": {
+        "kicker": "RESIDENTIAL",
+        "h1": "Outdoor spaces that feel like home.",
+        "subhead": "Lawn care, landscape design, and seasonal services for DuPage County homes. Trusted by 1,200+ neighbors across Aurora, Naperville, and Wheaton.",
+        "alt": "A curated front lawn with mature plantings at golden hour in Naperville.",
+        "primary": "Get a Free Estimate",
+        "secondary": "View Residential Projects"
+      },
+      "qualifier": {
+        "eyebrow": "FOR DUPAGE HOMEOWNERS",
+        "h2": "Who this is for.",
+        "body": "If you own a home in Aurora, Naperville, or Wheaton and want one team for lawn, patio, and snow — without juggling three vendors — this page is for you.",
+        "pills": {
+          "one": "Same crew every visit",
+          "two": "Bilingual EN · ES",
+          "three": "Free 48-hr estimate",
+          "four": "25 years in business"
+        }
+      },
+      "servicesGrid": {
+        "eyebrow": "SIX SERVICES · ONE CREW",
+        "h2": "Services for residential homes.",
+        "sub": "Pick a service to see what's included, our process, and recent projects."
+      },
+      "featuredProjects": {
+        "eyebrow": "RECENT WORK",
+        "h2": "Featured residential projects.",
+        "viewAll": "View all residential",
+        "tiles": {
+          "one": {"title": "Backyard transformation", "meta": "Naperville · 2024"},
+          "two": {"title": "Curb-appeal refresh", "meta": "Wheaton · 2024"},
+          "three": {"title": "Modern HOA frontage", "meta": "Aurora · 2024"}
+        }
+      },
+      "whySunset": {
+        "eyebrow": "WHY SUNSET",
+        "h2": "Built on twenty-five years.",
+        "props": {
+          "one": {"headline": "25+ years on DuPage homes", "description": "Erick founded Sunset Services in 2000. We've seen the seasons.", "icon": "Award"},
+          "two": {"headline": "Same crew every visit", "description": "Your lead won't change. Quality stays consistent.", "icon": "Users"},
+          "three": {"headline": "Bilingual team · EN · ES", "description": "Crew leads speak both. Quotes available in either.", "icon": "Languages"},
+          "four": {"headline": "Unilock Authorized", "description": "Premium pavers, trained installation.", "icon": "Unilock"}
+        }
+      },
+      "socialProof": {
+        "eyebrow": "FROM YOUR NEIGHBORS",
+        "h2": "Reviewed by residential homeowners.",
+        "reviews": {
+          "one": {"quote": "They took a backyard slope no one would touch and turned it into our favorite room of the house.", "name": "Sarah K.", "city": "Wheaton"},
+          "two": {"quote": "Same crew, same quality, week after week. Five years now.", "name": "Marco D.", "city": "Aurora"}
+        },
+        "credentials": {
+          "rating": "★ 4.9",
+          "ratingSub": "Google · 287 reviews",
+          "unilock": "Unilock",
+          "unilockSub": "Authorized Contractor",
+          "years": "25+",
+          "yearsSub": "years in DuPage County",
+          "homes": "1,200+",
+          "homesSub": "homes served"
+        }
+      },
+      "faq": {
+        "eyebrow": "QUESTIONS · ANSWERED",
+        "h2": "Common questions from homeowners.",
+        "items": {
+          "one": {"q": "Do you offer one-time visits or only contracts?", "a": "Both. Most lawn-care customers prefer a seasonal contract for consistency, but we'll do one-time cleanups, design consults, and project work without a recurring commitment."},
+          "two": {"q": "How quickly can you start?", "a": "Lawn-care and seasonal cleanup usually start within two weeks. Design and hardscape projects depend on scope — most book within four to six weeks of estimate sign-off."},
+          "three": {"q": "Are estimates free?", "a": "Yes — site visit, measurements, and itemized estimate are free. Quotes land in your inbox within 48 hours of the visit."},
+          "four": {"q": "Do you handle HOAs?", "a": "Yes — we work with both individual homeowners inside HOAs and HOA boards directly. We handle compliance documentation, RFP responses, and standardized invoicing."},
+          "five": {"q": "Are you insured?", "a": "Yes — $2M general liability plus full workers' comp. Insurance certificates available on request before the first visit."}
+        }
+      },
+      "cta": {
+        "eyebrow": "READY WHEN YOU ARE",
+        "h2": "Tell us about the property.",
+        "body": "Free estimate within 48 hours. No high-pressure sales — just a clear quote.",
+        "button": "Get a Free Estimate",
+        "phonePrefix": "or call",
+        "phoneNumber": "(630) 946-9321"
+      }
+    },
+    "commercial": {
+      "label": "Commercial",
+      "meta": {
+        "title": "Commercial Landscaping & Snow in DuPage County — Sunset Services",
+        "description": "Year-round maintenance, snow response, and turf management for office parks, HOAs, and retail across DuPage County. COIs on file before day one."
+      },
+      "hero": {
+        "kicker": "COMMERCIAL",
+        "h1": "Property care that earns repeat contracts.",
+        "subhead": "Maintenance, snow response, and turf programs for office parks, HOAs, and retail across the western suburbs. COIs on file before day one.",
+        "alt": "A clean commercial entry with manicured plantings at mid-morning.",
+        "primary": "Get a Free Estimate",
+        "secondary": "View Commercial Projects"
+      },
+      "qualifier": {
+        "eyebrow": "FOR DUPAGE PROPERTY MANAGERS",
+        "h2": "Who this is for.",
+        "body": "If you manage offices, HOAs, or retail properties across DuPage and want a single team with a single property manager — uniformed crews, COI on file, no after-hours scramble — this page is for you.",
+        "pills": {
+          "one": "COI before day 1",
+          "two": "Dedicated property manager",
+          "three": "Uniformed crews",
+          "four": "After-hours snow response"
+        }
+      },
+      "servicesGrid": {
+        "eyebrow": "FOUR PROGRAMS · ONE CONTRACT",
+        "h2": "Services for commercial properties.",
+        "sub": "Pick a program to see what's included, our process, and recent properties."
+      },
+      "featuredProjects": {
+        "eyebrow": "RECENT WORK",
+        "h2": "Featured commercial properties.",
+        "viewAll": "View all commercial",
+        "tiles": {
+          "one": {"title": "Aurora corporate park", "meta": "Aurora · 2024"},
+          "two": {"title": "Naperville HOA", "meta": "Naperville · 2024"},
+          "three": {"title": "Lisle retail center", "meta": "Lisle · 2024"}
+        }
+      },
+      "whySunset": {
+        "eyebrow": "WHY SUNSET",
+        "h2": "Built for property managers.",
+        "props": {
+          "one": {"headline": "COI on file before day one", "description": "Insurance certificate emailed during onboarding.", "icon": "ShieldCheck"},
+          "two": {"headline": "Uniformed crews + branded vehicles", "description": "Visible accountability across every site.", "icon": "Truck"},
+          "three": {"headline": "After-hours snow response", "description": "Live operator dispatch, 2-hour response after trigger.", "icon": "Snowflake"},
+          "four": {"headline": "Dedicated property manager", "description": "Single point of contact, mobile + email — never a queue.", "icon": "UserCheck"}
+        }
+      },
+      "socialProof": {
+        "eyebrow": "FROM PROPERTY MANAGERS",
+        "h2": "Reviewed by commercial managers.",
+        "reviews": {
+          "one": {"quote": "Same property manager for four years running. They know our buildings and our budget cycles.", "name": "Lisa R.", "city": "Naperville Office Park"},
+          "two": {"quote": "Snow event reports hit my inbox before I'm out of bed. Saved a tenant complaint last winter.", "name": "Mark T.", "city": "Aurora Retail"}
+        },
+        "credentials": {
+          "rating": "★ 4.9",
+          "ratingSub": "Google · 287 reviews",
+          "insured": "Insured & Bonded",
+          "insuredSub": "$2M GL · workers' comp",
+          "years": "25+",
+          "yearsSub": "years in DuPage County",
+          "homes": "60+",
+          "homesSub": "commercial accounts"
+        }
+      },
+      "faq": {
+        "eyebrow": "QUESTIONS · ANSWERED",
+        "h2": "Common questions from managers.",
+        "items": {
+          "one": {"q": "Do you serve HOAs?", "a": "Yes — about 30% of our commercial portfolio is HOA properties. We handle board meetings, RFP responses, and standardized reporting on quarterly cadence."},
+          "two": {"q": "What's your minimum contract value?", "a": "$2,500 monthly recurring on 12-month contracts. One-time enhancements have a separate scope and minimum."},
+          "three": {"q": "Can you provide a COI?", "a": "Yes — $2M general liability plus full workers' comp. COI is sent during onboarding before the first visit; additional-insured endorsements on request."},
+          "four": {"q": "How fast is your snow response?", "a": "2-hour response after trigger for commercial accounts. Storm-event reporting included; live operator dispatch 24/7 during snow season."},
+          "five": {"q": "Do you provide single-point property managers?", "a": "Yes — every commercial account gets a named manager with their direct mobile and email. No call queue, no transferring between reps."}
+        }
+      },
+      "cta": {
+        "eyebrow": "READY WHEN YOU ARE",
+        "h2": "Tell us about the property.",
+        "body": "Free site walk and itemized proposal within 48 hours. COI attached, no commitment.",
+        "button": "Get a Free Estimate",
+        "phonePrefix": "or call",
+        "phoneNumber": "(630) 946-9321"
+      }
+    },
+    "hardscape": {
+      "label": "Hardscape",
+      "meta": {
+        "title": "Hardscape & Unilock Pavers in DuPage County — Sunset Services",
+        "description": "Patios, walls, fire features, and outdoor kitchens by a Unilock Authorized Contractor. 5-year installation warranty. 25+ years in DuPage County."
+      },
+      "hero": {
+        "kicker": "HARDSCAPE DIVISION",
+        "h1": "Built to last twenty-five years and counting.",
+        "subhead": "Patios, walls, fire features, and outdoor kitchens — installed by a Unilock Authorized Contractor with two decades of paver experience.",
+        "alt": "A Unilock paver patio with seating wall and fire feature at sunset.",
+        "primary": "Get a Free Estimate",
+        "secondary": "View Hardscape Projects"
+      },
+      "qualifier": {
+        "eyebrow": "FOR DUPAGE HOMEOWNERS",
+        "h2": "Who this is for.",
+        "body": "If you want a patio, walkway, retaining wall, or outdoor kitchen built by a Unilock Authorized Contractor — engineering reviewed, base prep in-house, and a 5-year installation warranty — this page is for you.",
+        "pills": {
+          "one": "Unilock Authorized",
+          "two": "5-yr installation warranty",
+          "three": "Engineered for the soil",
+          "four": "20+ years on hardscape"
+        }
+      },
+      "servicesGrid": {
+        "eyebrow": "SIX HARDSCAPE SERVICES",
+        "h2": "Services for outdoor living.",
+        "sub": "Pick a service to see what's included, our process, and recent installs."
+      },
+      "featuredProjects": {
+        "eyebrow": "RECENT INSTALLS",
+        "h2": "Featured hardscape projects.",
+        "viewAll": "View all hardscape",
+        "tiles": {
+          "one": {"title": "Naperville patio + fire", "meta": "Naperville · 2024"},
+          "two": {"title": "Glen Ellyn fire pit", "meta": "Glen Ellyn · 2024"},
+          "three": {"title": "Lisle multi-tier wall", "meta": "Lisle · 2024"}
+        }
+      },
+      "whySunset": {
+        "eyebrow": "WHY SUNSET",
+        "h2": "Two decades on pavers.",
+        "props": {
+          "one": {"headline": "Unilock Authorized Contractor", "description": "Awarded — not bought. Held for fifteen years and counting.", "icon": "Unilock"},
+          "two": {"headline": "5-year installation warranty", "description": "Workmanship covered five years, no questions asked.", "icon": "BadgeCheck"},
+          "three": {"headline": "In-house design", "description": "Designer, engineer, and crew lead under one roof.", "icon": "PencilRuler"},
+          "four": {"headline": "20+ years on hardscape", "description": "Marcin's team has been laying pavers since 2003.", "icon": "Hammer"}
+        }
+      },
+      "unilock": {
+        "eyebrow": "UNILOCK AUTHORIZED CONTRACTOR",
+        "h2": "The paver brand pros pick.",
+        "body": "Unilock Authorization is awarded — not bought — to contractors who can prove consistent installation quality. We've held it for fifteen years and counting.",
+        "stat": "FIFTEEN YEARS · 380+ INSTALLS · 5-YEAR INSTALLATION WARRANTY",
+        "viewProjects": "View Unilock projects",
+        "badgeAlt": "Unilock Authorized Contractor"
+      },
+      "socialProof": {
+        "eyebrow": "FROM HARDSCAPE CLIENTS",
+        "h2": "Reviewed by hardscape clients.",
+        "reviews": {
+          "one": {"quote": "Erick's crew rebuilt our front walk in two days. Three winters in, the joint sand looks the same as day one.", "name": "Patricia M.", "city": "Aurora"},
+          "two": {"quote": "Our patio is the reason we stayed. Same crew sealed it the next spring without me asking.", "name": "James K.", "city": "Naperville"}
+        },
+        "credentials": {
+          "rating": "★ 4.9",
+          "ratingSub": "Google · 287 reviews",
+          "unilock": "Unilock",
+          "unilockSub": "Authorized Contractor",
+          "warranty": "5-year",
+          "warrantySub": "installation warranty",
+          "installs": "380+",
+          "installsSub": "Unilock installs"
+        }
+      },
+      "faq": {
+        "eyebrow": "QUESTIONS · ANSWERED",
+        "h2": "Common questions from hardscape clients.",
+        "items": {
+          "one": {"q": "How long does a typical patio take?", "a": "A 400–600 sq ft residential paver patio runs 5–8 days from break-ground to walkthrough. Larger scopes or weather-impacted weeks can stretch to two weeks."},
+          "two": {"q": "What warranty covers Unilock installs?", "a": "5-year workmanship warranty on the install. Unilock's manufacturer warranty on the pavers themselves runs separately and depends on the paver line."},
+          "three": {"q": "Do you do design before construction?", "a": "Yes — most hardscape projects start with a concept conversation, scaled drawings, and a materials walkthrough. Design and build are separate engagements; you keep the plans either way."},
+          "four": {"q": "What materials do you typically use?", "a": "Unilock primarily — Authorized Contractor since 2010. We can also work with Belgard or other premium lines on request, though our crew is most efficient on Unilock systems."},
+          "five": {"q": "How does your project schedule work?", "a": "Spring builds typically book by late February; summer/fall slots open through April. We confirm a start window inside the quote and lock the date once the deposit clears."}
+        }
+      },
+      "cta": {
+        "eyebrow": "READY WHEN YOU ARE",
+        "h2": "Tell us about the project.",
+        "body": "Free site walk and concept sketch within a week. Permitting and engineering folded into the quote.",
+        "button": "Get a Free Estimate",
+        "phonePrefix": "or call",
+        "phoneNumber": "(630) 946-9321"
+      }
+    }
+  },
+  "servicePage": {
+    "breadcrumbHome": "Home",
+    "hero": {
+      "callCta": "(630) 946-9321",
+      "callAria": "Call (630) 946-9321"
+    },
+    "whatsIncluded": {
+      "eyebrow": "WHAT'S INCLUDED",
+      "h2": "Every visit, every time."
+    },
+    "process": {
+      "eyebrow": "HOW IT WORKS",
+      "h2": "Our process — {steps} steps."
+    },
+    "whyUs": {
+      "eyebrowTemplate": "WHY SUNSET FOR {service}",
+      "h2": "Three reasons it's worth the call."
+    },
+    "pricing": {
+      "explainer": {
+        "eyebrow": "HOW PRICING WORKS",
+        "h2": "No hidden math.",
+        "lead": "Pricing on DuPage properties typically depends on three things:",
+        "cta": "Get a real quote in 48 hrs"
+      },
+      "price": {
+        "eyebrow": "PRICING",
+        "startingAtTemplate": "Starting at ${price}",
+        "cta": "See full estimate"
+      }
+    },
+    "featuredProjects": {
+      "eyebrow": "RECENT WORK",
+      "h2Template": "{service} projects nearby.",
+      "viewAllTemplate": "View all {service}"
+    },
+    "faq": {
+      "eyebrow": "QUESTIONS · ANSWERED",
+      "h2Template": "{service} questions, answered."
+    },
+    "related": {
+      "eyebrow": "CUSTOMERS ALSO ASK",
+      "h2": {
+        "residential": "More from Sunset Residential.",
+        "commercial": "More from Sunset Commercial.",
+        "hardscape": "Often combined with this."
+      }
+    },
+    "cta": {
+      "eyebrow": "READY WHEN YOU ARE",
+      "h2Template": "Get started on your {service}.",
+      "body": "Free estimate within 48 hours. No high-pressure sales — just a clear quote.",
+      "button": "Get a Free Estimate",
+      "phonePrefix": "or call",
+      "phoneNumber": "(630) 946-9321"
+    }
+  },
   "chrome": {
     "skipLink": "Skip to main content",
     "nav": {

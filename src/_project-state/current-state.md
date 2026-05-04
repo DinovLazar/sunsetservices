@@ -79,7 +79,7 @@ Fonts (loaded via `next/font/google`): Manrope (heading) + Onest (body), subsets
 - **Default branch:** `main`
 - **Visibility:** Private
 - **Phase 1.07 commit:** `b66b61c` — homepage + seven sections, Lighthouse 95+ desktop / 86 mobile.
-- **Phase 1.09 commit:** _written at end of phase_
+- **Phase 1.09 commit:** `3ea2e1c` — `feat(audience+service): 3 audience landings + 16 service detail pages (Phase 1.09)`
 
 ---
 

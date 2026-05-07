@@ -5,6 +5,7 @@
 **Closes:** Implementation of Phase 1.13 design handover (Service Areas index + 6 location pages, EN + ES = 14 routes total).
 **Hands off to:** Phase 1.15 (Design — projects portfolio).
 **Date:** 2026-05-07
+**Commit SHA:** `9279efd` — pushed to `origin/main`.
 
 ---
 

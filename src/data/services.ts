@@ -66,6 +66,14 @@ export type Service = {
   /** lucide-react icon for the eyebrow / Why-us tile (PascalCase). */
   icon: string;
   name: Localized;
+  /**
+   * Optional asset-lookup key, used when two services share a URL slug across
+   * audiences (e.g., residential + commercial both at slug `snow-removal`).
+   * Defaults to `slug` when omitted. Asset files in `src/assets/service/`
+   * and entries in `src/data/imageMap.ts` use this key, decoupling URL slug
+   * from physical asset identity.
+   */
+  imageKey?: string;
   hero: {
     h1: Localized;
     subhead: Localized;
@@ -1329,15 +1337,17 @@ export const SERVICES: Service[] = [
         },
       },
     ],
-    related: ['commercial-snow-removal', 'property-enhancement', 'turf-management'],
+    related: ['snow-removal', 'property-enhancement', 'turf-management'],
     projectsTag: 'landscape-maintenance',
   },
 
   {
-    slug: 'commercial-snow-removal',
+    slug: 'snow-removal',
     audience: 'commercial',
     icon: 'Snowflake',
     name: {en: 'Commercial Snow Removal', es: 'Remoción Comercial de Nieve'},
+    /** Asset key — disambiguates from residential `snow-removal` (same URL slug, different audience). */
+    imageKey: 'commercial-snow-removal',
     hero: {
       h1: {
         en: 'Commercial Snow Removal in DuPage County.',
@@ -2051,7 +2061,7 @@ export const SERVICES: Service[] = [
         },
       },
     ],
-    related: ['retaining-walls', 'fire-pits-features', 'outdoor-kitchens'],
+    related: ['retaining-walls', 'fire-pits-features', 'driveways', 'outdoor-kitchens'],
     projectsTag: 'patios-walkways',
   },
 
@@ -2935,8 +2945,33 @@ export const SERVICE_SLUGS = SERVICES.map((s) => s.slug);
 
 export const AUDIENCES: Audience[] = ['residential', 'commercial', 'hardscape'];
 
-export function getService(slug: string): Service | undefined {
+/**
+ * Lookup a service by URL slug. When `audience` is provided, the lookup is
+ * scoped to that audience — required when two services share the same slug
+ * across audiences (e.g., `snow-removal` exists for both residential and
+ * commercial). Without `audience`, the first match wins.
+ */
+export function getService(slug: string, audience?: Audience): Service | undefined {
+  if (audience) {
+    return SERVICES.find((s) => s.slug === slug && s.audience === audience);
+  }
   return SERVICES.find((s) => s.slug === slug);
+}
+
+/**
+ * Resolve a related-service slug, preferring a same-audience match before
+ * falling back to a cross-audience match. Encodes D7 (within-audience for
+ * residential + commercial; cross-sell for hardscape) by relying on the
+ * caller's audience to disambiguate slugs that exist in multiple audiences.
+ */
+export function getRelatedService(
+  slug: string,
+  parentAudience: Audience,
+): Service | undefined {
+  return (
+    SERVICES.find((s) => s.slug === slug && s.audience === parentAudience) ??
+    SERVICES.find((s) => s.slug === slug)
+  );
 }
 
 export function getServicesForAudience(audience: Audience): Service[] {

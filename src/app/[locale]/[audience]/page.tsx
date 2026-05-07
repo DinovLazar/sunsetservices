@@ -18,7 +18,6 @@ import {
 import {AUDIENCE_HERO, AUDIENCE_PROJECT_TILES, SERVICE_TILE} from '@/data/imageMap';
 import {buildBreadcrumbList} from '@/lib/schema/breadcrumb';
 import {buildAudienceItemList, localePath} from '@/lib/schema/service';
-import {BUSINESS_URL} from '@/lib/constants/business';
 import {routing} from '@/i18n/routing';
 
 type Locale = 'en' | 'es';
@@ -94,10 +93,12 @@ export default async function AudienceLandingPage({
     t('qualifier.pills.four'),
   ] as [string, string, string, string];
 
-  // ---- Services grid: tile photos keyed by slug ----
+  // ---- Services grid: tile photos keyed by URL slug. Asset lookup uses
+  // imageKey when present (disambiguates services that share a URL slug
+  // across audiences, e.g., residential vs commercial `snow-removal`). ----
   const tilePhotos: Record<string, {src: string; width: number; height: number; blurDataURL?: string}> = {};
   for (const s of services) {
-    const img = SERVICE_TILE[s.slug];
+    const img = SERVICE_TILE[s.imageKey ?? s.slug];
     if (img) tilePhotos[s.slug] = {src: img.src, width: img.width, height: img.height, blurDataURL: img.blurDataURL};
   }
 

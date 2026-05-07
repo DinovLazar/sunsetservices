@@ -15,6 +15,7 @@ import {
   SERVICES,
   type Audience,
   getService,
+  getRelatedService,
 } from '@/data/services';
 import {SERVICE_HERO, SERVICE_PROJECT} from '@/data/imageMap';
 import {buildBreadcrumbList} from '@/lib/schema/breadcrumb';
@@ -38,8 +39,9 @@ export async function generateMetadata({
   params: Promise<{locale: string; audience: string; service: string}>;
 }): Promise<Metadata> {
   const {locale, audience, service} = await params;
-  const svc = getService(service);
-  if (!svc || !isAudience(audience) || svc.audience !== audience) return {};
+  if (!isAudience(audience)) return {};
+  const svc = getService(service, audience);
+  if (!svc) return {};
   const loc = (routing.locales.includes(locale as Locale) ? locale : 'en') as Locale;
   return {
     title: `${svc.hero.h1[loc]} — Sunset Services`,
@@ -55,8 +57,8 @@ export default async function ServiceDetailPage({
   const {locale, audience, service} = await params;
   if (!routing.locales.includes(locale as Locale)) notFound();
   if (!isAudience(audience)) notFound();
-  const svc = getService(service);
-  if (!svc || svc.audience !== audience) notFound();
+  const svc = getService(service, audience);
+  if (!svc) notFound();
   const loc = locale as Locale;
   setRequestLocale(loc);
 
@@ -68,7 +70,8 @@ export default async function ServiceDetailPage({
   const audienceKicker = tAudience('hero.kicker');
   const homeLabel = tShared('breadcrumbHome');
   const serviceName = svc.name[loc];
-  const heroPhoto = SERVICE_HERO[svc.slug];
+  const assetKey = svc.imageKey ?? svc.slug;
+  const heroPhoto = SERVICE_HERO[assetKey];
 
   // ---- Schema ----
   const breadcrumbSchema = buildBreadcrumbList([
@@ -126,9 +129,11 @@ export default async function ServiceDetailPage({
     answer: q.answer[loc],
   }));
 
-  // ---- Related services ----
+  // ---- Related services (D7: prefer same-audience match for residential +
+  // commercial; hardscape rows still resolve correctly because their related
+  // slugs are unique within the hardscape set). ----
   const relatedServices = svc.related
-    .map((slug) => getService(slug))
+    .map((slug) => getRelatedService(slug, audience))
     .filter((s): s is NonNullable<typeof s> => Boolean(s))
     .map((rs) => ({
       service: rs,

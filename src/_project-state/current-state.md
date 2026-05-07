@@ -6,9 +6,9 @@
 
 ## Where we are
 
-- **Last completed phase:** Part 1 — Phase 1.09 (Code: 3 audience landings + 16 service detail pages)
-- **Next phase:** Part 1 — Phase 1.10 (Code: remaining 12 service pages — but already rendered in 1.09; 1.10 is content polish only)
-- **Date:** 2026-05-04
+- **Last completed phase:** Part 1 — Phase 1.10 (Code: cross-link audit + Phase 1.09 carryover fixes — slug bug, English aria-label bleed, lint errors)
+- **Next phase:** Part 1 — Phase 1.11 (Design: About + Contact templates)
+- **Date:** 2026-05-07
 
 ---
 
@@ -16,7 +16,7 @@
 
 - `/` (and `/es`) — full homepage at EN/ES per Phase 1.06 handover §3–9.
 - `/{audience}/` (3 audiences × 2 locales = 6 URLs) — Residential, Commercial, Hardscape audience landings per Phase 1.08 §3 + §3X. Eight content sections + Hardscape's Unilock band (charcoal) + Hardscape charcoal CTA per D6.
-- `/{audience}/{service}/` (16 services × 2 locales = 32 URLs) — All 16 service pages render from `src/data/services.ts`. Spec'd content for the 4 in-scope (lawn-care, landscape-design, landscape-maintenance, patios-walkways) plus placeholder-quality copy for the other 12. All 9 sections per Phase 1.08 §4.
+- `/{audience}/{service}/` (16 services × 2 locales = 32 URLs) — All 16 service pages render from `src/data/services.ts` with production-grade EN+ES seed content per Phase 1.08 §4.10. All 9 sections per Phase 1.08 §4. Phase 1.10 fixed the previously-broken `/commercial/snow-removal/` URL (was `/commercial/commercial-snow-removal/` in 1.09).
 - `/dev/system` (and `/es/dev/system`) — design-system smoke-test page, unchanged from Phase 1.04.
 - Phase 1.05 chrome (sticky navbar, footer, skip-link, language switcher, sitewide `LocalBusiness` JSON-LD) wraps every page unchanged.
 - Navbar State B (translucent + blur) triggers on the homepage hero AND on every audience-landing + service-detail hero (NavbarScrollState was extended in 1.09 with a 5-line pathname check).
@@ -80,13 +80,16 @@ Fonts (loaded via `next/font/google`): Manrope (heading) + Onest (body), subsets
 - **Visibility:** Private
 - **Phase 1.07 commit:** `b66b61c` — homepage + seven sections, Lighthouse 95+ desktop / 86 mobile.
 - **Phase 1.09 commit:** `3ea2e1c` — `feat(audience+service): 3 audience landings + 16 service detail pages (Phase 1.09)`
+- **Phase 1.10 commit:** _filled in after commit_ — cross-link audit + Phase 1.09 carryover fixes.
 
 ---
 
 ## Open items / known mismatches with the Plan
 
-- **Lighthouse mobile Performance gap (Phase 1.07).** The homepage's mobile Performance landed at 86 — see Phase 1.07 completion §"Open items". Phase 1.09 inherits the same shape: lots of below-hero sections wrapped in `<AnimateIn>`. The §10 "no-wrapper-per-FAQ-item" rule and `content-visibility: auto` on every below-hero section keep the new templates within budget but the same ceiling likely applies.
+- **Lighthouse mobile Performance gap (Phase 1.07).** Homepage = 86, audience-landing + service-detail = 84–86. Verified in Phase 1.10 §8: LCP 4.1s on every full-bleed-hero page is the structural ceiling. Three out-of-scope paths to ≥95 noted in 1.07/1.10 reports: AnimateIn → CSS-IO refactor, real photographs (Phase 2.04), `next/dynamic` of below-hero sections.
 - **NavbarScrollState was modified in Phase 1.09.** The handover §2.6 specified the page mutate `data-over-hero="true"` on `<main>`; we instead extended NavbarScrollState's pathname-based detection to recognize `/{audience}/` and `/{audience}/{service}/` routes. Five-line addition. Same observable behavior; no page-side coupling.
+- **Two services share a URL slug (Phase 1.10).** Both `/residential/snow-removal/` and `/commercial/snow-removal/` exist. Lookup is audience-aware via `getService(slug, audience?)`; assets are disambiguated via the new optional `imageKey` field on the `Service` type. The commercial row uses `imageKey: 'commercial-snow-removal'` so existing placeholder assets continue to resolve. Phase 2.04 photo swap targets the same paths Phase 1.09 set; no rename needed.
+- **Phase 1.10 modified 2 routes + 2 components** beyond the data-only scope the prompt suggested. Each change is the minimum-blast-radius fix to a Phase 1.09 carryover bug that the §5 verification suite catches. Surfaced in §11 of Phase 1.10's completion report for Chat ratification.
 - **Class-naming convention.** Phase 1.07's choice to use single-hyphen BEM (`.btn-amber`, `.card-photo`, `.btn-ghost.btn-on-dark`) is carried throughout Phase 1.09 components even though the Phase 1.08 handover writes some examples as double-hyphen. Phase 1.03 tokens win per the handover preamble.
 - **`pricing.mode === 'price'` is dead code in Part 1.** All 16 services ship with `pricing.mode: 'explainer'` per D5. State A code paths are wired (including the `priceIncludes` body that Erick will populate when he toggles a service in Part 2) but unexercised in Phase 1.09's smoke testing. Surface alternation invariance verified by code inspection: State A and State B both render at the same vertical footprint inside the same `<section>`.
 - **Lucide icon coverage.** `src/components/ui/ServiceIcon.tsx` curates a known-safe icon map and falls back to `BadgeCheck` for any unrecognized name. The Unilock badge is hand-rolled inline SVG (Phase 1.03 §8.3). This trades a tiny amount of bundle-size discipline for crash-proof rendering when an icon name typo lands in `services.ts`.

@@ -76,7 +76,7 @@ export default function AudienceSocialProof({
                     lineHeight: 'var(--leading-snug)',
                   }}
                 >
-                  "{r.quote}"
+                  &ldquo;{r.quote}&rdquo;
                 </blockquote>
                 <cite
                   className="not-italic"

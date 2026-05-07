@@ -61,7 +61,6 @@ export default function ServiceRelated({locale, eyebrow, h2, tiles}: ServiceRela
               <Link
                 href={`/${service.audience}/${service.slug}/`}
                 className="card card-cream block relative h-full"
-                aria-label={`Learn more about ${service.name[locale]}`}
               >
                 <h3
                   className="m-0 mb-2 font-heading"

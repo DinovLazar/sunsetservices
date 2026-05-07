@@ -38,14 +38,14 @@
 - `src/i18n/routing.ts` — next-intl routing config (locales, defaultLocale, localePrefix).
 - `src/i18n/request.ts` — server-side request config (loads messages per locale).
 - `src/i18n/navigation.ts` — locale-aware `<Link>`, `useRouter`, etc.
-- `src/messages/en.json` — English UI strings; top-level keys: `home.*` + `audience.*` (Phase 1.09) + `servicePage.*` (Phase 1.09) + `chrome.*`. Per-service strings live in `src/data/services.ts` (D8).
-- `src/messages/es.json` — Spanish UI strings; mirror of `en.json`. Several `audience.*` strings flagged `[TBR]` in Phase 1.08 §7.1 for Phase 2.13 native review.
+- `src/messages/en.json` — English UI strings; top-level keys: `home.*` + `audience.*` (Phase 1.09) + `servicePage.*` (Phase 1.09) + `chrome.*`. Per-service strings live in `src/data/services.ts` (D8). Unchanged in 1.10.
+- `src/messages/es.json` — Spanish UI strings; mirror of `en.json`. Phase 2.13 native review covers all es: strings end-to-end. Unchanged in 1.10.
 - `src/app/globals.css` — Tailwind v4 entry; full `@theme` token block (added `--color-sunset-amber-200`) + `@layer base` + `@layer components`. Added `[data-audience]` custom-property block (Phase 1.09 §3X.1) plus the Phase 1.07 `.btn-ghost.btn-on-dark` modifier.
 - `src/app/favicon.ico` — placeholder favicon.
 - `src/app/[locale]/layout.tsx` — locale-aware root layout. Mounts fonts, `NextIntlClientProvider`, `<MotionRoot>`, chrome (`<SkipLink>`, `<Navbar>`, `<main id="main">`, `<Footer>`) plus `LocalBusiness` JSON-LD `<script>` in `<head>`.
 - `src/app/[locale]/page.tsx` — homepage. Composes the seven `Home*` sections, locale-aware metadata, `WebSite` JSON-LD.
-- `src/app/[locale]/[audience]/page.tsx` — **NEW (1.09)** audience-landing dynamic route. Validates audience slug, composes the 9 `Audience*` sections (8 default + Hardscape Unilock band), sets `data-audience` on the wrapper, emits `BreadcrumbList` + `ItemList` JSON-LD, generates static params for 3 audiences × 2 locales.
-- `src/app/[locale]/[audience]/[service]/page.tsx` — **NEW (1.09)** service-detail dynamic route. Validates audience + service slug pair against `services.ts`, composes the 9 `Service*` sections, emits `BreadcrumbList` + `Service` + `FAQPage` JSON-LD, generates static params for 16 services × 2 locales.
+- `src/app/[locale]/[audience]/page.tsx` — audience-landing dynamic route. **Modified (1.10)**: tile-photo lookup now uses `s.imageKey ?? s.slug` so commercial snow-removal resolves to its own placeholder; removed unused `BUSINESS_URL` import.
+- `src/app/[locale]/[audience]/[service]/page.tsx` — service-detail dynamic route. **Modified (1.10)**: lookup uses audience-aware `getService(service, audience)`; hero asset lookup uses `svc.imageKey ?? svc.slug`; related-services loop uses new `getRelatedService(slug, audience)` helper that prefers same-audience match (so commercial/landscape-maintenance's `related: ['snow-removal']` resolves to commercial/snow-removal, not residential).
 - `src/app/[locale]/dev/system/page.tsx` — dev-only design-system smoke test (Phase 1.04).
 - `src/app/[locale]/dev/system/_client-demos.tsx` — client-only Dialog and Tooltip demos.
 - `src/components/global/Logo.tsx` — server component, two skins (light/dark).
@@ -68,7 +68,7 @@
 - `src/components/sections/audience/AudienceFeaturedProjects.tsx` — **NEW (1.09)** server. 3 project tiles with View-all CTA-link top-right.
 - `src/components/sections/audience/AudienceWhyUs.tsx` — **NEW (1.09)** server. 4 value-prop cards on cream surface, audience-accent applied to icon-tile bg.
 - `src/components/sections/audience/AudienceUnilockBand.tsx` — **NEW (1.09)** server. Hardscape-only charcoal band per D6 + §3X.5. Hand-rolled Unilock badge placeholder.
-- `src/components/sections/audience/AudienceSocialProof.tsx` — **NEW (1.09)** server. Testimonial cards + 1px hairline + credentials row.
+- `src/components/sections/audience/AudienceSocialProof.tsx` — server. Testimonial cards + 1px hairline + credentials row. **Modified (1.10)**: replaced raw `"…"` quote characters with `&ldquo;…&rdquo;` to clear two react/no-unescaped-entities lint errors.
 - `src/components/sections/audience/AudienceFAQ.tsx` — **NEW (1.09)** server. Wraps `<FaqAccordion>`. Per-item `<AnimateIn>` deliberately absent (handover §10).
 - `src/components/sections/audience/AudienceCTA.tsx` — **NEW (1.09)** server. The page's only amber CTA in `<main>`. Cream surface for residential/commercial; charcoal for hardscape (D6).
 - `src/components/sections/service/ServiceHero.tsx` — **NEW (1.09)** server. 52vh / 44vh hero with 3-level breadcrumb. Secondary CTA is `tel:+16309469321` (D10).
@@ -78,12 +78,12 @@
 - `src/components/sections/service/ServicePricing.tsx` — **NEW (1.09)** server. State A (price) and State B (explainer) — both occupy the same vertical footprint to keep alternation invariant. All 16 services in Part 1 ship with State B.
 - `src/components/sections/service/ServiceFeaturedProjects.tsx` — **NEW (1.09)** server. 2–3 tiles, View-all CTA-link (404s in Part 1).
 - `src/components/sections/service/ServiceFAQ.tsx` — **NEW (1.09)** server. Wraps `<FaqAccordion>`. Per-item `<AnimateIn>` deliberately absent.
-- `src/components/sections/service/ServiceRelated.tsx` — **NEW (1.09)** server. 3–4 no-photo nav tiles. D7-driven from `services.ts` `related` array (within-audience for residential/commercial; cross-sell for hardscape).
+- `src/components/sections/service/ServiceRelated.tsx` — server. 3–4 no-photo nav tiles. D7-driven from `services.ts` `related` array. **Modified (1.10)**: removed hard-coded `aria-label="Learn more about ${service.name[locale]}"` (English bleed-through to ES routes; the inner `<h3>` already serves as the link's accessible name natively).
 - `src/components/sections/service/ServiceCTA.tsx` — **NEW (1.09)** server. The page's only amber CTA in `<main>`. Cream surface (no charcoal on service-detail per D6).
 - `src/components/ui/Breadcrumb.tsx` — **NEW (1.09)** server. Locale-aware breadcrumb with `aria-current="page"`. `light` and `on-dark` variants.
 - `src/components/ui/FaqAccordion.tsx` — **NEW (1.09)** client. SSR `<details>`/`<summary>` with progressive enhancement for chevron rotation. Multi-open by default — every answer in SSR HTML for FAQPage schema validity.
 - `src/components/ui/ServiceIcon.tsx` — **NEW (1.09)** server. Curated lucide-react icon map + hand-rolled Unilock placeholder mark.
-- `src/data/services.ts` — **NEW (1.09)** typed seed for 16 services. Per-service H1, subhead, what's-included items, process steps, why-us cards, pricing, FAQ Q&As, related slugs. EN+ES strings throughout (D8). `pricing.mode: 'explainer'` for all 16 in Part 1.
+- `src/data/services.ts` — typed seed for 16 services. Per-service H1, subhead, what's-included items, process steps, why-us cards, pricing, FAQ Q&As, related slugs. EN+ES strings throughout (D8). `pricing.mode: 'explainer'` for all 16 in Part 1. **Modified (1.10)**: added optional `imageKey?: string` to the `Service` type (asset-key disambiguation for slugs that exist across audiences). Renamed slug `'commercial-snow-removal'` → `'snow-removal'` and added `imageKey: 'commercial-snow-removal'` to keep its assets resolving. Updated `commercial/landscape-maintenance` `related` from `['commercial-snow-removal', ...]` → `['snow-removal', ...]`. Added `'driveways'` to `hardscape/patios-walkways`'s `related` (cross-link audit fix). New helpers: `getService(slug, audience?)` (now audience-aware) and `getRelatedService(slug, parentAudience)` (same-audience-first resolver for D7).
 - `src/data/imageMap.ts` — **NEW (1.09)** static-import map for placeholder images. Audience heroes (3), audience project tiles (9), service heroes (16), service tile photos (16), service project tiles (~33).
 - `src/lib/schema/breadcrumb.ts` — **NEW (1.09)** `buildBreadcrumbList(items)` JSON-LD payload builder.
 - `src/lib/schema/service.ts` — **NEW (1.09)** `buildServiceSchema(service, locale)` + `buildFaqPageSchema(faq, locale)` + `buildAudienceItemList(...)` + `localePath(locale, path)` helpers.
@@ -92,7 +92,7 @@
 - `src/hooks/useScrollState.ts` — client, rAF-throttled scroll boolean.
 - `src/hooks/useBodyScrollLock.ts` — client, body scroll lock for the mobile drawer.
 - `src/_project-state/` — this folder; living docs.
-- `src/_project-state/Part-1-Phase-{01,02,03,04,05,07,09}-Completion.md` — phase completion reports written by Claude Code at the end of each code phase.
+- `src/_project-state/Part-1-Phase-{01,02,03,04,05,07,09,10}-Completion.md` — phase completion reports written by Claude Code at the end of each code phase.
 
 ## src/assets/
 

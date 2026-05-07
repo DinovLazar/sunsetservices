@@ -618,5 +618,199 @@
         "youtube": "YouTube"
       }
     }
+  },
+  "about": {
+    "meta": {
+      "title": "Sobre Sunset Services — Negocio familiar desde 2000 · DuPage",
+      "description": "Veinticinco años en propiedades del condado de DuPage. Conoce a Erick, Nick y Marcin — la familia de Aurora que dirige Sunset Services desde 2000."
+    },
+    "breadcrumb": {
+      "home": "Inicio",
+      "about": "Sobre nosotros"
+    },
+    "hero": {
+      "eyebrow": "Sobre nosotros",
+      "h1": "Negocio familiar, desde 2000.",
+      "lead": {
+        "line1": "Veinticinco años en propiedades del condado de DuPage.",
+        "line2": "Las mismas cuadrillas. El mismo arranque a las 6:30 a.m. Sin sorpresas subcontratadas."
+      },
+      "alt": "Erick en obra en el condado de DuPage durante el atardecer, instalación de hardscape en progreso."
+    },
+    "story": {
+      "eyebrow": "Nuestra historia",
+      "h2": {
+        "line1": "Empezó con Nick.",
+        "line2": "Hoy lo dirige Erick."
+      },
+      "p1": "Nick Valle fundó la empresa en 2000 con un camión y una ruta de mantenimiento entre Aurora y Naperville. El primer contrato sigue activo, veinticinco años después.",
+      "p2": "En 2018, Erick — el hijo de Nick — asumió las operaciones. La misma cuadrilla, el mismo arranque a las 6:30 a.m., el mismo estándar para una propiedad terminada. Sin sorpresas subcontratadas; quienes miden tu proyecto son quienes lo hacen.",
+      "p3": "Marcin se sumó para dirigir la división de hardscape — instalaciones autorizadas por Unilock, patios de adoquines, muros de contención, espacios de fuego. Los camiones comparten patio; tu proyecto cabe en una sola llamada.",
+      "alt": "Erick y Nick trabajando juntos en una propiedad del condado de DuPage, luz de la tarde.",
+      "cta": {
+        "residential": "Ver servicios residenciales →",
+        "hardscape": "Ver servicios de hardscape →"
+      }
+    },
+    "team": {
+      "eyebrow": "El equipo",
+      "h2": "Las personas con las que trabajarías.",
+      "role": {
+        "owner": "Propietario",
+        "founder": "Fundador",
+        "hardscape_lead": "Líder de Hardscape"
+      },
+      "erick": {
+        "bio": "Asumió las operaciones en 2018. Hace todos los estimados en persona — lo conoces antes de firmar nada."
+      },
+      "nick": {
+        "bio": "Fundó Sunset Services en 2000. Sigue en obra casi todas las semanas. El ojo veterano en los trabajos complicados."
+      },
+      "marcin": {
+        "bio": "Dirige la división de hardscape autorizada por Unilock. Patios, muros, espacios de fuego — del plano a la instalación."
+      }
+    },
+    "credentials": {
+      "eyebrow": "Credenciales",
+      "h2": "Verificables, no solo dichas.",
+      "unilock": {
+        "title": "Contratista Autorizado Unilock",
+        "caption": "División de hardscape"
+      },
+      "years": {
+        "title": "Más de 25 años en el negocio",
+        "caption": "Empresa familiar desde 2000"
+      },
+      "tribune": {
+        "title": "Top 5 Paisajismo",
+        "caption": "DuPage Tribune · 2024"
+      },
+      "google": {
+        "title": "Reseñas de Google",
+        "caption": "[TBR] reseñas verificadas"
+      }
+    },
+    "cta": {
+      "eyebrow": "Cuando tú quieras",
+      "h2": "¿Quieres hablar sobre tu propiedad?",
+      "body": "Un estimado toma 30 minutos. Vamos a medir, escuchar, y mandar una cotización escrita en 48 horas.",
+      "primary": "Solicita un estimado gratis",
+      "secondary": "O llama al (630) 946-9321"
+    }
+  },
+  "contact": {
+    "meta": {
+      "title": "Contacta a Sunset Services — Aurora, IL · Condado de DuPage",
+      "description": "Habla con Sunset Services. Teléfono, correo, dirección, horario, y reserva de 30 minutos. Atendemos en inglés y español."
+    },
+    "breadcrumb": {
+      "home": "Inicio",
+      "contact": "Contacto"
+    },
+    "hero": {
+      "eyebrow": "Contacto",
+      "h1": "Habla con una persona.",
+      "sub": {
+        "line1": "Contestamos el teléfono. Las mismas personas",
+        "line2": "que irían a medir tu proyecto."
+      }
+    },
+    "info": {
+      "eyebrow": "Contáctanos",
+      "phone": {
+        "label": "Teléfono"
+      },
+      "email": {
+        "label": "Correo"
+      },
+      "address": {
+        "label": "Dirección"
+      },
+      "directions": "Cómo llegar ↗",
+      "hours": {
+        "label": "Horario",
+        "weekday": "Lun–Vie · 7:00 AM – 5:00 PM",
+        "sat": "Sáb · con cita",
+        "sun": "Dom · cerrado",
+        "snow": "24/7 durante nevadas"
+      },
+      "languages": "Atendemos en inglés y español."
+    },
+    "form": {
+      "title": "Envía un mensaje",
+      "name": {
+        "label": "Nombre",
+        "placeholder": "Tu nombre"
+      },
+      "required": {
+        "suffix": "(obligatorio)"
+      },
+      "req_pill": "Obl",
+      "contact_legend": "Correo o teléfono (uno obligatorio)",
+      "email": {
+        "label": "Correo",
+        "placeholder": "nombre@ejemplo.com"
+      },
+      "phone": {
+        "label": "Teléfono",
+        "placeholder": "(630) 555-0100"
+      },
+      "category": {
+        "label": "Categoría de servicio",
+        "placeholder": "Elige una…",
+        "residential": "Residencial",
+        "commercial": "Comercial",
+        "hardscape": "Hardscape",
+        "other": "Otra"
+      },
+      "message": {
+        "label": "Mensaje",
+        "placeholder": "Cuéntanos qué tienes en mente… (opcional)"
+      },
+      "submit": {
+        "label": "Enviar mensaje",
+        "pending": "Enviando…"
+      },
+      "error": {
+        "required_fields": "Por favor completa los campos obligatorios.",
+        "name_empty": "Por favor escribe tu nombre.",
+        "email_phone_empty": "Proporciona correo o teléfono.",
+        "email_invalid": "Ese correo parece incompleto.",
+        "phone_invalid": "Por favor escribe un teléfono válido.",
+        "generic": "Algo salió mal. Intenta de nuevo o llama al (630) 946-9321."
+      },
+      "success": {
+        "title": "Gracias.",
+        "body": "Erick se comunicará en menos de 24 horas."
+      }
+    },
+    "map": {
+      "aria": "Mapa que muestra 1630 Mountain St, Aurora, IL",
+      "directions": "Cómo llegar ↗",
+      "open_label": "Abrir"
+    },
+    "calendly": {
+      "eyebrow": "Reserva directamente",
+      "h2": "Elige un espacio de 30 minutos.",
+      "body": "Erick revisa cada reserva antes de confirmar.",
+      "coming_soon": "Próximamente",
+      "fallback": {
+        "body": "El sistema de reservas llega en la Fase 2.07. Mientras tanto —",
+        "cta": "Llama al {phone}"
+      }
+    },
+    "area": {
+      "eyebrow": "Atendemos",
+      "aurora": "Aurora",
+      "naperville": "Naperville",
+      "batavia": "Batavia",
+      "wheaton": "Wheaton",
+      "lisle": "Lisle",
+      "bolingbrook": "Bolingbrook",
+      "note": {
+        "text": "Más zonas cercanas del condado de DuPage. ¿No estás seguro?",
+        "cta": "Llámanos."
+      }
+    }
   }
 }

@@ -618,5 +618,199 @@
         "youtube": "YouTube"
       }
     }
+  },
+  "about": {
+    "meta": {
+      "title": "About Sunset Services — Family-run since 2000 · DuPage",
+      "description": "Twenty-five years on DuPage County properties. Meet Erick, Nick, and Marcin — the Aurora family running Sunset Services since 2000."
+    },
+    "breadcrumb": {
+      "home": "Home",
+      "about": "About"
+    },
+    "hero": {
+      "eyebrow": "About us",
+      "h1": "Family-run, since 2000.",
+      "lead": {
+        "line1": "Twenty-five years on DuPage County properties.",
+        "line2": "Same crews. Same 6:30 a.m. start. No subcontracted surprises."
+      },
+      "alt": "Erick on a DuPage County job site at golden hour, hardscape installation in progress."
+    },
+    "story": {
+      "eyebrow": "Our story",
+      "h2": {
+        "line1": "Started by Nick.",
+        "line2": "Run today by Erick."
+      },
+      "p1": "Nick Valle started the company in 2000 with one truck and a maintenance route across Aurora and Naperville. The first contract is still active, twenty-five years later.",
+      "p2": "In 2018, Erick — Nick's son — took over operations. Same crew, same 6:30 a.m. start, same standard for what a finished property looks like. No subcontracted surprises; the people who measure your project are the people who do it.",
+      "p3": "Marcin joined to lead the hardscape division — Unilock-Authorized installs, paver patios, retaining walls, fire features. The trucks share a yard; your job stays one phone call long.",
+      "alt": "Erick and Nick working on-site together at a DuPage County property, late afternoon light.",
+      "cta": {
+        "residential": "See residential services →",
+        "hardscape": "See hardscape services →"
+      }
+    },
+    "team": {
+      "eyebrow": "The team",
+      "h2": "The people you'd be working with.",
+      "role": {
+        "owner": "Owner",
+        "founder": "Founder",
+        "hardscape_lead": "Hardscape Lead"
+      },
+      "erick": {
+        "bio": "Took over operations in 2018. Runs every estimate himself — you meet him before you sign anything."
+      },
+      "nick": {
+        "bio": "Started Sunset Services in 2000. Still on-site most weeks. The senior eye on the complicated jobs."
+      },
+      "marcin": {
+        "bio": "Leads the Unilock-Authorized hardscape division. Patios, walls, fire features — specs to install."
+      }
+    },
+    "credentials": {
+      "eyebrow": "Credentials",
+      "h2": "Verifiable, not just claimed.",
+      "unilock": {
+        "title": "Unilock Authorized Contractor",
+        "caption": "Hardscape division"
+      },
+      "years": {
+        "title": "25+ years in business",
+        "caption": "Family-run since 2000"
+      },
+      "tribune": {
+        "title": "Top 5 Landscaping",
+        "caption": "DuPage Tribune · 2024"
+      },
+      "google": {
+        "title": "Google reviews",
+        "caption": "[TBR] verified reviews"
+      }
+    },
+    "cta": {
+      "eyebrow": "Ready when you are",
+      "h2": "Want to talk about your property?",
+      "body": "An estimate takes 30 minutes. We'll come measure, listen, and send a written quote within 48 hours.",
+      "primary": "Get a free estimate",
+      "secondary": "Or call (630) 946-9321"
+    }
+  },
+  "contact": {
+    "meta": {
+      "title": "Contact Sunset Services — Aurora, IL · DuPage County",
+      "description": "Talk to Sunset Services. Phone, email, address, hours, and a 30-min booking option. We answer in English and Spanish."
+    },
+    "breadcrumb": {
+      "home": "Home",
+      "contact": "Contact"
+    },
+    "hero": {
+      "eyebrow": "Contact",
+      "h1": "Talk to a person.",
+      "sub": {
+        "line1": "We answer the phone. The same people",
+        "line2": "who'd come measure your project."
+      }
+    },
+    "info": {
+      "eyebrow": "Reach us",
+      "phone": {
+        "label": "Phone"
+      },
+      "email": {
+        "label": "Email"
+      },
+      "address": {
+        "label": "Address"
+      },
+      "directions": "Get directions ↗",
+      "hours": {
+        "label": "Hours",
+        "weekday": "Mon–Fri · 7:00 AM – 5:00 PM",
+        "sat": "Sat · by appointment",
+        "sun": "Sun · closed",
+        "snow": "24/7 during snow events"
+      },
+      "languages": "We answer in English and Spanish."
+    },
+    "form": {
+      "title": "Send a message",
+      "name": {
+        "label": "Name",
+        "placeholder": "Your name"
+      },
+      "required": {
+        "suffix": "(required)"
+      },
+      "req_pill": "Req",
+      "contact_legend": "Email or phone (one required)",
+      "email": {
+        "label": "Email",
+        "placeholder": "name@example.com"
+      },
+      "phone": {
+        "label": "Phone",
+        "placeholder": "(630) 555-0100"
+      },
+      "category": {
+        "label": "Service category",
+        "placeholder": "Select one…",
+        "residential": "Residential",
+        "commercial": "Commercial",
+        "hardscape": "Hardscape",
+        "other": "Other"
+      },
+      "message": {
+        "label": "Message",
+        "placeholder": "Tell us what you're thinking about… (optional)"
+      },
+      "submit": {
+        "label": "Send message",
+        "pending": "Sending…"
+      },
+      "error": {
+        "required_fields": "Please complete the required fields.",
+        "name_empty": "Please enter your name.",
+        "email_phone_empty": "Provide email or phone.",
+        "email_invalid": "That email address looks incomplete.",
+        "phone_invalid": "Please enter a valid phone number.",
+        "generic": "Something went wrong. Try again or call (630) 946-9321."
+      },
+      "success": {
+        "title": "Thanks.",
+        "body": "Erick will be in touch within 24 hours."
+      }
+    },
+    "map": {
+      "aria": "Map showing 1630 Mountain St, Aurora, IL",
+      "directions": "Get directions ↗",
+      "open_label": "Open"
+    },
+    "calendly": {
+      "eyebrow": "Book directly",
+      "h2": "Pick a 30-min slot.",
+      "body": "Erick reviews every booking before confirming.",
+      "coming_soon": "Coming soon",
+      "fallback": {
+        "body": "Booking widget loads in Phase 2.07. Until then —",
+        "cta": "Call {phone}"
+      }
+    },
+    "area": {
+      "eyebrow": "We serve",
+      "aurora": "Aurora",
+      "naperville": "Naperville",
+      "batavia": "Batavia",
+      "wheaton": "Wheaton",
+      "lisle": "Lisle",
+      "bolingbrook": "Bolingbrook",
+      "note": {
+        "text": "Plus surrounding DuPage County. Not sure?",
+        "cta": "Call us."
+      }
+    }
   }
 }

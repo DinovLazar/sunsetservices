@@ -5,7 +5,7 @@
 ## Project root
 
 - `Sunset-Services-Plan.md` — master site plan and spec (canonical).
-- `Part-1-Phase-05-Design-Handover.md` / `Part-1-Phase-06-Design-Handover.md` / `Part-1-Phase-08-Design-Handover (1).md` — design handovers from Claude Design.
+- `docs/design-handovers/Part-1-Phase-{03,05,06,08,11}-Design-Handover.md` — Claude Design handovers, one per design phase. Phase 1.11 covers About + Contact (input for Phase 1.12).
 - `package.json` — npm manifest, pinned dependencies.
 - `tsconfig.json` — TypeScript strict config, `@/*` → `src/*` alias.
 - `next.config.ts` — Next.js config wrapped in `createNextIntlPlugin`.
@@ -38,14 +38,16 @@
 - `src/i18n/routing.ts` — next-intl routing config (locales, defaultLocale, localePrefix).
 - `src/i18n/request.ts` — server-side request config (loads messages per locale).
 - `src/i18n/navigation.ts` — locale-aware `<Link>`, `useRouter`, etc.
-- `src/messages/en.json` — English UI strings; top-level keys: `home.*` + `audience.*` (Phase 1.09) + `servicePage.*` (Phase 1.09) + `chrome.*`. Per-service strings live in `src/data/services.ts` (D8). Unchanged in 1.10.
-- `src/messages/es.json` — Spanish UI strings; mirror of `en.json`. Phase 2.13 native review covers all es: strings end-to-end. Unchanged in 1.10.
+- `src/messages/en.json` — English UI strings; top-level keys: `home.*` + `audience.*` (Phase 1.09) + `servicePage.*` (Phase 1.09) + `chrome.*` + `about.*` (1.12) + `contact.*` (1.12). Per-service strings live in `src/data/services.ts` (D8).
+- `src/messages/es.json` — Spanish UI strings; mirror of `en.json`. `about.*` and `contact.*` ship as first-pass Spanish drafts; one `[TBR]` marker on `about.credentials.google.caption` (verified review count).
 - `src/app/globals.css` — Tailwind v4 entry; full `@theme` token block (added `--color-sunset-amber-200`) + `@layer base` + `@layer components`. Added `[data-audience]` custom-property block (Phase 1.09 §3X.1) plus the Phase 1.07 `.btn-ghost.btn-on-dark` modifier.
 - `src/app/favicon.ico` — placeholder favicon.
 - `src/app/[locale]/layout.tsx` — locale-aware root layout. Mounts fonts, `NextIntlClientProvider`, `<MotionRoot>`, chrome (`<SkipLink>`, `<Navbar>`, `<main id="main">`, `<Footer>`) plus `LocalBusiness` JSON-LD `<script>` in `<head>`.
 - `src/app/[locale]/page.tsx` — homepage. Composes the seven `Home*` sections, locale-aware metadata, `WebSite` JSON-LD.
 - `src/app/[locale]/[audience]/page.tsx` — audience-landing dynamic route. **Modified (1.10)**: tile-photo lookup now uses `s.imageKey ?? s.slug` so commercial snow-removal resolves to its own placeholder; removed unused `BUSINESS_URL` import.
 - `src/app/[locale]/[audience]/[service]/page.tsx` — service-detail dynamic route. **Modified (1.10)**: lookup uses audience-aware `getService(service, audience)`; hero asset lookup uses `svc.imageKey ?? svc.slug`; related-services loop uses new `getRelatedService(slug, audience)` helper that prefers same-audience match (so commercial/landscape-maintenance's `related: ['snow-removal']` resolves to commercial/snow-removal, not residential).
+- `src/app/[locale]/about/page.tsx` — **NEW (1.12)** server. Composes 6 About sections + reuses `HomeProjects` for the projects teaser (handover §3.6). Emits `Person` × 3 + `BreadcrumbList` JSON-LD. Locale-aware metadata.
+- `src/app/[locale]/contact/page.tsx` — **NEW (1.12)** server. Composes 5 Contact sections, including the `ContactInfoForm` wrapper that nests the `<ContactForm/>` client island. Emits `ContactPage` + `BreadcrumbList` JSON-LD. NO body amber CTA (D11).
 - `src/app/[locale]/dev/system/page.tsx` — dev-only design-system smoke test (Phase 1.04).
 - `src/app/[locale]/dev/system/_client-demos.tsx` — client-only Dialog and Tooltip demos.
 - `src/components/global/Logo.tsx` — server component, two skins (light/dark).
@@ -80,13 +82,32 @@
 - `src/components/sections/service/ServiceFAQ.tsx` — **NEW (1.09)** server. Wraps `<FaqAccordion>`. Per-item `<AnimateIn>` deliberately absent.
 - `src/components/sections/service/ServiceRelated.tsx` — server. 3–4 no-photo nav tiles. D7-driven from `services.ts` `related` array. **Modified (1.10)**: removed hard-coded `aria-label="Learn more about ${service.name[locale]}"` (English bleed-through to ES routes; the inner `<h3>` already serves as the link's accessible name natively).
 - `src/components/sections/service/ServiceCTA.tsx` — **NEW (1.09)** server. The page's only amber CTA in `<main>`. Cream surface (no charcoal on service-detail per D6).
+- `src/components/sections/about/AboutHero.tsx` — **NEW (1.12)** server. 50vh desktop / 40vh mobile photo-led hero with on-dark breadcrumb, eyebrow chip, H1, 2-line lead. NO entrance animation (LCP discipline). Hero photo IS the LCP candidate.
+- `src/components/sections/about/AboutBrandStory.tsx` — **NEW (1.12)** server. Two-column desktop (image 4:5 + 3-paragraph copy) on `--color-bg-cream`. `<AnimateIn fade-left>` on image, `<AnimateIn fade-up>` on copy.
+- `src/components/sections/about/AboutTeam.tsx` — **NEW (1.12)** server. 3 peer cards via `<TeamCard>` + `<StaggerContainer>`/`<StaggerItem>` with `auto-fit minmax(280px, 1fr)` grid.
+- `src/components/sections/about/AboutCredentials.tsx` — **NEW (1.12)** server. 4-column row desktop / 2×2 mobile of `<CredentialBadge>` instances. SINGLE `<AnimateIn>` on the row (not staggered, per Phase 1.07 lesson).
+- `src/components/sections/about/AboutCTA.tsx` — **NEW (1.12)** server. The page's only body amber CTA. Mirrors `HomeCTA` structure with `about.cta.*` namespace (D16 — duplicate component, not refactor; consolidate Part-2).
+- `src/components/sections/contact/ContactHero.tsx` — **NEW (1.12)** server. Text-only (D7), no photo. Visible breadcrumb (light variant) + eyebrow + H1 + 2-line subhead. H1 is the LCP candidate.
+- `src/components/sections/contact/ContactInfoForm.tsx` — **NEW (1.12)** server WRAPPER. Two-column section: left info block (`<dl>`/`<address>`), right form card with nested `<ContactForm/>` client island. Single section-level `<AnimateIn>` (never animate individual form fields).
+- `src/components/sections/contact/ContactMapPlaceholder.tsx` — **NEW (1.12)** server. Inline-SVG abstract street grid + pin + address card overlay. Wrapping `<a>` opens Google Maps. ZERO third-party load (D8).
+- `src/components/sections/contact/ContactCalendlyPlaceholder.tsx` — **NEW (1.12)** server. "Coming soon" amber-100 chip + decorative mock calendar grid + tel: fallback CTA (D9). NO embed in Part 1.
+- `src/components/sections/contact/ContactServiceAreaStrip.tsx` — **NEW (1.12)** server. Centered eyebrow + 6 city `<Link>`s separated by middle dots. Routes resolve to `/service-areas/<slug>/` (Plan IA — supersedes the handover's draft `/locations/...` paths; reconciled here ahead of Phase 1.13).
+- `src/components/forms/ContactForm.tsx` — **NEW (1.12)** CLIENT. The ONLY client component on /contact/. Honeypot + `<fieldset>`+`<legend>` for email-or-phone (D14) + four validation states (empty submit / invalid email / both empty / success) + `aria-busy`/`role="alert"`/`role="status"` wiring. Submit is `btn-primary btn-lg` (NOT amber).
+- `src/components/ui/TeamCard.tsx` — **NEW (1.12)** server. `card--cream` variant with 4:5 portrait, eyebrow-chip role, H3 name, 1-2 sentence bio.
+- `src/components/ui/CredentialBadge.tsx` — **NEW (1.12)** server. `<dl>`-marked credential card with kind-driven head ('unilock'|'years'|'tribune'|'google'). Reuses `<ServiceIcon unilock />` for the locked Unilock mark.
+- `src/data/team.ts` — **NEW (1.12)** typed seed for the 3 team members (Erick, Nick, Marcin). Static-imports `src/assets/about/team-{slug}.jpg` placeholders. `roleKey`/`bioKey` resolve to `about.team.*` translations.
+- `src/lib/schema/person.ts` — **NEW (1.12)** `buildPersonSchema(member)` JSON-LD. Each Person references the sitewide LocalBusiness via `worksFor.@id`.
+- `src/lib/schema/contactPage.ts` — **NEW (1.12)** `buildContactPageSchema(locale)` JSON-LD. References sitewide LocalBusiness via `mainEntity.@id`. `availableLanguage: ['en', 'es']`.
 - `src/components/ui/Breadcrumb.tsx` — **NEW (1.09)** server. Locale-aware breadcrumb with `aria-current="page"`. `light` and `on-dark` variants.
 - `src/components/ui/FaqAccordion.tsx` — **NEW (1.09)** client. SSR `<details>`/`<summary>` with progressive enhancement for chevron rotation. Multi-open by default — every answer in SSR HTML for FAQPage schema validity.
 - `src/components/ui/ServiceIcon.tsx` — **NEW (1.09)** server. Curated lucide-react icon map + hand-rolled Unilock placeholder mark.
 - `src/data/services.ts` — typed seed for 16 services. Per-service H1, subhead, what's-included items, process steps, why-us cards, pricing, FAQ Q&As, related slugs. EN+ES strings throughout (D8). `pricing.mode: 'explainer'` for all 16 in Part 1. **Modified (1.10)**: added optional `imageKey?: string` to the `Service` type (asset-key disambiguation for slugs that exist across audiences). Renamed slug `'commercial-snow-removal'` → `'snow-removal'` and added `imageKey: 'commercial-snow-removal'` to keep its assets resolving. Updated `commercial/landscape-maintenance` `related` from `['commercial-snow-removal', ...]` → `['snow-removal', ...]`. Added `'driveways'` to `hardscape/patios-walkways`'s `related` (cross-link audit fix). New helpers: `getService(slug, audience?)` (now audience-aware) and `getRelatedService(slug, parentAudience)` (same-audience-first resolver for D7).
+- `src/data/team.ts` — **NEW (1.12)** typed seed for the 3 About-page team members.
 - `src/data/imageMap.ts` — **NEW (1.09)** static-import map for placeholder images. Audience heroes (3), audience project tiles (9), service heroes (16), service tile photos (16), service project tiles (~33).
 - `src/lib/schema/breadcrumb.ts` — **NEW (1.09)** `buildBreadcrumbList(items)` JSON-LD payload builder.
 - `src/lib/schema/service.ts` — **NEW (1.09)** `buildServiceSchema(service, locale)` + `buildFaqPageSchema(faq, locale)` + `buildAudienceItemList(...)` + `localePath(locale, path)` helpers.
+- `src/lib/schema/person.ts` — **NEW (1.12)** `buildPersonSchema(member)` JSON-LD payload builder for About team members.
+- `src/lib/schema/contactPage.ts` — **NEW (1.12)** `buildContactPageSchema(locale)` JSON-LD payload builder for /contact/.
 - `src/lib/constants/business.ts` — single source of truth for NAP.
 - `src/lib/constants/navigation.ts` — single source of truth for nav IA.
 - `src/hooks/useScrollState.ts` — client, rAF-throttled scroll boolean.
@@ -102,11 +123,15 @@
 - `src/assets/service/hero-{slug}.jpg` — **NEW (1.09)** 16:9 service hero placeholders for all 16 services, ~80KB each.
 - `src/assets/service/tiles/{slug}.jpg` — **NEW (1.09)** 4:3 service-tile placeholders for the 16 audience-landing service grids, ~3KB each.
 - `src/assets/service/projects/{slug}-{1,2,3}.jpg` — **NEW (1.09)** 4:3 service-detail featured-project tile placeholders, ~3KB each, ~33 total.
+- `src/assets/about/hero.jpg` — **NEW (1.12)** 16:9 About hero placeholder, ~300KB. LCP candidate; below the 350KB budget. Real photo arrives Phase 2.04.
+- `src/assets/about/brand-story.jpg` — **NEW (1.12)** 4:5 portrait placeholder for the brand-story image column, ~60KB.
+- `src/assets/about/team-{erick,nick,marcin}.jpg` — **NEW (1.12)** 4:5 portrait placeholders for the three team-card photos, ~45KB each. Real photos + Marcin's last name (D13) arrive Phase 2.04.
 
 ## scripts/
 
 - `scripts/gen-home-placeholders.mjs` — Phase 1.07 home asset generator (sharp + gradient + per-pixel noise).
 - `scripts/gen-audience-service-placeholders.mjs` — **NEW (1.09)** audience + service asset generator. Same sharp + gradient + noise pattern. Run via `node scripts/gen-audience-service-placeholders.mjs` from the repo root.
+- `scripts/gen-about-placeholders.mjs` — **NEW (1.12)** About-page asset generator (5 placeholder images: hero + brand-story + 3 team cards). Same sharp pattern. Run via `node scripts/gen-about-placeholders.mjs` from the repo root.
 
 ## sanity/
 

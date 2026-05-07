@@ -6,8 +6,8 @@
 
 ## Where we are
 
-- **Last completed phase:** Part 1 — Phase 1.10 (Code: cross-link audit + Phase 1.09 carryover fixes — slug bug, English aria-label bleed, lint errors)
-- **Next phase:** Part 1 — Phase 1.11 (Design: About + Contact templates)
+- **Last completed phase:** Part 1 — Phase 1.12 (Code: About + Contact pages, ContactForm with full validation, Person × 3 + ContactPage + BreadcrumbList JSON-LD, EN+ES strings)
+- **Next phase:** Part 1 — Phase 1.13 (Design: Service-areas index + 6 location pages)
 - **Date:** 2026-05-07
 
 ---
@@ -17,6 +17,8 @@
 - `/` (and `/es`) — full homepage at EN/ES per Phase 1.06 handover §3–9.
 - `/{audience}/` (3 audiences × 2 locales = 6 URLs) — Residential, Commercial, Hardscape audience landings per Phase 1.08 §3 + §3X. Eight content sections + Hardscape's Unilock band (charcoal) + Hardscape charcoal CTA per D6.
 - `/{audience}/{service}/` (16 services × 2 locales = 32 URLs) — All 16 service pages render from `src/data/services.ts` with production-grade EN+ES seed content per Phase 1.08 §4.10. All 9 sections per Phase 1.08 §4. Phase 1.10 fixed the previously-broken `/commercial/snow-removal/` URL (was `/commercial/commercial-snow-removal/` in 1.09).
+- `/about/` (and `/es/about/`) — six sections per Phase 1.11 handover §2.1: Hero → Brand story → Team → Credentials → Projects teaser (HomeProjects literal reuse, §3.6) → CTA. Surface alternation white/cream/white/cream/white/cream. Person × 3 + BreadcrumbList JSON-LD. Visible breadcrumb on hero (on-dark variant) so the visible navigation matches the schema (master plan §2.9).
+- `/contact/` (and `/es/contact/`) — five sections per Phase 1.11 handover §2.2: Hero → Info+Form → Map → Calendly placeholder → Service-area strip. Zero body amber CTAs (D11 — page IS the conversion surface). Static map placeholder (D8) + Calendly placeholder (D9, tel: fallback). ContactPage + BreadcrumbList JSON-LD. ContactForm is the ONLY client component on the page; everything else is server-rendered.
 - `/dev/system` (and `/es/dev/system`) — design-system smoke-test page, unchanged from Phase 1.04.
 - Phase 1.05 chrome (sticky navbar, footer, skip-link, language switcher, sitewide `LocalBusiness` JSON-LD) wraps every page unchanged.
 - Navbar State B (translucent + blur) triggers on the homepage hero AND on every audience-landing + service-detail hero (NavbarScrollState was extended in 1.09 with a 5-line pathname check).
@@ -81,6 +83,8 @@ Fonts (loaded via `next/font/google`): Manrope (heading) + Onest (body), subsets
 - **Phase 1.07 commit:** `b66b61c` — homepage + seven sections, Lighthouse 95+ desktop / 86 mobile.
 - **Phase 1.09 commit:** `3ea2e1c` — `feat(audience+service): 3 audience landings + 16 service detail pages (Phase 1.09)`
 - **Phase 1.10 commit:** `d538d62` — `fix(part-1-phase-10): commercial snow-removal slug + EN aria-label bleed + lint`
+- **Phase 1.11 commit:** `f3e4995` — `docs(design): Phase 1.11 about + contact design handover` (handover authored out-of-band, brought into git as Phase 1.11 closure before Phase 1.12).
+- **Phase 1.12 commit:** _to be recorded after push_ — `feat(about-contact): about + contact pages, person + contact-page schema (Phase 1.12)`
 
 ---
 

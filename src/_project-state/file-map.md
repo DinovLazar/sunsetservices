@@ -6,7 +6,6 @@
 
 - `Sunset-Services-Plan.md` — master site plan and spec (canonical).
 - `Part-1-Phase-05-Design-Handover.md` / `Part-1-Phase-06-Design-Handover.md` / `Part-1-Phase-08-Design-Handover (1).md` — design handovers from Claude Design.
-- `Part-1-Phase-09-Completion.md` — Phase 1.09 completion report (this phase).
 - `package.json` — npm manifest, pinned dependencies.
 - `tsconfig.json` — TypeScript strict config, `@/*` → `src/*` alias.
 - `next.config.ts` — Next.js config wrapped in `createNextIntlPlugin`.
@@ -93,6 +92,7 @@
 - `src/hooks/useScrollState.ts` — client, rAF-throttled scroll boolean.
 - `src/hooks/useBodyScrollLock.ts` — client, body scroll lock for the mobile drawer.
 - `src/_project-state/` — this folder; living docs.
+- `src/_project-state/Part-1-Phase-{01,02,03,04,05,07,09}-Completion.md` — phase completion reports written by Claude Code at the end of each code phase.
 
 ## src/assets/
 

@@ -84,7 +84,7 @@ Fonts (loaded via `next/font/google`): Manrope (heading) + Onest (body), subsets
 - **Phase 1.09 commit:** `3ea2e1c` — `feat(audience+service): 3 audience landings + 16 service detail pages (Phase 1.09)`
 - **Phase 1.10 commit:** `d538d62` — `fix(part-1-phase-10): commercial snow-removal slug + EN aria-label bleed + lint`
 - **Phase 1.11 commit:** `f3e4995` — `docs(design): Phase 1.11 about + contact design handover` (handover authored out-of-band, brought into git as Phase 1.11 closure before Phase 1.12).
-- **Phase 1.12 commit:** _to be recorded after push_ — `feat(about-contact): about + contact pages, person + contact-page schema (Phase 1.12)`
+- **Phase 1.12 commit:** `9c4976a` — `feat(about-contact): about + contact pages, person + contact-page schema (Phase 1.12)`
 
 ---
 

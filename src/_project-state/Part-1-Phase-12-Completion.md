@@ -6,7 +6,7 @@
 | Type | Code — implements Phase 1.11 design handover |
 | Operator | Claude Code (via Superpowers `/execute-plan`, batched Phases 1.12 → 1.20 run) |
 | Date completed | 2026-05-07 |
-| Commit SHA | _to be recorded after push_ — `feat(about-contact): about + contact pages, person + contact-page schema (Phase 1.12)` |
+| Commit SHA | `9c4976a` — `feat(about-contact): about + contact pages, person + contact-page schema (Phase 1.12)` |
 
 ---
 

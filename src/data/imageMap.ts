@@ -63,6 +63,9 @@ import svcTilePergolas from '@/assets/service/tiles/pergolas-pavilions.jpg';
 import svcTileDriveways from '@/assets/service/tiles/driveways.jpg';
 import svcTileKitchens from '@/assets/service/tiles/outdoor-kitchens.jpg';
 
+// --- About brand-story portrait (Phase 1.12, reused as Phase 1.14 WhyLocal portrait) ---
+import aboutPortrait from '@/assets/about/brand-story.jpg';
+
 // --- Service-detail featured project tiles (~30) ---
 import sp_lc1 from '@/assets/service/projects/lawn-care-1.jpg';
 import sp_lc2 from '@/assets/service/projects/lawn-care-2.jpg';
@@ -148,6 +151,49 @@ export const SERVICE_TILE: Record<string, StaticImageData> = {
   driveways: svcTileDriveways,
   'outdoor-kitchens': svcTileKitchens,
 };
+
+/**
+ * Phase 1.14 — location-page hero photos. Each city aliases to an existing
+ * audience hero placeholder for Part 1; Phase 2.04 swaps to real city
+ * photography sourced from Erick's Drive (per Phase 1.13 §7 brief).
+ */
+export const LOCATION_HERO: Record<string, StaticImageData> = {
+  aurora: heroResidential,
+  naperville: heroHardscape,
+  batavia: heroResidential,
+  wheaton: heroResidential,
+  lisle: heroCommercial,
+  bolingbrook: heroCommercial,
+};
+
+/**
+ * Phase 1.14 — cities-grid card photos on the Service Areas index. Aliases
+ * to the same audience heroes; Phase 2.04 swaps to per-city assets.
+ */
+export const LOCATION_CARD: Record<string, StaticImageData> = {
+  aurora: heroResidential,
+  naperville: heroHardscape,
+  batavia: heroResidential,
+  wheaton: heroResidential,
+  lisle: heroCommercial,
+  bolingbrook: heroCommercial,
+};
+
+/**
+ * Phase 1.14 — local-projects strip placeholders. Each city aliases to an
+ * existing audience project-tile triplet; Phase 1.16 wires real projects.
+ */
+export const LOCATION_PROJECT_TILES: Record<string, StaticImageData[]> = {
+  aurora: [audProjResidential1, audProjResidential2, audProjResidential3],
+  naperville: [audProjHardscape1, audProjHardscape2, audProjHardscape3],
+  batavia: [audProjResidential1, audProjResidential2, audProjResidential3],
+  wheaton: [audProjResidential1, audProjResidential2, audProjResidential3],
+  lisle: [audProjCommercial1, audProjCommercial2, audProjCommercial3],
+  bolingbrook: [audProjCommercial1, audProjCommercial2, audProjCommercial3],
+};
+
+/** Phase 1.14 — shared portrait for the WhyLocalPanel across all 6 cities. */
+export const LOCATION_PORTRAIT: StaticImageData = aboutPortrait;
 
 export const SERVICE_PROJECT: Record<string, StaticImageData> = {
   'lawn-care-1': sp_lc1,

@@ -4,7 +4,7 @@ import ContactHero from '@/components/sections/contact/ContactHero';
 import ContactInfoForm from '@/components/sections/contact/ContactInfoForm';
 import ContactMapPlaceholder from '@/components/sections/contact/ContactMapPlaceholder';
 import ContactCalendlyPlaceholder from '@/components/sections/contact/ContactCalendlyPlaceholder';
-import ContactServiceAreaStrip from '@/components/sections/contact/ContactServiceAreaStrip';
+import ServiceAreaStrip from '@/components/sections/ServiceAreaStrip';
 import {buildContactPageSchema} from '@/lib/schema/contactPage';
 import {buildBreadcrumbList} from '@/lib/schema/breadcrumb';
 
@@ -64,7 +64,7 @@ export default async function ContactPage({
       <ContactInfoForm locale={localeForForm} />
       <ContactMapPlaceholder />
       <ContactCalendlyPlaceholder />
-      <ContactServiceAreaStrip />
+      <ServiceAreaStrip />
     </>
   );
 }

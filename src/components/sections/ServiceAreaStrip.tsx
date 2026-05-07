@@ -3,13 +3,16 @@ import {Link} from '@/i18n/navigation';
 import AnimateIn from '@/components/global/motion/AnimateIn';
 
 /**
- * Service-area strip — Phase 1.11 handover §4.5 (D10 lock = keep).
+ * Service-area strip — shared across `/contact/` (Phase 1.12) and the six
+ * `/service-areas/<city>/` location pages (Phase 1.14, D7b).
  *
- * Surface --color-bg. Centered eyebrow + 6 city links separated by middle
- * dots desktop / wraps to 2-row grid on mobile. Per Phase 1.13 routing,
- * city links resolve to `/service-areas/<slug>/`. (Handover §4.5 originally
- * specified `/locations/<slug>-il/`; reconciled to `/service-areas/<slug>/`
- * to match the Plan's IA — Phase 1.13 D1 RESOLVED (auto): `/service-areas/`.)
+ * Surface --color-bg. Centered eyebrow + city links separated by middle
+ * dots desktop / wraps to 2-row grid on mobile. City links resolve to
+ * `/service-areas/<slug>/` (Plan §3 IA — Phase 1.13 D1).
+ *
+ * Pass `excludeSlug` (Phase 1.14 D7b) on location pages to hide the page's
+ * own city — defaults to all 6 cities so existing /contact/ behavior is
+ * unchanged.
  */
 
 const CITIES = [
@@ -21,18 +24,30 @@ const CITIES = [
   {key: 'bolingbrook', slug: 'bolingbrook'},
 ] as const;
 
-export default async function ContactServiceAreaStrip() {
+type ServiceAreaStripProps = {
+  /**
+   * When set, omit the matching city from the rendered list. Used on
+   * location pages so the current city is hidden and the strip shows the
+   * other 5 (Phase 1.14 D7b).
+   */
+  excludeSlug?: string;
+};
+
+export default async function ServiceAreaStrip({excludeSlug}: ServiceAreaStripProps = {}) {
   const t = await getTranslations('contact.area');
+  const cities = excludeSlug
+    ? CITIES.filter((c) => c.slug !== excludeSlug)
+    : CITIES;
 
   return (
     <section
-      aria-labelledby="contact-area-eyebrow"
+      aria-labelledby="service-area-strip-eyebrow"
       className="bg-[var(--color-bg)] py-12 lg:py-14"
     >
       <div className="mx-auto max-w-[var(--container-default)] px-4 sm:px-6 lg:px-8 xl:px-12 text-center">
         <AnimateIn variant="fade-up" className="block">
           <p
-            id="contact-area-eyebrow"
+            id="service-area-strip-eyebrow"
             className="font-heading font-semibold uppercase m-0 mb-4"
             style={{
               fontSize: '12px',
@@ -43,7 +58,7 @@ export default async function ContactServiceAreaStrip() {
             {t('eyebrow')}
           </p>
           <ul className="m-0 p-0 list-none flex flex-wrap justify-center gap-x-2 gap-y-3">
-            {CITIES.map((c, idx) => (
+            {cities.map((c, idx) => (
               <li key={c.slug} className="inline-flex items-center">
                 <Link
                   href={`/service-areas/${c.slug}/`}
@@ -57,7 +72,7 @@ export default async function ContactServiceAreaStrip() {
                 >
                   {t(c.key)}
                 </Link>
-                {idx < CITIES.length - 1 ? (
+                {idx < cities.length - 1 ? (
                   <span aria-hidden="true" className="px-2" style={{color: 'var(--color-text-muted)'}}>
                     ·
                   </span>

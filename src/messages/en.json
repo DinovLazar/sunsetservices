@@ -812,5 +812,99 @@
         "cta": "Call us."
       }
     }
+  },
+  "serviceAreas": {
+    "meta": {
+      "title": "Service Areas — DuPage County, IL | Sunset Services",
+      "description": "Sunset Services works in six DuPage County cities: Aurora, Naperville, Batavia, Wheaton, Lisle, Bolingbrook. Family-run since 2000."
+    },
+    "breadcrumbHome": "Home",
+    "breadcrumbSelf": "Service Areas",
+    "eyebrow": "SERVICE AREAS",
+    "h1": "Where we work — DuPage County, Illinois.",
+    "sub": "Family-run since 2000. Six cities, one crew, one phone number.",
+    "heroCta": "Request a free estimate",
+    "heroPhonePrefix": "or call",
+    "heroPhoneNumber": "(630) 946-9321",
+    "map": {
+      "title": "Map of DuPage County showing Sunset Services' six service areas.",
+      "desc": "An illustrated map of DuPage County, Illinois, with six pins marking the cities Sunset Services works in. Each pin is a link to that city's service-area page.",
+      "label": "DUPAGE COUNTY · IL"
+    },
+    "grid": {
+      "eyebrow": "SIX CITIES",
+      "h2": "Pick your city.",
+      "sub": "Each page covers the services that fit that area, recent projects, and local trust signals.",
+      "cardCta": "View",
+      "tagline": {
+        "aurora": "HQ · serving the city since 2000",
+        "naperville": "Premium hardscape, established estates",
+        "batavia": "Riverside character, residential focus",
+        "wheaton": "Established affluent, full-service",
+        "lisle": "Corporate corridor, commercial focus",
+        "bolingbrook": "Suburban-commercial mix"
+      }
+    },
+    "outside": {
+      "h2": "Don't see your city?",
+      "body": "We sometimes take projects in adjacent towns — Glen Ellyn, Warrenville, Plainfield. Call us; we'll tell you straight whether we're the right fit.",
+      "phoneLabel": "(630) 946-9321",
+      "emailLabel": "info@sunsetservices.us"
+    },
+    "cta": {
+      "h2": "Ready when you are.",
+      "sub": "Free estimates. We'll be on-site within a week. No pressure.",
+      "button": "Get a free estimate",
+      "phonePrefix": "or call",
+      "phoneNumber": "(630) 946-9321"
+    }
+  },
+  "location": {
+    "breadcrumbHome": "Home",
+    "breadcrumbServiceAreas": "Service Areas",
+    "heroCta": "Request a free estimate",
+    "heroPhonePrefix": "or call",
+    "heroPhoneNumber": "(630) 946-9321",
+    "microbar": {
+      "years": "{years}+ years in {city}",
+      "projects": "{count}+ local projects",
+      "response": "Free estimates within {days} days"
+    },
+    "trust": {
+      "yearsLabel": "Years serving {city}",
+      "projectsLabel": "Projects completed in {city}",
+      "responseLabel": "Free estimates, on-site"
+    },
+    "services": {
+      "h2": "Services we offer in {city}",
+      "sub": "Curated for {city}'s properties and what we know works."
+    },
+    "projects": {
+      "h2": "Recent {city} projects",
+      "allLink": "See all projects",
+      "placeholderCaption": "Local project, {city}"
+    },
+    "testimonials": {
+      "h2": "What {city} clients say",
+      "ratingAria": "{rating} out of 5 stars"
+    },
+    "whyLocal": {
+      "h2": "Why hire a family business for your {city} property",
+      "aboutLink": "Read more about Erick",
+      "portraitAlt": "Erick Solis on a DuPage County job site at golden hour."
+    },
+    "neighbors": {
+      "h2": "Other places we work"
+    },
+    "faq": {
+      "h2": "Common questions about working with us in {city}"
+    },
+    "cta": {
+      "h2": "Let's design your {city} outdoor space.",
+      "sub": "Free estimates. We'll be on-site within a week.",
+      "button": "Get a free estimate",
+      "phonePrefix": "or call",
+      "phoneNumber": "(630) 946-9321"
+    }
   }
 }

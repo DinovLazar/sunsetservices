@@ -6,8 +6,8 @@
 
 ## Where we are
 
-- **Last completed phase:** Part 1 — Phase 1.12 (Code: About + Contact pages, ContactForm with full validation, Person × 3 + ContactPage + BreadcrumbList JSON-LD, EN+ES strings)
-- **Next phase:** Part 1 — Phase 1.13 (Design: Service-areas index + 6 location pages)
+- **Last completed phase:** Part 1 — Phase 1.14 (Code: Service Areas index + 6 city pages, ServiceAreaStrip promotion, shared CTA with tokens prop, locations seed, Place + Service-ItemList + FAQPage JSON-LD)
+- **Next phase:** Part 1 — Phase 1.15 (Design: Projects portfolio mockups)
 - **Date:** 2026-05-07
 
 ---
@@ -18,7 +18,9 @@
 - `/{audience}/` (3 audiences × 2 locales = 6 URLs) — Residential, Commercial, Hardscape audience landings per Phase 1.08 §3 + §3X. Eight content sections + Hardscape's Unilock band (charcoal) + Hardscape charcoal CTA per D6.
 - `/{audience}/{service}/` (16 services × 2 locales = 32 URLs) — All 16 service pages render from `src/data/services.ts` with production-grade EN+ES seed content per Phase 1.08 §4.10. All 9 sections per Phase 1.08 §4. Phase 1.10 fixed the previously-broken `/commercial/snow-removal/` URL (was `/commercial/commercial-snow-removal/` in 1.09).
 - `/about/` (and `/es/about/`) — six sections per Phase 1.11 handover §2.1: Hero → Brand story → Team → Credentials → Projects teaser (HomeProjects literal reuse, §3.6) → CTA. Surface alternation white/cream/white/cream/white/cream. Person × 3 + BreadcrumbList JSON-LD. Visible breadcrumb on hero (on-dark variant) so the visible navigation matches the schema (master plan §2.9).
-- `/contact/` (and `/es/contact/`) — five sections per Phase 1.11 handover §2.2: Hero → Info+Form → Map → Calendly placeholder → Service-area strip. Zero body amber CTAs (D11 — page IS the conversion surface). Static map placeholder (D8) + Calendly placeholder (D9, tel: fallback). ContactPage + BreadcrumbList JSON-LD. ContactForm is the ONLY client component on the page; everything else is server-rendered.
+- `/contact/` (and `/es/contact/`) — five sections per Phase 1.11 handover §2.2: Hero → Info+Form → Map → Calendly placeholder → Service-area strip. Zero body amber CTAs (D11 — page IS the conversion surface). Static map placeholder (D8) + Calendly placeholder (D9, tel: fallback). ContactPage + BreadcrumbList JSON-LD. ContactForm is the ONLY client component on the page; everything else is server-rendered. Phase 1.14: now consumes the promoted `<ServiceAreaStrip>` (no `excludeSlug`, default behaviour).
+- `/service-areas/` (and `/es/service-areas/`) — Phase 1.14 §3 — four sections: Hero (split text + static SVG map of DuPage with 6 pins) → Cities grid (6 LocationCards) → Outside-area band (no CTA, phone + email links) → CTA. Surface alternation bg → cream → bg → cream. `BreadcrumbList` + `ItemList` of 6 Place items (same-source). Static SVG map is server-rendered, no JS, with `<title>` / `<desc>` per locale and per-pin `<Link>` from `@/i18n/navigation`.
+- `/service-areas/{aurora,naperville,batavia,wheaton,lisle,bolingbrook}/` (and `/es/service-areas/<city>/`) = 12 routes — Phase 1.14 §4. Nine sections per city: Hero (compact split, photo right) → LocalTrustBand (3 stat cells) → ServicesGrid (6 ServiceCards mapped from `featuredServices`) → ProjectsStrip (3 placeholder tiles, real wiring in Phase 1.16) → Testimonials (1 card, placeholder copy until Phase 2.15) → WhyLocalPanel (shared portrait + per-city ~120-word prose) → ServiceAreaStrip (`excludeSlug={location.slug}`, hides current city) → FAQ (4 native `<details>`) → CTA (shared `<CTA>` with `tokens={{city}}`). Surface alternation bg/cream × 9 (no two adjacent same-surface). Schema: BreadcrumbList + Place + ItemList of 6 Service items + FAQPage, all same-source with the visible DOM. Hero photo carries `priority` + `fetchPriority="high"` (LCP candidate). Single body amber CTA per page (the bottom CTA section).
 - `/dev/system` (and `/es/dev/system`) — design-system smoke-test page, unchanged from Phase 1.04.
 - Phase 1.05 chrome (sticky navbar, footer, skip-link, language switcher, sitewide `LocalBusiness` JSON-LD) wraps every page unchanged.
 - Navbar State B (translucent + blur) triggers on the homepage hero AND on every audience-landing + service-detail hero (NavbarScrollState was extended in 1.09 with a 5-line pathname check).
@@ -85,6 +87,7 @@ Fonts (loaded via `next/font/google`): Manrope (heading) + Onest (body), subsets
 - **Phase 1.10 commit:** `d538d62` — `fix(part-1-phase-10): commercial snow-removal slug + EN aria-label bleed + lint`
 - **Phase 1.11 commit:** `f3e4995` — `docs(design): Phase 1.11 about + contact design handover` (handover authored out-of-band, brought into git as Phase 1.11 closure before Phase 1.12).
 - **Phase 1.12 commit:** `9c4976a` — `feat(about-contact): about + contact pages, person + contact-page schema (Phase 1.12)`
+- **Phase 1.14 commit:** _to-be-filled_ — `feat(service-areas): index + 6 location pages (Phase 1.14)`
 
 ---
 
@@ -104,3 +107,34 @@ Fonts (loaded via `next/font/google`): Manrope (heading) + Onest (body), subsets
 - **VS Code NOT installed** (carryover from Phase 1.01, user runs Code via Claude desktop app).
 - **23 moderate-severity npm vulnerabilities** reported by `npm install` (all transitive).
 - **Featured-card discipline (D9, ratified):** `.card-featured` is forbidden on every audience landing and every service detail page. Verified by smoke test: `document.querySelectorAll('main .card-featured').length === 0` is satisfied on all 19 EN pages (and matched on the ES mirror).
+- **Phase 1.14 — `ContactServiceAreaStrip` was promoted to `ServiceAreaStrip`** at `src/components/sections/ServiceAreaStrip.tsx` per Phase 1.13 D7b. Adds an opt-in `excludeSlug?: string` prop used on city pages to hide the current city. The `/contact/` page still consumes it with no `excludeSlug` (default behaviour unchanged). The old `src/components/sections/contact/ContactServiceAreaStrip.tsx` was deleted.
+- **Phase 1.14 — new shared `<CTA>` component** at `src/components/sections/CTA.tsx`. Accepts `copyNamespace` + `destination` + opt-in `tokens?: Record<string, string>` (forwarded to next-intl ICU as values for `{key}` placeholders) + `surface` + `ariaId`. The existing `HomeCTA`, `AboutCTA`, `ServiceCTA`, and `AudienceCTA` components are intentionally left untouched per the prompt's "existing call-sites unaffected" rule; the new shared CTA powers the two new Phase 1.14 routes (`/service-areas/` index + city pages) only. Future phases can migrate the older CTAs onto it; doing so was out-of-scope here.
+- **Phase 1.14 — `Place.areaServed` references the sitewide `LocalBusiness` via `@id`** (`https://sunsetservices.us/#localbusiness`). The `LocalBusiness` JSON-LD emitted from `src/app/[locale]/layout.tsx` does not currently carry that `@id` (pre-existing from Phase 1.05; the Phase 1.12 `ContactPage.mainEntity` reference has the same shape). Schema.org validators accept dangling `@id` references but a defensive `@id` on the LocalBusiness would tighten the graph. Out-of-scope for Phase 1.14; flagged here.
+- **Dev-mode (Turbopack + Tailwind v4) cache quirk (Phase 1.14).** A transient `FORMATTING_ERROR` in the new shared CTA (since fixed) caused Turbopack to render an error page that contained React Server Component flight data (`</script><script>self.__next_f.push([1,"--color-sunset-green-300...`). Tailwind v4's content scanner treated the substring as an arbitrary-class generator (`text-[var("])</script>...]`) and emitted a malformed utility class into the generated CSS. The malformed class persists in Turbopack's intermediate cache even after `rm -rf .next` and a fresh server. **`npm run build` (production / non-Turbopack) is unaffected and ships the routes cleanly**; smoke testing was done against `npx next start`. Filed as a Turbopack-side dev-mode quirk; no source-code fix in this phase.
+
+## TODO 1.16 — Real local-projects content
+- `src/components/sections/location/LocalProjectsStrip.tsx` ships 3 placeholder tiles per city in Phase 1.14. Phase 1.16 wires the D7.A fallback rule (real city projects; if zero, fall back to closest 3 from neighbor cities AND caption with the actual project city — never fake the city). The component carries a leading code comment with the rule.
+
+## TODO 2.04 — Cowork
+- Real per-city statistics (years serving, projects completed, response time) — currently placeholders in `src/data/locations.ts`:
+  - Aurora: 25y / 200+ projects / 5 days
+  - Naperville: 25y / 120+ / 5
+  - Batavia: 25y / 60+ / 7
+  - Wheaton: 25y / 80+ / 5
+  - Lisle: 25y / 70+ / 5
+  - Bolingbrook: 25y / 65+ / 7
+- Real per-city postal codes — currently omitted from `address` in the `Place` JSON-LD (Schema.org accepts the page without `postalCode`).
+- Real per-city photography — `src/data/imageMap.ts` aliases each city to an existing audience hero placeholder. The aliases (`LOCATION_HERO`, `LOCATION_CARD`, `LOCATION_PROJECT_TILES`) are documented inline; swapping to real photos requires only changing the static-import sources in `imageMap.ts`.
+
+## TODO 2.07 — Cowork
+- Real per-city lat/lng with map-pin precision — currently using representative public-source values in `src/data/locations.ts.geo`. The `Place.geo.GeoCoordinates` JSON-LD accepts the placeholder values; the SVG map pins are positioned via `pin: { x, y }` in seed data (decoupled from `geo`).
+- Decide whether to swap the Phase 1.14 static SVG map for a Google Maps iframe. Plan §9 calls Phase 2.07 the optional cutover.
+
+## TODO 2.13 — Native ES review
+The following ES strings ship as first-pass drafts in `src/messages/es.json` and `src/data/locations.ts`. Search the file for `[TBR]` to enumerate.
+- `serviceAreas.h1`, `serviceAreas.sub`, `serviceAreas.map.title`, `serviceAreas.map.desc`, `serviceAreas.grid.sub`, `serviceAreas.grid.tagline.{aurora,naperville,batavia,wheaton,lisle,bolingbrook}`, `serviceAreas.outside.body`, `serviceAreas.cta.h2`, `serviceAreas.cta.sub`.
+- All `location.microbar.*`, `location.trust.*Label`, `location.services.*`, `location.projects.h2`, `location.projects.placeholderCaption`, `location.testimonials.h2`, `location.whyLocal.h2`, `location.whyLocal.portraitAlt`, `location.faq.h2`, `location.cta.h2`, `location.cta.sub`.
+- All `whyLocal.es`, all `testimonials[].quote.es` + `attribution.es`, all `faq[].q.es` + `a.es`, and all `meta.description.es` per city.
+
+## TODO 2.15 — Real Google reviews
+- Replace the placeholder testimonials in `src/data/locations.ts` (`testimonials[]`) with real reviews pulled from the Google Places API. The `LocalTestimonials` component renders `1+` cards per the seed length; no schema change required.

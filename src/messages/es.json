@@ -812,5 +812,99 @@
         "cta": "Llámanos."
       }
     }
+  },
+  "serviceAreas": {
+    "meta": {
+      "title": "Áreas de servicio — Condado de DuPage, IL | Sunset Services",
+      "description": "Sunset Services trabaja en seis ciudades del Condado de DuPage: Aurora, Naperville, Batavia, Wheaton, Lisle, Bolingbrook. Familiar desde 2000."
+    },
+    "breadcrumbHome": "Inicio",
+    "breadcrumbSelf": "Áreas de servicio",
+    "eyebrow": "ÁREAS DE SERVICIO",
+    "h1": "[TBR] Donde trabajamos — Condado de DuPage, Illinois.",
+    "sub": "[TBR] Familiar desde el año 2000. Seis ciudades, un solo equipo, un solo teléfono.",
+    "heroCta": "Solicita un presupuesto gratis",
+    "heroPhonePrefix": "o llama al",
+    "heroPhoneNumber": "(630) 946-9321",
+    "map": {
+      "title": "[TBR] Mapa del Condado de DuPage mostrando las seis áreas de servicio de Sunset Services.",
+      "desc": "[TBR] Un mapa ilustrado del Condado de DuPage, Illinois, con seis pines que marcan las ciudades donde trabaja Sunset Services. Cada pin enlaza a la página de su ciudad.",
+      "label": "CONDADO DE DUPAGE · IL"
+    },
+    "grid": {
+      "eyebrow": "SEIS CIUDADES",
+      "h2": "Elige tu ciudad.",
+      "sub": "[TBR] Cada página cubre los servicios que se adaptan al área, proyectos recientes y señales de confianza local.",
+      "cardCta": "Ver",
+      "tagline": {
+        "aurora": "[TBR] Sede · al servicio de la ciudad desde 2000",
+        "naperville": "[TBR] Hardscape premium, fincas establecidas",
+        "batavia": "[TBR] Carácter ribereño, enfoque residencial",
+        "wheaton": "[TBR] Establecido y acomodado, servicio integral",
+        "lisle": "[TBR] Corredor corporativo, enfoque comercial",
+        "bolingbrook": "[TBR] Mezcla suburbana-comercial"
+      }
+    },
+    "outside": {
+      "h2": "¿No ves tu ciudad?",
+      "body": "[TBR] A veces tomamos proyectos en pueblos cercanos — Glen Ellyn, Warrenville, Plainfield. Llámanos; te diremos honestamente si somos los indicados.",
+      "phoneLabel": "(630) 946-9321",
+      "emailLabel": "info@sunsetservices.us"
+    },
+    "cta": {
+      "h2": "[TBR] Cuando estés listo, estamos.",
+      "sub": "[TBR] Presupuestos gratuitos. Te visitamos en una semana. Sin presión.",
+      "button": "Solicita un presupuesto gratis",
+      "phonePrefix": "o llama al",
+      "phoneNumber": "(630) 946-9321"
+    }
+  },
+  "location": {
+    "breadcrumbHome": "Inicio",
+    "breadcrumbServiceAreas": "Áreas de servicio",
+    "heroCta": "Solicita un presupuesto gratis",
+    "heroPhonePrefix": "o llama al",
+    "heroPhoneNumber": "(630) 946-9321",
+    "microbar": {
+      "years": "[TBR] {years}+ años en {city}",
+      "projects": "[TBR] {count}+ proyectos locales",
+      "response": "[TBR] Presupuestos gratuitos en {days} días"
+    },
+    "trust": {
+      "yearsLabel": "[TBR] Años atendiendo a {city}",
+      "projectsLabel": "[TBR] Proyectos completados en {city}",
+      "responseLabel": "[TBR] Presupuestos gratuitos, en sitio"
+    },
+    "services": {
+      "h2": "[TBR] Servicios que ofrecemos en {city}",
+      "sub": "[TBR] Seleccionados para las propiedades de {city} y lo que sabemos que funciona."
+    },
+    "projects": {
+      "h2": "[TBR] Proyectos recientes en {city}",
+      "allLink": "Ver todos los proyectos",
+      "placeholderCaption": "[TBR] Proyecto local, {city}"
+    },
+    "testimonials": {
+      "h2": "[TBR] Lo que dicen los clientes de {city}",
+      "ratingAria": "{rating} de 5 estrellas"
+    },
+    "whyLocal": {
+      "h2": "[TBR] Por qué contratar a un negocio familiar para tu propiedad en {city}",
+      "aboutLink": "Más sobre Erick",
+      "portraitAlt": "[TBR] Erick Solis en una obra del Condado de DuPage al atardecer."
+    },
+    "neighbors": {
+      "h2": "Otros lugares donde trabajamos"
+    },
+    "faq": {
+      "h2": "[TBR] Preguntas frecuentes sobre trabajar con nosotros en {city}"
+    },
+    "cta": {
+      "h2": "[TBR] Diseñemos tu espacio exterior en {city}.",
+      "sub": "[TBR] Presupuestos gratuitos. Te visitamos en una semana.",
+      "button": "Solicita un presupuesto gratis",
+      "phonePrefix": "o llama al",
+      "phoneNumber": "(630) 946-9321"
+    }
   }
 }

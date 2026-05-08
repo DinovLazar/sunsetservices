@@ -6,6 +6,7 @@
 **Working folder:** `C:\Users\user\Desktop\SunSet-V2`
 **Worktree:** `.claude/worktrees/confident-meninsky-ddaf04`
 **Branch:** `claude/confident-meninsky-ddaf04`
+**Commit:** `3b25238` — `feat(projects): portfolio index + 12 detail pages, lightbox, schema (Phase 1.16)`
 
 ---
 

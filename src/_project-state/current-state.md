@@ -89,7 +89,7 @@ Fonts (loaded via `next/font/google`): Manrope (heading) + Onest (body), subsets
 - **Phase 1.11 commit:** `f3e4995` — `docs(design): Phase 1.11 about + contact design handover` (handover authored out-of-band, brought into git as Phase 1.11 closure before Phase 1.12).
 - **Phase 1.12 commit:** `9c4976a` — `feat(about-contact): about + contact pages, person + contact-page schema (Phase 1.12)`
 - **Phase 1.14 commit:** `9279efd` — `feat(service-areas): index + 6 location pages (Phase 1.14)`
-- **Phase 1.16 commit:** TBD — `feat(projects): portfolio index + 12 detail pages, lightbox, schema (Phase 1.16)` (recorded after push in Part-1-Phase-16-Completion.md).
+- **Phase 1.16 commit:** `3b25238` — `feat(projects): portfolio index + 12 detail pages, lightbox, schema (Phase 1.16)`
 
 ---
 

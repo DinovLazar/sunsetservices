@@ -1,33 +1,40 @@
-import Image from 'next/image';
-import type {StaticImageData} from 'next/image';
 import {getTranslations} from 'next-intl/server';
 import {Link} from '@/i18n/navigation';
 import AnimateIn from '@/components/global/motion/AnimateIn';
 import StaggerContainer from '@/components/global/motion/StaggerContainer';
 import StaggerItem from '@/components/global/motion/StaggerItem';
+import ProjectCard from '@/components/ui/ProjectCard';
 import projectOneSrc from '@/assets/home/project-1-naperville-patio.jpg';
 import projectTwoSrc from '@/assets/home/project-2-wheaton-lawn.jpg';
 import projectThreeSrc from '@/assets/home/project-3-aurora-hoa.jpg';
 import projectFourSrc from '@/assets/home/project-4-glen-ellyn-fire.jpg';
 import projectFiveSrc from '@/assets/home/project-5-lisle-wall.jpg';
 import projectSixSrc from '@/assets/home/project-6-warrenville-garden.jpg';
+import type {StaticImageData} from 'next/image';
 
 type ProjectTag = 'hardscape' | 'residential' | 'commercial';
 
 type Project = {
+  /** i18n key used for tile title + alt. Phase 1.07 era. */
   key: string;
   tag: ProjectTag;
-  href: string;
+  /**
+   * Detail-page slug from `src/data/projects.ts`. Phase 1.16 remapped these
+   * from earlier placeholder slugs (`naperville-patio`, etc.) to the real
+   * 12-row seed; the home tile titles still use the original placeholder
+   * names for now — Erick polishes copy in Part 2.
+   */
+  slug: string;
   photo: StaticImageData;
 };
 
 const PROJECTS: Project[] = [
-  {key: 'napervillePatio', tag: 'hardscape', href: '/projects/naperville-patio/', photo: projectOneSrc},
-  {key: 'wheatonLawn', tag: 'residential', href: '/projects/wheaton-lawn/', photo: projectTwoSrc},
-  {key: 'auroraHoa', tag: 'commercial', href: '/projects/aurora-hoa/', photo: projectThreeSrc},
-  {key: 'glenEllynFire', tag: 'hardscape', href: '/projects/glen-ellyn-fire/', photo: projectFourSrc},
-  {key: 'lisleWall', tag: 'hardscape', href: '/projects/lisle-wall/', photo: projectFiveSrc},
-  {key: 'warrenvilleGarden', tag: 'residential', href: '/projects/warrenville-garden/', photo: projectSixSrc},
+  {key: 'napervillePatio', tag: 'hardscape', slug: 'naperville-hilltop-terrace', photo: projectOneSrc},
+  {key: 'wheatonLawn', tag: 'residential', slug: 'wheaton-lawn-reset', photo: projectTwoSrc},
+  {key: 'auroraHoa', tag: 'commercial', slug: 'aurora-hoa-curb-refresh', photo: projectThreeSrc},
+  {key: 'glenEllynFire', tag: 'hardscape', slug: 'naperville-fire-court', photo: projectFourSrc},
+  {key: 'lisleWall', tag: 'hardscape', slug: 'lisle-retaining-wall', photo: projectFiveSrc},
+  {key: 'warrenvilleGarden', tag: 'residential', slug: 'batavia-garden-reset', photo: projectSixSrc},
 ];
 
 export default async function HomeProjects() {
@@ -58,60 +65,13 @@ export default async function HomeProjects() {
         <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {PROJECTS.map((p) => (
             <StaggerItem key={p.key}>
-              <Link
-                href={p.href}
-                className="card card-photo block relative h-full"
-              >
-                <div className="relative w-full" style={{aspectRatio: '4 / 3'}}>
-                  <Image
-                    src={p.photo}
-                    alt={t(`alt.${p.key}`)}
-                    fill
-                    placeholder="blur"
-                    loading="lazy"
-                    sizes="(max-width: 767px) 100vw, (max-width: 1023px) 50vw, 33vw"
-                    style={{objectFit: 'cover'}}
-                  />
-                  {/* Bottom-up dark gradient so the title and tag clear AA. */}
-                  <div
-                    aria-hidden="true"
-                    className="absolute inset-0 pointer-events-none"
-                    style={{
-                      background:
-                        'linear-gradient(180deg, rgba(0,0,0,0) 50%, rgba(26,26,26,0.50) 100%)',
-                    }}
-                  />
-                  {/* Tag pill upper-left */}
-                  <span
-                    className="absolute top-4 left-4 inline-flex items-center font-heading font-semibold uppercase"
-                    style={{
-                      fontSize: '11px',
-                      letterSpacing: '0.08em',
-                      height: '22px',
-                      padding: '0 8px',
-                      borderRadius: '11px',
-                      background: 'rgba(250,247,241,0.16)',
-                      border: '1px solid rgba(250,247,241,0.32)',
-                      color: 'var(--color-text-on-dark)',
-                    }}
-                  >
-                    {t(`tag.${p.tag}`)}
-                  </span>
-                  {/* Title lower-left */}
-                  <h3
-                    className="absolute bottom-4 left-4 right-4 m-0 font-heading"
-                    style={{
-                      fontSize: 'var(--text-h5)',
-                      fontWeight: 600,
-                      color: 'var(--color-text-on-dark)',
-                      letterSpacing: 'var(--tracking-snug)',
-                      lineHeight: 'var(--leading-snug)',
-                    }}
-                  >
-                    {t(`tile.${p.key}`)}
-                  </h3>
-                </div>
-              </Link>
+              <ProjectCard
+                href={`/projects/${p.slug}/`}
+                photo={p.photo}
+                alt={t(`alt.${p.key}`)}
+                title={t(`tile.${p.key}`)}
+                audienceLabel={t(`tag.${p.tag}`)}
+              />
             </StaggerItem>
           ))}
         </StaggerContainer>

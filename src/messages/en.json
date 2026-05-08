@@ -906,5 +906,97 @@
       "phonePrefix": "or call",
       "phoneNumber": "(630) 946-9321"
     }
+  },
+  "projects": {
+    "meta": {
+      "title": "Projects · Sunset Services",
+      "description": "Patios, walls, lawns, and entire properties built across DuPage County by Sunset Services since 2000. Browse our portfolio."
+    },
+    "hero": {
+      "eyebrow": "Portfolio · Our Work",
+      "h1": "Built last season, aging into the property.",
+      "dek": "Patios, walls, lawns, and entire properties from across DuPage County. Filter by audience, or scroll to see everything we've built.",
+      "count": "{count} projects · {cities} cities · {minYear}–{maxYear}"
+    },
+    "tag": {
+      "residential": "RESIDENTIAL",
+      "commercial": "COMMERCIAL",
+      "hardscape": "HARDSCAPE"
+    },
+    "filter": {
+      "label": "Filter by audience",
+      "all": "All · {count}",
+      "residential": "Residential · {count}",
+      "commercial": "Commercial · {count}",
+      "hardscape": "Hardscape · {count}"
+    },
+    "pagination": {
+      "prev": "Previous page",
+      "next": "Next page",
+      "pageLabel": "Page {n}"
+    },
+    "empty": {
+      "h3": "No projects match this filter yet.",
+      "body": "We're still adding our older work. Try a different audience — or see everything we've built so far.",
+      "reset": "Show all projects →"
+    },
+    "cta": {
+      "h2": "See yours on this page next year.",
+      "sub": "Tell us about the property and we'll come measure, sketch, and price it. Free, no obligation.",
+      "button": "Get a Free Estimate",
+      "phonePrefix": "or call",
+      "phoneNumber": "(630) 946-9321"
+    }
+  },
+  "project": {
+    "breadcrumb": {
+      "home": "Home",
+      "projects": "Projects"
+    },
+    "hero": {
+      "eyebrow": "Project",
+      "metaTemplate": "{city} · {year} · {durationWeeks} weeks"
+    },
+    "narrative": {
+      "eyebrow": "The project"
+    },
+    "gallery": {
+      "h2": "Gallery",
+      "open": "Open photo",
+      "lightbox": {
+        "close": "Close gallery",
+        "counter": "{n} of {total}",
+        "prev": "Previous photo",
+        "next": "Next photo"
+      }
+    },
+    "facts": {
+      "h2": "Facts",
+      "year": "Year",
+      "city": "City",
+      "audience": "Audience",
+      "services": "Services",
+      "materials": "Materials",
+      "duration": "Duration",
+      "durationWeeks": "{n} weeks"
+    },
+    "beforeAfter": {
+      "h2": "Before · After",
+      "before": "Before",
+      "after": "After",
+      "altBefore": "Before: {title}",
+      "altAfter": "After: {title}"
+    },
+    "related": {
+      "h2": "More like this",
+      "seeAll": "See all projects →"
+    },
+    "cta": {
+      "h2": "Build something like this in {city}?",
+      "sub": "Tell us about the property. We'll come measure, sketch, and price it.",
+      "button": "Get a Free Estimate",
+      "phonePrefix": "or call",
+      "phoneNumber": "(630) 946-9321"
+    }
   }
 }

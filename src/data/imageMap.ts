@@ -195,6 +195,74 @@ export const LOCATION_PROJECT_TILES: Record<string, StaticImageData[]> = {
 /** Phase 1.14 — shared portrait for the WhyLocalPanel across all 6 cities. */
 export const LOCATION_PORTRAIT: StaticImageData = aboutPortrait;
 
+/**
+ * Phase 1.16 — projects portfolio asset aliases.
+ *
+ * Each of the 12 placeholder projects aliases to existing audience-project
+ * + service-project sharp-generated tiles. Phase 2.04 swaps to real
+ * per-project photography by editing only these maps; the canonical
+ * Phase 2 path is `/public/images/projects/{slug}/{lead,01..08,before,after}.avif`
+ * (handover §6.3) — Cowork drops files there and updates this file.
+ */
+export const PROJECT_LEAD: Record<string, StaticImageData> = {
+  'naperville-hilltop-terrace': svcTilePatios,
+  'naperville-fire-court': svcTileFire,
+  'aurora-hoa-curb-refresh': svcTileLawnCare,
+  'aurora-driveway-apron': svcTileDriveways,
+  'wheaton-lawn-reset': svcTileLawnCare,
+  'wheaton-bank-frontage': svcTileLandscapeMaintenance,
+  'lisle-retaining-wall': svcTileWalls,
+  'lisle-backyard-refresh': svcTileLandscapeDesign,
+  'batavia-garden-reset': svcTileLandscapeDesign,
+  'batavia-front-walk': svcTilePatios,
+  'bolingbrook-office-court': svcTilePropertyEnh,
+  'bolingbrook-paver-plaza': svcTilePatios,
+};
+
+export const PROJECT_GALLERY: Record<string, StaticImageData[]> = {
+  // Hardscape · 8 photos · patios + walls + fire mix
+  'naperville-hilltop-terrace': [
+    sp_pw1,
+    sp_pw2,
+    sp_pw3,
+    sp_rw1,
+    sp_rw2,
+    sp_fpf1,
+    sp_fpf2,
+    audProjHardscape1,
+  ],
+  // Hardscape · 5 photos
+  'naperville-fire-court': [sp_fpf1, sp_fpf2, sp_pw1, sp_pw2, audProjHardscape2],
+  // Commercial · 6 photos
+  'aurora-hoa-curb-refresh': [sp_lc1, sp_lc2, sp_ld1, sp_ld2, sp_ld3, audProjCommercial1],
+  // Hardscape · 4 photos
+  'aurora-driveway-apron': [sp_pw1, sp_pw2, sp_pw3, sp_dw1],
+  // Residential · 5 photos
+  'wheaton-lawn-reset': [sp_lc1, sp_lc2, sp_ss1, sp_ss2, audProjResidential1],
+  // Commercial · 4 photos
+  'wheaton-bank-frontage': [sp_lm1, sp_lm2, sp_lc1, audProjCommercial2],
+  // Hardscape · 5 photos
+  'lisle-retaining-wall': [sp_rw1, sp_rw2, sp_pw1, sp_pw2, audProjHardscape3],
+  // Residential · 4 photos
+  'lisle-backyard-refresh': [sp_ld1, sp_ld2, sp_lc1, audProjResidential2],
+  // Residential · 4 photos
+  'batavia-garden-reset': [sp_ld1, sp_ld2, sp_ld3, audProjResidential3],
+  // Residential · 4 photos
+  'batavia-front-walk': [sp_pw1, sp_pw2, sp_pw3, audProjResidential1],
+  // Commercial · 5 photos
+  'bolingbrook-office-court': [sp_lc1, sp_lc2, sp_ld1, sp_pe1, sp_pe2],
+  // Hardscape · 6 photos
+  'bolingbrook-paver-plaza': [sp_pw1, sp_pw2, sp_pw3, sp_rw1, sp_rw2, audProjHardscape1],
+};
+
+export const PROJECT_BEFORE_AFTER: Record<
+  string,
+  {before: StaticImageData; after: StaticImageData}
+> = {
+  'naperville-hilltop-terrace': {before: audProjHardscape3, after: sp_pw1},
+  'aurora-hoa-curb-refresh': {before: audProjCommercial3, after: sp_lc1},
+};
+
 export const SERVICE_PROJECT: Record<string, StaticImageData> = {
   'lawn-care-1': sp_lc1,
   'lawn-care-2': sp_lc2,

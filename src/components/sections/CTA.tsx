@@ -84,6 +84,7 @@ export default async function CTA({
           <div className="mt-10 flex flex-col items-center gap-4">
             <Link
               href={destination}
+              prefetch={false}
               className="btn btn-amber btn-lg"
               data-cr-tracking={`cta-${ariaId}-amber`}
               style={{minWidth: '280px'}}

@@ -906,5 +906,97 @@
       "phonePrefix": "o llama al",
       "phoneNumber": "(630) 946-9321"
     }
+  },
+  "projects": {
+    "meta": {
+      "title": "[TBR] Proyectos · Sunset Services",
+      "description": "[TBR] Patios, muros, jardines y propiedades enteras en todo el Condado de DuPage por Sunset Services desde 2000. Explora nuestro portafolio."
+    },
+    "hero": {
+      "eyebrow": "[TBR] Portafolio · Nuestro Trabajo",
+      "h1": "[TBR] Construido la temporada pasada, integrándose en la propiedad.",
+      "dek": "[TBR] Patios, muros, jardines y propiedades enteras en todo el Condado de DuPage. Filtra por audiencia o desplázate para ver todo lo que hemos construido.",
+      "count": "[TBR] {count} proyectos · {cities} ciudades · {minYear}–{maxYear}"
+    },
+    "tag": {
+      "residential": "RESIDENCIAL",
+      "commercial": "COMERCIAL",
+      "hardscape": "HARDSCAPE"
+    },
+    "filter": {
+      "label": "[TBR] Filtrar por audiencia",
+      "all": "[TBR] Todos · {count}",
+      "residential": "[TBR] Residencial · {count}",
+      "commercial": "[TBR] Comercial · {count}",
+      "hardscape": "[TBR] Hardscape · {count}"
+    },
+    "pagination": {
+      "prev": "[TBR] Página anterior",
+      "next": "[TBR] Página siguiente",
+      "pageLabel": "[TBR] Página {n}"
+    },
+    "empty": {
+      "h3": "[TBR] Aún no hay proyectos en este filtro.",
+      "body": "[TBR] Seguimos agregando nuestros trabajos antiguos. Prueba otra audiencia — o ve todo lo que hemos construido hasta ahora.",
+      "reset": "[TBR] Ver todos los proyectos →"
+    },
+    "cta": {
+      "h2": "[TBR] El próximo año ve el tuyo en esta página.",
+      "sub": "[TBR] Cuéntanos sobre la propiedad y vamos a medir, dibujar y cotizarla. Gratis, sin compromiso.",
+      "button": "[TBR] Solicita un Presupuesto Gratis",
+      "phonePrefix": "[TBR] o llama al",
+      "phoneNumber": "(630) 946-9321"
+    }
+  },
+  "project": {
+    "breadcrumb": {
+      "home": "[TBR] Inicio",
+      "projects": "[TBR] Proyectos"
+    },
+    "hero": {
+      "eyebrow": "[TBR] Proyecto",
+      "metaTemplate": "[TBR] {city} · {year} · {durationWeeks} semanas"
+    },
+    "narrative": {
+      "eyebrow": "[TBR] El proyecto"
+    },
+    "gallery": {
+      "h2": "[TBR] Galería",
+      "open": "[TBR] Abrir foto",
+      "lightbox": {
+        "close": "[TBR] Cerrar galería",
+        "counter": "[TBR] {n} de {total}",
+        "prev": "[TBR] Foto anterior",
+        "next": "[TBR] Foto siguiente"
+      }
+    },
+    "facts": {
+      "h2": "[TBR] Datos",
+      "year": "[TBR] Año",
+      "city": "[TBR] Ciudad",
+      "audience": "[TBR] Audiencia",
+      "services": "[TBR] Servicios",
+      "materials": "[TBR] Materiales",
+      "duration": "[TBR] Duración",
+      "durationWeeks": "[TBR] {n} semanas"
+    },
+    "beforeAfter": {
+      "h2": "[TBR] Antes · Después",
+      "before": "[TBR] Antes",
+      "after": "[TBR] Después",
+      "altBefore": "[TBR] Antes: {title}",
+      "altAfter": "[TBR] Después: {title}"
+    },
+    "related": {
+      "h2": "[TBR] Más así",
+      "seeAll": "[TBR] Ver todos los proyectos →"
+    },
+    "cta": {
+      "h2": "[TBR] ¿Construir algo así en {city}?",
+      "sub": "[TBR] Cuéntanos sobre la propiedad. Vamos a medir, dibujar y cotizar.",
+      "button": "[TBR] Solicita un Presupuesto Gratis",
+      "phonePrefix": "[TBR] o llama al",
+      "phoneNumber": "(630) 946-9321"
+    }
   }
 }

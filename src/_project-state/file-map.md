@@ -208,3 +208,66 @@
 ## sanity/
 
 - `sanity/schemas/` — empty until Phase 2.03; `.gitkeep` only.
+
+## Phase 1.20 additions (Quote Wizard + AI Chat Widget)
+
+### Wizard data + lib
+
+- `src/data/wizard.ts` — **NEW (1.20)** Step-3 audience-conditional field map (D6) + Step-4 contact field set (D7) + 50-state list with IL default + Step-2 service options helper sourced from `services.ts`. Discriminated `WizardFieldDef` union (`text | textarea | numeric | select | radio-group | checkbox-group | tel | email | zip | state-select`).
+- `src/lib/wizard/validation.ts` — **NEW (1.20)** per-field validators (`validateRequired`, `validateEmail`, `validatePhoneUS`, `validateZip5`, `validateMaxChars`, `validateSelectAtLeastOne`, `validateSelectOne`) returning `{ok}` or `{ok:false, errorKey}`. Hand-rolled US phone formatter (`(XXX) XXX-XXXX`, ~30 lines) and `digitsOnly()` clamp helper.
+- `src/lib/wizard/storage.ts` — **NEW (1.20)** `localStorage` autosave for Steps 1–3 only (D9 = B). 30-day expiry, payload `{step1, step2, step3, savedAt}`. **Strict PII boundary** — Step 4 contact fields and Step 5 review never touch this module.
+- `src/lib/wizard/events.ts` — **NEW (1.20)** `WIZARD_EVENTS` constants (D16) + `fireWizardEvent` CustomEvent dispatcher.
+
+### Chat data + lib
+
+- `src/lib/chat/storage.ts` — **NEW (1.20)** `sessionStorage` history per-locale (D28). Keys `sunset_chat_history_en` / `sunset_chat_history_es`.
+- `src/lib/chat/flags.ts` — **NEW (1.20)** `isAiChatEnabled()`, `isWizardSubmitEnabled()`, `isWizardAutosaveEnabled()` — server-safe env-flag readers.
+- `src/lib/chat/events.ts` — **NEW (1.20)** `CHAT_EVENTS` constants + `fireChatEvent` dispatcher.
+
+### Wizard components
+
+- `src/components/wizard/WizardField.tsx` — **NEW (1.20)** field primitive over the locked Phase 1.11 ContactForm classes. Supports `default` and `compact` density (D11.1 extension; chat lead form only). Renders text / textarea / numeric / tel / email / zip / select / state-select / radio-group / checkbox-group from a `WizardFieldDef`.
+- `src/components/wizard/WizardStepIndicator.tsx` — **NEW (1.20)** dual-mode indicator (desktop dots + labels, mobile labeled progress bar). Completed-step click jumps via `onJump`; upcoming-step indicator carries `data-disabled`.
+- `src/components/wizard/WizardStep1Audience.tsx` — **NEW (1.20)** Step 1 (D4). Three `card-photo` tiles reusing Phase 1.06 audience-entries assets with hidden radios and a 32px green check chip on selection.
+- `src/components/wizard/WizardStep2Service.tsx` — **NEW (1.20)** Step 2 (D5). Audience-driven multi-select grid + primary-radio strip that auto-rebinds when the current primary is unchecked.
+- `src/components/wizard/WizardStep3Details.tsx` — **NEW (1.20)** Step 3 (D6). Audience-conditional field map. Two-column desktop / single-column mobile. Renders a `data-photo-upload-slot` placeholder per D11=B.
+- `src/components/wizard/WizardStep4Contact.tsx` — **NEW (1.20)** Step 4 (D7). Required name/email/phone/address; optional unit/best-time/contact-method. Tel auto-formats; ZIP digit-only; State `<select>` defaulted to IL. Street wrapper carries `data-autocomplete-stub="address"` for Phase 2.07.
+- `src/components/wizard/WizardStep5Review.tsx` — **NEW (1.20)** Step 5 (D8). `.card-cream` (NOT `.card-featured`) summary with per-step Edit links. Amber Submit (D8) — Part 1 simulates: `console.log` + `wizard_submit_succeeded` event + `router.push('/thank-you/?firstName=…')`. Phase 2.06 swaps for real `/api/quote` POST.
+- `src/components/wizard/WizardStickyNav.tsx` — **NEW (1.20)** mobile sticky-Next bar (D12). **Single `<button>` DOM**: CSS positions it differently for mobile vs desktop — never duplicated. Includes Save & continue later link.
+- `src/components/wizard/WizardResumeToast.tsx` — **NEW (1.20)** "Welcome back — pick up where you left off?" toast on return-visit when autosave has fresh state. Includes the mandatory "Stored on this device only." copy per ratified D9.
+- `src/components/wizard/WizardSavedToast.tsx` — **NEW (1.20)** "Saved. Come back any time on this device." 4-second auto-dismiss toast triggered by the Save link click.
+- `src/components/wizard/WizardShell.tsx` — **NEW (1.20)** orchestrator (client). Reads `?step=N` from URL via `useSearchParams`; React state holds form data. Autosaves Steps 1–3 only (1.5s debounce). Validates per step; on Next-with-errors, scrolls + focuses first error. Step transition is 200ms opacity-only `motion.form` crossfade with `<AnimatePresence mode="wait">` (no horizontal slide, instant under reduced motion). Mounts WizardStepIndicator + tip card + step body + WizardStickyNav (Steps 1–4) + Step5Review (own Submit row) + Resume/Saved toasts. Wrapped in `<Suspense fallback={null}>` at the page level (Next 16 SSR boundary for `useSearchParams`).
+
+### Chat components
+
+- `src/components/chat/ChatRoot.tsx` — **NEW (1.20)** server. Reads `isAiChatEnabled()` flag; if on, fetches the bubble's i18n strings server-side and renders `<ChatBubble>`. Replaces the Phase 1.05 `<div id="chat-root" />` placeholder.
+- `src/components/chat/ChatBubble.tsx` — **NEW (1.20)** client. **Bundle ceiling: ≤8KB gzipped** (measured at 7.8KB). Renders the 56px amber circle + tooltip + dynamic-imported panel on first click. Uses `usePathname` from `@/i18n/navigation` to gate (D17 = B): hidden on `/request-quote`, visible everywhere else including `/thank-you`. Cookie-consent stub default-true (Phase 2.11 wires the real banner).
+- `src/components/chat/ChatPanel.tsx` — **NEW (1.20)** client. **Lazy-loaded** via `next/dynamic({ssr:false})` from ChatBubble — separate chunk (4.8KB gzipped). Native `<dialog>` on mobile (`showModal()`, focus-trap, drag handle) and floating `<dialog>` on desktop (`aria-modal="false"`). Welcome state, suggested-prompt streaming stub, lead form trigger, header kebab menu with Reset, sessionStorage persistence per locale.
+- `src/components/chat/ChatMessageLog.tsx` — **NEW (1.20)** scrollable `<div role="log" aria-live="polite">`. Auto-scrolls to bottom on new messages; renders welcome state when empty; appends a `ChatTypingIndicator` while streaming + an optional trail (lead form, error state, post-lead CTA).
+- `src/components/chat/ChatMessageBubble.tsx` — **NEW (1.20)** assistant (left, `card-cream`-style with top-left tail) / user (right, `--color-sunset-green-700` bg with top-right tail). Plaintext + URL auto-link only per ratified D24=A; full Markdown subset deferred to Phase 2.09.
+- `src/components/chat/ChatTypingIndicator.tsx` — **NEW (1.20)** 3-dot pulse (CSS `chat-typing-dot` keyframe). Reduced motion → static `…` glyph.
+- `src/components/chat/ChatComposer.tsx` — **NEW (1.20)** auto-grow textarea (1→4 lines, 500-char cap) + Send button (icon-only Primary green) + char hint at ≥80% capacity + lead-CTA Ghost link below. Enter sends; Shift+Enter inserts newline.
+- `src/components/chat/ChatLeadForm.tsx` — **NEW (1.20)** inline lead-capture card (D26). Three `WizardField` instances at `compact` density: First name + Email + Phone (optional). Validates via the wizard's `validateRequired` / `validateEmail` / `validatePhoneUS` helpers.
+- `src/components/chat/ChatSuggestedPrompts.tsx` — **NEW (1.20)** three Ghost-style chip buttons rendered under the welcome message. Tap auto-sends as a user message.
+- `src/components/chat/ChatHighIntentBanner.tsx` — **NEW (1.20)** D27 slot. Slides above composer; auto-dismisses after 6s. Never auto-fires in Part 1 (renders nothing when `visible=false`); Phase 2.09 wires intent classification.
+- `src/components/chat/ChatErrorState.tsx` — **NEW (1.20)** D29.10 visual states for `network` / `rate` / `api` errors. Network includes a Retry button; API down includes mailto + tel fallbacks. Part 1 ships visuals; Part 2 triggers them on real API errors.
+
+### Routes
+
+- `src/app/[locale]/request-quote/layout.tsx` — **NEW (1.20)** route-segment marker. Pass-through.
+- `src/app/[locale]/request-quote/page.tsx` — **NEW (1.20)** wizard entry. Compact page header (D13 = B; eyebrow + H1 + subtitle, no photo). Wraps `<WizardShell />` in `<Suspense fallback={null}>` because WizardShell uses `useSearchParams`. Schema: zero (deliberate per D15).
+- `src/app/[locale]/thank-you/layout.tsx` — **NEW (1.20)** sets `metadata.robots = {index: false, follow: true}` so search engines skip this transactional landing.
+- `src/app/[locale]/thank-you/page.tsx` — **NEW (1.20)** five sections (D14): confirmation hero (cream) → Calendly placeholder (white) → "What happens next" 3-step explainer (cream) → 3-Q FAQ via native `<details>` (white, no per-item wrapper) → soft return CTAs (cream, zero amber). Surface alternation cream/white/cream/white/cream. `firstName` from `searchParams` is server-side-sanitized (HTML-strip + control-char strip + 50-char clamp). Schema: zero.
+
+### Chrome modifications
+
+- `src/components/layout/NavbarGetQuoteCTA.tsx` — **NEW (1.20)** thin client wrapper around the navbar amber `<Link>` that uses `usePathname` from `@/i18n/navigation` to return `null` on `/request-quote` (D2). Used by NavbarDesktop; NavbarMobile inlines the same gate.
+- `src/components/layout/NavbarDesktop.tsx` — **Modified (1.20)** swapped the inline amber `<Link>` for `<NavbarGetQuoteCTA>`.
+- `src/components/layout/NavbarMobile.tsx` — **Modified (1.20)** wraps the bottom-of-drawer amber `<Link>` in a pathname check that hides on `/request-quote`.
+- `src/app/[locale]/layout.tsx` — **Modified (1.20)** added `viewport: Viewport = { width:'device-width', initialScale:1, interactiveWidget:'resizes-content' }` (Phase 1.19 §11.3) so the chat composer + wizard sticky-Next bar correctly track the on-screen mobile keyboard. Replaced the `<div id="chat-root" />` placeholder with `<ChatRoot />` server component.
+
+### Globals + i18n + env
+
+- `src/app/globals.css` — **Modified (1.20)** added `.field-compact` density modifier (D11.1 extension), `.wizard-step-fade`, `.wizard-sticky-bar`, `.chat-bubble` + `.chat-bubble--gated` + `.chat-bubble__badge`, `.chat-panel` (desktop floating + mobile bottom-sheet), `.chat-panel-header` / `-log` / `-composer`, `.chat-msg` + `--assistant` / `--user`, `.chat-mobile-handle`, and `chat-typing-dot` keyframe. `--z-chat: 50` was already declared in §15 of the existing token block — no token addition needed.
+- `src/messages/en.json` / `es.json` — **Modified (1.20)** added top-level `wizard.*`, `thanks.*`, `chat.*` namespaces (~120 keys per locale). Spanish first-pass; native review is Phase 2.13.
+- `.env.local.example` — **Modified (1.20)** added `NEXT_PUBLIC_AI_CHAT_ENABLED=false`, `WIZARD_SUBMIT_ENABLED=false`, `NEXT_PUBLIC_WIZARD_AUTOSAVE_ENABLED=true`.

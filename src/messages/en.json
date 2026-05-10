@@ -1133,5 +1133,344 @@
       "industry-news": "Industry News",
       "audience": "Audience"
     }
+  },
+  "wizard": {
+    "eyebrow": "REQUEST A QUOTE",
+    "title": "Tell us about your project",
+    "subtitle": "5 short steps · about 5 minutes",
+    "tip": {
+      "title": "What you'll need",
+      "body": "Your address, a brief project description, and your phone or email — about 5 minutes."
+    },
+    "step": {
+      "1": "Audience",
+      "2": "Service",
+      "3": "Project details",
+      "4": "Contact",
+      "5": "Review & submit"
+    },
+    "indicator": {
+      "current": "CURRENT",
+      "completed": "completed, click to revisit",
+      "ariaLabel": "Quote progress",
+      "mobileLabel": "STEP {n} OF 5 · {label}"
+    },
+    "step1": {
+      "title": "Who are we helping?",
+      "helper": "Pick the closest match — you can add more in Step 2."
+    },
+    "audience": {
+      "legend": "Audience",
+      "residential": {
+        "title": "Residential",
+        "dek": "Lawn, planting, snow, seasonal cleanup at home.",
+        "alt": "A curated home lawn with mature plantings and a paver walkway in late spring."
+      },
+      "commercial": {
+        "title": "Commercial",
+        "dek": "Property management, snow contracts, turf care.",
+        "alt": "Clean turf and defined planting beds at the front of a commercial property in mid-day light."
+      },
+      "hardscape": {
+        "title": "Hardscape",
+        "dek": "Patios, walls, driveways, fire features, kitchens.",
+        "alt": "A paver patio with a stone fire feature in warm late-afternoon light."
+      }
+    },
+    "step2": {
+      "title": {
+        "residential": "Which residential services?",
+        "commercial": "Which commercial services?",
+        "hardscape": "Which hardscape projects?"
+      },
+      "helper": "Pick all that apply. Set a primary if more than one.",
+      "primary": "PRIMARY SERVICE",
+      "primaryLegend": "Primary service",
+      "servicesLegend": "Services",
+      "other": "Other / Not sure",
+      "otherPlaceholder": "Tell us in your own words…"
+    },
+    "step3": {
+      "title": "Tell us about the project",
+      "helper": "A few quick details so we can plan ahead. Skip what doesn't apply.",
+      "section": {
+        "property": "ABOUT THE PROPERTY",
+        "project": "ABOUT THE PROJECT",
+        "anything": "ANYTHING ELSE"
+      },
+      "commercial": {
+        "numProperties": "# of properties",
+        "numBuildings": "# of buildings or sites",
+        "contract": {
+          "label": "Contract preference",
+          "oneTime": "One-time",
+          "seasonal": "Seasonal",
+          "annual": "Annual"
+        },
+        "frequency": {
+          "label": "Service frequency",
+          "weekly": "Weekly",
+          "biweekly": "Bi-weekly",
+          "monthly": "Monthly",
+          "onDemand": "On demand",
+          "unsure": "Not sure"
+        }
+      },
+      "hardscape": {
+        "spaceType": {
+          "label": "Space type",
+          "patio": "Patio",
+          "driveway": "Driveway",
+          "pool": "Pool surround",
+          "multi": "Multi-feature"
+        },
+        "dimensions": "Approximate dimensions (W × L)",
+        "dimensions.placeholder": "e.g. 20 × 30 ft",
+        "surface": {
+          "label": "Surface preference",
+          "paver": "Paver",
+          "stone": "Stone",
+          "concrete": "Concrete",
+          "undecided": "Undecided"
+        },
+        "features": {
+          "label": "Features wanted",
+          "fire": "Fire feature",
+          "retainingWall": "Retaining wall",
+          "seatingWall": "Seating wall",
+          "lighting": "Lighting",
+          "kitchen": "Outdoor kitchen",
+          "pergola": "Pergola"
+        }
+      }
+    },
+    "step4": {
+      "title": "How can we reach you?",
+      "subtitle": "Erick will follow up within one business day."
+    },
+    "step5": {
+      "title": "Look good?",
+      "subtitle": "Review your answers — Erick will get them in his inbox.",
+      "edit": "Edit",
+      "step1": "STEP 1 · AUDIENCE",
+      "step2": "STEP 2 · SERVICES",
+      "step3": "STEP 3 · PROJECT DETAILS",
+      "step4": "STEP 4 · CONTACT",
+      "consent": "By submitting, you agree to our {privacy} and {terms}. We'll only use your info to discuss your project.",
+      "consentPrivacy": "Privacy",
+      "consentTerms": "Terms",
+      "primaryNote": "(primary)",
+      "noneSelected": "—",
+      "submitting": "Sending…"
+    },
+    "field": {
+      "propertySize": "Property size (sq ft)",
+      "propertySize.placeholder": "e.g. 8000",
+      "bedrooms": "Bedrooms",
+      "bedrooms.placeholder": "Select…",
+      "projectType": "Project type",
+      "timeline": "Timeline",
+      "timeline.placeholder": "Select…",
+      "budget": "Budget range",
+      "budget.placeholder": "Select…",
+      "frequency.placeholder": "Select…",
+      "notes": "Anything else we should know?",
+      "notes.placeholder": "Tell us anything Erick should know before we call…",
+      "firstName": "First name",
+      "lastName": "Last name",
+      "email": "Email",
+      "phone": "Phone",
+      "callUs": "or call us",
+      "street": "Street address",
+      "street.placeholder": "123 Oak Lane",
+      "unit": "Unit / apt",
+      "city": "City",
+      "state": "State",
+      "zip": "ZIP",
+      "bestTime": "Best time",
+      "contactMethod": "Reach me by"
+    },
+    "address": {
+      "section": "PROPERTY ADDRESS"
+    },
+    "preferences": {
+      "section": "CONTACT PREFERENCES (OPTIONAL)"
+    },
+    "bedrooms": {
+      "1": "1",
+      "2": "2",
+      "3": "3",
+      "4": "4",
+      "5plus": "5+"
+    },
+    "projectType": {
+      "renovation": "Renovation",
+      "newInstall": "New install",
+      "maintenance": "Maintenance",
+      "other": "Other"
+    },
+    "timeline": {
+      "asap": "ASAP",
+      "13mo": "1–3 months",
+      "36mo": "3–6 months",
+      "flex": "Flexible",
+      "immediate": "Immediate",
+      "30d": "Next 30 days",
+      "quarter": "Next quarter",
+      "exploratory": "Exploratory",
+      "spring": "Spring",
+      "summer": "Summer",
+      "fall": "Fall",
+      "nextYear": "Next year"
+    },
+    "budget": {
+      "under5": "Under $5k",
+      "5to15": "$5–15k",
+      "15to40": "$15–40k",
+      "40plus": "$40k+",
+      "unsure": "Not sure",
+      "under15": "Under $15k",
+      "40to80": "$40–80k",
+      "80plus": "$80k+"
+    },
+    "bestTime": {
+      "morning": "Morning",
+      "afternoon": "Afternoon",
+      "evening": "Evening",
+      "anytime": "Anytime"
+    },
+    "contactMethod": {
+      "email": "Email",
+      "phone": "Phone",
+      "text": "Text"
+    },
+    "btn": {
+      "next": "Next →",
+      "back": "Back",
+      "save": "Save & continue later",
+      "submit": "Submit my request"
+    },
+    "toast": {
+      "saved": "Saved. Come back any time on this device.",
+      "savedAria": "Progress saved",
+      "savedHint": "Stored on this device only.",
+      "resume": "Welcome back — pick up where you left off?",
+      "resumeBtn": "Resume",
+      "resumeDismiss": "Start fresh",
+      "resumeHint": "Stored on this device only.",
+      "dismiss": "Dismiss"
+    },
+    "error": {
+      "required": "Please fill this in.",
+      "email": "That email doesn't look right.",
+      "phone": "We need a 10-digit US number.",
+      "zip": "ZIP should be 5 digits.",
+      "selectOne": "Please choose one.",
+      "selectAny": "Please pick at least one or fill \"Other\".",
+      "charLimit": "Trim to {n} characters.",
+      "submit": "Something went wrong sending that. Please try again or call (630) 946-9321."
+    }
+  },
+  "thanks": {
+    "meta": {
+      "title": "Thanks — your request is in",
+      "description": "We've received your request and Erick will be in touch within one business day."
+    },
+    "eyebrow": "REQUEST RECEIVED",
+    "title": "Thanks, {firstName} — we've got it.",
+    "titleFallback": "Thanks — we've got it.",
+    "subtitle": "Erick will be in touch within one business day.",
+    "calendly": {
+      "eyebrow": "SKIP THE WAIT",
+      "title": "Want to lock in a 30-minute consult?",
+      "cta": "Book a 30-min consult",
+      "comingSoon": "Coming soon"
+    },
+    "next": {
+      "title": "What happens next",
+      "1": {
+        "title": "We review your project",
+        "body": "Today or tomorrow morning."
+      },
+      "2": {
+        "title": "Erick calls within 24 hours",
+        "body": "Quick scope-confirm chat."
+      },
+      "3": {
+        "title": "We schedule a walk-through",
+        "body": "On-site visit + estimate."
+      }
+    },
+    "faq": {
+      "title": "Quick questions",
+      "q1": "How soon will I hear back?",
+      "a1": "Within one business day. If you submitted on a Friday afternoon, expect a call Monday morning. Voicemail and a follow-up email always go out the same business day.",
+      "q2": "What should I have ready?",
+      "a2": "A rough idea of your timeline and budget, plus any photos or sketches you have. Don't worry if you only have half of it — we'll help fill in the rest on the call.",
+      "q3": "Can I reschedule the walk-through?",
+      "a3": "Of course — call (630) 946-9321 or reply to the confirmation email and we'll find another time."
+    },
+    "cta": {
+      "projects": "View our projects →",
+      "blog": "Read our blog →",
+      "home": "Back to homepage →"
+    }
+  },
+  "chat": {
+    "bubble": {
+      "aria": "Open chat with Sunset Services",
+      "tooltip": "Chat with us",
+      "tooltipGated": "Enable cookies to start chat"
+    },
+    "header": {
+      "title": "Sunset Services",
+      "online": "Online",
+      "minimize": "Minimize",
+      "close": "Close chat",
+      "menu": "More options"
+    },
+    "kebab": {
+      "reset": "Reset conversation",
+      "history": "Past conversations"
+    },
+    "welcome": "Hi! I'm Sunny — Sunset Services' chat assistant. Ask me anything about your yard, our projects, or pricing.",
+    "prompt": {
+      "1": "How much does a paver patio cost?",
+      "2": "Do you service Naperville?",
+      "3": "When can someone come look at my yard?"
+    },
+    "composer": {
+      "placeholder": "Type your message…",
+      "send": "Send message",
+      "charHint": "{n}/500"
+    },
+    "lead": {
+      "cta": "Get a quote in 30 seconds →",
+      "title": "Quick quote setup",
+      "subtitle": "Erick will be in touch within one business day.",
+      "firstName": "First name",
+      "email": "Email",
+      "phoneOptional": "Phone (optional)",
+      "send": "Send to Erick",
+      "cancel": "Cancel",
+      "confirmBody": "Got it — Erick will be in touch within one business day. Want to give us more details?",
+      "confirmCta": "Open the full form →",
+      "intro": "Quick — let me grab some info."
+    },
+    "banner": {
+      "highIntent": "We've alerted Erick — he'll join shortly."
+    },
+    "error": {
+      "network": "I lost connection for a second. Try again?",
+      "networkRetry": "Retry",
+      "rate": "I'm catching my breath — please try again in a minute.",
+      "api": "I'm offline right now. Email us at info@sunsetservices.us or call (630) 946-9321 — we'll get right back to you."
+    },
+    "canned": {
+      "prompt1Reply": "A paver patio in our area runs $18–32 per sq ft installed, depending on materials and base prep. A typical 200 sq ft patio lands around $4,500–$6,500. Want a free walk-through with Erick to scope yours?",
+      "prompt2Reply": "Yes — Naperville is in our weekly route. We service most DuPage County cities (Aurora, Naperville, Wheaton, Lisle, Batavia, Bolingbrook). Want me to grab a few details so Erick can call?",
+      "prompt3Reply": "We typically schedule walk-throughs within 3–5 business days. If your timing is urgent, mention it in the request and we'll prioritize. Want to get one on the calendar?",
+      "generic": "Thanks for the question — Erick will follow up by email or phone. Want me to grab a few details so we can be ready when we call?"
+    }
   }
 }

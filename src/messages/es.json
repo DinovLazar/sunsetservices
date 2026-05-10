@@ -1133,5 +1133,344 @@
       "industry-news": "[TBR] Noticias del sector",
       "audience": "[TBR] Para tu propiedad"
     }
+  },
+  "wizard": {
+    "eyebrow": "SOLICITA UN PRESUPUESTO",
+    "title": "Cuéntanos sobre tu proyecto",
+    "subtitle": "5 pasos cortos · unos 5 minutos",
+    "tip": {
+      "title": "Qué necesitas",
+      "body": "Tu dirección, una breve descripción del proyecto, y tu teléfono o correo — unos 5 minutos."
+    },
+    "step": {
+      "1": "Quién",
+      "2": "Servicio",
+      "3": "Detalles del proyecto",
+      "4": "Contacto",
+      "5": "Revisar y enviar"
+    },
+    "indicator": {
+      "current": "ACTUAL",
+      "completed": "completado, haz clic para revisar",
+      "ariaLabel": "Progreso del presupuesto",
+      "mobileLabel": "PASO {n} DE 5 · {label}"
+    },
+    "step1": {
+      "title": "¿A quién ayudamos?",
+      "helper": "Elige la mejor opción — puedes añadir más en el Paso 2."
+    },
+    "audience": {
+      "legend": "Audiencia",
+      "residential": {
+        "title": "Residencial",
+        "dek": "Césped, plantación, nieve, limpieza estacional en casa.",
+        "alt": "Un césped residencial cuidado con plantaciones maduras y un sendero de adoquines a finales de primavera."
+      },
+      "commercial": {
+        "title": "Comercial",
+        "dek": "Administración de propiedades, contratos de nieve, cuidado de césped.",
+        "alt": "Césped limpio y arriates definidos al frente de una propiedad comercial con luz del mediodía."
+      },
+      "hardscape": {
+        "title": "Hardscape",
+        "dek": "Patios, muros, entradas, fogatas, cocinas.",
+        "alt": "Un patio de adoquines con una fogata de piedra en luz cálida de tarde."
+      }
+    },
+    "step2": {
+      "title": {
+        "residential": "¿Qué servicios residenciales?",
+        "commercial": "¿Qué servicios comerciales?",
+        "hardscape": "¿Qué proyectos de hardscape?"
+      },
+      "helper": "Elige todos los que apliquen. Marca uno como principal si eliges más de uno.",
+      "primary": "SERVICIO PRINCIPAL",
+      "primaryLegend": "Servicio principal",
+      "servicesLegend": "Servicios",
+      "other": "Otro / No estoy seguro",
+      "otherPlaceholder": "Cuéntanos con tus propias palabras…"
+    },
+    "step3": {
+      "title": "Cuéntanos sobre el proyecto",
+      "helper": "Algunos detalles rápidos para planear. Omite lo que no aplique.",
+      "section": {
+        "property": "SOBRE LA PROPIEDAD",
+        "project": "SOBRE EL PROYECTO",
+        "anything": "ALGO MÁS"
+      },
+      "commercial": {
+        "numProperties": "# de propiedades",
+        "numBuildings": "# de edificios o sitios",
+        "contract": {
+          "label": "Tipo de contrato",
+          "oneTime": "Una vez",
+          "seasonal": "Estacional",
+          "annual": "Anual"
+        },
+        "frequency": {
+          "label": "Frecuencia de servicio",
+          "weekly": "Semanal",
+          "biweekly": "Quincenal",
+          "monthly": "Mensual",
+          "onDemand": "Bajo demanda",
+          "unsure": "No estoy seguro"
+        }
+      },
+      "hardscape": {
+        "spaceType": {
+          "label": "Tipo de espacio",
+          "patio": "Patio",
+          "driveway": "Entrada",
+          "pool": "Alrededor de piscina",
+          "multi": "Multi-elemento"
+        },
+        "dimensions": "Dimensiones aproximadas (A × L)",
+        "dimensions.placeholder": "p. ej. 20 × 30 ft",
+        "surface": {
+          "label": "Superficie preferida",
+          "paver": "Adoquín",
+          "stone": "Piedra",
+          "concrete": "Concreto",
+          "undecided": "Indeciso"
+        },
+        "features": {
+          "label": "Elementos deseados",
+          "fire": "Fogata",
+          "retainingWall": "Muro de contención",
+          "seatingWall": "Muro de asiento",
+          "lighting": "Iluminación",
+          "kitchen": "Cocina exterior",
+          "pergola": "Pérgola"
+        }
+      }
+    },
+    "step4": {
+      "title": "¿Cómo te contactamos?",
+      "subtitle": "Erick responderá en un día hábil."
+    },
+    "step5": {
+      "title": "¿Se ve bien?",
+      "subtitle": "Revisa tus respuestas — Erick las recibirá en su correo.",
+      "edit": "Editar",
+      "step1": "PASO 1 · QUIÉN",
+      "step2": "PASO 2 · SERVICIOS",
+      "step3": "PASO 3 · DETALLES DEL PROYECTO",
+      "step4": "PASO 4 · CONTACTO",
+      "consent": "Al enviar, aceptas nuestra {privacy} y {terms}. Solo usaremos tu información para hablar sobre tu proyecto.",
+      "consentPrivacy": "Privacidad",
+      "consentTerms": "Términos",
+      "primaryNote": "(principal)",
+      "noneSelected": "—",
+      "submitting": "Enviando…"
+    },
+    "field": {
+      "propertySize": "Tamaño del lote (pies²)",
+      "propertySize.placeholder": "p. ej. 8000",
+      "bedrooms": "Habitaciones",
+      "bedrooms.placeholder": "Selecciona…",
+      "projectType": "Tipo de proyecto",
+      "timeline": "Cronograma",
+      "timeline.placeholder": "Selecciona…",
+      "budget": "Presupuesto",
+      "budget.placeholder": "Selecciona…",
+      "frequency.placeholder": "Selecciona…",
+      "notes": "¿Algo más que debamos saber?",
+      "notes.placeholder": "Cuéntanos cualquier cosa que Erick deba saber antes de llamar…",
+      "firstName": "Nombre",
+      "lastName": "Apellido",
+      "email": "Correo",
+      "phone": "Teléfono",
+      "callUs": "o llámanos",
+      "street": "Calle",
+      "street.placeholder": "Calle Roble 123",
+      "unit": "Unidad / apto",
+      "city": "Ciudad",
+      "state": "Estado",
+      "zip": "Código postal",
+      "bestTime": "Mejor horario",
+      "contactMethod": "Contáctame por"
+    },
+    "address": {
+      "section": "DIRECCIÓN DE LA PROPIEDAD"
+    },
+    "preferences": {
+      "section": "PREFERENCIAS DE CONTACTO (OPCIONAL)"
+    },
+    "bedrooms": {
+      "1": "1",
+      "2": "2",
+      "3": "3",
+      "4": "4",
+      "5plus": "5+"
+    },
+    "projectType": {
+      "renovation": "Renovación",
+      "newInstall": "Instalación nueva",
+      "maintenance": "Mantenimiento",
+      "other": "Otro"
+    },
+    "timeline": {
+      "asap": "Lo antes posible",
+      "13mo": "1–3 meses",
+      "36mo": "3–6 meses",
+      "flex": "Flexible",
+      "immediate": "Inmediato",
+      "30d": "Próximos 30 días",
+      "quarter": "Próximo trimestre",
+      "exploratory": "Exploratorio",
+      "spring": "Primavera",
+      "summer": "Verano",
+      "fall": "Otoño",
+      "nextYear": "Próximo año"
+    },
+    "budget": {
+      "under5": "Menos de $5k",
+      "5to15": "$5–15k",
+      "15to40": "$15–40k",
+      "40plus": "$40k+",
+      "unsure": "No estoy seguro",
+      "under15": "Menos de $15k",
+      "40to80": "$40–80k",
+      "80plus": "$80k+"
+    },
+    "bestTime": {
+      "morning": "Mañana",
+      "afternoon": "Tarde",
+      "evening": "Noche",
+      "anytime": "Cualquier momento"
+    },
+    "contactMethod": {
+      "email": "Correo",
+      "phone": "Teléfono",
+      "text": "Mensaje"
+    },
+    "btn": {
+      "next": "Siguiente →",
+      "back": "Atrás",
+      "save": "Guardar y seguir",
+      "submit": "Enviar solicitud"
+    },
+    "toast": {
+      "saved": "Guardado. Vuelve cuando quieras desde este dispositivo.",
+      "savedAria": "Progreso guardado",
+      "savedHint": "Guardado solo en este dispositivo.",
+      "resume": "Bienvenido de vuelta — ¿continuamos donde lo dejaste?",
+      "resumeBtn": "Continuar",
+      "resumeDismiss": "Empezar de nuevo",
+      "resumeHint": "Guardado solo en este dispositivo.",
+      "dismiss": "Cerrar"
+    },
+    "error": {
+      "required": "Por favor completa este campo.",
+      "email": "Ese correo no parece válido.",
+      "phone": "Necesitamos un número de 10 dígitos.",
+      "zip": "El código postal debe tener 5 dígitos.",
+      "selectOne": "Por favor elige uno.",
+      "selectAny": "Elige al menos uno o completa \"Otro\".",
+      "charLimit": "Reduce a {n} caracteres.",
+      "submit": "Algo salió mal al enviar. Intenta de nuevo o llama al (630) 946-9321."
+    }
+  },
+  "thanks": {
+    "meta": {
+      "title": "Gracias — recibimos tu solicitud",
+      "description": "Recibimos tu solicitud y Erick te contactará en un día hábil."
+    },
+    "eyebrow": "SOLICITUD RECIBIDA",
+    "title": "Gracias, {firstName} — la recibimos.",
+    "titleFallback": "Gracias — la recibimos.",
+    "subtitle": "Erick te contactará en un día hábil.",
+    "calendly": {
+      "eyebrow": "SIN ESPERA",
+      "title": "¿Quieres reservar una consulta de 30 minutos?",
+      "cta": "Reservar consulta",
+      "comingSoon": "Próximamente"
+    },
+    "next": {
+      "title": "Qué sigue",
+      "1": {
+        "title": "Revisamos tu proyecto",
+        "body": "Hoy o mañana en la mañana."
+      },
+      "2": {
+        "title": "Erick llama en 24 horas",
+        "body": "Charla rápida para confirmar el alcance."
+      },
+      "3": {
+        "title": "Agendamos una visita",
+        "body": "Visita en sitio + presupuesto."
+      }
+    },
+    "faq": {
+      "title": "Preguntas rápidas",
+      "q1": "¿Cuándo me responderán?",
+      "a1": "En un día hábil. Si enviaste un viernes por la tarde, espera una llamada el lunes en la mañana. El correo de seguimiento se envía siempre el mismo día hábil.",
+      "q2": "¿Qué debo tener listo?",
+      "a2": "Una idea aproximada de tu cronograma y presupuesto, junto con fotos o bocetos si los tienes. No te preocupes si solo tienes la mitad — completaremos lo demás durante la llamada.",
+      "q3": "¿Puedo reagendar la visita?",
+      "a3": "Por supuesto — llama al (630) 946-9321 o responde al correo de confirmación y encontraremos otro horario."
+    },
+    "cta": {
+      "projects": "Ver proyectos →",
+      "blog": "Leer el blog →",
+      "home": "Volver al inicio →"
+    }
+  },
+  "chat": {
+    "bubble": {
+      "aria": "Abrir chat con Sunset Services",
+      "tooltip": "Habla con nosotros",
+      "tooltipGated": "Habilita cookies para chatear"
+    },
+    "header": {
+      "title": "Sunset Services",
+      "online": "En línea",
+      "minimize": "Minimizar",
+      "close": "Cerrar chat",
+      "menu": "Más opciones"
+    },
+    "kebab": {
+      "reset": "Reiniciar conversación",
+      "history": "Conversaciones pasadas"
+    },
+    "welcome": "¡Hola! Soy Sunny — el asistente de Sunset Services. Pregúntame sobre tu jardín, nuestros proyectos o precios.",
+    "prompt": {
+      "1": "¿Cuánto cuesta un patio de adoquines?",
+      "2": "¿Atienden Naperville?",
+      "3": "¿Cuándo pueden venir a ver mi jardín?"
+    },
+    "composer": {
+      "placeholder": "Escribe tu mensaje…",
+      "send": "Enviar mensaje",
+      "charHint": "{n}/500"
+    },
+    "lead": {
+      "cta": "Cotiza en 30 segundos →",
+      "title": "Cotización rápida",
+      "subtitle": "Erick te contactará en un día hábil.",
+      "firstName": "Nombre",
+      "email": "Correo",
+      "phoneOptional": "Teléfono (opcional)",
+      "send": "Enviar a Erick",
+      "cancel": "Cancelar",
+      "confirmBody": "Listo — Erick te contactará en un día hábil. ¿Quieres darnos más detalles?",
+      "confirmCta": "Abrir el formulario completo →",
+      "intro": "Rápido — déjame tomar algunos datos."
+    },
+    "banner": {
+      "highIntent": "Hemos avisado a Erick — se unirá en un momento."
+    },
+    "error": {
+      "network": "Perdí la conexión un momento. ¿Intentamos de nuevo?",
+      "networkRetry": "Reintentar",
+      "rate": "Tomando aire — vuelve a intentarlo en un minuto.",
+      "api": "Estoy fuera de línea ahora mismo. Escríbenos a info@sunsetservices.us o llama al (630) 946-9321 — te respondemos enseguida."
+    },
+    "canned": {
+      "prompt1Reply": "Un patio de adoquines en nuestra zona ronda los $18–32 por pie² instalado, según los materiales y la preparación de base. Un patio típico de 200 pies² queda alrededor de $4,500–$6,500. ¿Quieres una visita gratuita con Erick para revisar el tuyo?",
+      "prompt2Reply": "Sí — Naperville está en nuestra ruta semanal. Atendemos la mayoría de las ciudades del condado de DuPage (Aurora, Naperville, Wheaton, Lisle, Batavia, Bolingbrook). ¿Te tomo unos datos para que Erick te llame?",
+      "prompt3Reply": "Solemos agendar visitas en 3–5 días hábiles. Si tu tiempo es urgente, dilo en la solicitud y le damos prioridad. ¿Agendamos una?",
+      "generic": "Gracias por tu pregunta — Erick te responderá por correo o teléfono. ¿Te tomo unos datos para que estemos listos cuando llamemos?"
+    }
   }
 }

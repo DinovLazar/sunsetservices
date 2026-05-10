@@ -1,11 +1,11 @@
 import {getTranslations} from 'next-intl/server';
-import {Link} from '@/i18n/navigation';
 import Logo from '@/components/global/Logo';
 import LanguageSwitcher from './LanguageSwitcher';
 import NavbarLink from './NavbarLink';
 import PhoneLink from './PhoneLink';
 import ServicesMegaPanel from './ServicesMegaPanel';
 import ResourcesMegaPanel from './ResourcesMegaPanel';
+import NavbarGetQuoteCTA from './NavbarGetQuoteCTA';
 
 /**
  * Desktop navbar bar — 72px row, container-wide (1440px) max width.
@@ -33,13 +33,11 @@ export default async function NavbarDesktop() {
         <div className="flex items-center gap-4">
           <PhoneLink trackingId="navbar-desktop-phone" variant="auto" />
           <LanguageSwitcher surface="light" size="sm" />
-          <Link
-            href="/request-quote/"
+          <NavbarGetQuoteCTA
+            label={t('cta.getQuote')}
             className="btn btn-amber btn-md"
             style={{minWidth: '184px'}}
-          >
-            {t('cta.getQuote')}
-          </Link>
+          />
         </div>
       </div>
     </div>

@@ -195,16 +195,18 @@ export default function NavbarMobile({logo}: NavbarMobileProps) {
             </div>
           </div>
 
-          {/* Sticky CTA */}
-          <div className="p-4 border-t border-[var(--color-border)] shrink-0">
-            <Link
-              href="/request-quote/"
-              onClick={handleNavigate}
-              className="btn btn-amber btn-md w-full"
-            >
-              {t('chrome.cta.getQuote')}
-            </Link>
-          </div>
+          {/* Sticky CTA — hidden on /request-quote/ per Phase 1.19 §2 D2. */}
+          {pathname === '/request-quote' || pathname === '/request-quote/' ? null : (
+            <div className="p-4 border-t border-[var(--color-border)] shrink-0">
+              <Link
+                href="/request-quote/"
+                onClick={handleNavigate}
+                className="btn btn-amber btn-md w-full"
+              >
+                {t('chrome.cta.getQuote')}
+              </Link>
+            </div>
+          )}
         </Dialog.Popup>
       </Dialog.Portal>
     </Dialog.Root>

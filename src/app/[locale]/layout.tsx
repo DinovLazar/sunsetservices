@@ -1,4 +1,4 @@
-import type {Metadata} from 'next';
+import type {Metadata, Viewport} from 'next';
 import {Manrope, Onest} from 'next/font/google';
 import {NextIntlClientProvider, hasLocale} from 'next-intl';
 import {notFound} from 'next/navigation';
@@ -8,6 +8,7 @@ import MotionRoot from '@/components/global/motion/MotionRoot';
 import Footer from '@/components/layout/Footer';
 import Navbar from '@/components/layout/Navbar';
 import SkipLink from '@/components/layout/SkipLink';
+import ChatRoot from '@/components/chat/ChatRoot';
 import {
   BUSINESS_ADDRESS,
   BUSINESS_AREA_SERVED,
@@ -35,6 +36,17 @@ const onest = Onest({
 export const metadata: Metadata = {
   title: 'Sunset Services',
   description: 'Landscaping & outdoor living in Aurora, IL.',
+};
+
+/**
+ * `interactiveWidget: 'resizes-content'` — Phase 1.19 §11.3. Lets the chat
+ * composer + wizard sticky-Next bar correctly track the on-screen keyboard
+ * on mobile. Without it, both surfaces float behind the keyboard on iOS Safari.
+ */
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  interactiveWidget: 'resizes-content',
 };
 
 const localBusinessJsonLd = {
@@ -86,7 +98,7 @@ export default async function LocaleLayout({
             </main>
             <Footer />
             <div id="toast-root" aria-live="polite" />
-            <div id="chat-root" />
+            <ChatRoot />
           </MotionRoot>
         </NextIntlClientProvider>
       </body>

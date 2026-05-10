@@ -102,7 +102,7 @@ Fonts (loaded via `next/font/google`): Manrope (heading) + Onest (body), subsets
 - **Phase 1.12 commit:** `9c4976a` — `feat(about-contact): about + contact pages, person + contact-page schema (Phase 1.12)`
 - **Phase 1.14 commit:** `9279efd` — `feat(service-areas): index + 6 location pages (Phase 1.14)`
 - **Phase 1.16 commit:** `3b25238` — `feat(projects): portfolio index + 12 detail pages, lightbox, schema (Phase 1.16)`
-- **Phase 1.18 commit:** _to be recorded after `git push origin main`._
+- **Phase 1.18 commit:** `254c31c` — `feat(content): Resources + Blog routes, ContentCard/Meta/ProseLayout, schema, OG images (Phase 1.18)`
 
 ---
 

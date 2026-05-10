@@ -213,7 +213,7 @@ These were resolved during Code without re-checking with Chat; surfaced here for
 
 ```
 Branch:        claude/flamboyant-goldstine-8ff414  (worktree)
-Last commit:   <recorded after `git push origin main`>
+Pushed to:     origin/main as 254c31c
 Routes added:  4 (×2 locales = 8 URLs at launch)
 SSG pages:     20 new (10 resource + 10 blog detail) + 2 index dynamic per locale
 New deps:      marked@18.0.3

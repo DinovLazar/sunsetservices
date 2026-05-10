@@ -10,7 +10,7 @@
 - **Remote:** `git@github.com:DinovLazar/sunsetservices.git`
 - **Reads from:** `Part-1-Phase-19-Design-Handover.md` (1,587 lines, located at `docs/design-handovers/`)
 - **Companion docs read end-to-end before any code:** the handover (verbatim), `current-state.md`, `file-map.md`, `Sunset-Services-Plan.md`, the existing Phase 1.05 chrome, Phase 1.11 ContactForm, Phase 1.06 audience-entries, Phase 1.03 token block in `src/app/globals.css`.
-- **Commit SHA:** _filled in after push_
+- **Commit SHA:** `5dee0b1` (pushed to `origin/main` 2026-05-10).
 
 ## 2. What was done
 

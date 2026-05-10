@@ -1,0 +1,338 @@
+/* =============================================================================
+ * prose.css — Phase 1.18 §4.2 prose stylesheet poster.
+ *
+ * Route-group-scoped: imported only by
+ *   src/app/[locale]/resources/[slug]/layout.tsx
+ *   src/app/[locale]/blog/[slug]/layout.tsx
+ * NEVER imported by globals.css. The Resources index, Blog index, and the
+ * rest of the site never load these styles.
+ *
+ * Source of truth for all rendered prose markup emitted by
+ * `src/lib/proseRenderer.ts`. Every selector is `.prose__*` (single-hyphen
+ * BEM, single underscore-prefixed element name). All values consume design
+ * tokens from globals.css; zero literal hex.
+ *
+ * Inter-element spacing rules locked in handover §4.2.
+ * ============================================================================= */
+
+.prose {
+  /* Establishes the prose's max-width for inline content; the outer
+     container handles centering and the right-rail TOC offset. */
+  max-width: var(--container-prose);
+  margin-inline: 0;
+  font-family: var(--font-body);
+  color: var(--color-text-primary);
+  font-size: var(--text-body);
+  line-height: var(--leading-relaxed);
+}
+
+/* Block elements — defaults */
+.prose > * + * {
+  margin-block-start: var(--spacing-5);
+}
+
+/* Headings */
+.prose__h2 {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: var(--text-h2);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-snug);
+  color: var(--color-text-primary);
+  text-wrap: balance;
+  margin-block-start: var(--spacing-12);
+  margin-block-end: var(--spacing-4);
+  scroll-margin-top: 88px; /* compensate for the sticky navbar */
+}
+.prose__h2:first-child {
+  margin-block-start: 0;
+}
+.prose__h3 {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: var(--text-h3);
+  line-height: var(--leading-snug);
+  letter-spacing: var(--tracking-snug);
+  color: var(--color-text-primary);
+  margin-block-start: var(--spacing-8);
+  margin-block-end: var(--spacing-3);
+  scroll-margin-top: 88px;
+}
+.prose__h4 {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: var(--text-h4);
+  line-height: var(--leading-snug);
+  color: var(--color-text-primary);
+  margin-block-start: var(--spacing-6);
+  margin-block-end: var(--spacing-2);
+}
+
+/* Anchor link inside H2: invisible underline, becomes visible on hover */
+.prose__anchor {
+  color: inherit;
+  text-decoration: none;
+  border-bottom: 1px dashed transparent;
+  transition: border-color var(--motion-fast) var(--easing-standard);
+}
+.prose__anchor:hover {
+  border-bottom-color: var(--color-sunset-green-300);
+}
+
+/* Lede — first paragraph after H1 (the body H1 is the page hero, so the
+   first <p> in the body is the lede). */
+.prose__lede {
+  font-size: var(--text-body-lg);
+  line-height: var(--leading-relaxed);
+  color: var(--color-text-primary);
+  margin-block-end: var(--spacing-6);
+}
+
+/* Body paragraph */
+.prose__p {
+  font-size: var(--text-body);
+  line-height: var(--leading-relaxed);
+  color: var(--color-text-primary);
+  text-wrap: pretty;
+}
+
+/* Paragraph following a heading gets the heading-defined margin instead */
+.prose__h2 + .prose__p,
+.prose__h3 + .prose__p,
+.prose__h4 + .prose__p {
+  margin-block-start: 0;
+}
+
+/* Inline link — underline always; locked focus ring inherited from globals */
+.prose__link {
+  color: var(--color-sunset-green-700);
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+  text-decoration-thickness: 1px;
+  transition: color var(--motion-fast) var(--easing-standard);
+}
+.prose__link:hover {
+  color: var(--color-sunset-green-500);
+}
+
+/* Inline code */
+.prose__code {
+  font-family: var(--font-mono);
+  font-size: 0.92em;
+  padding: 2px 6px;
+  background: var(--color-bg-stone);
+  border-radius: var(--radius-sm);
+  color: var(--color-text-primary);
+}
+
+/* Code block */
+.prose__pre {
+  background: var(--color-bg-stone);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-5);
+  overflow-x: auto;
+  font-size: var(--text-body-sm);
+}
+.prose__code-block {
+  font-family: var(--font-mono);
+  color: var(--color-text-primary);
+  background: transparent;
+  padding: 0;
+}
+
+/* Lists */
+.prose__ol,
+.prose__ul {
+  margin-block: var(--spacing-5);
+  padding-inline-start: var(--spacing-6);
+}
+.prose__ol {
+  list-style: decimal;
+}
+.prose__ul {
+  list-style: disc;
+}
+.prose__li {
+  margin-block-end: var(--spacing-2);
+}
+.prose__li::marker {
+  color: var(--color-sunset-green-700);
+}
+
+/* Blockquote */
+.prose__quote {
+  border-inline-start: 3px solid var(--color-sunset-amber-500);
+  padding-inline-start: var(--spacing-5);
+  margin-block: var(--spacing-6);
+  font-style: italic;
+  font-family: var(--font-heading);
+  font-weight: 500;
+  color: var(--color-text-primary);
+  max-width: 40rem;
+}
+.prose__quote .prose__p {
+  font-size: var(--text-body-lg);
+  line-height: var(--leading-snug);
+}
+
+/* Callouts (3 variants) */
+.prose__callout {
+  display: block;
+  padding: var(--spacing-5);
+  border-radius: var(--radius-md);
+  margin-block: var(--spacing-6);
+  border: 1px solid;
+}
+.prose__callout-p {
+  margin: 0;
+  font-size: var(--text-body);
+  line-height: var(--leading-relaxed);
+  color: var(--color-text-primary);
+}
+.prose__callout-p + .prose__callout-p {
+  margin-block-start: var(--spacing-3);
+}
+.prose__callout-label {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: var(--text-body-sm);
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+  margin: 0 0 var(--spacing-2);
+}
+.prose__callout--info {
+  background: var(--color-sunset-green-50);
+  border-color: var(--color-sunset-green-300);
+}
+.prose__callout--info .prose__callout-label {
+  color: var(--color-sunset-green-700);
+}
+.prose__callout--warning {
+  background: var(--color-sunset-amber-50);
+  border-color: var(--color-sunset-amber-300);
+}
+.prose__callout--warning .prose__callout-label {
+  color: var(--color-sunset-amber-700);
+}
+.prose__callout--tip {
+  background: var(--color-bg-stone);
+  border-color: var(--color-border-strong);
+}
+.prose__callout--tip .prose__callout-label {
+  color: var(--color-text-secondary);
+}
+
+/* Tables */
+.prose__table-wrap {
+  margin-block: var(--spacing-6);
+  overflow-x: auto;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  max-width: 100%;
+}
+.prose__table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--text-body-sm);
+}
+.prose__thead {
+  background: var(--color-bg-cream);
+}
+.prose__table th,
+.prose__table td {
+  text-align: left;
+  padding: var(--spacing-3) var(--spacing-5);
+  border-bottom: 1px solid var(--color-border);
+  vertical-align: top;
+}
+.prose__table th {
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+.prose__table td {
+  color: var(--color-text-primary);
+}
+.prose__table tr:last-child td {
+  border-bottom: none;
+}
+
+/* Horizontal divider */
+.prose__hr {
+  border: none;
+  border-top: 1px solid var(--color-border-strong);
+  margin-block: var(--spacing-10);
+  max-width: var(--container-prose);
+}
+
+/* Images and figures */
+.prose__figure {
+  margin-block: var(--spacing-8);
+  max-width: var(--container-prose);
+}
+.prose__img {
+  display: block;
+  max-width: 100%;
+  border-radius: var(--radius-md);
+  height: auto;
+}
+.prose__figcaption {
+  font-size: var(--text-body-sm);
+  font-style: italic;
+  color: var(--color-text-muted);
+  margin-block-start: var(--spacing-3);
+}
+
+/* Inline cross-link card — rendered by ProseLayout, not the prose
+ * renderer. Lives inline within the prose column. */
+.prose__cross-link {
+  display: block;
+  background: var(--color-bg-cream);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-5) var(--spacing-6);
+  margin-block: var(--spacing-12);
+  text-decoration: none;
+  color: var(--color-text-primary);
+  transition: border-color var(--motion-base) var(--easing-standard),
+    box-shadow var(--motion-base) var(--easing-standard);
+}
+.prose__cross-link:hover {
+  border-color: var(--color-sunset-green-500);
+  box-shadow: var(--shadow-soft);
+}
+.prose__cross-link__eyebrow {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: var(--text-body-sm);
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  margin: 0 0 var(--spacing-2);
+}
+.prose__cross-link__title {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: var(--text-h4);
+  margin: 0 0 var(--spacing-2);
+  color: var(--color-text-primary);
+}
+.prose__cross-link__cta {
+  display: inline-block;
+  margin-top: var(--spacing-3);
+  font-weight: 600;
+  font-size: var(--text-body-sm);
+  color: var(--color-sunset-green-700);
+}
+
+/* Inline location strip wrapper — renders the existing ServiceAreaStrip
+ * inside the prose column at constrained width. */
+.prose__location-strip {
+  margin-block: var(--spacing-12);
+}
+
+/* Reduced-motion adjustments */
+@media (prefers-reduced-motion: reduce) {
+  .prose__cross-link {
+    transition: none;
+  }
+}

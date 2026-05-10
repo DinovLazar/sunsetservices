@@ -31,13 +31,85 @@ type ServiceAreaStripProps = {
    * other 5 (Phase 1.14 D7b).
    */
   excludeSlug?: string;
+  /**
+   * When `true`, drops the outer `<section>` wrapper, the section padding,
+   * and the `<AnimateIn>` so the strip can render inline inside another
+   * surface (e.g. inside a blog post's `<ProseLayout>` per Phase 1.18
+   * §6.5). The visible city links + eyebrow + note still render. Default
+   * `false` preserves the locked Phase 1.14 behaviour.
+   */
+  inline?: boolean;
 };
 
-export default async function ServiceAreaStrip({excludeSlug}: ServiceAreaStripProps = {}) {
+export default async function ServiceAreaStrip({excludeSlug, inline = false}: ServiceAreaStripProps = {}) {
   const t = await getTranslations('contact.area');
   const cities = excludeSlug
     ? CITIES.filter((c) => c.slug !== excludeSlug)
     : CITIES;
+
+  if (inline) {
+    return (
+      <div
+        aria-labelledby="service-area-strip-eyebrow-inline"
+        className="prose__location-strip"
+        style={{textAlign: 'center'}}
+      >
+        <p
+          id="service-area-strip-eyebrow-inline"
+          className="font-heading font-semibold uppercase m-0 mb-3"
+          style={{
+            fontSize: '12px',
+            letterSpacing: 'var(--tracking-eyebrow)',
+            color: 'var(--color-sunset-green-700)',
+          }}
+        >
+          {t('eyebrow')}
+        </p>
+        <ul className="m-0 p-0 list-none flex flex-wrap justify-center gap-x-2 gap-y-2">
+          {cities.map((c, idx) => (
+            <li key={c.slug} className="inline-flex items-center">
+              <Link
+                href={`/service-areas/${c.slug}/`}
+                className="font-heading"
+                style={{
+                  fontSize: 'var(--text-body)',
+                  color: 'var(--color-sunset-green-700)',
+                  fontWeight: 500,
+                  padding: '4px 6px',
+                }}
+              >
+                {t(c.key)}
+              </Link>
+              {idx < cities.length - 1 ? (
+                <span aria-hidden="true" className="px-1" style={{color: 'var(--color-text-muted)'}}>
+                  ·
+                </span>
+              ) : null}
+            </li>
+          ))}
+        </ul>
+        <p
+          className="m-0 mt-3 mx-auto"
+          style={{
+            fontSize: 'var(--text-body-sm)',
+            color: 'var(--color-text-secondary)',
+            maxWidth: '60ch',
+          }}
+        >
+          {t('note.text')}{' '}
+          <a
+            href="tel:+16309469321"
+            style={{
+              color: 'var(--color-sunset-green-700)',
+              textDecoration: 'underline',
+            }}
+          >
+            {t('note.cta')}
+          </a>
+        </p>
+      </div>
+    );
+  }
 
   return (
     <section

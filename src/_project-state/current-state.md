@@ -6,9 +6,9 @@
 
 ## Where we are
 
-- **Last completed phase:** Part 1 — Phase 1.16 (Code: Projects portfolio — `/projects/` index + 12 project detail pages, lightbox, before/after toggle, ProjectCard primitive extraction, BreadcrumbList + ItemList<CreativeWork> + CreativeWork schema)
-- **Next phase:** Part 1 — Phase 1.17 (Design: Resources + Blog mockups)
-- **Date:** 2026-05-07
+- **Last completed phase:** Part 1 — Phase 1.18 (Code: Resources + Blog routes — index + detail in EN/ES, three new shared components, five resource entries + five blog posts with full markdown bodies, Article/HowTo/BlogPosting/FAQPage/ItemList schema, OG image generation, build-time audit script)
+- **Next phase:** Part 1 — Phase 1.19
+- **Date:** 2026-05-10
 
 ---
 
@@ -23,6 +23,12 @@
 - `/service-areas/{aurora,naperville,batavia,wheaton,lisle,bolingbrook}/` (and `/es/service-areas/<city>/`) = 12 routes — Phase 1.14 §4. Nine sections per city: Hero (compact split, photo right) → LocalTrustBand (3 stat cells) → ServicesGrid (6 ServiceCards mapped from `featuredServices`) → ProjectsStrip (3 placeholder tiles, real wiring in Phase 1.16) → Testimonials (1 card, placeholder copy until Phase 2.15) → WhyLocalPanel (shared portrait + per-city ~120-word prose) → ServiceAreaStrip (`excludeSlug={location.slug}`, hides current city) → FAQ (4 native `<details>`) → CTA (shared `<CTA>` with `tokens={{city}}`). Surface alternation bg/cream × 9 (no two adjacent same-surface). Schema: BreadcrumbList + Place + ItemList of 6 Service items + FAQPage, all same-source with the visible DOM. Hero photo carries `priority` + `fetchPriority="high"` (LCP candidate). Single body amber CTA per page (the bottom CTA section).
 - `/projects/` (and `/es/projects/`) — Phase 1.16 §3 — five sections: Hero (compact text on cream) → FilterChipStrip (`?audience=` URL state) → ProjectsGrid (3-col / 2-col / 1-col, 12 placeholder tiles via `ProjectCard`) → Pagination (renders only when filtered total > 12; with 12 entries, hidden) → CTA (cream surface). Surface alternation: cream → bg → cream. Schema: `BreadcrumbList` + `ItemList` of 12 `CreativeWork` (each with `creator: {@id}` referencing sitewide `LocalBusiness`). Filter sanitization: unknown `audience` → All; `page` clamped to `[1, totalPages]`. Self-canonical points to the unfiltered/unpaginated route.
 - `/projects/{slug}/` (and `/es/projects/<slug>/`) = 24 routes — Phase 1.16 §4. Seven sections per detail: Hero (compact split, breadcrumb under navbar, lead photo `priority`+`fetchPriority="high"`) → Narrative → Gallery (native `<dialog>` lightbox: focus-trap/restore/Esc/←/→ + counter `aria-live="polite"`, 200ms cross-fade with reduced-motion off) → Facts (`<dl>` semantics, 6 rows, deep links to service detail / city / audience) → BeforeAfterToggle (renders only when `hasBeforeAfter:true`; SSR After fallback for no-JS) → RelatedProjects (3 tiles, deterministic same-audience → same-city → most-recent, sort year desc / slug asc) → CTA (`tokens={{city}}` interpolation, destination `/request-quote/?from=project&slug={slug}`). Surface alternation: bg/cream alternating with no two adjacent same. Schema: `BreadcrumbList` + `CreativeWork` (image array same-source with the rendered gallery; `creator: {@id}` references LocalBusiness; `keywords` = audience + service names; `locationCreated.address` Place).
+- `/resources/` (and `/es/resources/`) — **NEW (1.18)** evergreen reference index. Four sections: Hero (text-only, white) → FilterChipStrip+Grid (cream) → Help-deciding band (white) → CTA (cream, amber). Single-select `?category=` URL state; filter URLs canonicalize to the un-filtered route. `BreadcrumbList` + `ItemList` JSON-LD same-source with the visible 3-col grid.
+- `/resources/{slug}/` (and `/es/resources/{slug}/`) = 10 routes — **NEW (1.18)** Phase 1.18 §4. Six sections per detail: Hero (cream, eyebrow + H1 + dek + ContentMeta — no photo) → ProseLayout body (white, sticky right-rail TOC at xl+, inline collapsed `<details>` below xl, inline `<ServiceCard>` cross-link spliced between H2s where flagged) → FAQ (cream, optional) → Related (white, 3 ContentCards) → CTA (cream, amber). Surface alternation cream/white/cream/white/cream. Schema: `BreadcrumbList` + (`Article` | `HowTo` per `entry.schemaType`) + `FAQPage` if FAQ. `Article` payload includes `wordCount` computed at build from the EN body via `estimateReadingTime` (200 wpm). 5 entries × 2 locales = 10 SSG routes via `dynamic = 'force-static'` + `dynamicParams = false`.
+- `/blog/` (and `/es/blog/`) — **NEW (1.18)** time-stamped post index. Three sections: Hero (text-only, white) → Featured-post 2-col + FilterChipStrip + 3-col Grid (cream) → CTA (white, amber). Featured post composes the locked `card-photo` primitive at a wider span — NOT `.card-featured` (handover §2 D16, zero featured-card constraint). Schema: `BreadcrumbList` + `ItemList`.
+- `/blog/{slug}/` (and `/es/blog/{slug}/`) = 10 routes — **NEW (1.18)** Phase 1.18 §6. Seven sections per post: Hero (white, eyebrow + H1 + dek + meta + featured image below the meta strip — option B per ratified D14.4) → ProseLayout body (white, shared band with hero — handover §2 D14 row 2; inline cross-link + optional `<ServiceAreaStrip excludeSlug={citySlug} inline />` near body bottom) → FAQ (cream, optional) → Related (white) → bottom CTA (cream, amber, per-category H2 with `{city}` interpolation). 5 posts × 2 locales = 10 SSG routes.
+- `/og/{resource,blog}/{slug}/?locale={en,es}` — **NEW (1.18)** Open Graph image route handlers (`next/og` `ImageResponse`). 1200×630 PNG per detail page; per-locale via the `?locale=` query.
+- `/og/fallback` — **NEW (1.18)** sitewide branded OG fallback for index pages and any path without a per-content variant.
 - `/dev/system` (and `/es/dev/system`) — design-system smoke-test page, unchanged from Phase 1.04.
 - Phase 1.05 chrome (sticky navbar, footer, skip-link, language switcher, sitewide `LocalBusiness` JSON-LD) wraps every page unchanged.
 - Navbar State B (translucent + blur) triggers on the homepage hero AND on every audience-landing + service-detail hero (NavbarScrollState was extended in 1.09 with a 5-line pathname check).
@@ -31,6 +37,11 @@
   - Audience landings emit `BreadcrumbList` + `ItemList` JSON-LD.
   - Service detail pages emit `BreadcrumbList` + `Service` + `FAQPage` JSON-LD.
   - The sitewide `LocalBusiness` (Phase 1.05) + `WebSite` (homepage only) continue unchanged.
+- Per Phase 1.18 §7 schema spec:
+  - Resources index + Blog index emit `BreadcrumbList` + `ItemList` JSON-LD.
+  - Resource detail pages emit `BreadcrumbList` + (`Article` | `HowTo`) + `FAQPage` (if FAQ) JSON-LD.
+  - Blog post pages emit `BreadcrumbList` + `BlogPosting` + `FAQPage` (if FAQ) JSON-LD.
+  - Author resolution: `'Erick Sotomayor'` → `Person` with About `#erick` URL; `'Sunset Services Team'` → `Organization` (no URL); other strings → `Person` no URL.
 - All 38 (en+es × 19) audience and service routes pre-rendered at build time via `generateStaticParams`.
 - FAQ accordions are SSR `<details>` with progressive enhancement to a client island for chevron rotation. **No per-item `<AnimateIn>`** — the primary lever for closing the homepage's mobile P=86 gap on these new templates.
 
@@ -54,6 +65,7 @@
 | next | 16.2.4 |
 | react | 19.2.4 |
 | react-dom | 19.2.4 |
+| marked | 18.0.3 |
 | typescript | 5.9.3 |
 | tailwindcss | 4.2.4 |
 | @tailwindcss/postcss | 4.2.4 |
@@ -90,6 +102,7 @@ Fonts (loaded via `next/font/google`): Manrope (heading) + Onest (body), subsets
 - **Phase 1.12 commit:** `9c4976a` — `feat(about-contact): about + contact pages, person + contact-page schema (Phase 1.12)`
 - **Phase 1.14 commit:** `9279efd` — `feat(service-areas): index + 6 location pages (Phase 1.14)`
 - **Phase 1.16 commit:** `3b25238` — `feat(projects): portfolio index + 12 detail pages, lightbox, schema (Phase 1.16)`
+- **Phase 1.18 commit:** _to be recorded after `git push origin main`._
 
 ---
 

@@ -998,5 +998,140 @@
       "phonePrefix": "[TBR] o llama al",
       "phoneNumber": "(630) 946-9321"
     }
+  },
+  "content": {
+    "meta": {
+      "by": "[TBR] Por {name}",
+      "readingTime": "[TBR] {minutes} min de lectura",
+      "published": "[TBR] Publicado",
+      "updated": "[TBR] Actualizado"
+    },
+    "toc": {
+      "label": "[TBR] Tabla de contenidos",
+      "onThisPage": "[TBR] En esta página"
+    },
+    "related": {
+      "title": "[TBR] Recursos relacionados",
+      "titleBlog": "[TBR] Sigue leyendo",
+      "empty": "[TBR] Más artículos en camino."
+    },
+    "cross": {
+      "eyebrow": "[TBR] Servicio relacionado",
+      "linkLabel": "[TBR] Ver el servicio →"
+    },
+    "faq": {
+      "title": "[TBR] Preguntas frecuentes"
+    },
+    "share": {
+      "label": "[TBR] Compartir"
+    }
+  },
+  "resources": {
+    "meta": {
+      "title": "[TBR] Recursos de Paisajismo DuPage | Sunset Services",
+      "description": "[TBR] Guías probadas en campo para propietarios de DuPage. Guías de compra, referencias y permisos."
+    },
+    "hero": {
+      "eyebrow": "[TBR] Recursos",
+      "h1": "[TBR] Guías probadas en campo para propietarios de DuPage.",
+      "dek": "[TBR] Guías de compra, referencias y primers de permisos — honestos y al día.",
+      "count": "[TBR] {count} guías · actualizadas en {date}"
+    },
+    "filter": {
+      "ariaLabel": "[TBR] Filtrar por categoría",
+      "all": "[TBR] Todas",
+      "lawn-care": "[TBR] Jardín",
+      "hardscape": "[TBR] Pavimento y muros",
+      "snow-and-winter": "[TBR] Nieve e invierno",
+      "buying-guides": "[TBR] Guías de compra",
+      "local-permits": "[TBR] Permisos locales"
+    },
+    "empty": {
+      "title": "[TBR] Aún no hay recursos en esta categoría.",
+      "cta": "[TBR] Limpiar filtro"
+    },
+    "helpBand": {
+      "h2": "[TBR] Las guías solo te llevan hasta cierto punto.",
+      "body": "[TBR] Cuéntanos qué estás considerando. Vamos a escuchar y a ayudarte.",
+      "cta": "[TBR] Hablemos →"
+    },
+    "cta": {
+      "eyebrow": "[TBR] Cuando estés listo",
+      "h2": "[TBR] ¿Terminaste de leer? Vamos a medir.",
+      "sub": "[TBR] Un presupuesto gratis toma 30 minutos. Escuchamos, dibujamos y cotizamos.",
+      "button": "[TBR] Solicita un Presupuesto Gratis",
+      "phonePrefix": "[TBR] o llámanos al",
+      "phoneNumber": "(630) 946-9321"
+    },
+    "breadcrumb": {
+      "home": "[TBR] Inicio",
+      "resources": "[TBR] Recursos"
+    },
+    "detail": {
+      "ctaH2Default": "[TBR] ¿Hablando de {category}? Midamos tu proyecto.",
+      "ctaSub": "[TBR] Un presupuesto gratis toma 30 minutos. Escuchamos, dibujamos y cotizamos."
+    },
+    "category": {
+      "lawn-care": "[TBR] Jardín",
+      "hardscape": "[TBR] Pavimento y muros",
+      "snow-and-winter": "[TBR] Nieve e invierno",
+      "buying-guides": "[TBR] Guías de compra",
+      "local-permits": "[TBR] Permisos locales"
+    }
+  },
+  "blog": {
+    "meta": {
+      "title": "[TBR] Blog de Paisajismo — DuPage | Sunset Services",
+      "description": "[TBR] Guías de costos, calendarios y conocimientos de paisajismo para propietarios de DuPage."
+    },
+    "hero": {
+      "eyebrow": "[TBR] Blog",
+      "h1": "[TBR] Notas del campo, temporada tras temporada.",
+      "dek": "[TBR] Guías de costos, calendarios y las preguntas más comunes.",
+      "count": "[TBR] {count} publicaciones · {date}"
+    },
+    "filter": {
+      "ariaLabel": "[TBR] Filtrar por categoría",
+      "all": "[TBR] Todas",
+      "how-to": "[TBR] Cómo hacerlo",
+      "cost-guide": "[TBR] Guías de costos",
+      "seasonal": "[TBR] De temporada",
+      "industry-news": "[TBR] Noticias del sector",
+      "audience": "[TBR] Para tu propiedad"
+    },
+    "featured": {
+      "cta": "[TBR] Leer el artículo →"
+    },
+    "empty": {
+      "title": "[TBR] Aún no hay publicaciones en esta categoría.",
+      "cta": "[TBR] Limpiar filtro"
+    },
+    "cta": {
+      "eyebrow": "[TBR] Cuando estés listo",
+      "h2": "[TBR] ¿Terminaste de leer? Caminemos tu propiedad.",
+      "sub": "[TBR] Un presupuesto gratis toma 30 minutos. Escuchamos, dibujamos y cotizamos.",
+      "button": "[TBR] Solicita un Presupuesto Gratis",
+      "phonePrefix": "[TBR] o llámanos al",
+      "phoneNumber": "(630) 946-9321"
+    },
+    "ctaPerCategory": {
+      "cost-guide": "[TBR] ¿Listo para un número real para tu propiedad?",
+      "seasonal": "[TBR] Planifiquemos tu próxima temporada.",
+      "seasonalWithCity": "[TBR] Planifiquemos la próxima temporada en {city}.",
+      "how-to": "[TBR] ¿Quieres que lo haga alguien que ya lo ha hecho?",
+      "audience": "[TBR] ¿Buscas un socio para tu propiedad que aparezca?",
+      "industry-news": "[TBR] ¿Terminaste de leer? Caminemos tu propiedad."
+    },
+    "breadcrumb": {
+      "home": "[TBR] Inicio",
+      "blog": "[TBR] Blog"
+    },
+    "category": {
+      "how-to": "[TBR] Cómo hacerlo",
+      "cost-guide": "[TBR] Guías de costos",
+      "seasonal": "[TBR] De temporada",
+      "industry-news": "[TBR] Noticias del sector",
+      "audience": "[TBR] Para tu propiedad"
+    }
   }
 }

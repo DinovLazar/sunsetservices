@@ -998,5 +998,140 @@
       "phonePrefix": "or call",
       "phoneNumber": "(630) 946-9321"
     }
+  },
+  "content": {
+    "meta": {
+      "by": "By {name}",
+      "readingTime": "{minutes} min read",
+      "published": "Published",
+      "updated": "Updated"
+    },
+    "toc": {
+      "label": "Table of contents",
+      "onThisPage": "On this page"
+    },
+    "related": {
+      "title": "Related resources",
+      "titleBlog": "Keep reading",
+      "empty": "More coming soon."
+    },
+    "cross": {
+      "eyebrow": "Related service",
+      "linkLabel": "See the service →"
+    },
+    "faq": {
+      "title": "Common questions"
+    },
+    "share": {
+      "label": "Share this"
+    }
+  },
+  "resources": {
+    "meta": {
+      "title": "Landscaping Resources — DuPage Guides | Sunset Services",
+      "description": "Field-tested landscaping and hardscape guides for DuPage County homeowners. Buyer guides, term references, permit primers — kept honest, kept current."
+    },
+    "hero": {
+      "eyebrow": "Resources",
+      "h1": "Field-tested guides for DuPage homeowners.",
+      "dek": "Buyer guides, term references, and permit primers — kept honest, kept current.",
+      "count": "{count} guides · last updated {date}"
+    },
+    "filter": {
+      "ariaLabel": "Filter by category",
+      "all": "All",
+      "lawn-care": "Lawn Care",
+      "hardscape": "Hardscape",
+      "snow-and-winter": "Snow & Winter",
+      "buying-guides": "Buying Guides",
+      "local-permits": "Local Permits"
+    },
+    "empty": {
+      "title": "No resources match this filter yet.",
+      "cta": "Clear filter"
+    },
+    "helpBand": {
+      "h2": "Reading guides only takes you so far.",
+      "body": "Tell us what you're considering. We'll come listen and help you sort it out.",
+      "cta": "Talk to us →"
+    },
+    "cta": {
+      "eyebrow": "Ready when you are",
+      "h2": "Done reading? Let's measure.",
+      "sub": "A free estimate takes 30 minutes. We come listen, sketch, and price it.",
+      "button": "Get a Free Estimate",
+      "phonePrefix": "or call",
+      "phoneNumber": "(630) 946-9321"
+    },
+    "breadcrumb": {
+      "home": "Home",
+      "resources": "Resources"
+    },
+    "detail": {
+      "ctaH2Default": "Talking about {category}? Let's measure your project.",
+      "ctaSub": "A free estimate takes 30 minutes. We come listen, sketch, and price it."
+    },
+    "category": {
+      "lawn-care": "Lawn Care",
+      "hardscape": "Hardscape",
+      "snow-and-winter": "Snow & Winter",
+      "buying-guides": "Buying Guides",
+      "local-permits": "Local Permits"
+    }
+  },
+  "blog": {
+    "meta": {
+      "title": "Landscaping Blog — DuPage Insights | Sunset Services",
+      "description": "Cost guides, seasonal calendars, and field-tested landscaping insights for DuPage County homeowners and property managers."
+    },
+    "hero": {
+      "eyebrow": "Blog",
+      "h1": "Notes from the field, season after season.",
+      "dek": "Cost guides, calendars, and the questions homeowners ask us most.",
+      "count": "{count} posts · {date}"
+    },
+    "filter": {
+      "ariaLabel": "Filter by category",
+      "all": "All",
+      "how-to": "How-To",
+      "cost-guide": "Cost Guide",
+      "seasonal": "Seasonal",
+      "industry-news": "Industry News",
+      "audience": "Audience"
+    },
+    "featured": {
+      "cta": "Read the post →"
+    },
+    "empty": {
+      "title": "No posts in this category yet.",
+      "cta": "Clear filter"
+    },
+    "cta": {
+      "eyebrow": "Ready when you are",
+      "h2": "Done reading? Let's walk your property.",
+      "sub": "A free estimate takes 30 minutes. We come listen, sketch, and price it.",
+      "button": "Get a Free Estimate",
+      "phonePrefix": "or call",
+      "phoneNumber": "(630) 946-9321"
+    },
+    "ctaPerCategory": {
+      "cost-guide": "Ready to get a real number for your property?",
+      "seasonal": "Plan your next season with us.",
+      "seasonalWithCity": "Plan {city}'s next season with us.",
+      "how-to": "Want this done by someone who's done it before?",
+      "audience": "Want a property-management partner who shows up?",
+      "industry-news": "Done reading? Let's walk your property."
+    },
+    "breadcrumb": {
+      "home": "Home",
+      "blog": "Blog"
+    },
+    "category": {
+      "how-to": "How-To",
+      "cost-guide": "Cost Guide",
+      "seasonal": "Seasonal",
+      "industry-news": "Industry News",
+      "audience": "Audience"
+    }
   }
 }

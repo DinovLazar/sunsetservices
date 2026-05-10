@@ -169,6 +169,41 @@
 - `scripts/gen-home-placeholders.mjs` — Phase 1.07 home asset generator (sharp + gradient + per-pixel noise).
 - `scripts/gen-audience-service-placeholders.mjs` — **NEW (1.09)** audience + service asset generator. Same sharp + gradient + noise pattern. Run via `node scripts/gen-audience-service-placeholders.mjs` from the repo root.
 - `scripts/gen-about-placeholders.mjs` — **NEW (1.12)** About-page asset generator (5 placeholder images: hero + brand-story + 3 team cards). Same sharp pattern. Run via `node scripts/gen-about-placeholders.mjs` from the repo root.
+- `scripts/gen-content-placeholders.mjs` — **NEW (1.18)** Resources + Blog placeholder generator. Outputs `public/images/resources/{slug}.jpg` × 5 + `public/images/blog/{slug}.jpg` and `-mobile.jpg` × 5. Same sharp pattern.
+- `scripts/audit-content.mjs` — **NEW (1.18)** build-time audit for the Resources + Blog routes per handover §12.8. Validates title/description/alt lengths, category enums, and H2 slug uniqueness. Run via `node scripts/audit-content.mjs`; exits 0 on pass, 1 on fail.
+
+## Phase 1.18 — content additions
+
+- `src/data/resources.ts` — **NEW (1.18)** typed Resources seed: 5 evergreen entries with full EN+ES markdown bodies, FAQ where flagged, `schemaType` per row, `inlineServiceCrossLink` where flagged. Exports `RESOURCES`, `RESOURCE_CATEGORIES`, `isResourceCategory`.
+- `src/data/blog.ts` — **NEW (1.18)** typed Blog seed: 5 posts with full EN+ES markdown bodies, FAQ where flagged, `inlineServiceCrossLink` + `inlineLocationCity` where flagged. Exports `BLOG_POSTS`, `BLOG_CATEGORIES`, `isBlogCategory`.
+- `src/data/getResources.ts` — **NEW (1.18)** `getAllResources()`, `getResourceBySlug()`, `getRelatedResources()`. Stamps `wordCount` + `readingMinutes` at request time.
+- `src/data/getBlog.ts` — **NEW (1.18)** mirror of getResources for the blog seed.
+- `src/i18n/locales.ts` — **NEW (1.18)** small `Locale` type re-export so plain-data modules avoid importing next-intl runtime.
+- `src/lib/proseSlug.ts` — **NEW (1.18)** `slugify()` + stateful `createSlugFactory()` with collision suffixes. Powers the prose H2 anchor IDs.
+- `src/lib/readingTime.ts` — **NEW (1.18)** `estimateReadingTime()` at 200 wpm (ratified D14.5).
+- `src/lib/howToSteps.ts` — **NEW (1.18)** `extractHowToSteps()` walks the markdown body and extracts H2-rooted `HowToStep` objects. Skips a leading "Overview" / "Before you start" H2.
+- `src/lib/proseRenderer.ts` — **NEW (1.18)** server-only Markdown → HTML walker built on `marked` v18. Emits prose-class HTML, builds the H2 TOC, and injects `<!-- prose-split-h2-N -->` markers so `<ProseLayout>` can splice in the inline cross-link card and inline location strip. Recognises `> [!info]`/`[!warning]`/`[!tip]` callout syntax.
+- `src/lib/schema/article.ts` — **NEW (1.18)** `buildArticleSchema()`, `buildHowToSchema()`, `buildContentItemList()`, `buildContentFaqSchema()`. Supports both `Article` and `BlogPosting` types; `wordCount` is computed at build time.
+- `src/lib/schema/author.ts` — **NEW (1.18)** `resolveAuthor(byline, locale)` returns `Person` (Erick → About `#erick` URL) or `Organization` ("Sunset Services Team" → no URL).
+- `src/styles/prose.css` — **NEW (1.18)** route-group-scoped prose stylesheet. Imported ONLY from `[locale]/resources/[slug]/page.tsx` and `[locale]/blog/[slug]/page.tsx` — never `globals.css`. Defines all `.prose__*` selectors.
+- `src/components/content/ContentMeta.tsx` — **NEW (1.18)** server. Inline meta-strip (byline · date · reading-time · category) used in detail-page heroes and inside `<ContentCard>`. `compact` prop tightens the layout for the card variant.
+- `src/components/content/ContentCard.tsx` — **NEW (1.18)** server. Index-grid card composed from the locked `card-photo` primitive. Whole card is one `<a>`. NOT `.card-featured`. Reused on Resources index, Blog index, and the related strips.
+- `src/components/content/ProseLayout.tsx` — **NEW (1.18)** server. Renders the prose body, the inline cross-link card, the inline location strip, and the TOC (twice — inline `<details>` below xl, sticky aside at xl+). Composes the `<TOC>` client leaf.
+- `src/components/content/FilterChipStrip.client.tsx` — **NEW (1.18)** client. Single-select chip strip wired to `?category={slug}` via `useRouter().replace()`. Mirrors the Phase 1.15 projects FilterChipStrip pattern.
+- `src/components/content/TOC.client.tsx` — **NEW (1.18)** client. `IntersectionObserver`-driven active-item highlight; renders as collapsed `<details>` (`mode="inline"`) below xl OR sticky `<aside>` (`mode="sticky"`) at xl+.
+- `src/components/sections/ServiceAreaStrip.tsx` — **Modified (1.18)** added `inline?: boolean` prop that drops the section wrapper and `<AnimateIn>` so the strip can render inside the prose container of a blog post (handover §6.5). Default behaviour unchanged on /contact/ and /service-areas/<city>/.
+- `src/app/[locale]/resources/page.tsx` — **NEW (1.18)** Resources index. Hero (white, no photo) → Filter+Grid (cream) → Help-deciding band (white) → CTA (cream, amber). `BreadcrumbList` + `ItemList` JSON-LD same-source with the visible grid. Filter URLs canonicalize to the un-filtered route.
+- `src/app/[locale]/resources/[slug]/page.tsx` — **NEW (1.18)** Resource detail. Hero (cream, no photo) → ProseLayout (white, sticky right-rail TOC at xl+) → FAQ (cream, optional) → Related (white) → CTA (cream, amber). Imports `prose.css`. `BreadcrumbList` + `Article|HowTo` + `FAQPage` JSON-LD. `dynamic = 'force-static'` + `dynamicParams = false` so all 5 slugs prerender at build.
+- `src/app/[locale]/resources/[slug]/not-found.tsx` — **NEW (1.18)** 404 surface for resource slugs.
+- `src/app/[locale]/blog/page.tsx` — **NEW (1.18)** Blog index. Hero (white, no photo) → Featured-post (2-col card composing `card-photo`, NOT `card-featured`) + Filter+Grid (cream) → CTA (white, amber). `BreadcrumbList` + `ItemList` JSON-LD same-source.
+- `src/app/[locale]/blog/[slug]/page.tsx` — **NEW (1.18)** Blog post detail. Hero (white, breadcrumb + H1 + dek + meta + featured image option B) → ProseLayout body → FAQ (cream, optional) → Related (white) → per-category CTA (cream, amber, `tokens={{city}}` interpolation). Imports `prose.css`. `BreadcrumbList` + `BlogPosting` + `FAQPage` JSON-LD. SSG.
+- `src/app/[locale]/blog/[slug]/not-found.tsx` — **NEW (1.18)** 404 surface for blog slugs.
+- `src/app/og/[type]/[slug]/route.tsx` — **NEW (1.18)** per-content Open Graph image generator (1200×630 PNG via `next/og`'s `ImageResponse`). Routes: `/og/resource/{slug}` and `/og/blog/{slug}`. Per-locale via `?locale=` query.
+- `src/app/og/fallback/route.tsx` — **NEW (1.18)** sitewide branded OG fallback (no per-post fields).
+- `src/proxy.ts` — **Modified (1.18)** middleware matcher excludes `/og/*` so the next-intl locale rewrite doesn't intercept the OG image route handlers.
+- `src/messages/en.json` / `es.json` — **Modified (1.18)** added top-level `content.*`, `resources.*`, `blog.*` namespaces. Spanish strings carry `[TBR]` markers per Plan §10 (native review in Phase 2.13).
+- `public/images/resources/{slug}.jpg` × 5 + `placeholder.jpg` — **NEW (1.18)** generated by `scripts/gen-content-placeholders.mjs`. Real photography from Cowork in Phase 2.04.
+- `public/images/blog/{slug}.jpg` + `{slug}-mobile.jpg` × 5 — **NEW (1.18)** same generator.
 
 ## sanity/
 

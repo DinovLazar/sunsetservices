@@ -130,7 +130,7 @@ Fonts (loaded via `next/font/google`): Manrope (heading) + Onest (body), subsets
 - **Phase 2.01 archive commit:** `f97efca` — `chore(docs): archive v1 docs into /archive/v1/ (Phase 2.01)`
 - **Phase 2.01 finalization commit:** `e4b323e` — `chore(phase-2.01): close Phase 2.01 (Account-Creation Runway)` (6 files, +361 / -10; created `Sunset-Services-Decisions.md` + `Part-2-Phase-01-Completion.md`, updated 00_stack-and-config / current-state / file-map / .env.local.example)
 - **Phase 2.02 analytics commit:** `ddeed03` — `feat(analytics): add @vercel/analytics to root layout (Phase 2.02)` (3 files, +46; package.json + package-lock.json + `src/app/[locale]/layout.tsx`)
-- **Phase 2.02 finalization commit:** `<filled by final commit>` — `chore(phase-2-02): vercel preview deploy completion report + project-state updates`
+- **Phase 2.02 finalization commit:** `5345b8b` — `chore(phase-2-02): vercel preview deploy completion report + project-state updates` (5 files, +310 / -4; created `Part-2-Phase-02-Completion.md`, updated 00_stack-and-config / current-state / file-map / .env.local.example)
 
 ---
 

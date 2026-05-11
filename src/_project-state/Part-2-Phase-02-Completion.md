@@ -25,7 +25,7 @@
 | 11. Analytics verification | `<Analytics />` present in React render output. `/_vercel/insights/script.js` returns HTTP 200 (~2.5 KB). Analytics code bundled in chunk `0kul16bq6frtl.js`. `view-source` check from plan didn't show `_vercel/insights` because v2.x injects client-side — see Surprise #4. |
 | 12. Project-state updates | Appended Phase 2.02 section to `00_stack-and-config.md`; updated `current-state.md` (Where we are + What works + What does NOT work yet + Open items + Repo commit log); updated `file-map.md` (layout.tsx description + `.vercel/` entry + `.env.local.example` note); appended Vercel-sync note to `.env.local.example` with the REST-API caveat. |
 | 13. This report | Filed at `src/_project-state/Part-2-Phase-02-Completion.md`. |
-| 14. Final commit + push | `<filled by final commit>` — see the "Final commit" line at the bottom of this file once Step 14 runs. |
+| 14. Final commit + push | `5345b8b` — see the "Final commit" line at the bottom of this file once Step 14 runs. |
 
 ---
 
@@ -224,6 +224,6 @@ Plan Step 6 said `vercel link` would set up GitHub auto-deploys. In CLI v53.x, `
 **Git commits produced on `main`:**
 
 1. `ddeed03` — `feat(analytics): add @vercel/analytics to root layout (Phase 2.02)` (Step 5).
-2. `<filled by final commit>` — `chore(phase-2-02): vercel preview deploy completion report + project-state updates` (Step 14).
+2. `5345b8b` — `chore(phase-2-02): vercel preview deploy completion report + project-state updates` (Step 14).
 
 Plus one short-lived `test/phase-2-02-preview-check` branch (commit `729fcdd`) — deleted both locally and on origin at the end of Step 10. Existed for ~3 minutes to verify the preview-on-push mechanism.

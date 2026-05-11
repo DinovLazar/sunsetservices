@@ -9,6 +9,7 @@ import Footer from '@/components/layout/Footer';
 import Navbar from '@/components/layout/Navbar';
 import SkipLink from '@/components/layout/SkipLink';
 import ChatRoot from '@/components/chat/ChatRoot';
+import {Analytics} from '@vercel/analytics/next';
 import {
   BUSINESS_ADDRESS,
   BUSINESS_AREA_SERVED,
@@ -101,6 +102,7 @@ export default async function LocaleLayout({
             <ChatRoot />
           </MotionRoot>
         </NextIntlClientProvider>
+        <Analytics />
       </body>
     </html>
   );

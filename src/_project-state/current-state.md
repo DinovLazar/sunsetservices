@@ -6,8 +6,8 @@
 
 ## Where we are
 
-- **Last completed phase:** Part 1 — Phase 1.20 (Code: Quote Wizard at `/request-quote/` + Thank-you page at `/thank-you/` + sitewide AI chat widget). **Part 1 is now closed.**
-- **Next phase:** Part 2 — Phase 2.01 (kicks off after Cowork provisions accounts: Vercel, Sanity, Resend, Anthropic, Calendly, Mautic, CallRail, Telegram).
+- **Last completed phase:** Part 2 — Phase 2.01 (Cowork: Account-Creation Runway). Seven external accounts provisioned (Cloudflare, Sanity, Vercel, Resend, Anthropic, Telegram bot, GitHub 2FA carryover resolved). Step 7 (GCP + Places API + GBP API application) deferred to a new Phase 2.13.2 per user decision.
+- **Next phase:** Part 2 — Phase 2.02 (Code: Vercel preview deploy).
 - **Date:** 2026-05-10
 
 ---
@@ -48,6 +48,8 @@
 - All 38 (en+es × 19) audience and service routes pre-rendered at build time via `generateStaticParams`.
 - FAQ accordions are SSR `<details>` with progressive enhancement to a client island for chevron rotation. **No per-item `<AnimateIn>`** — the primary lever for closing the homepage's mobile P=86 gap on these new templates.
 
+> **Phase 2.01 note:** No `localhost:3000` behavior changed in this phase. Phase 2.01 is account creation only — no routes added, no source code touched. Working tree at end of phase = Phase 1.20 code + Phase 2.01 doc updates.
+
 ---
 
 ## What does NOT work yet
@@ -63,7 +65,10 @@
 - **Cookie consent banner** — chat bubble's consent gate is a stub default-true. Phase 2.11 wires the real banner.
 - `[TBR]`-flagged Spanish strings — the audience landings and service detail pages ship with first-pass Spanish translations. Native-speaker review happens in Phase 2.13.
 - Sanity content (Phase 2.03), AI chat (Phase 1.20 / 2.09), analytics (Phase 2.10), Resend email (Phase 2.08).
-- 2FA on the GitHub account (carryover from Phase 1.01, user-acknowledged).
+- **GBP API write access + Places API read (Phase 2.01 Step 7) — DEFERRED to new Phase 2.13.2 per user decision.** Phase 2.14 (publish to Google Business Profile) and Phase 2.16 (daily reviews on the site) both wait on Phase 2.13.2 completing first. Phase 2.13.2 itself starts a 2–6 week Google review clock for GBP API access.
+- **Cloudflare DNS** — account exists with 2FA enabled, no domain added yet. Domain cutover happens in Part 3 Phase 3.11.
+- **Resend domain verification** for `sunsetservices.us` (SPF/DKIM/DMARC records) — deferred to Phase 2.08; requires Cloudflare DNS access which we don't have yet.
+- **Anthropic billing/security alert routing risk** — the Anthropic API account uses a pre-existing email on a less-used inbox (off-spec from dinovlazar2011@gmail.com per user choice). Neither email-change nor forwarding was set up. If the API ever stops working, first check that inbox for $20-cap or security alerts.
 
 ---
 
@@ -113,6 +118,9 @@ Fonts (loaded via `next/font/google`): Manrope (heading) + Onest (body), subsets
 - **Phase 1.16 commit:** `3b25238` — `feat(projects): portfolio index + 12 detail pages, lightbox, schema (Phase 1.16)`
 - **Phase 1.18 commit:** `254c31c` — `feat(content): Resources + Blog routes, ContentCard/Meta/ProseLayout, schema, OG images (Phase 1.18)`
 - **Phase 1.20 commit:** `5dee0b1` — `feat(wizard,chat): quote wizard + AI chat widget UI; Part 1 acceptance pass (Phase 1.20)`
+- **Phase 2.01 cleanup commit:** `c6a962c` — `chore(pre-2.01): restore Phase 1.20 baseline + commit untracked Part-1 artifacts` (restored 12 code regressions, committed 4 design handovers + 8 Lighthouse reports, kept v2 doc rewrites in progress, added /.claude/ to gitignore)
+- **Phase 2.01 archive commit:** `f97efca` — `chore(docs): archive v1 docs into /archive/v1/ (Phase 2.01)`
+- **Phase 2.01 finalization commit:** _(filled in by final Step 11 push)_
 
 ---
 
@@ -126,9 +134,9 @@ Fonts (loaded via `next/font/google`): Manrope (heading) + Onest (body), subsets
 - **`pricing.mode === 'price'` is dead code in Part 1.** All 16 services ship with `pricing.mode: 'explainer'` per D5. State A code paths are wired (including the `priceIncludes` body that Erick will populate when he toggles a service in Part 2) but unexercised in Phase 1.09's smoke testing. Surface alternation invariance verified by code inspection: State A and State B both render at the same vertical footprint inside the same `<section>`.
 - **Lucide icon coverage.** `src/components/ui/ServiceIcon.tsx` curates a known-safe icon map and falls back to `BadgeCheck` for any unrecognized name. The Unilock badge is hand-rolled inline SVG (Phase 1.03 §8.3). This trades a tiny amount of bundle-size discipline for crash-proof rendering when an icon name typo lands in `services.ts`.
 - **Real Lighthouse runs require a manual sweep.** Phase 1.09 verified ≥95 readiness via build success + structural smoke tests (HTTP 200s on all 19 EN routes, 6 audience landings, 32 service pages, schema present, no `.card-featured`, single body-amber per page). Lighthouse runs on `localhost:3000/residential/` + `localhost:3000/residential/lawn-care/` + `localhost:3000/hardscape/patios-walkways/` desktop + mobile are recommended next; expect ~95+ desktop with the same mobile-P risk Phase 1.07 documented.
-- **Sanity project NOT initialized** — `next-sanity` dep installed, schemas folder created, Studio config defers to Phase 2.03.
-- **Real env vars NOT populated** — `.env.local.example` documents the future variables; `.env.local` is gitignored and empty.
-- **2FA NOT enabled on the GitHub account holding this repo** (carryover from Phase 1.01, user-acknowledged risk).
+- **Sanity project initialized (Phase 2.01).** Project ID `i3fawnrl`, dataset `production`, organization slug `otkKa3xG9`. No API token created yet (Phase 2.03 creates scoped tokens once schemas are defined).
+- **Real env vars partially populated (Phase 2.01).** `.env.local.example` documents all Phase 2.01+ variables. `.env.local` (gitignored) now holds real values for: `RESEND_API_KEY`, `ANTHROPIC_API_KEY`, `TELEGRAM_BOT_TOKEN`, `TELEGRAM_OPERATOR_CHAT_ID`. Google Places + GBP variables DEFERRED to Phase 2.13.2.
+- **GitHub 2FA ENABLED (Phase 2.01, resolving Phase 1.01 carryover).** Authenticator app paired; 16 recovery codes saved in 3 places (credentials file + email + third location). Verified by log-out / log-in cycle.
 - **VS Code NOT installed** (carryover from Phase 1.01, user runs Code via Claude desktop app).
 - **23 moderate-severity npm vulnerabilities** reported by `npm install` (all transitive).
 - **Featured-card discipline (D9, ratified):** `.card-featured` is forbidden on every audience landing and every service detail page. Verified by smoke test: `document.querySelectorAll('main .card-featured').length === 0` is satisfied on all 19 EN pages (and matched on the ES mirror).

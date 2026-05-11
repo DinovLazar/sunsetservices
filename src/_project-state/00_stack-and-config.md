@@ -64,3 +64,41 @@
   still needs the `--font-heading` / `--font-body` declarations in `@theme` to generate
   the `font-heading` / `font-body` utilities — but their actual values at runtime come
   from the next/font className.
+
+## Phase 2.01 — accounts provisioned (2026-05-10)
+
+All accounts use `dinovlazar2011@gmail.com` as the login/contact email during Part 2 dev (with one documented exception — see "Operational state" below). Account contact emails migrate to `info@sunsetservices.us` as pre-launch housekeeping in Part 3.
+
+| Service | Tier | Created | Identifier / Notes |
+|---|---|---|---|
+| Cloudflare | Free | 2026-05-10 | 2FA via Authenticator app. No domain added yet (Part 3 Phase 3.11). |
+| Sanity | Free | 2026-05-10 | Project ID: `i3fawnrl`, dataset: `production`, org slug: `otkKa3xG9`. GitHub OAuth login. No API token yet (Phase 2.03). |
+| Vercel | Hobby | 2026-05-10 | Team slug: `dinovlazars-projects`. 2FA enabled. Repo not yet connected (Phase 2.02 connects it). |
+| Resend | Free | 2026-05-10 | API key `sunset-services-dev` (Sending access, All domains). Stored in `.env.local`. Domain not yet verified (Phase 2.08 — needs Cloudflare DNS). |
+| Anthropic API | Build | 2026-05-10 | Spending cap lowered to $20/mo (was higher). Org ID in `.env.local`. 2FA enabled. **Off-spec: account uses a pre-existing email on a less-used inbox; alert routing risk noted.** |
+| Telegram Bot | Free | 2026-05-10 | Bot `@SunSet_Services_Bot` (off-spec name; spec called for `@SunsetServicesOpsBot`). Operator chat ID `7919658849`. Token + chat ID in `.env.local`. Original token revoked + replaced after accidental chat leak. |
+| GCP / Places API | **DEFERRED** | n/a | Moved to new Phase 2.13.2 per user decision (was Step 7 in Phase 2.01). |
+| Business Profile API | **DEFERRED** | n/a | Moved to new Phase 2.13.2 per user decision. 2–6 week Google review clock has NOT started yet. |
+
+## Phase 2.01 — deferred decisions
+
+- **ServiceM8** — Sunset Services is not a customer; integration ships as feature-flagged stub (`SERVICEM8_ENABLED=false`) in Phase 2.13 + 2.17. See `Sunset-Services-Decisions.md`.
+- **Mautic** — self-hosted CRM; user installs whenever ready. Phase 2.06 ships a feature-flagged stub. (Carryover from v2 Project Instructions §13.)
+- **Domain DNS verification** for Resend, GSC, and (eventually) Cloudflare — deferred until we have Cloudflare DNS access (Part 3 Phase 3.11).
+- **Step 7 (GCP + Places API + GBP API application)** — moved out of Phase 2.01 entirely. Becomes new Phase 2.13.2 in Part 2, just before Phase 2.14. Phase 2.14 (write to GBP) and Phase 2.16 (reviews on the site) wait on 2.13.2.
+
+## Phase 2.01 — operational state
+
+- **GitHub 2FA: enabled via Authenticator app** (resolved Phase 1.01 carryover). 16 recovery codes saved in 3 places: credentials file (`~/Desktop/sunset-secrets-private/sunset-credentials.txt`), email to self, plus a third location. SSH push to `git@github.com:DinovLazar/sunsetservices.git` verified still working post-2FA.
+- **v1 docs archived** at `/archive/v1/`: one file moved (`Sunset-Services-Plan-old.md` → `archive/v1/Sunset-Services-Plan.md`). No v1 docs found in `src/_project-state/`.
+- **`.git` folder accidentally deleted mid-session** but recovered: `git init -b main` + `git remote add origin` + `git fetch` + `git reset origin/main` (mixed reset preserved working tree). All Phase 1.20 history intact on GitHub; no commits lost.
+- **17 modified files + 9 untracked discovered at session start** (pre-existing, not from this phase). Resolved: 12 code regressions reverted to GitHub Phase 1.20 state; v2 doc rewrites kept; 4 design handovers + 8 Lighthouse reports committed; duplicate root-level handovers (1.05 / 1.06) deleted; Phase 1.08 handover moved into `docs/design-handovers/`; `/.claude/` added to `.gitignore`.
+- **Anthropic account uses a pre-existing email** on a less-used inbox (off-spec from `dinovlazar2011@gmail.com`). User declined both email-change and forwarding. **Risk: billing/security alerts may be missed.** If the API ever stops responding, first thing to check is that inbox.
+- **Originally-leaked Telegram bot token revoked via BotFather**; replacement token in `.env.local`. Old token confirmed HTTP 401.
+- **Telegram bot display name "SunSet"** vs spec's "Sunset Services Ops" — minor cosmetic deviation. Username `@SunSet_Services_Bot` cannot be changed (Telegram usernames are permanent). Display name can be updated via BotFather `/setname` if desired.
+
+## Phase 2.01 — known v2 doc gaps (pre-existing, not caused by this phase)
+
+- `Sunset-Services-Project-Instructions.md` (v2) lives in `src/_project-state/` but Phase 2.01 spec expects it at repo root. **Not moved in this phase** — leaving as-is until a future phase explicitly relocates it.
+- `Sunset-Services-Phase-Plan.md` (v2) does NOT exist anywhere. Phase 2.01 spec expects it at repo root. **Not created in this phase** — the v2 doc rewrite work was incomplete at the start of Phase 2.01 and reconstructing the spec is out of scope here. Flag for a future doc-completion phase.
+- `Sunset-Services-Plan.md` (v2) exists at BOTH repo root AND `src/_project-state/`. Duplication is benign for now but eventually one should be removed.

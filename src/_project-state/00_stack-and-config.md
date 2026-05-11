@@ -102,3 +102,38 @@ All accounts use `dinovlazar2011@gmail.com` as the login/contact email during Pa
 - `Sunset-Services-Project-Instructions.md` (v2) lives in `src/_project-state/` but Phase 2.01 spec expects it at repo root. **Not moved in this phase** — leaving as-is until a future phase explicitly relocates it.
 - `Sunset-Services-Phase-Plan.md` (v2) does NOT exist anywhere. Phase 2.01 spec expects it at repo root. **Not created in this phase** — the v2 doc rewrite work was incomplete at the start of Phase 2.01 and reconstructing the spec is out of scope here. Flag for a future doc-completion phase.
 - `Sunset-Services-Plan.md` (v2) exists at BOTH repo root AND `src/_project-state/`. Duplication is benign for now but eventually one should be removed.
+
+## Phase 2.02 — Vercel project linked + Analytics wired (2026-05-10)
+
+**Vercel project:** `sunsetservices` (team `dinovlazars-projects`, Hobby plan)
+**Project ID:** `prj_OZ7kKRwIgpqoJGlWD7YguA7qYKbX` | **Org ID:** `team_rRKMRUuOrwJk08a4BkSgNYAe`
+**Production URL:** https://sunsetservices.vercel.app
+**Preview URL pattern:** https://sunsetservices-git-`<branch>`-dinovlazars-projects.vercel.app
+**Custom domain:** none (deferred to Phase 3.13 DNS cutover)
+
+**Env vars configured (Production + Preview only):**
+
+| Variable | Type | Value |
+|---|---|---|
+| RESEND_API_KEY | sensitive | from `.env.local` |
+| ANTHROPIC_API_KEY | sensitive | from `.env.local` |
+| TELEGRAM_BOT_TOKEN | sensitive | from `.env.local` (dead — refresh in Phase 2.15) |
+| TELEGRAM_OPERATOR_CHAT_ID | sensitive | from `.env.local` |
+| NEXT_PUBLIC_AI_CHAT_ENABLED | plain | `false` |
+| AI_CHAT_ENABLED | plain | `false` |
+| NEXT_PUBLIC_WIZARD_AUTOSAVE_ENABLED | plain | `true` |
+| WIZARD_SUBMIT_ENABLED | plain | `false` |
+
+Booleans were stored as `plain` (visible in dashboard) rather than the CLI default `sensitive` — small off-spec deviation, documented in `Part-2-Phase-02-Completion.md`.
+
+**Vercel Analytics:** enabled via `@vercel/analytics@^2.0.1` in `src/app/[locale]/layout.tsx`. `<Analytics />` mounted as a sibling of `<NextIntlClientProvider>` inside `<body>`. v2.x injects the analytics script client-side (loaded via a JS chunk that requests `/_vercel/insights/script.js` on first hydration) rather than statically embedding the script tag in the HTML — different from the v1.x behavior the Phase 2.02 plan's view-source check assumed. The route `/_vercel/insights/script.js` is served by Vercel (HTTP 200, ~2.5 KB). Hobby-tier retention (~24 hours) is acceptable for dev; full retention unlocks at Phase 3.10 Pro upgrade.
+
+**Sync new vars to Vercel going forward:**
+
+- `vercel env add <NAME> production --value <V> --yes` works fine for production-only vars.
+- For Production + Preview together, the Vercel CLI plugin emits `action_required` JSON (CLI source `commands/env/index.js:948` enforces explicit git-branch selection in non-interactive mode — even with `--yes`). The CLI has no flag to confirm "all preview branches" non-interactively. Workaround: POST directly to the REST API. Template:
+  ```powershell
+  $body = @{ type='sensitive'; key=$name; value=$value; target=@('production','preview') } | ConvertTo-Json -Compress
+  Invoke-RestMethod -Method Post -Uri "https://api.vercel.com/v10/projects/$projectId/env?upsert=true&teamId=$teamId" -Headers @{Authorization="Bearer $token"; 'Content-Type'='application/json'} -Body $body
+  ```
+  Token lives at `%APPDATA%\xdg.data\com.vercel.cli\auth.json`. Project + team IDs from `.vercel/project.json`. Verify with `vercel env ls`.

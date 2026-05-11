@@ -167,7 +167,7 @@ Per the Phase 2.01 spec: every off-spec decision is logged here so Chat can surf
 - [x] **`src/_project-state/current-state.md`** updated with new "Last completed phase" / "Next phase" / "Date" / status notes. ✓
 - [x] **`src/_project-state/file-map.md`** updated to include `/archive/v1/`, `Sunset-Services-Decisions.md`, new design handovers, Phase 1.10 Lighthouse reports, and the new completion report. ✓
 - [x] **Completion report** filed at this path (`src/_project-state/Part-2-Phase-01-Completion.md`). ✓
-- [ ] **All changes committed and pushed** to `main` on `github.com/DinovLazar/sunsetservices`. **PENDING — final commit + push to be executed at end of session.**
+- [x] **All changes committed and pushed** to `main` on `github.com/DinovLazar/sunsetservices`. Final commit: `e4b323e`. Commit chain on top of Phase 1.20: `c6a962c` (cleanup) → `f97efca` (archive v1) → `e4b323e` (Phase 2.01 close). ✓
 
 ---
 
@@ -184,6 +184,6 @@ Per spec, the phase is done when ALL of the following are true:
 7. ✅ All project-state files updated.
 8. ✅ `.env.local` carries real values for every Phase 2.01 variable that was provisioned (Google vars excluded because deferred).
 9. ✅ This completion report filed.
-10. _PENDING_ — All changes pushed to `main` on GitHub (final commit happens after Step 11 file writes finish).
+10. ✅ All changes pushed to `main` on GitHub. Three Phase 2.01 commits in chain: `c6a962c` (cleanup) → `f97efca` (archive) → `e4b323e` (Phase 2.01 close).
 
 **Overall status: Phase 2.01 closes with two items (2 and 3) explicitly DEFERRED to Phase 2.13.2 by user decision.** The phase is "done as scoped by user," not "done per original spec." Documented thoroughly so Chat / future Claude sessions can surface the deferrals without confusion.

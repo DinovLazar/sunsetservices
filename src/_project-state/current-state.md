@@ -120,7 +120,7 @@ Fonts (loaded via `next/font/google`): Manrope (heading) + Onest (body), subsets
 - **Phase 1.20 commit:** `5dee0b1` — `feat(wizard,chat): quote wizard + AI chat widget UI; Part 1 acceptance pass (Phase 1.20)`
 - **Phase 2.01 cleanup commit:** `c6a962c` — `chore(pre-2.01): restore Phase 1.20 baseline + commit untracked Part-1 artifacts` (restored 12 code regressions, committed 4 design handovers + 8 Lighthouse reports, kept v2 doc rewrites in progress, added /.claude/ to gitignore)
 - **Phase 2.01 archive commit:** `f97efca` — `chore(docs): archive v1 docs into /archive/v1/ (Phase 2.01)`
-- **Phase 2.01 finalization commit:** _(filled in by final Step 11 push)_
+- **Phase 2.01 finalization commit:** `e4b323e` — `chore(phase-2.01): close Phase 2.01 (Account-Creation Runway)` (6 files, +361 / -10; created `Sunset-Services-Decisions.md` + `Part-2-Phase-01-Completion.md`, updated 00_stack-and-config / current-state / file-map / .env.local.example)
 
 ---
 

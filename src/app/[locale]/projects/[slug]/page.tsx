@@ -8,21 +8,34 @@ import ProjectFacts from '@/components/sections/projects/detail/ProjectFacts';
 import BeforeAfterToggle from '@/components/sections/projects/detail/BeforeAfterToggle';
 import RelatedProjects from '@/components/sections/projects/detail/RelatedProjects';
 import CTA from '@/components/sections/CTA';
-import {PROJECTS, getProject} from '@/data/projects';
+import {selectRelatedProjects, type Project} from '@/data/projects';
 import {getLocation} from '@/data/locations';
 import {PROJECT_LEAD, PROJECT_GALLERY, PROJECT_BEFORE_AFTER} from '@/data/imageMap';
 import {buildBreadcrumbList} from '@/lib/schema/breadcrumb';
 import {buildProjectCreativeWork} from '@/lib/schema/project';
 import {BUSINESS_URL} from '@/lib/constants/business';
 import {routing} from '@/i18n/routing';
+import {
+  getAllProjects,
+  getAllProjectSlugs,
+  getProjectBySlug,
+} from '@sanity-lib/queries';
+import {
+  sanityProjectDetailToTs,
+  sanityProjectSummaryToTs,
+} from '@/lib/sanity-adapters';
 
 type Locale = 'en' | 'es';
+
+// Phase 2.05 — ISR (30 min). Webhook-driven revalidation deferred.
+export const revalidate = 1800;
 
 /** See ../page.tsx for the SITE_ORIGIN env-override rationale. */
 const SITE_ORIGIN = process.env.NEXT_PUBLIC_SITE_URL || BUSINESS_URL;
 
-export function generateStaticParams() {
-  return PROJECTS.map((p) => ({slug: p.slug}));
+export async function generateStaticParams() {
+  const slugs = await getAllProjectSlugs();
+  return slugs.map((slug) => ({slug}));
 }
 
 export async function generateMetadata({
@@ -31,8 +44,9 @@ export async function generateMetadata({
   params: Promise<{locale: string; slug: string}>;
 }): Promise<Metadata> {
   const {locale, slug} = await params;
-  const project = getProject(slug);
-  if (!project) return {};
+  const sanityProject = await getProjectBySlug(slug);
+  if (!sanityProject) return {};
+  const project = sanityProjectDetailToTs(sanityProject);
   const loc = (routing.locales.includes(locale as Locale) ? locale : 'en') as Locale;
 
   const city = getLocation(project.citySlug);
@@ -43,11 +57,9 @@ export async function generateMetadata({
     hardscape: {en: 'hardscape', es: 'hardscape'},
   }[project.audience][loc];
 
-  // Title template: `{title} — {audience} project in {city} · Sunset Services`.
   const title = `${project.title[loc]} — ${audienceLabel} project in ${cityName} · Sunset Services`;
   const description = `${project.shortDek[loc]} ${cityName}, IL. By Sunset Services.`;
 
-  // No trailing slash — see ../page.tsx for the rationale.
   const enPath = `/projects/${slug}`;
   const esPath = `/es/projects/${slug}`;
   const selfPath = loc === 'en' ? enPath : esPath;
@@ -67,17 +79,18 @@ export async function generateMetadata({
 }
 
 /**
- * Project detail — Phase 1.16 implementing Phase 1.15 design handover §4.
+ * Project detail — Phase 1.16 templates, Phase 2.05 Sanity-driven content.
  *
  * Section order: Hero (with breadcrumb) → Narrative → Gallery → Facts →
- * BeforeAfterToggle (when `hasBeforeAfter`) → RelatedProjects → CTA.
- * Surface alternation per §2.2:
- *   bg → cream → bg → cream → bg → cream → bg.
+ * BeforeAfterToggle (when hasBeforeAfter) → RelatedProjects → CTA.
  *
- * Schema: `BreadcrumbList` + `CreativeWork` per §5.2. Same-source rules:
- *   - Breadcrumb items array drives both visible <Breadcrumb> + JSON-LD.
- *   - Gallery image array drives both rendered <img> tags + the
- *     `CreativeWork.image` field. Defined once in this route.
+ * Image fields fall back to `imageMap.ts` placeholders until Phase 2.04
+ * uploads real Sanity assets; the gallery / lead / before / after resolution
+ * happens in this route via the existing maps + the resolveProjectImage
+ * helper for future Sanity-asset wins.
+ *
+ * Schema: BreadcrumbList + CreativeWork. CreativeWork.image array is
+ * same-source with the rendered gallery.
  */
 export default async function ProjectDetailPage({
   params,
@@ -86,10 +99,12 @@ export default async function ProjectDetailPage({
 }) {
   const {locale, slug} = await params;
   if (!routing.locales.includes(locale as Locale)) notFound();
-  const project = getProject(slug);
-  if (!project) notFound();
   const loc = locale as Locale;
   setRequestLocale(loc);
+
+  const sanityProject = await getProjectBySlug(slug);
+  if (!sanityProject) notFound();
+  const project: Project = sanityProjectDetailToTs(sanityProject);
 
   const city = getLocation(project.citySlug);
   const cityName = city?.name ?? project.citySlug;
@@ -108,7 +123,8 @@ export default async function ProjectDetailPage({
       (loc === 'en' ? `/projects/${slug}/` : `/${loc}/projects/${slug}/`),
   }));
 
-  // Same-source gallery photos (asset + alt).
+  // Same-source gallery photos: gallery length from Sanity (alt text),
+  // photo assets from imageMap.ts fallback until Phase 2.04.
   const galleryAssets = PROJECT_GALLERY[project.slug] ?? [];
   const photos = project.gallery.map((g, i) => ({
     asset: galleryAssets[i] ?? galleryAssets[0],
@@ -119,13 +135,16 @@ export default async function ProjectDetailPage({
   const leadAsset = PROJECT_LEAD[project.slug];
   const imageUrls = [
     leadAsset ? `${BUSINESS_URL}${leadAsset.src}` : '',
-    ...photos.map((p) => `${BUSINESS_URL}${p.asset.src}`),
+    ...photos.map((p) => (p.asset ? `${BUSINESS_URL}${p.asset.src}` : '')),
   ].filter(Boolean);
 
-  // Before/after image source for the toggle (when applicable).
   const beforeAfter = project.hasBeforeAfter
     ? PROJECT_BEFORE_AFTER[project.slug]
     : undefined;
+
+  // Fetch the full project list for related-project selection.
+  const allSanity = await getAllProjects();
+  const ALL: Project[] = allSanity.map(sanityProjectSummaryToTs);
 
   const breadcrumbSchema = buildBreadcrumbList(breadcrumbSchemaItems);
   const creativeWorkSchema = buildProjectCreativeWork({
@@ -156,7 +175,7 @@ export default async function ProjectDetailPage({
           afterAlt={project.afterAlt[loc]}
         />
       ) : null}
-      <RelatedProjects current={project} locale={loc} />
+      <RelatedProjects current={project} locale={loc} all={ALL} />
       <CTA
         copyNamespace="project.cta"
         destination={`/request-quote/?from=project&slug=${project.slug}`}

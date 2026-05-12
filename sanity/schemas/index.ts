@@ -7,6 +7,8 @@ import {location} from './location';
 import {faq} from './faq';
 import {review} from './review';
 import {team} from './team';
+import {quoteLead} from './quoteLead';
+import {quoteLeadPartial} from './quoteLeadPartial';
 
 export const schemaTypes = [
   // Objects first (they're referenced by documents).
@@ -23,4 +25,7 @@ export const schemaTypes = [
   faq,
   review,
   team,
+  // Phase 2.06 — wizard backend.
+  quoteLead,
+  quoteLeadPartial,
 ];

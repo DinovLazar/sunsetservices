@@ -1,25 +1,31 @@
-import {getTranslations} from 'next-intl/server';
+import {getLocale, getTranslations} from 'next-intl/server';
 import AnimateIn from '@/components/global/motion/AnimateIn';
+import CalendlyEmbed from '@/components/calendly/CalendlyEmbed';
 import {BUSINESS_PHONE, BUSINESS_PHONE_TEL} from '@/lib/constants/business';
 
 /**
- * Calendly placeholder — Phase 1.11 handover §4.4 (D9 lock = tel fallback).
+ * Contact — Calendly section.
  *
- * Surface --color-bg-cream; card surface inside is --color-bg with soft
- * shadow. ZERO third-party load. Part-2 swap (Phase 2.07) replaces the
- * mock calendar with the live Calendly embed; the surrounding chrome
- * stays. "Coming soon" chip uses --color-sunset-amber-100 (NOT amber-500
- * — that would be a body amber CTA).
+ * Phase 1.11 §2.2 surface = `--color-bg-cream`. Phase 1.11 chrome
+ * (eyebrow + h2 + body) preserved; Phase 2.07 swaps the old static
+ * placeholder card for the real <CalendlyEmbed/>. A small secondary
+ * `tel:` button sits below the widget as an intentional phone-preference
+ * backup CTA (Plan §2 verbatim — "Keep the tel button visible BELOW the
+ * widget — smaller, secondary styling").
+ *
+ * Component-name is a Phase 1.11 carryover — kept to avoid touching the
+ * `/contact/` page import. The body now delegates to <CalendlyEmbed/>.
  */
 export default async function ContactCalendlyPlaceholder() {
+  const locale = (await getLocale()) as 'en' | 'es';
   const t = await getTranslations('contact.calendly');
 
   return (
     <section
       aria-labelledby="contact-calendly-h2"
-      className="bg-[var(--color-bg-cream)] py-14 lg:py-20 [content-visibility:auto] [contain-intrinsic-size:auto_700px]"
+      className="bg-[var(--color-bg-cream)] py-14 lg:py-20"
     >
-      <div className="mx-auto max-w-[var(--container-narrow)] px-4 sm:px-6 lg:px-8 xl:px-12 text-center">
+      <div className="mx-auto max-w-[var(--container-default)] px-4 sm:px-6 lg:px-8 xl:px-12 text-center">
         <AnimateIn variant="fade-up" className="block">
           <p
             className="font-heading font-semibold uppercase m-0 mb-3"
@@ -56,62 +62,33 @@ export default async function ContactCalendlyPlaceholder() {
             {t('body')}
           </p>
 
-          <div
-            className="mx-auto mt-10 p-6 lg:p-8"
+          <div className="mt-10">
+            <CalendlyEmbed
+              locale={locale}
+              namespace="contact.calendly"
+              minHeight={720}
+              surface="cream"
+            />
+          </div>
+
+          <p
+            className="m-0 mt-6"
             style={{
-              maxWidth: '720px',
-              background: 'var(--color-bg)',
-              border: '1px solid var(--color-border-soft, #E0D9C5)',
-              borderRadius: 'var(--radius-md)',
-              boxShadow: 'var(--shadow-soft)',
+              fontSize: 'var(--text-body-sm)',
+              color: 'var(--color-text-secondary)',
             }}
           >
-            <span
-              className="inline-flex items-center font-heading font-semibold uppercase"
-              style={{
-                fontSize: '11px',
-                letterSpacing: '0.08em',
-                height: '22px',
-                padding: '0 10px',
-                borderRadius: '11px',
-                background: 'var(--color-sunset-amber-100, #FDF7E8)',
-                color: 'var(--color-sunset-amber-700, #B47821)',
-              }}
-            >
-              {t('coming_soon')}
-            </span>
-            {/* Mock calendar grid — purely decorative. */}
-            <div className="mt-5 mx-auto" aria-hidden="true" style={{maxWidth: '480px'}}>
-              <div className="grid grid-cols-5 gap-2">
-                {Array.from({length: 10}).map((_, i) => (
-                  <div
-                    key={i}
-                    style={{
-                      aspectRatio: '1 / 1',
-                      background: 'var(--color-bg-cream)',
-                      borderRadius: 'var(--radius-sm, 6px)',
-                    }}
-                  />
-                ))}
-              </div>
-            </div>
-            <p
-              className="m-0 mt-6"
-              style={{
-                fontSize: 'var(--text-body-sm)',
-                color: 'var(--color-text-secondary)',
-              }}
-            >
-              {t('fallback.body')}
-            </p>
             <a
               href={`tel:${BUSINESS_PHONE_TEL}`}
-              className="btn btn-secondary btn-md mt-4 inline-flex"
-              style={{minWidth: '220px'}}
+              className="link link-inline"
+              style={{
+                color: 'var(--color-sunset-green-700)',
+                fontWeight: 600,
+              }}
             >
-              {t('fallback.cta', {phone: BUSINESS_PHONE})}
+              {t('fallbackCta', {phone: BUSINESS_PHONE})}
             </a>
-          </div>
+          </p>
         </AnimateIn>
       </div>
     </section>

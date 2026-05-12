@@ -221,7 +221,16 @@ Fonts (loaded via `next/font/google`): Manrope (heading) + Onest (body), subsets
   - `ae58a8f` — `feat(wizard): fire-and-forget partial push on Steps 1-3 transitions (Phase 2.06)`
   - `5ad8e97` — `chore(env): document Phase 2.06 quote-wizard backend variables`
   - `350d417` — `fix(quote): honeypot before zod + drop empty-string defaults (Phase 2.06)`
-- **Phase 2.07 commits** (9, on branch `claude/flamboyant-einstein-069be0` → merged to `main` at the end of the phase). The pre-rebase SHAs were `f82aac4` / `34af242` / `970b1b7` / `ad00895` / `85a2b17` / `78636a5` / `aa6b399` / `90ad28c` / `dbadf69`; after rebasing onto Phase 2.06's HEAD on `main`, those SHAs were re-numbered. See the Phase 2.07 completion report's commit log for the final SHAs after merge.
+- **Phase 2.07 commits** (9, on branch `claude/flamboyant-einstein-069be0` rebased onto Phase 2.06's HEAD on `main` mid-phase when Phase 2.06 landed, then merged):
+  - `06f867a` — `chore(decisions): log Phase 2.07 decisions`
+  - `85946ff` — `chore(env): document Phase 2.07 Calendly variables`
+  - `64fd02a` — `feat(calendly): CalendlyEmbed component + consent gate + lazy load (Phase 2.07)`
+  - `b2229a8` — `chore(i18n): Phase 2.07 Calendly strings`
+  - `aba209a` — `feat(contact): swap Calendly placeholder for real embed (Phase 2.07)`
+  - `9960747` — `feat(thank-you): swap Calendly placeholder for real embed (Phase 2.07)`
+  - `6bec87b` — `fix(calendly): role=region on widget div (a11y) (Phase 2.07)`
+  - `0bcf355` — `chore(phase-2-07): project-state updates`
+  - `b39dcd2` — `chore(phase-2-07): completion report`
 
 ---
 

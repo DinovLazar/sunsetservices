@@ -6,6 +6,7 @@ export const resourceArticle = defineType({
   title: 'Resource Article',
   groups: [
     {name: 'content', title: 'Content', default: true},
+    {name: 'media', title: 'Media'},
     {name: 'taxonomy', title: 'Taxonomy'},
     {name: 'seo', title: 'SEO'},
   ],
@@ -87,6 +88,41 @@ export const resourceArticle = defineType({
       of: [{type: 'reference', to: [{type: 'faq'}]}],
     }),
     defineField({
+      name: 'featuredImage',
+      type: 'image',
+      title: 'Featured image (card thumbnail)',
+      group: 'media',
+      options: {hotspot: true},
+    }),
+    defineField({
+      name: 'featuredImageAlt',
+      type: 'localizedString',
+      title: 'Featured-image alt',
+      group: 'media',
+    }),
+    defineField({
+      name: 'crossLinkAudience',
+      type: 'string',
+      title: 'Inline cross-link — audience',
+      group: 'taxonomy',
+      description: 'Optional. Together with serviceSlug, splices a ServiceCard into the body between H2s.',
+      options: {
+        list: [
+          {title: 'Residential', value: 'residential'},
+          {title: 'Commercial', value: 'commercial'},
+          {title: 'Hardscape', value: 'hardscape'},
+        ],
+        layout: 'radio',
+      },
+    }),
+    defineField({
+      name: 'crossLinkServiceSlug',
+      type: 'string',
+      title: 'Inline cross-link — service slug',
+      group: 'taxonomy',
+      description: 'e.g. "lawn-care". Resolves against services.ts together with crossLinkAudience.',
+    }),
+    defineField({
       name: 'seo',
       type: 'localizedSeo',
       title: 'SEO',
@@ -94,11 +130,17 @@ export const resourceArticle = defineType({
     }),
   ],
   preview: {
-    select: {title: 'title.en', category: 'category', schemaType: 'schemaType'},
-    prepare({title, category, schemaType}) {
+    select: {
+      title: 'title.en',
+      category: 'category',
+      schemaType: 'schemaType',
+      media: 'featuredImage',
+    },
+    prepare({title, category, schemaType, media}) {
       return {
         title: title ?? '(untitled article)',
         subtitle: [category, schemaType].filter(Boolean).join(' · '),
+        media,
       };
     },
   },

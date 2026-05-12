@@ -6,9 +6,9 @@
 
 ## Where we are
 
-- **Last completed phase:** Part 2 — Phase 2.07 (Code: Calendly inline widget on `/contact/` and `/thank-you/`). Real Calendly inline widget replaces the Phase 1.11 / 1.20 static placeholders. Lazy-loaded via `IntersectionObserver` (200px rootMargin) so `widget.js` stays out of the network waterfall until the widget approaches the viewport. Cookie-consent gated (reusing the chat-widget default-true stub from Phase 1.20 D29). Flag-controlled via `NEXT_PUBLIC_CALENDLY_ENABLED` so production can be flipped off without a redeploy. URL is `NEXT_PUBLIC_CALENDLY_URL` — currently the user's personal testing account (`calendly.com/dinovlazar2011`); swap to Erick's real Sunset Services URL is a Phase 3.12 checklist item. `<noscript>` anchor fallback covers JS-disabled visitors. Static fallback card (tel + direct URL anchor) renders when any gate is closed.
-- **Phase 2.06 landed on `main` DURING Phase 2.07's execution.** When this branch was first cut, `main`'s HEAD was the Phase 2.05 completion commit (`d1c3f34` / `2cbcb0e`) and the Phase 2.06 backend (`/api/quote`, `/api/quote/partial`, Sanity write-client, zod schemas, Mautic stub, Resend lead-alert) had not yet merged. The prompt's premise was wrong on this point. Phase 2.06 merged to `main` before Phase 2.07's PR rebased; this branch's final history sits on top of Phase 2.06. End-to-end: `/request-quote/` Submit → real `/api/quote` POST → Sanity `quoteLead` doc + Resend lead-alert email → `router.push('/thank-you/?firstName=…')` → Phase 2.07 Calendly widget.
-- **Next phase:** Part 2 — Phase 2.08 (Resend domain verify + branded HTML email templates).
+- **Last completed phase:** Part 2 — Phase 2.08 (Code: branded HTML email templates + `/api/contact` + `/api/newsletter` + footer newsletter signup). Five React Email templates (`QuoteLeadAlertEmail`, `QuoteConfirmationEmail`, `ContactAlertEmail`, `ContactConfirmationEmail`, `NewsletterWelcomeEmail`) replace the Phase 2.06 plaintext lead-alert. New `sendBrandedEmail()` utility (`src/lib/email/send.ts`) implements **sandbox-aware routing**: when `RESEND_DOMAIN_VERIFIED=false`, every send reroutes to `RESEND_TO_EMAIL` with a `[SANDBOX → <intended>]` subject prefix and an in-body yellow banner — flipping the env var to `true` after Resend verifies `sunsetservices.us` swaps to normal routing with zero code changes (planned for Phase 3.11/3.12). `/api/quote` now sends TWO branded emails (lead alert + visitor confirmation). New `/api/contact` and `/api/newsletter` routes mirror the architecture (honeypot → Zod → Sanity write → branded email × N → Mautic stub). ContactForm submit wired to `/api/contact`. Footer `<NewsletterSignup/>` (newly authored in `src/components/forms/`) replaces the Phase 1.05-J placeholder; component lives ABOVE the brand+links columns as a top section, hidden on `/request-quote/` (D17 conversion-surface protection).
+- **Resend domain verification deliberately deferred to Phase 3.11/3.12** per the new 2026-05-12 decision-log entry. Sandbox sender (`onboarding@resend.dev`) stays; DNS for `sunsetservices.us` is still parked at the old WordPress registrar.
+- **Next phase:** Part 2 — Phase 2.09 (Code: real Anthropic chat backend + `/api/chat` + Telegram lead alerts).
 - **Date:** 2026-05-12
 
 ---
@@ -55,6 +55,22 @@
 - FAQ accordions are SSR `<details>` with progressive enhancement to a client island for chevron rotation. **No per-item `<AnimateIn>`** — the primary lever for closing the homepage's mobile P=86 gap on these new templates.
 
 > **Phase 2.01 note:** No `localhost:3000` behavior changed in this phase. Phase 2.01 is account creation only — no routes added, no source code touched. Working tree at end of phase = Phase 1.20 code + Phase 2.01 doc updates.
+
+## What works (Phase 2.08 additions)
+
+- **Five branded HTML email templates** under `src/lib/email/templates/`: `QuoteLeadAlertEmail`, `QuoteConfirmationEmail`, `ContactAlertEmail`, `ContactConfirmationEmail`, `NewsletterWelcomeEmail`. Each composes the shared `EmailLayout` primitive (header wordmark + body slot + NAP footer) with inline-styled brand tokens from `src/lib/email/tokens.ts`. EN copy is the spec; inline ES copy on every visitor-facing template is flagged `[TBR]` for Phase 2.13 native review.
+- **`sendBrandedEmail()` utility (`src/lib/email/send.ts`).** Single entry point for every Resend send. When `RESEND_DOMAIN_VERIFIED=false`: reroutes to `RESEND_TO_EMAIL`, prefixes the subject with `[SANDBOX → <intended>]`, and injects `intendedRecipient` into the React tree so `EmailLayout` renders the in-body yellow sandbox banner. When `RESEND_DOMAIN_VERIFIED=true`: send goes through normally, no banner, no prefix. Single env-var flip, zero code changes. The utility never throws — returns `{ok, messageId?, error?}` so a Resend failure never breaks the API route (Phase 2.06 durability pattern preserved).
+- **`/api/quote` refactored** to use the branded templates AND now sends a second email: the visitor confirmation (`QuoteConfirmationEmail`). The old `src/lib/quote/resend.ts` plaintext sender is now a thin wrapper around `sendBrandedEmail()` (`sendQuoteLeadAlertEmail` + new `sendQuoteVisitorConfirmationEmail`). The Zod schema gained `locale: z.enum(['en','es']).default('en')` and the wizard's `buildPayload()` now forwards `locale` so emails render in the lead's language.
+- **`/api/contact` new route.** Mirrors `/api/quote`'s architecture: honeypot-before-Zod → Sanity write (durable-first) → branded `ContactAlertEmail` to Erick → branded `ContactConfirmationEmail` to visitor (only when an email was provided) → Mautic stub. Master kill switch `CONTACT_SUBMIT_ENABLED`. The route enforces D14 "at least one of email or phone" as a server-side guard so stale forms can't slip past.
+- **ContactForm wired to `/api/contact`.** The Phase 1.11 Part-1 simulation handler is gone. The form now POSTs `keepalive: true`, fires `sunset:contact-event` CustomEvents for the Phase 2.11 GTM bridge, surfaces inline error messages on network/server failure, and clears to the success state on `status: 'ok'`.
+- **`/api/newsletter` new route.** Honeypot-before-Zod → checks for an existing subscriber by email → creates fresh / resubscribes-on-unsubscribed / returns `already_subscribed` if active → branded welcome email → Mautic stub. Master kill switch `NEWSLETTER_SUBMIT_ENABLED`. Sanity's async unique-email validation runs at publish time only — the route handler's pre-check is the authoritative duplicate guard for API writes.
+- **Footer `<NewsletterSignup/>`** (`src/components/forms/NewsletterSignup.tsx`) replaces the Phase 1.05-J placeholder (`FooterNewsletter.tsx`, deleted). 2-column desktop / stacked mobile, brand-token styling (green-500 button, white input on dark footer), honeypot field, real `/api/newsletter` POST with `keepalive: true`, success / already_subscribed / invalid / error inline states wired to `aria-live="polite"`. Mounted as a new TOP section above the Footer's brand+links columns (the 3-column grid is now 2-column since newsletter lifted out). Hidden on `/request-quote/` (D17 conversion-surface protection — same pattern as the chat bubble).
+- **Two new Sanity document types**: `contactSubmission` (name + email/phone/category/message + locale + sessionId + status) and `newsletterSubscriber` (email + subscribedAt + sourcePage + locale + unsubscribed flag). Both deployed to `https://sunsetservices.sanity.studio` via `npm run studio:deploy`.
+- **Three new env vars** on Vercel (Production + Preview) + `.env.local` + `.env.local.example`:
+  - `RESEND_DOMAIN_VERIFIED=false` (sandbox routing; flips Phase 3.11/3.12)
+  - `CONTACT_SUBMIT_ENABLED=true` (kill switch)
+  - `NEWSLETTER_SUBMIT_ENABLED=true` (kill switch)
+- **Shared `generateUuid()` extracted** to `src/lib/sessionId.ts`. The wizard's localStorage-backed `getOrCreateSessionId` now imports from there; contact + newsletter forms generate a fresh UUID per submit (no cross-step persistence).
 
 ## What works (Phase 2.07 additions)
 
@@ -109,7 +125,8 @@
 - **Preview deploys are auth-gated** (Vercel SSO protection on by default for new teams). Public preview URLs require disabling SSO protection in project settings — not yet done to keep the security default.
 - Real photography — placeholders generated by `scripts/gen-audience-service-placeholders.mjs` (Phase 1.09) and `scripts/gen-home-placeholders.mjs` (Phase 1.07). Phase 1.16 ships 12 placeholder projects whose lead + gallery + before/after assets alias to existing audience-project / service-project tiles via `imageMap.ts`. Cowork sources real photos from Erick's Drive in Phase 2.04.
 - `/projects/?service=…` filtered routes — 404 by design until Phase 2.x; Phase 1.16 ships only the audience-only filter (handover D2.A).
-- **Resend domain still unverified.** `RESEND_FROM_EMAIL=onboarding@resend.dev` (sandbox sender). Sandbox mode restricts the TO to the Resend account's verified owner address (`dinovlazar2011@gmail.com`). Per the 2026-05-12 decision in `Sunset-Services-Decisions.md`, `RESEND_TO_EMAIL=dinovlazar2011@gmail.com` for the Phase 2.06 dev window; the user monitors that inbox for leads until Phase 2.08 verifies `sunsetservices.us` + ships the branded template + flips the TO to `info@sunsetservices.us`. End-to-end smoke confirmed both Sanity write AND email delivery on 2026-05-12.
+- **Resend domain still unverified — sandbox routing in effect.** `RESEND_FROM_EMAIL=onboarding@resend.dev` and `RESEND_DOMAIN_VERIFIED=false`. Every branded send (5 templates, 3 routes) reroutes to `RESEND_TO_EMAIL` (`dinovlazar2011@gmail.com`) with a `[SANDBOX → <intended>]` subject prefix and an in-body yellow banner. Visitors do NOT receive their confirmation emails during this window. Acceptable per the 2026-05-12 decision-log entry — Sanity write succeeds so no lead is lost, the `/thank-you/` page has full next-steps, and the dev window is finite. Flip happens in Phase 3.11/3.12: SPF/DKIM/DMARC records → Resend verifies → flip `RESEND_DOMAIN_VERIFIED=true` + `RESEND_FROM_EMAIL=info@sunsetservices.us` + `RESEND_TO_EMAIL=info@sunsetservices.us`. Single env-var change, zero code.
+- **Newsletter unsubscribe page missing.** No `/api/newsletter/unsubscribe/[token]` endpoint exists at Phase 2.08. `NewsletterWelcomeEmail` is rendered with `unsubscribeUrl={undefined}` so the footer omits the link entirely. Tracked as a small follow-up phase to ship before launch if any real subscribers accumulate during dev.
 - **Chat AI** — the bubble + panel + state machine + UI flows are all real, but the assistant replies are a token-streamed canned-response stub keyed off the suggested-prompt index. No Anthropic SDK, no rate limiter, no kill switch wiring (Phase 2.09 swaps the stub for the real SDK + `/api/chat` + Telegram leads).
 - **Calendly URL is the user's personal testing account** (`calendly.com/dinovlazar2011`). Swap to Erick's real Sunset Services URL before DNS cutover — Phase 3.12 checklist item.
 - **Address autocomplete** — Step 4 street wrapper carries `data-autocomplete-stub="address"`. Phase 2.07 explicitly deferred this to a new mini-phase 2.13.3 (after Phase 2.13.2 lands the Google Places API key per the 2026-05-10 GCP-deferral decision) — see `Sunset-Services-Decisions.md` "2026-05-12 — Google Places address autocomplete deferred from Phase 2.07".
@@ -123,7 +140,7 @@
 - AI chat (Phase 1.20 / 2.09), analytics (Phase 2.10), Resend email (Phase 2.08).
 - **GBP API write access + Places API read (Phase 2.01 Step 7) — DEFERRED to new Phase 2.13.2 per user decision.** Phase 2.14 (publish to Google Business Profile) and Phase 2.16 (daily reviews on the site) both wait on Phase 2.13.2 completing first. Phase 2.13.2 itself starts a 2–6 week Google review clock for GBP API access.
 - **Cloudflare DNS** — account exists with 2FA enabled, no domain added yet. Domain cutover happens in Part 3 Phase 3.11.
-- **Resend domain verification** for `sunsetservices.us` (SPF/DKIM/DMARC records) — deferred to Phase 2.08; requires Cloudflare DNS access which we don't have yet.
+- **Resend domain verification** for `sunsetservices.us` (SPF/DKIM/DMARC records) — Phase 2.08 deferred this to Phase 3.11/3.12 (decision-log entry 2026-05-12). The sandbox routing utility (`sendBrandedEmail()` with `RESEND_DOMAIN_VERIFIED` switch) is in place; the flip is single-env-var.
 - **Anthropic billing/security alert routing risk** — the Anthropic API account uses a pre-existing email on a less-used inbox (off-spec from dinovlazar2011@gmail.com per user choice). Neither email-change nor forwarding was set up. If the API ever stops working, first check that inbox for $20-cap or security alerts.
 
 ---
@@ -230,7 +247,25 @@ Fonts (loaded via `next/font/google`): Manrope (heading) + Onest (body), subsets
   - `9960747` — `feat(thank-you): swap Calendly placeholder for real embed (Phase 2.07)`
   - `6bec87b` — `fix(calendly): role=region on widget div (a11y) (Phase 2.07)`
   - `0bcf355` — `chore(phase-2-07): project-state updates`
-  - `b39dcd2` — `chore(phase-2-07): completion report`
+  - `b39dcd2` — `chore(phase-2-07): completion report` (note: post-rebase SHA on `origin/main` is `daaea0a` with `4f1344b` as the post-rebase docs-update tip — same content)
+- **Phase 2.08 commits** (15, on branch `claude/modest-fermat-515f93` from `origin/main` at `4f1344b`):
+  - `bf10869` — `chore(decisions): log Phase 2.08 Resend domain deferral + sandbox routing pattern`
+  - `6076c42` — `chore(env): document Phase 2.08 email + contact + newsletter variables`
+  - `2dd6552` — `feat(deps): add @react-email/components + @react-email/render for Phase 2.08`
+  - `67ee0e4` — `feat(sanity-schemas): +contactSubmission, +newsletterSubscriber (Phase 2.08)`
+  - `9141e05` — `feat(email): EmailLayout primitive + sandbox banner + token module (Phase 2.08)`
+  - `346683e` — `feat(email): QuoteLeadAlertEmail template (Phase 2.08)`
+  - `8470a8f` — `feat(email): QuoteConfirmationEmail template (Phase 2.08)`
+  - `c58de6b` — `feat(email): ContactAlertEmail template (Phase 2.08)`
+  - `2ce00fc` — `feat(email): ContactConfirmationEmail template (Phase 2.08)`
+  - `f762397` — `feat(email): NewsletterWelcomeEmail template (Phase 2.08)`
+  - `dbcaf83` — `feat(email): sendBrandedEmail util with sandbox-aware routing (Phase 2.08)`
+  - `8cdb923` — `refactor(api/quote): branded lead alert + visitor confirmation via sendBrandedEmail (Phase 2.08)`
+  - `55638c9` — `feat(api/contact): contact form backend route + branded emails (Phase 2.08)`
+  - `c62b38f` — `feat(contact): wire ContactForm submit to POST /api/contact (Phase 2.08)`
+  - `4f43caf` — `feat(api/newsletter): newsletter signup backend (Phase 2.08)`
+  - `de66e8e` — `feat(newsletter): footer signup component + Footer integration (Phase 2.08)`
+  - `010f222` — `chore(i18n): Phase 2.08 newsletter strings + EN copy refresh`
 
 ---
 
@@ -302,6 +337,7 @@ The following ES strings ship as first-pass drafts in `src/messages/es.json` and
 - All `whyLocal.es`, all `testimonials[].quote.es` + `attribution.es`, all `faq[].q.es` + `a.es`, and all `meta.description.es` per city.
 - Phase 1.16 — every key in `projects.*` and `project.*` namespaces in `src/messages/es.json` ships with the `[TBR]` flag (handover §7). Per-project ES strings inside `src/data/projects.ts` (`title.es`, `shortDek.es`, `narrativeHeading.es`, `narrative.es`, `materials.es`, `leadAlt.es`, `gallery[].alt.es`, `beforeAlt.es`, `afterAlt.es`) are first-pass placeholders flagged `[TBR]`.
 - Phase 2.07 — new Calendly i18n keys in `src/messages/es.json` (flagged `[TBR]`): `contact.calendly.sub`, `contact.calendly.fallbackCta`, `contact.calendly.fallbackLink`, `contact.calendly.iframeLabel`, `thanks.calendly.h2`, `thanks.calendly.sub`, `thanks.calendly.fallbackCta`, `thanks.calendly.fallbackLink`, `thanks.calendly.iframeLabel`. The existing `contact.calendly.h2` ES wording was preserved (not re-flagged).
+- Phase 2.08 — new newsletter i18n keys in `src/messages/es.json` (flagged `[TBR]`): `chrome.footer.newsletter.heading`, `chrome.footer.newsletter.helper`, `chrome.footer.newsletter.successMessage`, `chrome.footer.newsletter.alreadySubscribed`, `chrome.footer.newsletter.invalidEmail`, `chrome.footer.newsletter.errorMessage`. The 5 email-template files under `src/lib/email/templates/` carry inline ES copy (lead lines, sign-offs, CTA labels) — every ES literal in those files is flagged `[TBR]` for the same review pass. The original Phase 1.05 `chrome.footer.newsletter.placeholderNote` key is now orphan (component no longer references it); remove in a future i18n cleanup pass.
 
 ## TODO 2.15 — Real Google reviews
 - Replace the placeholder testimonials in `src/data/locations.ts` (`testimonials[]`) with real reviews pulled from the Google Places API. The `LocalTestimonials` component renders `1+` cards per the seed length; no schema change required.

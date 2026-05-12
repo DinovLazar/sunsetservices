@@ -9,8 +9,9 @@
  *   (Phase 2.07) confirms map-pin precision.
  * - `address.postalCode` is omitted on city pages until Cowork returns it
  *   (Schema.org accepts the page without; see `lib/schema/location.ts`).
- * - `whyLocal`, `testimonials`, and `faq` Spanish strings ship as a
- *   first-pass draft; Phase 2.13 native review polishes.
+ * - `whyLocal` and `testimonials` Spanish strings ship as a first-pass
+ *   draft; Phase 2.13 native review polishes. (FAQ Spanish strings moved
+ *   to Sanity in Phase 2.05.)
  * - Real photography swaps in Phase 2.04; until then the hero `photoSlot`
  *   resolves through the existing `imageMap` AVIF placeholders.
  */
@@ -40,11 +41,6 @@ export type LocationTestimonial = {
   rating: 5;
 };
 
-export type LocationFaqItem = {
-  q: LocationLocalized;
-  a: LocationLocalized;
-};
-
 export type LocationCity = {
   slug: LocationCitySlug;
   /** Proper noun, stable across locales. */
@@ -71,8 +67,6 @@ export type LocationCity = {
   /** ~120 words per locale. */
   whyLocal: LocationLocalized;
   testimonials: LocationTestimonial[];
-  /** Length 4 (D8.A fixed). */
-  faq: LocationFaqItem[];
   meta: {
     title: LocationLocalized;
     description: LocationLocalized;
@@ -121,48 +115,6 @@ export const LOCATIONS: LocationCity[] = [
           es: '[TBR] Patricia M., Pigeon Hill · Aurora',
         },
         rating: 5,
-      },
-    ],
-    faq: [
-      {
-        q: {
-          en: 'Do you charge a travel fee to Aurora?',
-          es: '[TBR] ¿Cobran una tarifa de viaje a Aurora?',
-        },
-        a: {
-          en: "No. Aurora is home base — our yard is on Mountain Street. Estimates are free and we don't add a mileage charge anywhere in DuPage County.",
-          es: '[TBR] No. Aurora es nuestra base — el depósito está en Mountain Street. Los presupuestos son gratis y no cobramos por kilometraje en ningún lugar del Condado de DuPage.',
-        },
-      },
-      {
-        q: {
-          en: 'How long has Sunset Services been in Aurora?',
-          es: '[TBR] ¿Cuánto tiempo lleva Sunset Services en Aurora?',
-        },
-        a: {
-          en: 'Twenty-five years and counting. Nick started the company here in 2000; Erick took over operations in 2018. Our first Aurora maintenance contract is still active.',
-          es: '[TBR] Veinticinco años y contando. Nick fundó la empresa aquí en el año 2000; Erick tomó las operaciones en 2018. Nuestro primer contrato de mantenimiento en Aurora sigue activo.',
-        },
-      },
-      {
-        q: {
-          en: "Do you pull permits for hardscape and tree work in Aurora?",
-          es: '[TBR] ¿Sacan permisos para hardscape y trabajo de árboles en Aurora?',
-        },
-        a: {
-          en: "Yes. Anything that needs a permit from the City of Aurora — patio above 200 sq ft, retaining walls over 4 ft, large tree removals — we handle the paperwork as part of the job. We've been through that office enough times that they know us.",
-          es: '[TBR] Sí. Todo lo que requiera permiso de la Ciudad de Aurora — patios de más de 200 pies cuadrados, muros de contención de más de 4 pies, remoción de árboles grandes — lo gestionamos como parte del trabajo. Conocemos esa oficina bien.',
-        },
-      },
-      {
-        q: {
-          en: 'Do you work with Aurora-area HOAs and apartment property managers?',
-          es: '[TBR] ¿Trabajan con HOAs de Aurora y administradores de propiedades de apartamentos?',
-        },
-        a: {
-          en: "Yes. Our commercial division covers HOA common areas, multifamily landscaping, and small commercial frontages across the east and west sides. Aurora is a third of our commercial book.",
-          es: '[TBR] Sí. Nuestra división comercial cubre áreas comunes de HOA, jardinería multifamiliar, y frentes comerciales pequeños en los lados este y oeste. Aurora es un tercio de nuestra cartera comercial.',
-        },
       },
     ],
     meta: {
@@ -219,48 +171,6 @@ export const LOCATIONS: LocationCity[] = [
         rating: 5,
       },
     ],
-    faq: [
-      {
-        q: {
-          en: 'Do you charge a travel fee to Naperville?',
-          es: '[TBR] ¿Cobran una tarifa de viaje a Naperville?',
-        },
-        a: {
-          en: "No. Naperville is in our regular service area; estimates are free and we don't add a mileage charge.",
-          es: '[TBR] No. Naperville está dentro de nuestra área de servicio regular; los presupuestos son gratis y no cobramos por kilometraje.',
-        },
-      },
-      {
-        q: {
-          en: 'How long has Sunset Services been working in Naperville?',
-          es: '[TBR] ¿Cuánto tiempo lleva Sunset Services trabajando en Naperville?',
-        },
-        a: {
-          en: 'Since the second year of the business — the first Naperville patio went in in 2001. Naperville is the city we\'ve worked in longest after Aurora.',
-          es: '[TBR] Desde el segundo año del negocio — el primer patio en Naperville se construyó en 2001. Naperville es la ciudad donde hemos trabajado más tiempo después de Aurora.',
-        },
-      },
-      {
-        q: {
-          en: "Are you familiar with Naperville's permit process for hardscape?",
-          es: '[TBR] ¿Conocen el proceso de permisos de Naperville para hardscape?',
-        },
-        a: {
-          en: 'Yes. Naperville requires a permit for any patio over 200 sq ft and for retaining walls over 4 ft tall, and the building department wants a sealed drainage plan for anything that touches an easement. We submit those drawings as part of the project.',
-          es: '[TBR] Sí. Naperville requiere permiso para cualquier patio de más de 200 pies cuadrados y para muros de contención de más de 4 pies, y el departamento de construcción exige un plan de drenaje sellado para cualquier cosa que toque una servidumbre. Presentamos esos planos como parte del proyecto.',
-        },
-      },
-      {
-        q: {
-          en: 'Do you handle HOA approval submissions for Naperville subdivisions?',
-          es: '[TBR] ¿Gestionan las aprobaciones de HOA para las subdivisiones de Naperville?',
-        },
-        a: {
-          en: 'Yes. We prepare the drawings, materials list, and color samples that most Naperville HOAs require, and we have a working relationship with several of the boards. Plan three weeks for HOA review on top of project lead time.',
-          es: '[TBR] Sí. Preparamos los planos, la lista de materiales y muestras de color que la mayoría de los HOAs de Naperville requieren, y tenemos relación con varias de las juntas. Cuenta con tres semanas de revisión del HOA además del tiempo del proyecto.',
-        },
-      },
-    ],
     meta: {
       title: {
         en: 'Naperville, IL Landscaping & Hardscape | Sunset Services',
@@ -313,48 +223,6 @@ export const LOCATIONS: LocationCity[] = [
           es: '[TBR] Mark T., Riverside · Batavia',
         },
         rating: 5,
-      },
-    ],
-    faq: [
-      {
-        q: {
-          en: 'Do you charge a travel fee to Batavia?',
-          es: '[TBR] ¿Cobran una tarifa de viaje a Batavia?',
-        },
-        a: {
-          en: "No. Batavia is on our regular routes; estimates are free and we don't add a mileage charge.",
-          es: '[TBR] No. Batavia está en nuestras rutas regulares; los presupuestos son gratis y no cobramos por kilometraje.',
-        },
-      },
-      {
-        q: {
-          en: 'How long has Sunset Services been in Batavia?',
-          es: '[TBR] ¿Cuánto tiempo lleva Sunset Services en Batavia?',
-        },
-        a: {
-          en: "Since 2003. We started with a maintenance route along Wilson Street and have been working the riverside neighborhoods steadily ever since.",
-          es: '[TBR] Desde 2003. Empezamos con una ruta de mantenimiento por Wilson Street y hemos trabajado los barrios ribereños de forma constante desde entonces.',
-        },
-      },
-      {
-        q: {
-          en: 'Do you handle riverside drainage and grade problems?',
-          es: '[TBR] ¿Manejan problemas de drenaje y pendiente cerca del río?',
-        },
-        a: {
-          en: "Yes. Bluff-side lots, sump-pump runs, French drains, and re-grading are a regular part of the work in Batavia. We pull the city's drainage plan first so we know what's tied to the storm sewer before we move dirt.",
-          es: '[TBR] Sí. Lotes en la pendiente, salidas de bomba sumidero, desagües franceses y renivelación son parte regular del trabajo en Batavia. Sacamos el plano de drenaje de la ciudad primero para saber qué está conectado al alcantarillado antes de mover tierra.',
-        },
-      },
-      {
-        q: {
-          en: 'Are you familiar with the Batavia tree-removal ordinance?',
-          es: '[TBR] ¿Conocen la ordenanza de Batavia sobre remoción de árboles?',
-        },
-        a: {
-          en: 'Yes. Batavia restricts removal of parkway trees and any trunk over 6 inches in protected areas — the city forester signs off before we touch them. We pull that paperwork as part of the bid.',
-          es: '[TBR] Sí. Batavia restringe la remoción de árboles del parque y cualquier tronco de más de 6 pulgadas en áreas protegidas — el silvicultor de la ciudad debe aprobar antes de tocarlos. Sacamos ese papeleo como parte del presupuesto.',
-        },
       },
     ],
     meta: {
@@ -411,48 +279,6 @@ export const LOCATIONS: LocationCity[] = [
         rating: 5,
       },
     ],
-    faq: [
-      {
-        q: {
-          en: 'Do you charge a travel fee to Wheaton?',
-          es: '[TBR] ¿Cobran una tarifa de viaje a Wheaton?',
-        },
-        a: {
-          en: "No. Wheaton is in our regular service area; estimates are free and we don't add a mileage charge.",
-          es: '[TBR] No. Wheaton está en nuestra área de servicio regular; los presupuestos son gratis y no cobramos por kilometraje.',
-        },
-      },
-      {
-        q: {
-          en: 'How long has Sunset Services been working in Wheaton?',
-          es: '[TBR] ¿Cuánto tiempo lleva Sunset Services trabajando en Wheaton?',
-        },
-        a: {
-          en: 'Since 2002. We have several Wheaton clients on continuous maintenance contracts going back fifteen-plus years.',
-          es: '[TBR] Desde 2002. Tenemos varios clientes de Wheaton con contratos de mantenimiento continuos de más de quince años.',
-        },
-      },
-      {
-        q: {
-          en: "Are you familiar with Wheaton's permit and historic-district rules?",
-          es: '[TBR] ¿Conocen los permisos y reglas de distrito histórico de Wheaton?',
-        },
-        a: {
-          en: "Yes. Anything in or near the historic district needs design review before construction; we prep the application and the drawings, and we've been through that office enough that we know what they ask for.",
-          es: '[TBR] Sí. Todo lo que esté en o cerca del distrito histórico necesita revisión de diseño antes de la construcción; preparamos la solicitud y los planos, y conocemos esa oficina lo suficiente como para saber qué piden.',
-        },
-      },
-      {
-        q: {
-          en: 'Do you work on properties with mature, protected trees?',
-          es: '[TBR] ¿Trabajan en propiedades con árboles maduros protegidos?',
-        },
-        a: {
-          en: "Yes. We hand-dig within the drip line of mature trees and we won't run heavy equipment across a root flare. If a project genuinely threatens a protected tree, we say so up-front and re-scope.",
-          es: '[TBR] Sí. Excavamos a mano dentro del área de la copa de árboles maduros y no pasamos equipo pesado sobre la raíz. Si un proyecto amenaza realmente un árbol protegido, lo decimos de frente y replanteamos el alcance.',
-        },
-      },
-    ],
     meta: {
       title: {
         en: 'Wheaton, IL Landscaping & Hardscape | Sunset Services',
@@ -507,48 +333,6 @@ export const LOCATIONS: LocationCity[] = [
         rating: 5,
       },
     ],
-    faq: [
-      {
-        q: {
-          en: 'Do you charge a travel fee to Lisle?',
-          es: '[TBR] ¿Cobran una tarifa de viaje a Lisle?',
-        },
-        a: {
-          en: "No. Lisle is in our regular service area; estimates are free and we don't add a mileage charge.",
-          es: '[TBR] No. Lisle está en nuestra área de servicio regular; los presupuestos son gratis y no cobramos por kilometraje.',
-        },
-      },
-      {
-        q: {
-          en: 'How long has Sunset Services been working in Lisle?',
-          es: '[TBR] ¿Cuánto tiempo lleva Sunset Services trabajando en Lisle?',
-        },
-        a: {
-          en: "Since 2008 commercially; longer on the residential side. Several of the corporate-corridor accounts are still active from year one.",
-          es: '[TBR] Desde 2008 en lo comercial; más tiempo en lo residencial. Varias de las cuentas del corredor corporativo siguen activas desde el primer año.',
-        },
-      },
-      {
-        q: {
-          en: 'Can you schedule commercial work outside business hours in Lisle?',
-          es: '[TBR] ¿Pueden programar trabajo comercial fuera de horario en Lisle?',
-        },
-        a: {
-          en: "Yes. Our commercial crews start at 5 a.m. on the corporate corridor properties so mowing, edging, and snow-clear are done before tenants arrive. Snow events are 24/7.",
-          es: '[TBR] Sí. Nuestros equipos comerciales empiezan a las 5 a.m. en las propiedades del corredor corporativo para que el corte, bordeado y limpieza de nieve estén listos antes de que lleguen los inquilinos. Los eventos de nieve son 24/7.',
-        },
-      },
-      {
-        q: {
-          en: 'Do you carry the insurance limits Lisle commercial property managers require?',
-          es: '[TBR] ¿Tienen los límites de seguro que exigen los administradores comerciales de Lisle?',
-        },
-        a: {
-          en: "Yes. We carry a $2M general liability policy, workers' comp on every employee, and we list any property manager as Additional Insured on request. Certs are available within 24 hours.",
-          es: '[TBR] Sí. Tenemos una póliza de responsabilidad general de $2M, compensación laboral en cada empleado, y agregamos a cualquier administrador como Asegurado Adicional bajo solicitud. Los certificados se entregan en 24 horas.',
-        },
-      },
-    ],
     meta: {
       title: {
         en: 'Lisle, IL Landscaping & Hardscape | Sunset Services',
@@ -601,48 +385,6 @@ export const LOCATIONS: LocationCity[] = [
           es: '[TBR] Junta de HOA, Hidden Lakes · Bolingbrook',
         },
         rating: 5,
-      },
-    ],
-    faq: [
-      {
-        q: {
-          en: 'Do you charge a travel fee to Bolingbrook?',
-          es: '[TBR] ¿Cobran una tarifa de viaje a Bolingbrook?',
-        },
-        a: {
-          en: "No. Bolingbrook is in our regular service area; estimates are free and we don't add a mileage charge.",
-          es: '[TBR] No. Bolingbrook está en nuestra área de servicio regular; los presupuestos son gratis y no cobramos por kilometraje.',
-        },
-      },
-      {
-        q: {
-          en: 'How long has Sunset Services been in Bolingbrook?',
-          es: '[TBR] ¿Cuánto tiempo lleva Sunset Services en Bolingbrook?',
-        },
-        a: {
-          en: 'Since 2007. We picked up our first multifamily contract that year and have been on the I-355 corridor steadily ever since.',
-          es: '[TBR] Desde 2007. Tomamos nuestro primer contrato multifamiliar ese año y hemos estado en el corredor de la I-355 de forma constante desde entonces.',
-        },
-      },
-      {
-        q: {
-          en: 'Do you handle Bolingbrook HOA mowing schedules and reporting?',
-          es: '[TBR] ¿Manejan los horarios de corte y reportes de HOA en Bolingbrook?',
-        },
-        a: {
-          en: "Yes. We follow each HOA's required mow day, post-visit photo report, and quarterly walkthrough cadence — the back office handles the paperwork, you don't.",
-          es: '[TBR] Sí. Seguimos el día de corte requerido por cada HOA, los reportes con fotos después de cada visita, y la cadencia trimestral de revisión — la oficina maneja el papeleo, tú no.',
-        },
-      },
-      {
-        q: {
-          en: 'Do you cover snow removal for Bolingbrook commercial properties?',
-          es: '[TBR] ¿Cubren la remoción de nieve para propiedades comerciales en Bolingbrook?',
-        },
-        a: {
-          en: "Yes. Bolingbrook is on our snow rotation; commercial properties get plow-and-salt at every 2-inch trigger, and our 24/7 dispatch is the same number you call for an estimate.",
-          es: '[TBR] Sí. Bolingbrook está en nuestra rotación de nieve; las propiedades comerciales reciben palada y sal en cada disparador de 2 pulgadas, y nuestro despacho 24/7 es el mismo número al que llamas para un presupuesto.',
-        },
       },
     ],
     meta: {

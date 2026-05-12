@@ -186,39 +186,19 @@ type FallbackCardProps = {
 };
 
 function FallbackCard({t, url, showUrlLink}: FallbackCardProps) {
+  // The parent section owns the h2/sub chrome; this card is just the
+  // CTA row so the visitor still has a path to book or call when the
+  // widget is gated out.
   return (
     <div
       className="card card-cream mx-auto"
       style={{
         maxWidth: 720,
         textAlign: 'center',
-        padding: '32px 32px',
+        padding: '24px 32px',
       }}
     >
-      <h3
-        className="m-0 font-heading"
-        style={{
-          fontSize: 'var(--text-h3)',
-          fontWeight: 600,
-          letterSpacing: 'var(--tracking-snug)',
-          textWrap: 'balance',
-        }}
-      >
-        {t('h2')}
-      </h3>
-      <p
-        className="m-0 mt-3"
-        style={{
-          fontSize: 'var(--text-body)',
-          color: 'var(--color-text-secondary)',
-          maxWidth: '48ch',
-          marginLeft: 'auto',
-          marginRight: 'auto',
-        }}
-      >
-        {t('sub')}
-      </p>
-      <div className="mt-6 flex flex-col sm:flex-row gap-3 justify-center">
+      <div className="flex flex-col sm:flex-row gap-3 justify-center">
         <a
           href={`tel:${BUSINESS_PHONE_TEL}`}
           className="btn btn-secondary btn-md"

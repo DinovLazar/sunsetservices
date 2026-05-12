@@ -8,7 +8,6 @@ import CTA from '@/components/sections/CTA';
 import ContentCard from '@/components/content/ContentCard';
 import ContentMeta from '@/components/content/ContentMeta';
 import FilterChipStrip from '@/components/content/FilterChipStrip.client';
-import {getAllBlogPosts} from '@/data/getBlog';
 import {
   BLOG_CATEGORIES,
   isBlogCategory,
@@ -18,8 +17,12 @@ import {buildBreadcrumbList} from '@/lib/schema/breadcrumb';
 import {buildContentItemList} from '@/lib/schema/article';
 import {BUSINESS_URL} from '@/lib/constants/business';
 import {routing} from '@/i18n/routing';
+import {getAllBlogPosts} from '@sanity-lib/queries';
 
 type Locale = 'en' | 'es';
+
+// Phase 2.05 — ISR (30 min).
+export const revalidate = 1800;
 
 const SITE_ORIGIN = process.env.NEXT_PUBLIC_SITE_URL || BUSINESS_URL;
 
@@ -42,6 +45,15 @@ function formatMonthYear(iso: string, locale: Locale): string {
     month: 'long',
     year: 'numeric',
   }).format(date);
+}
+
+/** Pre-Phase-2.04 placeholder image. Path mirrors the Phase 1.18 seed convention. */
+function fallbackBlogImage(slug: string): {
+  src: string;
+  width: number;
+  height: number;
+} {
+  return {src: `/images/blog/${slug}.jpg`, width: 1280, height: 720};
 }
 
 export async function generateMetadata({
@@ -69,15 +81,12 @@ export async function generateMetadata({
 }
 
 /**
- * Blog index — Phase 1.18 §5.
+ * Blog index — Phase 1.18 templates, Phase 2.05 Sanity-driven content.
  *
- * Sections in order: Hero (--color-bg) → Featured + Filter + Grid
- * (--color-bg-cream) → CTA (--color-bg). Surface alternation per §2 D14
- * row 2 (the featured-card section absorbs the help-band slot).
- *
- * Featured post (newest) renders in a 2-col layout — composed from the
- * locked `card-photo` primitive at a wider span. NOT `.card-featured`
- * per the §2 D16 zero-featured-card constraint.
+ * Sections: Hero → Featured + Filter + Grid → CTA.
+ * Featured post is the most-recently-published post in the filtered set.
+ * Image fields fall back to /images/blog/<slug>.jpg until Phase 2.04
+ * uploads real Sanity assets.
  */
 export default async function BlogIndexPage({
   params,
@@ -96,16 +105,13 @@ export default async function BlogIndexPage({
   const activeCategory: BlogCategory | undefined =
     categoryParam && isBlogCategory(categoryParam) ? categoryParam : undefined;
 
-  const allPosts = getAllBlogPosts();
+  const allPosts = await getAllBlogPosts();
   const filtered = activeCategory
     ? allPosts.filter((p) => p.category === activeCategory)
     : allPosts;
 
-  // Featured = first item in the filtered list (which is sorted newest first).
   const featured = filtered[0];
   const remaining = filtered.slice(1);
-
-  // Most recent publishedAt drives the count line.
   const mostRecent = allPosts[0]?.publishedAt ?? '2026-01-01';
 
   const t = await getTranslations({locale, namespace: 'blog'});
@@ -248,7 +254,7 @@ export default async function BlogIndexPage({
             </div>
           ) : (
             <>
-              {/* Featured post — 2-col span at lg+. Reuses card-photo, NOT card-featured. */}
+              {/* Featured post — 2-col span at lg+. */}
               <AnimateIn variant="fade-up">
                 <Link
                   href={`/blog/${featured.slug}/`}
@@ -270,8 +276,8 @@ export default async function BlogIndexPage({
                       style={{aspectRatio: '16/10'}}
                     >
                       <Image
-                        src={featured.featuredImage.src}
-                        alt={featured.featuredImage.alt[loc]}
+                        src={fallbackBlogImage(featured.slug).src}
+                        alt={featured.featuredImageAlt[loc]}
                         fill
                         sizes="(max-width: 1023px) 100vw, 640px"
                         priority
@@ -333,14 +339,12 @@ export default async function BlogIndexPage({
                       <ContentMeta
                         bylineLabel={
                           loc === 'en'
-                            ? `By ${featured.byline}`
-                            : `Por ${featured.byline} [TBR]`
+                            ? `By ${featured.author}`
+                            : `Por ${featured.author} [TBR]`
                         }
                         publishedAt={featured.publishedAt}
                         formattedDate={formatLongDate(featured.publishedAt, loc)}
-                        readingLabel={tContent('meta.readingTime', {
-                          minutes: featured.readingMinutes ?? 1,
-                        })}
+                        readingLabel={tContent('meta.readingTime', {minutes: 5})}
                         locale={loc}
                       />
                       <span
@@ -366,37 +370,38 @@ export default async function BlogIndexPage({
                     aria-live="polite"
                     className="m-0 p-0 list-none grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6"
                   >
-                    {remaining.map((post) => (
-                      <li key={post.slug}>
-                        <ContentCard
-                          href={`/blog/${post.slug}/`}
-                          category={{
-                            slug: post.category,
-                            label: t(`category.${post.category}`),
-                          }}
-                          title={post.title[loc]}
-                          dek={post.dek[loc]}
-                          image={{
-                            src: post.featuredImage.src,
-                            alt: post.featuredImage.alt[loc],
-                            width: post.featuredImage.width,
-                            height: post.featuredImage.height,
-                          }}
-                          meta={{
-                            bylineLabel:
-                              loc === 'en'
-                                ? `By ${post.byline}`
-                                : `Por ${post.byline} [TBR]`,
-                            publishedAt: post.publishedAt,
-                            formattedDate: formatLongDate(post.publishedAt, loc),
-                            readingLabel: tContent('meta.readingTime', {
-                              minutes: post.readingMinutes ?? 1,
-                            }),
-                          }}
-                          surface="cream"
-                        />
-                      </li>
-                    ))}
+                    {remaining.map((post) => {
+                      const fallback = fallbackBlogImage(post.slug);
+                      return (
+                        <li key={post.slug}>
+                          <ContentCard
+                            href={`/blog/${post.slug}/`}
+                            category={{
+                              slug: post.category,
+                              label: t(`category.${post.category}`),
+                            }}
+                            title={post.title[loc]}
+                            dek={post.dek[loc]}
+                            image={{
+                              src: fallback.src,
+                              alt: post.featuredImageAlt[loc],
+                              width: fallback.width,
+                              height: fallback.height,
+                            }}
+                            meta={{
+                              bylineLabel:
+                                loc === 'en'
+                                  ? `By ${post.author}`
+                                  : `Por ${post.author} [TBR]`,
+                              publishedAt: post.publishedAt,
+                              formattedDate: formatLongDate(post.publishedAt, loc),
+                              readingLabel: tContent('meta.readingTime', {minutes: 5}),
+                            }}
+                            surface="cream"
+                          />
+                        </li>
+                      );
+                    })}
                   </ul>
                 </AnimateIn>
               ) : null}
@@ -405,7 +410,7 @@ export default async function BlogIndexPage({
         </div>
       </section>
 
-      {/* §5.3 Bottom CTA — surface --color-bg, the page's one amber */}
+      {/* §5.3 Bottom CTA */}
       <CTA copyNamespace="blog.cta" surface="bg" ariaId="blog-index" />
     </>
   );

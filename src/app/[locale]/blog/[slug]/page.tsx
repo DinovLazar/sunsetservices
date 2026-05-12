@@ -9,9 +9,12 @@ import FaqAccordion from '@/components/ui/FaqAccordion';
 import CTA from '@/components/sections/CTA';
 import ContentMeta from '@/components/content/ContentMeta';
 import ContentCard from '@/components/content/ContentCard';
-import ProseLayout from '@/components/content/ProseLayout';
-import {getBlogPostBySlug, getRelatedBlogPosts} from '@/data/getBlog';
-import {BLOG_POSTS} from '@/data/blog';
+import ProseLayoutPT from '@/components/content/ProseLayoutPT';
+import {
+  blocksToPlainText,
+  countWordsInBlocks,
+} from '@/components/content/portableTextHelpers';
+import {estimateReadingTime} from '@/lib/readingTime';
 import {getService} from '@/data/services';
 import {getLocation} from '@/data/locations';
 import {buildBreadcrumbList} from '@/lib/schema/breadcrumb';
@@ -21,8 +24,20 @@ import {
 } from '@/lib/schema/article';
 import {BUSINESS_URL} from '@/lib/constants/business';
 import {routing} from '@/i18n/routing';
+import {
+  getAllBlogPosts,
+  getAllBlogPostSlugs,
+  getBlogPostBySlug,
+  getFaqsForBlog,
+} from '@sanity-lib/queries';
 
 type Locale = 'en' | 'es';
+
+// Phase 2.05 — ISR (30 min). Pre-rendered at build for the 5 blog slugs;
+// each slug refreshes from Sanity on first request after 30m.
+export const revalidate = 1800;
+export const dynamic = 'force-static';
+export const dynamicParams = false;
 
 const SITE_ORIGIN = process.env.NEXT_PUBLIC_SITE_URL || BUSINESS_URL;
 
@@ -39,11 +54,13 @@ function formatLongDate(iso: string, locale: Locale): string {
   }).format(date);
 }
 
-export const dynamic = 'force-static';
-export const dynamicParams = false;
+function fallbackImage(slug: string): {src: string; width: number; height: number} {
+  return {src: `/images/blog/${slug}.jpg`, width: 1280, height: 720};
+}
 
-export function generateStaticParams() {
-  return BLOG_POSTS.map((post) => ({slug: post.slug}));
+export async function generateStaticParams() {
+  const slugs = await getAllBlogPostSlugs();
+  return slugs.map((slug) => ({slug}));
 }
 
 export async function generateMetadata({
@@ -52,11 +69,12 @@ export async function generateMetadata({
   params: Promise<{locale: string; slug: string}>;
 }): Promise<Metadata> {
   const {locale, slug} = await params;
-  const post = getBlogPostBySlug(slug);
+  const post = await getBlogPostBySlug(slug);
   if (!post) return {};
   const loc = (routing.locales.includes(locale as Locale) ? locale : 'en') as Locale;
   const title = `${post.title[loc]} | Sunset Services Blog`;
-  const description = post.seoDescription?.[loc] ?? post.dek[loc].slice(0, 160);
+  const description =
+    post.seo?.description[loc] || post.dek[loc].slice(0, 160);
   const enPath = `/blog/${slug}/`;
   const esPath = `/es/blog/${slug}/`;
   const selfPath = loc === 'en' ? enPath : esPath;
@@ -78,23 +96,20 @@ export async function generateMetadata({
       images: [`${SITE_ORIGIN}/og/blog/${slug}/?locale=${loc}`],
       type: 'article',
       publishedTime: post.publishedAt,
-      modifiedTime: post.updatedAt ?? post.publishedAt,
     },
   };
 }
 
 /**
- * Blog post detail — Phase 1.18 §6.
+ * Blog post detail — Phase 1.18 templates, Phase 2.05 Sanity-driven content
+ * + PortableText body rendering via `ProseLayoutPT`.
  *
- * Sections in order:
- *   §6.1 Hero (--color-bg, eyebrow + H1 + dek + meta + featured image option B)
- *   §6.2 Body (--color-bg shared with hero band, ProseLayout with cross-link
- *              + optional inline location strip)
- *   §6.3 FAQ (--color-bg-cream, optional)
- *   §6.6 Related (--color-bg)
- *   §6.7 Bottom CTA (--color-bg-cream, single amber per category)
+ * Section order unchanged from Phase 1.18:
+ *   Hero (white) → Body (white, PT) → FAQ (cream, optional) →
+ *   Related (white) → bottom CTA (cream, single amber).
  *
- * Schema: BreadcrumbList + BlogPosting (or Article opt-in) + FAQPage if FAQ.
+ * Body bodyMarkdown was replaced with PT blocks. TOC + word count derive
+ * from the PT block array; cross-link splicing happens in `ProseLayoutPT`.
  */
 export default async function BlogPostPage({
   params,
@@ -103,7 +118,7 @@ export default async function BlogPostPage({
 }) {
   const {locale, slug} = await params;
   if (!routing.locales.includes(locale as Locale)) notFound();
-  const post = getBlogPostBySlug(slug);
+  const post = await getBlogPostBySlug(slug);
   if (!post) notFound();
   const loc = locale as Locale;
   setRequestLocale(loc);
@@ -111,11 +126,13 @@ export default async function BlogPostPage({
   const t = await getTranslations({locale, namespace: 'blog'});
   const tContent = await getTranslations({locale, namespace: 'content'});
 
+  const body = post.body[loc] && post.body[loc].length > 0 ? post.body[loc] : post.body.en;
+  const wordCount = countWordsInBlocks(body);
+  const {readingMinutes} = estimateReadingTime(blocksToPlainText(body));
+
   const bylineLabel =
-    loc === 'en' ? `By ${post.byline}` : `Por ${post.byline} [TBR]`;
-  const readingLabel = tContent('meta.readingTime', {
-    minutes: post.readingMinutes ?? 1,
-  });
+    loc === 'en' ? `By ${post.author}` : `Por ${post.author} [TBR]`;
+  const readingLabel = tContent('meta.readingTime', {minutes: readingMinutes});
   const categoryLabel = t(`category.${post.category}`);
   const formattedDate = formatLongDate(post.publishedAt, loc);
 
@@ -135,49 +152,48 @@ export default async function BlogPostPage({
   }));
   const breadcrumbSchema = buildBreadcrumbList(breadcrumbSchemaItems);
 
-  // BlogPosting / Article schema
   const articleSchema = buildArticleSchema({
-    type: post.schemaType,
+    type: 'BlogPosting',
     headline: post.title[loc],
-    description: post.seoDescription?.[loc] ?? post.dek[loc],
-    imageUrl: post.featuredImage.src,
+    description: post.seo?.description[loc] || post.dek[loc],
+    imageUrl: fallbackImage(slug).src,
     datePublished: post.publishedAt,
-    dateModified: post.updatedAt ?? post.publishedAt,
-    byline: post.byline,
+    dateModified: post.publishedAt,
+    byline: post.author,
     articleSection: categoryLabel,
-    wordCount: post.wordCount ?? 0,
+    wordCount,
     canonical: locPath(loc, `/blog/${slug}/`),
     locale: loc,
   });
 
-  // FAQ schema (same-source)
+  // FAQ schema (same-source as visible accordion)
+  const faqs = await getFaqsForBlog(slug);
   const faqSchema =
-    post.faq && post.faq.length > 0
+    faqs.length > 0
       ? buildContentFaqSchema(
-          post.faq.map((row) => ({q: row.q[loc], a: row.a[loc]})),
+          faqs.map((row) => ({q: row.question[loc], a: row.answer[loc]})),
         )
       : null;
 
-  // Inline cross-link service lookup
-  let crossLink: React.ComponentProps<typeof ProseLayout>['inlineServiceCrossLink'];
-  if (post.inlineServiceCrossLink) {
-    const svc = getService(
-      post.inlineServiceCrossLink.serviceSlug,
-      post.inlineServiceCrossLink.audience,
-    );
+  // Inline cross-link service lookup (Sanity-driven)
+  let crossLink:
+    | React.ComponentProps<typeof ProseLayoutPT>['inlineServiceCrossLink']
+    | undefined;
+  if (post.crossLinkAudience && post.crossLinkServiceSlug) {
+    const svc = getService(post.crossLinkServiceSlug, post.crossLinkAudience);
     if (svc) {
       crossLink = {
-        audience: post.inlineServiceCrossLink.audience,
-        serviceSlug: post.inlineServiceCrossLink.serviceSlug,
+        audience: post.crossLinkAudience,
+        serviceSlug: post.crossLinkServiceSlug,
         serviceTitle: svc.name[loc],
         serviceTagline: svc.hero.subhead[loc],
       };
     }
   }
 
-  // CTA tokens (per-category H2 interpolation per handover §6.7)
-  const cityName = post.inlineLocationCity
-    ? getLocation(post.inlineLocationCity)?.name ?? post.inlineLocationCity
+  // CTA per-category H2
+  const cityName = post.citySlug
+    ? getLocation(post.citySlug)?.name ?? post.citySlug
     : undefined;
   let ctaH2Override = t('ctaPerCategory.cost-guide');
   switch (post.category) {
@@ -200,7 +216,14 @@ export default async function BlogPostPage({
       break;
   }
 
-  const related = getRelatedBlogPosts(post, 3);
+  // Related posts: fetch all + filter at page level (same category preferred).
+  const all = await getAllBlogPosts();
+  const others = all.filter((p) => p.slug !== slug);
+  const sameCategory = others.filter((p) => p.category === post.category);
+  const otherCategory = others
+    .filter((p) => p.category !== post.category)
+    .sort((a, b) => b.publishedAt.localeCompare(a.publishedAt));
+  const related = [...sameCategory, ...otherCategory].slice(0, 3);
 
   return (
     <>
@@ -219,7 +242,7 @@ export default async function BlogPostPage({
         />
       ) : null}
 
-      {/* §6.1 Hero — surface --color-bg. Image below meta (option B). */}
+      {/* §6.1 Hero */}
       <section
         aria-labelledby="blog-post-h1"
         className="bg-[var(--color-bg)] pt-8 pb-10 lg:pt-12 lg:pb-12"
@@ -273,7 +296,7 @@ export default async function BlogPostPage({
               locale={loc}
             />
           </div>
-          {/* Featured image — LCP. Below meta strip per ratified D14.4 (option B). */}
+          {/* Featured image — LCP. Falls back to Phase 1.18 placeholder until 2.04. */}
           <div
             className="mt-8 relative w-full bg-[var(--color-bg-stone)]"
             style={{
@@ -283,8 +306,8 @@ export default async function BlogPostPage({
             }}
           >
             <Image
-              src={post.featuredImage.src}
-              alt={post.featuredImage.alt[loc]}
+              src={fallbackImage(slug).src}
+              alt={post.featuredImageAlt[loc]}
               fill
               sizes="(max-width: 1023px) 100vw, 1280px"
               priority
@@ -295,23 +318,23 @@ export default async function BlogPostPage({
         </div>
       </section>
 
-      {/* §6.2 Body — surface --color-bg (extends hero band). */}
+      {/* §6.2 Body — PortableText */}
       <section
         aria-label={loc === 'en' ? 'Post body' : 'Cuerpo del artículo'}
         className="bg-[var(--color-bg)] pt-8 pb-14 lg:pt-12 lg:pb-20"
       >
         <div className="mx-auto max-w-[var(--container-default)] px-4 sm:px-6 lg:px-8 xl:px-12">
-          <ProseLayout
-            bodyMarkdown={post.body[loc]}
+          <ProseLayoutPT
+            blocks={body}
             locale={loc}
             inlineServiceCrossLink={crossLink}
-            inlineLocationCity={post.inlineLocationCity}
+            inlineLocationCity={post.citySlug ?? undefined}
           />
         </div>
       </section>
 
-      {/* §6.3 FAQ — surface --color-bg-cream, optional */}
-      {post.faq && post.faq.length > 0 ? (
+      {/* §6.3 FAQ */}
+      {faqs.length > 0 ? (
         <section
           aria-labelledby="blog-faq-h2"
           className="bg-[var(--color-bg-cream)] py-14 lg:py-20"
@@ -339,17 +362,15 @@ export default async function BlogPostPage({
                   maxWidth: '28ch',
                 }}
               >
-                {loc === 'en'
-                  ? `Common questions`
-                  : `Preguntas frecuentes [TBR]`}
+                {loc === 'en' ? 'Common questions' : 'Preguntas frecuentes [TBR]'}
               </h2>
             </AnimateIn>
             <div className="mt-8">
               <FaqAccordion
-                items={post.faq.map((row, idx) => ({
-                  id: `faq-${post.slug}-${idx}`,
-                  question: row.q[loc],
-                  answer: row.a[loc],
+                items={faqs.map((row, idx) => ({
+                  id: `faq-${slug}-${idx}`,
+                  question: row.question[loc],
+                  answer: row.answer[loc],
                 }))}
               />
             </div>
@@ -357,7 +378,7 @@ export default async function BlogPostPage({
         </section>
       ) : null}
 
-      {/* §6.6 Related — surface --color-bg, 3 ContentCards */}
+      {/* §6.6 Related */}
       {related.length > 0 ? (
         <section
           aria-labelledby="blog-related-h2"
@@ -387,49 +408,45 @@ export default async function BlogPostPage({
                 {tContent('related.titleBlog')}
               </h2>
               <ul className="m-0 p-0 list-none grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6">
-                {related.map((rel) => (
-                  <li key={rel.slug}>
-                    <ContentCard
-                      href={`/blog/${rel.slug}/`}
-                      category={{
-                        slug: rel.category,
-                        label: t(`category.${rel.category}`),
-                      }}
-                      title={rel.title[loc]}
-                      dek={rel.dek[loc]}
-                      image={{
-                        src: rel.featuredImage.src,
-                        alt: rel.featuredImage.alt[loc],
-                        width: rel.featuredImage.width,
-                        height: rel.featuredImage.height,
-                      }}
-                      meta={{
-                        bylineLabel:
-                          loc === 'en'
-                            ? `By ${rel.byline}`
-                            : `Por ${rel.byline} [TBR]`,
-                        publishedAt: rel.publishedAt,
-                        formattedDate: formatLongDate(rel.publishedAt, loc),
-                        readingLabel: tContent('meta.readingTime', {
-                          minutes: rel.readingMinutes ?? 1,
-                        }),
-                      }}
-                      surface="white"
-                    />
-                  </li>
-                ))}
+                {related.map((rel) => {
+                  const fallback = fallbackImage(rel.slug);
+                  return (
+                    <li key={rel.slug}>
+                      <ContentCard
+                        href={`/blog/${rel.slug}/`}
+                        category={{
+                          slug: rel.category,
+                          label: t(`category.${rel.category}`),
+                        }}
+                        title={rel.title[loc]}
+                        dek={rel.dek[loc]}
+                        image={{
+                          src: fallback.src,
+                          alt: rel.featuredImageAlt[loc],
+                          width: fallback.width,
+                          height: fallback.height,
+                        }}
+                        meta={{
+                          bylineLabel:
+                            loc === 'en'
+                              ? `By ${rel.author}`
+                              : `Por ${rel.author} [TBR]`,
+                          publishedAt: rel.publishedAt,
+                          formattedDate: formatLongDate(rel.publishedAt, loc),
+                          readingLabel: tContent('meta.readingTime', {minutes: 5}),
+                        }}
+                        surface="white"
+                      />
+                    </li>
+                  );
+                })}
               </ul>
             </AnimateIn>
           </div>
         </section>
       ) : null}
 
-      {/* §6.7 Bottom CTA — surface --color-bg-cream, single amber. The
-           shared `<CTA>` reads `h2`/`sub` from `blog.cta`; we don't
-           thread the per-category override here because the existing CTA
-           component reads its template strings from the namespace. The
-           per-category H2 lives in `blog.ctaPerCategory.*` and is
-           rendered in a small wrapper below as a marketing override. */}
+      {/* §6.7 Bottom CTA */}
       <section
         aria-labelledby="blog-cta-h2"
         className="bg-[var(--color-bg-cream)] py-16 lg:py-24"
@@ -471,9 +488,9 @@ export default async function BlogPostPage({
             </p>
             <div className="mt-10 flex flex-col items-center gap-4">
               <a
-                href={`/${loc === 'en' ? '' : `${loc}/`}request-quote/?from=blog&slug=${post.slug}`}
+                href={`/${loc === 'en' ? '' : `${loc}/`}request-quote/?from=blog&slug=${slug}`}
                 className="btn btn-amber btn-lg"
-                data-cr-tracking={`cta-blog-${post.slug}-amber`}
+                data-cr-tracking={`cta-blog-${slug}-amber`}
                 style={{minWidth: '280px'}}
               >
                 {t('cta.button')}
@@ -481,7 +498,7 @@ export default async function BlogPostPage({
               <a
                 href="tel:+16309469321"
                 className="link link-inline"
-                data-cr-tracking={`cta-blog-${post.slug}-phone`}
+                data-cr-tracking={`cta-blog-${slug}-phone`}
                 style={{
                   fontSize: 'var(--text-body-sm)',
                   color: 'var(--color-sunset-green-700)',
@@ -494,7 +511,6 @@ export default async function BlogPostPage({
           </AnimateIn>
         </div>
       </section>
-      {/* Suppress unused warning when no FAQ/related — `<CTA>` import */}
       {false ? <CTA copyNamespace="blog.cta" /> : null}
     </>
   );

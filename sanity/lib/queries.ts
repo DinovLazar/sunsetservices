@@ -261,6 +261,22 @@ export async function getFaqsForAudience(audience: Audience): Promise<FaqEntry[]
   );
 }
 
+export async function getFaqsForBlog(slug: string): Promise<FaqEntry[]> {
+  return sanityClient.fetch(
+    `*[_type == "faq" && scope == $scope] | order(order asc) ${FAQ_PROJECTION}`,
+    {scope: `blog:${slug}`},
+    FETCH_OPTS,
+  );
+}
+
+export async function getFaqsForResource(slug: string): Promise<FaqEntry[]> {
+  return sanityClient.fetch(
+    `*[_type == "faq" && scope == $scope] | order(order asc) ${FAQ_PROJECTION}`,
+    {scope: `resource:${slug}`},
+    FETCH_OPTS,
+  );
+}
+
 // ---------- Reviews ----------
 
 export async function getReviewsForCity(citySlug: string): Promise<ReviewEntry[]> {

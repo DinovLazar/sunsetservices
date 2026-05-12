@@ -51,6 +51,16 @@ export async function POST(request: Request) {
     );
   }
 
+  // Honeypot check — runs BEFORE Zod so bots get a generic 200 with no
+  // field-level error pointing at "honeypot". Silent accept (no side effects).
+  const honeypotRaw =
+    payload && typeof payload === 'object' && 'honeypot' in payload
+      ? (payload as Record<string, unknown>).honeypot
+      : '';
+  if (typeof honeypotRaw === 'string' && honeypotRaw.length > 0) {
+    return NextResponse.json({status: 'ok'}, {status: 200});
+  }
+
   const parsed = QuoteSubmitSchema.safeParse(payload);
   if (!parsed.success) {
     return NextResponse.json(
@@ -64,10 +74,6 @@ export async function POST(request: Request) {
   }
 
   const input = parsed.data;
-
-  if (input.honeypot && input.honeypot.length > 0) {
-    return NextResponse.json({status: 'ok'}, {status: 200});
-  }
 
   // Write to Sanity FIRST so the lead is never lost.
   let sanityDocId: string | null = null;

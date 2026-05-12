@@ -48,7 +48,7 @@ const DetailsSchema = z
 const AddressSchema = z
   .object({
     street: z.string().min(1).max(200),
-    unit: z.string().max(60).optional().default(''),
+    unit: z.string().max(60).optional(),
     city: z.string().min(1).max(100),
     state: z.string().min(1).max(20),
     zip: z.string().min(1).max(20),
@@ -57,25 +57,27 @@ const AddressSchema = z
 
 const ContactPrefsSchema = z
   .object({
-    bestTime: z.string().max(40).optional().default(''),
-    contactMethod: z.string().max(40).optional().default(''),
+    bestTime: z.string().max(40).optional(),
+    contactMethod: z.string().max(40).optional(),
   })
   .strict();
 
 /**
  * Full Step 5 submit — POST /api/quote body.
  *
- * `honeypot` MUST be empty (max 0 chars). A populated honeypot field is the
- * server's signal that the request came from a naive bot.
+ * The route handler checks `honeypot` BEFORE Zod runs and silently returns
+ * 200 on any non-empty value so bots don't learn which field they tripped.
+ * The Zod schema still requires the key to be present (defense in depth) but
+ * allows any length — the honeypot signal is consumed upstream.
  */
 export const QuoteSubmitSchema = z
   .object({
     sessionId: z.string().uuid(),
-    honeypot: z.string().max(0),
+    honeypot: z.string().max(500),
     audience: Audience,
     services: z.array(z.string().min(1).max(100)).min(1).max(50),
-    primaryService: z.string().min(1).max(100).optional().default(''),
-    otherText: z.string().max(500).optional().default(''),
+    primaryService: z.string().min(1).max(100).optional(),
+    otherText: z.string().max(500).optional(),
     details: DetailsSchema.optional(),
     firstName: z.string().min(1).max(100),
     lastName: z.string().min(1).max(100),

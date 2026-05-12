@@ -76,3 +76,15 @@ Phase 2.05 will migrate every dynamic content type (projects, blog posts, resour
 **Inline `faq[]` arrays in `src/data/services.ts` and `src/data/locations.ts` will be removed** as part of this phase, post-migration. FAQs in Sanity become the single source of truth.
 
 **Decided by:** user (Goran), in response to Phase 2.05 scope clarifying question in Chat.
+
+---
+
+## 2026-05-12 — GCP access: credentials-handoff approach (Phase 2.01)
+
+- **GCP access: credentials-handoff approach chosen.** User is NOT added as Owner on the Sunset Services GCP project. Goran retains full ownership; he enables APIs and generates credentials himself, then emails them to the user. Trade-off: clean ownership boundary in exchange for recurring coordination with Goran on every future GCP-touching task. ~4 more Goran touchpoints expected before launch.
+- **New mini-phase 2.14a will be inserted** when Google approves the GBP API application (2–6 weeks after submission). Scope: ~5-minute OAuth refresh-token generation with Goran on his computer. Required because the OAuth flow has to be done while logged in as the GBP-owner Google account.
+- **Phase 2.10 scope reduces.** The service account `sunset-website-reader@...iam.gserviceaccount.com` is already created in Phase 2.01 by Goran. Phase 2.10 now only needs to: (a) create the GA4 property for the new site, and (b) grant the existing service account Viewer access to that GA4 property — which Goran does from his side.
+- **Phase 3.15 still requires Goran.** Google Search Console domain verification (DNS record placement is on Cowork via Cloudflare, but ownership verification triggers from Goran's GSC account) + adding the service account email as a user inside Search Console must both be done from Goran's account.
+- **Credential safety note.** The Places API key, OAuth Client Secret, and service account JSON file in transit by email are sensitive. Acceptable for the one-time handoff; if any are suspected of being exposed post-launch, rotation goes through Goran. The service account JSON should never be committed to the public GitHub repo — only stored in Vercel environment variables and `.env.local` (which is gitignored).
+
+**Decided by:** user (Goran), in response to Phase 2.01 GCP access clarifying question.

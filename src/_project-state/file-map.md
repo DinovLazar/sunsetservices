@@ -98,6 +98,13 @@
 - `src/components/sections/service/ServiceFAQ.tsx` — **NEW (1.09)** server. Wraps `<FaqAccordion>`. Per-item `<AnimateIn>` deliberately absent.
 - `src/components/sections/service/ServiceRelated.tsx` — server. 3–4 no-photo nav tiles. D7-driven from `services.ts` `related` array. **Modified (1.10)**: removed hard-coded `aria-label="Learn more about ${service.name[locale]}"` (English bleed-through to ES routes; the inner `<h3>` already serves as the link's accessible name natively).
 - `src/components/sections/service/ServiceCTA.tsx` — **NEW (1.09)** server. The page's only amber CTA in `<main>`. Cream surface (no charcoal on service-detail per D6).
+- `src/components/calendly/CalendlyEmbed.tsx` — **NEW (Phase 2.07)** client component. Calendly inline-widget loader with consent-gated `IntersectionObserver`-driven lazy load (200px rootMargin) + `<noscript>` fallback + static fallback card (tel + URL anchor) when flag off / URL missing / consent denied. Reads `NEXT_PUBLIC_CALENDLY_URL` + `NEXT_PUBLIC_CALENDLY_ENABLED`. Idempotent script injection (checks `script[src*="calendly.com/.../widget.js"]` first); cleanup on unmount via a `data-sunset-calendly="true"` ownership marker so concurrent instances don't trample each other. Takes `{locale, namespace, minHeight?, surface?}`.
+- `src/components/sections/contact/ContactCalendlyPlaceholder.tsx` — **Modified (Phase 2.07)** delegates to `<CalendlyEmbed namespace="contact.calendly" minHeight={720} surface="cream" />`. Phase 1.11 section chrome (cream surface, eyebrow + h2 + body, `AnimateIn`) preserved verbatim; the mock calendar grid is gone. A small secondary `tel:` link sits below the widget as a phone-preference backup CTA. Filename kept (Approach B per the Phase 2.07 plan) so the `/contact/` page import stays untouched.
+- `src/app/[locale]/contact/page.tsx` — **Unmodified content** — still imports `ContactCalendlyPlaceholder`; the delegation lives inside that component.
+- `src/app/[locale]/thank-you/page.tsx` — **Modified (Phase 2.07)** Section 2 now renders the section chrome (eyebrow + new `thanks.calendly.h2` + new `thanks.calendly.sub`) + `<CalendlyEmbed namespace="thanks.calendly" minHeight={680} surface="bg" />`. Removed the unused `BUSINESS_PHONE`/`BUSINESS_PHONE_TEL` imports — the fallback `tel:` button is now owned by `CalendlyEmbed`. Surface alternation unchanged (cream/white/cream/white/cream).
+- `src/messages/en.json` — **Modified (Phase 2.07)** added `contact.calendly.{sub,fallbackCta,fallbackLink,iframeLabel}` (existing `h2` value preserved) + `thanks.calendly.{h2,sub,fallbackCta,fallbackLink,iframeLabel}`.
+- `src/messages/es.json` — **Modified (Phase 2.07)** same key additions; ES values flagged `[TBR]` for Phase 2.13 native review.
+- `.env.local.example` — **Modified (Phase 2.07)** new comment block documenting `NEXT_PUBLIC_CALENDLY_URL` + `NEXT_PUBLIC_CALENDLY_ENABLED`.
 - `src/components/ui/Breadcrumb.tsx` — **NEW (1.09)** server. Locale-aware breadcrumb with `aria-current="page"`. `light` and `on-dark` variants.
 - `src/components/ui/FaqAccordion.tsx` — **NEW (1.09)** client. SSR `<details>`/`<summary>` with progressive enhancement for chevron rotation. Multi-open by default — every answer in SSR HTML for FAQPage schema validity.
 - `src/components/ui/ServiceIcon.tsx` — **NEW (1.09)** server. Curated lucide-react icon map + hand-rolled Unilock placeholder mark.
@@ -130,6 +137,7 @@
 - `src/_project-state/Part-1-Phase-20-Smoke.md` — Phase 1.20 smoke-test results.
 - `src/_project-state/Part-2-Phase-01-Completion.md` — **NEW (Phase 2.01)** Cowork completion report.
 - `src/_project-state/Part-2-Phase-05-Completion.md` — **NEW (Phase 2.05)** completion report for the Sanity content-wiring phase.
+- `src/_project-state/Part-2-Phase-07-Completion.md` — **NEW (Phase 2.07)** completion report for the Calendly embed phase.
 - `src/_project-state/Sunset-Services-Plan.md` — v2 in-progress rewrite (duplicates the root-level file; benign duplication, flagged in `00_stack-and-config.md`).
 - `src/_project-state/Sunset-Services-Project-Instructions.md` — v2 project instructions (Phase 2.01 spec expects this at repo root, not here; deferred).
 

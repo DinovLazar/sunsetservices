@@ -31,15 +31,15 @@ function loadEnvLocal() {
     process.exit(1);
   }
   const raw = readFileSync(envPath, 'utf8');
+  // `.env.local` wins over the shell — important on Windows where developers
+  // sometimes have a stale NEXT_PUBLIC_SANITY_PROJECT_ID exported globally
+  // that would silently route writes to the wrong project.
   for (const line of raw.split(/\r?\n/)) {
     const m = line.match(/^\s*([A-Z0-9_]+)\s*=\s*(.*)\s*$/);
     if (!m) continue;
     const [, key, val] = m;
-    // strip surrounding quotes if present
     const cleaned = val.replace(/^['"]|['"]$/g, '');
-    if (!(key in process.env)) {
-      process.env[key] = cleaned;
-    }
+    process.env[key] = cleaned;
   }
 }
 
@@ -70,28 +70,15 @@ const client = createClient({
 });
 
 // ---------- Portable Text schema (for Markdown → PT conversion) ----------
+// Block-only schema; HTML <img> tags in source Markdown are rare and would
+// need real Sanity asset uploads anyway, so we drop them at conversion time.
 const ptSchema = Schema.compile({
   name: 'ptSchema',
   types: [
     {
       type: 'object',
       name: 'wrapper',
-      fields: [
-        {
-          name: 'body',
-          type: 'array',
-          of: [
-            {type: 'block'},
-            {
-              type: 'image',
-              fields: [
-                {name: 'alt', type: 'string'},
-                {name: 'caption', type: 'string'},
-              ],
-            },
-          ],
-        },
-      ],
+      fields: [{name: 'body', type: 'array', of: [{type: 'block'}]}],
     },
   ],
 });
@@ -148,8 +135,13 @@ async function main() {
   const services = (await import('../src/data/services.ts')).SERVICES;
   const locationsModule = await import('../src/data/locations.ts');
   const LOCATIONS = locationsModule.LOCATIONS;
-  const teamModule = await import('../src/data/team.ts');
-  const team = teamModule.team;
+  // team.ts imports next/image static .jpg assets which tsx cannot parse.
+  // Hardcoded here (3 members, mirrors src/data/team.ts; update both if either changes).
+  const team = [
+    {slug: 'erick', name: 'Erick Valle', roleKey: 'owner'},
+    {slug: 'nick', name: 'Nick Valle', roleKey: 'founder'},
+    {slug: 'marcin', name: 'Marcin', roleKey: 'hardscape_lead'},
+  ];
   const projectsModule = await import('../src/data/projects.ts');
   const PROJECTS = projectsModule.PROJECTS;
   const blogModule = await import('../src/data/blog.ts');
@@ -164,11 +156,14 @@ async function main() {
   );
 
   // -------- 1. Service stubs --------
+  // _id includes audience because two services share the URL slug
+  // (residential/snow-removal AND commercial/snow-removal). Without the
+  // audience prefix the second createOrReplace would clobber the first.
   console.log('\n[seed] (1/8) Service stubs');
   for (let i = 0; i < services.length; i++) {
     const s = services[i];
     await put({
-      _id: `service-${s.slug}`,
+      _id: `service-${s.audience}-${s.slug}`,
       _type: 'service',
       slug: {_type: 'slug', current: s.slug},
       title: localized(s.name.en, s.name.es),
@@ -226,6 +221,8 @@ async function main() {
   }
 
   // -------- 5. FAQs (split from services.faq + locations.faq) --------
+  // Per-service scope uses `service:<audience>:<slug>` to keep residential
+  // and commercial snow-removal FAQs from being merged at query time.
   console.log('\n[seed] (5/8) FAQs (per-service + per-city)');
   // Per-service
   for (const s of services) {
@@ -234,9 +231,9 @@ async function main() {
       const item = s.faq[i];
       const n = String(i + 1).padStart(3, '0');
       await put({
-        _id: `faq-service-${s.slug}-${s.audience}-${n}`,
+        _id: `faq-service-${s.audience}-${s.slug}-${n}`,
         _type: 'faq',
-        scope: `service:${s.slug}`,
+        scope: `service:${s.audience}:${s.slug}`,
         question: localized(item.question.en, item.question.es),
         answer: localized(item.answer.en, item.answer.es),
         order: i,
@@ -272,7 +269,11 @@ async function main() {
         return matching ?? fallback;
       })
       .filter(Boolean)
-      .map((s) => ({_type: 'reference', _ref: `service-${s.slug}`, _key: `svc-${s.slug}-${s.audience}`}));
+      .map((s) => ({
+        _type: 'reference',
+        _ref: `service-${s.audience}-${s.slug}`,
+        _key: `svc-${s.audience}-${s.slug}`,
+      }));
 
     const doc = {
       _id: `project-${p.slug}`,

@@ -6,8 +6,8 @@
 
 ## Where we are
 
-- **Last completed phase:** Part 2 — Phase 2.03 (Code: Sanity CMS schemas + standalone Studio). Standalone Studio live at `https://sunsetservices.sanity.studio`. 8 document schemas + 4 shared localized field objects under `sanity/schemas/`. Sanity client + image-URL builder wired into the codebase but not yet consumed by any page (that's Phase 2.05). 3 new env vars in Vercel (Production + Preview). 4 CORS origins on the Sanity project.
-- **Next phase:** Part 2 — Phase 2.04 (Cowork: photo curation + upload to Sanity).
+- **Last completed phase:** Part 2 — Phase 2.05 (Code: wire Sanity content to live site). All dynamic content (projects, blog posts, resource articles, FAQs, reviews) now reads from Sanity at request time via 14 GROQ helpers in `sanity/lib/queries.ts`. PortableText body rendering on blog + resource detail pages via a new `ProseLayoutPT` component reusing the Phase 1.18 sticky-TOC + inline-cross-link splice. 158 documents migrated to Sanity via `scripts/seed-sanity.mjs` (idempotent). 30-min ISR (`revalidate = 1800`) on every Sanity-read page. Inline FAQ arrays removed from `src/data/services.ts` + `locations.ts` — Sanity is now the single source of truth for FAQs.
+- **Next phase:** Part 2 — Phase 2.06 (Code: quote wizard wiring — `/api/quote` + Resend + Mautic stub behind `WIZARD_SUBMIT_ENABLED`).
 - **Date:** 2026-05-12
 
 ---
@@ -55,7 +55,16 @@
 
 > **Phase 2.01 note:** No `localhost:3000` behavior changed in this phase. Phase 2.01 is account creation only — no routes added, no source code touched. Working tree at end of phase = Phase 1.20 code + Phase 2.01 doc updates.
 
-## What works (Phase 2.03 additions)
+## What works (Phase 2.05 additions)
+
+- **Sanity-driven content** — Erick (or any editor) can log into `https://sunsetservices.sanity.studio`, edit a project description / blog post / resource article / FAQ / review placeholder, publish, and see the change on `localhost:3000` AND `sunsetservices.vercel.app` within 30 minutes. No code edits, no redeploy.
+- **GROQ query helpers** (`sanity/lib/queries.ts`) — 14 typed helpers covering every Sanity-read page: project index/detail, blog index/detail, resource index/detail, per-service FAQs, per-city FAQs, per-blog FAQs, per-resource FAQs, per-audience FAQs (unused at launch, ready for future use), per-city reviews. All bilingual fields return as `{en, es}` so the Phase 1.x `data.title[locale]` access pattern works unchanged.
+- **PortableText rendering** on blog + resource detail pages via `ProseLayoutPT` (`@portabletext/react@4`). Same `.prose__*` typography as Phase 1.18, same sticky right-rail TOC at xl+, same inline `<ServiceCard>` cross-link splice between H2s, same inline `<ServiceAreaStrip>` near body bottom for city-targeted blog posts. Server-safe helpers (`countWordsInBlocks`, `extractHeadingsFromBlocks`, `extractHowToStepsFromBlocks`) live in `portableTextHelpers.ts` for direct server-component use.
+- **ISR (30 min)** on every Sanity-read page: `/projects` (index ƒ + 24 detail SSG), `/blog` (index ƒ + 10 detail SSG), `/resources` (index ƒ + 10 detail SSG), `/[audience]/[service]` (32 routes), `/service-areas/[city]` (12 routes).
+- **Image fallback rule** is layered: Sanity asset wins when present, else falls back to `imageMap.ts` placeholders (projects) or `/images/{blog,resources}/<slug>.jpg` (Phase 1.18 path convention). Phase 2.05 ships with every Sanity image field empty; Phase 2.04 fills them in without page-code changes.
+- **FAQ single source of truth: Sanity.** Per-service scope tag is `service:<audience>:<slug>` (so residential vs commercial snow-removal stay separate). Per-city is `city:<slug>`. Per-blog is `blog:<slug>`. Per-resource is `resource:<slug>`. All FAQ-emitting pages (service detail × 32, location × 12, blog × 10, resource × 10) use `buildContentFaqSchema` (already-projected `{q, a}` strings).
+
+## What works (Phase 2.03 additions, unchanged)
 
 - **Standalone Sanity Studio at `https://sunsetservices.sanity.studio`** — Sanity-hosted (not embedded in the Next.js app per user preference). All 8 document types appear in the left navigation: Service, Project, Blog Post, Resource Article, Location, Faq, Review, Team. Empty of content; Phase 2.04 starts uploading photos. `studioHost: 'sunsetservices'` + `deployment.appId: 'hza6xflhrkuygkrhketq6uhj'` in `sanity.cli.ts` pre-lock both the hostname and the application ID, so every subsequent `sanity deploy` is fully non-interactive.
 - **Sanity schemas** — 12 files under `sanity/schemas/` (4 shared objects: `localizedString`, `localizedText`, `localizedBody`, `localizedSeo`; 8 documents: `service`, `project`, `blogPost`, `resourceArticle`, `location`, `faq`, `review`, `team`). Each document carries field groups (`content`/`media`/`taxonomy`/`seo`/etc.) and a `preview` block with a useful subtitle. All image fields use `{hotspot: true}`. References between documents wired (e.g. `project.services` → `service`, `location.featuredServices` → `service`, `faqs` arrays on most documents → `faq`). `service.priceIncludes`, project before/after fields, and similar conditional fields use `hidden: ({parent}) => ...` to keep the Studio editing UI tidy.
@@ -81,10 +90,9 @@
 - **GTM `dataLayer.push`** — every interactive element carries the appropriate `data-analytics-event="..."` attribute, but no GTM bridge yet. Phase 2.11 reads the attributes from the DOM and forwards to dataLayer.
 - **Cookie consent banner** — chat bubble's consent gate is a stub default-true. Phase 2.11 wires the real banner.
 - `[TBR]`-flagged Spanish strings — the audience landings and service detail pages ship with first-pass Spanish translations. Native-speaker review happens in Phase 2.13.
-- **Sanity Studio is empty of content** — Phase 2.04 (Cowork) uploads photos and tags them with new Sanity asset metadata; later phases backfill text content. The Studio editing surface exists but no documents have been authored.
-- **No read-only API token created yet** — Phase 2.05 creates a scoped token when the Next.js app starts fetching draft previews. Production reads via the public CDN (`apicdn.sanity.io`) need no auth.
-- **No write tokens for the automation agent** — Phase 2.16 creates write-scoped tokens.
-- **No webhook for ISR revalidation** on Sanity publish — Phase 2.05+.
+- **Sanity Studio content is text-only at Phase 2.05.** 158 documents migrated (services × 16, locations × 6, team × 3, reviews × 6, FAQs × 128, projects × 12, resource articles × 5, blog posts × 5). Every image field is `null`; Phase 2.04 (Cowork) uploads photos. The page-side fallback (`imageMap.ts` for projects, `/images/{blog,resources}/<slug>.jpg` for content) renders correctly until then.
+- **No webhook for ISR revalidation on Sanity publish** — every Sanity-read page is time-based ISR (`revalidate=1800`). Erick's edit → up to 30 min wait → live. A future phase wires `/api/revalidate` + a Sanity webhook for near-real-time propagation.
+- **SANITY_API_WRITE_TOKEN** is created (Phase 2.05) in both `.env.local` (gitignored) and Vercel (Production + Preview). Used by `scripts/seed-sanity.mjs` and (in Phase 2.16) the automation agent. **No write tokens for read-only Studio users** — Sanity's per-project ACL handles editor permissions natively.
 - AI chat (Phase 1.20 / 2.09), analytics (Phase 2.10), Resend email (Phase 2.08).
 - **GBP API write access + Places API read (Phase 2.01 Step 7) — DEFERRED to new Phase 2.13.2 per user decision.** Phase 2.14 (publish to Google Business Profile) and Phase 2.16 (daily reviews on the site) both wait on Phase 2.13.2 completing first. Phase 2.13.2 itself starts a 2–6 week Google review clock for GBP API access.
 - **Cloudflare DNS** — account exists with 2FA enabled, no domain added yet. Domain cutover happens in Part 3 Phase 3.11.
@@ -112,6 +120,10 @@
 | sanity | 5.25.0 |
 | @sanity/vision | 5.25.0 |
 | @sanity/image-url | 2.1.1 |
+| @portabletext/react | 4.0.3 |
+| @portabletext/block-tools | 5.1.1 |
+| jsdom | 25.0.1 |
+| tsx (devDep) | 4.21.0 |
 | styled-components | 6.4.1 |
 | @anthropic-ai/sdk | 0.92.0 |
 | resend | 6.12.2 |
@@ -150,6 +162,20 @@ Fonts (loaded via `next/font/google`): Manrope (heading) + Onest (body), subsets
 - **Phase 2.02 finalization commit:** `5345b8b` — `chore(phase-2-02): vercel preview deploy completion report + project-state updates` (5 files, +310 / -4; created `Part-2-Phase-02-Completion.md`, updated 00_stack-and-config / current-state / file-map / .env.local.example)
 - **Phase 2.03 implementation commit:** `858d829` — `feat(sanity): standalone Studio + 8 schemas + client + image builder (Phase 2.03)` (22 files, +2091 / -1502; +sanity@^5.25.0 / @sanity/vision@^5.25.0 / @sanity/image-url@^2.1.1 / styled-components@^6.4.1 in package.json, +3 studio scripts, new `sanity.config.ts` / `sanity.cli.ts` at repo root, new `sanity/schemas/**` (12 files) + `sanity/lib/**` (2 files), .gitignore +/dist/ +/.sanity/, .env.local.example +3 NEXT_PUBLIC_SANITY_* lines).
 - **Phase 2.03 finalization commit:** `4d5c908` — `chore(phase-2-03): sanity CMS completion report + project-state updates` (4 files, +317 / -9; created `Part-2-Phase-03-Completion.md`, updated 00_stack-and-config / current-state / file-map).
+- **Phase 2.03 final SHA-record commit:** `056c348` — `docs(phase-2.03): record final commit SHA (4d5c908) in current-state + completion report`.
+- **Phase 2.05 commits** (12, branch `claude/recursing-robinson-17b42f`):
+  - `385e314` — `chore(decisions): log Phase 2.05 scope decision`
+  - `9ca7f7c` — `feat(deps): add @portabletext/react + @portabletext/block-tools + jsdom + tsx for Phase 2.05`
+  - `f9c6edb` — `chore(env): document SANITY_API_WRITE_TOKEN`
+  - `4a8994c` — `feat(sanity-schemas): +review.placeholder, +resourceArticle.featuredImage/crossLink, +blogPost.crossLink (Phase 2.05)`
+  - `d8eadc5` — `feat(scripts): seed-sanity.mjs migration script for Phase 2.05`
+  - `1f48d74` — `fix(seed): audience-prefixed service _ids + scope tags + env-local priority`
+  - `c352922` — `feat(sanity): GROQ query helpers + TypeScript return types`
+  - `fd9d20b` — `feat(projects): wire /projects + /projects/[slug] to Sanity reads (Phase 2.05)`
+  - `6e0483f` — `feat(blog): wire /blog + /blog/[slug] to Sanity with PortableText rendering (Phase 2.05)`
+  - `8e98a52` — `feat(resources): wire /resources + /resources/[slug] to Sanity (Phase 2.05)`
+  - `efeaefa` — `feat(faq): service + location pages read FAQs from Sanity by scope tag (Phase 2.05)`
+  - `ccfd792` — `refactor(data): remove inline FAQ arrays from services + locations (Sanity is now authoritative)`
 
 ---
 
@@ -213,6 +239,9 @@ Fonts (loaded via `next/font/google`): Manrope (heading) + Onest (body), subsets
 
 ## TODO 2.13 — Native ES review
 The following ES strings ship as first-pass drafts in `src/messages/es.json` and `src/data/locations.ts`. Search the file for `[TBR]` to enumerate.
+
+**Phase 2.05 note:** FAQs are now stored in Sanity (not source files). Search Sanity for `[TBR]` markers via the Studio UI when running native review — Studio's text search covers `question.es` and `answer.es` fields across the 128 FAQ documents.
+
 - `serviceAreas.h1`, `serviceAreas.sub`, `serviceAreas.map.title`, `serviceAreas.map.desc`, `serviceAreas.grid.sub`, `serviceAreas.grid.tagline.{aurora,naperville,batavia,wheaton,lisle,bolingbrook}`, `serviceAreas.outside.body`, `serviceAreas.cta.h2`, `serviceAreas.cta.sub`.
 - All `location.microbar.*`, `location.trust.*Label`, `location.services.*`, `location.projects.h2`, `location.projects.placeholderCaption`, `location.testimonials.h2`, `location.whyLocal.h2`, `location.whyLocal.portraitAlt`, `location.faq.h2`, `location.cta.h2`, `location.cta.sub`.
 - All `whyLocal.es`, all `testimonials[].quote.es` + `attribution.es`, all `faq[].q.es` + `a.es`, and all `meta.description.es` per city.

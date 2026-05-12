@@ -78,6 +78,15 @@ export const review = defineType({
       group: 'meta',
       initialValue: false,
     }),
+    defineField({
+      name: 'placeholder',
+      type: 'boolean',
+      title: 'Placeholder (pre-launch / pre-Google-API)?',
+      group: 'meta',
+      description:
+        'True for seed testimonials shipped before real reviews flow in via Phase 2.16 Places API. Pages may style these differently or filter them out.',
+      initialValue: false,
+    }),
   ],
   preview: {
     select: {attribution: 'attribution.en', rating: 'rating', quote: 'quote.en'},

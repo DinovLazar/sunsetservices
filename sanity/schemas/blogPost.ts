@@ -85,7 +85,8 @@ export const blogPost = defineType({
       title: 'Featured image',
       group: 'media',
       options: {hotspot: true},
-      validation: (r) => r.required(),
+      description:
+        'Pre-Phase-2.04: leave empty and the page falls back to /og/fallback. Phase 2.04 uploads real photos.',
     }),
     defineField({
       name: 'featuredImageAlt',
@@ -107,6 +108,28 @@ export const blogPost = defineType({
       group: 'taxonomy',
       description:
         'Set to a city slug (e.g. "naperville") to render the per-city ServiceAreaStrip inline.',
+    }),
+    defineField({
+      name: 'crossLinkAudience',
+      type: 'string',
+      title: 'Inline cross-link — audience',
+      group: 'taxonomy',
+      description: 'Optional. Together with serviceSlug, splices a ServiceCard into the body between H2s.',
+      options: {
+        list: [
+          {title: 'Residential', value: 'residential'},
+          {title: 'Commercial', value: 'commercial'},
+          {title: 'Hardscape', value: 'hardscape'},
+        ],
+        layout: 'radio',
+      },
+    }),
+    defineField({
+      name: 'crossLinkServiceSlug',
+      type: 'string',
+      title: 'Inline cross-link — service slug',
+      group: 'taxonomy',
+      description: 'e.g. "lawn-care". Resolves against services.ts together with crossLinkAudience.',
     }),
     defineField({
       name: 'seo',

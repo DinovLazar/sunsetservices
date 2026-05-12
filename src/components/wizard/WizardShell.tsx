@@ -38,6 +38,7 @@ import {
 } from '@/lib/wizard/validation';
 import {WIZARD_EVENTS, fireWizardEvent} from '@/lib/wizard/events';
 import {isWizardAutosaveEnabled} from '@/lib/chat/flags';
+import {getOrCreateSessionId} from '@/lib/quote/session';
 
 type Step = 1 | 2 | 3 | 4 | 5;
 
@@ -260,8 +261,50 @@ export default function WizardShell() {
     setErrors({});
     setCompleted((prev) => Array.from(new Set([...prev, urlStep as Step])).sort() as Step[]);
     fireWizardEvent(WIZARD_EVENTS.STEP_COMPLETED(urlStep as Step), {step: urlStep, locale});
+
+    // Phase 2.06 — fire-and-forget partial push on Steps 1→2, 2→3, 3→4
+    // transitions. NEVER on Step 4→5 (Step 4 is the PII boundary; the
+    // partial endpoint's Zod schema rejects PII fields too, as a backstop).
+    if (urlStep === 1 || urlStep === 2 || urlStep === 3) {
+      void pushPartial(urlStep);
+    }
+
     if (urlStep < 5) {
       goToStep((urlStep + 1) as Step);
+    }
+  }
+
+  /**
+   * Best-effort partial push. Never blocks the UX; `keepalive: true` lets the
+   * request survive a tab close mid-flight. When `WIZARD_SUBMIT_ENABLED=false`
+   * the server returns 200 + `simulated` with no side effects.
+   */
+  function pushPartial(currentStep: 1 | 2 | 3): void {
+    if (typeof window === 'undefined') return;
+    try {
+      const payload = {
+        sessionId: getOrCreateSessionId(),
+        lastStepReached: currentStep,
+        audience: step1.audience || undefined,
+        services:
+          step2.selectedSlugs.length > 0 ? step2.selectedSlugs : undefined,
+        primaryService: step2.primarySlug || undefined,
+        otherText: step2.otherText.trim() || undefined,
+        details: extractPartialDetails(step3),
+        userAgent: window.navigator.userAgent.slice(0, 500),
+        referrer: document.referrer.slice(0, 2000),
+      };
+      fetch('/api/quote/partial', {
+        method: 'POST',
+        headers: {'content-type': 'application/json'},
+        body: JSON.stringify(payload),
+        keepalive: true,
+      }).catch((err) => {
+        // Never surface to the user — partials are best-effort.
+        console.warn('[wizard] partial push failed', err);
+      });
+    } catch (err) {
+      console.warn('[wizard] partial push setup failed', err);
     }
   }
 
@@ -419,4 +462,23 @@ export default function WizardShell() {
       {showSaved ? <WizardSavedToast onClose={() => setShowSaved(false)} /> : null}
     </>
   );
+}
+
+/**
+ * Filter Step-3 state into the shape `QuotePartialSchema.details` accepts.
+ * Drops empty strings, trims, and preserves non-empty arrays.
+ */
+function extractPartialDetails(
+  step3: Record<string, string | string[]>,
+): Record<string, string | string[]> | undefined {
+  const out: Record<string, string | string[]> = {};
+  for (const [key, value] of Object.entries(step3)) {
+    if (Array.isArray(value)) {
+      if (value.length > 0) out[key] = value;
+    } else if (typeof value === 'string') {
+      const trimmed = value.trim();
+      if (trimmed) out[key] = trimmed;
+    }
+  }
+  return Object.keys(out).length > 0 ? out : undefined;
 }

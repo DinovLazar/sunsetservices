@@ -64,3 +64,15 @@ User decision after weighing implications. Trade-off: clean Phase 2.01 finish vs
 - Confirm Erick's GBP listing is verified to him (test: `business.google.com` shows Sunset Services in his profile list). If not, start postcard verification immediately — that's a ~5-business-day pre-step that doesn't have to wait on 2.13.2 itself.
 
 **Decided by:** user (Goran), in response to Phase 2.01 Step 7 clarifying question.
+
+---
+
+## 2026-05-12 — Phase 2.05 scope: full one phase, projects stay at 12
+
+Phase 2.05 will migrate every dynamic content type (projects, blog posts, resource articles, FAQs, reviews) to Sanity and wire all consuming pages to read from Sanity in a single phase — not split into 2.05a + 2.05b.
+
+**Project count stays at 12** (the Phase 1.16 placeholders). The Phase Plan's "expand toward 30+" branch is deferred to whenever Phase 2.04 (photo curation) closes — adding text-only project records without photos creates rework once real photos land.
+
+**Inline `faq[]` arrays in `src/data/services.ts` and `src/data/locations.ts` will be removed** as part of this phase, post-migration. FAQs in Sanity become the single source of truth.
+
+**Decided by:** user (Goran), in response to Phase 2.05 scope clarifying question in Chat.

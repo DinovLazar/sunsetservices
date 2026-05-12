@@ -239,4 +239,4 @@
 
 ### Commit log
 - **Commit 1 `858d829`** — `feat(sanity): standalone Studio + 8 schemas + client + image builder (Phase 2.03)` — 22 files changed, +2091 / -1502.
-- **Commit 2** — `chore(phase-2-03): sanity CMS completion report + project-state updates` — SHA recorded in `current-state.md` after the commit lands.
+- **Commit 2 `4d5c908`** — `chore(phase-2-03): sanity CMS completion report + project-state updates` — 4 files changed, +317 / -9.

@@ -149,6 +149,7 @@ Fonts (loaded via `next/font/google`): Manrope (heading) + Onest (body), subsets
 - **Phase 2.02 analytics commit:** `ddeed03` — `feat(analytics): add @vercel/analytics to root layout (Phase 2.02)` (3 files, +46; package.json + package-lock.json + `src/app/[locale]/layout.tsx`)
 - **Phase 2.02 finalization commit:** `5345b8b` — `chore(phase-2-02): vercel preview deploy completion report + project-state updates` (5 files, +310 / -4; created `Part-2-Phase-02-Completion.md`, updated 00_stack-and-config / current-state / file-map / .env.local.example)
 - **Phase 2.03 implementation commit:** `858d829` — `feat(sanity): standalone Studio + 8 schemas + client + image builder (Phase 2.03)` (22 files, +2091 / -1502; +sanity@^5.25.0 / @sanity/vision@^5.25.0 / @sanity/image-url@^2.1.1 / styled-components@^6.4.1 in package.json, +3 studio scripts, new `sanity.config.ts` / `sanity.cli.ts` at repo root, new `sanity/schemas/**` (12 files) + `sanity/lib/**` (2 files), .gitignore +/dist/ +/.sanity/, .env.local.example +3 NEXT_PUBLIC_SANITY_* lines).
+- **Phase 2.03 finalization commit:** `4d5c908` — `chore(phase-2-03): sanity CMS completion report + project-state updates` (4 files, +317 / -9; created `Part-2-Phase-03-Completion.md`, updated 00_stack-and-config / current-state / file-map).
 
 ---
 

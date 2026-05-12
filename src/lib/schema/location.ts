@@ -133,25 +133,8 @@ function buildServiceListItem(
   };
 }
 
-/**
- * City page — `FAQPage`, same-source with the visible accordion.
- */
-export function buildLocationFaqSchema(
-  location: LocationCity,
-  locale: Locale,
-): Record<string, unknown> {
-  return {
-    '@context': 'https://schema.org',
-    '@type': 'FAQPage',
-    mainEntity: location.faq.map((q) => ({
-      '@type': 'Question',
-      name: q.q[locale],
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: q.a[locale],
-      },
-    })),
-  };
-}
+// Phase 2.05 — `buildLocationFaqSchema` was removed; the city page now
+// reads FAQs from Sanity (scope `city:<slug>`) and emits the schema via
+// `buildContentFaqSchema` from `./article.ts`.
 
 export {localePath};

@@ -48,11 +48,6 @@ export type Pricing =
   | {mode: 'explainer'; explainerFactors: PricingFactor[]}
   | {mode: 'price'; startingAt: number; includes: Localized};
 
-export type FaqItem = {
-  question: Localized;
-  answer: Localized;
-};
-
 export type ServiceProject = {
   title: Localized;
   meta: Localized;
@@ -86,7 +81,6 @@ export type Service = {
   pricing: Pricing;
   /** 2–3 placeholder projects for the service-detail featured-projects band. */
   projects: ServiceProject[];
-  faq: FaqItem[];
   /** Slugs of related services (3–4). D7: residential + commercial within-audience; hardscape cross-sell. */
   related: string[];
   /** Tag value used by /projects/?service={tag} routes (404s in Part 1). */
@@ -272,43 +266,6 @@ export const SERVICES: Service[] = [
         imageKey: 'lawn-care-2',
       },
     ],
-    faq: [
-      {
-        question: {en: 'How often do you visit?', es: '¿Con qué frecuencia visitan?'},
-        answer: {
-          en: 'Weekly is the default. Every-other-week and one-time visits are available; weekly delivers the most consistent results between April and November.',
-          es: 'Semanal es lo predeterminado. También ofrecemos cada dos semanas y visitas únicas; lo semanal da los resultados más consistentes de abril a noviembre.',
-        },
-      },
-      {
-        question: {en: 'Do you handle fertilizer separately?', es: '¿Manejan el fertilizante aparte?'},
-        answer: {
-          en: 'Fertilization is a separate 5-step program billed annually. Customers usually bundle it with weekly mowing, but they\'re independent contracts.',
-          es: 'La fertilización es un programa de 5 pasos cobrado anualmente. La mayoría lo combina con corte semanal, pero son contratos independientes.',
-        },
-      },
-      {
-        question: {en: 'Can I switch to every-other-week?', es: '¿Puedo cambiar a cada dos semanas?'},
-        answer: {
-          en: 'Yes — you can switch frequency at the start of any month with two weeks\' notice. Pricing adjusts pro-rated.',
-          es: 'Sí — puedes cambiar la frecuencia al inicio de cualquier mes avisando con dos semanas. El precio se ajusta proporcionalmente.',
-        },
-      },
-      {
-        question: {en: 'Do you bill per-visit or seasonally?', es: '¿Cobran por visita o por temporada?'},
-        answer: {
-          en: 'Either. Most homeowners pick a flat seasonal rate billed monthly April–November. Per-visit billing is available for irregular schedules.',
-          es: 'Ambas. La mayoría elige una tarifa fija de temporada con cobro mensual de abril a noviembre. También ofrecemos pago por visita para horarios irregulares.',
-        },
-      },
-      {
-        question: {en: 'Are estimates free?', es: '¿Los presupuestos son gratis?'},
-        answer: {
-          en: 'Yes — site visit, measurements, and itemized estimate are free. Estimates land in your inbox within 48 hours of the visit.',
-          es: 'Sí — visita, mediciones y presupuesto detallado son gratis. Los presupuestos llegan a tu correo en 48 horas después de la visita.',
-        },
-      },
-    ],
     related: ['landscape-design', 'sprinkler-systems', 'snow-removal', 'seasonal-cleanup'],
     projectsTag: 'lawn-care',
   },
@@ -460,43 +417,6 @@ export const SERVICES: Service[] = [
         imageKey: 'landscape-design-3',
       },
     ],
-    faq: [
-      {
-        question: {en: 'How long does a design take?', es: '¿Cuánto tarda un diseño?'},
-        answer: {
-          en: 'Concept renderings are delivered in 2–3 weeks. The detailed plan adds 1–2 weeks. Build scheduling depends on scope.',
-          es: 'Los bocetos conceptuales llegan en 2–3 semanas. El plan detallado suma 1–2 semanas. La construcción depende del alcance.',
-        },
-      },
-      {
-        question: {en: 'Do you build what you design?', es: '¿Construyen lo que diseñan?'},
-        answer: {
-          en: 'Yes — same company, single project lead. We don\'t hand off to a third-party crew.',
-          es: 'Sí — misma empresa, un solo líder. No transferimos a equipos terceros.',
-        },
-      },
-      {
-        question: {en: 'Can I phase the build over multiple years?', es: '¿Puedo construir por fases en varios años?'},
-        answer: {
-          en: 'Yes — most full-yard projects phase across two or three seasons. We sequence so each phase looks finished on its own.',
-          es: 'Sí — la mayoría de proyectos completos se hacen en dos o tres temporadas. Las secuenciamos para que cada fase luzca terminada.',
-        },
-      },
-      {
-        question: {en: 'Do I keep the renderings if I don\'t build?', es: '¿Me quedo los bocetos si no construyo?'},
-        answer: {
-          en: 'Yes — design and build are separate engagements. The plans are yours; we hope you build with us, but you\'re not locked in.',
-          es: 'Sí — diseño y construcción son contratos separados. Los planos son tuyos; esperamos construir contigo, pero no hay obligación.',
-        },
-      },
-      {
-        question: {en: 'What\'s the design fee?', es: '¿Cuánto cuesta el diseño?'},
-        answer: {
-          en: 'Design fees are based on lot size and project complexity. The fee is credited toward the build if you proceed with us within twelve months.',
-          es: 'La tarifa depende del tamaño del lote y la complejidad. Se acredita al costo de construcción si avanzas con nosotros en doce meses.',
-        },
-      },
-    ],
     related: ['lawn-care', 'tree-services', 'sprinkler-systems', 'seasonal-cleanup'],
     projectsTag: 'landscape-design',
   },
@@ -618,43 +538,6 @@ export const SERVICES: Service[] = [
         title: {en: 'Aurora storm cleanup', es: 'Limpieza tras tormenta en Aurora'},
         meta: {en: 'Aurora · 2024', es: 'Aurora · 2024'},
         imageKey: 'tree-services-2',
-      },
-    ],
-    faq: [
-      {
-        question: {en: 'Are you insured?', es: '¿Están asegurados?'},
-        answer: {
-          en: 'Yes — $2M general liability and full workers\' comp. We send the COI before the first cut.',
-          es: 'Sí — $2M de responsabilidad general y compensación laboral completa. Enviamos el COI antes del primer corte.',
-        },
-      },
-      {
-        question: {en: 'Can you remove a tree near my house?', es: '¿Pueden retirar un árbol cerca de mi casa?'},
-        answer: {
-          en: 'Yes — sectional takedowns are routine. We rope and lower limbs in pieces; no surprise impact on the structure.',
-          es: 'Sí — las remociones seccionadas son rutina. Bajamos ramas con cuerdas; sin impactos sorpresa en la estructura.',
-        },
-      },
-      {
-        question: {en: 'Do I need a permit?', es: '¿Necesito un permiso?'},
-        answer: {
-          en: 'DuPage County rarely requires permits for residential tree work. Some HOAs do; we check before we schedule.',
-          es: 'DuPage rara vez requiere permisos para trabajo residencial. Algunas HOAs sí; verificamos antes de agendar.',
-        },
-      },
-      {
-        question: {en: 'How fast is storm response?', es: '¿Qué tan rápido responden a tormentas?'},
-        answer: {
-          en: 'Within 4 hours of a storm passing for emergencies (tree on house, blocked drive). Non-emergencies queue normally.',
-          es: 'En 4 horas tras pasar la tormenta para emergencias (árbol sobre casa, entrada bloqueada). No-emergencias entran en la cola normal.',
-        },
-      },
-      {
-        question: {en: 'Will you grind the stump?', es: '¿Trituran el tocón?'},
-        answer: {
-          en: 'Stump grinding is an add-on, billed separately because the equipment is different. Most customers bundle it.',
-          es: 'La trituración es un servicio adicional aparte porque usa otro equipo. La mayoría lo incluye.',
-        },
       },
     ],
     related: ['lawn-care', 'landscape-design', 'seasonal-cleanup'],
@@ -788,43 +671,6 @@ export const SERVICES: Service[] = [
         imageKey: 'sprinkler-systems-2',
       },
     ],
-    faq: [
-      {
-        question: {en: 'When should I winterize?', es: '¿Cuándo debo preparar para invierno?'},
-        answer: {
-          en: 'Before the first hard freeze — usually mid-October to early November in DuPage. We schedule by request through November 15.',
-          es: 'Antes de la primera helada fuerte — normalmente entre mediados de octubre y principios de noviembre. Agendamos hasta el 15 de noviembre.',
-        },
-      },
-      {
-        question: {en: 'Can you upgrade my controller?', es: '¿Pueden actualizar mi control?'},
-        answer: {
-          en: 'Yes — most existing systems work with smart controllers like Rachio or Hunter Hydrawise. We swap and configure.',
-          es: 'Sí — la mayoría de sistemas trabajan con controles inteligentes como Rachio o Hunter Hydrawise. Cambiamos y configuramos.',
-        },
-      },
-      {
-        question: {en: 'How long does an install take?', es: '¿Cuánto tarda una instalación?'},
-        answer: {
-          en: 'Typical 6–8 zone residential install is 2 days. Larger systems can take 3–4 days.',
-          es: 'Una instalación residencial típica de 6–8 zonas toma 2 días. Sistemas más grandes pueden tardar 3–4 días.',
-        },
-      },
-      {
-        question: {en: 'Do you handle backflow inspection?', es: '¿Manejan la inspección de contraflujo?'},
-        answer: {
-          en: 'Yes — we install certified backflow preventers and can submit the annual inspection paperwork to your municipality.',
-          es: 'Sí — instalamos preventores de contraflujo certificados y enviamos la documentación de inspección anual a tu municipio.',
-        },
-      },
-      {
-        question: {en: 'Will you damage my lawn?', es: '¿Dañarán mi césped?'},
-        answer: {
-          en: 'We use a vibratory plow that slits the turf with minimal disruption. Most lawns recover invisibly within 2–3 weeks.',
-          es: 'Usamos un arado vibratorio que abre el césped con mínima interrupción. La mayoría se recupera invisiblemente en 2–3 semanas.',
-        },
-      },
-    ],
     related: ['lawn-care', 'landscape-design', 'seasonal-cleanup'],
     projectsTag: 'sprinkler-systems',
   },
@@ -946,43 +792,6 @@ export const SERVICES: Service[] = [
         title: {en: 'Wheaton residential cluster', es: 'Cluster residencial en Wheaton'},
         meta: {en: 'Wheaton · 2023–2024', es: 'Wheaton · 2023–2024'},
         imageKey: 'snow-removal-2',
-      },
-    ],
-    faq: [
-      {
-        question: {en: 'What\'s your trigger depth?', es: '¿Cuál es la profundidad de activación?'},
-        answer: {
-          en: '2 inches by default. We\'ll adjust to 1 inch for medical-need households on request.',
-          es: '2 pulgadas por defecto. Ajustamos a 1 pulgada para hogares con necesidades médicas a pedido.',
-        },
-      },
-      {
-        question: {en: 'When does the season start?', es: '¿Cuándo empieza la temporada?'},
-        answer: {
-          en: 'November 1 through April 15, with flexibility on the back end if late storms hit.',
-          es: 'Del 1 de noviembre al 15 de abril, con flexibilidad si llegan tormentas tardías.',
-        },
-      },
-      {
-        question: {en: 'Do you de-ice walkways?', es: '¿Aplican deshielo en senderos?'},
-        answer: {
-          en: 'Yes — pet-safe ice melt on walks and steps after every plow visit.',
-          es: 'Sí — sal pet-safe en senderos y escalones tras cada visita.',
-        },
-      },
-      {
-        question: {en: 'Can I cancel mid-season?', es: '¿Puedo cancelar a mitad de temporada?'},
-        answer: {
-          en: 'Seasonal contracts are non-cancellable; per-event billing is available if you want flexibility.',
-          es: 'Los contratos de temporada no se cancelan; el cobro por evento ofrece flexibilidad.',
-        },
-      },
-      {
-        question: {en: 'How are you paid?', es: '¿Cómo se les paga?'},
-        answer: {
-          en: 'Flat seasonal rate billed in five monthly installments, or per-event billing after each storm.',
-          es: 'Tarifa fija de temporada en cinco mensualidades, o cobro por evento tras cada tormenta.',
-        },
       },
     ],
     related: ['lawn-care', 'seasonal-cleanup'],
@@ -1114,43 +923,6 @@ export const SERVICES: Service[] = [
         title: {en: 'Wheaton spring refresh', es: 'Renovación primaveral en Wheaton'},
         meta: {en: 'Wheaton · 2024', es: 'Wheaton · 2024'},
         imageKey: 'seasonal-cleanup-2',
-      },
-    ],
-    faq: [
-      {
-        question: {en: 'When do you do fall cleanup?', es: '¿Cuándo hacen limpieza otoñal?'},
-        answer: {
-          en: 'October through mid-November. We schedule on a rolling basis — first visits go to homes with mature deciduous trees.',
-          es: 'De octubre a mediados de noviembre. Agendamos rotativamente — las primeras visitas son para casas con árboles caducifolios maduros.',
-        },
-      },
-      {
-        question: {en: 'Do you mulch in spring or fall?', es: '¿Aplican mantillo en primavera u otoño?'},
-        answer: {
-          en: 'Both — spring is the standard refresh, fall is for water retention before winter.',
-          es: 'Ambas — primavera para la renovación estándar, otoño para retener humedad antes del invierno.',
-        },
-      },
-      {
-        question: {en: 'Will you haul off the leaves?', es: '¿Se llevan las hojas?'},
-        answer: {
-          en: 'Yes — included in the price. We never leave piles for the homeowner.',
-          es: 'Sí — incluido en el precio. Nunca dejamos pilas para el dueño.',
-        },
-      },
-      {
-        question: {en: 'Can I bundle with weekly mowing?', es: '¿Puedo combinarla con corte semanal?'},
-        answer: {
-          en: 'Yes — most weekly customers add seasonal cleanup; the bundle saves on the visit minimum.',
-          es: 'Sí — la mayoría de clientes semanales la agregan; el combo ahorra en la visita mínima.',
-        },
-      },
-      {
-        question: {en: 'How long does it take?', es: '¿Cuánto tarda?'},
-        answer: {
-          en: 'A typical residential cleanup is 4–6 hours with a 2–3 person crew. Larger lots take a full day.',
-          es: 'Una limpieza residencial típica toma 4–6 horas con equipo de 2–3 personas. Lotes grandes toman un día completo.',
-        },
       },
     ],
     related: ['lawn-care', 'tree-services', 'sprinkler-systems'],
@@ -1300,43 +1072,6 @@ export const SERVICES: Service[] = [
         imageKey: 'landscape-maintenance-2',
       },
     ],
-    faq: [
-      {
-        question: {en: 'Do you serve HOAs?', es: '¿Atienden a HOAs?'},
-        answer: {
-          en: 'Yes — about 30% of our commercial portfolio is HOA properties. We handle board meetings, RFP responses, and standardized reporting.',
-          es: 'Sí — alrededor del 30% de nuestro portafolio comercial son HOAs. Atendemos juntas, RFPs y reportes estandarizados.',
-        },
-      },
-      {
-        question: {en: "What's your minimum contract value?", es: '¿Cuál es el contrato mínimo?'},
-        answer: {
-          en: '$2,500 monthly recurring on 12-month contracts; one-time enhancements have a separate scope.',
-          es: '$2,500 recurrente mensual en contratos de 12 meses; mejoras puntuales tienen alcance aparte.',
-        },
-      },
-      {
-        question: {en: 'Can you provide a COI?', es: '¿Pueden enviar un COI?'},
-        answer: {
-          en: 'Yes — $2M general liability and full workers\' comp. Sent during onboarding before the first visit.',
-          es: 'Sí — $2M de responsabilidad y compensación laboral completa. Enviado en la integración antes de la primera visita.',
-        },
-      },
-      {
-        question: {en: 'How fast is your snow response?', es: '¿Qué tan rápido responden a nieve?'},
-        answer: {
-          en: '2-hour response after trigger for commercial accounts. Storm-event reporting included.',
-          es: 'Respuesta en 2 horas tras activar para cuentas comerciales. Reportes de evento incluidos.',
-        },
-      },
-      {
-        question: {en: 'Do you provide a single-point property manager?', es: '¿Asignan un property manager único?'},
-        answer: {
-          en: 'Yes — every commercial account gets a named manager with their direct mobile and email. No call queue.',
-          es: 'Sí — cada cuenta comercial recibe un manager nombrado con móvil directo y correo. Sin cola.',
-        },
-      },
-    ],
     related: ['snow-removal', 'property-enhancement', 'turf-management'],
     projectsTag: 'landscape-maintenance',
   },
@@ -1477,43 +1212,6 @@ export const SERVICES: Service[] = [
         imageKey: 'commercial-snow-removal-2',
       },
     ],
-    faq: [
-      {
-        question: {en: "What's your response SLA?", es: '¿Cuál es su SLA?'},
-        answer: {
-          en: '2 hours from trigger. Trigger is forecast confirmation plus on-site depth verification at your site.',
-          es: '2 horas desde la activación. La activación es la confirmación del pronóstico más verificación en sitio.',
-        },
-      },
-      {
-        question: {en: 'Do you provide storm-event reports?', es: '¿Entregan reportes por evento?'},
-        answer: {
-          en: 'Yes — PDF log per storm: arrival, depth, salt weight, departure. Emailed before close of next business day.',
-          es: 'Sí — PDF por tormenta: llegada, profundidad, peso de sal, salida. Enviado antes del próximo día hábil.',
-        },
-      },
-      {
-        question: {en: 'Are de-icers eco-friendly?', es: '¿Los deshielos son ecológicos?'},
-        answer: {
-          en: 'Standard is calibrated rock salt. Eco-melt (chloride-free, calcium magnesium acetate) available at premium per contract.',
-          es: 'Estándar es sal calibrada. Eco-melt (sin cloruro, acetato de calcio-magnesio) disponible con prima según contrato.',
-        },
-      },
-      {
-        question: {en: 'Can you handle multiple sites?', es: '¿Pueden con varios sitios?'},
-        answer: {
-          en: 'Yes — multi-site portfolios are routine. Each site gets its own crew lead with consolidated reporting.',
-          es: 'Sí — los portafolios multi-sitio son rutina. Cada sitio tiene su líder con reportes consolidados.',
-        },
-      },
-      {
-        question: {en: 'Do you provide a COI?', es: '¿Proveen COI?'},
-        answer: {
-          en: 'Yes — $2M general liability plus auto, workers\' comp, and an additional-insured endorsement on request.',
-          es: 'Sí — $2M de responsabilidad más auto, compensación laboral y endoso de asegurado adicional a pedido.',
-        },
-      },
-    ],
     related: ['landscape-maintenance', 'property-enhancement'],
     projectsTag: 'commercial-snow-removal',
   },
@@ -1650,43 +1348,6 @@ export const SERVICES: Service[] = [
         title: {en: 'Naperville retail entry', es: 'Entrada de comercio en Naperville'},
         meta: {en: 'Naperville · 2024', es: 'Naperville · 2024'},
         imageKey: 'property-enhancement-2',
-      },
-    ],
-    faq: [
-      {
-        question: {en: 'Can you work around tenant hours?', es: '¿Pueden trabajar fuera de horas pico?'},
-        answer: {
-          en: 'Yes — most enhancements happen outside peak business hours, weekends if necessary, with no-disruption planning.',
-          es: 'Sí — la mayoría se hace fuera de horas pico, fines de semana si hace falta, con planificación sin interrupciones.',
-        },
-      },
-      {
-        question: {en: 'Do you handle the design?', es: '¿Manejan el diseño?'},
-        answer: {
-          en: 'Yes — designer-led from the first walk; we don\'t hand off to a third-party designer.',
-          es: 'Sí — diseñador lidera desde el primer recorrido; no transferimos a terceros.',
-        },
-      },
-      {
-        question: {en: 'Can the project phase across budgets?', es: '¿El proyecto puede ir por fases?'},
-        answer: {
-          en: 'Yes — most enhancement scopes split into 2–3 phases over multiple seasons. We sequence so each phase looks finished.',
-          es: 'Sí — la mayoría se divide en 2–3 fases en varias temporadas. Las secuenciamos para que cada fase luzca terminada.',
-        },
-      },
-      {
-        question: {en: 'Do you do holiday lighting?', es: '¿Instalan luces festivas?'},
-        answer: {
-          en: 'Yes — install in November, removal in January. Quoted separately from base maintenance.',
-          es: 'Sí — instalación en noviembre, retiro en enero. Cotizado aparte del mantenimiento base.',
-        },
-      },
-      {
-        question: {en: 'How fast is the estimate?', es: '¿Qué tan rápido es el presupuesto?'},
-        answer: {
-          en: 'Site walk inside one week, concept + estimate inside two weeks of the walk.',
-          es: 'Recorrido en una semana, concepto y presupuesto en dos semanas tras el recorrido.',
-        },
       },
     ],
     related: ['landscape-maintenance', 'turf-management'],
@@ -1826,43 +1487,6 @@ export const SERVICES: Service[] = [
         title: {en: 'Aurora corporate campus', es: 'Campus corporativo en Aurora'},
         meta: {en: 'Aurora · 2024', es: 'Aurora · 2024'},
         imageKey: 'turf-management-2',
-      },
-    ],
-    faq: [
-      {
-        question: {en: 'Do you do soil testing?', es: '¿Hacen análisis de suelo?'},
-        answer: {
-          en: 'Yes — annual baseline plus targeted retests when results suggest. Lab data drives the application program.',
-          es: 'Sí — línea base anual y repeticiones puntuales cuando los resultados lo indican. Los datos guían las aplicaciones.',
-        },
-      },
-      {
-        question: {en: 'Are you IDA-licensed?', es: '¿Están licenciados por IDA?'},
-        answer: {
-          en: 'Yes — Illinois Department of Agriculture commercial-applicator licensed. License number on every report.',
-          es: 'Sí — licenciados como aplicador comercial por el IDA. Número de licencia en cada reporte.',
-        },
-      },
-      {
-        question: {en: 'Can you do organic-only?', es: '¿Pueden ser solo orgánicos?'},
-        answer: {
-          en: 'Organic-base programs are available; pure organic on commercial turf is unusual but achievable with a multi-year transition.',
-          es: 'Los programas base orgánica están disponibles; orgánico puro en césped comercial es inusual pero posible con transición plurianual.',
-        },
-      },
-      {
-        question: {en: 'How often are reports?', es: '¿Cada cuánto son los reportes?'},
-        answer: {
-          en: 'Quarterly PDF reports plus a year-end summary with soil trends and the next-year plan.',
-          es: 'Reportes PDF trimestrales más un resumen anual con tendencias y plan del próximo año.',
-        },
-      },
-      {
-        question: {en: 'Is overseeding included?', es: '¿La resiembra está incluida?'},
-        answer: {
-          en: 'Annual fall overseeding is included; spring overseeding is an add-on if conditions warrant.',
-          es: 'La resiembra anual de otoño está incluida; la de primavera es agregable según condiciones.',
-        },
       },
     ],
     related: ['landscape-maintenance', 'property-enhancement'],
@@ -2017,50 +1641,6 @@ export const SERVICES: Service[] = [
         imageKey: 'patios-walkways-3',
       },
     ],
-    faq: [
-      {
-        question: {en: 'How long does a typical patio take?', es: '¿Cuánto tarda un patio típico?'},
-        answer: {
-          en: 'A 400–600 sq ft residential paver patio runs 5–8 days from break-ground to walkthrough.',
-          es: 'Un patio residencial de 400–600 ft² toma 5–8 días desde el inicio hasta el recorrido.',
-        },
-      },
-      {
-        question: {en: 'What pavers do you use?', es: '¿Qué adoquines usan?'},
-        answer: {
-          en: 'Unilock primarily; we\'re an Authorized Contractor. We can also work with Belgard or other premium lines on request.',
-          es: 'Principalmente Unilock; somos contratista autorizado. También trabajamos con Belgard u otras líneas premium si se pide.',
-        },
-      },
-      {
-        question: {en: "What's the warranty?", es: '¿Cuál es la garantía?'},
-        answer: {
-          en: '5-year workmanship warranty on the install. Unilock\'s manufacturer warranty on the pavers themselves runs separately.',
-          es: 'Garantía de mano de obra de 5 años. La garantía del fabricante Unilock sobre los adoquines corre aparte.',
-        },
-      },
-      {
-        question: {en: 'Do you handle permits?', es: '¿Manejan los permisos?'},
-        answer: {
-          en: 'Yes — DuPage County and the local municipality. Permits are usually included in the quote.',
-          es: 'Sí — el Condado de DuPage y el municipio local. Los permisos suelen ir incluidos.',
-        },
-      },
-      {
-        question: {en: 'Can I see your previous work?', es: '¿Puedo ver trabajos previos?'},
-        answer: {
-          en: 'Yes — recent projects are featured below, and we\'ll arrange a drive-by of an installed patio in your neighborhood on request.',
-          es: 'Sí — hay proyectos abajo, y arreglamos un drive-by de un patio terminado en tu zona si lo pides.',
-        },
-      },
-      {
-        question: {en: 'When can you start?', es: '¿Cuándo pueden empezar?'},
-        answer: {
-          en: 'Spring builds typically book by late February; we\'ll confirm a start window inside the quote.',
-          es: 'Las construcciones de primavera se llenan a fines de febrero; confirmamos ventana en la cotización.',
-        },
-      },
-    ],
     related: ['retaining-walls', 'fire-pits-features', 'driveways', 'outdoor-kitchens'],
     projectsTag: 'patios-walkways',
   },
@@ -2197,43 +1777,6 @@ export const SERVICES: Service[] = [
         title: {en: 'Naperville hillside seat wall', es: 'Muro asiento en Naperville'},
         meta: {en: 'Naperville · 2024', es: 'Naperville · 2024'},
         imageKey: 'retaining-walls-2',
-      },
-    ],
-    faq: [
-      {
-        question: {en: 'Do I need engineering?', es: '¿Necesito ingeniería?'},
-        answer: {
-          en: 'Walls 4 feet and taller, or any wall against a structure, must be engineered. We include the stamped drawings.',
-          es: 'Muros de 4 pies o más, o cualquier muro contra una estructura, requieren ingeniería. Incluimos los planos sellados.',
-        },
-      },
-      {
-        question: {en: 'How long does a wall take to build?', es: '¿Cuánto tarda construir un muro?'},
-        answer: {
-          en: 'Typical 60-foot residential wall is 5–10 days. Longer walls or those needing engineering can take 2–4 weeks total with permitting.',
-          es: 'Un muro residencial típico de 60 pies toma 5–10 días. Muros más largos o con ingeniería pueden tardar 2–4 semanas con permisos.',
-        },
-      },
-      {
-        question: {en: 'Will it leak?', es: '¿Se va a filtrar?'},
-        answer: {
-          en: 'Properly built walls don\'t. Drain tile + clean-stone backfill behind every wall — non-negotiable.',
-          es: 'Muros bien hechos no. Tubería de drenaje y piedra limpia detrás — innegociable.',
-        },
-      },
-      {
-        question: {en: 'What\'s the warranty?', es: '¿Cuál es la garantía?'},
-        answer: {
-          en: '5-year installation warranty plus the Unilock manufacturer warranty on the blocks.',
-          es: 'Garantía de instalación de 5 años más la garantía del fabricante Unilock sobre los bloques.',
-        },
-      },
-      {
-        question: {en: 'Do you handle permits?', es: '¿Manejan los permisos?'},
-        answer: {
-          en: 'Yes — DuPage and the local municipality. Engineering review packets included where required.',
-          es: 'Sí — DuPage y el municipio local. Paquetes de ingeniería incluidos donde se requiere.',
-        },
       },
     ],
     related: ['patios-walkways', 'fire-pits-features', 'driveways'],
@@ -2374,43 +1917,6 @@ export const SERVICES: Service[] = [
         imageKey: 'fire-pits-features-2',
       },
     ],
-    faq: [
-      {
-        question: {en: 'Wood-burning or gas — which lasts longer?', es: '¿Leña o gas — cuál dura más?'},
-        answer: {
-          en: 'Both can last 25+ years if built right. Gas is lower-maintenance; wood-burning has a stronger ambiance trade-off.',
-          es: 'Ambos pueden durar 25+ años si están bien hechos. Gas es bajo mantenimiento; leña tiene mejor ambiente.',
-        },
-      },
-      {
-        question: {en: 'Do I need a permit?', es: '¿Necesito permiso?'},
-        answer: {
-          en: 'Wood-burning pits usually no. Gas-fed features require gas-line permits in DuPage County and most municipalities — we file them.',
-          es: 'Chimeneas de leña normalmente no. Las de gas requieren permisos de línea de gas en DuPage y la mayoría de municipios — los manejamos.',
-        },
-      },
-      {
-        question: {en: 'How big should it be?', es: '¿Qué tamaño debería tener?'},
-        answer: {
-          en: 'Most residential pits are 36"–48" outside diameter with 6–8 feet of paver circulation. We design to the yard.',
-          es: 'La mayoría son de 36"–48" de diámetro exterior con 6–8 pies de circulación. Diseñamos al jardín.',
-        },
-      },
-      {
-        question: {en: 'Can it integrate with my patio?', es: '¿Puede integrarse con mi patio?'},
-        answer: {
-          en: 'Yes — most fire features get designed alongside or after the patio. Same Unilock paver line, seamless integration.',
-          es: 'Sí — la mayoría se diseñan con o después del patio. Misma línea Unilock, integración fluida.',
-        },
-      },
-      {
-        question: {en: 'How long does install take?', es: '¿Cuánto tarda la instalación?'},
-        answer: {
-          en: 'Standalone fire pit: 3–5 days. With patio integration: schedule with the patio build.',
-          es: 'Chimenea solita: 3–5 días. Con patio integrado: agendar con la construcción.',
-        },
-      },
-    ],
     related: ['patios-walkways', 'outdoor-kitchens', 'pergolas-pavilions'],
     projectsTag: 'fire-pits-features',
   },
@@ -2547,43 +2053,6 @@ export const SERVICES: Service[] = [
         title: {en: 'Wheaton pavilion', es: 'Pabellón en Wheaton'},
         meta: {en: 'Wheaton · 2024', es: 'Wheaton · 2024'},
         imageKey: 'pergolas-pavilions-2',
-      },
-    ],
-    faq: [
-      {
-        question: {en: 'Cedar or steel?', es: '¿Cedro o acero?'},
-        answer: {
-          en: 'Cedar reads warmer and ages naturally with stain refresh; steel is lower-maintenance and supports larger spans. We design for the yard.',
-          es: 'El cedro luce más cálido y envejece natural con retoque; el acero es menos mantenimiento y soporta vanos más grandes. Diseñamos al jardín.',
-        },
-      },
-      {
-        question: {en: 'Do I need a permit?', es: '¿Necesito permiso?'},
-        answer: {
-          en: 'Most pavilions yes; open pergolas under 200 sqft sometimes no. We confirm with your municipality before quoting.',
-          es: 'La mayoría de pabellones sí; pérgolas abiertas bajo 200 ft² a veces no. Confirmamos con tu municipio antes de cotizar.',
-        },
-      },
-      {
-        question: {en: 'How long does a build take?', es: '¿Cuánto tarda construir?'},
-        answer: {
-          en: 'Typical pergola: 1–2 weeks. Pavilion with engineering and permit: 4–6 weeks total.',
-          es: 'Pérgola típica: 1–2 semanas. Pabellón con ingeniería y permiso: 4–6 semanas.',
-        },
-      },
-      {
-        question: {en: 'Will the wood last in Chicago winters?', es: '¿Sobrevive la madera al invierno de Chicago?'},
-        answer: {
-          en: 'Yes with cedar + UV-stable stain + year-1 touch-up. Most cedar pergolas hit 25+ years.',
-          es: 'Sí con cedro + tinte estable a UV + retoque del año 1. La mayoría de pérgolas de cedro pasan los 25 años.',
-        },
-      },
-      {
-        question: {en: 'Can it integrate with my patio?', es: '¿Puede integrarse con mi patio?'},
-        answer: {
-          en: 'Yes — most pergolas attach to the house above the patio or sit freestanding inside the paver field.',
-          es: 'Sí — la mayoría se anexan a la casa sobre el patio o quedan aisladas dentro del campo de adoquines.',
-        },
       },
     ],
     related: ['patios-walkways', 'outdoor-kitchens', 'fire-pits-features'],
@@ -2724,43 +2193,6 @@ export const SERVICES: Service[] = [
         imageKey: 'driveways-2',
       },
     ],
-    faq: [
-      {
-        question: {en: 'How long does it take?', es: '¿Cuánto tarda?'},
-        answer: {
-          en: 'Typical residential driveway: 7–10 days. Larger circle drives or shared drives: 2–3 weeks total with permitting.',
-          es: 'Entrada residencial típica: 7–10 días. Circulares o compartidas: 2–3 semanas con permisos.',
-        },
-      },
-      {
-        question: {en: "Will the pavers handle vehicle weight?", es: '¿Aguantan los adoquines un auto?'},
-        answer: {
-          en: 'Yes — we use Unilock structural-rated pavers (not patio pavers) over an engineered base. Rated for residential vehicle loading.',
-          es: 'Sí — usamos adoquines Unilock estructurales (no de patio) sobre base diseñada. Calificados para carga residencial.',
-        },
-      },
-      {
-        question: {en: "What's the warranty?", es: '¿Cuál es la garantía?'},
-        answer: {
-          en: '5-year installation warranty plus the Unilock manufacturer warranty on the pavers themselves.',
-          es: 'Garantía de instalación de 5 años más la garantía del fabricante Unilock.',
-        },
-      },
-      {
-        question: {en: 'Do you handle the permit?', es: '¿Manejan el permiso?'},
-        answer: {
-          en: 'Yes — driveway-apron permits with the municipality and any DuPage County coordination are included.',
-          es: 'Sí — permisos del acceso con el municipio y coordinación con DuPage incluidos.',
-        },
-      },
-      {
-        question: {en: 'Can I add a circle drive?', es: '¿Puedo agregar entrada circular?'},
-        answer: {
-          en: 'Yes — circle drives are common; we design them to flow with the front-yard plantings.',
-          es: 'Sí — las entradas circulares son comunes; las diseñamos para integrarse con la jardinería frontal.',
-        },
-      },
-    ],
     related: ['retaining-walls', 'patios-walkways'],
     projectsTag: 'driveways',
   },
@@ -2897,43 +2329,6 @@ export const SERVICES: Service[] = [
         title: {en: 'Wheaton island kitchen', es: 'Cocina en isla en Wheaton'},
         meta: {en: 'Wheaton · 2024', es: 'Wheaton · 2024'},
         imageKey: 'outdoor-kitchens-2',
-      },
-    ],
-    faq: [
-      {
-        question: {en: 'How long does a build take?', es: '¿Cuánto tarda construir?'},
-        answer: {
-          en: 'Typical full outdoor kitchen: 4–6 weeks total including permits and trade coordination.',
-          es: 'Una cocina exterior típica: 4–6 semanas en total incluyendo permisos y coordinación.',
-        },
-      },
-      {
-        question: {en: 'Do you sell appliances?', es: '¿Venden electrodomésticos?'},
-        answer: {
-          en: 'We don\'t sell appliances; we install yours or coordinate the purchase from supplier-approved partners.',
-          es: 'No vendemos electrodomésticos; instalamos los tuyos o coordinamos la compra con socios aprobados.',
-        },
-      },
-      {
-        question: {en: 'Can it be covered for year-round use?', es: '¿Puede tener techo para uso todo el año?'},
-        answer: {
-          en: 'Yes — pavilion-roofed kitchens with vented ceilings and infrared heaters allow shoulder-season cooking. Winter use is rare in DuPage.',
-          es: 'Sí — pabellones con techos ventilados e infrarrojos permiten cocinar en temporada media. Uso invernal es raro en DuPage.',
-        },
-      },
-      {
-        question: {en: "What's the warranty?", es: '¿Cuál es la garantía?'},
-        answer: {
-          en: '5-year workmanship warranty on the build. Appliance warranties run separately through their manufacturers.',
-          es: '5 años de mano de obra en la construcción. Las garantías de electrodomésticos corren con sus fabricantes.',
-        },
-      },
-      {
-        question: {en: 'Do I need permits?', es: '¿Necesito permisos?'},
-        answer: {
-          en: 'Yes — gas and electrical permits are required and we file them. Plumbing permits depending on whether you add a sink.',
-          es: 'Sí — permisos de gas y eléctrico son requeridos y los manejamos. Plomería según si agregas fregadero.',
-        },
       },
     ],
     related: ['patios-walkways', 'fire-pits-features', 'pergolas-pavilions'],

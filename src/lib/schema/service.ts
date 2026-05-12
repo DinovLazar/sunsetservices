@@ -7,7 +7,7 @@
  */
 
 import {BUSINESS_URL} from '@/lib/constants/business';
-import type {Service, Audience, FaqItem, Localized} from '@/data/services';
+import type {Service, Audience, Localized} from '@/data/services';
 
 type Locale = 'en' | 'es';
 
@@ -70,23 +70,9 @@ export function buildServiceSchema(
   };
 }
 
-export function buildFaqPageSchema(
-  faq: FaqItem[],
-  locale: Locale,
-): Record<string, unknown> {
-  return {
-    '@context': 'https://schema.org',
-    '@type': 'FAQPage',
-    mainEntity: faq.map((q) => ({
-      '@type': 'Question',
-      name: pickLocalized(q.question, locale),
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: pickLocalized(q.answer, locale),
-      },
-    })),
-  };
-}
+// Phase 2.05 — `buildFaqPageSchema` was removed; FAQs now come from Sanity
+// and pages use `buildContentFaqSchema` from `./article.ts` (takes already-
+// projected `{q, a}` strings).
 
 export function buildAudienceItemList(
   audience: Audience,

@@ -256,6 +256,38 @@ async function main() {
       });
     }
   }
+  // Per-blog-post (inline faq[] in blog.ts)
+  for (const b of BLOG_POSTS) {
+    if (!Array.isArray(b.faq)) continue;
+    for (let i = 0; i < b.faq.length; i++) {
+      const item = b.faq[i];
+      const n = String(i + 1).padStart(3, '0');
+      await put({
+        _id: `faq-blog-${b.slug}-${n}`,
+        _type: 'faq',
+        scope: `blog:${b.slug}`,
+        question: localized(item.q.en, item.q.es),
+        answer: localized(item.a.en, item.a.es),
+        order: i,
+      });
+    }
+  }
+  // Per-resource (inline faq[] in resources.ts)
+  for (const r of RESOURCES) {
+    if (!Array.isArray(r.faq)) continue;
+    for (let i = 0; i < r.faq.length; i++) {
+      const item = r.faq[i];
+      const n = String(i + 1).padStart(3, '0');
+      await put({
+        _id: `faq-resource-${r.slug}-${n}`,
+        _type: 'faq',
+        scope: `resource:${r.slug}`,
+        question: localized(item.q.en, item.q.es),
+        answer: localized(item.a.en, item.a.es),
+        order: i,
+      });
+    }
+  }
 
   // -------- 6. Projects --------
   console.log('\n[seed] (6/8) Projects');

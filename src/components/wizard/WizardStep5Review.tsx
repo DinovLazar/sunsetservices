@@ -10,6 +10,8 @@ import {
 } from '@/data/wizard';
 import {WIZARD_EVENTS, fireWizardEvent} from '@/lib/wizard/events';
 import {isWizardSubmitEnabled} from '@/lib/chat/flags';
+import {clearStep1to3} from '@/lib/wizard/storage';
+import {getOrCreateSessionId, clearSessionId} from '@/lib/quote/session';
 import type {Step4Values} from './WizardStep4Contact';
 
 type Props = {
@@ -23,15 +25,20 @@ type Props = {
 };
 
 /**
- * Step 5 — review + amber Submit. Phase 1.19 §3.7, D8.
+ * Step 5 — review + amber Submit. Phase 1.19 §3.7, D8; Phase 2.06 wiring.
  *
  * Single `.card-cream` (NOT `.card-featured` — 1.06 §2.4 forbids featured +
  * amber on the same page; Step 5 has the amber Submit). Per-step Edit links
  * route via `?step=N` while preserving all React state.
  *
- * Submit handler — Part 1 simulation: console.log payload, dispatch
- * `wizard_submit_succeeded` event, route to `/thank-you/?firstName=…`.
- * Phase 2.06 swaps the simulation for the real `/api/quote` POST.
+ * Phase 2.06: Submit POSTs to `/api/quote`. Honeypot field is rendered
+ * off-screen + tab-skipped + aria-hidden so naive bots fall into it. On
+ * success, autosaved state + session ID are cleared and we redirect to
+ * `/thank-you/`. On failure the visitor sees a friendly retry message.
+ *
+ * When `WIZARD_SUBMIT_ENABLED=false` the server route returns 200 +
+ * `status: 'simulated'` so the wizard flows through the success path with
+ * no real side effects.
  */
 export default function WizardStep5Review({
   audience,
@@ -46,6 +53,8 @@ export default function WizardStep5Review({
   const locale = useLocale() as 'en' | 'es';
   const router = useRouter();
   const [submitting, setSubmitting] = React.useState(false);
+  const [submitError, setSubmitError] = React.useState<string | null>(null);
+  const [honeypot, setHoneypot] = React.useState('');
 
   const services = React.useMemo(() => getServiceOptionsForAudience(audience), [audience]);
 
@@ -120,22 +129,74 @@ export default function WizardStep5Review({
       .join(' · ');
   }
 
+  function buildPayload() {
+    return {
+      sessionId: getOrCreateSessionId(),
+      honeypot,
+      audience,
+      services: selectedSlugs,
+      primaryService: primarySlug || undefined,
+      otherText: otherText.trim() || undefined,
+      details: extractDetails(step3),
+      firstName: step4.firstName.trim(),
+      lastName: step4.lastName.trim(),
+      email: step4.email.trim(),
+      phone: step4.phone.trim(),
+      address: {
+        street: step4.street.trim(),
+        unit: step4.unit?.trim() || undefined,
+        city: step4.city.trim(),
+        state: step4.state.trim(),
+        zip: step4.zip.trim(),
+      },
+      contactPreferences: {
+        bestTime: step4.bestTime || undefined,
+        contactMethod: step4.contactMethod || undefined,
+      },
+    };
+  }
+
   async function handleSubmit() {
+    setSubmitError(null);
     setSubmitting(true);
     fireWizardEvent(WIZARD_EVENTS.SUBMIT_ATTEMPTED, {locale, audience});
 
-    if (isWizardSubmitEnabled()) {
-      // Phase 2.06 will replace this with `fetch('/api/quote', { ... })`.
-      // Until then the wizard always falls through to the simulation below.
-    }
+    // When the server flag is off, the route returns 200 + 'simulated' so the
+    // call site is identical. We use the same fetch path either way to keep
+    // both code paths exercised by the Phase 2.06 smoke tests.
+    void isWizardSubmitEnabled();
 
-    // Part 1 simulation. Phase 2.06 swaps for `fetch('/api/quote', ...)`.
-    const payload = {audience, selectedSlugs, primarySlug, otherText, step3, step4};
-    console.log('[wizard]', payload);
-    await new Promise((r) => setTimeout(r, 800));
-    fireWizardEvent(WIZARD_EVENTS.SUBMIT_SUCCEEDED, {locale, audience});
-    const firstName = encodeURIComponent(step4.firstName.trim().slice(0, 50));
-    router.push(`/thank-you/?firstName=${firstName}`);
+    const payload = buildPayload();
+
+    try {
+      const res = await fetch('/api/quote', {
+        method: 'POST',
+        headers: {'content-type': 'application/json'},
+        body: JSON.stringify(payload),
+      });
+
+      if (!res.ok) {
+        fireWizardEvent(WIZARD_EVENTS.SUBMIT_FAILED, {locale, audience, status: res.status});
+        setSubmitError(t('wizard.error.submit'));
+        setSubmitting(false);
+        return;
+      }
+
+      fireWizardEvent(WIZARD_EVENTS.SUBMIT_SUCCEEDED, {locale, audience});
+
+      // Clear autosaved Steps 1–3 and the session ID so a return visit starts
+      // fresh. (PII never touched localStorage to begin with — D9 boundary.)
+      clearStep1to3();
+      clearSessionId();
+
+      const firstName = encodeURIComponent(step4.firstName.trim().slice(0, 50));
+      router.push(`/thank-you/?firstName=${firstName}`);
+    } catch (err) {
+      console.error('[wizard] submit network error', err);
+      fireWizardEvent(WIZARD_EVENTS.SUBMIT_FAILED, {locale, audience, reason: 'network'});
+      setSubmitError(t('wizard.error.submit'));
+      setSubmitting(false);
+    }
   }
 
   const rowEyebrow = (key: string) => (
@@ -291,6 +352,51 @@ export default function WizardStep5Review({
         </div>
       </div>
 
+      {/*
+        Honeypot field — invisible to humans, irresistible to naive bots.
+        `aria-hidden` + `tabIndex={-1}` keeps screen readers + keyboard users
+        out; off-screen positioning (not `display: none`) is deliberate so
+        bots that skip hidden fields still see it.
+      */}
+      <div
+        aria-hidden="true"
+        style={{
+          position: 'absolute',
+          left: '-9999px',
+          width: 1,
+          height: 1,
+          overflow: 'hidden',
+        }}
+      >
+        <label htmlFor="company_website">Company website (leave blank)</label>
+        <input
+          type="text"
+          id="company_website"
+          name="company_website"
+          autoComplete="off"
+          tabIndex={-1}
+          value={honeypot}
+          onChange={(e) => setHoneypot(e.target.value)}
+        />
+      </div>
+
+      {submitError ? (
+        <div
+          role="alert"
+          className="mt-6"
+          style={{
+            padding: '12px 16px',
+            border: '1px solid var(--color-error, #c0392b)',
+            borderRadius: 8,
+            background: 'color-mix(in srgb, var(--color-error, #c0392b) 8%, transparent)',
+            color: 'var(--color-error, #c0392b)',
+            fontSize: 'var(--text-body-sm)',
+          }}
+        >
+          {submitError}
+        </div>
+      ) : null}
+
       <div className="mt-8 flex flex-col-reverse lg:flex-row lg:justify-between lg:items-center gap-4">
         <button
           type="button"
@@ -318,4 +424,23 @@ export default function WizardStep5Review({
       </div>
     </div>
   );
+}
+
+/**
+ * Filter Step-3 state into the shape `QuoteSubmitSchema.details` accepts.
+ * Drops empty strings, trims, and preserves arrays as-is.
+ */
+function extractDetails(
+  step3: Record<string, string | string[]>,
+): Record<string, string | string[]> | undefined {
+  const out: Record<string, string | string[]> = {};
+  for (const [key, value] of Object.entries(step3)) {
+    if (Array.isArray(value)) {
+      if (value.length > 0) out[key] = value;
+    } else if (typeof value === 'string') {
+      const trimmed = value.trim();
+      if (trimmed) out[key] = trimmed;
+    }
+  }
+  return Object.keys(out).length > 0 ? out : undefined;
 }

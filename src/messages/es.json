@@ -792,12 +792,16 @@
     "calendly": {
       "eyebrow": "Reserva directamente",
       "h2": "Elige un espacio de 30 minutos.",
+      "sub": "Elige un espacio de 30 minutos con Erick. [TBR]",
       "body": "Erick revisa cada reserva antes de confirmar.",
       "coming_soon": "Próximamente",
       "fallback": {
         "body": "El sistema de reservas llega en la Fase 2.07. Mientras tanto —",
         "cta": "Llama al {phone}"
-      }
+      },
+      "fallbackCta": "Llama al {phone} [TBR]",
+      "fallbackLink": "Abrir Calendly directamente [TBR]",
+      "iframeLabel": "Widget de reservas de Calendly [TBR]"
     },
     "area": {
       "eyebrow": "Atendemos",
@@ -1384,7 +1388,12 @@
       "eyebrow": "SIN ESPERA",
       "title": "¿Quieres reservar una consulta de 30 minutos?",
       "cta": "Reservar consulta",
-      "comingSoon": "Próximamente"
+      "comingSoon": "Próximamente",
+      "h2": "Reserva una consulta de 30 minutos con Erick [TBR]",
+      "sub": "Elige una hora que te funcione. Sin compromiso. [TBR]",
+      "fallbackCta": "Llama al {phone} [TBR]",
+      "fallbackLink": "Abrir Calendly directamente [TBR]",
+      "iframeLabel": "Widget de reservas de Calendly [TBR]"
     },
     "next": {
       "title": "Qué sigue",

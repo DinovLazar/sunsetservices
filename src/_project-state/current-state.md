@@ -6,9 +6,9 @@
 
 ## Where we are
 
-- **Last completed phase:** Part 2 — Phase 2.02 (Code: Vercel preview deploy). Repo connected to Vercel Hobby project `sunsetservices` under team `dinovlazars-projects`. Production deploy live at `https://sunsetservices.vercel.app`. Preview deploys auto-fire on every non-`main` branch push. Vercel Analytics wired and reporting.
-- **Next phase:** Part 2 — Phase 2.03 (Code: Sanity CMS schemas).
-- **Date:** 2026-05-10
+- **Last completed phase:** Part 2 — Phase 2.03 (Code: Sanity CMS schemas + standalone Studio). Standalone Studio live at `https://sunsetservices.sanity.studio`. 8 document schemas + 4 shared localized field objects under `sanity/schemas/`. Sanity client + image-URL builder wired into the codebase but not yet consumed by any page (that's Phase 2.05). 3 new env vars in Vercel (Production + Preview). 4 CORS origins on the Sanity project.
+- **Next phase:** Part 2 — Phase 2.04 (Cowork: photo curation + upload to Sanity).
+- **Date:** 2026-05-12
 
 ---
 
@@ -55,6 +55,15 @@
 
 > **Phase 2.01 note:** No `localhost:3000` behavior changed in this phase. Phase 2.01 is account creation only — no routes added, no source code touched. Working tree at end of phase = Phase 1.20 code + Phase 2.01 doc updates.
 
+## What works (Phase 2.03 additions)
+
+- **Standalone Sanity Studio at `https://sunsetservices.sanity.studio`** — Sanity-hosted (not embedded in the Next.js app per user preference). All 8 document types appear in the left navigation: Service, Project, Blog Post, Resource Article, Location, Faq, Review, Team. Empty of content; Phase 2.04 starts uploading photos. `studioHost: 'sunsetservices'` + `deployment.appId: 'hza6xflhrkuygkrhketq6uhj'` in `sanity.cli.ts` pre-lock both the hostname and the application ID, so every subsequent `sanity deploy` is fully non-interactive.
+- **Sanity schemas** — 12 files under `sanity/schemas/` (4 shared objects: `localizedString`, `localizedText`, `localizedBody`, `localizedSeo`; 8 documents: `service`, `project`, `blogPost`, `resourceArticle`, `location`, `faq`, `review`, `team`). Each document carries field groups (`content`/`media`/`taxonomy`/`seo`/etc.) and a `preview` block with a useful subtitle. All image fields use `{hotspot: true}`. References between documents wired (e.g. `project.services` → `service`, `location.featuredServices` → `service`, `faqs` arrays on most documents → `faq`). `service.priceIncludes`, project before/after fields, and similar conditional fields use `hidden: ({parent}) => ...` to keep the Studio editing UI tidy.
+- **Sanity client + image builder** — `sanity/lib/client.ts` (read-only, CDN, `perspective: 'published'`) and `sanity/lib/image.ts` (`urlFor()` helper). Imported nowhere in the Next.js app yet — Phase 2.05 starts fetching.
+- **`npm run studio:dev` / `studio:build` / `studio:deploy`** — three new scripts. `studio:dev` boots the Studio at `localhost:3333`; `studio:build` produces `dist/` (gitignored); `studio:deploy` publishes to `sunsetservices.sanity.studio`.
+- **Sanity CORS origins** — `localhost:3000`, `sunsetservices.vercel.app`, `sunsetservices.us` (plus the auto-registered `localhost:3333` for the Studio dev server). All registered with `--no-credentials`.
+- **`npm run build` still produces 118 pages** with the new `sanity/` imports compiled but unused. Vercel preview rebuild on push verified green.
+
 ---
 
 ## What does NOT work yet
@@ -72,7 +81,11 @@
 - **GTM `dataLayer.push`** — every interactive element carries the appropriate `data-analytics-event="..."` attribute, but no GTM bridge yet. Phase 2.11 reads the attributes from the DOM and forwards to dataLayer.
 - **Cookie consent banner** — chat bubble's consent gate is a stub default-true. Phase 2.11 wires the real banner.
 - `[TBR]`-flagged Spanish strings — the audience landings and service detail pages ship with first-pass Spanish translations. Native-speaker review happens in Phase 2.13.
-- Sanity content (Phase 2.03), AI chat (Phase 1.20 / 2.09), analytics (Phase 2.10), Resend email (Phase 2.08).
+- **Sanity Studio is empty of content** — Phase 2.04 (Cowork) uploads photos and tags them with new Sanity asset metadata; later phases backfill text content. The Studio editing surface exists but no documents have been authored.
+- **No read-only API token created yet** — Phase 2.05 creates a scoped token when the Next.js app starts fetching draft previews. Production reads via the public CDN (`apicdn.sanity.io`) need no auth.
+- **No write tokens for the automation agent** — Phase 2.16 creates write-scoped tokens.
+- **No webhook for ISR revalidation** on Sanity publish — Phase 2.05+.
+- AI chat (Phase 1.20 / 2.09), analytics (Phase 2.10), Resend email (Phase 2.08).
 - **GBP API write access + Places API read (Phase 2.01 Step 7) — DEFERRED to new Phase 2.13.2 per user decision.** Phase 2.14 (publish to Google Business Profile) and Phase 2.16 (daily reviews on the site) both wait on Phase 2.13.2 completing first. Phase 2.13.2 itself starts a 2–6 week Google review clock for GBP API access.
 - **Cloudflare DNS** — account exists with 2FA enabled, no domain added yet. Domain cutover happens in Part 3 Phase 3.11.
 - **Resend domain verification** for `sunsetservices.us` (SPF/DKIM/DMARC records) — deferred to Phase 2.08; requires Cloudflare DNS access which we don't have yet.
@@ -96,6 +109,10 @@
 | lucide-react | 1.14.0 |
 | @base-ui/react | 1.4.1 |
 | next-sanity | 12.4.0 |
+| sanity | 5.25.0 |
+| @sanity/vision | 5.25.0 |
+| @sanity/image-url | 2.1.1 |
+| styled-components | 6.4.1 |
 | @anthropic-ai/sdk | 0.92.0 |
 | resend | 6.12.2 |
 | eslint | 9.39.4 |
@@ -131,6 +148,7 @@ Fonts (loaded via `next/font/google`): Manrope (heading) + Onest (body), subsets
 - **Phase 2.01 finalization commit:** `e4b323e` — `chore(phase-2.01): close Phase 2.01 (Account-Creation Runway)` (6 files, +361 / -10; created `Sunset-Services-Decisions.md` + `Part-2-Phase-01-Completion.md`, updated 00_stack-and-config / current-state / file-map / .env.local.example)
 - **Phase 2.02 analytics commit:** `ddeed03` — `feat(analytics): add @vercel/analytics to root layout (Phase 2.02)` (3 files, +46; package.json + package-lock.json + `src/app/[locale]/layout.tsx`)
 - **Phase 2.02 finalization commit:** `5345b8b` — `chore(phase-2-02): vercel preview deploy completion report + project-state updates` (5 files, +310 / -4; created `Part-2-Phase-02-Completion.md`, updated 00_stack-and-config / current-state / file-map / .env.local.example)
+- **Phase 2.03 implementation commit:** `858d829` — `feat(sanity): standalone Studio + 8 schemas + client + image builder (Phase 2.03)` (22 files, +2091 / -1502; +sanity@^5.25.0 / @sanity/vision@^5.25.0 / @sanity/image-url@^2.1.1 / styled-components@^6.4.1 in package.json, +3 studio scripts, new `sanity.config.ts` / `sanity.cli.ts` at repo root, new `sanity/schemas/**` (12 files) + `sanity/lib/**` (2 files), .gitignore +/dist/ +/.sanity/, .env.local.example +3 NEXT_PUBLIC_SANITY_* lines).
 
 ---
 
@@ -139,7 +157,12 @@ Fonts (loaded via `next/font/google`): Manrope (heading) + Onest (body), subsets
 - **`@vercel/analytics@^2.0.1` added to root layout** (Phase 2.02). `<Analytics />` mounted as a sibling of `<NextIntlClientProvider>` inside `<body>` of `src/app/[locale]/layout.tsx`. v2.x injects the analytics script client-side via a JS chunk that requests `/_vercel/insights/script.js` on hydration — different from v1.x's static `<script src="/_vercel/insights/script.js">` tag the Phase 2.02 plan's view-source check assumed. Functionality verified by inspecting the bundled chunk and confirming Vercel serves `/_vercel/insights/script.js` (HTTP 200, ~2.5 KB).
 - **`.vercel/` directory present locally and gitignored** (Phase 2.02). Contains `project.json` (project ID `prj_OZ7kKRwIgpqoJGlWD7YguA7qYKbX` + org ID `team_rRKMRUuOrwJk08a4BkSgNYAe`), `README.txt`, plus a `poll-deploy.js` helper script + `events.json` diagnostic dump used during Phase 2.02 debugging. Re-run `vercel link` to restore if accidentally deleted; project + org IDs also visible in the Vercel dashboard.
 - **First Vercel deployment 404'd because `framework: null` on the project record** (Phase 2.02). `vercel project add` doesn't auto-detect framework; only `vercel link` (when the linked dir contains `package.json` with `next`) sets `framework: nextjs`. Workaround applied: `PATCH /v9/projects/{id}` with `{"framework":"nextjs"}`, then redeploy via `vercel deploy --prod --yes`. Future `vercel project add` calls (none expected) should be followed by an explicit framework PATCH or a manual link.
-- **Vercel CLI plugin agent-mode breaks `vercel env add NAME preview` without an explicit git-branch positional.** Phase 2.02 worked around this by POSTing directly to `/v10/projects/{id}/env` with `target: ['production', 'preview']` in one call. CLI source `commands/env/index.js:948` enforces explicit branch selection in non-interactive mode regardless of `--yes`. See Phase 2.02 completion report for the full PowerShell helper.
+- **Vercel CLI plugin agent-mode breaks `vercel env add NAME preview` without an explicit git-branch positional.** Phase 2.02 worked around this by POSTing directly to `/v10/projects/{id}/env` with `target: ['production', 'preview']` in one call. CLI source `commands/env/index.js:948` enforces explicit branch selection in non-interactive mode regardless of `--yes`. See Phase 2.02 completion report for the full PowerShell helper. **Phase 2.03 reused the same helper** to add the 3 NEXT_PUBLIC_SANITY_* vars; helper script lives at `../../../.vercel/project.json` in worktree contexts and the auth token at `%APPDATA%\xdg.data\com.vercel.cli\auth.json` (which the Vercel CLI auto-refreshes — the on-disk token expired between Phase 2.02 and 2.03 and was refreshed transparently by running `npx vercel whoami` once).
+- **Phase 2.03 — `styled-components` is a required Sanity Studio peer dep** despite the plan's note that "recent `sanity` versions bundle styling internally." Phase 2.03 hit `Failed to start dev server: Declared dependency 'styled-components' is not installed` on first `npm run studio:dev` and installed `styled-components@^6.4.1` as a direct dep. The plan anticipated this and called for `npm install styled-components` only if `npm install` errored — the actual error came from `sanity dev`, not `npm install`. Net: 1 extra package committed; no behavioral change.
+- **Phase 2.03 — `sanity deploy` printed an `appId` hint after first deploy** (`hza6xflhrkuygkrhketq6uhj`). Added to `sanity.cli.ts` under `deployment.appId` to make every subsequent deploy non-interactive (the first deploy already succeeded non-interactively because `studioHost` was pre-set, but the CLI prints the appId hint on every fresh project's first deploy). Off-spec addition; documented in Phase 2.03 completion report.
+- **Phase 2.03 — schema field set is deliberately reduced from the TS shapes** in `src/data/*.ts`. The Sanity schemas mirror the *editorial* fields (title, dek, intro, hero image, FAQs, SEO, taxonomy) but omit per-service structural fields (whatsIncluded items, process steps, whyUs cards) that currently live in `src/data/services.ts`. Phase 2.05 will reconcile by either (a) extending the Sanity schemas with the structural arrays before wiring reads, or (b) keeping the structural fields in TS code and only reading editorial fields from Sanity. Decision deferred to Phase 2.05.
+- **Phase 2.03 — `dist/` and `.sanity/` added to `.gitignore`.** `sanity build` writes a ~7.9MB `dist/` at the repo root; `sanity dev` writes a `.sanity/runtime/` cache. Both gitignored at repo root.
+- **Phase 2.03 — `git check-ignore` reports a false-positive match for any directory path** because of CRLF line endings in `.gitignore`. The pattern `dist/` correctly went under the new "sanity studio" section as `/dist/` (anchored to repo root) — but the false-positive `check-ignore` output showed `dist/` matching at `.gitignore:44`, which is actually a blank line. The blank line is being interpreted by git's ignore parser as a "match any directory" pattern when CRLF is present. Cosmetic only — `git status` (which is authoritative) correctly shows ignored vs untracked files.
 
 
 

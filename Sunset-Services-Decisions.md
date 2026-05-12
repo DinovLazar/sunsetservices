@@ -100,3 +100,21 @@ Phase 2.05 will migrate every dynamic content type (projects, blog posts, resour
 - **`WIZARD_SUBMIT_ENABLED=false`** falls back to the Phase 1.20 simulation so the wizard remains demoable when the backend is intentionally off.
 
 **Decided by:** user (Goran), in response to Phase 2.06 clarifying question in Chat.
+
+---
+
+## 2026-05-12 — Phase 2.06 Resend TO routing (deferred)
+
+At Phase 2.06 the Resend account associated with the API key in `.env.local` is in sandbox mode (no verified domain). Sandbox mode rejects sends to any address other than the account's verified owner, which for the Sunset Services Resend account is `dinovlazar2011@gmail.com` (matches Phase 2.01 docs — the original account-creation email).
+
+**Decision:** `RESEND_TO_EMAIL=dinovlazar2011@gmail.com` for now (in `.env.local`, `.env.local.example`, and Vercel Production + Preview). The Phase 2.06 lead-alert email lands in `dinovlazar2011@gmail.com` during the dev window so the wiring is exercisable end-to-end.
+
+**Deferred to Phase 2.08** (alongside the branded HTML template and domain-verified sender):
+
+- Flip `RESEND_TO_EMAIL` to the real Sunset Services inbox (`info@sunsetservices.us` per the v2 plan).
+- Verify `sunsetservices.us` in Resend so the FROM can move off the `onboarding@resend.dev` sandbox sender.
+- Ship the branded HTML template for the lead-alert email.
+
+This intentionally groups together with other postponed Phase 2.06 deliverables so all email/branding work lands in one coherent batch.
+
+**Decided by:** user (Goran), 2026-05-12, after Phase 2.06 smoke testing confirmed the sandbox restriction.

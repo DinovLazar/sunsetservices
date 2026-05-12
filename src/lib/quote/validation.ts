@@ -74,6 +74,7 @@ export const QuoteSubmitSchema = z
   .object({
     sessionId: z.string().uuid(),
     honeypot: z.string().max(500),
+    locale: z.enum(['en', 'es']).default('en'),
     audience: Audience,
     services: z.array(z.string().min(1).max(100)).min(1).max(50),
     primaryService: z.string().min(1).max(100).optional(),

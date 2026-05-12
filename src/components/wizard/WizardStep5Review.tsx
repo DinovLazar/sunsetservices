@@ -133,6 +133,7 @@ export default function WizardStep5Review({
     return {
       sessionId: getOrCreateSessionId(),
       honeypot,
+      locale,
       audience,
       services: selectedSlugs,
       primaryService: primarySlug || undefined,

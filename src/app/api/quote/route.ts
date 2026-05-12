@@ -1,28 +1,30 @@
 import {NextResponse} from 'next/server';
 import {writeClient} from '@sanity-lib/write-client';
-import {QuoteSubmitSchema} from '@/lib/quote/validation';
-import {sendLeadAlertEmail} from '@/lib/quote/resend';
+import {QuoteSubmitSchema, type QuoteSubmitInput} from '@/lib/quote/validation';
+import {sendQuoteLeadAlertEmail, sendQuoteVisitorConfirmationEmail} from '@/lib/quote/resend';
 import {pushFullLeadToMautic} from '@/lib/quote/mautic';
+import {getServiceOptionsForAudience} from '@/data/wizard';
 
 /**
- * POST /api/quote — full Step-5 wizard submission (Phase 2.06).
+ * POST /api/quote — full Step-5 wizard submission.
  *
- * Order of operations is deliberate:
+ * Phase 2.08 swap: both Resend sends now go through the branded
+ * `sendBrandedEmail()` utility. A second send was added — a visitor-facing
+ * confirmation (was plaintext lead-alert only at Phase 2.06).
+ *
+ * Order of operations is unchanged from Phase 2.06:
  *
  *  1. Honor the master flag — when `WIZARD_SUBMIT_ENABLED=false`, return 200
- *     with `status: 'simulated'` and no side effects. The wizard treats that
- *     identically to a successful submit and redirects to /thank-you/, so the
- *     route remains demoable with the backend intentionally off.
- *  2. Validate. Bad payloads return 400 + a flattened Zod error.
- *  3. Honeypot. Zod already requires `honeypot.length === 0`; we re-check
- *     defensively. Populated honeypot → silent 200 (bots don't learn).
+ *     with `status: 'simulated'` and no side effects.
+ *  2. Validate. Bad payloads return 400.
+ *  3. Honeypot. Populated honeypot → silent 200 (bots don't learn).
  *  4. Write to Sanity FIRST. Lead capture is the most important side effect;
  *     a Resend or Mautic failure must never lose the lead.
  *  5. Mark any matching `quoteLeadPartial` as `converted: true` (best-effort).
- *  6. Send the lead-alert email via Resend (best-effort).
- *  7. Push to Mautic (no-op while disabled).
- *  8. Succeed as long as at least one of (Sanity, Resend) worked. Both dead
- *     → 500 so the wizard surfaces an error.
+ *  6. Send the branded lead-alert email to Erick (best-effort).
+ *  7. Send the branded visitor-confirmation email (best-effort).
+ *  8. Push to Mautic (no-op while disabled).
+ *  9. Succeed as long as at least one of (Sanity, Resend) worked.
  */
 
 const ENABLED = process.env.WIZARD_SUBMIT_ENABLED === 'true';
@@ -111,13 +113,23 @@ export async function POST(request: Request) {
     console.error('[/api/quote] Sanity write failed', err);
   }
 
-  // Send email (best-effort).
-  const emailResult = await sendLeadAlertEmail(
+  const primaryServiceDisplayName = resolvePrimaryServiceDisplayName(input);
+
+  // Branded lead alert to Erick (sandbox-aware routing).
+  const alertResult = await sendQuoteLeadAlertEmail(
     input,
+    primaryServiceDisplayName,
     sanityDocId ?? '(no Sanity ID — write failed)',
   );
-  if (!emailResult.ok) {
-    console.error('[/api/quote] Resend failed', emailResult.errorMessage);
+  if (!alertResult.ok) {
+    console.error('[/api/quote] lead-alert send failed', alertResult.error);
+  }
+
+  // Branded visitor confirmation. In sandbox mode this reroutes to the dev
+  // inbox; in production it goes to the visitor's real email.
+  const confirmResult = await sendQuoteVisitorConfirmationEmail(input, primaryServiceDisplayName);
+  if (!confirmResult.ok) {
+    console.error('[/api/quote] visitor-confirmation send failed', confirmResult.error);
   }
 
   // Push to Mautic (no-op while MAUTIC_ENABLED=false).
@@ -125,7 +137,7 @@ export async function POST(request: Request) {
     console.error('[/api/quote] Mautic stub error', err),
   );
 
-  const anySucceeded = sanityDocId !== null || emailResult.ok;
+  const anySucceeded = sanityDocId !== null || alertResult.ok;
   if (!anySucceeded) {
     return NextResponse.json(
       {status: 'error', code: 'all_sinks_failed'},
@@ -134,4 +146,18 @@ export async function POST(request: Request) {
   }
 
   return NextResponse.json({status: 'ok', sanityDocId}, {status: 200});
+}
+
+/**
+ * Resolve the human-readable service name in the lead's locale. Falls back to
+ * the raw slug if the audience/slug pair doesn't match a known service (rare —
+ * possible for free-text "other" entries which carry no primaryService).
+ */
+function resolvePrimaryServiceDisplayName(input: QuoteSubmitInput): string {
+  const slug = input.primaryService ?? input.services[0];
+  if (!slug) return input.otherText?.trim() || 'a project';
+  const options = getServiceOptionsForAudience(input.audience);
+  const found = options.find((o) => o.slug === slug);
+  if (!found) return slug;
+  return found.name[input.locale] ?? found.name.en;
 }

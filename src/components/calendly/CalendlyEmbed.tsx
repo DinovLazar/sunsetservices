@@ -143,6 +143,7 @@ export default function CalendlyEmbed({
     <div className="w-full">
       <div
         ref={widgetRef}
+        role="region"
         className="calendly-inline-widget mx-auto"
         data-url={url}
         style={{minWidth: 320, height: `${minHeight}px`, width: '100%'}}

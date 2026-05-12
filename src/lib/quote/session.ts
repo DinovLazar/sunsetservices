@@ -1,5 +1,6 @@
 /**
- * Wizard session ID — Phase 2.06.
+ * Wizard session ID — Phase 2.06; UUID helper extracted to `src/lib/sessionId`
+ * in Phase 2.08 for sharing with contact + newsletter forms.
  *
  * Persistent UUID per browser stored in localStorage. Used to link partial
  * pushes (Steps 1–3 abandoner breadcrumbs) with the eventual full submit so
@@ -9,6 +10,8 @@
  * The ID is cleared on a successful submit so the next visit starts a fresh
  * session.
  */
+
+import {generateUuid} from '@/lib/sessionId';
 
 const KEY = 'sunset_wizard_session_id';
 
@@ -38,22 +41,4 @@ export function clearSessionId(): void {
   } catch {
     // ignore
   }
-}
-
-function generateUuid(): string {
-  const c = typeof crypto !== 'undefined' ? crypto : null;
-  if (c && typeof c.randomUUID === 'function') {
-    return c.randomUUID();
-  }
-  // RFC4122 v4 fallback (very small browser footprint).
-  const rnd = new Uint8Array(16);
-  if (c && typeof c.getRandomValues === 'function') {
-    c.getRandomValues(rnd);
-  } else {
-    for (let i = 0; i < 16; i++) rnd[i] = Math.floor(Math.random() * 256);
-  }
-  rnd[6] = (rnd[6] & 0x0f) | 0x40;
-  rnd[8] = (rnd[8] & 0x3f) | 0x80;
-  const hex = Array.from(rnd, (b) => b.toString(16).padStart(2, '0'));
-  return `${hex.slice(0, 4).join('')}-${hex.slice(4, 6).join('')}-${hex.slice(6, 8).join('')}-${hex.slice(8, 10).join('')}-${hex.slice(10, 16).join('')}`;
 }

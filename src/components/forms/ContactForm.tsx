@@ -2,6 +2,7 @@
 
 import * as React from 'react';
 import {useTranslations} from 'next-intl';
+import {generateUuid} from '@/lib/sessionId';
 
 /**
  * Contact form (client) — Phase 1.11 handover §4.2 + §9.3.
@@ -10,9 +11,11 @@ import {useTranslations} from 'next-intl';
  * email-or-phone (D14 lock), per-field + form-level error regions wired by
  * `aria-describedby`/`role`. Submit is **primary green `lg`** (NOT amber).
  *
- * Part 1 contract: `action` is undefined → submit is a no-op that fakes
- * the success state. Part 2 wires a real server action via the `action`
- * prop and surfaces server-side errors through the same `errors` object.
+ * Phase 2.08: submit POSTs to /api/contact. Honeypot field name on the wire
+ * is `honeypot` (maps from the form's `website` input). A `contact_submit_*`
+ * CustomEvent is dispatched on `document` so the Phase 2.11 GTM bridge can
+ * forward to dataLayer. The `action` prop remains supported as an opt-in
+ * override for testing.
  */
 
 export type ContactFormProps = {
@@ -24,6 +27,11 @@ type ErrorState = Partial<Record<'name' | 'emailPhone' | 'email' | 'phone' | 'fo
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const PHONE_DIGITS = /\d/g;
+
+function fireContactEvent(name: string, detail: Record<string, unknown> = {}): void {
+  if (typeof document === 'undefined') return;
+  document.dispatchEvent(new CustomEvent('sunset:contact-event', {detail: {name, ...detail}}));
+}
 
 export default function ContactForm({action, locale}: ContactFormProps) {
   const t = useTranslations('contact.form');
@@ -106,21 +114,60 @@ export default function ContactForm({action, locale}: ContactFormProps) {
         const result = await action(data);
         if (result.ok) {
           setSuccess(true);
+          fireContactEvent('contact_submit_succeeded', {locale});
         } else {
           setErrors({...result.errors, form: t('error.generic')});
+          fireContactEvent('contact_submit_failed', {locale, reason: 'action_error'});
         }
       } catch {
         setErrors({form: t('error.generic')});
+        fireContactEvent('contact_submit_failed', {locale, reason: 'action_exception'});
       } finally {
         setSubmitting(false);
       }
       return;
     }
 
-    // Part 1: no-op submit. Show "sending…" then success — visual review path.
-    await new Promise((res) => setTimeout(res, 600));
-    setSubmitting(false);
-    setSuccess(true);
+    // Phase 2.08: real POST to /api/contact.
+    fireContactEvent('contact_submit_attempted', {locale});
+    const category = String(data.get('category') ?? '').trim();
+    const message = String(data.get('message') ?? '').trim();
+    const honeypot = String(data.get('website') ?? '');
+    const payload = {
+      sessionId: generateUuid(),
+      honeypot,
+      locale,
+      name,
+      email: email || undefined,
+      phone: phone || undefined,
+      category: category || undefined,
+      message: message || undefined,
+      referrer: typeof document !== 'undefined' ? document.referrer || undefined : undefined,
+      userAgent: typeof navigator !== 'undefined' ? navigator.userAgent : undefined,
+    };
+
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {'content-type': 'application/json'},
+        body: JSON.stringify(payload),
+        keepalive: true,
+      });
+      if (!res.ok) {
+        fireContactEvent('contact_submit_failed', {locale, status: res.status});
+        setErrors({form: t('error.generic')});
+        setSubmitting(false);
+        return;
+      }
+      fireContactEvent('contact_submit_succeeded', {locale});
+      setSubmitting(false);
+      setSuccess(true);
+    } catch (err) {
+      console.error('[contact] submit network error', err);
+      fireContactEvent('contact_submit_failed', {locale, reason: 'network'});
+      setErrors({form: t('error.generic')});
+      setSubmitting(false);
+    }
   }
 
   const reqPill = (

@@ -6,8 +6,8 @@
 
 - `Sunset-Services-Plan.md` — master site plan and spec (v2 in-progress rewrite kept at the root; v1 archived at `archive/v1/Sunset-Services-Plan.md`).
 - `Sunset-Services-Decisions.md` — **NEW (Phase 2.01)** append-only project-level decision log (ServiceM8 deferral, Anthropic alert-routing risk, Step 7 → Phase 2.13.2 deferral).
-- `package.json` — npm manifest, pinned dependencies. **Phase 2.03 added** `sanity@^5.25.0` + `@sanity/vision@^5.25.0` + `@sanity/image-url@^2.1.1` + `styled-components@^6.4.1` to `dependencies`, and `studio:dev` + `studio:build` + `studio:deploy` to `scripts`.
-- `tsconfig.json` — TypeScript strict config, `@/*` → `src/*` alias.
+- `package.json` — npm manifest, pinned dependencies. **Phase 2.03 added** `sanity@^5.25.0` + `@sanity/vision@^5.25.0` + `@sanity/image-url@^2.1.1` + `styled-components@^6.4.1` to `dependencies`, and `studio:dev` + `studio:build` + `studio:deploy` to `scripts`. **Phase 2.05 added** `@portabletext/react@^4.0.3` + `@portabletext/block-tools@^5.1.1` + `jsdom@^25.0.1` to `dependencies`, and `tsx@^4.21.0` to `devDependencies`.
+- `tsconfig.json` — TypeScript strict config, `@/*` → `src/*` alias. **Phase 2.05 added** `@sanity-lib/*` → `./sanity/lib/*` for clean imports from page code into `sanity/lib/`.
 - `next.config.ts` — Next.js config wrapped in `createNextIntlPlugin`.
 - `postcss.config.mjs` — PostCSS config for Tailwind v4.
 - `eslint.config.mjs` — ESLint flat config (Next + TS).
@@ -57,6 +57,14 @@
 - `src/app/[locale]/[audience]/page.tsx` — audience-landing dynamic route. **Modified (1.10)**: tile-photo lookup now uses `s.imageKey ?? s.slug` so commercial snow-removal resolves to its own placeholder; removed unused `BUSINESS_URL` import.
 - `src/app/[locale]/[audience]/[service]/page.tsx` — service-detail dynamic route. **Modified (1.10)**: lookup uses audience-aware `getService(service, audience)`; hero asset lookup uses `svc.imageKey ?? svc.slug`; related-services loop uses new `getRelatedService(slug, audience)` helper that prefers same-audience match (so commercial/landscape-maintenance's `related: ['snow-removal']` resolves to commercial/snow-removal, not residential).
 - `src/app/[locale]/dev/system/page.tsx` — dev-only design-system smoke test (Phase 1.04).
+- `src/app/[locale]/projects/page.tsx` — **Modified (Phase 2.05)** projects index. Reads from `getAllProjects()` via Sanity. `export const revalidate = 1800`. Index is ƒ (dynamic) due to searchParams; the 12-project list is fetched via ISR cache.
+- `src/app/[locale]/projects/[slug]/page.tsx` — **Modified (Phase 2.05)** project detail. Reads via `getProjectBySlug` + `getAllProjectSlugs` (generateStaticParams). 24 SSG routes (12 × 2 locales) with 30m ISR. Adapter at `src/lib/sanity-adapters.ts` converts Sanity shape → TS `Project` shape so downstream components are unchanged.
+- `src/app/[locale]/blog/page.tsx` — **Modified (Phase 2.05)** blog index. Reads via `getAllBlogPosts()`.
+- `src/app/[locale]/blog/[slug]/page.tsx` — **Modified (Phase 2.05)** blog detail. Reads via `getBlogPostBySlug` + `getFaqsForBlog`. PortableText body via `ProseLayoutPT`. 10 SSG routes with 30m ISR.
+- `src/app/[locale]/resources/page.tsx` — **Modified (Phase 2.05)** resources index. Reads via `getAllResources()`.
+- `src/app/[locale]/resources/[slug]/page.tsx` — **Modified (Phase 2.05)** resource detail. Reads via `getResourceBySlug` + `getFaqsForResource`. PortableText body via `ProseLayoutPT`. HowTo step extraction via `extractHowToStepsFromBlocks`. 10 SSG routes with 30m ISR.
+- `src/app/[locale]/[audience]/[service]/page.tsx` — **Modified (Phase 2.05)** service detail. FAQs read via `getFaqsForService(audience, slug)`. `export const revalidate = 1800`. 32 SSG routes with 30m ISR.
+- `src/app/[locale]/service-areas/[city]/page.tsx` — **Modified (Phase 2.05)** city detail. FAQs read via `getFaqsForCity(slug)`. `export const revalidate = 1800`. 12 SSG routes with 30m ISR.
 - `src/app/[locale]/dev/system/_client-demos.tsx` — client-only Dialog and Tooltip demos.
 - `src/components/global/Logo.tsx` — server component, two skins (light/dark).
 - `src/components/global/motion/easings.ts` — three named easings + four duration constants.
@@ -93,8 +101,15 @@
 - `src/components/ui/Breadcrumb.tsx` — **NEW (1.09)** server. Locale-aware breadcrumb with `aria-current="page"`. `light` and `on-dark` variants.
 - `src/components/ui/FaqAccordion.tsx` — **NEW (1.09)** client. SSR `<details>`/`<summary>` with progressive enhancement for chevron rotation. Multi-open by default — every answer in SSR HTML for FAQPage schema validity.
 - `src/components/ui/ServiceIcon.tsx` — **NEW (1.09)** server. Curated lucide-react icon map + hand-rolled Unilock placeholder mark.
-- `src/data/services.ts` — typed seed for 16 services. Per-service H1, subhead, what's-included items, process steps, why-us cards, pricing, FAQ Q&As, related slugs. EN+ES strings throughout (D8). `pricing.mode: 'explainer'` for all 16 in Part 1. **Modified (1.10)**: added optional `imageKey?: string` to the `Service` type (asset-key disambiguation for slugs that exist across audiences). Renamed slug `'commercial-snow-removal'` → `'snow-removal'` and added `imageKey: 'commercial-snow-removal'` to keep its assets resolving. Updated `commercial/landscape-maintenance` `related` from `['commercial-snow-removal', ...]` → `['snow-removal', ...]`. Added `'driveways'` to `hardscape/patios-walkways`'s `related` (cross-link audit fix). New helpers: `getService(slug, audience?)` (now audience-aware) and `getRelatedService(slug, parentAudience)` (same-audience-first resolver for D7).
+- `src/data/services.ts` — typed seed for 16 services. Per-service H1, subhead, what's-included items, process steps, why-us cards, pricing, related slugs. EN+ES strings throughout (D8). **Modified (Phase 2.05)**: inline `faq` arrays removed across all 16 entries (Sanity is now the FAQ source of truth). `FaqItem` type deleted. Line count 2979 → 2374. Earlier (Phase 1.10) modifications still hold (imageKey, audience-aware getService + getRelatedService helpers, snow-removal slug dedupe).
 - `src/data/imageMap.ts` — **NEW (1.09)** static-import map for placeholder images. Audience heroes (3), audience project tiles (9), service heroes (16), service tile photos (16), service project tiles (~33).
+- `src/data/locations.ts` — **Modified (Phase 2.05)**: inline `faq` arrays removed from all 6 city entries (Sanity is now the FAQ source of truth). `LocationFaqItem` type deleted. Line count 676 → 425.
+- `src/lib/sanity-adapters.ts` — **NEW (Phase 2.05)** adapter functions that convert Sanity-fetched data shapes (`ProjectSummary`, `ProjectDetail`) into the Phase 1.16 TS `Project` shape so existing Phase 1.16 components (ProjectsGrid, ProjectHero, ProjectFacts, etc.) work unchanged.
+- `src/lib/images/resolveProjectImage.ts` — **NEW (Phase 2.05)** image-resolution helper. Sanity asset wins when present; falls back to `imageMap.ts` placeholders. Returns `StaticImageData`-compatible shape so existing consumers don't change.
+- `src/components/content/portableTextComponents.tsx` — **NEW (Phase 2.05)** PortableText serializers mapping Sanity Portable Text blocks to the `.prose__*` class shape Phase 1.18's `renderProse` Markdown renderer emitted. Server-safe (no `'use client'`).
+- `src/components/content/portableTextHelpers.ts` — **NEW (Phase 2.05)** server-safe utility helpers (`slugify`, `blockToPlainText`, `blocksToPlainText`, `extractHeadingsFromBlocks`, `countWordsInBlocks`, `extractHowToStepsFromBlocks`).
+- `src/components/content/ProseLayoutPT.tsx` — **NEW (Phase 2.05)** PortableText counterpart to `ProseLayout` (Phase 1.18 Markdown). Same surrounding layout — sticky right-rail TOC at xl+, inline collapsed `<details>` below xl, inline `<ServiceCard>` cross-link splice between H2s, inline `<ServiceAreaStrip>` near body bottom.
+- `src/components/sections/location/LocationFaq.tsx` — **Modified (Phase 2.05)** accepts already-projected `items: {id, question, answer}[]` + `cityName: string` props instead of reading `location.faq` internally. Matches the ServiceFAQ component contract.
 - `src/lib/schema/breadcrumb.ts` — **NEW (1.09)** `buildBreadcrumbList(items)` JSON-LD payload builder.
 - `src/lib/schema/service.ts` — **NEW (1.09)** `buildServiceSchema(service, locale)` + `buildFaqPageSchema(faq, locale)` + `buildAudienceItemList(...)` + `localePath(locale, path)` helpers.
 - `src/lib/constants/business.ts` — single source of truth for NAP.
@@ -104,7 +119,8 @@
 - `src/_project-state/` — this folder; living docs.
 - `src/_project-state/Part-1-Phase-{01,02,03,04,05,07,09,10,12,14,16,18,20}-Completion.md` — Phase 1 completion reports. Phases 12/14/16/18/20 had completion reports pre-existing locally but weren't reflected in this file-map until Phase 2.01.
 - `src/_project-state/Part-1-Phase-20-Smoke.md` — Phase 1.20 smoke-test results.
-- `src/_project-state/Part-2-Phase-01-Completion.md` — **NEW (Phase 2.01)** this phase's Cowork completion report.
+- `src/_project-state/Part-2-Phase-01-Completion.md` — **NEW (Phase 2.01)** Cowork completion report.
+- `src/_project-state/Part-2-Phase-05-Completion.md` — **NEW (Phase 2.05)** completion report for the Sanity content-wiring phase.
 - `src/_project-state/Sunset-Services-Plan.md` — v2 in-progress rewrite (duplicates the root-level file; benign duplication, flagged in `00_stack-and-config.md`).
 - `src/_project-state/Sunset-Services-Project-Instructions.md` — v2 project instructions (Phase 2.01 spec expects this at repo root, not here; deferred).
 
@@ -121,6 +137,7 @@
 
 - `scripts/gen-home-placeholders.mjs` — Phase 1.07 home asset generator (sharp + gradient + per-pixel noise).
 - `scripts/gen-audience-service-placeholders.mjs` — **NEW (1.09)** audience + service asset generator. Same sharp + gradient + noise pattern. Run via `node scripts/gen-audience-service-placeholders.mjs` from the repo root.
+- `scripts/seed-sanity.mjs` — **NEW (Phase 2.05)** idempotent migration script. Reads `src/data/*.ts` via tsx-loaded dynamic imports, converts Markdown bodies to PortableText via `marked` → `jsdom` → `@portabletext/block-tools` `htmlToBlocks`, writes 158 documents to Sanity in 8 dependency-correct passes (services → locations → team → reviews → faqs → projects → resources → blog) using `createOrReplace` and deterministic `_id`s. Run via `npx tsx scripts/seed-sanity.mjs`.
 
 ## sanity/
 
@@ -139,9 +156,11 @@
 - `sanity/schemas/faq.ts` — **NEW (Phase 2.03)** FAQ document. Flat `scope` tag with custom validation: accepts `general` or `service:<slug>` / `audience:<slug>` / `city:<slug>` / `blog:<slug>` / `resource:<slug>`. Ordering: `(scope, order)`.
 - `sanity/schemas/review.ts` — **NEW (Phase 2.03)** Review document. Required quote + attribution + rating (1–5 integer); `source` enum (`google` / `manual`); optional refs to `location` + `service`.
 - `sanity/schemas/team.ts` — **NEW (Phase 2.03)** Team member document. `name` not localized; `role` (localizedString, required); `bio` (localizedText); credentials = array of strings.
-- `sanity/lib/` — **NEW (Phase 2.03)** runtime helpers for the Next.js app. NOT imported by any page yet (Phase 2.05 wires reads).
+- `sanity/lib/` — **POPULATED (Phase 2.05)** runtime helpers consumed by every Sanity-reading page.
 - `sanity/lib/client.ts` — **NEW (Phase 2.03)** `createClient` from `next-sanity` with `useCdn: true`, `perspective: 'published'`, reads `NEXT_PUBLIC_SANITY_*` env vars.
 - `sanity/lib/image.ts` — **NEW (Phase 2.03)** `urlFor(source)` helper wrapping `@sanity/image-url`. Typed via `Parameters<typeof builder.image>[0]`.
+- `sanity/lib/queries.ts` — **NEW (Phase 2.05)** 14 GROQ query helpers covering every Sanity-read page. All bilingual fields return as `{en, es}` objects with EN-coalesced ES fallback baked in at the GROQ layer. Every fetch sets `next: { revalidate: 1800 }`.
+- `sanity/lib/types.ts` — **NEW (Phase 2.05)** TypeScript return types for the query helpers (ProjectSummary/Detail, BlogPostSummary/Detail, ResourceSummary/Detail, FaqEntry, ReviewEntry, plus shared Localized + LocalizedBody + SanityImageAsset).
 
 ## dist/ + .sanity/ (gitignored)
 

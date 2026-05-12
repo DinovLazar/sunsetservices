@@ -163,19 +163,21 @@ Fonts (loaded via `next/font/google`): Manrope (heading) + Onest (body), subsets
 - **Phase 2.03 implementation commit:** `858d829` — `feat(sanity): standalone Studio + 8 schemas + client + image builder (Phase 2.03)` (22 files, +2091 / -1502; +sanity@^5.25.0 / @sanity/vision@^5.25.0 / @sanity/image-url@^2.1.1 / styled-components@^6.4.1 in package.json, +3 studio scripts, new `sanity.config.ts` / `sanity.cli.ts` at repo root, new `sanity/schemas/**` (12 files) + `sanity/lib/**` (2 files), .gitignore +/dist/ +/.sanity/, .env.local.example +3 NEXT_PUBLIC_SANITY_* lines).
 - **Phase 2.03 finalization commit:** `4d5c908` — `chore(phase-2-03): sanity CMS completion report + project-state updates` (4 files, +317 / -9; created `Part-2-Phase-03-Completion.md`, updated 00_stack-and-config / current-state / file-map).
 - **Phase 2.03 final SHA-record commit:** `056c348` — `docs(phase-2.03): record final commit SHA (4d5c908) in current-state + completion report`.
-- **Phase 2.05 commits** (12, branch `claude/recursing-robinson-17b42f`):
-  - `385e314` — `chore(decisions): log Phase 2.05 scope decision`
-  - `9ca7f7c` — `feat(deps): add @portabletext/react + @portabletext/block-tools + jsdom + tsx for Phase 2.05`
-  - `f9c6edb` — `chore(env): document SANITY_API_WRITE_TOKEN`
-  - `4a8994c` — `feat(sanity-schemas): +review.placeholder, +resourceArticle.featuredImage/crossLink, +blogPost.crossLink (Phase 2.05)`
-  - `d8eadc5` — `feat(scripts): seed-sanity.mjs migration script for Phase 2.05`
-  - `1f48d74` — `fix(seed): audience-prefixed service _ids + scope tags + env-local priority`
-  - `c352922` — `feat(sanity): GROQ query helpers + TypeScript return types`
-  - `fd9d20b` — `feat(projects): wire /projects + /projects/[slug] to Sanity reads (Phase 2.05)`
-  - `6e0483f` — `feat(blog): wire /blog + /blog/[slug] to Sanity with PortableText rendering (Phase 2.05)`
-  - `8e98a52` — `feat(resources): wire /resources + /resources/[slug] to Sanity (Phase 2.05)`
-  - `efeaefa` — `feat(faq): service + location pages read FAQs from Sanity by scope tag (Phase 2.05)`
-  - `ccfd792` — `refactor(data): remove inline FAQ arrays from services + locations (Sanity is now authoritative)`
+- **Phase 2.05 commits** (14, merged to `main` via PR #1 rebase on 2026-05-12):
+  - `f163fcc` — `chore(decisions): log Phase 2.05 scope decision`
+  - `8cd1cf1` — `feat(deps): add @portabletext/react + @portabletext/block-tools + jsdom + tsx for Phase 2.05`
+  - `4622896` — `chore(env): document SANITY_API_WRITE_TOKEN`
+  - `02f181e` — `feat(sanity-schemas): +review.placeholder, +resourceArticle.featuredImage/crossLink, +blogPost.crossLink (Phase 2.05)`
+  - `6d717b3` — `feat(scripts): seed-sanity.mjs migration script for Phase 2.05`
+  - `86cdb97` — `fix(seed): audience-prefixed service _ids + scope tags + env-local priority`
+  - `1b915d2` — `feat(sanity): GROQ query helpers + TypeScript return types`
+  - `c72a418` — `feat(projects): wire /projects + /projects/[slug] to Sanity reads (Phase 2.05)`
+  - `755b0ee` — `feat(blog): wire /blog + /blog/[slug] to Sanity with PortableText rendering (Phase 2.05)`
+  - `fc6ca3c` — `feat(resources): wire /resources + /resources/[slug] to Sanity (Phase 2.05)`
+  - `bf58d51` — `feat(faq): service + location pages read FAQs from Sanity by scope tag (Phase 2.05)`
+  - `3960bc7` — `refactor(data): remove inline FAQ arrays from services + locations (Sanity is now authoritative)`
+  - `7c82045` — `chore(phase-2-05): project-state updates`
+  - **`2cbcb0e`** — `chore(phase-2-05): completion report` (Phase 2.05 final SHA on main)
 
 ---
 

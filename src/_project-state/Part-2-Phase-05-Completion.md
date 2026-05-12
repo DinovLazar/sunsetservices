@@ -166,20 +166,23 @@
 
 ## Commit log
 
-| SHA | Message |
+Pre-merge SHAs on branch `claude/recursing-robinson-17b42f` rebased on merge; on-main SHAs are below. (PR #1 was rebase-merged to `main` on 2026-05-12.)
+
+| On-main SHA | Message |
 |---|---|
-| `385e314` | `chore(decisions): log Phase 2.05 scope decision` |
-| `9ca7f7c` | `feat(deps): add @portabletext/react + @portabletext/block-tools + jsdom + tsx for Phase 2.05` |
-| `f9c6edb` | `chore(env): document SANITY_API_WRITE_TOKEN` |
-| `4a8994c` | `feat(sanity-schemas): +review.placeholder, +resourceArticle.featuredImage/crossLink, +blogPost.crossLink (Phase 2.05)` |
-| `d8eadc5` | `feat(scripts): seed-sanity.mjs migration script for Phase 2.05` |
-| `1f48d74` | `fix(seed): audience-prefixed service _ids + scope tags + env-local priority` |
-| `c352922` | `feat(sanity): GROQ query helpers + TypeScript return types` |
-| `fd9d20b` | `feat(projects): wire /projects + /projects/[slug] to Sanity reads (Phase 2.05)` |
-| `6e0483f` | `feat(blog): wire /blog + /blog/[slug] to Sanity with PortableText rendering (Phase 2.05)` |
-| `8e98a52` | `feat(resources): wire /resources + /resources/[slug] to Sanity (Phase 2.05)` |
-| `efeaefa` | `feat(faq): service + location pages read FAQs from Sanity by scope tag (Phase 2.05)` |
-| `ccfd792` | `refactor(data): remove inline FAQ arrays from services + locations (Sanity is now authoritative)` |
-| _next_ | `chore(phase-2-05): project-state updates` + `chore(phase-2-05): completion report` |
+| `f163fcc` | `chore(decisions): log Phase 2.05 scope decision` |
+| `8cd1cf1` | `feat(deps): add @portabletext/react + @portabletext/block-tools + jsdom + tsx for Phase 2.05` |
+| `4622896` | `chore(env): document SANITY_API_WRITE_TOKEN` |
+| `02f181e` | `feat(sanity-schemas): +review.placeholder, +resourceArticle.featuredImage/crossLink, +blogPost.crossLink (Phase 2.05)` |
+| `6d717b3` | `feat(scripts): seed-sanity.mjs migration script for Phase 2.05` |
+| `86cdb97` | `fix(seed): audience-prefixed service _ids + scope tags + env-local priority` |
+| `1b915d2` | `feat(sanity): GROQ query helpers + TypeScript return types` |
+| `c72a418` | `feat(projects): wire /projects + /projects/[slug] to Sanity reads (Phase 2.05)` |
+| `755b0ee` | `feat(blog): wire /blog + /blog/[slug] to Sanity with PortableText rendering (Phase 2.05)` |
+| `fc6ca3c` | `feat(resources): wire /resources + /resources/[slug] to Sanity (Phase 2.05)` |
+| `bf58d51` | `feat(faq): service + location pages read FAQs from Sanity by scope tag (Phase 2.05)` |
+| `3960bc7` | `refactor(data): remove inline FAQ arrays from services + locations (Sanity is now authoritative)` |
+| `7c82045` | `chore(phase-2-05): project-state updates` |
+| **`2cbcb0e`** | `chore(phase-2-05): completion report` (Phase 2.05 final SHA on main) |
 
 End of report.

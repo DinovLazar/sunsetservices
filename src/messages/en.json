@@ -792,12 +792,16 @@
     "calendly": {
       "eyebrow": "Book directly",
       "h2": "Pick a 30-min slot.",
+      "sub": "Pick a 30-minute slot with Erick.",
       "body": "Erick reviews every booking before confirming.",
       "coming_soon": "Coming soon",
       "fallback": {
         "body": "Booking widget loads in Phase 2.07. Until then —",
         "cta": "Call {phone}"
-      }
+      },
+      "fallbackCta": "Call {phone}",
+      "fallbackLink": "Open Calendly directly",
+      "iframeLabel": "Calendly booking widget"
     },
     "area": {
       "eyebrow": "We serve",
@@ -1384,7 +1388,12 @@
       "eyebrow": "SKIP THE WAIT",
       "title": "Want to lock in a 30-minute consult?",
       "cta": "Book a 30-min consult",
-      "comingSoon": "Coming soon"
+      "comingSoon": "Coming soon",
+      "h2": "Book a 30-min consult with Erick",
+      "sub": "Pick a time that works for you. No commitment.",
+      "fallbackCta": "Call {phone}",
+      "fallbackLink": "Open Calendly directly",
+      "iframeLabel": "Calendly booking widget"
     },
     "next": {
       "title": "What happens next",

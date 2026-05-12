@@ -6,7 +6,6 @@ import AnimateIn from '@/components/global/motion/AnimateIn';
 import CTA from '@/components/sections/CTA';
 import ContentCard from '@/components/content/ContentCard';
 import FilterChipStrip from '@/components/content/FilterChipStrip.client';
-import {getAllResources} from '@/data/getResources';
 import {
   RESOURCE_CATEGORIES,
   isResourceCategory,
@@ -16,8 +15,12 @@ import {buildBreadcrumbList} from '@/lib/schema/breadcrumb';
 import {buildContentItemList} from '@/lib/schema/article';
 import {BUSINESS_URL} from '@/lib/constants/business';
 import {routing} from '@/i18n/routing';
+import {getAllResources} from '@sanity-lib/queries';
 
 type Locale = 'en' | 'es';
+
+// Phase 2.05 — ISR (30 min).
+export const revalidate = 1800;
 
 const SITE_ORIGIN = process.env.NEXT_PUBLIC_SITE_URL || BUSINESS_URL;
 
@@ -31,6 +34,14 @@ function formatMonthYear(iso: string, locale: Locale): string {
     month: 'long',
     year: 'numeric',
   }).format(date);
+}
+
+function fallbackResourceImage(slug: string): {
+  src: string;
+  width: number;
+  height: number;
+} {
+  return {src: `/images/resources/${slug}.jpg`, width: 1280, height: 720};
 }
 
 export async function generateMetadata({
@@ -58,18 +69,11 @@ export async function generateMetadata({
 }
 
 /**
- * Resources index — Phase 1.18 §3.
+ * Resources index — Phase 1.18 templates, Phase 2.05 Sanity-driven content.
  *
- * Sections in order: Hero (text-only, --color-bg) → FilterChipStrip+Grid
- * (--color-bg-cream) → HelpBand (--color-bg) → CTA (--color-bg-cream).
- * Surface alternation per §2 D14 (handover row 1).
- *
- * Filter via `?category=` URL state. Single-select; "All" omits the
- * param. Filter-state URLs set canonical to the un-filtered route per
- * audit assertion #9.
- *
- * Schema: `BreadcrumbList` + `ItemList` of `ListItem`s. Same-source rule
- * (handover §7.3): the visible card grid + the schema consume one array.
+ * Sections: Hero → FilterChipStrip+Grid → HelpBand → CTA.
+ * Filter via `?category=` URL state; canonical points to the un-filtered route.
+ * Image fields fall back to /images/resources/<slug>.jpg until Phase 2.04.
  */
 export default async function ResourcesIndexPage({
   params,
@@ -88,21 +92,19 @@ export default async function ResourcesIndexPage({
   const activeCategory: ResourceCategory | undefined =
     categoryParam && isResourceCategory(categoryParam) ? categoryParam : undefined;
 
-  const allResources = getAllResources();
+  const allResources = await getAllResources();
   const filtered = activeCategory
     ? allResources.filter((r) => r.category === activeCategory)
     : allResources;
 
-  // Most recent lastUpdated drives the count line.
-  const mostRecent = allResources.reduce(
-    (acc, r) => (r.lastUpdated > acc ? r.lastUpdated : acc),
-    allResources[0]?.lastUpdated ?? '2026-01-01',
-  );
+  // Sanity doesn't surface a `lastUpdated` field per resource (Phase 2.05 scope
+  // didn't add one). Use the current month/year as a stable proxy until a
+  // future phase adds the field to the schema.
+  const mostRecent = new Date().toISOString();
 
   const t = await getTranslations({locale, namespace: 'resources'});
   const tContent = await getTranslations({locale, namespace: 'content'});
 
-  // Filter chip definitions (locale-resolved labels).
   const chips = [
     {slug: null, label: t('filter.all')},
     ...RESOURCE_CATEGORIES.map((cat) => ({
@@ -111,14 +113,12 @@ export default async function ResourcesIndexPage({
     })),
   ];
 
-  // Same-source breadcrumb items.
   const breadcrumbItems = [
     {name: t('breadcrumb.home'), item: locPath(loc, '/')},
     {name: t('breadcrumb.resources'), item: locPath(loc, '/resources/')},
   ];
   const breadcrumbSchema = buildBreadcrumbList(breadcrumbItems);
 
-  // Same-source ItemList — un-filtered list so crawlers see every entry.
   const itemListSchema = buildContentItemList(
     allResources.map((r) => ({
       url: locPath(loc, `/resources/${r.slug}/`),
@@ -140,7 +140,7 @@ export default async function ResourcesIndexPage({
         dangerouslySetInnerHTML={{__html: JSON.stringify(itemListSchema)}}
       />
 
-      {/* §3.1 Hero — surface --color-bg, no photo, no entrance animation */}
+      {/* §3.1 Hero */}
       <section
         aria-labelledby="resources-hero-h1"
         className="bg-[var(--color-bg)] py-14 lg:py-20"
@@ -195,7 +195,7 @@ export default async function ResourcesIndexPage({
         </div>
       </section>
 
-      {/* §3.2 Filter + Grid — surface --color-bg-cream, single AnimateIn */}
+      {/* §3.2 Filter + Grid */}
       <section
         aria-labelledby="resources-grid-heading"
         className="bg-[var(--color-bg-cream)] py-14 lg:py-20"
@@ -249,48 +249,40 @@ export default async function ResourcesIndexPage({
                 aria-live="polite"
                 className="m-0 p-0 list-none grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6"
               >
-                {filtered.map((entry, idx) => (
-                  <li key={entry.slug}>
-                    <ContentCard
-                      href={`/resources/${entry.slug}/`}
-                      category={{
-                        slug: entry.category,
-                        label: t(`category.${entry.category}`),
-                      }}
-                      title={entry.title[loc]}
-                      dek={entry.dek[loc]}
-                      image={
-                        entry.cardImage
-                          ? {
-                              src: entry.cardImage.src,
-                              alt: entry.cardImage.alt[loc],
-                              width: entry.cardImage.width,
-                              height: entry.cardImage.height,
-                            }
-                          : {
-                              src: '/images/resources/placeholder.jpg',
-                              alt: entry.title[loc],
-                              width: 1280,
-                              height: 720,
-                            }
-                      }
-                      meta={{
-                        readingLabel: tContent('meta.readingTime', {
-                          minutes: entry.readingMinutes ?? 1,
-                        }),
-                      }}
-                      surface="cream"
-                      priority={idx === 0}
-                    />
-                  </li>
-                ))}
+                {filtered.map((entry, idx) => {
+                  const fallback = fallbackResourceImage(entry.slug);
+                  return (
+                    <li key={entry.slug}>
+                      <ContentCard
+                        href={`/resources/${entry.slug}/`}
+                        category={{
+                          slug: entry.category,
+                          label: t(`category.${entry.category}`),
+                        }}
+                        title={entry.title[loc]}
+                        dek={entry.dek[loc]}
+                        image={{
+                          src: fallback.src,
+                          alt: entry.featuredImageAlt[loc] || entry.title[loc],
+                          width: fallback.width,
+                          height: fallback.height,
+                        }}
+                        meta={{
+                          readingLabel: tContent('meta.readingTime', {minutes: 5}),
+                        }}
+                        surface="cream"
+                        priority={idx === 0}
+                      />
+                    </li>
+                  );
+                })}
               </ul>
             )}
           </AnimateIn>
         </div>
       </section>
 
-      {/* §3.3 Help-deciding band — surface --color-bg, NO amber here */}
+      {/* §3.3 Help-deciding band */}
       <section
         aria-labelledby="resources-helpband-h2"
         className="bg-[var(--color-bg)] py-14 lg:py-20"
@@ -334,7 +326,7 @@ export default async function ResourcesIndexPage({
         </div>
       </section>
 
-      {/* §3.4 Bottom CTA — surface --color-bg-cream, the page's one amber */}
+      {/* §3.4 Bottom CTA */}
       <CTA
         copyNamespace="resources.cta"
         surface="cream"

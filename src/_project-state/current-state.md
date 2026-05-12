@@ -6,8 +6,8 @@
 
 ## Where we are
 
-- **Last completed phase:** Part 2 — Phase 2.05 (Code: wire Sanity content to live site). All dynamic content (projects, blog posts, resource articles, FAQs, reviews) now reads from Sanity at request time via 14 GROQ helpers in `sanity/lib/queries.ts`. PortableText body rendering on blog + resource detail pages via a new `ProseLayoutPT` component reusing the Phase 1.18 sticky-TOC + inline-cross-link splice. 158 documents migrated to Sanity via `scripts/seed-sanity.mjs` (idempotent). 30-min ISR (`revalidate = 1800`) on every Sanity-read page. Inline FAQ arrays removed from `src/data/services.ts` + `locations.ts` — Sanity is now the single source of truth for FAQs.
-- **Next phase:** Part 2 — Phase 2.06 (Code: quote wizard wiring — `/api/quote` + Resend + Mautic stub behind `WIZARD_SUBMIT_ENABLED`).
+- **Last completed phase:** Part 2 — Phase 2.06 (Code: quote wizard wiring). Submit click now POSTs to `/api/quote` which writes to Sanity (`quoteLead`), sends a lead-alert email via Resend, and pushes to a no-op Mautic stub — all gated by `WIZARD_SUBMIT_ENABLED`. Steps 1→2, 2→3, 3→4 transitions fire fire-and-forget partial pushes to `/api/quote/partial` (Sanity `quoteLeadPartial`) with deterministic `_id`s so the same session upserts in-place. Honeypot anti-spam field on Step 5 (silent 200 on trigger). Two new Sanity document types deployed to the Studio.
+- **Next phase:** Part 2 — Phase 2.07 (Code: Calendly iframe + Google Places address autocomplete on Step 4).
 - **Date:** 2026-05-12
 
 ---
@@ -55,6 +55,19 @@
 
 > **Phase 2.01 note:** No `localhost:3000` behavior changed in this phase. Phase 2.01 is account creation only — no routes added, no source code touched. Working tree at end of phase = Phase 1.20 code + Phase 2.01 doc updates.
 
+## What works (Phase 2.06 additions)
+
+- **Wizard Submit is now real.** Step 5 amber Submit POSTs to `/api/quote`. The route writes a `quoteLead` document to Sanity, sends a plain-text lead-alert email to `RESEND_TO_EMAIL` via Resend (sandbox sender `onboarding@resend.dev` at Phase 2.06; branded Phase 2.08), pushes to a no-op Mautic stub, then returns `{status: 'ok', sanityDocId}` and the wizard clears autosaved Steps 1–3 + the session ID and routes to `/thank-you/?firstName=…`. Sanity write is durable-first: a Resend failure (e.g. sandbox-mode 422 to an unverified TO) is logged but the lead still lands in the Studio and the visitor still sees the success path.
+- **Partial-record capture on Steps 1–3 transitions.** When the visitor advances past Step 1, 2, or 3 the wizard fires a `keepalive: true` POST to `/api/quote/partial`. The route upserts a `quoteLeadPartial` document at deterministic ID `quoteLeadPartial-<sessionId>` — fetch-then-patch-or-create preserves `firstSeenAt` while advancing `lastUpdatedAt` and `lastStepReached`. When a matching full `quoteLead` later lands, the partial's `converted` field flips to `true`. NEVER fires on Step 4→5 (PII boundary — Step 4 is the first step that touches name/email/phone/address, and the partial endpoint's Zod schema rejects PII fields too as a defensive backstop).
+- **`WIZARD_SUBMIT_ENABLED=false` master kill switch.** Both routes return 200 + `status: 'simulated'` with zero side effects — Sanity untouched, Resend not called, Mautic stub log line not fired, no error logging. The wizard treats the response identically to a real success and redirects to `/thank-you/`, so the route remains demoable with the backend intentionally off.
+- **Honeypot anti-spam on Step 5.** A visually hidden `#company_website` input (off-screen positioning, `aria-hidden="true"`, `tabIndex={-1}`, `autoComplete="off"`) gets a populated value when a naive bot fills every input. The route handler checks for this BEFORE Zod runs and returns silent 200 — bot doesn't learn which field tripped it. (The previous approach, putting `honeypot: max(0)` inside the Zod schema, was rejected during smoke testing because the 400 error body exposed the field name.)
+- **Two new Sanity document types in the Studio.** "Quote Lead" (8 contact + 6 project + 6 meta fields, ordered by submittedAt desc) and "Quote Lead — Abandoned" (sessionId + timestamps + last-step + converted flag, ordered by lastUpdatedAt desc). Both deployed via `npm run studio:deploy`.
+- **Mautic stub gated on `MAUTIC_ENABLED`.** Both `pushFullLeadToMautic()` and `pushPartialLeadToMautic()` log a single no-op line and return `{synced: false}` at Phase 2.06. Flipping `MAUTIC_ENABLED=true` + populating `MAUTIC_BASE_URL` + `MAUTIC_API_KEY` switches them to the real implementation (TODO block marked `Phase 2.x`) without any other code edits at the call site.
+- **Session ID linkage between partials and full submits** via a client-side localStorage UUID at key `sunset_wizard_session_id`. Generated via `crypto.randomUUID()` with a tiny RFC4122 v4 fallback for environments without the API. Cleared on successful submit.
+- **Six new env vars** added to `.env.local`, `.env.local.example`, and Vercel (Production + Preview): `WIZARD_SUBMIT_ENABLED=true`, `MAUTIC_ENABLED=false`, `MAUTIC_BASE_URL=`, `MAUTIC_API_KEY=`, `RESEND_FROM_EMAIL=onboarding@resend.dev`, `RESEND_TO_EMAIL=info@sunsetservices.us`. `WIZARD_SUBMIT_ENABLED` was previously `false` on Vercel (Phase 2.02 default) — flipped to `true` as part of this phase.
+- **`/api/quote` + `/api/quote/partial` routes** both pin `runtime = 'nodejs'` (the Sanity write client needs Node-only APIs) and `dynamic = 'force-dynamic'` (every request mutates external state).
+- **`zod@^3.25.x` pinned** (resolved from the spec's `^3.23` range; functionally equivalent). Server-only — the Zod imports never reach the client bundle.
+
 ## What works (Phase 2.05 additions)
 
 - **Sanity-driven content** — Erick (or any editor) can log into `https://sunsetservices.sanity.studio`, edit a project description / blog post / resource article / FAQ / review placeholder, publish, and see the change on `localhost:3000` AND `sunsetservices.vercel.app` within 30 minutes. No code edits, no redeploy.
@@ -82,7 +95,7 @@
 - **Preview deploys are auth-gated** (Vercel SSO protection on by default for new teams). Public preview URLs require disabling SSO protection in project settings — not yet done to keep the security default.
 - Real photography — placeholders generated by `scripts/gen-audience-service-placeholders.mjs` (Phase 1.09) and `scripts/gen-home-placeholders.mjs` (Phase 1.07). Phase 1.16 ships 12 placeholder projects whose lead + gallery + before/after assets alias to existing audience-project / service-project tiles via `imageMap.ts`. Cowork sources real photos from Erick's Drive in Phase 2.04.
 - `/projects/?service=…` filtered routes — 404 by design until Phase 2.x; Phase 1.16 ships only the audience-only filter (handover D2.A).
-- **Wizard backend** — `/request-quote/` renders, validates, and routes to `/thank-you/` on Submit, but the Submit click is a Part-1 simulation: `console.log` + analytics event + `router.push`. No real `POST /api/quote`, no Mautic, no Resend (Phase 2.06 wires all three behind `WIZARD_SUBMIT_ENABLED`).
+- **Resend domain still unverified.** `RESEND_FROM_EMAIL=onboarding@resend.dev` (sandbox sender). Sandbox mode also restricts the TO address: only the verified address on the Resend account can receive. With the current `RESEND_API_KEY` in `.env.local`, the only verified address is `vertexcons1@gmail.com` (NOT `info@sunsetservices.us` per Phase 2.01 docs — this is a Phase 2.01 carryover mismatch worth investigating). At Phase 2.06 the route handler correctly logs the 422 from Resend, persists the lead to Sanity anyway, and returns 200; production smoke testing should verify against the *deployed* Vercel preview where the env vars point at the same Resend account, so the email-sent assertion remains an open carryover until Phase 2.08 verifies `sunsetservices.us` AND the Resend API key is reconciled with the Sunset Services account.
 - **Chat AI** — the bubble + panel + state machine + UI flows are all real, but the assistant replies are a token-streamed canned-response stub keyed off the suggested-prompt index. No Anthropic SDK, no rate limiter, no kill switch wiring (Phase 2.09 swaps the stub for the real SDK + `/api/chat` + Telegram leads).
 - **Calendly** — `/thank-you/` renders a static "Coming soon" placeholder card with a tel-fallback (matches Phase 1.11 ContactCalendlyPlaceholder precedent). Real Calendly iframe is Phase 2.07.
 - **Address autocomplete** — Step 4 street wrapper carries `data-autocomplete-stub="address"` for Phase 2.07 to swap for Google Places.
@@ -127,6 +140,7 @@
 | styled-components | 6.4.1 |
 | @anthropic-ai/sdk | 0.92.0 |
 | resend | 6.12.2 |
+| zod | 3.25.76 |
 | eslint | 9.39.4 |
 | eslint-config-next | 16.2.4 |
 | @types/react | 19.2.14 |
@@ -178,6 +192,21 @@ Fonts (loaded via `next/font/google`): Manrope (heading) + Onest (body), subsets
   - `3960bc7` — `refactor(data): remove inline FAQ arrays from services + locations (Sanity is now authoritative)`
   - `7c82045` — `chore(phase-2-05): project-state updates`
   - **`2cbcb0e`** — `chore(phase-2-05): completion report` (Phase 2.05 final SHA on main)
+- **Phase 2.06 commits** (13, on `claude/priceless-northcutt-4516d5`; harness-provisioned branch name — the prompt suggested `claude/phase-2-06-quote-wizard-wiring` but the harness picked a different one, functionally equivalent):
+  - `9bdbb3a` — `chore(decisions): log Phase 2.06 decisions`
+  - `79f4d17` — `feat(deps): add zod@^3.23 for /api/quote server-side validation (Phase 2.06)`
+  - `5bc5f91` — `feat(sanity-schemas): +quoteLead, +quoteLeadPartial (Phase 2.06)`
+  - `97efbe0` — `feat(sanity): write client for /api/quote server route (Phase 2.06)`
+  - `61ef0c3` — `feat(quote): zod validation schemas for /api/quote payloads (Phase 2.06)`
+  - `abcd19b` — `feat(quote): Mautic stub (no-op until MAUTIC_ENABLED=true) (Phase 2.06)`
+  - `60c30b5` — `feat(quote): Resend lead-alert email module (Phase 2.06)`
+  - `615198f` — `feat(api): /api/quote route — Sanity write + Resend email + Mautic stub (Phase 2.06)`
+  - `d053b1c` — `feat(api): /api/quote/partial route — abandoner capture in Sanity (Phase 2.06)`
+  - `987012c` — `feat(wizard): session ID generation for lead/partial linkage (Phase 2.06)`
+  - `853eab1` — `feat(wizard): wire Step 5 Submit to POST /api/quote + honeypot field (Phase 2.06)`
+  - `ae58a8f` — `feat(wizard): fire-and-forget partial push on Steps 1-3 transitions (Phase 2.06)`
+  - `5ad8e97` — `chore(env): document Phase 2.06 quote-wizard backend variables`
+  - `350d417` — `fix(quote): honeypot before zod + drop empty-string defaults (Phase 2.06)`
 
 ---
 

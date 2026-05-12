@@ -15,10 +15,14 @@ import {buildBreadcrumbList} from '@/lib/schema/breadcrumb';
 import {
   buildPlaceSchema,
   buildLocationServicesItemList,
-  buildLocationFaqSchema,
 } from '@/lib/schema/location';
+import {buildContentFaqSchema} from '@/lib/schema/article';
 import {BUSINESS_URL} from '@/lib/constants/business';
 import {routing} from '@/i18n/routing';
+import {getFaqsForCity} from '@sanity-lib/queries';
+
+// Phase 2.05 — ISR (30 min) so Sanity FAQ edits propagate without a redeploy.
+export const revalidate = 1800;
 
 type Locale = 'en' | 'es';
 
@@ -107,7 +111,17 @@ export default async function LocationPage({
     location.featuredServices,
     loc,
   );
-  const faqSchema = buildLocationFaqSchema(location, loc);
+
+  // Phase 2.05 — FAQs come from Sanity, scope `city:<slug>`.
+  const faqs = await getFaqsForCity(city);
+  const faqItems = faqs.map((f, idx) => ({
+    id: `loc-${location.slug}-faq-${idx}`,
+    question: f.question[loc],
+    answer: f.answer[loc],
+  }));
+  const faqSchema = buildContentFaqSchema(
+    faqs.map((f) => ({q: f.question[loc], a: f.answer[loc]})),
+  );
 
   return (
     <>
@@ -134,7 +148,7 @@ export default async function LocationPage({
       <LocalTestimonials location={location} locale={loc} />
       <WhyLocalPanel location={location} locale={loc} />
       <ServiceAreaStrip excludeSlug={location.slug} />
-      <LocationFaq location={location} locale={loc} />
+      <LocationFaq cityName={location.name} items={faqItems} />
       <LocationCTA location={location} />
     </>
   );

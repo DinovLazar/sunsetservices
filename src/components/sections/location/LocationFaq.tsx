@@ -1,15 +1,15 @@
 import {getTranslations} from 'next-intl/server';
 import AnimateIn from '@/components/global/motion/AnimateIn';
 import FaqAccordion from '@/components/ui/FaqAccordion';
-import type {LocationCity} from '@/data/locations';
 
 type LocationFaqProps = {
-  location: LocationCity;
-  locale: 'en' | 'es';
+  cityName: string;
+  /** Pre-projected, single-locale FAQ items. */
+  items: {id: string; question: string; answer: string}[];
 };
 
 /**
- * LocationFaq — Phase 1.14 §4.8.
+ * LocationFaq — Phase 1.14 §4.8 template, Phase 2.05 Sanity-driven items.
  *
  * 4 native `<details>` items per city via the locked `FaqAccordion`
  * (Phase 1.09). NO per-item motion wrapper (1.08 §3.7 lock); single
@@ -17,13 +17,9 @@ type LocationFaqProps = {
  *
  * Surface: `--color-bg-cream`.
  */
-export default async function LocationFaq({location, locale}: LocationFaqProps) {
+export default async function LocationFaq({cityName, items}: LocationFaqProps) {
   const t = await getTranslations('location.faq');
-  const items = location.faq.map((entry, idx) => ({
-    id: `loc-${location.slug}-faq-${idx}`,
-    question: entry.q[locale],
-    answer: entry.a[locale],
-  }));
+  if (items.length === 0) return null;
 
   return (
     <section
@@ -45,7 +41,7 @@ export default async function LocationFaq({location, locale}: LocationFaqProps) 
               maxWidth: '24ch',
             }}
           >
-            {t('h2', {city: location.name})}
+            {t('h2', {city: cityName})}
           </h2>
           <FaqAccordion items={items} />
         </AnimateIn>

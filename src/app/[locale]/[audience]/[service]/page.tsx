@@ -19,8 +19,13 @@ import {
 } from '@/data/services';
 import {SERVICE_HERO, SERVICE_PROJECT} from '@/data/imageMap';
 import {buildBreadcrumbList} from '@/lib/schema/breadcrumb';
-import {buildServiceSchema, buildFaqPageSchema, localePath} from '@/lib/schema/service';
+import {buildServiceSchema, localePath} from '@/lib/schema/service';
+import {buildContentFaqSchema} from '@/lib/schema/article';
 import {routing} from '@/i18n/routing';
+import {getFaqsForService} from '@sanity-lib/queries';
+
+// Phase 2.05 — ISR (30 min) so Sanity FAQ edits propagate without a redeploy.
+export const revalidate = 1800;
 
 type Locale = 'en' | 'es';
 
@@ -80,7 +85,13 @@ export default async function ServiceDetailPage({
     {name: serviceName, item: localePath(loc, `/${audience}/${svc.slug}/`)},
   ]);
   const serviceSchema = buildServiceSchema(svc, loc);
-  const faqSchema = buildFaqPageSchema(svc.faq, loc);
+
+  // Phase 2.05 — FAQs come from Sanity, not the TS seed. Scope tag:
+  // `service:<audience>:<slug>`. Page knows both, so no ambiguity.
+  const faqs = await getFaqsForService(audience as Audience, service);
+  const faqSchema = buildContentFaqSchema(
+    faqs.map((f) => ({q: f.question[loc], a: f.answer[loc]})),
+  );
 
   // ---- What's included ----
   const includedItems = svc.whatsIncluded.map((it) => ({
@@ -123,7 +134,7 @@ export default async function ServiceDetailPage({
   }));
 
   // ---- FAQ items ----
-  const faqItems = svc.faq.map((q, idx) => ({
+  const faqItems = faqs.map((q, idx) => ({
     id: `service-${svc.slug}-faq-${idx}`,
     question: q.question[loc],
     answer: q.answer[loc],

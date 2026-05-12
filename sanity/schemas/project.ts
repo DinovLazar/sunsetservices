@@ -67,6 +67,14 @@ export const project = defineType({
       validation: (r) => r.integer().min(2000).max(2100),
     }),
     defineField({
+      name: 'durationWeeks',
+      type: 'number',
+      title: 'Duration (weeks)',
+      group: 'taxonomy',
+      description: 'Used by the hero meta line and the Facts table.',
+      validation: (r) => r.integer().min(1),
+    }),
+    defineField({
       name: 'shortDek',
       type: 'localizedString',
       title: 'Short dek (≤120 chars)',

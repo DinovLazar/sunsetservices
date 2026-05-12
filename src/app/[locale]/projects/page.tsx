@@ -7,16 +7,21 @@ import ProjectsGrid from '@/components/sections/projects/ProjectsGrid';
 import Pagination from '@/components/sections/projects/Pagination';
 import EmptyState from '@/components/sections/projects/EmptyState';
 import CTA from '@/components/sections/CTA';
-import {PROJECTS, isProjectAudience, type ProjectAudience} from '@/data/projects';
+import {isProjectAudience, type ProjectAudience, type Project} from '@/data/projects';
 import {PROJECT_LEAD} from '@/data/imageMap';
 import {buildBreadcrumbList} from '@/lib/schema/breadcrumb';
 import {buildProjectsItemList} from '@/lib/schema/project';
 import {BUSINESS_URL} from '@/lib/constants/business';
 import {routing} from '@/i18n/routing';
+import {getAllProjects} from '@sanity-lib/queries';
+import {sanityProjectSummaryToTs} from '@/lib/sanity-adapters';
 
 type Locale = 'en' | 'es';
 
 const PAGE_SIZE = 12;
+
+// Phase 2.05 — ISR (30 min). Webhook-driven revalidation deferred.
+export const revalidate = 1800;
 
 /**
  * Site origin for canonical/hreflang. Defaults to production
@@ -34,13 +39,8 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const {locale} = await params;
   const t = await getTranslations({locale, namespace: 'projects.meta'});
-  // No trailing slash — Next 16 default `trailingSlash: false` redirects
-  // `/projects/` to `/projects`, so the canonical must point to the
-  // actual served URL or Lighthouse's canonical audit fails.
   const enPath = '/projects';
   const esPath = '/es/projects';
-  // Self-canonical points to the unfiltered, unpaginated route per
-  // handover §5.1 — filtered/paginated views are not separately rankable.
   const selfPath = locale === 'en' ? enPath : esPath;
   return {
     title: t('title'),
@@ -57,23 +57,13 @@ export async function generateMetadata({
 }
 
 /**
- * Projects index — Phase 1.16 implementing Phase 1.15 design handover §3.
+ * Projects index — Phase 1.16 templates, Phase 2.05 Sanity-driven content.
  *
- * Sections in order: Hero → FilterChipStrip → (ProjectsGrid + Pagination)
- * OR EmptyState → final CTA. Surface alternation per §2.1: cream → bg
- * (filter+grid+pagination one band by design) → cream.
- *
- * Filter + page state read from `searchParams`. Sanitization:
- *   - audience: anything not in {residential, commercial, hardscape} →
- *     undefined (=== "All").
- *   - page: parsed int clamped to [1, totalPages]; malformed → 1.
- *
- * The grid is server-rendered. Filter changes are URL changes; the page
- * re-renders server-side. No client-side filtering (handover §10.2).
- *
- * Schema: `BreadcrumbList` + `ItemList` of `CreativeWork` (handover §5.1).
- * Per §5.1 the ItemList is the unfiltered seed — crawlers see the full
- * portfolio regardless of any filter the user applied.
+ * Sections: Hero → FilterChipStrip → ProjectsGrid|EmptyState (+ Pagination) → CTA.
+ * Filter + page state read from `searchParams`; sanitization unchanged from 1.16.
+ * Schema: `BreadcrumbList` + `ItemList` of `CreativeWork`, fed by the
+ * Sanity-fetched (unfiltered) list so crawlers see the full portfolio
+ * regardless of any filter the user applied.
  */
 export default async function ProjectsIndexPage({
   params,
@@ -87,19 +77,20 @@ export default async function ProjectsIndexPage({
   setRequestLocale(locale);
   const loc = locale as Locale;
 
+  // Sanity is now the source of truth. The Project[] returned here mirrors
+  // the Phase 1.16 TS shape so existing presentational components work
+  // unchanged.
+  const sanityProjects = await getAllProjects();
+  const ALL: Project[] = sanityProjects.map(sanityProjectSummaryToTs);
+
   const sp = await searchParams;
   const audienceParam = typeof sp.audience === 'string' ? sp.audience : undefined;
   const audience: ProjectAudience | undefined =
     audienceParam && isProjectAudience(audienceParam) ? audienceParam : undefined;
 
-  // Filtered list.
-  const filtered = audience
-    ? PROJECTS.filter((p) => p.audience === audience)
-    : PROJECTS;
-
+  const filtered = audience ? ALL.filter((p) => p.audience === audience) : ALL;
   const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
 
-  // Page sanitization.
   const rawPage = typeof sp.page === 'string' ? Number.parseInt(sp.page, 10) : 1;
   const page =
     Number.isFinite(rawPage) && rawPage >= 1 ? Math.min(rawPage, totalPages) : 1;
@@ -109,24 +100,21 @@ export default async function ProjectsIndexPage({
 
   // Audience counts for the chip strip (stable; based on the unfiltered seed).
   const counts = [
-    {audience: 'all' as const, count: PROJECTS.length},
+    {audience: 'all' as const, count: ALL.length},
     {
       audience: 'residential' as const,
-      count: PROJECTS.filter((p) => p.audience === 'residential').length,
+      count: ALL.filter((p) => p.audience === 'residential').length,
     },
     {
       audience: 'commercial' as const,
-      count: PROJECTS.filter((p) => p.audience === 'commercial').length,
+      count: ALL.filter((p) => p.audience === 'commercial').length,
     },
     {
       audience: 'hardscape' as const,
-      count: PROJECTS.filter((p) => p.audience === 'hardscape').length,
+      count: ALL.filter((p) => p.audience === 'hardscape').length,
     },
   ];
 
-  // Breadcrumb same-source: feeds both schema and (if visible) the
-  // breadcrumb component. Index does not render a visible breadcrumb;
-  // the H1 is the page name. Schema still emits Home → Projects.
   const tBreadcrumb = await getTranslations({locale, namespace: 'project.breadcrumb'});
   const breadcrumbItems = [
     {name: tBreadcrumb('home'), item: loc === 'en' ? '/' : `/${loc}/`},
@@ -138,7 +126,7 @@ export default async function ProjectsIndexPage({
 
   const breadcrumbSchema = buildBreadcrumbList(breadcrumbItems);
   const itemListSchema = buildProjectsItemList({
-    projects: PROJECTS,
+    projects: ALL,
     locale: loc,
     leadUrlForSlug: (slug) => `${BUSINESS_URL}${PROJECT_LEAD[slug]?.src ?? ''}`,
   });

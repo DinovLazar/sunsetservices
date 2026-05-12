@@ -2,17 +2,16 @@
  * GROQ query helpers for Phase 2.05 page wiring.
  *
  * Conventions:
- * - Every helper takes a `locale: 'en' | 'es'` argument and projects bilingual
- *   fields to a single string via `coalesce(field[$locale], field.en)` so the
- *   consumer sees a flat `string` instead of a `{en, es}` object. The same
- *   pattern applies to `localizedBody` body fields, which come back as plain
- *   PortableText block arrays.
- * - All fetches set `next: { revalidate: 1800 }` so per-route ISR (30 min)
- *   aligns with the `export const revalidate = 1800` on every Sanity-reading
- *   page. Once Phase 2.05+ wires Sanity webhooks, this is the surface the
- *   webhook revalidates against.
- * - Functions return plain serializable objects suitable for passing across
- *   the Server Component → Client Component boundary.
+ * - Bilingual fields (`localizedString`, `localizedText`, `localizedBody`)
+ *   come back as `{en, es}` objects with EN-coalesced ES fallback baked
+ *   in at the GROQ layer: `"title": {"en": coalesce(title.en, ""),
+ *   "es": coalesce(title.es, title.en, "")}`. Page-level consumers can
+ *   continue to use the Phase 1.x `data.title[locale]` access pattern.
+ * - Every fetch sets `next: { revalidate: 1800 }` so per-route ISR
+ *   (30 min) aligns with `export const revalidate = 1800` on every page.
+ *   Phase 2.05+ will swap this for webhook-driven revalidation.
+ * - Functions return plain serializable objects suitable for passing
+ *   across the Server Component → Client Component boundary.
  */
 
 import {sanityClient} from './client';
@@ -21,7 +20,8 @@ import type {
   BlogPostDetail,
   BlogPostSummary,
   FaqEntry,
-  Locale,
+  Localized,
+  LocalizedBody,
   ProjectDetail,
   ProjectSummary,
   ResourceDetail,
@@ -32,49 +32,59 @@ import type {
 const REVALIDATE = 1800; // 30 minutes
 const FETCH_OPTS = {next: {revalidate: REVALIDATE}} as const;
 
+// GROQ snippet — produces `{en, es}` for a string/text field with ES falling
+// back to EN. Wrapped in a string-template helper so each field reads
+// uniformly:  ${biling('title')}, ${biling('dek')}, etc.
+const biling = (field: string): string =>
+  `"${field}": {"en": coalesce(${field}.en, ""), "es": coalesce(${field}.es, ${field}.en, "")}`;
+
+const bilingBody = (field: string): string =>
+  `"${field}": {"en": coalesce(${field}.en, []), "es": coalesce(${field}.es, ${field}.en, [])}`;
+
 // ---------- Projects ----------
 
 const PROJECT_SUMMARY_PROJECTION = `{
   _id,
   "slug": slug.current,
-  "title": coalesce(title[$locale], title.en),
-  "shortDek": coalesce(shortDek[$locale], shortDek.en, ""),
+  ${biling('title')},
+  ${biling('shortDek')},
   audience,
   "citySlug": city->slug.current,
   "cityName": city->name,
   year,
   leadImage,
-  "leadAlt": coalesce(leadAlt[$locale], leadAlt.en, "")
+  ${biling('leadAlt')}
 }`;
 
 const PROJECT_DETAIL_PROJECTION = `{
   _id,
   "slug": slug.current,
-  "title": coalesce(title[$locale], title.en),
-  "shortDek": coalesce(shortDek[$locale], shortDek.en, ""),
+  ${biling('title')},
+  ${biling('shortDek')},
   audience,
   "citySlug": city->slug.current,
   "cityName": city->name,
   year,
+  durationWeeks,
   leadImage,
-  "leadAlt": coalesce(leadAlt[$locale], leadAlt.en, ""),
-  "narrativeHeading": coalesce(narrativeHeading[$locale], narrativeHeading.en, ""),
-  "narrative": coalesce(narrative[$locale], narrative.en, ""),
-  "materials": coalesce(materials[].en, []),
+  ${biling('leadAlt')},
+  ${biling('narrativeHeading')},
+  ${biling('narrative')},
+  "materials": coalesce(materials[]{ "en": coalesce(en, ""), "es": coalesce(es, en, "") }, []),
   hasBeforeAfter,
   beforeImage,
-  "beforeAlt": coalesce(beforeAlt[$locale], beforeAlt.en, ""),
+  ${biling('beforeAlt')},
   afterImage,
-  "afterAlt": coalesce(afterAlt[$locale], afterAlt.en, ""),
-  "gallery": coalesce(gallery[]{ image, "alt": coalesce(alt[$locale], alt.en, "") }, []),
+  ${biling('afterAlt')},
+  "gallery": coalesce(gallery[]{ image, "alt": {"en": coalesce(alt.en, ""), "es": coalesce(alt.es, alt.en, "")} }, []),
   "serviceSlugs": services[]->slug.current,
   "serviceAudiences": services[]->audience
 }`;
 
-export async function getAllProjects(locale: Locale): Promise<ProjectSummary[]> {
+export async function getAllProjects(): Promise<ProjectSummary[]> {
   return sanityClient.fetch(
     `*[_type == "project"] | order(year desc, slug asc) ${PROJECT_SUMMARY_PROJECTION}`,
-    {locale},
+    {},
     FETCH_OPTS,
   );
 }
@@ -87,13 +97,10 @@ export async function getAllProjectSlugs(): Promise<string[]> {
   );
 }
 
-export async function getProjectBySlug(
-  slug: string,
-  locale: Locale,
-): Promise<ProjectDetail | null> {
+export async function getProjectBySlug(slug: string): Promise<ProjectDetail | null> {
   return sanityClient.fetch(
     `*[_type == "project" && slug.current == $slug][0] ${PROJECT_DETAIL_PROJECTION}`,
-    {slug, locale},
+    {slug},
     FETCH_OPTS,
   );
 }
@@ -103,44 +110,44 @@ export async function getProjectBySlug(
 const BLOG_SUMMARY_PROJECTION = `{
   _id,
   "slug": slug.current,
-  "title": coalesce(title[$locale], title.en),
-  "dek": coalesce(dek[$locale], dek.en, ""),
-  "eyebrow": coalesce(eyebrow[$locale], eyebrow.en, ""),
+  ${biling('title')},
+  ${biling('dek')},
+  ${biling('eyebrow')},
   category,
   publishedAt,
   "author": coalesce(author, "Sunset Services Team"),
   featuredImage,
-  "featuredImageAlt": coalesce(featuredImageAlt[$locale], featuredImageAlt.en, "")
+  ${biling('featuredImageAlt')}
 }`;
 
 const BLOG_DETAIL_PROJECTION = `{
   _id,
   "slug": slug.current,
-  "title": coalesce(title[$locale], title.en),
-  "dek": coalesce(dek[$locale], dek.en, ""),
-  "eyebrow": coalesce(eyebrow[$locale], eyebrow.en, ""),
+  ${biling('title')},
+  ${biling('dek')},
+  ${biling('eyebrow')},
   category,
   publishedAt,
   "author": coalesce(author, "Sunset Services Team"),
   featuredImage,
-  "featuredImageAlt": coalesce(featuredImageAlt[$locale], featuredImageAlt.en, ""),
-  "body": coalesce(body[$locale], body.en, []),
+  ${biling('featuredImageAlt')},
+  ${bilingBody('body')},
   "citySlug": citySlug,
   crossLinkAudience,
   crossLinkServiceSlug,
   "seo": select(
     defined(seo) => {
-      "title": coalesce(seo.title[$locale], seo.title.en, ""),
-      "description": coalesce(seo.description[$locale], seo.description.en, "")
+      "title": {"en": coalesce(seo.title.en, ""), "es": coalesce(seo.title.es, seo.title.en, "")},
+      "description": {"en": coalesce(seo.description.en, ""), "es": coalesce(seo.description.es, seo.description.en, "")}
     },
     null
   )
 }`;
 
-export async function getAllBlogPosts(locale: Locale): Promise<BlogPostSummary[]> {
+export async function getAllBlogPosts(): Promise<BlogPostSummary[]> {
   return sanityClient.fetch(
     `*[_type == "blogPost"] | order(publishedAt desc) ${BLOG_SUMMARY_PROJECTION}`,
-    {locale},
+    {},
     FETCH_OPTS,
   );
 }
@@ -153,13 +160,10 @@ export async function getAllBlogPostSlugs(): Promise<string[]> {
   );
 }
 
-export async function getBlogPostBySlug(
-  slug: string,
-  locale: Locale,
-): Promise<BlogPostDetail | null> {
+export async function getBlogPostBySlug(slug: string): Promise<BlogPostDetail | null> {
   return sanityClient.fetch(
     `*[_type == "blogPost" && slug.current == $slug][0] ${BLOG_DETAIL_PROJECTION}`,
-    {slug, locale},
+    {slug},
     FETCH_OPTS,
   );
 }
@@ -169,41 +173,41 @@ export async function getBlogPostBySlug(
 const RESOURCE_SUMMARY_PROJECTION = `{
   _id,
   "slug": slug.current,
-  "title": coalesce(title[$locale], title.en),
-  "dek": coalesce(dek[$locale], dek.en, ""),
-  "eyebrow": coalesce(eyebrow[$locale], eyebrow.en, ""),
+  ${biling('title')},
+  ${biling('dek')},
+  ${biling('eyebrow')},
   category,
   schemaType,
   featuredImage,
-  "featuredImageAlt": coalesce(featuredImageAlt[$locale], featuredImageAlt.en, "")
+  ${biling('featuredImageAlt')}
 }`;
 
 const RESOURCE_DETAIL_PROJECTION = `{
   _id,
   "slug": slug.current,
-  "title": coalesce(title[$locale], title.en),
-  "dek": coalesce(dek[$locale], dek.en, ""),
-  "eyebrow": coalesce(eyebrow[$locale], eyebrow.en, ""),
+  ${biling('title')},
+  ${biling('dek')},
+  ${biling('eyebrow')},
   category,
   schemaType,
   featuredImage,
-  "featuredImageAlt": coalesce(featuredImageAlt[$locale], featuredImageAlt.en, ""),
-  "body": coalesce(body[$locale], body.en, []),
+  ${biling('featuredImageAlt')},
+  ${bilingBody('body')},
   crossLinkAudience,
   crossLinkServiceSlug,
   "seo": select(
     defined(seo) => {
-      "title": coalesce(seo.title[$locale], seo.title.en, ""),
-      "description": coalesce(seo.description[$locale], seo.description.en, "")
+      "title": {"en": coalesce(seo.title.en, ""), "es": coalesce(seo.title.es, seo.title.en, "")},
+      "description": {"en": coalesce(seo.description.en, ""), "es": coalesce(seo.description.es, seo.description.en, "")}
     },
     null
   )
 }`;
 
-export async function getAllResources(locale: Locale): Promise<ResourceSummary[]> {
+export async function getAllResources(): Promise<ResourceSummary[]> {
   return sanityClient.fetch(
     `*[_type == "resourceArticle"] | order(category asc, slug asc) ${RESOURCE_SUMMARY_PROJECTION}`,
-    {locale},
+    {},
     FETCH_OPTS,
   );
 }
@@ -216,13 +220,10 @@ export async function getAllResourceSlugs(): Promise<string[]> {
   );
 }
 
-export async function getResourceBySlug(
-  slug: string,
-  locale: Locale,
-): Promise<ResourceDetail | null> {
+export async function getResourceBySlug(slug: string): Promise<ResourceDetail | null> {
   return sanityClient.fetch(
     `*[_type == "resourceArticle" && slug.current == $slug][0] ${RESOURCE_DETAIL_PROJECTION}`,
-    {slug, locale},
+    {slug},
     FETCH_OPTS,
   );
 }
@@ -231,60 +232,47 @@ export async function getResourceBySlug(
 
 const FAQ_PROJECTION = `{
   _id,
-  "question": coalesce(question[$locale], question.en, ""),
-  "answer": coalesce(answer[$locale], answer.en, ""),
+  ${biling('question')},
+  ${biling('answer')},
   order
 }`;
 
-export async function getFaqsForService(
-  audience: Audience,
-  slug: string,
-  locale: Locale,
-): Promise<FaqEntry[]> {
+export async function getFaqsForService(audience: Audience, slug: string): Promise<FaqEntry[]> {
   return sanityClient.fetch(
     `*[_type == "faq" && scope == $scope] | order(order asc) ${FAQ_PROJECTION}`,
-    {scope: `service:${audience}:${slug}`, locale},
+    {scope: `service:${audience}:${slug}`},
     FETCH_OPTS,
   );
 }
 
-export async function getFaqsForCity(
-  citySlug: string,
-  locale: Locale,
-): Promise<FaqEntry[]> {
+export async function getFaqsForCity(citySlug: string): Promise<FaqEntry[]> {
   return sanityClient.fetch(
     `*[_type == "faq" && scope == $scope] | order(order asc) ${FAQ_PROJECTION}`,
-    {scope: `city:${citySlug}`, locale},
+    {scope: `city:${citySlug}`},
     FETCH_OPTS,
   );
 }
 
-export async function getFaqsForAudience(
-  audience: Audience,
-  locale: Locale,
-): Promise<FaqEntry[]> {
+export async function getFaqsForAudience(audience: Audience): Promise<FaqEntry[]> {
   return sanityClient.fetch(
     `*[_type == "faq" && scope == $scope] | order(order asc) ${FAQ_PROJECTION}`,
-    {scope: `audience:${audience}`, locale},
+    {scope: `audience:${audience}`},
     FETCH_OPTS,
   );
 }
 
 // ---------- Reviews ----------
 
-export async function getReviewsForCity(
-  citySlug: string,
-  locale: Locale,
-): Promise<ReviewEntry[]> {
+export async function getReviewsForCity(citySlug: string): Promise<ReviewEntry[]> {
   return sanityClient.fetch(
     `*[_type == "review" && city._ref == $cityId] | order(_createdAt asc) {
       _id,
-      "quote": coalesce(quote[$locale], quote.en, ""),
-      "attribution": coalesce(attribution[$locale], attribution.en, ""),
+      ${biling('quote')},
+      ${biling('attribution')},
       rating,
       "placeholder": coalesce(placeholder, false)
     }`,
-    {cityId: `location-${citySlug}`, locale},
+    {cityId: `location-${citySlug}`},
     FETCH_OPTS,
   );
 }

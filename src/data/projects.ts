@@ -422,8 +422,16 @@ export function isProjectAudience(value: string): value is ProjectAudience {
  * 1. Same-audience (excluding self), `year desc, slug asc`. Take up to 3.
  * 2. If <3, top up with same-city (excluding self + already-picked).
  * 3. If still <3, top up with most-recent (excluding self + already-picked).
+ *
+ * Phase 2.05: `projects` is now an optional argument so Sanity-driven pages
+ * can pass the live array. Falls back to the TS seed for any caller that
+ * doesn't supply one.
  */
-export function selectRelatedProjects(current: Project, count = 3): Project[] {
+export function selectRelatedProjects(
+  current: Project,
+  count = 3,
+  projects: Project[] = PROJECTS,
+): Project[] {
   const exclude = new Set<string>([current.slug]);
   const pickFrom = (list: Project[]): Project[] =>
     list
@@ -433,19 +441,19 @@ export function selectRelatedProjects(current: Project, count = 3): Project[] {
   const out: Project[] = [];
 
   // Tier 1 — same audience.
-  for (const p of pickFrom(PROJECTS.filter((p) => p.audience === current.audience))) {
+  for (const p of pickFrom(projects.filter((p) => p.audience === current.audience))) {
     if (out.length >= count) break;
     out.push(p);
     exclude.add(p.slug);
   }
   // Tier 2 — same city.
-  for (const p of pickFrom(PROJECTS.filter((p) => p.citySlug === current.citySlug))) {
+  for (const p of pickFrom(projects.filter((p) => p.citySlug === current.citySlug))) {
     if (out.length >= count) break;
     out.push(p);
     exclude.add(p.slug);
   }
   // Tier 3 — most recent overall.
-  for (const p of pickFrom(PROJECTS)) {
+  for (const p of pickFrom(projects)) {
     if (out.length >= count) break;
     out.push(p);
     exclude.add(p.slug);

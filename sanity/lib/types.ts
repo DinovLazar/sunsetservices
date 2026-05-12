@@ -1,20 +1,25 @@
 /**
  * TypeScript return types for the GROQ query helpers in `./queries.ts`.
  *
- * All fields that are bilingual in the Studio (`localizedString`,
- * `localizedText`, `localizedBody`) come back already projected to a
- * single string for the requested locale via `coalesce(field[$locale], field.en)`,
- * so the page-level consumers see plain `string` (or PortableText block
- * arrays for body fields) instead of `{en, es}` objects.
+ * All bilingual fields come back as `{en, es}` objects (with EN-coalesced
+ * ES fallback baked in at the GROQ layer) so page-level consumers can use
+ * the Phase 1.x `data.title[locale]` access pattern unchanged. Body fields
+ * on blog + resource come back as `{en: PortableTextBlock[], es: …}`.
  *
- * Image fields are kept as the raw Sanity image asset shape so the
- * `urlFor()` helper from `./image.ts` can transform them. When the asset
- * is absent (pre-Phase-2.04 state) the field is `null`.
+ * Image fields are kept as the raw Sanity asset shape so `urlFor()` from
+ * `./image.ts` can transform them. When the asset is absent (pre-Phase-2.04
+ * state) the field is `null`.
  */
 
 import type {PortableTextBlock} from '@portabletext/react';
 
-/** Sanity asset reference. */
+/** Bilingual string/text (matches `localizedString` / `localizedText` shapes). */
+export type Localized = {en: string; es: string};
+
+/** Bilingual Portable Text body (matches `localizedBody`). */
+export type LocalizedBody = {en: PortableTextBlock[]; es: PortableTextBlock[]};
+
+/** Sanity asset reference for image fields. */
 export type SanityImageAsset = {
   _type: 'image';
   asset: {_ref: string; _type: 'reference'};
@@ -23,7 +28,6 @@ export type SanityImageAsset = {
 } | null;
 
 export type Locale = 'en' | 'es';
-
 export type Audience = 'residential' | 'commercial' | 'hardscape';
 
 // ---------- Project ----------
@@ -31,26 +35,27 @@ export type Audience = 'residential' | 'commercial' | 'hardscape';
 export type ProjectSummary = {
   _id: string;
   slug: string;
-  title: string;
-  shortDek: string;
+  title: Localized;
+  shortDek: Localized;
   audience: Audience;
   citySlug: string | null;
   cityName: string | null;
   year: number | null;
   leadImage: SanityImageAsset;
-  leadAlt: string;
+  leadAlt: Localized;
 };
 
 export type ProjectDetail = ProjectSummary & {
-  narrativeHeading: string;
-  narrative: string;
-  materials: string[];
+  durationWeeks: number | null;
+  narrativeHeading: Localized;
+  narrative: Localized;
+  materials: Localized[];
   hasBeforeAfter: boolean;
   beforeImage: SanityImageAsset;
-  beforeAlt: string;
+  beforeAlt: Localized;
   afterImage: SanityImageAsset;
-  afterAlt: string;
-  gallery: {image: SanityImageAsset; alt: string}[];
+  afterAlt: Localized;
+  gallery: {image: SanityImageAsset; alt: Localized}[];
   serviceSlugs: string[];
   serviceAudiences: Audience[];
 };
@@ -60,22 +65,22 @@ export type ProjectDetail = ProjectSummary & {
 export type BlogPostSummary = {
   _id: string;
   slug: string;
-  title: string;
-  dek: string;
-  eyebrow: string;
+  title: Localized;
+  dek: Localized;
+  eyebrow: Localized;
   category: string;
   publishedAt: string;
   author: string;
   featuredImage: SanityImageAsset;
-  featuredImageAlt: string;
+  featuredImageAlt: Localized;
 };
 
 export type BlogPostDetail = BlogPostSummary & {
-  body: PortableTextBlock[];
+  body: LocalizedBody;
   citySlug: string | null;
   crossLinkAudience: Audience | null;
   crossLinkServiceSlug: string | null;
-  seo: {title: string; description: string} | null;
+  seo: {title: Localized; description: Localized} | null;
 };
 
 // ---------- Resource ----------
@@ -83,28 +88,28 @@ export type BlogPostDetail = BlogPostSummary & {
 export type ResourceSummary = {
   _id: string;
   slug: string;
-  title: string;
-  dek: string;
-  eyebrow: string;
+  title: Localized;
+  dek: Localized;
+  eyebrow: Localized;
   category: string;
   schemaType: 'Article' | 'HowTo';
   featuredImage: SanityImageAsset;
-  featuredImageAlt: string;
+  featuredImageAlt: Localized;
 };
 
 export type ResourceDetail = ResourceSummary & {
-  body: PortableTextBlock[];
+  body: LocalizedBody;
   crossLinkAudience: Audience | null;
   crossLinkServiceSlug: string | null;
-  seo: {title: string; description: string} | null;
+  seo: {title: Localized; description: Localized} | null;
 };
 
 // ---------- FAQ ----------
 
 export type FaqEntry = {
   _id: string;
-  question: string;
-  answer: string;
+  question: Localized;
+  answer: Localized;
   order: number;
 };
 
@@ -112,8 +117,8 @@ export type FaqEntry = {
 
 export type ReviewEntry = {
   _id: string;
-  quote: string;
-  attribution: string;
+  quote: Localized;
+  attribution: Localized;
   rating: number;
   placeholder: boolean;
 };

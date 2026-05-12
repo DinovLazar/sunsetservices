@@ -12,6 +12,8 @@ type Locale = 'en' | 'es';
 type RelatedProjectsProps = {
   current: Project;
   locale: Locale;
+  /** Phase 2.05 — Sanity-driven full project list. Defaults to the TS seed. */
+  all?: Project[];
 };
 
 /**
@@ -26,11 +28,11 @@ type RelatedProjectsProps = {
  * Reuses `ProjectCard`. Surface `--color-bg-cream`. Footer link is a
  * body-link, not a button.
  */
-export default async function RelatedProjects({current, locale}: RelatedProjectsProps) {
+export default async function RelatedProjects({current, locale, all}: RelatedProjectsProps) {
   const tRelated = await getTranslations('project.related');
   const tTag = await getTranslations('projects.tag');
 
-  const related = selectRelatedProjects(current);
+  const related = selectRelatedProjects(current, 3, all);
 
   if (related.length === 0) return null;
 

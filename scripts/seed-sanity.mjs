@@ -284,6 +284,7 @@ async function main() {
       services: serviceRefs,
       city: {_type: 'reference', _ref: `location-${p.citySlug}`},
       year: p.year,
+      durationWeeks: p.durationWeeks,
       shortDek: localized(p.shortDek.en, p.shortDek.es),
       narrative: localizedText(p.narrative.en, p.narrative.es),
       materials: [localized(p.materials.en, p.materials.es)],

@@ -152,3 +152,28 @@ A new mini-phase will pick this up immediately after Phase 2.13.2 lands the API 
 likely numbered `2.13.3` to keep it adjacent to the dependency.
 
 **Decided by:** user (Goran), in response to Phase 2.07 clarifying question in Chat.
+
+---
+
+## 2026-05-12 — Phase 2.08: Resend domain verification deferred + sandbox-aware email routing introduced
+
+Phase 2.08 ships five branded HTML email templates and wires `/api/contact` + `/api/newsletter`, but does NOT verify `sunsetservices.us` in Resend. Reason: DNS for `sunsetservices.us` currently lives at the WordPress host's registrar (likely GoDaddy/Namecheap), and the user has not yet pulled DNS access from Erick. Adding SPF/DKIM/DMARC records is the prerequisite to flipping FROM off `onboarding@resend.dev`. This phase keeps the sandbox sender and accepts the routing constraint.
+
+**Constraint imposed by sandbox mode:**
+Resend sandbox-mode `from: onboarding@resend.dev` rejects any TO address other than the account's verified owner (`dinovlazar2011@gmail.com`). This blocks every visitor-facing email (quote confirmation, contact form receipt, newsletter welcome) from reaching the visitor's actual address.
+
+**Routing pattern introduced this phase:**
+A new shared utility `src/lib/email/send.ts` exports `sendBrandedEmail({ to, subject, react, intendedRecipient? })`. Behavior:
+- When `RESEND_DOMAIN_VERIFIED=false` (the Phase 2.08 default): every send routes to `RESEND_TO_EMAIL` regardless of the intended TO. The rendered HTML carries an info banner at the top reading "Sandbox mode — intended recipient: {originalTo}". This means during the dev window, all five email types land in the dev inbox where they can be visually verified.
+- When `RESEND_DOMAIN_VERIFIED=true` (flipped in Phase 3.11/3.12 after DNS verification): emails route to the original TO normally, no banner. Single env-var flip, zero code changes.
+
+**Flip-day checklist (Phase 3.11/3.12):**
+- Add SPF/DKIM/DMARC records for `sunsetservices.us` in whichever DNS provider holds the domain (Cloudflare if migration is done; otherwise current registrar).
+- Verify domain status in Resend dashboard → "Verified" badge.
+- Flip Vercel env vars on Production + Preview targets: `RESEND_FROM_EMAIL=info@sunsetservices.us`, `RESEND_TO_EMAIL=info@sunsetservices.us`, `RESEND_DOMAIN_VERIFIED=true`.
+- Redeploy Production.
+- Send one synthetic submission through each of: `/api/quote`, `/api/contact`, `/api/newsletter`. Confirm: lead alert lands in `info@sunsetservices.us`, visitor confirmation lands in the visitor's actual email, no sandbox banner.
+
+**Risk acknowledged:** During the dev window, all visitor-facing emails are technically "not sent" — they land in the dev inbox instead. Visitors submitting between Phase 2.08 and the flip-day do not receive a confirmation email. This is acceptable because: (a) the Sanity write succeeds so no lead is lost, (b) the visitor is routed to a thank-you page with full next-steps, (c) the dev window is finite (closes before DNS cutover in Phase 3.13), and (d) low submission volume during dev makes individual outreach trivial if needed.
+
+**Decided by:** user (Goran), in response to Phase 2.08 Q1 clarifying question in Chat.

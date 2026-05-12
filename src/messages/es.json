@@ -598,11 +598,15 @@
         "bolingbrook": "Bolingbrook"
       },
       "newsletter": {
-        "heading": "Boletín",
-        "helper": "Consejos de temporada e historias de proyectos. Dos veces al mes.",
+        "heading": "Mantente al tanto. [TBR]",
+        "helper": "Consejos de temporada y proyectos destacados, una vez al mes. Sin spam. [TBR]",
         "fieldLabel": "Correo electrónico",
         "placeholder": "tu@correo.com",
         "submit": "Suscribirse",
+        "successMessage": "Gracias — revisa tu bandeja de entrada para confirmar. [TBR]",
+        "alreadySubscribed": "Ya estás en la lista. [TBR]",
+        "invalidEmail": "Introduce un correo electrónico válido. [TBR]",
+        "errorMessage": "Algo salió mal. Inténtalo de nuevo. [TBR]",
         "placeholderNote": "El registro al boletín estará disponible pronto."
       },
       "copyright": "© {year} Sunset Services. Todos los derechos reservados.",

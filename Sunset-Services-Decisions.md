@@ -118,3 +118,37 @@ At Phase 2.06 the Resend account associated with the API key in `.env.local` is 
 This intentionally groups together with other postponed Phase 2.06 deliverables so all email/branding work lands in one coherent batch.
 
 **Decided by:** user (Goran), 2026-05-12, after Phase 2.06 smoke testing confirmed the sandbox restriction.
+
+---
+
+## 2026-05-12 — Phase 2.07 uses user's personal Calendly URL for testing
+
+Phase 2.07's Calendly embed ships pointing at `https://calendly.com/dinovlazar2011` — the user's
+personal Calendly account, repurposed for Phase 2.07 testing. This is NOT Erick's account.
+
+**Why a placeholder URL is acceptable here.** The component reads the URL from `NEXT_PUBLIC_CALENDLY_URL`,
+so swapping to Erick's real Sunset Services Calendly URL is a single Vercel env-var edit
+plus a Production redeploy — no code change required.
+
+**Required before launch.** Phase 3.12 (pre-cutover QA) must flip `NEXT_PUBLIC_CALENDLY_URL`
+to Erick's real Calendly URL on both Production AND Preview targets. Add this to the
+Phase 3.12 checklist when that phase opens. Cowork pulls the real URL from Erick at the
+same time he confirms his account is set up with the right event type ("30-min consult").
+
+**Decided by:** user (Goran), in response to Phase 2.07 clarifying question in Chat.
+
+---
+
+## 2026-05-12 — Google Places address autocomplete deferred from Phase 2.07
+
+The Phase 2.06 completion report listed Google Places autocomplete on wizard Step 4 as
+Phase 2.07 scope. The canonical Phase Plan disagrees — it calls 2.07 Calendly-only.
+The Places API key is parked behind Phase 2.13.2 per the 2026-05-10 GCP-deferral decision,
+so wiring autocomplete in 2.07 (even flag-gated) would be empty scaffolding with rework
+on key arrival.
+
+**Resolution:** the Step 4 `data-autocomplete-stub="address"` marker stays untouched.
+A new mini-phase will pick this up immediately after Phase 2.13.2 lands the API key —
+likely numbered `2.13.3` to keep it adjacent to the dependency.
+
+**Decided by:** user (Goran), in response to Phase 2.07 clarifying question in Chat.

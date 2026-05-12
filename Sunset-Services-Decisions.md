@@ -88,3 +88,15 @@ Phase 2.05 will migrate every dynamic content type (projects, blog posts, resour
 - **Credential safety note.** The Places API key, OAuth Client Secret, and service account JSON file in transit by email are sensitive. Acceptable for the one-time handoff; if any are suspected of being exposed post-launch, rotation goes through Goran. The service account JSON should never be committed to the public GitHub repo — only stored in Vercel environment variables and `.env.local` (which is gitignored).
 
 **Decided by:** user (Goran), in response to Phase 2.01 GCP access clarifying question.
+
+---
+
+## 2026-05-12 — Phase 2.06 decisions
+
+- **Captured leads + partials → Sanity** during the Mautic-deferred window. New schemas: `quoteLead` (full) + `quoteLeadPartial` (Steps 1–3). Mautic stub is a no-op; flips on when `MAUTIC_ENABLED=true` and the server is live.
+- **Resend `from:`** uses the sandbox sender `onboarding@resend.dev` until Phase 2.08 verifies `sunsetservices.us` and ships branded templates. Lead alert still lands in `info@sunsetservices.us`.
+- **Honeypot only** at this phase. Real rate-limiting deferred to launch hardening.
+- **No visitor auto-confirmation email** at this phase — Phase 2.08 ships branded templates for both sides of every transactional email.
+- **`WIZARD_SUBMIT_ENABLED=false`** falls back to the Phase 1.20 simulation so the wizard remains demoable when the backend is intentionally off.
+
+**Decided by:** user (Goran), in response to Phase 2.06 clarifying question in Chat.

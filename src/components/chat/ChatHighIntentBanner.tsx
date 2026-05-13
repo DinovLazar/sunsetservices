@@ -1,77 +1,51 @@
 'use client';
 
 import * as React from 'react';
-import {Check, X} from 'lucide-react';
+import {X} from 'lucide-react';
 import {useTranslations} from 'next-intl';
+import {Link} from '@/i18n/navigation';
 
 type Props = {
-  visible: boolean;
+  /** Non-null means visible; the reason itself is informational and isn't rendered. */
+  highIntent: {reason: string} | null;
   onDismiss: () => void;
 };
 
 /**
- * High-intent escalation banner. Phase 1.19 §4.9, D27.
+ * High-intent escalation banner — Phase 2.09 rewrite of the Phase 1.20 slot.
  *
- * Slides down from above the composer; auto-dismisses after 6s. Part 1 ships
- * the slot; Phase 2.09 fires it on intent classification. In Part 1 the
- * `visible` prop is always `false`, so the component renders nothing — saves
- * the `setTimeout` cost.
+ * Renders inside the chat panel above the composer when Claude calls
+ * `flag_high_intent`. Two CTAs: primary "Book a consult" → /contact#calendly,
+ * secondary ghost "Get a quote" → /request-quote. Amber inside the chat panel
+ * is allowed (D11 / D24 page-level rules do not apply to the panel chrome).
  */
-export default function ChatHighIntentBanner({visible, onDismiss}: Props) {
+export default function ChatHighIntentBanner({highIntent, onDismiss}: Props) {
   const t = useTranslations('chat.banner');
 
-  React.useEffect(() => {
-    if (!visible) return;
-    const id = window.setTimeout(onDismiss, 6000);
-    return () => window.clearTimeout(id);
-  }, [visible, onDismiss]);
-
-  if (!visible) return null;
+  if (!highIntent) return null;
 
   return (
     <div
       role="status"
       aria-live="polite"
       style={{
-        background: 'var(--color-sunset-green-100)',
-        borderBottom: '1px solid var(--color-sunset-green-300)',
-        padding: '10px 16px',
+        background: 'var(--color-sunset-amber-50, #FDF7E8)',
+        borderLeft: '3px solid var(--color-sunset-amber-700)',
+        padding: '12px 16px',
         display: 'flex',
-        alignItems: 'center',
-        gap: 8,
+        flexDirection: 'column',
+        gap: 10,
+        position: 'relative',
       }}
     >
-      <span
-        aria-hidden="true"
-        style={{
-          width: 20,
-          height: 20,
-          borderRadius: '50%',
-          background: 'var(--color-sunset-green-500)',
-          display: 'inline-flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          flexShrink: 0,
-        }}
-      >
-        <Check size={12} color="#FFFFFF" strokeWidth={3} />
-      </span>
-      <p
-        className="m-0"
-        style={{
-          fontSize: 13,
-          fontWeight: 600,
-          color: 'var(--color-text-primary)',
-          flex: 1,
-        }}
-      >
-        {t('highIntent')}
-      </p>
       <button
         type="button"
         onClick={onDismiss}
-        aria-label="Dismiss"
+        aria-label={t('closeAriaLabel')}
         style={{
+          position: 'absolute',
+          top: 6,
+          right: 6,
           background: 'transparent',
           border: 'none',
           padding: 4,
@@ -79,8 +53,46 @@ export default function ChatHighIntentBanner({visible, onDismiss}: Props) {
           color: 'var(--color-text-primary)',
         }}
       >
-        <X size={16} aria-hidden="true" />
+        <X size={14} aria-hidden="true" />
       </button>
+
+      <p
+        className="m-0"
+        style={{
+          fontSize: 13,
+          fontWeight: 600,
+          color: 'var(--color-text-primary)',
+          paddingRight: 24,
+          lineHeight: 1.4,
+        }}
+      >
+        {t('intro')}
+      </p>
+
+      <div style={{display: 'flex', gap: 8, flexWrap: 'wrap'}}>
+        <Link
+          href="/contact#calendly"
+          className="btn btn-primary btn-sm"
+          data-analytics-event="chat_banner_book_clicked"
+          style={{fontSize: 12, padding: '6px 12px'}}
+        >
+          {t('primaryCta')}
+        </Link>
+        <Link
+          href="/request-quote"
+          className="btn btn-ghost btn-sm"
+          data-analytics-event="chat_banner_quote_clicked"
+          style={{
+            fontSize: 12,
+            padding: '6px 12px',
+            background: 'transparent',
+            color: 'var(--color-sunset-amber-700)',
+            border: '1px solid var(--color-sunset-amber-700)',
+          }}
+        >
+          {t('secondaryCta')}
+        </Link>
+      </div>
     </div>
   );
 }

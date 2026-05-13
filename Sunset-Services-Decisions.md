@@ -220,3 +220,15 @@ lazy-lookup tool-use: (a) trim the digest by removing low-traffic FAQs and team 
 TTL beyond 30 min. Both are config-only changes.
 
 **Decided by:** user (Goran), in response to Phase 2.09 Q2 clarifying question in Chat.
+
+---
+
+## 2026-05-13 — Phase 2.10 analytics stack scope choices
+
+- **Simple binary cookie banner now; full Consent Mode v2 deferred to Phase 3.04.** Phase 2.10's banner blocks GTM + Clarity script load entirely until Accept is clicked. Phase 3.04 will swap to Google Consent Mode v2 with granular consent categories and Termly/iubenda-generated legal copy.
+- **4 conversion events selected** by the user: `quote_submit_succeeded`, `contact_submit_succeeded`, `newsletter_subscribed`, `calendly_booking_scheduled`. Chat lead capture (`lead_capture_submit_succeeded`) is intentionally NOT a conversion — it's tracked as a regular event for funnel analysis but not marked as a Key Event in GA4.
+- **Microsoft Clarity loaded directly (not through GTM).** Simpler — Clarity's snippet is small and works without GTM. Cowork Part B can swap to a GTM-hosted Clarity tag later if needed.
+- **`NEXT_PUBLIC_ANALYTICS_ENABLED` master kill switch.** Acts BEFORE consent state — if false, neither the banner nor the scripts ever render. Defaults to `true` once Cowork Part A is complete; flip to `false` to disable analytics across the board without removing the banner.
+- **PII stripping in the dataLayer bridge.** Wizard / contact / newsletter / chat events never carry name, email, phone, or address into `window.dataLayer`. The bridge filters out any payload key matching `name`, `email`, `phone`, `address`, `firstName`, `lastName`, `streetAddress`, `zipCode` before pushing. Defensive — the dispatchers already only carry event metadata, but the filter is the guard.
+
+**Decided by:** user (Goran), in response to Phase 2.10 clarifying questions in Chat.

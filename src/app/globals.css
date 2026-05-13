@@ -169,6 +169,7 @@
   --z-overlay:  40;
   --z-chat:     50;
   --z-toast:    60;
+  --z-consent:  60; /* Phase 2.10 cookie banner — same tier as toast (rarely concurrent) */
   --z-banner:   70;
 
   /* ---------- Breakpoints (informational; Tailwind v4 derives utilities) ---------- */

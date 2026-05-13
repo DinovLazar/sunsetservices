@@ -621,6 +621,13 @@
         "instagram": "Instagram",
         "youtube": "YouTube"
       }
+    },
+    "consent": {
+      "heading": "[TBR] Usamos cookies",
+      "body": "[TBR] Usamos cookies para entender cómo los visitantes usan nuestro sitio y poder mejorarlo. Puedes cambiar esto en cualquier momento.",
+      "acceptCta": "[TBR] Aceptar todo",
+      "declineCta": "[TBR] Rechazar",
+      "ariaLabel": "[TBR] Consentimiento de cookies"
     }
   },
   "about": {

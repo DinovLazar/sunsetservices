@@ -621,6 +621,13 @@
         "instagram": "Instagram",
         "youtube": "YouTube"
       }
+    },
+    "consent": {
+      "heading": "We use cookies",
+      "body": "We use cookies to understand how visitors use our site so we can make it better. You can change this anytime.",
+      "acceptCta": "Accept all",
+      "declineCta": "Decline",
+      "ariaLabel": "Cookie consent"
     }
   },
   "about": {

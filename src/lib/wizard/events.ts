@@ -8,9 +8,21 @@
 
 export const WIZARD_EVENTS = {
   STEP_VIEWED: (n: 1 | 2 | 3 | 4 | 5) => `wizard_step_viewed_${n}`,
-  STEP_COMPLETED: (n: 1 | 2 | 3 | 4 | 5) => `wizard_step_completed_${n}`,
+  /**
+   * Phase 2.10: replaced the per-step `wizard_step_completed_<n>` family
+   * with a single `wizard_step_advanced` event carrying `{step: n}` in the
+   * payload. Matches the analytics spec at `src/lib/analytics/events.ts`
+   * and the GTM tag plan Cowork's Part B will configure.
+   */
+  STEP_ADVANCED: 'wizard_step_advanced',
   SUBMIT_ATTEMPTED: 'wizard_submit_attempted',
-  SUBMIT_SUCCEEDED: 'wizard_submit_succeeded',
+  /**
+   * Phase 2.10: renamed wire value from `wizard_submit_succeeded` to
+   * `quote_submit_succeeded` so the GTM Key-Event tag in Phase 2.10 Part B
+   * fires on the conversion. Constant name kept as SUBMIT_SUCCEEDED so the
+   * existing call sites don't need to change.
+   */
+  SUBMIT_SUCCEEDED: 'quote_submit_succeeded',
   SUBMIT_FAILED: 'wizard_submit_failed',
   FIELD_ERROR: (field: string) => `wizard_field_error_${field}`,
   RESUME_OFFERED: 'wizard_resume_offered',

@@ -2,8 +2,9 @@
 
 import * as React from 'react';
 import {X} from 'lucide-react';
-import {useTranslations} from 'next-intl';
+import {useTranslations, useLocale} from 'next-intl';
 import {Link} from '@/i18n/navigation';
+import {CHAT_EVENTS, fireChatEvent} from '@/lib/chat/events';
 
 type Props = {
   /** Non-null means visible; the reason itself is informational and isn't rendered. */
@@ -21,6 +22,7 @@ type Props = {
  */
 export default function ChatHighIntentBanner({highIntent, onDismiss}: Props) {
   const t = useTranslations('chat.banner');
+  const locale = useLocale() as 'en' | 'es';
 
   if (!highIntent) return null;
 
@@ -74,6 +76,9 @@ export default function ChatHighIntentBanner({highIntent, onDismiss}: Props) {
           href="/contact#calendly"
           className="btn btn-primary btn-sm"
           data-analytics-event="chat_banner_book_clicked"
+          onClick={() =>
+            fireChatEvent(CHAT_EVENTS.BANNER_BOOK_CLICKED, {locale})
+          }
           style={{fontSize: 12, padding: '6px 12px'}}
         >
           {t('primaryCta')}
@@ -82,6 +87,9 @@ export default function ChatHighIntentBanner({highIntent, onDismiss}: Props) {
           href="/request-quote"
           className="btn btn-ghost btn-sm"
           data-analytics-event="chat_banner_quote_clicked"
+          onClick={() =>
+            fireChatEvent(CHAT_EVENTS.BANNER_QUOTE_CLICKED, {locale})
+          }
           style={{
             fontSize: 12,
             padding: '6px 12px',

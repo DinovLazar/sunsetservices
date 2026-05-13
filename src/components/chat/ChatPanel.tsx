@@ -65,7 +65,7 @@ export default function ChatPanel({locale, onClose}: Props) {
   // Mount: open dialog + fire panel-opened event + materialize session ID
   React.useEffect(() => {
     sessionIdRef.current = getOrCreateChatSessionId();
-    fireChatEvent(CHAT_EVENTS.PANEL_OPENED, {locale});
+    fireChatEvent(CHAT_EVENTS.OPENED, {locale});
     const dlg = dialogRef.current;
     if (!dlg) return;
     if (window.matchMedia('(max-width: 1023px)').matches) {

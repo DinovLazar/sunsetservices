@@ -79,11 +79,15 @@ export default function NewsletterSignup() {
       const body = (await res.json().catch(() => ({}))) as {status?: string};
       if (body.status === 'already_subscribed') {
         setStatus('already');
-        fireNewsletterEvent('newsletter_submit_already_subscribed', {locale});
+        // Phase 2.10: renamed from `newsletter_submit_already_subscribed`
+        // to match the analytics spec at `src/lib/analytics/events.ts`.
+        fireNewsletterEvent('newsletter_already_subscribed', {locale});
       } else {
         setStatus('success');
         setEmail('');
-        fireNewsletterEvent('newsletter_submit_succeeded', {locale});
+        // Phase 2.10: renamed from `newsletter_submit_succeeded` to the
+        // conversion-tagged `newsletter_subscribed` (GTM Key Event tag).
+        fireNewsletterEvent('newsletter_subscribed', {locale});
       }
     } catch (err) {
       console.error('[newsletter] submit network error', err);

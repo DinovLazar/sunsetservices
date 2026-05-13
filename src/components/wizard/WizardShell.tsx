@@ -260,7 +260,7 @@ export default function WizardShell() {
     }
     setErrors({});
     setCompleted((prev) => Array.from(new Set([...prev, urlStep as Step])).sort() as Step[]);
-    fireWizardEvent(WIZARD_EVENTS.STEP_COMPLETED(urlStep as Step), {step: urlStep, locale});
+    fireWizardEvent(WIZARD_EVENTS.STEP_ADVANCED, {step: urlStep, locale});
 
     // Phase 2.06 — fire-and-forget partial push on Steps 1→2, 2→3, 3→4
     // transitions. NEVER on Step 4→5 (Step 4 is the PII boundary; the

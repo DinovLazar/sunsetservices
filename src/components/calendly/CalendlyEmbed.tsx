@@ -10,8 +10,11 @@ import {BUSINESS_PHONE, BUSINESS_PHONE_TEL} from '@/lib/constants/business';
  * Renders the official Calendly inline widget gated by:
  *   1. `NEXT_PUBLIC_CALENDLY_ENABLED === 'true'`
  *   2. Non-empty `NEXT_PUBLIC_CALENDLY_URL`
- *   3. Cookie consent (stub default-true, matching the chat-widget gate
- *      from Phase 1.20 D29; the real banner lands in Phase 2.11).
+ *   3. Cookie consent (stub default-true; the Phase 2.10 cookie banner
+ *      gates GTM/Clarity script load, not the Calendly widget itself —
+ *      visitors can always book a consultation regardless of analytics
+ *      consent. The Calendly postMessage → dataLayer bridge below IS
+ *      consent-gated through `pushDataLayer`.)
  *
  * When any gate is closed, a static fallback card renders instead with
  * a tel: button + (when the URL is set) a direct anchor so visitors
@@ -29,6 +32,14 @@ import {BUSINESS_PHONE, BUSINESS_PHONE_TEL} from '@/lib/constants/business';
  * `namespace` selects the i18n group ('contact.calendly' on /contact/,
  * 'thanks.calendly' on /thank-you/). Both namespaces ship the same key
  * set: h2, sub, fallbackCta, fallbackLink, iframeLabel.
+ *
+ * Phase 2.10 — wires Calendly's `postMessage` stream to the
+ * `sunset:calendly-event` CustomEvent so the AnalyticsBridge can forward
+ * the 4 events Cowork Part B configures in GTM:
+ *   - calendly_widget_loaded         (fires once on viewport intersection)
+ *   - calendly_event_type_viewed     (from calendly.event_type_viewed)
+ *   - calendly_date_and_time_selected (from calendly.date_and_time_selected)
+ *   - calendly_booking_scheduled     (← CONVERSION, from calendly.event_scheduled)
  */
 
 type CalendlyNamespace = 'contact.calendly' | 'thanks.calendly';
@@ -70,6 +81,7 @@ export default function CalendlyEmbed({
 
   const widgetRef = React.useRef<HTMLDivElement | null>(null);
   const scriptOwnedRef = React.useRef<boolean>(false);
+  const widgetLoadedFiredRef = React.useRef<boolean>(false);
 
   const shouldRenderWidget = enabled && url !== '' && consented;
 
@@ -83,8 +95,21 @@ export default function CalendlyEmbed({
     let observer: IntersectionObserver | null = null;
     let cancelled = false;
 
+    function fireWidgetLoadedOnce() {
+      if (widgetLoadedFiredRef.current) return;
+      widgetLoadedFiredRef.current = true;
+      document.dispatchEvent(
+        new CustomEvent('sunset:calendly-event', {
+          detail: {name: 'calendly_widget_loaded'},
+        }),
+      );
+    }
+
     function inject() {
       if (cancelled) return;
+      // Fire the analytics event regardless — even if the script is already
+      // loaded by a sibling embed, this embed has just entered the viewport.
+      fireWidgetLoadedOnce();
       if (scriptAlreadyLoaded()) return;
       const s = document.createElement('script');
       s.src = CALENDLY_SCRIPT_SRC;
@@ -127,6 +152,52 @@ export default function CalendlyEmbed({
         scriptOwnedRef.current = false;
       }
     };
+  }, [shouldRenderWidget]);
+
+  // Phase 2.10 — relay Calendly's postMessage events to the AnalyticsBridge.
+  // The widget broadcasts `calendly.event_type_viewed`, `calendly.date_and_time_selected`,
+  // and `calendly.event_scheduled` (the conversion). PostMessage events
+  // can come from anywhere, so we filter strictly on `calendly.*` prefix.
+  // No origin check because Calendly serves its widget from multiple subdomains
+  // (calendly.com, assets.calendly.com); the event-name prefix gate is the guard.
+  // We don't read any PII from the events — only the event name itself.
+  React.useEffect(() => {
+    if (!shouldRenderWidget) return;
+    if (typeof window === 'undefined') return;
+
+    function handler(event: MessageEvent) {
+      if (typeof event.data !== 'object' || event.data === null) return;
+      const calendlyEventName = (event.data as {event?: string}).event;
+      if (
+        typeof calendlyEventName !== 'string' ||
+        !calendlyEventName.startsWith('calendly.')
+      ) {
+        return;
+      }
+      let sunsetEventName: string | null = null;
+      switch (calendlyEventName) {
+        case 'calendly.event_type_viewed':
+          sunsetEventName = 'calendly_event_type_viewed';
+          break;
+        case 'calendly.date_and_time_selected':
+          sunsetEventName = 'calendly_date_and_time_selected';
+          break;
+        case 'calendly.event_scheduled':
+          sunsetEventName = 'calendly_booking_scheduled';
+          break;
+        default:
+          sunsetEventName = null;
+      }
+      if (!sunsetEventName) return;
+      document.dispatchEvent(
+        new CustomEvent('sunset:calendly-event', {
+          detail: {name: sunsetEventName},
+        }),
+      );
+    }
+
+    window.addEventListener('message', handler);
+    return () => window.removeEventListener('message', handler);
   }, [shouldRenderWidget]);
 
   if (!shouldRenderWidget) {

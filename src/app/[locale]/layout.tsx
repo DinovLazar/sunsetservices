@@ -10,6 +10,11 @@ import Navbar from '@/components/layout/Navbar';
 import SkipLink from '@/components/layout/SkipLink';
 import ChatRoot from '@/components/chat/ChatRoot';
 import {Analytics} from '@vercel/analytics/next';
+import AnalyticsBridge from '@/components/analytics/AnalyticsBridge';
+import ClarityScript from '@/components/analytics/ClarityScript';
+import ConsentBanner from '@/components/analytics/ConsentBanner';
+import GTMNoScript from '@/components/analytics/GTMNoScript';
+import GTMScript from '@/components/analytics/GTMScript';
 import {
   BUSINESS_ADDRESS,
   BUSINESS_AREA_SERVED,
@@ -90,6 +95,9 @@ export default async function LocaleLayout({
         />
       </head>
       <body className="antialiased">
+        {/* GTM <noscript> fallback for JS-disabled visitors. Per Google's
+            install guide, this lives immediately inside <body>. */}
+        <GTMNoScript />
         <NextIntlClientProvider locale={locale}>
           <MotionRoot>
             <SkipLink />
@@ -100,9 +108,18 @@ export default async function LocaleLayout({
             <Footer />
             <div id="toast-root" aria-live="polite" />
             <ChatRoot />
+            {/* ConsentBanner uses next-intl translations, so it must mount
+                inside NextIntlClientProvider. */}
+            <ConsentBanner />
           </MotionRoot>
         </NextIntlClientProvider>
         <Analytics />
+        {/* The bridge + script loaders don't need translations and stay
+            outside the provider — keeps the listener attach happen as
+            early as possible, before any below-the-fold interactions. */}
+        <AnalyticsBridge />
+        <GTMScript />
+        <ClarityScript />
       </body>
     </html>
   );

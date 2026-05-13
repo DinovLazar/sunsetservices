@@ -177,3 +177,46 @@ A new shared utility `src/lib/email/send.ts` exports `sendBrandedEmail({ to, sub
 **Risk acknowledged:** During the dev window, all visitor-facing emails are technically "not sent" — they land in the dev inbox instead. Visitors submitting between Phase 2.08 and the flip-day do not receive a confirmation email. This is acceptable because: (a) the Sanity write succeeds so no lead is lost, (b) the visitor is routed to a thank-you page with full next-steps, (c) the dev window is finite (closes before DNS cutover in Phase 3.13), and (d) low submission volume during dev makes individual outreach trivial if needed.
 
 **Decided by:** user (Goran), in response to Phase 2.08 Q1 clarifying question in Chat.
+
+
+---
+
+## 2026-05-12 — Phase 2.09 rate-limiter chosen + carryover
+
+The AI chat widget's per-IP rate limiter (1 msg / 2 s burst and 50 msg / day) ships at
+Phase 2.09 as an **in-memory** implementation: two module-scoped `Map<string, ...>` structures
+in `src/lib/chat/rateLimit.ts`. Counters reset on every Vercel function cold start — within
+a warm window they enforce; across cold starts a determined attacker could reset their counter
+by waiting for an idle period (typically ~5–15 minutes on Hobby). Two parallel instances of
+the same function won't share counters either.
+
+**This is acceptable for the Phase 2 preview window.** The preview URL is Vercel-SSO-protected;
+only authenticated team members can reach `/api/chat`. Abuse risk is functionally zero during preview.
+
+**This is NOT acceptable for production.** Before Phase 3.13 (DNS cutover), the in-memory limiter
+MUST be replaced with a persistent store. **Phase 3.10 (Vercel Pro upgrade)** is the natural
+replacement window — Pro unlocks generous Vercel KV limits and Upstash Redis stays free-tier-viable.
+The API surface in `src/lib/chat/rateLimit.ts` (`checkRateLimit(ip) → {allowed, reason?, retryAfter?}`)
+was deliberately designed so the swap is a single-file change with no caller changes.
+
+**Carryover:** add to Phase 3.10 checklist — "Replace in-memory chat rate limiter with persistent store
+before Phase 3.13 cutover."
+
+**Decided by:** user (Goran), in response to Phase 2.09 Q1 clarifying question in Chat.
+
+## 2026-05-12 — Phase 2.09 knowledge-base approach + caching
+
+The chat backend system-prompts Claude on every turn with a locale-matched digest (~5K tokens)
+covering services, locations, team, hours, and top FAQs. Built from Sanity at module load with
+a 30-minute TTL memo (matches the site's existing ISR cadence). Anthropic prompt caching
+(`cache_control: { type: 'ephemeral' }`) is applied so the system prompt costs full price on
+a cache miss and ~10% on cache hits — typical conversations of 3–8 turns benefit significantly.
+
+**Per-message cost ceiling at Sonnet 4.6 pricing:** ~$0.02 on a cache miss (mostly system-prompt
+input), ~$0.005 on cache hits. Within the $50/month Anthropic cap given preview-traffic projections.
+
+**Carryover:** if production usage shows costs trending high, two levers exist before switching to
+lazy-lookup tool-use: (a) trim the digest by removing low-traffic FAQs and team bios, (b) bump cache
+TTL beyond 30 min. Both are config-only changes.
+
+**Decided by:** user (Goran), in response to Phase 2.09 Q2 clarifying question in Chat.

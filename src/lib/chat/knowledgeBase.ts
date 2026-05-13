@@ -22,7 +22,6 @@ import {
   getAllLocationsForChat,
   getTopFaqsForChat,
   type ChatServiceEntry,
-  type ChatLocationEntry,
   type ChatFaqEntry,
 } from '@sanity-lib/queries';
 import {team} from '@/data/team';
@@ -110,7 +109,7 @@ async function composeDigest(locale: 'en' | 'es'): Promise<string> {
 
   // 7. Common questions
   if (faqs.length > 0) {
-    sections.push(`## ${L.faqHeading}\n${faqs.map((f) => formatFaq(f, L)).join('\n\n')}`);
+    sections.push(`## ${L.faqHeading}\n${faqs.map(formatFaq).join('\n\n')}`);
   }
 
   // 8. Contact (repeat + current promotions)
@@ -135,7 +134,7 @@ function formatService(s: ChatServiceEntry, L: LocaleLabels): string {
   return `- ${s.title} — ${dek} ${L.pricingWord}: ${pricing}`;
 }
 
-function formatFaq(f: ChatFaqEntry, L: LocaleLabels): string {
+function formatFaq(f: ChatFaqEntry): string {
   return `Q: ${f.q}\nA: ${f.a}`;
 }
 

@@ -277,6 +277,108 @@ export async function getFaqsForResource(slug: string): Promise<FaqEntry[]> {
   );
 }
 
+// ---------- Chat-specific projections (Phase 2.09) ----------
+//
+// These helpers narrow the index projections to just what the chat
+// knowledge-base digest needs. The full service/location/FAQ helpers above
+// over-fetch (they're designed for full-page rendering); these slimmer
+// projections keep the digest assembly cheap. Returns strings already
+// resolved for the target locale with EN fallback.
+
+export type ChatServiceEntry = {
+  audience: Audience;
+  slug: string;
+  title: string;
+  dek: string;
+  pricingMode: 'explainer' | 'price';
+  priceIncludes: string[];
+};
+
+export type ChatLocationEntry = {
+  slug: string;
+  name: string;
+  tagline: string;
+  featuredServiceSlugs: string[];
+};
+
+export type ChatFaqEntry = {
+  scope: string;
+  q: string;
+  a: string;
+};
+
+export async function getAllServicesForChat(locale: 'en' | 'es'): Promise<ChatServiceEntry[]> {
+  return sanityClient.fetch(
+    `*[_type == "service"] | order(audience asc, order asc, slug asc) {
+      audience,
+      "slug": slug.current,
+      "title": coalesce(title.${locale}, title.en, ""),
+      "dek": coalesce(dek.${locale}, dek.en, ""),
+      "pricingMode": coalesce(pricingMode, "explainer"),
+      "priceIncludes": coalesce(priceIncludes[]{ "v": coalesce(${locale}, en, "") }.v, [])
+    }`,
+    {},
+    FETCH_OPTS,
+  );
+}
+
+export async function getAllLocationsForChat(locale: 'en' | 'es'): Promise<ChatLocationEntry[]> {
+  return sanityClient.fetch(
+    `*[_type == "location"] | order(name asc) {
+      "slug": slug.current,
+      name,
+      "tagline": coalesce(tagline.${locale}, tagline.en, ""),
+      "featuredServiceSlugs": coalesce(featuredServices[]->slug.current, [])
+    }`,
+    {},
+    FETCH_OPTS,
+  );
+}
+
+/**
+ * Fetch a small, well-mixed FAQ set for the chat digest.
+ *
+ * Strategy: 3 FAQs each from the 3 audience scopes (residential / commercial /
+ * hardscape) = 9, plus the first service-scoped FAQ to round out to 10.
+ * The order-by-scope keeps the result deterministic across requests.
+ */
+export async function getTopFaqsForChat(locale: 'en' | 'es', limit: number = 10): Promise<ChatFaqEntry[]> {
+  const PER_AUDIENCE = 3;
+  const audienceScopes = ['audience:residential', 'audience:commercial', 'audience:hardscape'];
+
+  const audienceResults: ChatFaqEntry[][] = await Promise.all(
+    audienceScopes.map((scope) =>
+      sanityClient.fetch(
+        `*[_type == "faq" && scope == $scope] | order(order asc, _id asc)[0...$n] {
+          scope,
+          "q": coalesce(question.${locale}, question.en, ""),
+          "a": coalesce(answer.${locale}, answer.en, "")
+        }`,
+        {scope, n: PER_AUDIENCE},
+        FETCH_OPTS,
+      ),
+    ),
+  );
+
+  let merged = audienceResults.flat();
+
+  // Top up from service-scoped FAQs if we're under the limit.
+  if (merged.length < limit) {
+    const topUp: ChatFaqEntry[] = await sanityClient.fetch(
+      `*[_type == "faq" && scope match "service:*"] | order(scope asc, order asc, _id asc)[0...$n] {
+        scope,
+        "q": coalesce(question.${locale}, question.en, ""),
+        "a": coalesce(answer.${locale}, answer.en, "")
+      }`,
+      {n: limit - merged.length},
+      FETCH_OPTS,
+    );
+    merged = merged.concat(topUp);
+  }
+
+  return merged.slice(0, limit);
+}
+
 // ---------- Reviews ----------
 
 export async function getReviewsForCity(citySlug: string): Promise<ReviewEntry[]> {

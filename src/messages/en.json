@@ -1471,7 +1471,21 @@
       "intro": "Quick — let me grab some info."
     },
     "banner": {
-      "highIntent": "We've alerted Erick — he'll join shortly."
+      "highIntent": "We've alerted Erick — he'll join shortly.",
+      "intro": "Looks like you might be ready to take the next step.",
+      "primaryCta": "Book a consult",
+      "secondaryCta": "Get a quote",
+      "closeAriaLabel": "Close suggestion"
+    },
+    "leadCapture": {
+      "confirmed": "Thanks — Erick will be in touch within one business day. Anything else I can help with?",
+      "error": "Something went wrong sending that. Please try again, or email info@sunsetservices.us directly."
+    },
+    "errors": {
+      "rateLimitedBurst": "Slow down a bit — give it a couple of seconds and try again.",
+      "rateLimitedDaily": "You've hit today's chat limit. Try again tomorrow, or use the quote form at sunsetservices.us/request-quote/.",
+      "disabled": "Chat is offline right now. Please use the contact form or call (630) 946-9321.",
+      "generic": "Sorry, I hit a snag. Try again, or reach Erick at"
     },
     "error": {
       "network": "I lost connection for a second. Try again?",

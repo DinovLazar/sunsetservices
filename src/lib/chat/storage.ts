@@ -1,12 +1,15 @@
 /**
- * Chat history persistence — Phase 1.20 D28.
+ * Chat history + session-ID persistence — Phase 1.20 D28 (Phase 2.09 session-ID extension).
  *
- * `sessionStorage` per-locale namespace. Cleared on tab close (Plan §12 literal
- * "cleared on close"). Reset link in panel header clears the key explicitly.
+ * `sessionStorage` per-locale history namespace + a sibling session-ID key.
+ * Cleared on tab close (Plan §12 literal "cleared on close"). Reset link in
+ * panel header clears the key explicitly.
  *
  * Pre-consent attempts are no-ops; the consent gate is owned by the calling
  * component (D29).
  */
+
+import {generateUuid} from '@/lib/sessionId';
 
 export type ChatRole = 'user' | 'assistant';
 
@@ -17,6 +20,7 @@ export type ChatMessage = {
 };
 
 const KEY_PREFIX = 'sunset_chat_history_';
+const SESSION_ID_KEY = 'sunset_chat_session_id';
 
 function isBrowser(): boolean {
   return typeof window !== 'undefined' && typeof window.sessionStorage !== 'undefined';
@@ -56,7 +60,29 @@ export function clearHistory(locale: string): void {
   if (!isBrowser()) return;
   try {
     window.sessionStorage.removeItem(key(locale));
+    window.sessionStorage.removeItem(SESSION_ID_KEY);
   } catch {
     // ignore
+  }
+}
+
+/**
+ * Read the per-session UUID; lazily create + persist if missing (Phase 2.09).
+ * Used by `/api/chat` + `/api/chat/lead` request payloads to correlate the
+ * conversation server-side. SSR returns 'ssr-no-session' so the value never
+ * propagates accidentally — callers should only invoke this from effect bodies
+ * or event handlers.
+ */
+export function getOrCreateChatSessionId(): string {
+  if (!isBrowser()) return 'ssr-no-session';
+  try {
+    const existing = window.sessionStorage.getItem(SESSION_ID_KEY);
+    if (existing && existing.length >= 8) return existing;
+    const fresh = generateUuid();
+    window.sessionStorage.setItem(SESSION_ID_KEY, fresh);
+    return fresh;
+  } catch {
+    // sessionStorage blocked — generate a per-tab UUID anyway so the request still validates.
+    return generateUuid();
   }
 }

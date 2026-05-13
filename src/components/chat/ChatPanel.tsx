@@ -3,15 +3,16 @@
 import * as React from 'react';
 import {Minus, X, MoreVertical, RotateCcw} from 'lucide-react';
 import {useTranslations} from 'next-intl';
-import {useReducedMotion} from 'motion/react';
 import {Link} from '@/i18n/navigation';
 import {
   loadHistory,
   saveHistory,
   clearHistory,
+  getOrCreateChatSessionId,
   type ChatMessage,
 } from '@/lib/chat/storage';
 import {CHAT_EVENTS, fireChatEvent} from '@/lib/chat/events';
+import {streamFromBackend, type ChatStreamErrorKind} from '@/lib/chat/streamClient';
 import ChatMessageLog from './ChatMessageLog';
 import ChatComposer from './ChatComposer';
 import ChatSuggestedPrompts from './ChatSuggestedPrompts';
@@ -25,19 +26,20 @@ type Props = {
   onClose: () => void;
 };
 
-const STREAM_TOKEN_MS = 30;
-const TYPING_DELAY_MS = 400;
-const TYPING_DURATION_MS = 800;
+type ErrorKind = 'network' | 'rate_burst' | 'rate_daily' | 'disabled' | 'generic' | null;
+type LeadFormStatus = 'idle' | 'submitting' | 'error';
 
 /**
  * ChatPanel — desktop floating panel / mobile bottom-sheet `<dialog>`.
- * Phase 1.19 §4.3 / §4.4. Dynamic-imported by ChatBubble; everything heavy
- * lives here so the collapsed shell stays under 8KB gzipped.
  *
- * State machine: welcome (empty log + 3 chips) → user message → typing →
- * canned reply (token-stream stub). Lead form slides into the log on
- * "Get a quote in 30 sec" click. Reset clears sessionStorage + reloads
- * welcome state. Persistence is per-locale `sunset_chat_history_<locale>`.
+ * Phase 2.09 swap: the canned-streaming stub is replaced with a real call to
+ * `/api/chat` via the SSE consumer in `src/lib/chat/streamClient.ts`. The
+ * high-intent banner is now driven by `flag_high_intent` tool-use events.
+ * Lead-form submit posts to `/api/chat/lead`.
+ *
+ * State machine: welcome (empty log + 3 chips) → user message → live SSE token
+ * stream → assistant bubble grows in place. High-intent banner appears the
+ * moment Claude calls the tool. Reset clears sessionStorage + reloads welcome.
  *
  * Mobile: full focus-trap via `<dialog>` + `showModal()`. Desktop:
  * `aria-modal="false"` so the page behind stays usable.
@@ -45,18 +47,24 @@ const TYPING_DURATION_MS = 800;
 export default function ChatPanel({locale, onClose}: Props) {
   const t = useTranslations('chat');
   const tRoot = useTranslations();
-  const reducedMotion = useReducedMotion();
 
   const dialogRef = React.useRef<HTMLDialogElement>(null);
   const [messages, setMessages] = React.useState<ChatMessage[]>(() => loadHistory(locale));
   const [streaming, setStreaming] = React.useState(false);
   const [showLeadForm, setShowLeadForm] = React.useState(false);
-  const [bannerVisible, setBannerVisible] = React.useState(false);
-  const [errorKind, setErrorKind] = React.useState<'network' | 'rate' | 'api' | null>(null);
+  const [highIntent, setHighIntent] = React.useState<{reason: string} | null>(null);
+  const [errorKind, setErrorKind] = React.useState<ErrorKind>(null);
   const [menuOpen, setMenuOpen] = React.useState(false);
+  const [leadCaptured, setLeadCaptured] = React.useState(false);
+  const [leadFormStatus, setLeadFormStatus] = React.useState<LeadFormStatus>('idle');
+  const sessionIdRef = React.useRef<string>('');
+  // Latest high_intent reason carries to the lead form even after the banner
+  // is dismissed — Erick reads it on the email + Sanity record.
+  const lastHighIntentReasonRef = React.useRef<string | null>(null);
 
-  // Mount: open dialog + fire panel-opened event
+  // Mount: open dialog + fire panel-opened event + materialize session ID
   React.useEffect(() => {
+    sessionIdRef.current = getOrCreateChatSessionId();
     fireChatEvent(CHAT_EVENTS.PANEL_OPENED, {locale});
     const dlg = dialogRef.current;
     if (!dlg) return;
@@ -95,72 +103,76 @@ export default function ChatPanel({locale, onClose}: Props) {
     return () => dlg.removeEventListener('close', handler);
   }, [onClose]);
 
-  function appendMessage(m: ChatMessage) {
-    setMessages((prev) => [...prev, m]);
+  function mapErrorKind(kind: ChatStreamErrorKind): ErrorKind {
+    if (kind === 'rate_limited_burst') return 'rate_burst';
+    if (kind === 'rate_limited_daily') return 'rate_daily';
+    if (kind === 'disabled') return 'disabled';
+    if (kind === 'http') return 'network';
+    return 'generic';
   }
 
-  function streamCannedReply(promptN: 1 | 2 | 3 | null, freeText: string) {
-    setStreaming(true);
+  async function runStreamingTurn(historyForApi: ChatMessage[]) {
+    // Clear the banner at the START of each new outgoing turn — Claude will
+    // re-flag if intent persists, otherwise it stays dismissed for this turn.
+    setHighIntent(null);
     setErrorKind(null);
-    const reply = (() => {
-      if (promptN === 1) return tRoot('chat.canned.prompt1Reply');
-      if (promptN === 2) return tRoot('chat.canned.prompt2Reply');
-      if (promptN === 3) return tRoot('chat.canned.prompt3Reply');
-      return tRoot('chat.canned.generic');
-    })();
+    setStreaming(true);
 
-    window.setTimeout(() => {
-      // Begin streaming token-by-token.
-      const tokens = reply.split(/(\s+)/);
-      let acc = '';
-      let i = 0;
-      // First, append an empty assistant bubble we'll grow.
-      setMessages((prev) => [...prev, {role: 'assistant', content: '', ts: Date.now()}]);
-      const tick = () => {
-        if (i >= tokens.length) {
-          setStreaming(false);
-          return;
-        }
-        acc += tokens[i++];
+    // Seed an empty assistant bubble we'll grow.
+    setMessages((prev) => [...prev, {role: 'assistant', content: '', ts: Date.now()}]);
+    let accumulated = '';
+
+    await streamFromBackend({
+      messages: historyForApi.map((m) => ({role: m.role, content: m.content})),
+      locale,
+      sessionId: sessionIdRef.current,
+      onToken: (chunk) => {
+        accumulated += chunk;
+        const snapshot = accumulated;
         setMessages((prev) => {
+          if (prev.length === 0) return prev;
           const next = [...prev];
-          next[next.length - 1] = {...next[next.length - 1], content: acc};
+          next[next.length - 1] = {...next[next.length - 1], content: snapshot};
           return next;
         });
-        if (reducedMotion) {
-          // Reduced motion: drop the entire reply at once.
-          acc = reply;
-          i = tokens.length;
-          setMessages((prev) => {
-            const next = [...prev];
-            next[next.length - 1] = {...next[next.length - 1], content: acc};
-            return next;
-          });
-          setStreaming(false);
-          return;
-        }
-        window.setTimeout(tick, STREAM_TOKEN_MS);
-      };
-      tick();
-    }, TYPING_DELAY_MS + TYPING_DURATION_MS);
-
-    // Use freeText so it's referenced (no-op log; eliminated in production).
-    if (process.env.NODE_ENV !== 'production' && freeText) {
-      console.debug('[chat] free-text in:', freeText);
-    }
+      },
+      onHighIntent: (reason) => {
+        lastHighIntentReasonRef.current = reason || null;
+        setHighIntent({reason: reason ?? ''});
+        fireChatEvent(CHAT_EVENTS.HIGH_INTENT_FIRED, {locale, reason});
+      },
+      onDone: () => {
+        setStreaming(false);
+      },
+      onError: (kind) => {
+        const mapped = mapErrorKind(kind);
+        setErrorKind(mapped);
+        setStreaming(false);
+        // Drop the empty assistant bubble we seeded — the error renders inline instead.
+        setMessages((prev) => {
+          if (prev.length === 0) return prev;
+          const last = prev[prev.length - 1];
+          if (last.role === 'assistant' && last.content === '') return prev.slice(0, -1);
+          return prev;
+        });
+      },
+    });
   }
 
   function handleSendUser(text: string) {
     if (streaming) return;
-    appendMessage({role: 'user', content: text, ts: Date.now()});
+    const updated: ChatMessage[] = [...messages, {role: 'user', content: text, ts: Date.now()}];
+    setMessages(updated);
     fireChatEvent(CHAT_EVENTS.MESSAGE_SENT, {locale});
-    streamCannedReply(null, text);
+    runStreamingTurn(updated);
   }
 
   function handlePromptPick(text: string, n: 1 | 2 | 3) {
     if (streaming) return;
-    appendMessage({role: 'user', content: text, ts: Date.now()});
-    streamCannedReply(n, text);
+    const updated: ChatMessage[] = [...messages, {role: 'user', content: text, ts: Date.now()}];
+    setMessages(updated);
+    fireChatEvent(CHAT_EVENTS.PROMPT_CLICKED(n), {locale});
+    runStreamingTurn(updated);
   }
 
   function handleLeadCta() {
@@ -169,17 +181,60 @@ export default function ChatPanel({locale, onClose}: Props) {
     fireChatEvent(CHAT_EVENTS.LEAD_CTA_CLICKED, {locale});
   }
 
-  function handleLeadSubmit(lead: {firstName: string; email: string; phone: string}) {
-    setShowLeadForm(false);
-    fireChatEvent(CHAT_EVENTS.LEAD_FORM_SUBMITTED, {locale});
-    // Part 1 stub: log and append a confirmation assistant bubble. Phase 2.09
-    // wires the real lead-capture POST endpoint.
-    console.log('[chat lead]', lead);
-    appendMessage({
-      role: 'assistant',
-      content: tRoot('chat.lead.confirmBody'),
-      ts: Date.now(),
-    });
+  async function handleLeadSubmit(lead: {firstName: string; email: string; phone: string}) {
+    fireChatEvent('lead_capture_submit_attempted', {locale});
+    setLeadFormStatus('submitting');
+
+    const transcriptExcerpt = messages.slice(-10).map((m) => ({
+      role: m.role,
+      content: m.content,
+      ts: new Date(m.ts).toISOString(),
+    }));
+
+    const body = {
+      name: lead.firstName,
+      email: lead.email,
+      // Phone isn't part of the chatLead Sanity schema, so we stash it inside
+      // the trigger reason if present, otherwise drop it.
+      locale,
+      sessionId: sessionIdRef.current,
+      transcriptExcerpt,
+      triggerReason: lastHighIntentReasonRef.current ?? undefined,
+      pageContext: typeof window !== 'undefined' ? window.location.href : undefined,
+      honeypot: '', // pristine — visible field is in ChatLeadForm
+    };
+
+    try {
+      const res = await fetch('/api/chat/lead', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        keepalive: true,
+        body: JSON.stringify(body),
+      });
+      if (!res.ok) {
+        setLeadFormStatus('error');
+        fireChatEvent('lead_capture_submit_failed', {locale, status: res.status});
+        return;
+      }
+      const data = await res.json().catch(() => ({}) as Record<string, unknown>);
+      const status = typeof data.status === 'string' ? data.status : 'ok';
+      if (status === 'ok' || status === 'simulated') {
+        setLeadFormStatus('idle');
+        setShowLeadForm(false);
+        setLeadCaptured(true);
+        fireChatEvent('lead_capture_submit_succeeded', {locale});
+        setMessages((prev) => [
+          ...prev,
+          {role: 'assistant', content: tRoot('chat.leadCapture.confirmed'), ts: Date.now()},
+        ]);
+      } else {
+        setLeadFormStatus('error');
+        fireChatEvent('lead_capture_submit_failed', {locale, status});
+      }
+    } catch (err) {
+      setLeadFormStatus('error');
+      fireChatEvent('lead_capture_submit_failed', {locale, message: err instanceof Error ? err.message : 'network'});
+    }
   }
 
   function handleReset() {
@@ -188,6 +243,11 @@ export default function ChatPanel({locale, onClose}: Props) {
     setShowLeadForm(false);
     setMenuOpen(false);
     setErrorKind(null);
+    setHighIntent(null);
+    setLeadCaptured(false);
+    setLeadFormStatus('idle');
+    lastHighIntentReasonRef.current = null;
+    sessionIdRef.current = getOrCreateChatSessionId();
     fireChatEvent(CHAT_EVENTS.RESET_CLICKED, {locale});
   }
 
@@ -205,26 +265,39 @@ export default function ChatPanel({locale, onClose}: Props) {
       <ChatLeadForm
         key="lead-form"
         onSubmit={handleLeadSubmit}
-        onCancel={() => setShowLeadForm(false)}
+        onCancel={() => {
+          setShowLeadForm(false);
+          setLeadFormStatus('idle');
+        }}
       />,
     );
+    if (leadFormStatus === 'error') {
+      trailEls.push(
+        <p
+          key="lead-form-error"
+          role="alert"
+          style={{
+            marginLeft: 36,
+            marginTop: 4,
+            fontSize: 12,
+            color: 'var(--color-text-error, #B91C1C)',
+          }}
+        >
+          {tRoot('chat.leadCapture.error')}
+        </p>,
+      );
+    }
   }
   if (errorKind) {
-    trailEls.push(
-      <ChatErrorState
-        key="error"
-        kind={errorKind}
-        onRetry={errorKind === 'network' ? () => setErrorKind(null) : undefined}
-      />,
-    );
+    trailEls.push(<ChatErrorState key="error" kind={errorKind} />);
   }
-  // Post-lead-submit: append CTA-link below last assistant bubble (only when
-  // last msg is the lead-confirm content).
+  // Post-lead-submit: append CTA-link below confirmation bubble.
   const last = messages[messages.length - 1];
   if (
+    leadCaptured &&
     last &&
     last.role === 'assistant' &&
-    last.content === tRoot('chat.lead.confirmBody')
+    last.content === tRoot('chat.leadCapture.confirmed')
   ) {
     trailEls.push(
       <Link
@@ -379,16 +452,16 @@ export default function ChatPanel({locale, onClose}: Props) {
         </button>
       </header>
 
-      <ChatHighIntentBanner
-        visible={bannerVisible}
-        onDismiss={() => setBannerVisible(false)}
-      />
-
       <ChatMessageLog
         messages={messages}
         isStreaming={streaming}
         afterTrail={trailEls.length > 0 ? <>{trailEls}</> : null}
         welcome={welcome}
+      />
+
+      <ChatHighIntentBanner
+        highIntent={highIntent}
+        onDismiss={() => setHighIntent(null)}
       />
 
       <ChatComposer

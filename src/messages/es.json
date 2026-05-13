@@ -1471,7 +1471,21 @@
       "intro": "Rápido — déjame tomar algunos datos."
     },
     "banner": {
-      "highIntent": "Hemos avisado a Erick — se unirá en un momento."
+      "highIntent": "Hemos avisado a Erick — se unirá en un momento.",
+      "intro": "[TBR] Parece que ya estás listo para el siguiente paso.",
+      "primaryCta": "[TBR] Reservar consulta",
+      "secondaryCta": "[TBR] Solicitar cotización",
+      "closeAriaLabel": "[TBR] Cerrar sugerencia"
+    },
+    "leadCapture": {
+      "confirmed": "[TBR] Gracias — Erick te contactará en un día hábil. ¿Algo más en lo que pueda ayudarte?",
+      "error": "[TBR] Algo salió mal al enviar eso. Por favor, intenta de nuevo o escribe directamente a info@sunsetservices.us."
+    },
+    "errors": {
+      "rateLimitedBurst": "[TBR] Despacio — espera un par de segundos y vuelve a intentarlo.",
+      "rateLimitedDaily": "[TBR] Has alcanzado el límite de chat de hoy. Intenta mañana o usa el formulario en sunsetservices.us/request-quote/.",
+      "disabled": "[TBR] El chat está fuera de línea ahora. Por favor, usa el formulario de contacto o llama al (630) 946-9321.",
+      "generic": "[TBR] Lo siento, tuve un problema. Intenta de nuevo o contacta a Erick en"
     },
     "error": {
       "network": "Perdí la conexión un momento. ¿Intentamos de nuevo?",

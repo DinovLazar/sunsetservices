@@ -72,7 +72,7 @@ export default function WizardStickyNav({step, onNext, onBack, onSave, showInlin
         )}
         <button
           type="submit"
-          data-analytics-event={WIZARD_EVENTS.STEP_COMPLETED(step)}
+          data-analytics-event={WIZARD_EVENTS.STEP_ADVANCED}
           className="btn btn-primary btn-lg"
           style={{minWidth: 180, flex: '1 1 auto', maxWidth: 280}}
           onClick={(e) => {

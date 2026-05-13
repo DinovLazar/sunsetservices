@@ -181,7 +181,12 @@ export default function ChatPanel({locale, onClose}: Props) {
     fireChatEvent(CHAT_EVENTS.LEAD_CTA_CLICKED, {locale});
   }
 
-  async function handleLeadSubmit(lead: {firstName: string; email: string; phone: string}) {
+  async function handleLeadSubmit(lead: {
+    firstName: string;
+    email: string;
+    phone: string;
+    honeypot: string;
+  }) {
     fireChatEvent('lead_capture_submit_attempted', {locale});
     setLeadFormStatus('submitting');
 
@@ -191,17 +196,22 @@ export default function ChatPanel({locale, onClose}: Props) {
       ts: new Date(m.ts).toISOString(),
     }));
 
+    // The chatLead Sanity schema doesn't carry a phone column (the wizard does;
+    // chat leads are intentionally email-first). If the visitor offered a phone,
+    // we surface it inside the triggerReason so Erick sees it in the email.
+    const phoneSuffix = lead.phone ? ` · phone: ${lead.phone}` : '';
+    const triggerReason =
+      (lastHighIntentReasonRef.current ?? '') + phoneSuffix || undefined;
+
     const body = {
       name: lead.firstName,
       email: lead.email,
-      // Phone isn't part of the chatLead Sanity schema, so we stash it inside
-      // the trigger reason if present, otherwise drop it.
       locale,
       sessionId: sessionIdRef.current,
       transcriptExcerpt,
-      triggerReason: lastHighIntentReasonRef.current ?? undefined,
+      triggerReason,
       pageContext: typeof window !== 'undefined' ? window.location.href : undefined,
-      honeypot: '', // pristine — visible field is in ChatLeadForm
+      honeypot: lead.honeypot,
     };
 
     try {

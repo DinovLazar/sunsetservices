@@ -11,6 +11,7 @@ import {quoteLead} from './quoteLead';
 import {quoteLeadPartial} from './quoteLeadPartial';
 import {contactSubmission} from './contactSubmission';
 import {newsletterSubscriber} from './newsletterSubscriber';
+import {chatLead} from './chatLead';
 
 export const schemaTypes = [
   // Objects first (they're referenced by documents).
@@ -33,4 +34,6 @@ export const schemaTypes = [
   // Phase 2.08 — contact + newsletter.
   contactSubmission,
   newsletterSubscriber,
+  // Phase 2.09 — chat lead capture.
+  chatLead,
 ];

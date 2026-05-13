@@ -6,18 +6,18 @@ import WizardField from '@/components/wizard/WizardField';
 import {validateEmail, validateRequired, validatePhoneUS} from '@/lib/wizard/validation';
 
 type Props = {
-  onSubmit: (lead: {firstName: string; email: string; phone: string}) => void;
+  onSubmit: (lead: {firstName: string; email: string; phone: string; honeypot: string}) => void;
   onCancel: () => void;
 };
 
 /**
- * Inline lead-capture card. Phase 1.19 §4.8, D26.
+ * Inline lead-capture card. Phase 1.20 §4.8 + Phase 2.09 honeypot wire-up.
  *
  * Slides into the message log when the user clicks "Get a quote in 30
- * seconds →". Three fields at `compact` density (Phase 1.19 §11.1
- * extension): First name, Email, Phone (optional). On submit (UI-only Part 1)
- * the parent appends a confirmation assistant message + "Open the full form"
- * CTA-link.
+ * seconds →". Three visible fields at `compact` density: First name, Email,
+ * Phone (optional). One hidden honeypot input (`name="website"`) matches the
+ * Phase 2.06 / 2.08 convention — populated values flow through to
+ * `/api/chat/lead` where the route honeypot check returns silent 200.
  */
 export default function ChatLeadForm({onSubmit, onCancel}: Props) {
   const t = useTranslations('chat.lead');
@@ -26,6 +26,7 @@ export default function ChatLeadForm({onSubmit, onCancel}: Props) {
   const [firstName, setFirstName] = React.useState('');
   const [email, setEmail] = React.useState('');
   const [phone, setPhone] = React.useState('');
+  const [honeypot, setHoneypot] = React.useState('');
   const [errors, setErrors] = React.useState<{firstName?: string; email?: string; phone?: string}>({});
 
   function handleSubmit(e: React.FormEvent) {
@@ -39,7 +40,12 @@ export default function ChatLeadForm({onSubmit, onCancel}: Props) {
     if (!e3.ok) next.phone = tRoot(e3.errorKey);
     setErrors(next);
     if (Object.keys(next).length > 0) return;
-    onSubmit({firstName: firstName.trim(), email: email.trim(), phone: phone.trim()});
+    onSubmit({
+      firstName: firstName.trim(),
+      email: email.trim(),
+      phone: phone.trim(),
+      honeypot,
+    });
   }
 
   return (
@@ -96,6 +102,20 @@ export default function ChatLeadForm({onSubmit, onCancel}: Props) {
         error={errors.phone}
         density="compact"
         idPrefix="chat-lead"
+      />
+
+      {/* Honeypot — hidden from users + assistive tech. Bots that auto-fill every
+          input populate this field, which the /api/chat/lead route silently
+          accepts (200 with no Sanity write). Same convention as Phase 2.06/2.08. */}
+      <input
+        type="text"
+        name="website"
+        value={honeypot}
+        onChange={(e) => setHoneypot(e.target.value)}
+        tabIndex={-1}
+        aria-hidden="true"
+        autoComplete="off"
+        style={{position: 'absolute', left: '-9999px', width: 1, height: 1}}
       />
 
       <div style={{display: 'flex', alignItems: 'center', gap: 12, justifyContent: 'space-between', marginTop: 4}}>

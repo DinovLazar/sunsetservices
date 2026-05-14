@@ -223,6 +223,43 @@ TTL beyond 30 min. Both are config-only changes.
 
 ---
 
+## 2026-05-13 — Phase 2.10 A.1b: GCP credentials synced to .env (Cowork)
+
+Added the Phase 2.01 GCP carryover variable BLOCK to `.env.local` (gitignored) and to `.env.local.example` (placeholders only). Real-value status per variable:
+
+- `GCP_PROJECT_ID`: PENDING — Goran has not shared the value yet.
+- `GCP_PROJECT_NUMBER`: PENDING — Goran has not shared the value yet.
+- `GCP_PROJECT_NAME`: populated as `Sunset Website` (the only value the user had on hand).
+- `GOOGLE_PLACES_API_KEY`: PENDING — Goran has the key but has not shared it.
+- `GBP_OAUTH_CLIENT_ID`: PENDING — Goran has the client but has not shared it.
+- `GBP_OAUTH_CLIENT_SECRET`: PENDING — Goran has the secret but has not shared it.
+- `GBP_OAUTH_REFRESH_TOKEN`: PENDING — generated in mini-phase 2.14a after Google approves the GBP API application (filed by Goran on 2026-05-12; 2–6 week review window).
+
+**Vercel sync of the same variables:** deferred. Only `GCP_PROJECT_NAME` had a real value at A.1b time, and project NAME alone is rarely consumed by code. Pushing it stand-alone provided minimal value and risked confusion if other GCP vars stayed absent. The full set goes to Vercel in Phase 2.13.2 when Goran ships the credentials.
+
+`.env.local.example` updated with placeholder-only entries — committed locally; user will push with the next Phase 2.10 commits.
+
+**Pending values** for Phase 2.14a / 2.16 are tracked here; if any are still PENDING when those phases open, Chat surfaces it then.
+
+**Cross-reference:** Phase 2.10 Part A also surfaced that Step A.1 (pull GCP service account email) and Step A.3 (grant the service account Viewer on the new GA4 property) could not be executed in this phase because the `sunset-website-reader@…iam.gserviceaccount.com` service account is not yet known to the user. Both steps are deferred to Phase 2.13.2 — see the Part-2-Phase-10-Cowork-Handover.md "Open carryover" section for the action item.
+
+**Decided by:** Cowork, executing Phase 2.10 A.1b on behalf of user (Goran).
+
+---
+
+## 2026-05-13 — Phase 2.10 analytics accounts created (Cowork Part A)
+
+- **GTM container created:** `GTM-NL5XX4DV` — account "Sunset Services", container "sunsetservices.us", target platform Web. GDPR Data Processing Terms accepted alongside the standard GTM Terms of Service.
+- **GA4 property created:** "Sunset Services Website" inside a new account named "Sunset Services" — Measurement ID `G-RY6NT70SH7`. Stream "Sunset Services — Web", URL `https://sunsetservices.us`, time zone GMT-05:00 Chicago (Central), currency USD, industry Home & Garden, business size Small (1–10 employees), objectives "Generate leads" + "View user engagement & retention". Enhanced Measurement: "Site search" and "Form interactions" disabled (no site search; Code fires its own form events). All other Enhanced Measurement events left at defaults (Page views, Scrolls, Outbound clicks, Video engagement, File downloads). GDPR Data Processing Terms accepted alongside the standard GA Terms of Service.
+- **Microsoft Clarity project created:** "Sunset Services" — Project ID `wqodtpq86q`, website URL `https://sunsetservices.us`, industry Other. Signed up via Google SSO using `dinovlazar2011@gmail.com` (one-click future logins). Standard Clarity Terms of Use accepted; marketing-emails opt-in declined.
+- **GCP service account Viewer access on GA4 — DEFERRED to Phase 2.13.2.** The Phase 2.10 prompt's Step A.1 (pull the `sunset-website-reader@…iam.gserviceaccount.com` email from the user's `.env.local`) and Step A.3 (grant that service account Viewer access on the new GA4 property) could not run in this session — the user does not have the service-account email or JSON on their machine. Goran has provisioned a GCP project ("Sunset Website") and filed the GBP API application on 2026-05-12, but the service-account credentials have not been shared with the user yet. The Viewer grant is required for the Phase 2.16 automation agent to read GA4 for the weekly SEO/traffic summary. Action carried in Part-2-Phase-10-Cowork-Handover.md → "Open carryover for Phase 2.13.2".
+- **Accounts created on the user's personal Google + Microsoft (via Google SSO) accounts.** Same pattern as Phase 2.01 — user owns long-term; Erick gets added later if needed.
+- **TOS authorization:** user (Goran) explicitly authorized in chat the acceptance of the standard Terms of Service for Google Analytics, Google Tag Manager, and Microsoft Clarity as part of this phase.
+
+**Decided by:** Cowork, executing Phase 2.10 Part A on behalf of user (Goran).
+
+---
+
 ## 2026-05-13 — Phase 2.10 analytics stack scope choices
 
 - **Simple binary cookie banner now; full Consent Mode v2 deferred to Phase 3.04.** Phase 2.10's banner blocks GTM + Clarity script load entirely until Accept is clicked. Phase 3.04 will swap to Google Consent Mode v2 with granular consent categories and Termly/iubenda-generated legal copy.
@@ -282,5 +319,7 @@ The Phase 2.10 Code prompt's listed scope only includes the 4 Phase 2.10 NEXT_PU
 - Phase 2.13.2, which is the natural owner of the GCP variables.
 
 **Why this matters for future phases:** Phase 2.13.2 should not be surprised to find the GCP block missing from `.env.local.example` on `origin/main` — that's the expected state. Whichever path lands first (user-commits-on-main vs Phase-2.13.2-adds-the-block) needs to be tolerant of the other.
+
+**Update (2026-05-14, post-merge):** Resolved during the Option 1 fast-forward merge from `claude/thirsty-kowalevski-1b2357`. Cowork's two Decisions entries (Part A account creation + A.1b GCP sync) are now committed at the top of the Phase 2.10 entry block, and the GCP block in `.env.local.example` is committed alongside the Phase 2.10 analytics block. Phase 2.13.2 ownership of the GCP variables is unchanged — this commit only documents the shape; the values stay PENDING until Goran ships them.
 
 **Decided by:** Code, in-phase during Phase 2.10 execution.

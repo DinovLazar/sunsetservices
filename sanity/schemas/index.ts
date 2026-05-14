@@ -12,6 +12,7 @@ import {quoteLeadPartial} from './quoteLeadPartial';
 import {contactSubmission} from './contactSubmission';
 import {newsletterSubscriber} from './newsletterSubscriber';
 import {chatLead} from './chatLead';
+import {servicem8Event} from './servicem8Event';
 
 export const schemaTypes = [
   // Objects first (they're referenced by documents).
@@ -36,4 +37,6 @@ export const schemaTypes = [
   newsletterSubscriber,
   // Phase 2.09 — chat lead capture.
   chatLead,
+  // Phase 2.13 — ServiceM8 webhook event queue.
+  servicem8Event,
 ];

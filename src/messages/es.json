@@ -598,15 +598,15 @@
         "bolingbrook": "Bolingbrook"
       },
       "newsletter": {
-        "heading": "Mantente al tanto. [TBR]",
-        "helper": "Consejos de temporada y proyectos destacados, una vez al mes. Sin spam. [TBR]",
+        "heading": "[TBR] No te pierdas la temporada.",
+        "helper": "[TBR] Consejos de jardinería y proyectos destacados, una vez al mes. Sin spam.",
         "fieldLabel": "Correo electrónico",
         "placeholder": "tu@correo.com",
         "submit": "Suscribirse",
-        "successMessage": "Gracias — revisa tu bandeja de entrada para confirmar. [TBR]",
-        "alreadySubscribed": "Ya estás en la lista. [TBR]",
-        "invalidEmail": "Introduce un correo electrónico válido. [TBR]",
-        "errorMessage": "Algo salió mal. Inténtalo de nuevo. [TBR]",
+        "successMessage": "[TBR] Gracias — revise su bandeja de entrada para confirmar.",
+        "alreadySubscribed": "[TBR] Ya está suscrito a la lista.",
+        "invalidEmail": "[TBR] Introduzca un correo electrónico válido.",
+        "errorMessage": "[TBR] Algo no funcionó. Inténtelo de nuevo.",
         "placeholderNote": "El registro al boletín estará disponible pronto."
       },
       "copyright": "© {year} Sunset Services. Todos los derechos reservados.",
@@ -624,7 +624,7 @@
     },
     "consent": {
       "heading": "[TBR] Usamos cookies",
-      "body": "[TBR] Usamos cookies para entender cómo los visitantes usan nuestro sitio y poder mejorarlo. Puedes cambiar esto en cualquier momento.",
+      "body": "[TBR] Usamos cookies para entender cómo los visitantes usan nuestro sitio y poder mejorarlo. Puede cambiar esta preferencia en cualquier momento.",
       "acceptCta": "[TBR] Aceptar todo",
       "declineCta": "[TBR] Rechazar",
       "ariaLabel": "[TBR] Consentimiento de cookies"
@@ -803,16 +803,16 @@
     "calendly": {
       "eyebrow": "Reserva directamente",
       "h2": "Elige un espacio de 30 minutos.",
-      "sub": "Elige un espacio de 30 minutos con Erick. [TBR]",
+      "sub": "[TBR] Elija un espacio de 30 minutos con Erick.",
       "body": "Erick revisa cada reserva antes de confirmar.",
       "coming_soon": "Próximamente",
       "fallback": {
         "body": "El sistema de reservas llega en la Fase 2.07. Mientras tanto —",
         "cta": "Llama al {phone}"
       },
-      "fallbackCta": "Llama al {phone} [TBR]",
-      "fallbackLink": "Abrir Calendly directamente [TBR]",
-      "iframeLabel": "Widget de reservas de Calendly [TBR]"
+      "fallbackCta": "[TBR] Llame al {phone}",
+      "fallbackLink": "[TBR] Abrir Calendly directamente",
+      "iframeLabel": "[TBR] Widget de reservas de Calendly"
     },
     "area": {
       "eyebrow": "Atendemos",
@@ -837,39 +837,39 @@
     "breadcrumbSelf": "Áreas de servicio",
     "eyebrow": "ÁREAS DE SERVICIO",
     "h1": "[TBR] Donde trabajamos — Condado de DuPage, Illinois.",
-    "sub": "[TBR] Familiar desde el año 2000. Seis ciudades, un solo equipo, un solo teléfono.",
-    "heroCta": "Solicita un presupuesto gratis",
+    "sub": "[TBR] Empresa familiar desde el año 2000. Seis ciudades, un equipo, un teléfono.",
+    "heroCta": "Solicita un estimado gratis",
     "heroPhonePrefix": "o llama al",
     "heroPhoneNumber": "(630) 946-9321",
     "map": {
-      "title": "[TBR] Mapa del Condado de DuPage mostrando las seis áreas de servicio de Sunset Services.",
-      "desc": "[TBR] Un mapa ilustrado del Condado de DuPage, Illinois, con seis pines que marcan las ciudades donde trabaja Sunset Services. Cada pin enlaza a la página de su ciudad.",
+      "title": "[TBR] Mapa del Condado de DuPage con las seis zonas de servicio de Sunset Services.",
+      "desc": "[TBR] Mapa ilustrado del Condado de DuPage, Illinois, con seis pines en las ciudades donde trabaja Sunset Services. Cada pin enlaza con la página de su ciudad.",
       "label": "CONDADO DE DUPAGE · IL"
     },
     "grid": {
       "eyebrow": "SEIS CIUDADES",
       "h2": "Elige tu ciudad.",
-      "sub": "[TBR] Cada página cubre los servicios que se adaptan al área, proyectos recientes y señales de confianza local.",
+      "sub": "[TBR] Cada página cubre los servicios que funcionan en esa zona, proyectos recientes y señales de confianza local.",
       "cardCta": "Ver",
       "tagline": {
-        "aurora": "[TBR] Sede · al servicio de la ciudad desde 2000",
-        "naperville": "[TBR] Hardscape premium, fincas establecidas",
+        "aurora": "[TBR] Sede · atendiendo la ciudad desde el año 2000",
+        "naperville": "[TBR] Hardscape de alta calidad, propiedades establecidas",
         "batavia": "[TBR] Carácter ribereño, enfoque residencial",
-        "wheaton": "[TBR] Establecido y acomodado, servicio integral",
+        "wheaton": "[TBR] Vecindarios establecidos, servicio integral",
         "lisle": "[TBR] Corredor corporativo, enfoque comercial",
-        "bolingbrook": "[TBR] Mezcla suburbana-comercial"
+        "bolingbrook": "[TBR] Mezcla suburbana y comercial"
       }
     },
     "outside": {
       "h2": "¿No ves tu ciudad?",
-      "body": "[TBR] A veces tomamos proyectos en pueblos cercanos — Glen Ellyn, Warrenville, Plainfield. Llámanos; te diremos honestamente si somos los indicados.",
+      "body": "[TBR] A veces aceptamos proyectos en pueblos cercanos — Glen Ellyn, Warrenville, Plainfield. Llámanos; te decimos honestamente si somos los indicados.",
       "phoneLabel": "(630) 946-9321",
       "emailLabel": "info@sunsetservices.us"
     },
     "cta": {
-      "h2": "[TBR] Cuando estés listo, estamos.",
-      "sub": "[TBR] Presupuestos gratuitos. Te visitamos en una semana. Sin presión.",
-      "button": "Solicita un presupuesto gratis",
+      "h2": "[TBR] Cuando estés listo, aquí estamos.",
+      "sub": "[TBR] Estimados gratis. Te visitamos en una semana. Sin presión.",
+      "button": "Solicita un estimado gratis",
       "phonePrefix": "o llama al",
       "phoneNumber": "(630) 946-9321"
     }
@@ -877,18 +877,18 @@
   "location": {
     "breadcrumbHome": "Inicio",
     "breadcrumbServiceAreas": "Áreas de servicio",
-    "heroCta": "Solicita un presupuesto gratis",
+    "heroCta": "Solicita un estimado gratis",
     "heroPhonePrefix": "o llama al",
     "heroPhoneNumber": "(630) 946-9321",
     "microbar": {
       "years": "[TBR] {years}+ años en {city}",
       "projects": "[TBR] {count}+ proyectos locales",
-      "response": "[TBR] Presupuestos gratuitos en {days} días"
+      "response": "[TBR] Estimados gratis en {days} días"
     },
     "trust": {
-      "yearsLabel": "[TBR] Años atendiendo a {city}",
+      "yearsLabel": "[TBR] Años atendiendo {city}",
       "projectsLabel": "[TBR] Proyectos completados en {city}",
-      "responseLabel": "[TBR] Presupuestos gratuitos, en sitio"
+      "responseLabel": "[TBR] Estimados gratis, en sitio"
     },
     "services": {
       "h2": "[TBR] Servicios que ofrecemos en {city}",
@@ -897,16 +897,16 @@
     "projects": {
       "h2": "[TBR] Proyectos recientes en {city}",
       "allLink": "Ver todos los proyectos",
-      "placeholderCaption": "[TBR] Proyecto local, {city}"
+      "placeholderCaption": "[TBR] Proyecto local en {city}"
     },
     "testimonials": {
       "h2": "[TBR] Lo que dicen los clientes de {city}",
       "ratingAria": "{rating} de 5 estrellas"
     },
     "whyLocal": {
-      "h2": "[TBR] Por qué contratar a un negocio familiar para tu propiedad en {city}",
+      "h2": "[TBR] Por qué contratar a una empresa familiar para tu propiedad en {city}",
       "aboutLink": "Más sobre Erick",
-      "portraitAlt": "[TBR] Erick Solis en una obra del Condado de DuPage al atardecer."
+      "portraitAlt": "[TBR] Erick Valle en una obra del Condado de DuPage al atardecer."
     },
     "neighbors": {
       "h2": "Otros lugares donde trabajamos"
@@ -916,8 +916,8 @@
     },
     "cta": {
       "h2": "[TBR] Diseñemos tu espacio exterior en {city}.",
-      "sub": "[TBR] Presupuestos gratuitos. Te visitamos en una semana.",
-      "button": "Solicita un presupuesto gratis",
+      "sub": "[TBR] Estimados gratis. Te visitamos en una semana.",
+      "button": "Solicita un estimado gratis",
       "phonePrefix": "o llama al",
       "phoneNumber": "(630) 946-9321"
     }
@@ -925,12 +925,12 @@
   "projects": {
     "meta": {
       "title": "[TBR] Proyectos · Sunset Services",
-      "description": "[TBR] Patios, muros, jardines y propiedades enteras en todo el Condado de DuPage por Sunset Services desde 2000. Explora nuestro portafolio."
+      "description": "[TBR] Patios, muros, jardines y propiedades enteras en todo el Condado de DuPage por Sunset Services desde el año 2000. Explora nuestro portafolio."
     },
     "hero": {
-      "eyebrow": "[TBR] Portafolio · Nuestro Trabajo",
-      "h1": "[TBR] Construido la temporada pasada, integrándose en la propiedad.",
-      "dek": "[TBR] Patios, muros, jardines y propiedades enteras en todo el Condado de DuPage. Filtra por audiencia o desplázate para ver todo lo que hemos construido.",
+      "eyebrow": "[TBR] Portafolio · Nuestro trabajo",
+      "h1": "[TBR] Construido la temporada pasada, asentándose en la propiedad.",
+      "dek": "[TBR] Patios, muros, jardines y propiedades enteras en todo el Condado de DuPage. Filtra por audiencia o desplázate para verlo todo.",
       "count": "[TBR] {count} proyectos · {cities} ciudades · {minYear}–{maxYear}"
     },
     "tag": {
@@ -952,13 +952,13 @@
     },
     "empty": {
       "h3": "[TBR] Aún no hay proyectos en este filtro.",
-      "body": "[TBR] Seguimos agregando nuestros trabajos antiguos. Prueba otra audiencia — o ve todo lo que hemos construido hasta ahora.",
+      "body": "[TBR] Seguimos agregando trabajos anteriores. Prueba con otra audiencia — o ve todo lo que hemos construido hasta ahora.",
       "reset": "[TBR] Ver todos los proyectos →"
     },
     "cta": {
-      "h2": "[TBR] El próximo año ve el tuyo en esta página.",
-      "sub": "[TBR] Cuéntanos sobre la propiedad y vamos a medir, dibujar y cotizarla. Gratis, sin compromiso.",
-      "button": "[TBR] Solicita un Presupuesto Gratis",
+      "h2": "[TBR] La próxima temporada ve el tuyo en esta página.",
+      "sub": "[TBR] Cuéntanos sobre la propiedad y la vamos a medir, dibujar y cotizar. Gratis, sin compromiso.",
+      "button": "[TBR] Solicita un estimado gratis",
       "phonePrefix": "[TBR] o llama al",
       "phoneNumber": "(630) 946-9321"
     }
@@ -1003,13 +1003,13 @@
       "altAfter": "[TBR] Después: {title}"
     },
     "related": {
-      "h2": "[TBR] Más así",
+      "h2": "[TBR] Más como éste",
       "seeAll": "[TBR] Ver todos los proyectos →"
     },
     "cta": {
-      "h2": "[TBR] ¿Construir algo así en {city}?",
-      "sub": "[TBR] Cuéntanos sobre la propiedad. Vamos a medir, dibujar y cotizar.",
-      "button": "[TBR] Solicita un Presupuesto Gratis",
+      "h2": "[TBR] ¿Quieres algo así en {city}?",
+      "sub": "[TBR] Cuéntanos sobre la propiedad. La vamos a medir, dibujar y cotizar.",
+      "button": "[TBR] Solicita un estimado gratis",
       "phonePrefix": "[TBR] o llama al",
       "phoneNumber": "(630) 946-9321"
     }
@@ -1043,38 +1043,38 @@
   },
   "resources": {
     "meta": {
-      "title": "[TBR] Recursos de Paisajismo DuPage | Sunset Services",
-      "description": "[TBR] Guías probadas en campo para propietarios de DuPage. Guías de compra, referencias y permisos."
+      "title": "[TBR] Recursos de paisajismo en DuPage | Sunset Services",
+      "description": "[TBR] Guías probadas en campo para propietarios de DuPage. Guías de compra, glosarios y permisos."
     },
     "hero": {
       "eyebrow": "[TBR] Recursos",
       "h1": "[TBR] Guías probadas en campo para propietarios de DuPage.",
-      "dek": "[TBR] Guías de compra, referencias y primers de permisos — honestos y al día.",
-      "count": "[TBR] {count} guías · actualizadas en {date}"
+      "dek": "[TBR] Guías de compra, glosarios y referencias de permisos — honestas y al día.",
+      "count": "[TBR] {count} guías · actualizado en {date}"
     },
     "filter": {
       "ariaLabel": "[TBR] Filtrar por categoría",
       "all": "[TBR] Todas",
-      "lawn-care": "[TBR] Jardín",
-      "hardscape": "[TBR] Pavimento y muros",
+      "lawn-care": "[TBR] Cuidado del césped",
+      "hardscape": "[TBR] Hardscape",
       "snow-and-winter": "[TBR] Nieve e invierno",
       "buying-guides": "[TBR] Guías de compra",
       "local-permits": "[TBR] Permisos locales"
     },
     "empty": {
       "title": "[TBR] Aún no hay recursos en esta categoría.",
-      "cta": "[TBR] Limpiar filtro"
+      "cta": "[TBR] Quitar el filtro"
     },
     "helpBand": {
       "h2": "[TBR] Las guías solo te llevan hasta cierto punto.",
-      "body": "[TBR] Cuéntanos qué estás considerando. Vamos a escuchar y a ayudarte.",
+      "body": "[TBR] Cuéntanos qué estás considerando. Vamos a escucharte y a ayudarte.",
       "cta": "[TBR] Hablemos →"
     },
     "cta": {
       "eyebrow": "[TBR] Cuando estés listo",
       "h2": "[TBR] ¿Terminaste de leer? Vamos a medir.",
-      "sub": "[TBR] Un presupuesto gratis toma 30 minutos. Escuchamos, dibujamos y cotizamos.",
-      "button": "[TBR] Solicita un Presupuesto Gratis",
+      "sub": "[TBR] Un estimado gratis toma 30 minutos. Escuchamos, dibujamos y cotizamos.",
+      "button": "[TBR] Solicita un estimado gratis",
       "phonePrefix": "[TBR] o llámanos al",
       "phoneNumber": "(630) 946-9321"
     },
@@ -1083,12 +1083,12 @@
       "resources": "[TBR] Recursos"
     },
     "detail": {
-      "ctaH2Default": "[TBR] ¿Hablando de {category}? Midamos tu proyecto.",
-      "ctaSub": "[TBR] Un presupuesto gratis toma 30 minutos. Escuchamos, dibujamos y cotizamos."
+      "ctaH2Default": "[TBR] ¿Hablamos de {category}? Vamos a medir tu proyecto.",
+      "ctaSub": "[TBR] Un estimado gratis toma 30 minutos. Escuchamos, dibujamos y cotizamos."
     },
     "category": {
-      "lawn-care": "[TBR] Jardín",
-      "hardscape": "[TBR] Pavimento y muros",
+      "lawn-care": "[TBR] Cuidado del césped",
+      "hardscape": "[TBR] Hardscape",
       "snow-and-winter": "[TBR] Nieve e invierno",
       "buying-guides": "[TBR] Guías de compra",
       "local-permits": "[TBR] Permisos locales"
@@ -1096,13 +1096,13 @@
   },
   "blog": {
     "meta": {
-      "title": "[TBR] Blog de Paisajismo — DuPage | Sunset Services",
-      "description": "[TBR] Guías de costos, calendarios y conocimientos de paisajismo para propietarios de DuPage."
+      "title": "[TBR] Blog de paisajismo — DuPage | Sunset Services",
+      "description": "[TBR] Guías de costos, calendarios y notas de campo de paisajismo para propietarios de DuPage."
     },
     "hero": {
       "eyebrow": "[TBR] Blog",
-      "h1": "[TBR] Notas del campo, temporada tras temporada.",
-      "dek": "[TBR] Guías de costos, calendarios y las preguntas más comunes.",
+      "h1": "[TBR] Notas de campo, temporada tras temporada.",
+      "dek": "[TBR] Guías de costos, calendarios y las preguntas que más nos hacen.",
       "count": "[TBR] {count} publicaciones · {date}"
     },
     "filter": {
@@ -1119,22 +1119,22 @@
     },
     "empty": {
       "title": "[TBR] Aún no hay publicaciones en esta categoría.",
-      "cta": "[TBR] Limpiar filtro"
+      "cta": "[TBR] Quitar el filtro"
     },
     "cta": {
       "eyebrow": "[TBR] Cuando estés listo",
       "h2": "[TBR] ¿Terminaste de leer? Caminemos tu propiedad.",
-      "sub": "[TBR] Un presupuesto gratis toma 30 minutos. Escuchamos, dibujamos y cotizamos.",
-      "button": "[TBR] Solicita un Presupuesto Gratis",
+      "sub": "[TBR] Un estimado gratis toma 30 minutos. Escuchamos, dibujamos y cotizamos.",
+      "button": "[TBR] Solicita un estimado gratis",
       "phonePrefix": "[TBR] o llámanos al",
       "phoneNumber": "(630) 946-9321"
     },
     "ctaPerCategory": {
       "cost-guide": "[TBR] ¿Listo para un número real para tu propiedad?",
-      "seasonal": "[TBR] Planifiquemos tu próxima temporada.",
-      "seasonalWithCity": "[TBR] Planifiquemos la próxima temporada en {city}.",
-      "how-to": "[TBR] ¿Quieres que lo haga alguien que ya lo ha hecho?",
-      "audience": "[TBR] ¿Buscas un socio para tu propiedad que aparezca?",
+      "seasonal": "[TBR] Planeemos tu próxima temporada.",
+      "seasonalWithCity": "[TBR] Planeemos la próxima temporada en {city}.",
+      "how-to": "[TBR] ¿Prefieres que lo haga alguien que ya lo ha hecho?",
+      "audience": "[TBR] ¿Buscas un equipo para tu propiedad que sí aparezca?",
       "industry-news": "[TBR] ¿Terminaste de leer? Caminemos tu propiedad."
     },
     "breadcrumb": {
@@ -1400,11 +1400,11 @@
       "title": "¿Quieres reservar una consulta de 30 minutos?",
       "cta": "Reservar consulta",
       "comingSoon": "Próximamente",
-      "h2": "Reserva una consulta de 30 minutos con Erick [TBR]",
-      "sub": "Elige una hora que te funcione. Sin compromiso. [TBR]",
-      "fallbackCta": "Llama al {phone} [TBR]",
-      "fallbackLink": "Abrir Calendly directamente [TBR]",
-      "iframeLabel": "Widget de reservas de Calendly [TBR]"
+      "h2": "[TBR] Reserve una consulta de 30 minutos con Erick",
+      "sub": "[TBR] Elija una hora que le funcione. Sin compromiso.",
+      "fallbackCta": "[TBR] Llame al {phone}",
+      "fallbackLink": "[TBR] Abrir Calendly directamente",
+      "iframeLabel": "[TBR] Widget de reservas de Calendly"
     },
     "next": {
       "title": "Qué sigue",
@@ -1479,20 +1479,20 @@
     },
     "banner": {
       "highIntent": "Hemos avisado a Erick — se unirá en un momento.",
-      "intro": "[TBR] Parece que ya estás listo para el siguiente paso.",
+      "intro": "[TBR] Parece que ya estás listo para dar el siguiente paso.",
       "primaryCta": "[TBR] Reservar consulta",
       "secondaryCta": "[TBR] Solicitar cotización",
       "closeAriaLabel": "[TBR] Cerrar sugerencia"
     },
     "leadCapture": {
-      "confirmed": "[TBR] Gracias — Erick te contactará en un día hábil. ¿Algo más en lo que pueda ayudarte?",
-      "error": "[TBR] Algo salió mal al enviar eso. Por favor, intenta de nuevo o escribe directamente a info@sunsetservices.us."
+      "confirmed": "[TBR] Gracias — Erick le contactará en un día hábil. ¿Hay algo más en lo que pueda ayudarle?",
+      "error": "[TBR] Algo no funcionó al enviar. Por favor, intente de nuevo o escriba directamente a info@sunsetservices.us."
     },
     "errors": {
-      "rateLimitedBurst": "[TBR] Despacio — espera un par de segundos y vuelve a intentarlo.",
-      "rateLimitedDaily": "[TBR] Has alcanzado el límite de chat de hoy. Intenta mañana o usa el formulario en sunsetservices.us/request-quote/.",
-      "disabled": "[TBR] El chat está fuera de línea ahora. Por favor, usa el formulario de contacto o llama al (630) 946-9321.",
-      "generic": "[TBR] Lo siento, tuve un problema. Intenta de nuevo o contacta a Erick en"
+      "rateLimitedBurst": "[TBR] Un momento — espere un par de segundos y vuelva a intentarlo.",
+      "rateLimitedDaily": "[TBR] Ha alcanzado el límite de chat de hoy. Intente mañana o use el formulario en sunsetservices.us/request-quote/.",
+      "disabled": "[TBR] El chat está fuera de línea por ahora. Por favor, use el formulario de contacto o llame al (630) 946-9321.",
+      "generic": "[TBR] Disculpe, tuve un problema. Intente de nuevo o contacte a Erick en"
     },
     "error": {
       "network": "Perdí la conexión un momento. ¿Intentamos de nuevo?",

@@ -360,3 +360,68 @@ The 5 populated variables (Project ID, Number, Name, Places API Key, OAuth Clien
 - **Tag Assistant popup behavior note.** Tag Assistant's "Connect" action opens the preview site in a NEW Chrome window that lives OUTSIDE the MCP-controlled tab group. Cowork couldn't see or click that popup directly — user had to manually accept the cookie banner in it. Going forward, when any future phase runs Tag Assistant in Preview mode, the same manual step applies.
 
 **Decided by:** Cowork, executing Phase 2.10 Part B on behalf of user (Goran).
+
+---
+
+## 2026-05-14 — Phase 2.11: Spanish translation pass — tone map, dialect, glossary locked
+
+Phase 2.11 produced an idiomatic first-pass Spanish translation across every `[TBR]`-flagged source-file string and every fillable Sanity `.es` field. Decisions locked in this phase that future phases inherit:
+
+**Dialect — neutral Latin-American Spanish, Mexican-origin friendly.** Reasoning: Aurora's Hispanic community is largely of Mexican origin; the copy reads natural for that audience without alienating other LatAm Spanish speakers. Iberian/Castilian vocabulary explicitly avoided (`vosotros`/`os`, `coger`, `ordenador`, `móvil`, `aparcar`, `piso` for "unit", `vale`, `tío`/`tía`). MX-preferred terms applied uniformly (`césped` / `jardín` / `patio` / `adoquines` / `muro de contención` / `cocina al aire libre` / `brasero` / `pérgola` / `remoción de nieve` / `estimado` / `cotización` / `propiedad` / `empresa familiar`). Full glossary in `Sunset-Services-TRANSLATION_NOTES.md`.
+
+**Tone — mixed per surface.** `usted` for legal/forms/transactional (Privacy, Terms, Quote wizard, Contact form, all 5 email templates including alert emails for staff register-consistency, Thank-you page, cookie consent body, 404, all system error messages, newsletter signup confirmation, chat inline lead-capture form). `tú` for marketing/content/persona (home, audience landings, all 16 service detail pages, project portfolio, blog posts, resource articles, About, service-areas pages, AI chat persona, footer newsletter pitch, suggested chat prompts). Documented edge cases: service-page CTA flips register at the page boundary into the wizard; footer mixed marketing-line (`tú`) + legal-fineprint-line (`usted`); chat composer `tú` but rate-limit/disabled errors `usted`; testimonial quotes preserve reviewer voice (usually `tú`).
+
+**Scope — everything in source files + every fillable Sanity bilingual field.** "Fillable" qualified per the Sanity-state probe: where `.en` was already null (services `dek`/`intro`, locations `tagline`/`microbarLine`/`whyLocal`, team `bio`), no translation source exists so `.es` stays null. Where the Sanity `.es` was already populated from the Phase 2.05 seed pass without a `[TBR]` marker (some FAQ answers, blog/resource PortableText bodies, service titles), Code did not retranslate — those are considered earlier-pass-done and live alongside the Phase 2.11 `[TBR]`-tagged content. Phase 2.12 native review reads everything regardless.
+
+**`[TBR]` position locked to leading prefix** (`[TBR] <Spanish text>`). Phase 1.16 / 2.05 / 2.07–2.09 produced a mix of trailing-suffix and leading-prefix markers; Phase 2.11 normalized everywhere it touched. Phase 2.12 strips the prefix as each surface is approved by Erick.
+
+**`[TBR]` deliberately omitted from rendered visitor surfaces** in 3 cases where the marker would corrupt the user experience: (a) email template strings — `[TBR]` lives in a code comment, not in the visitor-facing copy, because real recipients would see `[TBR] Gracias por escribirnos…` literally; (b) `PERSONA_ES` in `src/lib/chat/systemPrompt.ts` — `[TBR]` at comment level only, because the prompt content goes to the model and any `[TBR]` literal would distract or confuse the persona output; (c) `knowledgeBase.ts` ES `LocaleLabels` block — same reason as the persona. For every other surface (source-file i18n strings, page.tsx inline templates, Sanity `.es` fields, project data files), the `[TBR]` prefix is part of the value and renders to ES visitors until Phase 2.12 strips it.
+
+**Sanity blog/resource PortableText bodies — deep block-by-block retranslation deferred to Phase 2.12.** Per the Sanity-state probe: 5 blog posts × 30–60 PortableText blocks each and 5 resource articles same. Bodies were already populated from the Phase 2.05 seed migration (first block carries `[TBR]` prefix on some posts). Scope decision: Phase 2.11 spot-checked the bodies for glossary alignment and structural mirror with EN; full block-by-block retranslation would have exceeded what's useful as a first pass given the bulk was already done. Phase 2.12's review reads each post + article through for quality and is the right scope for any block-level changes.
+
+**Source-file `src/data/blog.ts` and `src/data/resources.ts` body content `[TBR]` markers intentionally left in place.** Post-Phase-2.05, blog and resource bodies are sourced from Sanity, not from these files. The source-file content is now seed-only (consumed by `scripts/seed-sanity.mjs`) and not rendered to users. Translating it would not change the live site. The dead-code `[TBR]` markers will be cleaned up in a future i18n hygiene pass — flagged but out of Phase 2.11 scope.
+
+**Why this matters for future phases:** Phase 2.12 inherits the tone map, glossary, and scope decisions verbatim. Erick (or designate) can override any glossary row during review; the override propagates by editing `Sunset-Services-TRANSLATION_NOTES.md` and re-running the relevant translation script. The decision that emails / persona / knowledge-base use code-comment `[TBR]` markers (not inline prefixes) is load-bearing — future translation phases that add new email templates / persona blocks / model-facing system prompts inherit the same pattern.
+
+**Decided by:** Code, in-phase during Phase 2.11 execution. Tone map + dialect were locked by Chat in the Phase 2.11 brief; Code applied them consistently and surfaced edge cases.
+
+---
+
+## 2026-05-14 — Phase 2.12 (native Spanish review) deferred — Phase 2.13 runs next
+
+Phase 2.12 (Erick + Cowork native Spanish review of every `[TBR]`-flagged surface) is **skipped for now** and rolled forward to a later-but-not-yet-scheduled slot. **Phase 2.13 (ServiceM8 webhook + Sanity event queue) is the next phase to run.**
+
+**Why deferred.** Erick (or whoever the designate is) isn't queued to do the review pass right now, and Phase 2.13's scope is entirely backend — no overlap with translation work. Holding the rest of the build hostage to native-review timing is the wrong trade. Phase 2.11 already produced idiomatic, glossary-aligned, tone-mapped Spanish across every flagged surface; the review pass polishes, but it's not a blocker for backend work.
+
+**Risk acknowledged — visible to ES visitors.** Until Phase 2.12 runs, ES routes still render the `[TBR]` prefix verbatim on every translated string (e.g. `[TBR] Estimado gratis para tu proyecto`). This is a UX problem on a public site. It is NOT a launch-blocker — the prefix can be globally stripped at any time without redoing translation work — but doing so before native review means publishing translation choices that haven't been confirmed against Erick's voice.
+
+**Two paths forward, both viable. Decision deferred to user — flagged here so the choice is conscious, not silent.**
+
+- (a) **Strip-then-review.** Before any public traffic hits the ES routes (i.e. before Phase 3.13 DNS cutover at the latest), run a small one-off Code phase that strips the leading `[TBR] ` prefix from every rendered surface. Translations stay as Code wrote them. Phase 2.12 then reads through the stripped result and patches whatever isn't right — usually faster than reviewing-then-stripping because the reviewer sees the visitor experience directly.
+- (b) **Review-then-strip.** Run Phase 2.12 as originally specified before launch — Erick reads each surface, fixes what's off, and the prefix gets stripped surface-by-surface as he approves. Higher confidence; slower.
+
+**Hard latest moment to pick a path:** before Phase 3.12 (pre-cutover QA), since ES quality is part of the launch acceptance criteria (Project Instructions §15, Plan §14).
+
+**Phase 2.12 reading order, when it does run:** `Sunset-Services-TRANSLATION_NOTES.md` "Native-review priority items" (7-item queue starting with the chat persona `PERSONA_ES`). Glossary + tone map locked in Phase 2.11; no need to re-derive.
+
+**No code or content changes in this entry.** This is a workflow decision only — the Phase 2.11 output stays exactly as it shipped.
+
+**Decided by:** user (Goran), in Chat on 2026-05-14, before opening Phase 2.13.
+
+---
+
+## 2026-05-14 — Phase 2.13: ServiceM8 Zod root schema dropped `.passthrough()`
+
+The Phase 2.13 plan specified the ServiceM8 webhook Zod schema as `z.object({...}).passthrough()` on the root, with the rationale "ServiceM8 can ship extra fields without rejection." Zod's default mode (no modifier) already does not reject extras — it silently strips unknown keys from the parsed output. The plan's stated rationale is satisfied without `.passthrough()`.
+
+`.passthrough()` would only matter if the route consumed extras from the parsed output. It does not — the route stores `rawBody` verbatim as `payload` for Phase 2.17 to project from later. Extras are preserved on disk regardless of the schema's strip-vs-passthrough choice.
+
+In addition, Zod 3.25's type inference for `.passthrough()` has a regression: the inferred output type intersects the declared shape with `{[k: string]: unknown}` and then runs the result through `objectUtil.flatten`, whose `keyof T`-driven mapped type collapses declared properties (`eventId: string`) to `unknown` because `keyof {[k:string]:unknown}` is `string`. Build fails with `Type 'unknown' is not assignable to type 'string'` at every consumer of a typed field. Removing `.passthrough()` on the root restores correct type inference.
+
+**Resolution:** root schema is `z.object({...})` (default strip mode); inner `data` field stays `z.record(z.unknown())` (already permissive). Same end-state for the persisted document — `payload` carries the raw body bytes, and Phase 2.17 can project any field it needs from there.
+
+**Why this matters for future phases:** if Phase 2.17 (or a later widening phase) needs to access ServiceM8-provided extras from the *parsed* output (rather than re-parsing `payload`), it should add them explicitly to the schema rather than re-introducing `.passthrough()`. The default-strip behavior is the canonical pattern from this point forward.
+
+**Decided by:** Code, in-phase during Phase 2.13 execution. Caught by `npm run build` TS check; root cause traced to Zod 3.25's `flatten<T & {[k:string]:unknown}>` mapped-type behavior.
+
+---

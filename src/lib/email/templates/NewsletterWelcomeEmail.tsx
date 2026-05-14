@@ -32,15 +32,17 @@ const COPY = {
     signoff: '— Erick & the Sunset Services team',
   },
   es: {
-    // [TBR] Phase 2.13.
+    // [TBR] Phase 2.12 — native Spanish review pass. Code-level marker;
+    // inline strings deliberately omit the [TBR] prefix so recipients don't
+    // see it in the rendered email. Tone: usted (visitor-facing transactional).
     preheader: 'Bienvenido al boletín de Sunset Services',
     h1: 'Bienvenido a Sunset Services',
     body:
-      'Ya estás en la lista. Una vez al mes compartimos consejos de temporada, proyectos destacados y alguna oferta puntual. Sin spam, sin envíos diarios.',
+      'Ya está suscrito. Una vez al mes compartimos consejos de temporada, proyectos destacados y alguna oferta puntual. Sin spam, sin envíos diarios.',
     quickHeading: 'Vale la pena ver',
     projects: 'Proyectos recientes',
     blog: 'Del blog',
-    quote: 'Presupuesto gratis',
+    quote: 'Estimado gratis',
     signoff: '— Erick y el equipo de Sunset Services',
   },
 } as const;

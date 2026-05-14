@@ -131,7 +131,7 @@ export default async function BlogPostPage({
   const {readingMinutes} = estimateReadingTime(blocksToPlainText(body));
 
   const bylineLabel =
-    loc === 'en' ? `By ${post.author}` : `Por ${post.author} [TBR]`;
+    loc === 'en' ? `By ${post.author}` : `[TBR] Por ${post.author}`;
   const readingLabel = tContent('meta.readingTime', {minutes: readingMinutes});
   const categoryLabel = t(`category.${post.category}`);
   const formattedDate = formatLongDate(post.publishedAt, loc);
@@ -362,7 +362,7 @@ export default async function BlogPostPage({
                   maxWidth: '28ch',
                 }}
               >
-                {loc === 'en' ? 'Common questions' : 'Preguntas frecuentes [TBR]'}
+                {loc === 'en' ? 'Common questions' : '[TBR] Preguntas frecuentes'}
               </h2>
             </AnimateIn>
             <div className="mt-8">
@@ -394,7 +394,7 @@ export default async function BlogPostPage({
                   color: 'var(--color-sunset-green-700)',
                 }}
               >
-                {loc === 'en' ? 'Keep reading' : 'Sigue leyendo [TBR]'}
+                {loc === 'en' ? 'Keep reading' : '[TBR] Sigue leyendo'}
               </p>
               <h2
                 id="blog-related-h2"
@@ -430,7 +430,7 @@ export default async function BlogPostPage({
                           bylineLabel:
                             loc === 'en'
                               ? `By ${rel.author}`
-                              : `Por ${rel.author} [TBR]`,
+                              : `[TBR] Por ${rel.author}`,
                           publishedAt: rel.publishedAt,
                           formattedDate: formatLongDate(rel.publishedAt, loc),
                           readingLabel: tContent('meta.readingTime', {minutes: 5}),

@@ -6,11 +6,13 @@
 
 ## Where we are
 
-- **Last completed phase:** Part 2 — Phase 2.09 (Code: AI chat widget backend — Anthropic SDK SSE + lead capture). The Phase 1.20 canned-streaming stub is gone. `/api/chat` streams Claude Sonnet 4.6 responses via SSE, system-prompted with a Sanity-built locale-matched knowledge digest (~2–3K tokens) carrying `cache_control: {type: 'ephemeral'}` so the second-and-later turns hit the prompt cache (verified live — `cache_read_input_tokens=2290` on turn 2). A `flag_high_intent` tool drives an in-panel amber banner with `/contact#calendly` + `/request-quote` CTAs. `/api/chat/lead` writes a `chatLead` document to Sanity, sends a branded `ChatLeadEmail` via `sendBrandedEmail()` (sandbox-routed until Phase 3.11/3.12), and pushes through the Mautic stub. Per-IP rate limiter (1 msg / 2s burst + 50 msg / day) is **in-memory only** — replacement carryover to Phase 3.10. Backend kill switch (`AI_CHAT_ENABLED=false → 503`) verified; frontend bubble flag (`NEXT_PUBLIC_AI_CHAT_ENABLED`) flipped to `true` on Vercel.
+- **Last completed phase:** Part 2 — Phase 2.10 (Code: analytics stack — GTM + GA4 + Microsoft Clarity + cookie consent banner + dataLayer bridge). Cookie banner is fixed-bottom and blocks GTM + Clarity script load entirely until Accept is clicked. Once accepted, every existing `sunset:*-event` CustomEvent (wizard / contact / newsletter / chat / Calendly) is forwarded to `window.dataLayer` through a 5-scope bridge listening on `document` (off-spec correction from the plan's `window` listener — dispatchers fire on `document` without `bubbles: true`). A defensive PII filter strips `email`, `firstName`, `phone`, `streetAddress`, `message`, and 8 more keys before the push. Calendly's `postMessage` stream is wired — `calendly_widget_loaded` fires on viewport intersection; `calendly.event_scheduled` maps to `calendly_booking_scheduled` (CONVERSION). A surgical dispatcher rename pass aligned drifted wire names with the GTM tag plan: `wizard_submit_succeeded → quote_submit_succeeded`, `newsletter_submit_succeeded → newsletter_subscribed`, `chat_panel_opened → chat_opened` (plus added `STEP_ADVANCED`, `BANNER_BOOK_CLICKED`, `BANNER_QUOTE_CLICKED`). Master kill switch `NEXT_PUBLIC_ANALYTICS_ENABLED=true` (set via REST upsert on Vercel Prod + Preview alongside `NEXT_PUBLIC_GTM_ID=GTM-NL5XX4DV` / `NEXT_PUBLIC_GA4_MEASUREMENT_ID=G-RY6NT70SH7` / `NEXT_PUBLIC_CLARITY_PROJECT_ID=wqodtpq86q`); IDs in the stack-config log. 14/14 smoke tests pass; Lighthouse holds at A11y 97 / BP 96 / SEO 100, Perf +1 on home / 0 on /contact/.
+- **Last completed phase (prior):** Part 2 — Phase 2.09 (Code: AI chat widget backend — Anthropic SDK SSE + lead capture). The Phase 1.20 canned-streaming stub is gone. `/api/chat` streams Claude Sonnet 4.6 responses via SSE, system-prompted with a Sanity-built locale-matched knowledge digest (~2–3K tokens) carrying `cache_control: {type: 'ephemeral'}` so the second-and-later turns hit the prompt cache (verified live — `cache_read_input_tokens=2290` on turn 2). A `flag_high_intent` tool drives an in-panel amber banner with `/contact#calendly` + `/request-quote` CTAs. `/api/chat/lead` writes a `chatLead` document to Sanity, sends a branded `ChatLeadEmail` via `sendBrandedEmail()` (sandbox-routed until Phase 3.11/3.12), and pushes through the Mautic stub. Per-IP rate limiter (1 msg / 2s burst + 50 msg / day) is **in-memory only** — replacement carryover to Phase 3.10. Backend kill switch (`AI_CHAT_ENABLED=false → 503`) verified; frontend bubble flag (`NEXT_PUBLIC_AI_CHAT_ENABLED`) flipped to `true` on Vercel.
 - **Resend domain verification deliberately deferred to Phase 3.11/3.12** per the 2026-05-12 decision-log entry. Sandbox sender (`onboarding@resend.dev`) stays; DNS for `sunsetservices.us` is still parked at the old WordPress registrar.
 - **In-memory chat rate limiter must be replaced before Phase 3.13 DNS cutover** per the new 2026-05-12 decision-log entry — natural swap window is Phase 3.10 (Vercel Pro upgrade unlocks generous KV).
-- **Next phase:** Part 2 — Phase 2.10 (analytics / GTM bridge — TBC per master plan).
-- **Date:** 2026-05-12
+- **GTM tag configuration (Phase 2.10 Part B) is Cowork's responsibility post-merge** — the dataLayer infrastructure is in; the actual GA4 tags + Key Event marks happen inside the GTM web UI.
+- **Next phase:** Part 2 — Phase 2.11 (TBC per master plan).
+- **Date:** 2026-05-13
 
 ---
 
@@ -56,6 +58,26 @@
 - FAQ accordions are SSR `<details>` with progressive enhancement to a client island for chevron rotation. **No per-item `<AnimateIn>`** — the primary lever for closing the homepage's mobile P=86 gap on these new templates.
 
 > **Phase 2.01 note:** No `localhost:3000` behavior changed in this phase. Phase 2.01 is account creation only — no routes added, no source code touched. Working tree at end of phase = Phase 1.20 code + Phase 2.01 doc updates.
+
+## What works (Phase 2.10 additions)
+
+- **Binary cookie consent banner** at the bottom of every route except `/request-quote/`. Cream surface (`--color-bg-cream`) + thin top border + 2-col desktop / stacked mobile + ≥48px buttons + iOS safe-area-inset padding. EN copy + `[TBR]`-flagged Spanish mirror under `chrome.consent.{heading,body,acceptCta,declineCta,ariaLabel}`. Hidden on the wizard route (D17 conversion-surface protection, same pattern as the chat bubble + newsletter signup). Hidden completely when `NEXT_PUBLIC_ANALYTICS_ENABLED !== 'true'`.
+- **Accept → GTM + Clarity load.** Click "Accept all" → `localStorage['sunset_consent_v1']='accepted'` → `<GTMScript>` and `<ClarityScript>` mount → `googletagmanager.com/gtm.js?id=GTM-NL5XX4DV` + `clarity.ms/tag/wqodtpq86q` requests fire within ~2s. First dataLayer entry is `{event: 'consent_accepted', gtm.uniqueEventId: 3}`.
+- **Decline → no scripts.** Click "Decline" → `localStorage['sunset_consent_v1']='declined'` → no GTM/Clarity requests, `window.dataLayer === undefined`, no `consent_*` push (Decline is silent by design — no consent means no push). Banner stays dismissed across reloads.
+- **Master kill switch.** `NEXT_PUBLIC_ANALYTICS_ENABLED=false` → no banner, no `<GTMScript>`, no `<ClarityScript>`, no `<GTMNoScript>` iframe. Vercel Analytics (`@vercel/analytics`) is unaffected (independent surface).
+- **dataLayer bridge.** `src/components/analytics/AnalyticsBridge.tsx` subscribes to `sunset:wizard-event` / `sunset:contact-event` / `sunset:newsletter-event` / `sunset:chat-event` / `sunset:calendly-event` CustomEvents on `document` (off-spec — Phase 2.10's plan said `window`, but the dispatchers fire on `document` with `bubbles: false`). Each event forwards through `pushDataLayer(name, payload)` which applies (a) the kill-switch gate, (b) the consent gate, (c) a defensive PII filter that strips `email`, `firstName`, `lastName`, `fullName`, `phone`, `address`, `streetAddress`, `city`, `state`, `zipCode`, `message`, `name`.
+- **Dispatcher rename pass aligned wire names with Cowork's GTM tag plan.** Surgical change in 6 files:
+  - `wizard_submit_succeeded` → `quote_submit_succeeded` (← CONVERSION)
+  - `wizard_step_completed_<n>` → `wizard_step_advanced` (with `{step}` payload, single event)
+  - `chat_panel_opened` → `chat_opened`
+  - `newsletter_submit_succeeded` → `newsletter_subscribed` (← CONVERSION)
+  - `newsletter_submit_already_subscribed` → `newsletter_already_subscribed`
+  - Added `chat_banner_book_clicked` + `chat_banner_quote_clicked` CustomEvent dispatches (Phase 2.09 set the data-attrs only; 2.10 wires the actual fire).
+- **Calendly postMessage wiring.** `src/components/calendly/CalendlyEmbed.tsx` gains two effects: (1) a `calendly_widget_loaded` fire inside the existing IntersectionObserver `inject()` callback so the event fires once on first viewport approach, and (2) a `message` listener that maps Calendly's broadcast events (`calendly.event_type_viewed`, `calendly.date_and_time_selected`, `calendly.event_scheduled`) into `sunset:calendly-event` CustomEvents. Existing lazy-load + consent stub + fallback card paths untouched. `calendly_booking_scheduled` is the CONVERSION event.
+- **Four new env vars on Vercel Production + Preview** (REST upsert, all `plain` type since `NEXT_PUBLIC_*` is client-bundle-embedded): `NEXT_PUBLIC_GTM_ID=GTM-NL5XX4DV` (id `nCMCsddKl918a76Z`), `NEXT_PUBLIC_GA4_MEASUREMENT_ID=G-RY6NT70SH7` (id `W1sg2noqokq2ntOW`), `NEXT_PUBLIC_CLARITY_PROJECT_ID=wqodtpq86q` (id `gdkiC6dAlkMYyHOE`), `NEXT_PUBLIC_ANALYTICS_ENABLED=true` (id `6cFnFt7qECEiidqP`).
+- **GTM `<noscript>` iframe** at the top of `<body>` per Google's install guide. Always renders (gated only by env, not consent) — JS-disabled visitors who can't see the banner can't deny consent either.
+- **Z-index ladder gains `--z-consent: 60`** alongside the existing `--z-toast: 60` (same tier, rarely concurrent). Banner sits above `--z-chat: 50` and below `--z-banner: 70` (skip-link).
+- **`/api/chat/lead` confirmation** still works unchanged from Phase 2.09 — the chat lead-capture event names (`lead_capture_submit_attempted`, `lead_capture_submit_succeeded`, `lead_capture_submit_failed`) match the plan spec already and didn't need renaming.
 
 ## What works (Phase 2.09 additions)
 
@@ -146,18 +168,18 @@
 - **Chat rate limiter is in-memory only.** Counters live in module-scoped `Map`s; they reset on every Vercel function cold start (~5–15 min idle on Hobby) and don't share across parallel function instances. Acceptable for the SSO-protected preview window — abuse risk is functionally zero. MUST be replaced with Vercel KV or Upstash Redis before Phase 3.13 DNS cutover; natural swap window is Phase 3.10 (Vercel Pro upgrade). API surface (`checkRateLimit(ip) → {allowed, reason?, retryAfter?}`) was deliberately designed as a single-file swap.
 - **Chat lead emails are sandbox-routed** until Phase 3.11/3.12 (inherits the Phase 2.08 Resend constraint). The branded `ChatLeadEmail` lands in `dinovlazar2011@gmail.com` with subject `[SANDBOX → info@sunsetservices.us] New chat lead — <name>` and a yellow in-body banner. Visitor never sees their lead-capture email confirmation during this window. Mitigated: visitor sees the in-panel "Thanks — Erick will be in touch within one business day" + "Open the full form →" CTA, and the Sanity doc is captured durably regardless of email state.
 - **Chat output is plaintext only.** Per ratified D24=A, no Markdown rendering in chat — URL auto-link is the only rich format. Carryover to a future phase if the team wants bold/lists/headings to render.
-- **No GTM bridge for chat events yet.** Every interactive surface fires `sunset:chat-event` CustomEvents with names like `chat_message_sent`, `chat_high_intent_fired`, `lead_capture_submit_succeeded`, `chat_banner_book_clicked`, `chat_banner_quote_clicked`. Phase 2.11 wires the GTM dataLayer bridge.
+- **Chat bubble + Calendly widget consent gates still default-true** (Phase 2.07 / Phase 1.20 stubs). Phase 2.10's cookie banner gates GTM + Clarity script load entirely, but does NOT change the chat bubble or Calendly widget — both continue to load for every visitor. Phase 3.04 (Consent Mode v2) can decide whether to gate Calendly + the chat panel under the same consent banner.
 - **No Telegram lead alerts.** Per Project Instructions §9 + Phase 2.09 Plan §12, Telegram pings on high-intent are explicitly OUT of scope at this phase. On-screen banner only.
 - **Calendly URL is the user's personal testing account** (`calendly.com/dinovlazar2011`). Swap to Erick's real Sunset Services URL before DNS cutover — Phase 3.12 checklist item.
 - **Address autocomplete** — Step 4 street wrapper carries `data-autocomplete-stub="address"`. Phase 2.07 explicitly deferred this to a new mini-phase 2.13.3 (after Phase 2.13.2 lands the Google Places API key per the 2026-05-10 GCP-deferral decision) — see `Sunset-Services-Decisions.md` "2026-05-12 — Google Places address autocomplete deferred from Phase 2.07".
 - **Photo upload on Step 3** — D11=B (defer). The wizard renders a `data-photo-upload-slot` placeholder (currently `hidden`) for Part 2 to swap.
-- **GTM `dataLayer.push`** — every interactive element carries the appropriate `data-analytics-event="..."` attribute, but no GTM bridge yet. Phase 2.11 reads the attributes from the DOM and forwards to dataLayer.
-- **Cookie consent banner** — chat bubble's consent gate is a stub default-true. Phase 2.11 wires the real banner.
+- **GTM web-UI tag configuration** — Phase 2.10 Code shipped the dataLayer infrastructure. Cowork Part B (post-merge) creates the GA4 Configuration tag (All Pages → GA4 with Measurement ID `G-RY6NT70SH7`) + the four Key Event tags (`quote_submit_succeeded`, `contact_submit_succeeded`, `newsletter_subscribed`, `calendly_booking_scheduled`) inside the GTM web UI. Marking each as a Key Event in GA4 waits 24h after first observed fire.
+- **Google Consent Mode v2** — Phase 2.10 ships binary consent (Accept = load all; Decline = load nothing). Phase 3.04 swaps to granular Consent Mode v2 signals with Termly/iubenda legal copy.
 - `[TBR]`-flagged Spanish strings — the audience landings and service detail pages ship with first-pass Spanish translations. Native-speaker review happens in Phase 2.13.
 - **Sanity Studio content is text-only at Phase 2.05.** 158 documents migrated (services × 16, locations × 6, team × 3, reviews × 6, FAQs × 128, projects × 12, resource articles × 5, blog posts × 5). Every image field is `null`; Phase 2.04 (Cowork) uploads photos. The page-side fallback (`imageMap.ts` for projects, `/images/{blog,resources}/<slug>.jpg` for content) renders correctly until then.
 - **No webhook for ISR revalidation on Sanity publish** — every Sanity-read page is time-based ISR (`revalidate=1800`). Erick's edit → up to 30 min wait → live. A future phase wires `/api/revalidate` + a Sanity webhook for near-real-time propagation.
 - **SANITY_API_WRITE_TOKEN** is created (Phase 2.05) in both `.env.local` (gitignored) and Vercel (Production + Preview). Used by `scripts/seed-sanity.mjs` and (in Phase 2.16) the automation agent. **No write tokens for read-only Studio users** — Sanity's per-project ACL handles editor permissions natively.
-- AI chat (Phase 1.20 / 2.09), analytics (Phase 2.10), Resend email (Phase 2.08).
+- (Pre-Phase 2.10 note — now stale: AI chat shipped in Phase 2.09; Resend email shipped in Phase 2.08; analytics shipped in Phase 2.10.)
 - **GBP API write access + Places API read (Phase 2.01 Step 7) — DEFERRED to new Phase 2.13.2 per user decision.** Phase 2.14 (publish to Google Business Profile) and Phase 2.16 (daily reviews on the site) both wait on Phase 2.13.2 completing first. Phase 2.13.2 itself starts a 2–6 week Google review clock for GBP API access.
 - **Cloudflare DNS** — account exists with 2FA enabled, no domain added yet. Domain cutover happens in Part 3 Phase 3.11.
 - **Resend domain verification** for `sunsetservices.us` (SPF/DKIM/DMARC records) — Phase 2.08 deferred this to Phase 3.11/3.12 (decision-log entry 2026-05-12). The sandbox routing utility (`sendBrandedEmail()` with `RESEND_DOMAIN_VERIFIED` switch) is in place; the flip is single-env-var.
@@ -298,6 +320,25 @@ Fonts (loaded via `next/font/google`): Manrope (heading) + Onest (body), subsets
   - `c58513f` — `feat(email): ChatLeadEmail template (Phase 2.09) + feat(api/chat/lead): chat lead capture + branded email + Mautic stub (Phase 2.09)`
   - `87ba3f6` — `feat(chat): wire inline lead-capture form to /api/chat/lead (Phase 2.09)`
   - `e9892da` — `chore(i18n): Phase 2.09 chat strings`
+- **Phase 2.10 commits** (on branch `claude/thirsty-kowalevski-1b2357` from `origin/main` at `0606124`; PR #5):
+  - `36c6b82` — `chore(phase-2-10): copy Cowork Part A handover into repo`
+  - `d54ab49` — `chore(decisions): log Phase 2.10 analytics stack scope`
+  - `c2ded63` — `chore(env): Phase 2.10 analytics env vars`
+  - `a07ec00` — `feat(analytics): event name constants + PII filter (Phase 2.10)`
+  - `68df427` — `feat(analytics): consent state helpers (Phase 2.10)`
+  - `b8b51ac` — `feat(analytics): safe dataLayer.push with consent + PII gates (Phase 2.10)`
+  - `87aaabc` — `feat(hooks): useConsent (Phase 2.10)`
+  - `8286e2c` — `feat(analytics): ConsentBanner component (Phase 2.10)`
+  - `3b69f90` — `feat(analytics): GTMScript client component (Phase 2.10)`
+  - `494c763` — `feat(analytics): GTMNoScript server component (Phase 2.10)`
+  - `440fa5f` — `feat(analytics): ClarityScript client component (Phase 2.10)`
+  - `9623a9d` — `feat(analytics): AnalyticsBridge — CustomEvents → dataLayer (Phase 2.10)`
+  - `8cef1f5` — `feat(calendly): wire Calendly postMessage events to dataLayer (Phase 2.10)`
+  - `a8ca92b` — `feat(app): mount analytics + consent in root layout (Phase 2.10)`
+  - `9da0f59` — `chore(i18n): Phase 2.10 consent banner strings`
+  - `c6f38bf` — `feat(styles): --z-consent CSS variable for Phase 2.10 banner`
+  - `9150c4b` — `refactor(analytics): align dispatcher event names with Phase 2.10 GTM spec`
+  - `d31d5ff` — `fix(wizard): WizardStickyNav data-analytics-event uses STEP_ADVANCED`
 
 ---
 

@@ -209,25 +209,27 @@ const EN: LocaleLabels = {
   },
 };
 
-// [TBR] Spanish — placeholder translations. Replace with native-speaker review
-// in Phase 2.13 alongside the rest of the inline ES `[TBR]` strings.
+// [TBR] Spanish — first-pass translations awaiting Phase 2.12 native-speaker
+// review. Code-level marker; inline strings deliberately omit the [TBR] prefix
+// because they can surface inside the chat digest the model reads, and a
+// literal "[TBR]" in the digest would distract the persona.
 const ES: LocaleLabels = {
   docTitle: 'Resumen interno para el asistente de chat',
   whoWeAre: 'Quiénes somos',
   identityLine1:
-    'Sunset Services es una empresa familiar de paisajismo y espacios al aire libre, fundada en 2001 con sede en Aurora, IL.',
+    'Sunset Services es una empresa familiar de paisajismo y espacios al aire libre, fundada en el año 2001 con sede en Aurora, IL.',
   identityLine2:
-    'Atendemos a clientes residenciales y comerciales en el condado de DuPage con mantenimiento, diseño-construcción e instalación de pavimentación.',
+    'Atendemos a clientes residenciales y comerciales en todo el condado de DuPage con mantenimiento de jardines, diseño-construcción e instalación de hardscape.',
   phoneLabel: 'Teléfono',
   emailLabel: 'Correo',
   addressLabel: 'Dirección',
   hoursLabel: 'Horario',
   hoursValue: 'Lun–Vie 7:00 AM – 5:00 PM · Sáb con cita · Dom cerrado',
   whereWeWork: 'Dónde trabajamos',
-  fallbackTagline: 'Área de servicio del condado de DuPage',
+  fallbackTagline: 'Zona de servicio del condado de DuPage',
   residentialHeading: 'Lo que hacemos — Residencial',
   commercialHeading: 'Lo que hacemos — Comercial',
-  hardscapeHeading: 'Lo que hacemos — Pavimentación',
+  hardscapeHeading: 'Lo que hacemos — Hardscape',
   unilockLine: 'Sunset Services es Contratista Autorizado por Unilock.',
   teamHeading: 'Equipo',
   faqHeading: 'Preguntas frecuentes',
@@ -236,21 +238,21 @@ const ES: LocaleLabels = {
   promotionsNone: 'Ninguna por ahora.',
   pricingWord: 'Precio',
   pricingExplainer:
-    'Presupuesto personalizado según el alcance, materiales y condiciones del sitio; cotización detallada en un plazo de 48 horas tras la visita.',
+    'Estimado personalizado según el alcance, los materiales y las condiciones del sitio; cotización detallada en un plazo de 48 horas tras la visita.',
   pricingPriceIncludes: 'Precio desde — incluye',
   dekFallback: 'Servicio ofrecido por Sunset Services.',
   roleLabels: {
     owner: 'Propietario',
     founder: 'Fundador',
-    hardscape_lead: 'Líder de pavimentación',
+    hardscape_lead: 'Líder de hardscape',
   },
   bios: {
     erick:
-      'Asumió las operaciones de su padre Nick en 2018; lleva los presupuestos, la supervisión y la relación con los clientes.',
+      'Asumió las operaciones de su padre Nick en 2018; lleva los estimados, la supervisión de los proyectos y la relación con los clientes.',
     nick:
-      'Fundó Sunset Services en 2001; sigue asesorando en trabajos de arboricultura y nivelación compleja.',
+      'Fundó Sunset Services en el año 2001; sigue asesorando en trabajos de arboricultura y nivelación compleja.',
     marcin:
-      'Dirige el equipo de pavimentación; capacitado por Unilock, especializado en patios, muros y cocinas al aire libre.',
+      'Dirige el equipo de hardscape; capacitado por Unilock, especializado en patios de adoquines, muros de contención y cocinas al aire libre.',
   },
 };
 

@@ -202,6 +202,7 @@
 - `src/_project-state/Part-2-Phase-07-Completion.md` — **NEW (Phase 2.07)** completion report for the Calendly embed phase.
 - `src/_project-state/Part-2-Phase-10-Cowork-Handover.md` — **NEW (Phase 2.10)** Cowork Part A handover note (GTM/GA4/Clarity account IDs + GCP carryover commentary). Copied verbatim into worktree from the main tree where Cowork wrote it; audit trail for the three IDs that Phase 2.10 Code references.
 - `src/_project-state/Part-2-Phase-10-Completion.md` — **NEW (Phase 2.10)** completion report for the analytics stack phase.
+- `src/_project-state/Part-2-Phase-11-Completion.md` — **NEW (Phase 2.11)** completion report for the Spanish translation pass (source-file `[TBR]` upgrade + Sanity project/FAQ patches).
 - `src/_project-state/Sunset-Services-Plan.md` — v2 in-progress rewrite (duplicates the root-level file; benign duplication, flagged in `00_stack-and-config.md`).
 - `src/_project-state/Sunset-Services-Project-Instructions.md` — v2 project instructions (Phase 2.01 spec expects this at repo root, not here; deferred).
 
@@ -219,6 +220,7 @@
 - `scripts/gen-home-placeholders.mjs` — Phase 1.07 home asset generator (sharp + gradient + per-pixel noise).
 - `scripts/gen-audience-service-placeholders.mjs` — **NEW (1.09)** audience + service asset generator. Same sharp + gradient + noise pattern. Run via `node scripts/gen-audience-service-placeholders.mjs` from the repo root.
 - `scripts/seed-sanity.mjs` — **NEW (Phase 2.05)** idempotent migration script. Reads `src/data/*.ts` via tsx-loaded dynamic imports, converts Markdown bodies to PortableText via `marked` → `jsdom` → `@portabletext/block-tools` `htmlToBlocks`, writes 158 documents to Sanity in 8 dependency-correct passes (services → locations → team → reviews → faqs → projects → resources → blog) using `createOrReplace` and deterministic `_id`s. Run via `npx tsx scripts/seed-sanity.mjs`.
+- `scripts/translate-sanity-es.mjs` — **NEW (Phase 2.11)** Sanity ES translation script. Mirrors `seed-sanity.mjs` env+client architecture. Per-type CLI dispatch via `--type=<faq|project|service|location|team|review|blogPost|resourceArticle>`, supports `--dry-run` and `--id=<docId>`. Patches project ES fields (12 docs × ~5–8 fields) from Phase 2.11's inline translation map and normalizes 23 FAQ `[TBR]` markers from trailing-suffix to leading-prefix. Reports no-op-with-reason for the other 6 types (EN body null on services/locations/team, already-populated on review/blogPost/resourceArticle). Run via `npm run translate:sanity -- --type=project --dry-run`.
 
 ## sanity/
 

@@ -232,3 +232,55 @@ TTL beyond 30 min. Both are config-only changes.
 - **PII stripping in the dataLayer bridge.** Wizard / contact / newsletter / chat events never carry name, email, phone, or address into `window.dataLayer`. The bridge filters out any payload key matching `name`, `email`, `phone`, `address`, `firstName`, `lastName`, `streetAddress`, `zipCode` before pushing. Defensive — the dispatchers already only carry event metadata, but the filter is the guard.
 
 **Decided by:** user (Goran), in response to Phase 2.10 clarifying questions in Chat.
+
+---
+
+## 2026-05-13 — Phase 2.10: AnalyticsBridge listens on `document`, not `window`
+
+The Phase 2.10 plan's `AnalyticsBridge` example used `window.addEventListener('sunset:*-event', handler)`. But every existing dispatcher across the codebase (Phase 1.20 wizard, Phase 2.06 wizard partial, Phase 2.08 contact + newsletter, Phase 2.09 chat) calls `document.dispatchEvent(new CustomEvent(scope, {detail: ...}))` with `bubbles: false` (default). CustomEvents on `document` don't propagate to `window` unless explicitly marked `bubbles: true`, so a `window` listener would never fire. Switched the bridge to listen on `document` — minimum-blast-radius alternative would have required refactoring every dispatcher's `bubbles` flag.
+
+**Why this matters for future phases:** any later phase that adds a new `sunset:*-event` CustomEvent dispatcher should also fire on `document` (NOT `window`) to remain compatible with the bridge. Phase 3.04 (Consent Mode v2) inherits this convention.
+
+**Decided by:** Code, in-phase during Phase 2.10 execution.
+
+---
+
+## 2026-05-13 — Phase 2.10: Dispatcher wire-value rename pass
+
+Three dispatchers had drifted from the Phase 2.10 analytics spec (`src/lib/analytics/events.ts`) by enough to break Cowork's GTM Key Event tags. Surgical rename pass touched 6 files outside the Phase 2.10 Code prompt's listed scope:
+
+- `WIZARD_EVENTS.SUBMIT_SUCCEEDED` wire value `'wizard_submit_succeeded'` → `'quote_submit_succeeded'` (CONVERSION).
+- New `WIZARD_EVENTS.STEP_ADVANCED: 'wizard_step_advanced'` (replaces the per-step `STEP_COMPLETED(n)` function on the forward-transition fire site — single event name with `{step: n}` in the payload).
+- `CHAT_EVENTS.PANEL_OPENED` → `OPENED`, wire value `'chat_panel_opened'` → `'chat_opened'`.
+- New `CHAT_EVENTS.BANNER_BOOK_CLICKED: 'chat_banner_book_clicked'` + `BANNER_QUOTE_CLICKED: 'chat_banner_quote_clicked'` (Phase 2.09 set `data-analytics-event` attributes on the high-intent banner Links; Phase 2.10 added the matching CustomEvent dispatches so the AnalyticsBridge picks them up).
+- NewsletterSignup inline dispatcher: `'newsletter_submit_succeeded'` → `'newsletter_subscribed'` (CONVERSION); `'newsletter_submit_already_subscribed'` → `'newsletter_already_subscribed'`.
+
+**Why this matters for future phases:** these are the canonical wire-value names from this point forward. Any analytics tooling that previously listened for the old names (none in the repo at this phase, but downstream Sanity / Mautic / etc. integrations might) needs to follow the rename. Cowork Part B's GTM tag configuration references the new names exactly.
+
+**Decided by:** Code, in-phase during Phase 2.10 execution. Plan's smoke tests 5–8 explicitly required the new names to appear in `window.dataLayer`; a pure-passthrough bridge would have failed those tests.
+
+---
+
+## 2026-05-13 — Phase 2.10: Calendly widget consent gate intentionally left at stub default-true
+
+The Phase 2.10 plan's Step 12 snippet for CalendlyEmbed used `consentGranted` as a guard variable on the `message` listener. Interpreted strictly, that would have wired the Calendly widget itself to the new cookie consent banner — meaning visitors who Decline would not see the widget. Rejected: Calendly is a booking service (the primary CTA path from `/contact/` and `/thank-you/`), not analytics/marketing tooling. Phase 2.10's cookie banner blocks GTM + Clarity, but visitors who Decline should still be able to book a consultation.
+
+The data flow IS consent-gated correctly: Calendly's `postMessage` events fire whenever the widget is mounted, but the bridge's `pushDataLayer` enforces consent before any push reaches `window.dataLayer`. So Decline → no dataLayer push from Calendly, but the widget still loads and accepts bookings.
+
+**Why this matters for future phases:** Phase 3.04 (Consent Mode v2 + GDPR legal review) may revisit. If a legal review insists that Calendly itself needs consent (e.g., because Calendly's iframe sets cookies), the swap is a single `useConsent()` import + adjusting the `shouldRenderWidget` predicate in `CalendlyEmbed.tsx`. The chat bubble's Phase 2.07 stub `default-true` is in the same boat — same swap point if needed.
+
+**Decided by:** Code, in-phase during Phase 2.10 execution.
+
+---
+
+## 2026-05-13 — Phase 2.10: GCP `.env.local.example` carryover deferred (not committed by Phase 2.10 Code)
+
+The Cowork Part A handover note (`src/_project-state/Part-2-Phase-10-Cowork-Handover.md`) explicitly asks "Code (or the user) reconciles the dirty tree and commits the GCP carryover block to `.env.local.example` as part of the Phase 2.10 chore commits." Cowork added a 7-variable GCP block (`GCP_PROJECT_ID` / `GCP_PROJECT_NUMBER` / `GCP_PROJECT_NAME` / `GOOGLE_PLACES_API_KEY` / `GBP_OAUTH_CLIENT_ID` / `GBP_OAUTH_CLIENT_SECRET` / `GBP_OAUTH_REFRESH_TOKEN`, all PENDING values except `GCP_PROJECT_NAME='Sunset Website'`) to the main tree's `.env.local.example` but did not commit it.
+
+The Phase 2.10 Code prompt's listed scope only includes the 4 Phase 2.10 NEXT_PUBLIC_* analytics env vars. Expanding the `.env.local.example` diff with PENDING-value GCP variables (most of which Phase 2.13.2 will own anyway) was outside that scope. Left to either:
+- the user, who already has the block uncommitted on the main tree and can commit it directly there once the 113-modified-files drift is reconciled; OR
+- Phase 2.13.2, which is the natural owner of the GCP variables.
+
+**Why this matters for future phases:** Phase 2.13.2 should not be surprised to find the GCP block missing from `.env.local.example` on `origin/main` — that's the expected state. Whichever path lands first (user-commits-on-main vs Phase-2.13.2-adds-the-block) needs to be tolerant of the other.
+
+**Decided by:** Code, in-phase during Phase 2.10 execution.

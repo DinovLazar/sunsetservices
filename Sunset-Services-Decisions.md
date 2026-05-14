@@ -372,3 +372,19 @@ Phase 2.12 (Erick + Cowork native Spanish review of every `[TBR]`-flagged surfac
 **Decided by:** user (Goran), in Chat on 2026-05-14, before opening Phase 2.13.
 
 ---
+
+## 2026-05-14 — Phase 2.13: ServiceM8 Zod root schema dropped `.passthrough()`
+
+The Phase 2.13 plan specified the ServiceM8 webhook Zod schema as `z.object({...}).passthrough()` on the root, with the rationale "ServiceM8 can ship extra fields without rejection." Zod's default mode (no modifier) already does not reject extras — it silently strips unknown keys from the parsed output. The plan's stated rationale is satisfied without `.passthrough()`.
+
+`.passthrough()` would only matter if the route consumed extras from the parsed output. It does not — the route stores `rawBody` verbatim as `payload` for Phase 2.17 to project from later. Extras are preserved on disk regardless of the schema's strip-vs-passthrough choice.
+
+In addition, Zod 3.25's type inference for `.passthrough()` has a regression: the inferred output type intersects the declared shape with `{[k: string]: unknown}` and then runs the result through `objectUtil.flatten`, whose `keyof T`-driven mapped type collapses declared properties (`eventId: string`) to `unknown` because `keyof {[k:string]:unknown}` is `string`. Build fails with `Type 'unknown' is not assignable to type 'string'` at every consumer of a typed field. Removing `.passthrough()` on the root restores correct type inference.
+
+**Resolution:** root schema is `z.object({...})` (default strip mode); inner `data` field stays `z.record(z.unknown())` (already permissive). Same end-state for the persisted document — `payload` carries the raw body bytes, and Phase 2.17 can project any field it needs from there.
+
+**Why this matters for future phases:** if Phase 2.17 (or a later widening phase) needs to access ServiceM8-provided extras from the *parsed* output (rather than re-parsing `payload`), it should add them explicitly to the schema rather than re-introducing `.passthrough()`. The default-strip behavior is the canonical pattern from this point forward.
+
+**Decided by:** Code, in-phase during Phase 2.13 execution. Caught by `npm run build` TS check; root cause traced to Zod 3.25's `flatten<T & {[k:string]:unknown}>` mapped-type behavior.
+
+---

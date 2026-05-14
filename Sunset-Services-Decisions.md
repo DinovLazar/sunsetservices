@@ -323,3 +323,40 @@ The Phase 2.10 Code prompt's listed scope only includes the 4 Phase 2.10 NEXT_PU
 **Update (2026-05-14, post-merge):** Resolved during the Option 1 fast-forward merge from `claude/thirsty-kowalevski-1b2357`. Cowork's two Decisions entries (Part A account creation + A.1b GCP sync) are now committed at the top of the Phase 2.10 entry block, and the GCP block in `.env.local.example` is committed alongside the Phase 2.10 analytics block. Phase 2.13.2 ownership of the GCP variables is unchanged — this commit only documents the shape; the values stay PENDING until Goran ships them.
 
 **Decided by:** Code, in-phase during Phase 2.10 execution.
+
+---
+
+## 2026-05-13 — Phase 2.10 A.1b addendum: GCP credentials partially populated mid-session (Cowork)
+
+Updating the original 2026-05-13 A.1b entry above (which said all values were PENDING). After Cowork Part A closed and Code's Phase 2.10 shipped, the user (Goran) shared most of the GCP credential values in-session. New real-value status per variable:
+
+- `GCP_PROJECT_ID`: **populated** as `sunset-website-496121`.
+- `GCP_PROJECT_NUMBER`: **populated** as `693110264200`.
+- `GCP_PROJECT_NAME`: already populated as `Sunset Website` (no change).
+- `GOOGLE_PLACES_API_KEY`: **populated** with real key (value omitted from log — lives only in `.env.local` and Vercel env).
+- `GBP_OAUTH_CLIENT_ID`: **populated** as `693110264200-i9upt0cv2unq4o4nike5lm703vq4fkih.apps.googleusercontent.com`.
+- `GBP_OAUTH_CLIENT_SECRET`: still PENDING — Goran has not shared the secret companion to the OAuth Client ID. Required for Phase 2.14a OAuth refresh-token generation.
+- `GBP_OAUTH_REFRESH_TOKEN`: still PENDING — generated in mini-phase 2.14a after Google approves the GBP API application (filed 2026-05-12; 2–6 week review window).
+
+The 5 populated variables (Project ID, Number, Name, Places API Key, OAuth Client ID) were synced to Vercel Production + Preview in this same session. `GOOGLE_PLACES_API_KEY` flagged as Sensitive in Vercel; the OAuth Client ID is not secret on its own (the secret is the Client Secret companion, still pending) but was also added to keep the env block coherent for Phase 2.13.2 / 2.13.3 / 2.16 code that will reference it.
+
+**Credential safety note (re-affirmed):** the Places API key and OAuth Client ID were pasted in-chat for the handoff. Acceptable for one-time handoff per the 2026-05-12 "GCP access: credentials-handoff approach" decision. If conversation logs are ever suspected of exposure, the Places API key is the only meaningful rotation target — it's restricted in GCP per Goran's setup and the cost of rotation is low. Rotation goes through Goran.
+
+**Action item carry:** GBP_OAUTH_CLIENT_SECRET must arrive from Goran before Phase 2.14a can run. Phase 2.16 (daily review fetch via Places API) is now unblocked from a credentials standpoint and can proceed once its phase is opened.
+
+**Decided by:** Cowork, updating Phase 2.10 A.1b mid-session on behalf of user (Goran).
+
+---
+
+## 2026-05-14 — Phase 2.10 GTM tag configuration complete (Cowork Part B)
+
+- **GA4 Configuration tag installed in GTM** as a **Google Tag** (GTM's modern unified tag type — the old "Google Analytics: GA4 Configuration" tag is deprecated). Tag ID `G-RY6NT70SH7`, fires on **Initialization - All Pages** (modern equivalent of "All Pages" pageview trigger; Google Tag's default trigger).
+- **Four conversion event tags created in GTM:** `quote_submit_succeeded`, `contact_submit_succeeded`, `newsletter_subscribed`, `calendly_booking_scheduled`. Each is a **Google Analytics: GA4 Event** tag with Measurement ID `G-RY6NT70SH7`, Event Name matching the dataLayer event, and a Custom Event trigger of the same name (`This trigger fires on: All Custom Events`).
+- **Microsoft Clarity not added to GTM.** Code's Phase 2.10 work installed Clarity directly via `src/components/analytics/ClarityScript.tsx`. Confirmed via Code's completion report (line 155). No Clarity tag was added to the GTM container — by design.
+- **GTM workspace published as Version 2 "Phase 2.10 — analytics setup"** on 2026-05-14 at 11:23 AM by `dinovlazar2011@gmail.com`. 9 items added (1 Google Tag + 4 Custom Event triggers + 4 GA4 Event tags). Tags now fire live for real visitors to `sunsetservices.vercel.app`.
+- **Tag Assistant connection verification (B.2/B.3 pre-publish smoke test):** Tag Assistant connected to `sunsetservices.vercel.app` after the cookie banner was clicked Accept. Container loaded the GTM snippet, the `consent_accepted` CustomEvent fired, and the GTM-internal events (Initialization, Container Loaded, DOM Ready, Window Loaded) sequenced correctly. Confirms Code's binary-consent + GTM-injection wiring works on the production deploy.
+- **Per-tag smoke tests SKIPPED.** The Phase 2.10 prompt's recommended manual QA (submit each of the 4 forms on the live site and verify each tag fires in Tag Assistant) was skipped because the 4 Custom Event trigger names matched Code's `src/lib/analytics/events.ts` exactly via visual inspection. Risk of typo-induced fail considered minimal. User can validate via GA4 DebugView during the 24h Key Events window.
+- **Key Event marking in GA4 — pending the 24-48h GA4 registration window.** Per Google's standard onboarding behavior, newly-fired events take 24-48 hours to appear in the Admin → Events → Key events dropdown. User has a reminder for **2026-05-15 onward** to come back and toggle Mark-as-key-event for each of the 4 conversion events once they appear in the GA4 Events dropdown.
+- **Tag Assistant popup behavior note.** Tag Assistant's "Connect" action opens the preview site in a NEW Chrome window that lives OUTSIDE the MCP-controlled tab group. Cowork couldn't see or click that popup directly — user had to manually accept the cookie banner in it. Going forward, when any future phase runs Tag Assistant in Preview mode, the same manual step applies.
+
+**Decided by:** Cowork, executing Phase 2.10 Part B on behalf of user (Goran).

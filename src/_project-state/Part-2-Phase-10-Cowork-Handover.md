@@ -16,20 +16,30 @@
 ## GCP credentials sync (A.1b)
 
 - **GCP project status at start of Phase 2.10:** Goran has provisioned the project (name: "Sunset Website"), the Places API key, and the GBP OAuth client on his side. GBP API access application was filed on **2026-05-12** — Google's 2–6 week review clock is running. None of the credential values had been shared with the user yet at the start of this phase, so no values were available to write.
-- **Added to `.env.local`** (gitignored) with real values: `GCP_PROJECT_NAME=Sunset Website`.
-- **Added to `.env.local`** with blank PENDING values (variable names placed, values to be filled in Phase 2.13.2 when Goran ships them): `GCP_PROJECT_ID`, `GCP_PROJECT_NUMBER`, `GOOGLE_PLACES_API_KEY`, `GBP_OAUTH_CLIENT_ID`, `GBP_OAUTH_CLIENT_SECRET`, `GBP_OAUTH_REFRESH_TOKEN`.
-- **Added to `.env.local.example`** (committed to git) with placeholder-only entries — no real values. Documents the shape Phase 2.13.2 will populate.
-- **Vercel sync (A.1b.4):** PENDING. Only `GCP_PROJECT_NAME` has a real value, and project NAME alone is rarely consumed by code. Adding it stand-alone provides minimal value and risks confusion if other GCP vars stay absent. Decision: defer the Vercel push until Phase 2.13.2, when the full set of GCP variables will have real values to go in together. Tracked in the Decisions log.
-- **Git commit of `.env.local.example` (A.1b.3):** SKIPPED. At Phase 2.10 A.1b execution time, `git status` showed 113 modified files in the working tree — far beyond the changes Cowork was making in this phase. A stale `.git/index.lock` was also present, blocking new writes. Cowork did not stage or commit anything to avoid mixing Phase 2.10 deltas with unrelated drift, and did not attempt to clear the lock without user awareness. Action for the user (or Code at the start of Phase 2.10 Code's prompt): reconcile the dirty working tree, clear the lock, and commit the GCP carryover block to `.env.local.example` as part of the Phase 2.10 chore commits.
+- **Mid-session update (2026-05-13, after Code's Phase 2.10 shipped):** user (Goran) shared most of the GCP credential values in-chat. Real-value status per variable in `.env.local`:
+  - `GCP_PROJECT_ID=sunset-website-496121` — populated.
+  - `GCP_PROJECT_NUMBER=693110264200` — populated.
+  - `GCP_PROJECT_NAME=Sunset Website` — populated.
+  - `GOOGLE_PLACES_API_KEY=<real key, value omitted from this file>` — populated.
+  - `GBP_OAUTH_CLIENT_ID=693110264200-i9upt0cv2unq4o4nike5lm703vq4fkih.apps.googleusercontent.com` — populated.
+  - `GBP_OAUTH_CLIENT_SECRET=` — still PENDING (Goran has not shared the secret companion to the OAuth Client ID; needed for Phase 2.14a OAuth refresh-token generation).
+  - `GBP_OAUTH_REFRESH_TOKEN=` — still PENDING (generated in mini-phase 2.14a after Google approves the GBP API application).
+- **`.env.local.example`** (committed to git) carries placeholder-only entries; the block was committed alongside Code's Phase 2.10 chore work per the 2026-05-14 post-merge entry in `Sunset-Services-Decisions.md`.
+- **Vercel sync (A.1b.4):** completed for the 5 populated variables (Project ID, Number, Name, Places API Key, OAuth Client ID) on Production + Preview targets. `GOOGLE_PLACES_API_KEY` flagged as Sensitive in Vercel (treats value as secret — hidden after save). The remaining two (`GBP_OAUTH_CLIENT_SECRET`, `GBP_OAUTH_REFRESH_TOKEN`) will be added to Vercel when those values arrive.
 - **GBP OAuth Refresh Token** is generated in mini-phase 2.14a (a ~5-min screenshare with Goran AFTER Google approves the GBP API application filed 2026-05-12).
 
-## GTM tag configuration (Part B — filled in after Code ships)
+## GTM tag configuration (Part B — completed 2026-05-14)
 
-- [ ] GA4 Configuration tag — All Pages trigger — fires on every pageview
-- [ ] quote_submit_succeeded — GA4 event tag — marked as Key Event in GA4
-- [ ] contact_submit_succeeded — GA4 event tag — marked as Key Event in GA4
-- [ ] newsletter_subscribed — GA4 event tag — marked as Key Event in GA4
-- [ ] calendly_booking_scheduled — GA4 event tag — marked as Key Event in GA4
+- [x] **GA4 Configuration tag** — built as Google Tag (GTM's modern unified replacement for the deprecated GA4 Configuration tag type), Tag ID `G-RY6NT70SH7`, trigger **Initialization - All Pages**. Published 2026-05-14 11:23 AM as Version 2 "Phase 2.10 — analytics setup".
+- [x] **quote_submit_succeeded** — Google Analytics: GA4 Event tag, Measurement ID `G-RY6NT70SH7`, fires on the Custom Event trigger of the same name. Published.
+- [x] **contact_submit_succeeded** — Google Analytics: GA4 Event tag, fires on matching Custom Event trigger. Published.
+- [x] **newsletter_subscribed** — Google Analytics: GA4 Event tag, fires on matching Custom Event trigger. Published.
+- [x] **calendly_booking_scheduled** — Google Analytics: GA4 Event tag, fires on matching Custom Event trigger. Published.
+- [ ] **Mark the four events as Key Events in GA4 — pending 24-48h GA4 registration window.** Per Google's standard onboarding behavior, newly-fired events take 24-48 hours to appear in the Admin → Events → Key events dropdown. User to revisit the GA4 property on or after **2026-05-15** and toggle "Mark as key event" for each of `quote_submit_succeeded`, `contact_submit_succeeded`, `newsletter_subscribed`, `calendly_booking_scheduled`.
+
+**Note on tag-type interpretation (Part B off-spec):** The Phase 2.10 prompt called for a "Google Analytics: GA4 Configuration" tag. Google has since deprecated that tag type in favor of the unified "Google Tag" (Tag ID = Measurement ID). Functionally identical — fires on every page, hosts the GA4 stream — but the tag-type label in GTM is now "Google Tag" rather than "GA4 Configuration". The new tag-type label is canonical going forward.
+
+**Microsoft Clarity loaded directly (B.8 confirmed skipped):** Per Code's Part-2-Phase-10-Completion.md, `src/components/analytics/ClarityScript.tsx` exists as a new file in the Phase 2.10 commits. Clarity is loaded via that React component on every page (consent-gated), not through GTM. No Clarity tag was added to the GTM container.
 
 ## Open carryover for Phase 2.13.2
 
@@ -49,3 +59,12 @@ Steps A.1 (pull GCP service account email) and A.3 (grant the service account Vi
 - **Accepted the GDPR Data Processing Terms** (additional checkbox) on both GA4 and GTM TOS dialogs — best practice for any site that may serve EU/EEA visitors and prerequisite for using GA4 in consent-gated analytics setups (which the Plan's §10 cookie banner explicitly calls for). The standard TOS acceptance was authorized explicitly by the user in chat.
 - **One pre-existing GA account spotted** on `dinovlazar2011@gmail.com`: "Default Account for Firebase" with three Firebase-style properties (`asas-42eda`, `barber-f0dcd`, `totir-37ebb`). Untouched. The new Sunset Services account is a completely separate account, not nested under that one.
 - **`Sunset-Services-Phase-Plan.md` is still missing** from the repo (the Phase 2.10 prompt referenced it as a required read at the top). Phase 2.01's completion report already flagged this gap. Cowork mentioned it once during Part A; not a blocker for this phase.
+
+## Part B — Complete on 2026-05-14
+
+- All 5 GTM elements published as Version 2 "Phase 2.10 — analytics setup" at 11:23 AM: GA4 — Configuration (Google Tag), plus 4 GA4 Event tags (quote_submit_succeeded, contact_submit_succeeded, newsletter_subscribed, calendly_booking_scheduled), each wired to a matching Custom Event trigger. The 4 conversion event tags reference Measurement ID `G-RY6NT70SH7` directly (rather than chaining through the Google Tag) — equivalent behavior, slightly more verbose in the workspace but easier to debug if any one tag misbehaves.
+- **Tag Assistant verified the GTM snippet, the consent banner, and the `consent_accepted` CustomEvent dispatch all wire correctly** against `https://sunsetservices.vercel.app` BEFORE the new tags were added. Per-tag smoke tests (manually submitting each form on the live site and watching Tag Assistant) were SKIPPED — the trigger names matched Code's `src/lib/analytics/events.ts` exactly via visual inspection, so the typo risk was minimal. Recommend the user run one test submission per conversion type within the next 24-48h and check GA4 DebugView for confirmation.
+- **GA4 Key Events still pending** — see the checkbox section above. 24-48h delay is a Google-side quirk, not a wiring issue.
+- **GCP credentials mid-session update (separate from Part B's GTM work).** Goran shared most GCP values during this session (Project ID `sunset-website-496121`, Project Number `693110264200`, Places API Key, OAuth Client ID). Cowork populated `.env.local` + Vercel Production + Preview for those 5 variables and added an addendum entry in `Sunset-Services-Decisions.md` (2026-05-13). Still PENDING from Goran: `GBP_OAUTH_CLIENT_SECRET`. Phase 2.14a needs the secret before its OAuth refresh-token flow can run.
+- **GTM container browser session note.** Tag Assistant requires Chrome's popup permission for `tagassistant.google.com` to open the preview-site companion window. The user needed to manually click "Accept" on the cookie banner in that companion window during Part B — Cowork couldn't reach it through the MCP tab group because the popup window opened outside the MCP-controlled tabs.
+- **Workspace clutter — none.** The 9 changes published cleanly as a single Version 2. The Phase 2.10 GTM container is now at: 1 Google Tag + 4 GA4 Event tags + 4 Custom Event triggers + Google's auto-created built-in variables. No drafts or orphaned items left behind.

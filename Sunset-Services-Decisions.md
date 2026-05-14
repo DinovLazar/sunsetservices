@@ -347,3 +347,28 @@ Phase 2.11 produced an idiomatic first-pass Spanish translation across every `[T
 **Why this matters for future phases:** Phase 2.12 inherits the tone map, glossary, and scope decisions verbatim. Erick (or designate) can override any glossary row during review; the override propagates by editing `Sunset-Services-TRANSLATION_NOTES.md` and re-running the relevant translation script. The decision that emails / persona / knowledge-base use code-comment `[TBR]` markers (not inline prefixes) is load-bearing — future translation phases that add new email templates / persona blocks / model-facing system prompts inherit the same pattern.
 
 **Decided by:** Code, in-phase during Phase 2.11 execution. Tone map + dialect were locked by Chat in the Phase 2.11 brief; Code applied them consistently and surfaced edge cases.
+
+---
+
+## 2026-05-14 — Phase 2.12 (native Spanish review) deferred — Phase 2.13 runs next
+
+Phase 2.12 (Erick + Cowork native Spanish review of every `[TBR]`-flagged surface) is **skipped for now** and rolled forward to a later-but-not-yet-scheduled slot. **Phase 2.13 (ServiceM8 webhook + Sanity event queue) is the next phase to run.**
+
+**Why deferred.** Erick (or whoever the designate is) isn't queued to do the review pass right now, and Phase 2.13's scope is entirely backend — no overlap with translation work. Holding the rest of the build hostage to native-review timing is the wrong trade. Phase 2.11 already produced idiomatic, glossary-aligned, tone-mapped Spanish across every flagged surface; the review pass polishes, but it's not a blocker for backend work.
+
+**Risk acknowledged — visible to ES visitors.** Until Phase 2.12 runs, ES routes still render the `[TBR]` prefix verbatim on every translated string (e.g. `[TBR] Estimado gratis para tu proyecto`). This is a UX problem on a public site. It is NOT a launch-blocker — the prefix can be globally stripped at any time without redoing translation work — but doing so before native review means publishing translation choices that haven't been confirmed against Erick's voice.
+
+**Two paths forward, both viable. Decision deferred to user — flagged here so the choice is conscious, not silent.**
+
+- (a) **Strip-then-review.** Before any public traffic hits the ES routes (i.e. before Phase 3.13 DNS cutover at the latest), run a small one-off Code phase that strips the leading `[TBR] ` prefix from every rendered surface. Translations stay as Code wrote them. Phase 2.12 then reads through the stripped result and patches whatever isn't right — usually faster than reviewing-then-stripping because the reviewer sees the visitor experience directly.
+- (b) **Review-then-strip.** Run Phase 2.12 as originally specified before launch — Erick reads each surface, fixes what's off, and the prefix gets stripped surface-by-surface as he approves. Higher confidence; slower.
+
+**Hard latest moment to pick a path:** before Phase 3.12 (pre-cutover QA), since ES quality is part of the launch acceptance criteria (Project Instructions §15, Plan §14).
+
+**Phase 2.12 reading order, when it does run:** `Sunset-Services-TRANSLATION_NOTES.md` "Native-review priority items" (7-item queue starting with the chat persona `PERSONA_ES`). Glossary + tone map locked in Phase 2.11; no need to re-derive.
+
+**No code or content changes in this entry.** This is a workflow decision only — the Phase 2.11 output stays exactly as it shipped.
+
+**Decided by:** user (Goran), in Chat on 2026-05-14, before opening Phase 2.13.
+
+---

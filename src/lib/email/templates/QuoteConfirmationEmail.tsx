@@ -39,14 +39,16 @@ const COPY = {
     signoff: '— Erick & the Sunset Services team',
   },
   es: {
-    // [TBR] Phase 2.13 — native Spanish review pass.
-    preheader: (fn: string) => `Gracias, ${fn}. Recibimos tu solicitud.`,
+    // [TBR] Phase 2.12 — native Spanish review pass. Code-level marker;
+    // inline strings deliberately omit the [TBR] prefix so recipients don't
+    // see it in the rendered email. Tone: usted (visitor-facing transactional).
+    preheader: (fn: string) => `Gracias, ${fn}. Recibimos su solicitud.`,
     h1: (fn: string) => `¡Gracias, ${fn}!`,
     lead: (svc: string) =>
-      `Acabamos de recibir tu solicitud para ${svc} y Erick la revisará personalmente en un día hábil. La mayoría de los clientes reciben respuesta esa misma tarde.`,
+      `Acabamos de recibir su solicitud para ${svc} y Erick la revisará personalmente en un día hábil. La mayoría de nuestros clientes reciben respuesta esa misma tarde.`,
     nextHeading: 'Qué sigue',
     next1: {
-      title: 'Erick revisa tu solicitud',
+      title: 'Erick revisa su solicitud',
       body: 'Normalmente en pocas horas durante días hábiles.',
     },
     next2: {
@@ -54,11 +56,11 @@ const COPY = {
       body: 'Repasamos el alcance, los tiempos y respondemos cualquier pregunta.',
     },
     next3: {
-      title: 'Recibes una cotización por escrito',
+      title: 'Recibe una cotización por escrito',
       body: 'Detallada, sin sorpresas, válida por 30 días.',
     },
     primaryCta: 'Reservar una llamada de 30 min',
-    secondaryCta: 'Llámanos ahora',
+    secondaryCta: 'Llámenos ahora',
     signoff: '— Erick y el equipo de Sunset Services',
   },
 } as const;

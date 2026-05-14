@@ -30,16 +30,18 @@ const COPY = {
     signoff: '— Erick & the Sunset Services team',
   },
   es: {
-    // [TBR] Phase 2.13.
-    preheader: (fn: string) => `Gracias por escribirnos, ${fn}. Recibimos tu mensaje.`,
+    // [TBR] Phase 2.12 — native Spanish review pass. Code-level marker;
+    // inline strings deliberately omit the [TBR] prefix so recipients don't
+    // see it in the rendered email. Tone: usted (visitor-facing transactional).
+    preheader: (fn: string) => `Gracias por escribirnos, ${fn}. Recibimos su mensaje.`,
     h1: (fn: string) => `Gracias por escribirnos, ${fn}.`,
     lead:
-      'Acabamos de recibir tu mensaje y te responderemos en un día hábil. La mayoría de las veces respondemos esa misma tarde.',
+      'Acabamos de recibir su mensaje y le responderemos en un día hábil. La mayoría de las veces respondemos esa misma tarde.',
     inMeantime: 'Mientras tanto',
     inMeantimeBody:
-      'Mira nuestra galería de proyectos recientes para ver lo que hemos construido en los condados de DuPage y Kane — o llámanos directamente.',
+      'Vea nuestra galería de proyectos recientes para conocer lo que hemos construido en los condados de DuPage y Kane — o llámenos directamente.',
     primaryCta: 'Ver proyectos recientes',
-    secondaryCta: 'Llámanos ahora',
+    secondaryCta: 'Llámenos ahora',
     signoff: '— Erick y el equipo de Sunset Services',
   },
 } as const;

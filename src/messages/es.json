@@ -623,11 +623,73 @@
       }
     },
     "consent": {
-      "heading": "Usamos cookies",
-      "body": "Usamos cookies para entender cómo los visitantes usan nuestro sitio y poder mejorarlo. Puede cambiar esta preferencia en cualquier momento.",
+      "heading": "Cookies y su privacidad",
+      "body": "Usamos cookies para entender cómo los visitantes usan nuestro sitio y mejorarlo con el tiempo. Puede aceptar todas, rechazar todas o gestionar sus preferencias. Puede cambiar esta opción en cualquier momento.",
       "acceptCta": "Aceptar todo",
       "declineCta": "Rechazar",
-      "ariaLabel": "Consentimiento de cookies"
+      "ariaLabel": "Consentimiento de cookies",
+      "banner": {
+        "rejectAllCta": "Rechazar todo",
+        "manageCta": "Gestionar preferencias",
+        "privacyLink": "Política de privacidad"
+      },
+      "modal": {
+        "title": "Preferencias de cookies",
+        "intro": "Elija qué tipos de cookies podemos usar. Las cookies estrictamente necesarias mantienen el sitio en funcionamiento y siempre están activas.",
+        "closeAria": "Cerrar preferencias",
+        "rowsAriaLabel": "Categorías de cookies",
+        "cancelCta": "Cancelar",
+        "saveCta": "Guardar preferencias",
+        "necessary": {
+          "label": "Estrictamente necesarias",
+          "description": "Necesarias para el funcionamiento del sitio — navegación, envío de formularios y seguridad. No se pueden desactivar.",
+          "alwaysOn": "Siempre activo"
+        },
+        "analytics": {
+          "label": "Analíticas",
+          "description": "Nos ayuda a entender qué páginas y funciones se usan para que podamos mejorar el sitio. Nunca vendemos ni compartimos estos datos."
+        },
+        "marketing": {
+          "label": "Marketing",
+          "description": "Nos permite medir el rendimiento de los anuncios en Google y otras plataformas cuando hace clic para entrar a nuestro sitio."
+        },
+        "personalization": {
+          "label": "Personalización",
+          "description": "Permite que los anuncios en otros sitios se adapten a usted según su visita al nuestro."
+        }
+      }
+    }
+  },
+  "legal": {
+    "breadcrumb": {
+      "home": "Inicio",
+      "privacy": "Privacidad",
+      "terms": "Términos"
+    },
+    "embed": {
+      "preparingFallback": "El contenido legal se está preparando. Vuelva a consultar pronto, o escríbanos a info@sunsetservices.us para solicitar una copia."
+    },
+    "privacy": {
+      "meta": {
+        "title": "Política de privacidad · Sunset Services",
+        "description": "Cómo Sunset Services recopila, usa y protege su información cuando usa nuestro sitio web y solicita cotizaciones."
+      },
+      "hero": {
+        "eyebrow": "Legal",
+        "h1": "Política de privacidad",
+        "lastUpdated": "Última actualización: abril de 2026"
+      }
+    },
+    "terms": {
+      "meta": {
+        "title": "Términos del servicio · Sunset Services",
+        "description": "Los términos bajo los cuales Sunset Services pone a su disposición nuestro sitio web y las herramientas para solicitar cotizaciones."
+      },
+      "hero": {
+        "eyebrow": "Legal",
+        "h1": "Términos del servicio",
+        "lastUpdated": "Última actualización: abril de 2026"
+      }
     }
   },
   "about": {

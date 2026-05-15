@@ -249,3 +249,39 @@ Code is least confident about these. Erick reviews them first.
 - Unresolved → add to **Open questions**.
 
 This file lives at the project root (alongside `Sunset-Services-Plan.md` etc.) and is updated as the work progresses.
+
+---
+
+## Phase B.03 — Cookie banner + modal + legal page chrome (added 2026-05-15)
+
+Phase B.03 introduces 26 new ES strings (mirroring 26 new EN strings) across three namespaces in `src/messages/es.json`. All strings are Code's **first pass** — no native review yet. Flagged for Phase M.03.
+
+**Namespaces touched:**
+- `chrome.consent.heading` + `chrome.consent.body` — **rewritten** (was the Phase 2.10 binary banner copy; B.03 banner adds Manage option, copy needed to mention granular control).
+- `chrome.consent.banner.{rejectAllCta, manageCta, privacyLink}` — **new** (3 keys).
+- `chrome.consent.modal.{title, intro, closeAria, rowsAriaLabel, cancelCta, saveCta, necessary.{label,description,alwaysOn}, analytics.{label,description}, marketing.{label,description}, personalization.{label,description}}` — **new** (15 keys).
+- `legal.breadcrumb.{home, privacy, terms}` — **new** (3 keys).
+- `legal.embed.preparingFallback` — **new** (1 key, the "Legal content is being prepared" graceful fallback shown when Termly env vars are empty).
+- `legal.privacy.meta.{title, description}` + `legal.privacy.hero.{eyebrow, h1, lastUpdated}` — **new** (5 keys).
+- `legal.terms.meta.{title, description}` + `legal.terms.hero.{eyebrow, h1, lastUpdated}` — **new** (5 keys).
+
+**Register applied:** `usted` throughout (legal/transactional surface — banner asks consent, modal manages settings, legal pages render policy documents). Mirrors the Phase 2.11 register decision for transactional surfaces.
+
+### Native-review priority items (B.03 additions)
+
+These join the existing M.03 priority list. Code is least confident about (a) the consent-category descriptions inside the modal (technical-yet-conversational tone is judgment-heavy) and (b) the legal-page meta descriptions (SEO surface; word choice affects click-through).
+
+1. **`chrome.consent.modal.analytics.description`** — "Nos ayuda a entender qué páginas y funciones se usan para que podamos mejorar el sitio. Nunca vendemos ni compartimos estos datos." The "nunca vendemos ni compartimos" promise has legal weight. Erick confirms.
+2. **`chrome.consent.modal.marketing.description`** — "Nos permite medir el rendimiento de los anuncios en Google y otras plataformas cuando hace clic para entrar a nuestro sitio." Aurora's Spanish-speaking customers may not encounter Google Ads tracking copy in Spanish often; the phrasing should read native-Spanish-conversational, not literal.
+3. **`chrome.consent.modal.personalization.description`** — "Permite que los anuncios en otros sitios se adapten a usted según su visita al nuestro." "Se adapten a usted" reads slightly formal — alternatives are "se personalicen para usted" or "se ajusten a sus intereses." Erick confirms.
+4. **`legal.{privacy,terms}.hero.lastUpdated`** — "Última actualización: abril de 2026." Lowercase month is Spanish-correct; confirm the date format is the user's preference (alternatives: "abril 2026" or "April 2026" since the date is updated by Termly content not Code).
+5. **`legal.embed.preparingFallback`** — "El contenido legal se está preparando. Vuelva a consultar pronto, o escríbanos a info@sunsetservices.us para solicitar una copia." Short fallback; the "escríbanos para solicitar una copia" implies the policy is available by email — which it should be once Termly is set up in B.04. If Erick prefers visitors NOT email for a copy (because Termly is the source), revise to drop the email mention.
+
+### Open questions (B.03 additions)
+
+- **"Política de privacidad" vs "Aviso de privacidad"** — Code defaulted to `Política de privacidad` (the more common LATAM term). Mexican government uses `Aviso de privacidad` for the GDPR-equivalent legal notice. Erick confirms based on what feels native to Aurora.
+- **"Términos del servicio" vs "Términos y condiciones" vs "Condiciones del servicio"** — Code went with `Términos del servicio` (literal of English). LATAM Spanish often uses `Términos y condiciones`. Erick confirms.
+- **"Cookies" vs "Galletas" vs "Cookies (galletas)"** — `Cookies` (English loanword) is now standard in LATAM Spanish digital contexts. Code did NOT translate the word. Confirm.
+- **"Estrictamente necesarias" vs "Estrictamente necesarios"** — Code used the feminine plural (because `cookies` is treated as feminine in modal context: `las cookies`). Confirm gender choice.
+
+

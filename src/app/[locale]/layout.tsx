@@ -13,6 +13,7 @@ import {Analytics} from '@vercel/analytics/next';
 import AnalyticsBridge from '@/components/analytics/AnalyticsBridge';
 import ClarityScript from '@/components/analytics/ClarityScript';
 import ConsentBanner from '@/components/analytics/ConsentBanner';
+import ConsentModeDefault from '@/components/analytics/ConsentModeDefault';
 import GTMNoScript from '@/components/analytics/GTMNoScript';
 import GTMScript from '@/components/analytics/GTMScript';
 import {
@@ -89,6 +90,10 @@ export default async function LocaleLayout({
   return (
     <html lang={locale} className={`${manrope.variable} ${onest.variable}`}>
       <head>
+        {/* Google Consent Mode v2 — must run before any tag-management
+            script. Sets every signal to 'denied' until pushConsentUpdate()
+            flips them after the visitor decides. */}
+        <ConsentModeDefault />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{__html: JSON.stringify(localBusinessJsonLd)}}

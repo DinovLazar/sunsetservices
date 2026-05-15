@@ -14,9 +14,10 @@ import type {TelegramInlineKeyboardButton} from './types';
  * handler treats null as "ignore-and-200" — likely a stale message from a
  * previous webhook config; ignoring is safer than 400.
  *
- * Phase 2.15 ships the 'servicem8_portfolio' button set. The 'blog_draft'
- * kind exists for the Sanity schema enum (forward-compat) but the runtime
- * button builder throws — Phase 2.16 ships the handler.
+ * Phase 2.15 shipped the 'servicem8_portfolio' button set. Phase 2.16
+ * ships the 'blog_draft' button set (Approve & publish / Reject) — the
+ * same shape; the difference is in the webhook routing + Sanity-write
+ * side-effect, not the keyboard.
  */
 
 export type ApprovalKind = 'servicem8_portfolio' | 'blog_draft';
@@ -61,10 +62,11 @@ export type ApprovalButtonSet = TelegramInlineKeyboardButton[][];
 /**
  * Build the inline-keyboard button matrix for an approval request.
  *
- * Phase 2.15 only implements 'servicem8_portfolio' (two buttons on one row:
- * Approve | Reject). 'blog_draft' throws — Phase 2.16 extension point. The
- * Sanity schema enum already includes 'blog_draft' so persisted documents
- * round-trip cleanly when Phase 2.16 wires the handler.
+ * Both kinds use the same one-row Approve/Reject layout. The label on the
+ * blog_draft Approve button is more explicit ("Approve & publish") because
+ * the side-effect is more consequential — Approve auto-creates the live
+ * `blogPost` document (with placeholder featured image) rather than just
+ * patching a draft.
  */
 export function buildButtonsForKind(kind: ApprovalKind, targetId: string): ApprovalButtonSet {
   if (kind === 'servicem8_portfolio') {
@@ -75,7 +77,18 @@ export function buildButtonsForKind(kind: ApprovalKind, targetId: string): Appro
       ],
     ];
   }
-  // TODO(Phase 2.16): add the blog_draft button set here. Likely the same
-  // Approve/Reject pair, but the summary message + downstream wiring differ.
-  throw new Error('blog_draft kind not yet implemented — Phase 2.16 ships this');
+  if (kind === 'blog_draft') {
+    return [
+      [
+        {
+          text: 'Approve & publish',
+          callback_data: encodeCallbackData({kind, targetId, action: 'approve'}),
+        },
+        {text: 'Reject', callback_data: encodeCallbackData({kind, targetId, action: 'reject'})},
+      ],
+    ];
+  }
+  // Exhaustive switch — unreachable. TS narrows `kind` to `never` here.
+  const _exhaustive: never = kind;
+  throw new Error(`Unknown approval kind: ${String(_exhaustive)}`);
 }

@@ -76,6 +76,13 @@ export async function sendMessage(args: {
   text: string;
   parseMode?: 'MarkdownV2' | 'HTML';
   replyMarkup?: TelegramInlineKeyboardMarkup;
+  /**
+   * Optional. When set, the new message is sent as a reply to this prior
+   * message_id (Telegram threads them visually). Added in Phase 2.16 so
+   * the 'blog_draft' webhook handler can append a "Published" / "Rejected"
+   * confirmation below the approval card without losing the visual link.
+   */
+  replyToMessageId?: number;
 }): Promise<SendMessageOk | ClientErr> {
   if (!isEnabled()) {
     console.info(
@@ -89,6 +96,9 @@ export async function sendMessage(args: {
   };
   if (args.parseMode) body.parse_mode = args.parseMode;
   if (args.replyMarkup) body.reply_markup = args.replyMarkup;
+  if (typeof args.replyToMessageId === 'number') {
+    body.reply_parameters = {message_id: args.replyToMessageId};
+  }
 
   const result = await callBotApi('sendMessage', body);
   if (!result.ok) return {ok: false, error: result.error};

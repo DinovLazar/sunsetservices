@@ -1,6 +1,7 @@
 import {NextResponse} from 'next/server';
 import {verifyCronAuth} from '@/lib/automation/cronAuth';
 import {runPortfolioDraftPipeline} from '@/lib/automation/portfolio/runPipeline';
+import {extractJobMetadata} from '@/lib/automation/portfolio/extractJobMetadata';
 
 /**
  * TEST INFRASTRUCTURE — Phase 2.17 verification harness.
@@ -39,12 +40,23 @@ export async function POST(request: Request) {
     return NextResponse.json({status: 'error', reason: 'invalid-auth'}, {status: 401});
   }
 
-  let body: {eventDocId?: unknown};
+  let body: {eventDocId?: unknown; payload?: unknown};
   try {
     body = await request.json();
   } catch {
     return NextResponse.json({status: 'error', reason: 'invalid-json'}, {status: 400});
   }
+
+  // Probe mode (`?probe=extract`) — runs only `extractJobMetadata` on the
+  // body's `payload` and returns the result. Lets the verification harness
+  // unit-test the extractor against hand-crafted payloads without adding a
+  // third test route. Production never hits this path (flag-gated).
+  const url = new URL(request.url);
+  if (url.searchParams.get('probe') === 'extract') {
+    const metadata = extractJobMetadata(body.payload);
+    return NextResponse.json({status: 'ok', metadata}, {status: 200});
+  }
+
   const eventDocId = typeof body.eventDocId === 'string' ? body.eventDocId : '';
   if (!eventDocId) {
     return NextResponse.json(

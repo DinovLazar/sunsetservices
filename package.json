@@ -10,7 +10,9 @@
     "studio:dev": "sanity dev",
     "studio:build": "sanity build",
     "studio:deploy": "sanity deploy",
-    "translate:sanity": "node scripts/translate-sanity-es.mjs"
+    "translate:sanity": "node scripts/translate-sanity-es.mjs",
+    "telegram:setup": "node scripts/setup-telegram-webhook.mjs",
+    "telegram:info": "node scripts/get-telegram-webhook-info.mjs"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.92.0",

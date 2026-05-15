@@ -13,6 +13,7 @@ import {contactSubmission} from './contactSubmission';
 import {newsletterSubscriber} from './newsletterSubscriber';
 import {chatLead} from './chatLead';
 import {servicem8Event} from './servicem8Event';
+import {telegramApprovalLog} from './telegramApprovalLog';
 
 export const schemaTypes = [
   // Objects first (they're referenced by documents).
@@ -39,4 +40,6 @@ export const schemaTypes = [
   chatLead,
   // Phase 2.13 — ServiceM8 webhook event queue.
   servicem8Event,
+  // Phase 2.15 — Telegram approval audit log.
+  telegramApprovalLog,
 ];

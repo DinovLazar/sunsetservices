@@ -107,6 +107,14 @@ export const servicem8Event = defineType({
       group: 'processing',
     }),
     defineField({
+      name: 'telegramMessageId',
+      type: 'number',
+      title: 'Telegram message ID',
+      group: 'processing',
+      description:
+        'Telegram message_id of the approval request sent for this event. Used to edit the message (remove buttons) after Erick taps a decision.',
+    }),
+    defineField({
       name: 'processingError',
       type: 'text',
       title: 'Processing error',

@@ -6,6 +6,11 @@ import {parseCallbackData} from '@/lib/telegram/approvals';
 import {answerCallbackQuery, editMessageReplyMarkup, sendMessage} from '@/lib/telegram/client';
 import {recordDecision} from '@/lib/telegram/persistLog';
 import {publishBlogDraft, rejectBlogDraft} from '@/lib/automation/blog/publish';
+import {
+  publishPortfolioDraft,
+  rejectPortfolioDraft,
+} from '@/lib/automation/portfolio/publish';
+import {notifyOperator} from '@/lib/telegram/notify';
 import {escapeMarkdownV2} from '@/lib/telegram/markdownV2';
 
 /**
@@ -32,9 +37,17 @@ import {escapeMarkdownV2} from '@/lib/telegram/markdownV2';
  *      sentMessageId. Missing → ignore (we never sent this). Already
  *      decided → 200 + deduped:true (Telegram retries on 5xx).
  *   6. Route by kind:
- *      - 'servicem8_portfolio' (Phase 2.15): patch the servicem8Event doc's
- *        telegramApprovalState + processedAt, patch the log row, edit the
- *        message, ack the callback.
+ *      - 'servicem8_portfolio' (Phase 2.17): targetId is a
+ *        portfolioDraftPending._id. On Approve, publishPortfolioDraft()
+ *        creates the live `project` doc (createOrReplace with deterministic
+ *        _id), patches the pending doc to 'approved', flips the source
+ *        servicem8Event's telegramApprovalState to 'approved', and calls
+ *        the GBP write stubs (skipped until Phase 2.17a). On Reject,
+ *        rejectPortfolioDraft() flips both the pending doc and the source
+ *        event to 'rejected'. The webhook edits the original message, acks
+ *        the callback, and posts a "Published" / "Rejected" follow-up
+ *        linked to the original. Errors → notifyOperator alert + 200 (NOT
+ *        500) to suppress Telegram retries against a known-bad state.
  *      - 'blog_draft' (Phase 2.16): on Approve, publishBlogDraft() creates
  *        the live blogPost + scoped faq docs + flips the pending doc to
  *        'approved'. On Reject, rejectBlogDraft() flips the pending doc to
@@ -283,35 +296,71 @@ export async function POST(request: Request) {
     }
   }
 
-  // servicem8_portfolio routing
+  // servicem8_portfolio routing — Phase 2.17.
+  // targetId is the portfolioDraftPending._id (NOT the servicem8Event._id).
+  // The publish/reject handlers do all the Sanity writes (project doc,
+  // pending status flip, source event terminal state). The webhook is
+  // responsible for the Telegram chrome (edit message, ack callback, post
+  // follow-up reply) and the audit log decision record.
   if (decoded.kind === 'servicem8_portfolio') {
     try {
-      const eventDoc = await writeClient.fetch<{_id: string} | null>(
-        '*[_type == "servicem8Event" && _id == $id][0]{_id}',
-        {id: decoded.targetId},
-      );
-      if (!eventDoc) {
+      if (decoded.action === 'approve') {
+        const result = await publishPortfolioDraft(decoded.targetId);
+        const decisionResult = await recordDecision({
+          logDocId: logRow._id,
+          decision: 'approve',
+          operatorChatId: cq.from.id,
+          rawCallbackData: cq.data,
+        });
+        if (!decisionResult.ok) {
+          return NextResponse.json(
+            {status: 'error', reason: 'persist-failed'},
+            {status: 500},
+          );
+        }
+
+        const editResult = await editMessageReplyMarkup({
+          chatId: cq.message.chat.id,
+          messageId: cq.message.message_id,
+        });
+        if ('error' in editResult && editResult.error) {
+          console.warn('[telegram-webhook] editMessageReplyMarkup failed:', editResult.error);
+        }
+        const ackResult = await answerCallbackQuery({
+          callbackQueryId: cq.id,
+          text: 'Published.',
+        });
+        if ('error' in ackResult && ackResult.error) {
+          console.warn('[telegram-webhook] answerCallbackQuery failed:', ackResult.error);
+        }
+        const gbpStatusLine =
+          'skipped' in result.gbpUploadResult && result.gbpUploadResult.skipped
+            ? `\nGBP upload: skipped \\(${escapeMarkdownV2(result.gbpUploadResult.reason)}\\)`
+            : '\nGBP upload: see logs';
+        const followupResult = await sendMessage({
+          chatId: cq.message.chat.id,
+          text: `✅ Published portfolio entry \`${escapeMarkdownV2(result.projectId)}\`${gbpStatusLine}`,
+          parseMode: 'MarkdownV2',
+          replyToMessageId: cq.message.message_id,
+        });
+        if ('error' in followupResult && followupResult.error) {
+          console.warn(
+            '[telegram-webhook] sendMessage (portfolio publish followup) failed:',
+            followupResult.error,
+          );
+        }
+
         return NextResponse.json(
-          {status: 'ignored', reason: 'no-matching-event'},
+          {status: 'ok', decision: 'approve', projectId: result.projectId},
           {status: 200},
         );
       }
 
-      const now = new Date().toISOString();
-      const nextState = decoded.action === 'approve' ? 'approved' : 'rejected';
-
-      await writeClient
-        .patch(eventDoc._id)
-        .set({
-          telegramApprovalState: nextState,
-          processedAt: now,
-          lastUpdatedAt: now,
-        })
-        .commit();
-
+      // action === 'reject'
+      await rejectPortfolioDraft(decoded.targetId);
       const decisionResult = await recordDecision({
         logDocId: logRow._id,
-        decision: decoded.action,
+        decision: 'reject',
         operatorChatId: cq.from.id,
         rawCallbackData: cq.data,
       });
@@ -322,10 +371,6 @@ export async function POST(request: Request) {
         );
       }
 
-      // Best-effort Telegram calls — the Sanity state is already authoritative
-      // (the log row + the event doc are both patched). Failures here are
-      // surfaced in logs but don't fail the webhook — Telegram would retry
-      // a 5xx and the idempotency check would dedupe.
       const editResult = await editMessageReplyMarkup({
         chatId: cq.message.chat.id,
         messageId: cq.message.message_id,
@@ -335,21 +380,46 @@ export async function POST(request: Request) {
       }
       const ackResult = await answerCallbackQuery({
         callbackQueryId: cq.id,
-        text: 'Recorded',
+        text: 'Rejected.',
       });
       if ('error' in ackResult && ackResult.error) {
         console.warn('[telegram-webhook] answerCallbackQuery failed:', ackResult.error);
       }
+      const followupResult = await sendMessage({
+        chatId: cq.message.chat.id,
+        text: '✋ Portfolio draft rejected\\. Source event marked as rejected\\.',
+        parseMode: 'MarkdownV2',
+        replyToMessageId: cq.message.message_id,
+      });
+      if ('error' in followupResult && followupResult.error) {
+        console.warn(
+          '[telegram-webhook] sendMessage (portfolio reject followup) failed:',
+          followupResult.error,
+        );
+      }
 
       return NextResponse.json(
-        {status: 'ok', decision: decoded.action, eventId: decoded.targetId},
+        {status: 'ok', decision: 'reject', pendingDocId: decoded.targetId},
         {status: 200},
       );
     } catch (err) {
       console.error('[telegram-webhook] servicem8_portfolio routing failed', err);
+      const message = err instanceof Error ? err.message : 'unknown-error';
+      await notifyOperator({
+        text: `⚠️ Portfolio approval decision failed: ${message}`,
+      }).catch(() => {
+        // notifyOperator never throws; defense-in-depth.
+      });
+      // Best-effort ack — clear the operator's spinner before returning.
+      await answerCallbackQuery({
+        callbackQueryId: cq.id,
+        text: 'Error — see operator log',
+      }).catch(() => {});
+      // Return 200 (NOT 500) so Telegram does NOT retry — the operator
+      // already saw the alert and a replay would just spam them.
       return NextResponse.json(
-        {status: 'error', reason: 'persist-failed'},
-        {status: 500},
+        {status: 'error', reason: 'handler-failed', message},
+        {status: 200},
       );
     }
   }

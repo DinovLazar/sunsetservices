@@ -15,6 +15,7 @@ import {chatLead} from './chatLead';
 import {servicem8Event} from './servicem8Event';
 import {telegramApprovalLog} from './telegramApprovalLog';
 import {blogDraftPending} from './blogDraftPending';
+import {portfolioDraftPending} from './portfolioDraftPending';
 
 export const schemaTypes = [
   // Objects first (they're referenced by documents).
@@ -45,4 +46,6 @@ export const schemaTypes = [
   telegramApprovalLog,
   // Phase 2.16 — automation agent (monthly blog draft).
   blogDraftPending,
+  // Phase 2.17 — automation agent Part B (on-demand portfolio publish).
+  portfolioDraftPending,
 ];

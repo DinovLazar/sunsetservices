@@ -1,7 +1,8 @@
-import {NextResponse} from 'next/server';
+import {NextResponse, after} from 'next/server';
 import {serviceM8WebhookSchema} from '@/lib/servicem8/schema';
 import {verifyServiceM8Signature} from '@/lib/servicem8/verifySignature';
 import {persistServiceM8Event} from '@/lib/servicem8/persistEvent';
+import {runPortfolioDraftPipeline} from '@/lib/automation/portfolio/runPipeline';
 
 /**
  * POST /api/webhooks/servicem8 — ServiceM8 job-event ingestion (Phase 2.13).
@@ -28,9 +29,12 @@ import {persistServiceM8Event} from '@/lib/servicem8/persistEvent';
  *      details are logged server-side but NOT included in the response
  *      body (ServiceM8 retries on 5xx and leaking internals would be unsafe).
  *
- * Phase 2.17 reads the queued documents to draft EN+ES project descriptions,
- * send to Telegram for approval, and on Approve publish to portfolio + GBP.
- * This phase only ingests + persists — no Anthropic, no Telegram, no GBP.
+ * Phase 2.17 wires a post-response `after()` callback that fires
+ * `runPortfolioDraftPipeline(sanityDocId)` once the event lands. The
+ * pipeline gates on PORTFOLIO_DRAFT_ENABLED internally — when the flag is
+ * off (Phase 2.17 default) the callback runs but no-ops. The webhook
+ * response is sent BEFORE the pipeline runs, so ServiceM8 never waits on
+ * the ~2-minute Anthropic call.
  */
 
 export const runtime = 'nodejs';
@@ -93,6 +97,26 @@ export async function POST(request: Request) {
         {status: 200},
       );
     }
+
+    // Phase 2.17 — schedule the portfolio-draft pipeline AFTER the response
+    // ships. The pipeline's flag check (PORTFOLIO_DRAFT_ENABLED!=='true')
+    // short-circuits inside runPortfolioDraftPipeline when the flag is off,
+    // so this is always safe to register. Anthropic calls take ~2 min;
+    // ServiceM8's HTTP timeout would fire long before they complete if the
+    // pipeline ran synchronously.
+    const pipelineEventDocId = result.sanityDocId;
+    after(async () => {
+      try {
+        await runPortfolioDraftPipeline(pipelineEventDocId);
+      } catch (err) {
+        console.error(
+          '[servicem8-webhook] post-response portfolio pipeline failed:',
+          err,
+        );
+        // notifyOperator already called from inside the pipeline; nothing
+        // else to do here — the response was already sent to ServiceM8.
+      }
+    });
 
     return NextResponse.json(
       {status: 'ok', sanityDocId: result.sanityDocId},

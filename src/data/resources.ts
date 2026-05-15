@@ -86,14 +86,14 @@ export const RESOURCES: ResourceEntry[] = [
     },
     seoDescription: {
       en: 'Concrete vs. pavers vs. natural stone for DuPage patios — costs, lifespans, freeze-thaw notes, and how each one fails. From a 25-year hardscape crew.',
-      es: 'Concreto, adoquines o piedra natural para patios en DuPage — costos, vida útil, notas sobre heladas. De un equipo con 25 años. [TBR]',
+      es: 'Concreto, adoquines o piedra natural para patios en DuPage — costos, vida útil, notas sobre heladas. De un equipo con 25 años.',
     },
     lastUpdated: '2026-04-12',
     cardImage: {
       src: '/images/resources/patio-materials-guide.jpg',
       alt: {
         en: 'A finished paver patio next to a poured concrete walkway, showing the texture difference between the two materials.',
-        es: 'Un patio de adoquines terminado junto a una caminata de concreto, mostrando la diferencia de textura. [TBR]',
+        es: 'Un patio de adoquines terminado junto a una caminata de concreto, mostrando la diferencia de textura.',
       },
       width: 1280,
       height: 720,
@@ -175,7 +175,7 @@ We have a separate guide on [hardscape permits in DuPage](/resources/dupage-hard
 If you're not sure which material you want, do this. Drive past three properties in your neighborhood that have patios you like. Knock on the door. Ask what the patio is, who installed it, and what's broken.
 
 We do the same thing when we scout for material samples. The owners always tell you the truth — and the truth is that the right patio material is the one that's still beautiful at year 15. Most of them are pavers, in DuPage County, in 2026.`,
-      es: `[TBR] Elige el material de patio equivocado y lo vas a verter de nuevo en menos de diez años. Elige el correcto y tus hijos celebrarán su graduación universitaria en él. La decisión rara vez es de gusto — depende de tres cosas: qué tan frío se pone tu suelo, cuánto gastarás la segunda vez, y cómo se ve la falla cuando (no si) ocurre.
+      es: `Elige el material de patio equivocado y lo vas a verter de nuevo en menos de diez años. Elige el correcto y tus hijos celebrarán su graduación universitaria en él. La decisión rara vez es de gusto — depende de tres cosas: qué tan frío se pone tu suelo, cuánto gastarás la segunda vez, y cómo se ve la falla cuando (no si) ocurre.
 
 La mayoría de propietarios de DuPage que entran a nuestro showroom en Aurora ya han visto concreto fallar en los patios de sus padres. Han visto adoquines abultados por raíces de árboles. Quieren una respuesta directa sobre qué poner. Esto es lo que pondríamos en nuestras propias propiedades — y por qué.
 
@@ -255,41 +255,41 @@ Hacemos lo mismo cuando buscamos muestras de material. Los propietarios siempre 
       {
         q: {
           en: 'Do all three materials need a permit in DuPage?',
-          es: '¿Los tres materiales requieren permiso en DuPage? [TBR]',
+          es: '¿Los tres materiales requieren permiso en DuPage?',
         },
         a: {
           en: 'It depends on the municipality and the surface area. Naperville triggers at 200 sq ft, Aurora at 100, Wheaton at any size if drainage flows off-lot. The material itself does not change the permit threshold.',
-          es: 'Depende del municipio y del área. Naperville lo activa a 200 pie², Aurora a 100, Wheaton a cualquier tamaño si el drenaje sale del lote. El material en sí no cambia el umbral. [TBR]',
+          es: 'Depende del municipio y del área. Naperville lo activa a 200 pie², Aurora a 100, Wheaton a cualquier tamaño si el drenaje sale del lote. El material en sí no cambia el umbral.',
         },
       },
       {
         q: {
           en: 'How long until I can walk and drive on each?',
-          es: '¿Cuánto tiempo hasta que se pueda caminar y manejar en cada uno? [TBR]',
+          es: '¿Cuánto tiempo hasta que se pueda caminar y manejar en cada uno?',
         },
         a: {
           en: 'Concrete: walkable at 24 hours, driveable at 7 days. Pavers: walkable immediately, driveable as soon as the joints are sanded (next day). Natural stone: walkable next day, driveable at 7 days if mortared.',
-          es: 'Concreto: caminable a 24 horas, transitable en auto a 7 días. Adoquines: caminable de inmediato, transitable cuando se rellenan las juntas (día siguiente). Piedra natural: caminable al día siguiente, transitable a 7 días si está con mortero. [TBR]',
+          es: 'Concreto: caminable a 24 horas, transitable en auto a 7 días. Adoquines: caminable de inmediato, transitable cuando se rellenan las juntas (día siguiente). Piedra natural: caminable al día siguiente, transitable a 7 días si está con mortero.',
         },
       },
       {
         q: {
           en: 'Which one survives DuPage freeze-thaw best?',
-          es: '¿Cuál sobrevive mejor a las heladas de DuPage? [TBR]',
+          es: '¿Cuál sobrevive mejor a las heladas de DuPage?',
         },
         a: {
           en: 'Pavers, by a wide margin. The polymeric-sand joints flex with the freeze-thaw cycle; concrete cracks at the same junctions every winter; natural stone is fine but pricey to replace if a single slab fractures.',
-          es: 'Adoquines, por mucho. Las juntas con arena polimérica flexionan con el ciclo de heladas; el concreto se agrieta en las mismas juntas cada invierno; la piedra natural está bien pero cara de reemplazar si una losa se fractura. [TBR]',
+          es: 'Adoquines, por mucho. Las juntas con arena polimérica flexionan con el ciclo de heladas; el concreto se agrieta en las mismas juntas cada invierno; la piedra natural está bien pero cara de reemplazar si una losa se fractura.',
         },
       },
       {
         q: {
           en: 'Can I mix materials on one project?',
-          es: '¿Puedo mezclar materiales en un proyecto? [TBR]',
+          es: '¿Puedo mezclar materiales en un proyecto?',
         },
         a: {
           en: 'Yes — and we recommend it. A common build is paver field + bluestone caps on retaining walls + concrete edge restraint. The eye reads it as one cohesive surface; the budget lands where it should.',
-          es: 'Sí — y lo recomendamos. Una construcción común es campo de adoquines + tapa de bluestone en muros de contención + borde de concreto. La vista lo lee como una superficie cohesiva; el presupuesto cae donde debe. [TBR]',
+          es: 'Sí — y lo recomendamos. Una construcción común es campo de adoquines + tapa de bluestone en muros de contención + borde de concreto. La vista lo lee como una superficie cohesiva; el presupuesto cae donde debe.',
         },
       },
     ],
@@ -313,14 +313,14 @@ Hacemos lo mismo cuando buscamos muestras de material. Los propietarios siempre 
     },
     seoDescription: {
       en: 'Ten questions to ask any landscaping contractor in DuPage County before signing. From a 25-year-old crew that has watched the answers change.',
-      es: 'Diez preguntas para cualquier contratista de paisajismo en DuPage antes de firmar. De un equipo con 25 años. [TBR]',
+      es: 'Diez preguntas para cualquier contratista de paisajismo en DuPage antes de firmar. De un equipo con 25 años.',
     },
     lastUpdated: '2026-04-08',
     cardImage: {
       src: '/images/resources/how-to-choose-a-landscaper.jpg',
       alt: {
         en: 'A clipboard with a contractor estimate, a tape measure, and work gloves laid on a backyard step.',
-        es: 'Un portapapeles con una cotización, una cinta métrica y guantes de trabajo en un escalón del patio. [TBR]',
+        es: 'Un portapapeles con una cotización, una cinta métrica y guantes de trabajo en un escalón del patio.',
       },
       width: 1280,
       height: 720,
@@ -385,7 +385,7 @@ Illinois has a three-day right of rescission on home-improvement contracts signe
 We give every prospective client a one-page bid that lists every spec by line. We name the foreman. We attach the certificate of insurance and the permit-pull policy. We list the warranty, in writing, with a duration. We don't always win the bid — sometimes the cheap quote wins because the homeowner doesn't know to ask these questions. We hope this guide changes that.
 
 When you're ready to compare bids on a real project, [request a free estimate](/request-quote/) and we'll send the same one-pager to you. You can put it side-by-side with the other two bids and see what they're missing.`,
-      es: `[TBR] Antes de empezar: esta guía es para el propietario de DuPage que tiene tres cotizaciones que no cuadran. La barata cotizó jardín a $80 por visita; la media a $130; la cara a $185. Parecen el mismo trabajo. No son el mismo trabajo. Estas son las diez preguntas que convierten un folleto en un contrato exigible.
+      es: `Antes de empezar: esta guía es para el propietario de DuPage que tiene tres cotizaciones que no cuadran. La barata cotizó jardín a $80 por visita; la media a $130; la cara a $185. Parecen el mismo trabajo. No son el mismo trabajo. Estas son las diez preguntas que convierten un folleto en un contrato exigible.
 
 ## Verifica que estén licenciados para el trabajo que cotizan
 
@@ -462,14 +462,14 @@ Cuando estés listo para comparar cotizaciones en un proyecto real, [solicita un
     },
     seoDescription: {
       en: 'Plain-English definitions of every lawn-care term in a DuPage homeowner bid — aerification, dethatching, pre-emergents, the works.',
-      es: 'Definiciones en español claro de cada término de jardín en una cotización de DuPage — aireación, descope, pre-emergentes. [TBR]',
+      es: 'Definiciones en español claro de cada término de jardín en una cotización de DuPage — aireación, descope, pre-emergentes.',
     },
     lastUpdated: '2026-03-30',
     cardImage: {
       src: '/images/resources/lawn-care-glossary.jpg',
       alt: {
         en: 'Lawn care tools laid out on cut grass — a soil probe, a bag of seed, a spreader, and a hand rake.',
-        es: 'Herramientas de jardín sobre césped cortado — sonda de suelo, bolsa de semilla, esparcidor y rastrillo. [TBR]',
+        es: 'Herramientas de jardín sobre césped cortado — sonda de suelo, bolsa de semilla, esparcidor y rastrillo.',
       },
       width: 1280,
       height: 720,
@@ -578,7 +578,7 @@ After reading the glossary, run your last bid through this filter:
 If three of the four are missing, the bid is selling you "lawn care" without telling you what's in the box.
 
 We have a lot to say about each of these — but the short answer for most DuPage homes is: KBG/fescue blend, mowed at 3.0–3.5 inches, 4-round granular program with a pre-emergent, aerification + overseeding in late August. Anything fancier is upsell unless your soil tells you otherwise.`,
-      es: `[TBR] Si has leído alguna vez una cotización de jardín y sentiste que el contratista hablaba otro idioma, este glosario es para ti. Usamos estos términos en nuestras propias cotizaciones; los definiremos como realmente significan algo en el condado de DuPage.
+      es: `Si has leído alguna vez una cotización de jardín y sentiste que el contratista hablaba otro idioma, este glosario es para ti. Usamos estos términos en nuestras propias cotizaciones; los definiremos como realmente significan algo en el condado de DuPage.
 
 ## Suelo y césped básico
 
@@ -683,31 +683,31 @@ Si tres de los cuatro faltan, la cotización te está vendiendo "cuidado de jard
       {
         q: {
           en: 'What is the most cost-effective lawn-care service if I only do one thing?',
-          es: '¿Cuál es el servicio más costo-efectivo si solo hago uno? [TBR]',
+          es: '¿Cuál es el servicio más costo-efectivo si solo hago uno?',
         },
         a: {
           en: 'Aerification + overseeding in late August. It rebuilds the lawn from the soil up. We have lawns in Naperville that bounced from 30% to 80% turf cover after one September pass.',
-          es: 'Aireación + resiembra a finales de agosto. Reconstruye el jardín desde el suelo. Hemos visto jardines en Naperville saltar de 30% a 80% de cobertura tras una pasada en septiembre. [TBR]',
+          es: 'Aireación + resiembra a finales de agosto. Reconstruye el jardín desde el suelo. Hemos visto jardines en Naperville saltar de 30% a 80% de cobertura tras una pasada en septiembre.',
         },
       },
       {
         q: {
           en: 'Can I skip pre-emergent and just deal with crabgrass after?',
-          es: '¿Puedo omitir el pre-emergente y solo tratar el pasto cangrejo después? [TBR]',
+          es: '¿Puedo omitir el pre-emergente y solo tratar el pasto cangrejo después?',
         },
         a: {
           en: 'You can — but the math is bad. A pre-emergent round runs about $90 on a typical DuPage lot. The post-emergent round to clean up missed crabgrass runs $140 and stresses the lawn for 2 weeks. Pre-emergent is the cheapest insurance in the program.',
-          es: 'Puedes — pero la matemática es mala. Una ronda pre-emergente cuesta unos $90 en un lote típico. La ronda post-emergente para limpiar el pasto cangrejo cuesta $140 y estresa el jardín por 2 semanas. [TBR]',
+          es: 'Puedes — pero la matemática es mala. Una ronda pre-emergente cuesta unos $90 en un lote típico. La ronda post-emergente para limpiar el pasto cangrejo cuesta $140 y estresa el jardín por 2 semanas.',
         },
       },
       {
         q: {
           en: 'Is mulch mowing actually better than bagging?',
-          es: '¿El corte mulching es realmente mejor que ensacar? [TBR]',
+          es: '¿El corte mulching es realmente mejor que ensacar?',
         },
         a: {
           en: "Yes, in DuPage's climate. Mulched clippings break down in 5–7 days and feed the lawn. Bagging removes the nitrogen the lawn just used; you'll need 25% more fertilizer to compensate. The exception is the first cut after a long rain — clippings are too wet to mulch and clump up; bag that one.",
-          es: 'Sí, en el clima de DuPage. Los recortes mulched se descomponen en 5–7 días y alimentan el jardín. La excepción es el primer corte tras una lluvia larga — los recortes están muy mojados; ensaca ese. [TBR]',
+          es: 'Sí, en el clima de DuPage. Los recortes mulched se descomponen en 5–7 días y alimentan el jardín. La excepción es el primer corte tras una lluvia larga — los recortes están muy mojados; ensaca ese.',
         },
       },
     ],
@@ -731,14 +731,14 @@ Si tres de los cuatro faltan, la cotización te está vendiendo "cuidado de jard
     },
     seoDescription: {
       en: 'A field-tested guide to commercial snow service levels in DuPage County. Trigger depths, response windows, and contract language that protects PMs.',
-      es: 'Guía práctica de niveles de servicio comercial de nieve en DuPage. Profundidades, ventanas de respuesta y lenguaje contractual. [TBR]',
+      es: 'Guía práctica de niveles de servicio comercial de nieve en DuPage. Profundidades, ventanas de respuesta y lenguaje contractual.',
     },
     lastUpdated: '2026-03-15',
     cardImage: {
       src: '/images/resources/snow-service-levels-for-pms.jpg',
       alt: {
         en: 'A commercial parking lot at sunrise, freshly plowed with snow piles at the perimeter and salt across the surface.',
-        es: 'Un estacionamiento comercial al amanecer, recién arado con pilas de nieve y sal en la superficie. [TBR]',
+        es: 'Un estacionamiento comercial al amanecer, recién arado con pilas de nieve y sal en la superficie.',
       },
       width: 1280,
       height: 720,
@@ -848,7 +848,7 @@ If the bid carries fewer than six of the eight, you're looking at a vendor that 
 ## What we ship in our PM contracts
 
 Every Sunset Services PM contract includes the eight items above as standard language. We're happy to send a sample contract — most PMs find it useful to compare against the contract they have. Email us, or [request a free site walk](/request-quote/?from=resources) and we'll come measure the lot in person.`,
-      es: `[TBR] Los property managers que operan sitios comerciales multi-inquilino en DuPage conocen las llamadas de nieve. La queja del inquilino a las 6 a.m. de que el lote no estaba arado a las 7. El correo del consejo HOA preguntando por qué la sal está en pilas en vez de esparcida. La reclamación de resbalón que aparece tres semanas después.
+      es: `Los property managers que operan sitios comerciales multi-inquilino en DuPage conocen las llamadas de nieve. La queja del inquilino a las 6 a.m. de que el lote no estaba arado a las 7. El correo del consejo HOA preguntando por qué la sal está en pilas en vez de esparcida. La reclamación de resbalón que aparece tres semanas después.
 
 Esta guía es el contrato que ojalá tu último vendor hubiera firmado. Tres niveles de servicio, qué significa cada uno en la práctica, y el lenguaje que mantiene a la cuadrilla cumpliendo.
 
@@ -952,21 +952,21 @@ Si la cotización tiene menos de seis de ocho, estás viendo un vendor que quier
       {
         q: {
           en: 'What does Level 2 service typically cost for a 1-acre commercial site?',
-          es: '¿Cuánto cuesta típicamente Nivel 2 para un sitio de 1 acre? [TBR]',
+          es: '¿Cuánto cuesta típicamente Nivel 2 para un sitio de 1 acre?',
         },
         a: {
           en: 'In DuPage, Level 2 on a 1-acre commercial site averages $850–$1,400 per event, with a 25-event winter budget of $21,000–$35,000. The variance is mostly storm duration; a 12-hour storm hits the upper end.',
-          es: 'En DuPage, el Nivel 2 en 1 acre promedia $850–$1,400 por evento, con un presupuesto invernal de 25 eventos de $21,000–$35,000. [TBR]',
+          es: 'En DuPage, el Nivel 2 en 1 acre promedia $850–$1,400 por evento, con un presupuesto invernal de 25 eventos de $21,000–$35,000.',
         },
       },
       {
         q: {
           en: 'How do I write a contract that lets me cancel a vendor mid-winter?',
-          es: '¿Cómo escribo un contrato que permita cancelar a mitad de invierno? [TBR]',
+          es: '¿Cómo escribo un contrato que permita cancelar a mitad de invierno?',
         },
         a: {
           en: '"Three documented service failures (missed trigger, late response by 90+ minutes, or photo-log gap) within a single season trigger a 7-day cure period; failure to cure terminates the contract with no further obligation." Most vendors will sign this.',
-          es: '"Tres fallas documentadas (disparador perdido, respuesta tardía por 90+ minutos, o falta de fotos) en una temporada activan un período de cura de 7 días; falla en curar termina el contrato". [TBR]',
+          es: '"Tres fallas documentadas (disparador perdido, respuesta tardía por 90+ minutos, o falta de fotos) en una temporada activan un período de cura de 7 días; falla en curar termina el contrato".',
         },
       },
     ],
@@ -989,14 +989,14 @@ Si la cotización tiene menos de seis de ocho, estás viendo un vendor que quier
     },
     seoDescription: {
       en: 'Hardscape permit thresholds in Aurora, Naperville, Wheaton, Lisle, Bolingbrook, and Batavia — patios, retaining walls, and driveways. Updated 2026.',
-      es: 'Umbrales de permisos de hardscape en Aurora, Naperville, Wheaton, Lisle, Bolingbrook y Batavia. Actualizado 2026. [TBR]',
+      es: 'Umbrales de permisos de hardscape en Aurora, Naperville, Wheaton, Lisle, Bolingbrook y Batavia. Actualizado 2026.',
     },
     lastUpdated: '2026-04-01',
     cardImage: {
       src: '/images/resources/dupage-hardscape-permits.jpg',
       alt: {
         en: 'A blueprint, a permit application, and a measuring tape laid out on a clipboard with a paver in the corner.',
-        es: 'Un plano, una solicitud de permiso y una cinta métrica en un portapapeles con un adoquín en la esquina. [TBR]',
+        es: 'Un plano, una solicitud de permiso y una cinta métrica en un portapapeles con un adoquín en la esquina.',
       },
       width: 1280,
       height: 720,
@@ -1079,7 +1079,7 @@ None of those options costs less than pulling the permit at install time.
 Every Sunset Services hardscape contract includes the permit pull as a line item, in our name. We file the application, attach the stamped engineering when required, schedule the inspections, and pass the inspection certificate to the homeowner at job close. If the inspection finds a deficiency, we fix it on us — that's why our name is on the permit.
 
 If you've already had a job done and you're wondering whether it was permitted, the village's building department will tell you over the phone. Five-minute call, costs nothing, and the answer is the answer.`,
-      es: `[TBR] Tres de cada cuatro disputas de hardscape que mediamos empezaron con un permiso perdido. La cuadrilla no lo sacó. El propietario no preguntó. La ciudad lo descubrió al revender, cuando el reporte de inspección marcó un patio sin permiso.
+      es: `Tres de cada cuatro disputas de hardscape que mediamos empezaron con un permiso perdido. La cuadrilla no lo sacó. El propietario no preguntó. La ciudad lo descubrió al revender, cuando el reporte de inspección marcó un patio sin permiso.
 
 Esta guía es la chuleta para los seis municipios donde Sunset Services trabaja. Los umbrales son precisos a abril 2026; las reglas cambian, así que confirma en el departamento de construcción de tu villa antes de firmar.
 

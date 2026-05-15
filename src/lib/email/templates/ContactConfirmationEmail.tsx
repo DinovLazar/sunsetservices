@@ -8,7 +8,7 @@ import {emailTokens as T} from '../tokens';
  * (Phase 2.08). Shorter than the QuoteConfirmation because the contact form
  * is open-ended rather than scoped to a specific service.
  *
- * Spanish copy is first-pass; flagged [TBR] for Phase 2.13 native review.
+ * Spanish copy is first-pass; native review folds into Phase M.03.
  */
 export type ContactConfirmationEmailProps = {
   firstName: string;
@@ -30,9 +30,8 @@ const COPY = {
     signoff: '— Erick & the Sunset Services team',
   },
   es: {
-    // [TBR] Phase 2.12 — native Spanish review pass. Code-level marker;
-    // inline strings deliberately omit the [TBR] prefix so recipients don't
-    // see it in the rendered email. Tone: usted (visitor-facing transactional).
+    // Native Spanish review folds into Phase M.03. Tone: usted
+    // (visitor-facing transactional).
     preheader: (fn: string) => `Gracias por escribirnos, ${fn}. Recibimos su mensaje.`,
     h1: (fn: string) => `Gracias por escribirnos, ${fn}.`,
     lead:

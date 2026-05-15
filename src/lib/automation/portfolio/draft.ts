@@ -102,8 +102,7 @@ VOICE
 
 BILINGUAL OUTPUT
 - EN: written naturally for a US English reader.
-- ES: write the Spanish version naturally for a neutral Latin-American Spanish reader (Mexican-origin friendly), then PREFIX every Spanish string with "[TBR] " (literal, including the space). Example: "[TBR] Patio de adoquines en Naperville..."
-- The [TBR] prefix MUST be on every ES field: title.es, dek.es, body.es[].text or items[]. It marks the ES first-pass for the native-review queue (Phase 2.12).
+- ES: write the Spanish version naturally for a neutral Latin-American Spanish reader (Mexican-origin friendly). Example: "Patio de adoquines en Naperville..."
 - Use "césped" for lawn, "patio" for patio, "adoquines" for pavers, "muro de contención" for retaining wall.
 
 ALLOWED ENUMS
@@ -129,7 +128,7 @@ interface PortfolioDraft {
 STRUCTURE GUIDANCE
 - body should be 3–6 blocks. Suggested rhythm: opening 'p' (1–2 sentences setting the scene) → 'h2' "The work" → 'p' or 'ul' describing what was done → 'h2' "The result" → 'p' closing on the outcome.
 - 'ul' blocks are good for materials lists or scope catalogs. 'ol' for sequenced phases. Don't overuse either.
-- body.es mirrors body.en block-for-block (same block types in the same order), with each text/items value translated and [TBR]-prefixed.
+- body.es mirrors body.en block-for-block (same block types in the same order), with each text/items value translated.
 
 Return ONLY the JSON. No code fences. No commentary.`;
 }

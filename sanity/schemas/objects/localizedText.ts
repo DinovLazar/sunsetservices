@@ -15,7 +15,7 @@ export const localizedText = defineType({
     defineField({
       name: 'es',
       type: 'text',
-      title: 'Spanish (mark [TBR] if pending native review)',
+      title: 'Spanish',
       rows: 4,
     }),
   ],

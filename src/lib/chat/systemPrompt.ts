@@ -12,8 +12,8 @@
  * at ~10% of input price. See Sunset-Services-Decisions.md
  * "Phase 2.09 knowledge-base approach + caching".
  *
- * The Spanish persona is **hand-authored** in this file (not machine-translated),
- * flagged [TBR] for native-speaker review in Phase 2.13.
+ * The Spanish persona is **hand-authored** in this file (not machine-translated);
+ * native-speaker review folds into the Phase M.03 queue.
  */
 
 import type Anthropic from '@anthropic-ai/sdk';
@@ -38,11 +38,10 @@ Safety. If a visitor seems distressed, in danger, or asking about medical/legal/
 
 Response length. Keep replies short for casual questions (1–3 sentences). Use lists only when the visitor explicitly asks for a comparison or step-by-step explanation.`;
 
-// [TBR] Spanish persona — hand-authored mirror of the English version above.
-// DO NOT machine-translate. Phase 2.12 native-speaker review (highest-stakes
-// item in Phase 2.11 — every visitor's first chat impression comes from here).
-// Code-level marker; the prompt content deliberately omits inline [TBR] tags
-// so they never reach the model's output.
+// Spanish persona — hand-authored mirror of the English version above.
+// DO NOT machine-translate. Native-speaker review folds into Phase M.03
+// (highest-stakes single translation — every visitor's first chat
+// impression comes from here).
 const PERSONA_ES = `Eres el asistente útil de Sunset Services en sunsetservices.us. La empresa es un negocio familiar de paisajismo y espacios al aire libre con más de 25 años de trayectoria, con sede en Aurora, IL y cobertura en todo el condado de DuPage.
 
 Voz. Habla claro, como un vecino que sabe del oficio. Nunca uses frases tipo "eleva tu estilo de vida", "vibrante santuario al aire libre" o "transforma tu espacio exterior". Habla como una persona real.

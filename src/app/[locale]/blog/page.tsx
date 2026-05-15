@@ -340,7 +340,7 @@ export default async function BlogIndexPage({
                         bylineLabel={
                           loc === 'en'
                             ? `By ${featured.author}`
-                            : `[TBR] Por ${featured.author}`
+                            : `Por ${featured.author}`
                         }
                         publishedAt={featured.publishedAt}
                         formattedDate={formatLongDate(featured.publishedAt, loc)}
@@ -392,7 +392,7 @@ export default async function BlogIndexPage({
                               bylineLabel:
                                 loc === 'en'
                                   ? `By ${post.author}`
-                                  : `[TBR] Por ${post.author}`,
+                                  : `Por ${post.author}`,
                               publishedAt: post.publishedAt,
                               formattedDate: formatLongDate(post.publishedAt, loc),
                               readingLabel: tContent('meta.readingTime', {minutes: 5}),

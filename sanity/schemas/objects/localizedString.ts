@@ -14,7 +14,7 @@ export const localizedString = defineType({
     defineField({
       name: 'es',
       type: 'string',
-      title: 'Spanish (mark [TBR] if pending native review)',
+      title: 'Spanish',
     }),
   ],
 });

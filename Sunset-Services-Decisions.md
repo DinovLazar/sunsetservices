@@ -522,3 +522,31 @@ Five off-spec decisions made during Phase 2.17 execution, none of them changing 
 **Decided by:** Code, in-phase during Phase 2.17 execution. Items 2 + 3 caught by the verification harness's Test 11 (2 separate failures across 2 separate harness runs). Item 1 was telegraphed as conditionally off-spec by the plan itself.
 
 ---
+
+## 2026-05-15 — Phase B.01 — Strip [TBR] from Spanish surfaces
+
+Mechanical strip pass across the codebase + production Sanity dataset. 488 occurrences inventoried, 416 stripped (the remaining 72 in `scripts/translate-sanity-es.mjs` left untouched per the plan's "Do NOT touch — historical reference" clause). On the Sanity side, 67 documents across 5 doc types were patched, totaling 175 string fields stripped; idempotent on a second run. The phase did not retranslate or "improve" any Spanish copy — every M.03 (native review) decision is preserved for the proper reviewer pass.
+
+In-phase off-spec decisions:
+
+1. **LLM drafter prompts in `src/lib/automation/{blog,portfolio}/draft.ts` were rewritten.** The plan called out the chat persona file explicitly; it did not call out the two cron drafters. Both drafters' `BILINGUAL OUTPUT` sections contained explicit instructions to prefix every Spanish string with `[TBR] ` (literal). Left in place, the next monthly blog cron and the next on-demand portfolio cron would have re-seeded the prefix into Sanity, undoing B.01 entirely. Rewrote the prefix-injection instructions out of both system prompts; left the LatAm-Spanish tone + glossary guidance verbatim. Example outputs in the prompts (`"[TBR] El mejor momento para resembrar…"` etc.) were updated to their non-prefixed form so the few-shot signal matches the new output expectation.
+
+2. **Sanity-Studio field titles simplified.** The three localized-field schemas (`sanity/schemas/objects/localized{String,Text,Body}.ts`) carried Studio-editor-facing titles `'Spanish (mark [TBR] if pending native review)'`. Not visitor-visible content — Studio editor hints. Since the convention is retired, the parenthetical is now misleading guidance. Simplified to `'Spanish'`. Studio re-deploy (`npm run studio:deploy`) is out of B.01's scope but the source change ships; the next deploy picks up the new titles.
+
+3. **English-side `[TBR]` oversight in `src/messages/en.json`.** Line 701 — `home.proofRail.google.caption` — carried `"[TBR] verified reviews"`. English never used the convention. Almost certainly a Phase 2.07/2.08 copy-paste residue (the footer additions used the ES caption as the structural template and an ES-tagged value slipped onto the EN side). Stripped to `"verified reviews"`. Worth flagging here in case M.03 review surfaces other cross-locale tag drift.
+
+4. **Legacy trailing-suffix `[TBR]` patterns in `src/data/{blog,resources}.ts`.** Phase 2.11's `TRANSLATION_NOTES.md` "Position rule" claims all suffix-position markers were normalized to leading-prefix. They were not — ~35 strings still had trailing ` [TBR]` (with leading space, at end-of-string). B.01 stripped both leading and trailing patterns; the discrepancy with the 2.11 notes is logged here for transparency.
+
+5. **Pre-existing build blocker repaired.** `npm run build` in the worktree failed on `Module not found: Can't resolve 'prettier/plugins/html'` — same failure reproduced in main on `cd19908`. Root cause: `node_modules/prettier/` existed but was partial (no `package.json`, no `plugins/`). Ran `npm install prettier@^3.5.3` in the main repo. Repair, not a B.01-induced change. Build then exited 0 (118 pages).
+
+6. **DoD-grep exclusion list adjusted.** The plan's Definition of Done specifies an exact grep with five excludes: `:(exclude)src/_project-state`, `:(exclude)docs`, `:(exclude)*.md`, `:(exclude)scripts/strip-tbr-sanity.mjs`, but **not** `:(exclude)scripts/translate-sanity-es.mjs`. The plan's body, step 2's "Do NOT touch" list, and step 4's "the script references the string `[TBR]` to match against, which is fine" all explicitly say leave the historical script untouched. Strict-zero reading of the DoD grep contradicts the plan body. Documentation drift inside the plan. Treated as: the spirit of the DoD is satisfied (historical script left alone), verification run with the additional `:(exclude)scripts/translate-sanity-es.mjs` flag returns zero, completion report transparent about both views.
+
+7. **Test fixtures in `scripts/test-blog-automation.mjs` were stripped.** The plan's "Do NOT touch" list singled out `scripts/translate-sanity-es.mjs` but did not call out `scripts/test-blog-automation.mjs`. The harness creates synthetic Sanity docs with `es: '[TBR] Test post …'` strings to mirror Phase 2.11's production data shape. Now that real automation no longer emits `[TBR]`, the test fixtures should match the new reality — otherwise the harness drifts from production behavior. Stripped to plain Spanish; structural assertions (Zod shape, doc-type counts, idempotency) untouched.
+
+8. **Native Spanish review (Phase M.03) remains pending.** B.01 cleans markup, not Spanish quality. Every visitor-facing Spanish string still represents either Phase 2.11's LLM first-pass (LatAm-MX) or Phase 2.16/2.17's per-draft Anthropic output or Code's hand-authored `PERSONA_ES` / `LocaleLabels`. None has had a human native-speaker review. M.03 path decision (single review pass vs. per-surface drip) still flagged for the user.
+
+**Why this matters for future phases.** Phase M.03 can now run against the same UI a visitor sees — no mental filter required for the prefix. Phase 2.16/2.17 cron runs will now produce clean Spanish drafts (the drafter rewrite in item 1 is load-bearing). Future Sanity content seeded via fresh data (e.g. additional projects, additional resource articles) should NOT carry `[TBR]` — the convention is fully retired, and `scripts/translate-sanity-es.mjs` stays purely as a historical record.
+
+**Decided by:** Code, in-phase during Phase B.01 execution. Items 1–4 were inventory-discovered (the grep surfaced files the plan didn't explicitly enumerate); item 5 was a build-environment blocker the plan didn't anticipate; item 6 is a documentation drift inside the plan; item 7 was a judgment call on test-fixture parity with production.
+
+---

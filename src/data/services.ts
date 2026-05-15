@@ -12,8 +12,7 @@
  * editing this file; State A and State B occupy the same vertical
  * footprint per §4.5 to keep alternation invariant.
  *
- * Strings flagged inline as `[TBR]` go to native-Spanish review in
- * Phase 2.13. Final marketing copy is Erick's pass in Part 2.
+ * Final Spanish marketing copy is Erick's pass in Part 2.
  */
 
 export type Audience = 'residential' | 'commercial' | 'hardscape';

@@ -36,7 +36,7 @@ export const localizedBody = defineType({
     defineField({
       name: 'es',
       type: 'array',
-      title: 'Spanish (mark [TBR] if pending native review)',
+      title: 'Spanish',
       of: blockMembers,
     }),
   ],

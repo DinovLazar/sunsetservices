@@ -135,6 +135,12 @@ Return ONLY the JSON. No code fences. No commentary.`;
 }
 
 function buildUserMessage(metadata: JobMetadata, photoCount: number): string {
+  // Default fallbacks so the model ALWAYS has a valid value for the three
+  // required taxonomy fields, even when the description is sparse.
+  const fallbackAudience = metadata.inferredAudience ?? 'residential';
+  const fallbackServiceSlug = metadata.inferredServiceSlug ?? 'landscape-maintenance';
+  const fallbackLocationSlug = metadata.inferredLocationSlug ?? 'aurora';
+
   const lines = [
     'Job metadata (extracted from a ServiceM8 job.completed webhook):',
     `- jobUuid: ${metadata.jobUuid ?? 'n/a'}`,
@@ -142,23 +148,67 @@ function buildUserMessage(metadata: JobMetadata, photoCount: number): string {
     `- address: ${metadata.address ?? 'n/a'}`,
     `- photo count uploaded to Sanity: ${photoCount}`,
     '',
-    'Hints (best-effort heuristics — you may override based on the description):',
+    'Hints (best-effort heuristics — override only if you have strong reason from the description):',
     `- inferredAudience: ${metadata.inferredAudience ?? 'n/a'}`,
     `- inferredServiceSlug: ${metadata.inferredServiceSlug ?? 'n/a'}`,
     `- inferredLocationSlug: ${metadata.inferredLocationSlug ?? 'n/a'}`,
     '',
-    'Pick the BEST audience / serviceSlug / locationSlug for this job. If the description is too sparse to confidently pick a location, default to locationSlug:"aurora" (Sunset Services is based in Aurora and a quarter of jobs are local).',
+    'REQUIRED — you MUST include all three taxonomy fields in your JSON output. If the description is too sparse to choose confidently, fall back to these defaults:',
+    `- audience: "${fallbackAudience}"`,
+    `- serviceSlug: "${fallbackServiceSlug}"`,
+    `- locationSlug: "${fallbackLocationSlug}"`,
+    '',
+    'Now return the JSON.',
   ];
   return lines.join('\n');
 }
 
-function extractJsonString(text: string): string {
+function stripFences(text: string): string {
   const trimmed = text.trim();
   if (trimmed.startsWith('```')) {
-    const inner = trimmed.replace(/^```(?:json)?\s*/, '').replace(/\s*```$/, '');
-    return inner.trim();
+    return trimmed.replace(/^```(?:json)?\s*/, '').replace(/\s*```$/, '').trim();
   }
   return trimmed;
+}
+
+/**
+ * Robust JSON extraction: strip Markdown fences, then balance braces to
+ * extract the first complete top-level JSON object. Handles the case
+ * where the model emits valid JSON followed by trailing prose (the
+ * official Anthropic shape says "return JSON only" but in practice the
+ * model occasionally appends a sentence or two of commentary).
+ */
+function extractJsonString(text: string): string {
+  const inner = stripFences(text);
+  const firstBrace = inner.indexOf('{');
+  if (firstBrace === -1) return inner;
+
+  let depth = 0;
+  let inString = false;
+  let escape = false;
+  for (let i = firstBrace; i < inner.length; i++) {
+    const ch = inner[i];
+    if (escape) {
+      escape = false;
+      continue;
+    }
+    if (ch === '\\') {
+      escape = true;
+      continue;
+    }
+    if (ch === '"') {
+      inString = !inString;
+      continue;
+    }
+    if (inString) continue;
+    if (ch === '{') depth++;
+    else if (ch === '}') {
+      depth--;
+      if (depth === 0) return inner.slice(firstBrace, i + 1);
+    }
+  }
+  // Unbalanced — return the whole thing and let JSON.parse fail naturally.
+  return inner.slice(firstBrace);
 }
 
 function getResponseText(response: Anthropic.Message): string {
@@ -193,6 +243,32 @@ function slugifyTitle(value: string): string {
     .slice(0, 60);
 }
 
+/**
+ * Backfill the three required taxonomy fields (audience / serviceSlug /
+ * locationSlug) on the model's output from the inferred hints if the
+ * model omitted them. Acceptable because:
+ *   - The hints come from the deterministic `extractJobMetadata` helper.
+ *   - The model received the same hints in the system + user prompts and
+ *     was told to fall back to them when uncertain — so this is just
+ *     enforcing the "always include all three" contract server-side.
+ *   - Final values are still subject to Zod whitelist validation, so
+ *     bogus values still trigger the corrective-retry path.
+ */
+function backfillTaxonomy(
+  parsed: unknown,
+  metadata: JobMetadata,
+): unknown {
+  if (!parsed || typeof parsed !== 'object') return parsed;
+  const obj = parsed as Record<string, unknown>;
+  const audienceFallback = metadata.inferredAudience ?? 'residential';
+  const serviceFallback = metadata.inferredServiceSlug ?? 'landscape-maintenance';
+  const locationFallback = metadata.inferredLocationSlug ?? 'aurora';
+  if (typeof obj.audience !== 'string') obj.audience = audienceFallback;
+  if (typeof obj.serviceSlug !== 'string') obj.serviceSlug = serviceFallback;
+  if (typeof obj.locationSlug !== 'string') obj.locationSlug = locationFallback;
+  return obj;
+}
+
 export async function generatePortfolioDraft(args: {
   jobMetadata: JobMetadata;
   photoCount: number;
@@ -222,6 +298,8 @@ export async function generatePortfolioDraft(args: {
     parsed = JSON.parse(extractJsonString(getResponseText(retry)));
   }
 
+  parsed = backfillTaxonomy(parsed, args.jobMetadata);
+
   let zodResult = PortfolioDraftSchemaWithoutSlug.safeParse(parsed);
   if (!zodResult.success) {
     const issueSummary = zodResult.error.issues
@@ -234,7 +312,10 @@ export async function generatePortfolioDraft(args: {
       userMessage,
       `Your previous response did not match the required JSON shape. Issues:\n${issueSummary}\n\nReturn a corrected JSON object only.`,
     );
-    const retryParsed = JSON.parse(extractJsonString(getResponseText(retry)));
+    const retryParsed = backfillTaxonomy(
+      JSON.parse(extractJsonString(getResponseText(retry))),
+      args.jobMetadata,
+    );
     zodResult = PortfolioDraftSchemaWithoutSlug.safeParse(retryParsed);
     if (!zodResult.success) {
       const summary = zodResult.error.issues

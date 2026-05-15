@@ -9,6 +9,7 @@ export const blogPost = defineType({
     {name: 'media', title: 'Media'},
     {name: 'taxonomy', title: 'Taxonomy'},
     {name: 'seo', title: 'SEO'},
+    {name: 'meta', title: 'Meta'},
   ],
   fields: [
     defineField({
@@ -136,6 +137,34 @@ export const blogPost = defineType({
       type: 'localizedSeo',
       title: 'SEO',
       group: 'seo',
+    }),
+    // Phase 2.16 — automation-agent metadata. Optional fields populated by
+    // /api/cron/blog-draft-monthly when an Anthropic-generated draft is
+    // approved and published. Manual posts written directly in Studio leave
+    // these empty.
+    defineField({
+      name: 'automatedTopicId',
+      type: 'string',
+      title: 'Automated topic ID',
+      group: 'meta',
+      readOnly: true,
+      description:
+        'Set when an auto-published post landed via the monthly blog cron. Matches a BLOG_TOPICS entry in src/data/blogTopics.ts. The topic picker reads this field across all blogPosts to skip topics already used.',
+    }),
+    defineField({
+      name: 'automatedGeneratedAt',
+      type: 'datetime',
+      title: 'Automated draft generated at',
+      group: 'meta',
+      readOnly: true,
+    }),
+    defineField({
+      name: 'automatedModelUsed',
+      type: 'string',
+      title: 'Anthropic model used',
+      group: 'meta',
+      readOnly: true,
+      description: 'e.g. "claude-sonnet-4-6". Snapshot from the cron run.',
     }),
   ],
   orderings: [

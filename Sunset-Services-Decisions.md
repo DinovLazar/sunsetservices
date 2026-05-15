@@ -425,3 +425,19 @@ In addition, Zod 3.25's type inference for `.passthrough()` has a regression: th
 **Decided by:** Code, in-phase during Phase 2.13 execution. Caught by `npm run build` TS check; root cause traced to Zod 3.25's `flatten<T & {[k:string]:unknown}>` mapped-type behavior.
 
 ---
+
+## 2026-05-15 — Phase 2.14 deferred → Phase 2.15 runs next
+
+Phase 2.14 (Google Business Profile + Places API) is **skipped for now** and rolled forward. **Phase 2.15 (Telegram bot infrastructure) is the next phase to run.**
+
+**Why deferred.** Phase 2.14's GBP write side is gated on Google's approval of the GBP API access application Goran filed 2026-05-12. Today is 2026-05-15 — 3 days into a 2–6 week review window. Additionally, `GBP_OAUTH_CLIENT_SECRET` and `GBP_OAUTH_REFRESH_TOKEN` are still PENDING per the 2026-05-13 A.1b addendum (`GBP_OAUTH_CLIENT_SECRET` has not been shared by Goran; `GBP_OAUTH_REFRESH_TOKEN` is Phase 2.14a's job after Google approves).
+
+**Phase Plan fallback considered + rejected.** The Phase Plan explicitly says *"If GBP verification still pending, Phase 2.14 ships the Places-side only and parks the GBP writes until verification clears."* The user (Goran) considered running 2.14 in Places-only mode now and instead elected to skip 2.14 entirely and open Phase 2.15 — the Telegram bot phase is fully unblocked (all creds in `.env.local` from Phase 2.01) and runs cleanly in one shot.
+
+**Future scheduling.** Phase 2.14 re-opens once: (a) Google approves the GBP API access application, AND (b) `GBP_OAUTH_CLIENT_SECRET` lands in env from Goran. Phase 2.14a (the ~5-minute OAuth refresh-token screenshare with Goran) follows immediately after. Phase 2.16 (Places API daily cron + weekly SEO summary + monthly AI blog draft) inherits Phase 2.14's Places fetcher — Phase 2.16 cannot ship its Daily cron job before Phase 2.14 lands the fetcher library. The Weekly SEO and Monthly blog crons within Phase 2.16 are NOT Places-dependent and could theoretically ship sooner, but the Phase Plan keeps 2.16 as one phase.
+
+**Risk acknowledged.** This deferral does not block any other Part 2 phase besides 2.16's Daily cron. Phase 2.17 (automation agent Part B — on-demand ServiceM8 portfolio publish) depends on Phase 2.14's GBP write client to upload photos to Google Business Profile; that leg of 2.17 also waits on 2.14. The Telegram approval leg of 2.17 is unaffected and unblocked after Phase 2.15.
+
+**Decided by:** user (Goran), in Chat on 2026-05-15.
+
+---

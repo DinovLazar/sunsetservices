@@ -10,6 +10,7 @@ export const project = defineType({
     {name: 'beforeAfter', title: 'Before / After'},
     {name: 'taxonomy', title: 'Taxonomy'},
     {name: 'meta', title: 'Facts & SEO'},
+    {name: 'automation', title: 'Automation (readonly)'},
   ],
   fields: [
     defineField({
@@ -199,6 +200,34 @@ export const project = defineType({
       type: 'localizedSeo',
       title: 'SEO',
       group: 'meta',
+    }),
+    // ─────────────────────── Automation (Phase 2.17) ───────────────────────
+    // Populated only by publishPortfolioDraft() from the ServiceM8-driven
+    // pipeline. Projects authored directly in Studio leave these empty.
+    defineField({
+      name: 'automatedSourceEventId',
+      type: 'string',
+      title: 'Source ServiceM8 eventId',
+      group: 'automation',
+      readOnly: true,
+      description:
+        'The ServiceM8-supplied eventId that drove this auto-published project. Empty for manually authored projects.',
+    }),
+    defineField({
+      name: 'automatedGeneratedAt',
+      type: 'datetime',
+      title: 'Auto-generated at',
+      group: 'automation',
+      readOnly: true,
+      description: 'When the originating portfolioDraftPending was generated (Anthropic call timestamp).',
+    }),
+    defineField({
+      name: 'automatedModelUsed',
+      type: 'string',
+      title: 'Anthropic model used',
+      group: 'automation',
+      readOnly: true,
+      description: 'e.g. "claude-sonnet-4-6". Captured from the originating draft.',
     }),
   ],
   preview: {

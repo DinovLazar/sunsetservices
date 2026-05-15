@@ -3,8 +3,10 @@ import {timingSafeEqual} from 'node:crypto';
 import {z} from 'zod';
 import {writeClient} from '@sanity-lib/write-client';
 import {parseCallbackData} from '@/lib/telegram/approvals';
-import {answerCallbackQuery, editMessageReplyMarkup} from '@/lib/telegram/client';
+import {answerCallbackQuery, editMessageReplyMarkup, sendMessage} from '@/lib/telegram/client';
 import {recordDecision} from '@/lib/telegram/persistLog';
+import {publishBlogDraft, rejectBlogDraft} from '@/lib/automation/blog/publish';
+import {escapeMarkdownV2} from '@/lib/telegram/markdownV2';
 
 /**
  * POST /api/webhooks/telegram — Telegram callback_query receiver (Phase 2.15).
@@ -29,10 +31,15 @@ import {recordDecision} from '@/lib/telegram/persistLog';
  *   5. Idempotency check: fetch the telegramApprovalLog row by
  *      sentMessageId. Missing → ignore (we never sent this). Already
  *      decided → 200 + deduped:true (Telegram retries on 5xx).
- *   6. Route by kind. For servicem8_portfolio, patch the servicem8Event
- *      doc's telegramApprovalState + processedAt, patch the log row,
- *      edit the original Telegram message (remove buttons), and
- *      answerCallbackQuery so Telegram clears the "Loading…" spinner.
+ *   6. Route by kind:
+ *      - 'servicem8_portfolio' (Phase 2.15): patch the servicem8Event doc's
+ *        telegramApprovalState + processedAt, patch the log row, edit the
+ *        message, ack the callback.
+ *      - 'blog_draft' (Phase 2.16): on Approve, publishBlogDraft() creates
+ *        the live blogPost + scoped faq docs + flips the pending doc to
+ *        'approved'. On Reject, rejectBlogDraft() flips the pending doc to
+ *        'rejected' (kept for audit). Edit the message, ack, and post a
+ *        "Published" / "Rejected" follow-up linked to the original.
  *   7. Sanity/Telegram errors → 500 + opaque persist-failed. Telegram
  *      retries on 5xx; idempotency check (step 5) handles the replay.
  */
@@ -176,14 +183,104 @@ export async function POST(request: Request) {
   }
 
   if (decoded.kind === 'blog_draft') {
-    // Phase 2.16 ships this handler. Until then, a 'bd:' callback shouldn't
-    // exist (buildButtonsForKind throws for blog_draft). If we ever see one,
-    // log and ignore.
-    console.warn('[telegram-webhook] blog_draft callback received before Phase 2.16');
-    return NextResponse.json(
-      {status: 'ignored', reason: 'blog-draft-handler-not-implemented'},
-      {status: 200},
-    );
+    try {
+      if (decoded.action === 'approve') {
+        const result = await publishBlogDraft(decoded.targetId);
+        const decisionResult = await recordDecision({
+          logDocId: logRow._id,
+          decision: 'approve',
+          operatorChatId: cq.from.id,
+          rawCallbackData: cq.data,
+        });
+        if (!decisionResult.ok) {
+          return NextResponse.json(
+            {status: 'error', reason: 'persist-failed'},
+            {status: 500},
+          );
+        }
+
+        // Best-effort Telegram chrome cleanup. Sanity state (the blogPost +
+        // patched pending doc + patched log row) is already authoritative.
+        const editResult = await editMessageReplyMarkup({
+          chatId: cq.message.chat.id,
+          messageId: cq.message.message_id,
+        });
+        if ('error' in editResult && editResult.error) {
+          console.warn('[telegram-webhook] editMessageReplyMarkup failed:', editResult.error);
+        }
+        const ackResult = await answerCallbackQuery({
+          callbackQueryId: cq.id,
+          text: 'Published.',
+        });
+        if ('error' in ackResult && ackResult.error) {
+          console.warn('[telegram-webhook] answerCallbackQuery failed:', ackResult.error);
+        }
+        const followupResult = await sendMessage({
+          chatId: cq.message.chat.id,
+          text: `✅ Published as blog post \`${escapeMarkdownV2(result.blogPostId)}\``,
+          parseMode: 'MarkdownV2',
+          replyToMessageId: cq.message.message_id,
+        });
+        if ('error' in followupResult && followupResult.error) {
+          console.warn('[telegram-webhook] sendMessage (publish followup) failed:', followupResult.error);
+        }
+
+        return NextResponse.json(
+          {status: 'ok', decision: 'approve', blogPostId: result.blogPostId},
+          {status: 200},
+        );
+      }
+
+      // action === 'reject'
+      await rejectBlogDraft(decoded.targetId);
+      const decisionResult = await recordDecision({
+        logDocId: logRow._id,
+        decision: 'reject',
+        operatorChatId: cq.from.id,
+        rawCallbackData: cq.data,
+      });
+      if (!decisionResult.ok) {
+        return NextResponse.json(
+          {status: 'error', reason: 'persist-failed'},
+          {status: 500},
+        );
+      }
+
+      const editResult = await editMessageReplyMarkup({
+        chatId: cq.message.chat.id,
+        messageId: cq.message.message_id,
+      });
+      if ('error' in editResult && editResult.error) {
+        console.warn('[telegram-webhook] editMessageReplyMarkup failed:', editResult.error);
+      }
+      const ackResult = await answerCallbackQuery({
+        callbackQueryId: cq.id,
+        text: 'Rejected.',
+      });
+      if ('error' in ackResult && ackResult.error) {
+        console.warn('[telegram-webhook] answerCallbackQuery failed:', ackResult.error);
+      }
+      const followupResult = await sendMessage({
+        chatId: cq.message.chat.id,
+        text: '✋ Draft rejected\\. Topic returns to the rotation\\.',
+        parseMode: 'MarkdownV2',
+        replyToMessageId: cq.message.message_id,
+      });
+      if ('error' in followupResult && followupResult.error) {
+        console.warn('[telegram-webhook] sendMessage (reject followup) failed:', followupResult.error);
+      }
+
+      return NextResponse.json(
+        {status: 'ok', decision: 'reject', pendingDocId: decoded.targetId},
+        {status: 200},
+      );
+    } catch (err) {
+      console.error('[telegram-webhook] blog_draft routing failed', err);
+      return NextResponse.json(
+        {status: 'error', reason: 'persist-failed'},
+        {status: 500},
+      );
+    }
   }
 
   // servicem8_portfolio routing

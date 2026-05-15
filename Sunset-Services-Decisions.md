@@ -502,3 +502,23 @@ Phase 2.17 (automation agent Part B) ships the **Telegram-approval leg of the on
 **Decided by:** user (Goran) + Chat, 2026-05-15, before opening Phase 2.17.
 
 ---
+
+## 2026-05-15 — Phase 2.17: in-phase off-spec additions (drafter robustness + schema mapping)
+
+Five off-spec decisions made during Phase 2.17 execution, none of them changing user-visible behavior:
+
+1. **`portfolioDraftPending.meta.photoStats` object field added.** Plan's Test 11 spec mentioned: "Code may surface failed count as a separate optional field on the pending doc — note this as an off-spec addition in Decisions if added." It was added because the harness needed to assert on the failure count for the partial-download test, and surfacing `{uploaded, failed}` on the pending doc lets the operator diagnose flaky ServiceM8 attachment URLs without grepping logs. Two number subfields, optional, populated by the orchestrator at draft time.
+
+2. **Server-side taxonomy backfill in the Anthropic drafter.** `backfillTaxonomy()` merges the inferred `audience` / `serviceSlug` / `locationSlug` from `extractJobMetadata` onto the model's output IF the model omitted them, before Zod validation. Added because Sonnet 4.6 occasionally drops these three fields on sparse-description inputs (the verification harness's Test 11, with description "New retaining wall in Aurora — natural stone, 35 ft along the slope", reproduced this consistently — two consecutive retries both omitted the fields). The hints originate from the deterministic extractor, so backfilling is just enforcing the "always include all three" contract server-side. Bogus values still trigger the Zod whitelist check + corrective retry.
+
+3. **Robust JSON extraction in the drafter.** Replaced the simple Markdown-fence-strip in `extractJsonString()` with a balance-braces parser that finds the first complete top-level JSON object. Added because Anthropic occasionally appended trailing prose after the JSON object (one harness run hit "Unexpected non-whitespace character after JSON at position 2913"). The balance-braces walker is ~25 lines, handles quoted strings + escapes, and falls back to the original behavior on malformed input.
+
+4. **Project schema field mapping is adaptive, not literal.** The plan said the live `project` doc should carry `audience` / `serviceSlug` / `locationSlug` from the draft. The existing `project` schema (Phase 1.16) uses `services[]` (array of references) and `city` (single reference) — there are no `serviceSlug` / `locationSlug` fields. Implementation: `publishPortfolioDraft` looks up the matching service doc (by slug + audience) and location doc (by slug) via GROQ; populates `services` + `city` as proper references on hit; skips on miss (operator finishes in Studio). `audience` is set directly. The draft's `dek` (localizedString) maps to the project's `shortDek` (localizedString — same shape). The draft's body (PortableText) is flattened into the project's `narrative` (localizedText, plain string per locale) via `joinBodyToText()`. `leadAlt` reuses the draft's `title` localized string. `publishedAt` is set even though it's not in the schema — Sanity is schemaless at runtime so extra fields are accepted and visible via the raw doc viewer.
+
+5. **`?probe=extract` query mode on `/api/test/portfolio-pipeline-run`.** Test 12 spec called for unit-style testing of `extractJobMetadata` against 4 hand-crafted payloads. Adding a third test route just for that would have exceeded the plan's "2 new ƒ-Dynamic test routes" count. Instead, the existing pipeline-run route accepts `?probe=extract` which short-circuits at the request-body parse step and calls the extractor directly. Same auth + flag gate.
+
+**Why this matters for future phases.** Phase 2.17a inherits the schema-mapping pattern (look up by slug → reference) when wiring real GBP write calls — the patterns established here for handling the mismatch between draft-time string slugs and live-doc Sanity references stay in place. The taxonomy backfill is a defensive pattern worth replicating in any future structured-output Anthropic call — particularly when the call has small / weak descriptions to work from.
+
+**Decided by:** Code, in-phase during Phase 2.17 execution. Items 2 + 3 caught by the verification harness's Test 11 (2 separate failures across 2 separate harness runs). Item 1 was telegraphed as conditionally off-spec by the plan itself.
+
+---

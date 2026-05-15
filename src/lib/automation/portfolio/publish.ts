@@ -195,7 +195,7 @@ export async function publishPortfolioDraft(pendingDocId: string): Promise<{
   const narrativeEn = joinBodyToText(pending.body.en);
   const narrativeEs = joinBodyToText(pending.body.es);
 
-  const projectDoc: Record<string, unknown> = {
+  const projectDoc: {_id: string; _type: 'project'; [key: string]: unknown} = {
     _id: projectId,
     _type: 'project',
     title: pending.title,

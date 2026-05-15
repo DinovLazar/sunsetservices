@@ -1,31 +1,66 @@
 'use client';
 
-import {useCallback, useEffect, useState} from 'react';
+import {useCallback, useSyncExternalStore} from 'react';
 import {
   getConsent,
   setConsent,
   subscribeConsent,
-  type ConsentState,
 } from '@/lib/analytics/consent';
+import {
+  ACCEPT_ALL,
+  REJECT_ALL,
+  type ConsentSignals,
+  type ConsentState,
+} from '@/types/consent';
+
+const PENDING: ConsentState = {status: 'pending'};
+
+function subscribe(onChange: () => void) {
+  return subscribeConsent(() => onChange());
+}
+
+function serverSnapshot(): ConsentState {
+  return PENDING;
+}
 
 /**
- * useConsent — Phase 2.10.
+ * useConsent — Phase B.03 (refactored from Phase 2.10 binary).
  *
- * Thin React hook around `src/lib/analytics/consent`. The first render
- * always returns `'unknown'` to keep the SSR snapshot deterministic; the
- * client hydrates the real value in the mount effect, then live-updates
- * whenever `setConsent()` fires the `sunset:consent-changed` event.
+ * Uses `useSyncExternalStore` so the consent state is read from
+ * localStorage during render (consistent with the upstream store) and
+ * tracks changes via the `sunset:consent-changed` CustomEvent.
+ *
+ * The SSR snapshot is always `pending` — the hydration pass picks up
+ * the real value on the client. There's no double-render flicker
+ * (useSyncExternalStore is React-19-aware).
+ *
+ * Action helpers:
+ *   acceptAll()     — all signals granted
+ *   rejectAll()     — all signals denied (necessary stays granted)
+ *   save(signals)   — write granular per-category state (from the modal)
  */
 export function useConsent() {
-  const [state, setState] = useState<ConsentState>('unknown');
+  const state = useSyncExternalStore(subscribe, getConsent, serverSnapshot);
 
-  useEffect(() => {
-    setState(getConsent());
-    return subscribeConsent(setState);
+  const acceptAll = useCallback(() => {
+    setConsent({
+      analytics: ACCEPT_ALL.analytics,
+      marketing: ACCEPT_ALL.marketing,
+      personalization: ACCEPT_ALL.personalization,
+    });
   }, []);
 
-  const accept = useCallback(() => setConsent('accepted'), []);
-  const decline = useCallback(() => setConsent('declined'), []);
+  const rejectAll = useCallback(() => {
+    setConsent({
+      analytics: REJECT_ALL.analytics,
+      marketing: REJECT_ALL.marketing,
+      personalization: REJECT_ALL.personalization,
+    });
+  }, []);
 
-  return {state, accept, decline};
+  const save = useCallback((signals: Omit<ConsentSignals, 'necessary'>) => {
+    setConsent(signals);
+  }, []);
+
+  return {state, acceptAll, rejectAll, save};
 }

@@ -36,9 +36,10 @@ export const ANALYTICS_EVENTS = {
   CALENDLY_DATE_AND_TIME_SELECTED: 'calendly_date_and_time_selected',
   CALENDLY_BOOKING_SCHEDULED: 'calendly_booking_scheduled', // ← CONVERSION
 
-  // Consent (Phase 2.10 new)
+  // Consent (Phase 2.10 binary → Phase B.03 Consent Mode v2)
   CONSENT_ACCEPTED: 'consent_accepted',
   CONSENT_DECLINED: 'consent_declined',
+  CONSENT_UPDATE: 'consent_update', // Phase B.03 — fires after every modal Save / Accept all / Reject all
 } as const;
 
 export type AnalyticsEventName =

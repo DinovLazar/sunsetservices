@@ -623,11 +623,73 @@
       }
     },
     "consent": {
-      "heading": "We use cookies",
-      "body": "We use cookies to understand how visitors use our site so we can make it better. You can change this anytime.",
+      "heading": "Cookies & your privacy",
+      "body": "We use cookies to understand how visitors use our site and improve it over time. You can accept all, reject all, or manage your preferences. You can change this anytime.",
       "acceptCta": "Accept all",
       "declineCta": "Decline",
-      "ariaLabel": "Cookie consent"
+      "ariaLabel": "Cookie consent",
+      "banner": {
+        "rejectAllCta": "Reject all",
+        "manageCta": "Manage preferences",
+        "privacyLink": "Privacy policy"
+      },
+      "modal": {
+        "title": "Cookie preferences",
+        "intro": "Choose which kinds of cookies we may use. Strictly necessary cookies keep the site working and are always on.",
+        "closeAria": "Close preferences",
+        "rowsAriaLabel": "Cookie categories",
+        "cancelCta": "Cancel",
+        "saveCta": "Save preferences",
+        "necessary": {
+          "label": "Strictly necessary",
+          "description": "Required for the site to function — page navigation, form submissions, and security. These cannot be turned off.",
+          "alwaysOn": "Always on"
+        },
+        "analytics": {
+          "label": "Analytics",
+          "description": "Helps us understand which pages and features are used so we can make the site better. We never sell or share this data."
+        },
+        "marketing": {
+          "label": "Marketing",
+          "description": "Lets us measure the performance of ads on Google and other platforms when you click through to our site."
+        },
+        "personalization": {
+          "label": "Personalization",
+          "description": "Allows ads on other sites to be tailored to you based on your visit to ours."
+        }
+      }
+    }
+  },
+  "legal": {
+    "breadcrumb": {
+      "home": "Home",
+      "privacy": "Privacy",
+      "terms": "Terms"
+    },
+    "embed": {
+      "preparingFallback": "Legal content is being prepared. Please check back soon, or contact info@sunsetservices.us for a copy."
+    },
+    "privacy": {
+      "meta": {
+        "title": "Privacy policy · Sunset Services",
+        "description": "How Sunset Services collects, uses, and protects your information when you use our website and request quotes."
+      },
+      "hero": {
+        "eyebrow": "Legal",
+        "h1": "Privacy policy",
+        "lastUpdated": "Last updated: April 2026"
+      }
+    },
+    "terms": {
+      "meta": {
+        "title": "Terms of service · Sunset Services",
+        "description": "The terms under which Sunset Services makes our website and quote-request tools available to you."
+      },
+      "hero": {
+        "eyebrow": "Legal",
+        "h1": "Terms of service",
+        "lastUpdated": "Last updated: April 2026"
+      }
     }
   },
   "about": {

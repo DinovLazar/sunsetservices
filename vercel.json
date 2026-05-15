@@ -1,0 +1,12 @@
+{
+  "crons": [
+    {
+      "path": "/api/cron/blog-draft-monthly",
+      "schedule": "0 14 1 * *"
+    },
+    {
+      "path": "/api/cron/seo-summary-weekly",
+      "schedule": "0 14 * * 1"
+    }
+  ]
+}

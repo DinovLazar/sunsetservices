@@ -441,3 +441,23 @@ Phase 2.14 (Google Business Profile + Places API) is **skipped for now** and rol
 **Decided by:** user (Goran), in Chat on 2026-05-15.
 
 ---
+
+## 2026-05-15 — Phase 2.16 plan-of-record (automation agent Part A)
+
+Phase 2.16 (automation agent Part A) ships **two of the three originally-planned crons** end-to-end plus closes the Phase 2.15 `'blog_draft'` stub. Plan-of-record decisions locked in this Chat session, BEFORE any Phase 2.16 code lands:
+
+- **Daily Google reviews cron NOT shipped this phase.** Blocked on Phase 2.14's Places fetcher (deferred 2026-05-15 to await Google's GBP API approval + `GBP_OAUTH_CLIENT_SECRET` from Goran). The Daily cron picks up when Phase 2.14 opens. Hobby tier's 2-cron limit is filled by Phase 2.16's Monthly + Weekly entries, which means adding the Daily cron in Phase 2.14 follow-up will either consolidate the schedules (one route, internal dispatch) OR trigger the Phase 3.10 Pro upgrade.
+- **Weekly SEO summary cron shipped flag-gated.** `GSC_ENABLED=false` is the Phase 2.16 default. The route + fetcher + summarizer all ship complete on both branches; the flag flips to `true` at Phase 3.15 after new-site Google Search Console verification on `sunsetservices.us` is set up. The fetcher module body is wrapped in a defense-in-depth flag check so a misconfiguration can't silently call the un-implemented GSC client.
+- **Monthly blog draft auto-publishes to Sanity `blogPost` on Approve.** No staging step. Approve in Telegram → cron-side `publishBlogDraft()` creates the full `blogPost` doc + scoped `faq` docs + references a placeholder featured image. Operator swaps in a curated brand image from Sanity Studio when ready (zero-code, single-click). Reject keeps the `blogDraftPending` audit row (status flips to `'rejected'`) — topic returns to the rotation for a future retry with fresh wording.
+- **Monthly blog topic source: curated keyword list of 20 topics** at `src/data/blogTopics.ts`, rotated by querying Sanity for `automatedTopicId` values already used (on `blogPost` OR on non-rejected `blogDraftPending` documents). Hands-off — operator can edit the file directly in code. A future Studio singleton (Phase 3.x) could lift the list into the CMS; out of scope here.
+- **Bilingual draft output: EN written naturally, ES marked `[TBR]`-prefixed first-pass.** Same `[TBR]`-prefix convention as Phase 2.11. The ES first-pass folds into the Phase 2.12 native-review queue when Phase 2.12 runs; until then, ES blog posts ship with the `[TBR]` prefix visible.
+- **Featured image curation deferred.** Auto-published posts use a single shared placeholder image (`image-blogDefaultPlaceholder-jpg` in Sanity, uploaded once with deterministic ID, reused by every cron run). Operator swaps in a curated image from Studio when ready — single-click in the Sanity media field. The placeholder stays committed at `public/images/blog/_placeholder.jpg`.
+- **Editing a draft via Telegram (e.g., "make it shorter" reply) is out of scope.** Approve / Reject only this phase. If the operator wants a different angle on a topic, Reject the draft; the topic returns to the rotation; the next cron-cycle generates a fresh draft from scratch.
+
+**Risk acknowledged — placeholder image looks generic until swapped.** A monthly auto-published blog post with a stock landscaping photo is acceptable for SEO momentum (the body content is the indexable surface) but is visually weaker than a curated image. Operator is expected to swap the placeholder within a few hours of approval. If a post ever ships to production without a swap, the page still renders cleanly — `blogPost.featuredImage` is set, the image is on-brand-adjacent (landscaping context), and the absence of a curated photo is not a functional defect.
+
+**Why this matters for future phases:** Phase 3.15 (GSC ownership verification for new site) is the unblock for the Weekly SEO cron. Phase 2.14 reopening is the unblock for the Daily reviews cron. Phase 2.17's Telegram approval leg inherits the `'blog_draft'` pattern shipped here (kind-discriminated callback_data, MarkdownV2 summary message, idempotent webhook routing). The `publishBlogDraft()` + `rejectBlogDraft()` shape becomes the template for any future auto-publish kind.
+
+**Decided by:** user (Goran) + Chat, 2026-05-15, before opening Phase 2.16.
+
+---

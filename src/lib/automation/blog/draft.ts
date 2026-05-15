@@ -6,10 +6,8 @@ import type {BlogTopic} from '@/data/blogTopics';
  * Anthropic-powered bilingual blog draft generator (Phase 2.16).
  *
  * Output shape is a structured BlogDraft — title/dek/body/meta/FAQs in EN
- * and ES. ES carries a [TBR] prefix at the field level (Phase 2.11
- * convention); the operator either approves the ES first-pass via the
- * Telegram flow OR the post ships with [TBR] still visible until the Phase
- * 2.12 native-review queue gets to it.
+ * and ES. ES ships as a first-pass translation; native review folds into
+ * the Phase M.03 queue.
  *
  * The model is told to return ONLY a JSON object matching BlogDraftSchema.
  * Zod validates; on a parse failure the generator retries ONCE with a
@@ -74,8 +72,7 @@ VOICE
 
 BILINGUAL OUTPUT
 - EN: written naturally for a US English reader.
-- ES: write the Spanish version naturally for a neutral Latin-American Spanish reader (Mexican-origin friendly), then PREFIX every Spanish string with "[TBR] " (literal, including the space). Example: "[TBR] El mejor momento para resembrar..."
-- The [TBR] prefix MUST be on every es field: title.es, dek.es, body.es[].text or items[], metaTitle.es, metaDescription.es, faqsInline[].q.es, faqsInline[].a.es. It marks the ES first-pass for the native-review queue.
+- ES: write the Spanish version naturally for a neutral Latin-American Spanish reader (Mexican-origin friendly). Example: "El mejor momento para resembrar..."
 - Spanish must be idiomatic, not literal. Use "césped" for lawn, "patio" for patio, "adoquines" for pavers, "muro de contención" for retaining wall.
 
 OUTPUT FORMAT
@@ -98,7 +95,7 @@ STRUCTURE GUIDANCE
 - body.en should start with a 'p' block (intro hook, ~80-120 words), then alternate 'h2' section headers with 'p' / 'ul' / 'ol' blocks. End with a 'p' summary.
 - 4–6 H2 sections is the sweet spot for ~800 words.
 - Use 'ul' for cataloging items (signs to watch for, things to check) and 'ol' for sequenced steps. Don't overuse either — a body of pure lists reads stale.
-- body.es mirrors the structure of body.en block-for-block (same block types in the same order), with each text/items value translated and [TBR]-prefixed.
+- body.es mirrors the structure of body.en block-for-block (same block types in the same order), with each text/items value translated.
 
 Return ONLY the JSON. No code fences. No commentary.`;
 

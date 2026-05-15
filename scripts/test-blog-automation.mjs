@@ -197,23 +197,23 @@ async function createSyntheticPending(sanity, {topicId, slug}) {
   await sanity.create({
     _id: docId,
     _type: 'blogDraftPending',
-    title: {en: `Test post ${slug}`, es: `[TBR] Test post ${slug}`},
-    dek: {en: 'Test dek', es: '[TBR] Test dek'},
+    title: {en: `Test post ${slug}`, es: `Test post ${slug}`},
+    dek: {en: 'Test dek', es: 'Test dek'},
     body: {
       en: [syntheticPortableTextBlock('Test body paragraph.')],
-      es: [syntheticPortableTextBlock('[TBR] Test body paragraph.')],
+      es: [syntheticPortableTextBlock('Test body paragraph.')],
     },
-    metaTitle: {en: `Test meta title ${slug}`, es: `[TBR] Test meta title ${slug}`},
+    metaTitle: {en: `Test meta title ${slug}`, es: `Test meta title ${slug}`},
     metaDescription: {
       en: `Test meta description for ${slug}`,
-      es: `[TBR] Test meta description for ${slug}`,
+      es: `Test meta description for ${slug}`,
     },
     faqsInline: [
       {
         _key: randomUUID().replace(/-/g, '').slice(0, 12),
         _type: 'faqInline',
-        q: {en: 'Test question?', es: '[TBR] Test question?'},
-        a: {en: 'Test answer.', es: '[TBR] Test answer.'},
+        q: {en: 'Test question?', es: 'Test question?'},
+        a: {en: 'Test answer.', es: 'Test answer.'},
       },
     ],
     categorySlug: 'residential',
@@ -536,11 +536,11 @@ async function run() {
       await sanity.create({
         _id: probeBlogPostId,
         _type: 'blogPost',
-        title: {en: 'Test rotation probe', es: '[TBR] Test rotation probe'},
+        title: {en: 'Test rotation probe', es: 'Test rotation probe'},
         slug: {_type: 'slug', current: `test-probe-${randomUUID().slice(0, 8)}`},
         body: {
           en: [syntheticPortableTextBlock('Probe body.')],
-          es: [syntheticPortableTextBlock('[TBR] Probe body.')],
+          es: [syntheticPortableTextBlock('Probe body.')],
         },
         publishedAt: new Date().toISOString(),
         category: 'audience',

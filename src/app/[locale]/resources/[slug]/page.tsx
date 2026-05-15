@@ -123,7 +123,7 @@ export default async function ResourceDetailPage({
 
   const byline = 'Sunset Services Team';
   const bylineLabel =
-    loc === 'en' ? `By ${byline}` : `[TBR] Por ${byline}`;
+    loc === 'en' ? `By ${byline}` : `Por ${byline}`;
   const readingLabel = tContent('meta.readingTime', {minutes: readingMinutes});
   const categoryLabel = t(`category.${entry.category}`);
 
@@ -314,7 +314,7 @@ export default async function ResourceDetailPage({
               >
                 {loc === 'en'
                   ? `Common questions about ${entry.title.en.split(':')[0]}`
-                  : `[TBR] Preguntas frecuentes sobre ${entry.title.es.split(':')[0]}`}
+                  : `Preguntas frecuentes sobre ${entry.title.es.split(':')[0]}`}
               </h2>
             </AnimateIn>
             <div className="mt-8">
@@ -346,7 +346,7 @@ export default async function ResourceDetailPage({
                   color: 'var(--color-sunset-green-700)',
                 }}
               >
-                {loc === 'en' ? 'Keep reading' : '[TBR] Sigue leyendo'}
+                {loc === 'en' ? 'Keep reading' : 'Sigue leyendo'}
               </p>
               <h2
                 id="resource-related-h2"

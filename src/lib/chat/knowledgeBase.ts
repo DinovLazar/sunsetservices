@@ -209,10 +209,8 @@ const EN: LocaleLabels = {
   },
 };
 
-// [TBR] Spanish — first-pass translations awaiting Phase 2.12 native-speaker
-// review. Code-level marker; inline strings deliberately omit the [TBR] prefix
-// because they can surface inside the chat digest the model reads, and a
-// literal "[TBR]" in the digest would distract the persona.
+// Spanish — first-pass translations awaiting Phase M.03 native-speaker
+// review.
 const ES: LocaleLabels = {
   docTitle: 'Resumen interno para el asistente de chat',
   whoWeAre: 'Quiénes somos',

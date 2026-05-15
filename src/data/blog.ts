@@ -94,7 +94,7 @@ export const BLOG_POSTS: BlogPostEntry[] = [
     },
     seoDescription: {
       en: 'Patio cost in DuPage County in 2026: $12–$60/sq ft installed across concrete, paver, and natural stone. Real bid ranges from a 25-year crew.',
-      es: 'Costo de patio en DuPage en 2026: $12–$60/pie² instalado en concreto, adoquines y piedra natural. Rangos reales. [TBR]',
+      es: 'Costo de patio en DuPage en 2026: $12–$60/pie² instalado en concreto, adoquines y piedra natural. Rangos reales.',
     },
     publishedAt: '2026-04-12',
     featuredImage: {
@@ -102,7 +102,7 @@ export const BLOG_POSTS: BlogPostEntry[] = [
       srcMobile: '/images/blog/dupage-patio-cost-2026-mobile.jpg',
       alt: {
         en: 'A finished paver patio at golden hour with mature plantings around the perimeter and a stone fire feature in the foreground.',
-        es: 'Un patio de adoquines terminado al atardecer con plantas alrededor y una característica de fuego de piedra. [TBR]',
+        es: 'Un patio de adoquines terminado al atardecer con plantas alrededor y una característica de fuego de piedra.',
       },
       width: 1280,
       height: 720,
@@ -184,7 +184,7 @@ Multiply by your square footage. That's the number to compare bids against. Anyo
 ## Get a real bid
 
 We do free 30-minute site walks across DuPage County. We measure the lot, sketch the patio shape, list the spec line-by-line, and email a one-page bid within 48 hours. [Request a free estimate](/request-quote/?from=blog&slug=dupage-patio-cost-2026) and we'll come look at the property.`,
-      es: `[TBR] Si estás en la etapa de recolección de cotizaciones de un patio de DuPage en 2026, tres números llegarán a tu correo: uno bajo casi sospechosamente barato, uno medio que cuadra con lo que te dijo tu vecino, y uno alto que te shockea. Usualmente son los tres cotizaciones reales — solo que para tres patios distintos que te están pidiendo imaginar como el mismo.
+      es: `Si estás en la etapa de recolección de cotizaciones de un patio de DuPage en 2026, tres números llegarán a tu correo: uno bajo casi sospechosamente barato, uno medio que cuadra con lo que te dijo tu vecino, y uno alto que te shockea. Usualmente son los tres cotizaciones reales — solo que para tres patios distintos que te están pidiendo imaginar como el mismo.
 
 Esto es lo que hemos cotizado en las seis ciudades de DuPage donde trabajamos esta primavera, y qué compra realmente cada precio.
 
@@ -258,31 +258,31 @@ Hacemos recorridos de sitio gratis de 30 minutos. [Solicita una estimación grat
       {
         q: {
           en: 'Can I get a patio for less than $10/sq ft in DuPage in 2026?',
-          es: '¿Puedo obtener un patio por menos de $10/pie² en DuPage en 2026? [TBR]',
+          es: '¿Puedo obtener un patio por menos de $10/pie² en DuPage en 2026?',
         },
         a: {
           en: 'Not from a contractor pulling permits and using a 6-inch CA-6 base. The cheap labor + thin base path runs about $9–$11/sq ft and produces a slab that fails in 6–8 years. Pay $15 once or pay $20 twice.',
-          es: 'No de un contratista que saca permisos y usa base CA-6 de 6 pulgadas. La ruta barata produce una losa que falla en 6–8 años. Paga $15 una vez o $20 dos veces. [TBR]',
+          es: 'No de un contratista que saca permisos y usa base CA-6 de 6 pulgadas. La ruta barata produce una losa que falla en 6–8 años. Paga $15 una vez o $20 dos veces.',
         },
       },
       {
         q: {
           en: 'How much does demolition of my old patio add to the bid?',
-          es: '¿Cuánto agrega la demolición del patio viejo? [TBR]',
+          es: '¿Cuánto agrega la demolición del patio viejo?',
         },
         a: {
           en: 'Concrete demo runs $4–$6/sq ft (jackhammer, haul, dispose). Paver demo is cheaper at $2–$3/sq ft because the units lift cleanly. Stone demo runs $5–$8/sq ft because of the weight and disposal cost.',
-          es: 'Demolición de concreto: $4–$6/pie² (martillo, acarreo, disposición). Adoquines más barato a $2–$3/pie². Piedra: $5–$8/pie² por peso y disposición. [TBR]',
+          es: 'Demolición de concreto: $4–$6/pie² (martillo, acarreo, disposición). Adoquines más barato a $2–$3/pie². Piedra: $5–$8/pie² por peso y disposición.',
         },
       },
       {
         q: {
           en: 'Why is Naperville more expensive than Bolingbrook for the same patio?',
-          es: '¿Por qué Naperville es más caro que Bolingbrook para el mismo patio? [TBR]',
+          es: '¿Por qué Naperville es más caro que Bolingbrook para el mismo patio?',
         },
         a: {
           en: 'Three reasons: larger lots mean more landscape integration time, stricter permit review extends the project by 1–2 weeks (which costs the contractor money), and the average property has more existing landscape to protect during the build.',
-          es: 'Tres razones: lotes más grandes, revisión de permisos más estricta (1–2 semanas extra), y más paisaje existente que proteger. [TBR]',
+          es: 'Tres razones: lotes más grandes, revisión de permisos más estricta (1–2 semanas extra), y más paisaje existente que proteger.',
         },
       },
     ],
@@ -306,7 +306,7 @@ Hacemos recorridos de sitio gratis de 30 minutos. [Solicita una estimación grat
     },
     seoDescription: {
       en: 'Spring lawn care calendar for Aurora, IL — when to dethatch, when to apply pre-emergent, when to seed. Built for clay soil and DuPage spring weather.',
-      es: 'Calendario primaveral para Aurora, IL — cuándo descopear, aplicar pre-emergente, sembrar. Para suelo arcilloso. [TBR]',
+      es: 'Calendario primaveral para Aurora, IL — cuándo descopear, aplicar pre-emergente, sembrar. Para suelo arcilloso.',
     },
     publishedAt: '2026-04-04',
     featuredImage: {
@@ -314,7 +314,7 @@ Hacemos recorridos de sitio gratis de 30 minutos. [Solicita una estimación grat
       srcMobile: '/images/blog/aurora-spring-lawn-calendar-mobile.jpg',
       alt: {
         en: 'A residential front lawn in Aurora during early spring, with crisp edges along a paver walkway and fresh growth.',
-        es: 'Un jardín frontal en Aurora en primavera, con bordes definidos junto a una caminata de adoquines. [TBR]',
+        es: 'Un jardín frontal en Aurora en primavera, con bordes definidos junto a una caminata de adoquines.',
       },
       width: 1280,
       height: 720,
@@ -388,7 +388,7 @@ Either path works. We've kept lawns of both kinds alive for 25 years; the differ
 The Aurora homeowners who lose lawns in summer do so because they fertilized in mid-March (washed off), spread pre-emergent in early May (too late), or watered too lightly through June (shallow roots). Timing is the program. Effort is what fills it in.
 
 If you want us to run the calendar for your property, [book a free site walk](/request-quote/?from=blog&slug=aurora-spring-lawn-calendar) and we'll tell you what your soil and shade situation actually needs.`,
-      es: `[TBR] Los suelos de Aurora son distintos del resto de DuPage. El lado este se asienta sobre arcilla pesada arrastrada por el río Fox; el lado oeste tiene loam más arenoso de los mismos glaciares que tallaron el resto del condado. Un calendario que funciona en Naperville sub-fertilizará el este de Aurora y sobre-regará el oeste.
+      es: `Los suelos de Aurora son distintos del resto de DuPage. El lado este se asienta sobre arcilla pesada arrastrada por el río Fox; el lado oeste tiene loam más arenoso de los mismos glaciares que tallaron el resto del condado. Un calendario que funciona en Naperville sub-fertilizará el este de Aurora y sobre-regará el oeste.
 
 Este es el calendario que corremos en nuestras propias propiedades de Aurora, ajustado al suelo bajo tus pies.
 
@@ -473,7 +473,7 @@ Si quieres que corramos el calendario para tu propiedad, [reserva un recorrido g
     },
     seoDescription: {
       en: 'Why DuPage hardscape crews specify Unilock pavers — production tolerances, freeze-thaw rating, and the 25-year warranty. From an authorized installer.',
-      es: 'Por qué los equipos de hardscape de DuPage especifican Unilock — tolerancias, resistencia a heladas, garantía. [TBR]',
+      es: 'Por qué los equipos de hardscape de DuPage especifican Unilock — tolerancias, resistencia a heladas, garantía.',
     },
     publishedAt: '2026-03-22',
     featuredImage: {
@@ -481,7 +481,7 @@ Si quieres que corramos el calendario para tu propiedad, [reserva un recorrido g
       srcMobile: '/images/blog/why-unilock-premium-pavers-mobile.jpg',
       alt: {
         en: 'A close-up of a Unilock paver patio in mid-installation, showing tumbled edges and fresh polymeric sand in the joints.',
-        es: 'Primer plano de un patio Unilock en instalación, mostrando los bordes y la arena polimérica fresca. [TBR]',
+        es: 'Primer plano de un patio Unilock en instalación, mostrando los bordes y la arena polimérica fresca.',
       },
       width: 1280,
       height: 720,
@@ -552,7 +552,7 @@ Two cases. First, a temporary install — a homeowner planning to sell in 5 year
 Every Sunset Services hardscape bid lists the brand, the SKU, and the freeze-thaw rating in the spec line. If you're looking at three bids and two of them say "premium pavers" without naming the brand, you're being asked to imagine the same product across three quotes. They are not the same product.
 
 [Request a free site walk](/request-quote/?from=blog&slug=why-unilock-premium-pavers) and we'll bring sample pieces of three Unilock product lines for you to see in your own light.`,
-      es: `[TBR] La mayoría de propietarios decide entre marcas de adoquines caminando al showroom y eligiendo el color que les gusta. La mayoría de instaladores decide entre marcas por cuál regresa con un problema de garantía. Hemos puesto Unilock desde 2003 y pusimos dos marcas competidoras durante 2008–2010 cuando el suministro estaba apretado.
+      es: `La mayoría de propietarios decide entre marcas de adoquines caminando al showroom y eligiendo el color que les gusta. La mayoría de instaladores decide entre marcas por cuál regresa con un problema de garantía. Hemos puesto Unilock desde 2003 y pusimos dos marcas competidoras durante 2008–2010 cuando el suministro estaba apretado.
 
 ## Las cuatro cosas que separan a las marcas
 
@@ -622,7 +622,7 @@ Cada cotización de Sunset Services lista la marca, el SKU, y la resistencia a h
     },
     seoDescription: {
       en: 'Commercial snow removal in DuPage — what PMs should look for in a vendor contract. Trigger depths, response windows, slip-and-fall protection.',
-      es: 'Remoción comercial en DuPage — qué buscar en contrato de vendor. Disparadores, ventanas, protección. [TBR]',
+      es: 'Remoción comercial en DuPage — qué buscar en contrato de vendor. Disparadores, ventanas, protección.',
     },
     publishedAt: '2026-03-08',
     featuredImage: {
@@ -630,7 +630,7 @@ Cada cotización de Sunset Services lista la marca, el SKU, y la resistencia a h
       srcMobile: '/images/blog/snow-for-commercial-properties-mobile.jpg',
       alt: {
         en: 'A commercial parking lot during an active snow event, with two plows working in formation and salt being spread.',
-        es: 'Un estacionamiento comercial durante un evento de nieve, con dos arados trabajando en formación. [TBR]',
+        es: 'Un estacionamiento comercial durante un evento de nieve, con dos arados trabajando en formación.',
       },
       width: 1280,
       height: 720,
@@ -694,7 +694,7 @@ If your current snow contract is a year-to-year auto-renewal, October is the tim
 We do free contract audits for DuPage commercial properties — a 30-minute call with the PM, a 1-page report on what's protected and what's not, and a sample contract you can use to RFP whoever you'd like (including us).
 
 If you want our crew on the lot, [request a free site walk](/request-quote/?from=blog&slug=snow-for-commercial-properties) and we'll measure the lot, sketch the priority paths, and propose a seasonal contract before October 15.`,
-      es: `[TBR] Si manejas propiedad comercial en DuPage, tu vendor de nieve es una de las tres líneas que deciden si el año termina bien. Mal vendor en febrero te cuesta una reclamación de resbalón, una defección de inquilino, y un sobrecosto. Buen vendor cuesta 8–15% más por adelantado y es invisible el resto del año.
+      es: `Si manejas propiedad comercial en DuPage, tu vendor de nieve es una de las tres líneas que deciden si el año termina bien. Mal vendor en febrero te cuesta una reclamación de resbalón, una defección de inquilino, y un sobrecosto. Buen vendor cuesta 8–15% más por adelantado y es invisible el resto del año.
 
 Estas son las siete cosas que buscamos al auditar contratos vigentes para nuevos clientes.
 
@@ -742,41 +742,41 @@ Si tu contrato actual es renovación automática año a año, octubre es el mome
       {
         q: {
           en: "Can I get out of my current snow contract mid-season if the vendor isn't performing?",
-          es: '¿Puedo salir de mi contrato actual a mitad de temporada si el vendor no rinde? [TBR]',
+          es: '¿Puedo salir de mi contrato actual a mitad de temporada si el vendor no rinde?',
         },
         a: {
           en: 'Most contracts have a cure period: you document the failures, send written notice, the vendor has 7–14 days to fix. If they don\'t, the contract terminates. The trigger is documentation; without it, the cure clause is unenforceable.',
-          es: 'La mayoría de contratos tiene un período de cura: documentas las fallas, envías aviso por escrito, el vendor tiene 7–14 días para arreglar. Si no lo hace, el contrato termina. [TBR]',
+          es: 'La mayoría de contratos tiene un período de cura: documentas las fallas, envías aviso por escrito, el vendor tiene 7–14 días para arreglar. Si no lo hace, el contrato termina.',
         },
       },
       {
         q: {
           en: 'What does pre-treatment cost on a 1-acre commercial lot?',
-          es: '¿Cuánto cuesta el pre-tratamiento en un lote comercial de 1 acre? [TBR]',
+          es: '¿Cuánto cuesta el pre-tratamiento en un lote comercial de 1 acre?',
         },
         a: {
           en: 'Brine pre-treatment runs $260–$430 per application on a 1-acre lot in DuPage. Most seasons see 8–14 pre-treatment events; budget $2,500–$6,000 for the season. The salt savings during the storms typically nets the program to break-even or slightly positive.',
-          es: 'Pre-tratamiento de salmuera cuesta $260–$430 por aplicación en lote de 1 acre. La mayoría de temporadas ve 8–14 eventos; presupuesta $2,500–$6,000. [TBR]',
+          es: 'Pre-tratamiento de salmuera cuesta $260–$430 por aplicación en lote de 1 acre. La mayoría de temporadas ve 8–14 eventos; presupuesta $2,500–$6,000.',
         },
       },
       {
         q: {
           en: 'Are slip-and-fall claims actually that common in DuPage commercial properties?',
-          es: '¿Las reclamaciones de resbalón son realmente comunes en DuPage? [TBR]',
+          es: '¿Las reclamaciones de resbalón son realmente comunes en DuPage?',
         },
         a: {
           en: 'They\'re less common than people fear and more expensive than people expect. DuPage commercial sites average 0.5 claims per acre per decade; average claim settles at $32,000. The cost of preventing one is the documentation routine — pre-treatment + photo log + 24-hour response. Cheap insurance.',
-          es: 'Son menos comunes de lo que la gente teme y más caras de lo que esperan. Promedio: 0.5 reclamaciones por acre por década; reclamación promedio se asienta en $32,000. [TBR]',
+          es: 'Son menos comunes de lo que la gente teme y más caras de lo que esperan. Promedio: 0.5 reclamaciones por acre por década; reclamación promedio se asienta en $32,000.',
         },
       },
       {
         q: {
           en: 'How do I tell if my current contract has the right structure without re-bidding?',
-          es: '¿Cómo verifico si mi contrato actual tiene la estructura correcta sin re-cotizar? [TBR]',
+          es: '¿Cómo verifico si mi contrato actual tiene la estructura correcta sin re-cotizar?',
         },
         a: {
           en: 'Walk it through the 7-point list in this post. If 5+ items are present, the contract is solid; you can keep it. If 3 or fewer, RFP. We\'re happy to do a free 30-minute audit call and tell you which side of that line your contract sits on — no obligation.',
-          es: 'Camina los 7 puntos. Si 5+ están presentes, el contrato es sólido. Si 3 o menos, RFP. Hacemos auditoría gratis de 30 minutos. [TBR]',
+          es: 'Camina los 7 puntos. Si 5+ están presentes, el contrato es sólido. Si 3 o menos, RFP. Hacemos auditoría gratis de 30 minutos.',
         },
       },
     ],
@@ -800,7 +800,7 @@ Si tu contrato actual es renovación automática año a año, octubre es el mome
     },
     seoDescription: {
       en: '7 visible signs your sprinkler system needs service before the summer heat — misting heads, dry zones, valve drift, and what each fix costs in DuPage.',
-      es: '7 señales visibles de que tu sistema necesita servicio — cabezas con rocío, zonas secas, deriva de válvulas. [TBR]',
+      es: '7 señales visibles de que tu sistema necesita servicio — cabezas con rocío, zonas secas, deriva de válvulas.',
     },
     publishedAt: '2026-04-18',
     featuredImage: {
@@ -808,7 +808,7 @@ Si tu contrato actual es renovación automática año a año, octubre es el mome
       srcMobile: '/images/blog/sprinkler-tune-up-7-signs-mobile.jpg',
       alt: {
         en: 'A pop-up sprinkler head misting at sunrise, with the spray pattern visible against a green lawn.',
-        es: 'Una cabeza de aspersión emergente con rocío al amanecer, mostrando el patrón de aspersión sobre césped verde. [TBR]',
+        es: 'Una cabeza de aspersión emergente con rocío al amanecer, mostrando el patrón de aspersión sobre césped verde.',
       },
       width: 1280,
       height: 720,
@@ -874,7 +874,7 @@ Total: $230–$310 in spring on a typical Aurora half-acre 6-zone system. Skip t
 ## When to call us vs. DIY
 
 DIY zone walk + nozzle swap + head re-aim: 90% of the audit list above is within reach of a homeowner with a screwdriver and a Saturday morning. The exceptions are valve repair (you need to know what's under the valve box), lateral leaks (you need leak detection), and controller programming (most homeowners don't). [Schedule a sprinkler audit](/request-quote/?from=blog&slug=sprinkler-tune-up-7-signs) and we'll do the walk with you.`,
-      es: `[TBR] La mayoría de sistemas de riego de DuPage corren 22 semanas al año y se inspeccionan una vez. La inspección sucede en mayo al arranque y atrapa las fallas obvias — cabezas rotas, válvulas reventadas, tuberías congeladas. Las fallas más sutiles aparecen en julio cuando el jardín se pone parchado y no puedes saber si es el sistema o el calor.
+      es: `La mayoría de sistemas de riego de DuPage corren 22 semanas al año y se inspeccionan una vez. La inspección sucede en mayo al arranque y atrapa las fallas obvias — cabezas rotas, válvulas reventadas, tuberías congeladas. Las fallas más sutiles aparecen en julio cuando el jardín se pone parchado y no puedes saber si es el sistema o el calor.
 
 Camina el sistema a las 6 a.m. un sábado a mediados de mayo. Mira cada zona correr un ciclo. Doce minutos por jardín es suficiente. Aquí están las siete cosas a buscar.
 
@@ -934,71 +934,71 @@ DIY caminata de zonas + cambio de boquilla + re-apuntar cabezas: 90% de la lista
       {
         q: {
           en: 'How long should a single sprinkler zone run?',
-          es: '¿Cuánto debe correr una sola zona de aspersión? [TBR]',
+          es: '¿Cuánto debe correr una sola zona de aspersión?',
         },
         a: {
           en: "Cool-season grass in DuPage needs 1.0–1.5 inches of water per week. A typical pop-up rotary head delivers 0.4 inches per hour. Math: 25–40 minutes per zone, 3 days a week, in May; bump to 35–55 minutes per zone in July. The right number depends on the head type and your soil's clay content — heavy clay (east Aurora) wants shorter cycles more often.",
-          es: 'El césped de temporada fría en DuPage necesita 1.0–1.5 pulgadas de agua por semana. Cabeza rotativa típica entrega 0.4 pulgadas/hora. 25–40 minutos por zona, 3 días/semana en mayo. [TBR]',
+          es: 'El césped de temporada fría en DuPage necesita 1.0–1.5 pulgadas de agua por semana. Cabeza rotativa típica entrega 0.4 pulgadas/hora. 25–40 minutos por zona, 3 días/semana en mayo.',
         },
       },
       {
         q: {
           en: 'Do I really need a smart controller?',
-          es: '¿Realmente necesito un controlador inteligente? [TBR]',
+          es: '¿Realmente necesito un controlador inteligente?',
         },
         a: {
           en: 'If you set the program in May and forget it, yes — the smart controller will save 15–25% on water for a 2-season payback. If you adjust the program manually every 30 days, you can match the smart controller\'s savings without the hardware. Most homeowners don\'t adjust manually.',
-          es: 'Si configuras el programa en mayo y lo olvidas, sí — ahorrará 15–25% en agua. Si ajustas manualmente cada 30 días, puedes igualar los ahorros sin el hardware. La mayoría no ajusta. [TBR]',
+          es: 'Si configuras el programa en mayo y lo olvidas, sí — ahorrará 15–25% en agua. Si ajustas manualmente cada 30 días, puedes igualar los ahorros sin el hardware. La mayoría no ajusta.',
         },
       },
       {
         q: {
           en: 'Can I run my sprinkler system without a backflow preventer?',
-          es: '¿Puedo correr mi sistema sin un preventor de retroflujo? [TBR]',
+          es: '¿Puedo correr mi sistema sin un preventor de retroflujo?',
         },
         a: {
           en: "Illinois requires a backflow preventer on every irrigation system tied to municipal water. Inspections happen at install and again on resale. The annual test ($45–$75) is required by code — skipping it doesn\'t flag until resale, when you'll pay 1.5x to catch up.",
-          es: 'Illinois requiere preventor de retroflujo en cada sistema atado a agua municipal. Inspecciones al instalar y al revender. La prueba anual ($45–$75) es requerida por código. [TBR]',
+          es: 'Illinois requiere preventor de retroflujo en cada sistema atado a agua municipal. Inspecciones al instalar y al revender. La prueba anual ($45–$75) es requerida por código.',
         },
       },
       {
         q: {
           en: 'What\'s the difference between a startup and a tune-up?',
-          es: '¿Cuál es la diferencia entre arranque y ajuste? [TBR]',
+          es: '¿Cuál es la diferencia entre arranque y ajuste?',
         },
         a: {
           en: 'Startup is "open the system, check it runs": $80–$120 in DuPage. Tune-up is "open + audit zones + fix the small things": $185–$240. Most homeowners buy startup because it\'s cheaper; the tune-up is what saves the lawn in July. We bundle the tune-up into the May visit on every residential program.',
-          es: 'Arranque es "abrir el sistema, verificar que corre": $80–$120. Ajuste es "abrir + auditar zonas + arreglar pequeñas cosas": $185–$240. [TBR]',
+          es: 'Arranque es "abrir el sistema, verificar que corre": $80–$120. Ajuste es "abrir + auditar zonas + arreglar pequeñas cosas": $185–$240.',
         },
       },
       {
         q: {
           en: 'How long should a sprinkler system last?',
-          es: '¿Cuánto debe durar un sistema de riego? [TBR]',
+          es: '¿Cuánto debe durar un sistema de riego?',
         },
         a: {
           en: '20–25 years on the underground pipe, 8–12 years on the heads, 6–10 years on the controller, 5–8 years on the solenoid valves. The pipe is the long-life component; everything above ground is consumable. Budget $200–$400 a year in maintenance and replacement on a 12-year-old system.',
-          es: '20–25 años en tubería subterránea, 8–12 años en cabezas, 6–10 años en controlador, 5–8 años en válvulas. La tubería es el componente de larga vida. Presupuesta $200–$400/año en mantenimiento. [TBR]',
+          es: '20–25 años en tubería subterránea, 8–12 años en cabezas, 6–10 años en controlador, 5–8 años en válvulas. La tubería es el componente de larga vida. Presupuesta $200–$400/año en mantenimiento.',
         },
       },
       {
         q: {
           en: 'Should I winterize the system myself?',
-          es: '¿Debo invernar el sistema yo mismo? [TBR]',
+          es: '¿Debo invernar el sistema yo mismo?',
         },
         a: {
           en: 'Only if you have a 30+ CFM compressor (most home compressors max at 5 CFM and won\'t blow zones clear). The risk of skipping winterization or doing it wrong: a frozen lateral pipe in February costs $400–$1,200 to dig up and repair. Professional winterization in DuPage runs $80–$120; cheap insurance.',
-          es: 'Solo si tienes un compresor de 30+ CFM. El riesgo de saltarlo: tubería lateral congelada en febrero cuesta $400–$1,200. Invernación profesional en DuPage: $80–$120. [TBR]',
+          es: 'Solo si tienes un compresor de 30+ CFM. El riesgo de saltarlo: tubería lateral congelada en febrero cuesta $400–$1,200. Invernación profesional en DuPage: $80–$120.',
         },
       },
       {
         q: {
           en: "What's the most common sprinkler problem you see in spring?",
-          es: '¿Cuál es el problema más común que ves en primavera? [TBR]',
+          es: '¿Cuál es el problema más común que ves en primavera?',
         },
         a: {
           en: 'Drift. The system was set up right in 2020, the homeowner programmed it correctly, and over five seasons the heads slowly tilted, the controller went out of sync with the actual season, and the lawn started thinning where the watering quietly fell behind. Drift is invisible in any single year and obvious in five.',
-          es: 'Deriva. El sistema fue armado bien en 2020, el propietario lo programó correctamente, y en cinco temporadas las cabezas lentamente se inclinaron, el controlador se desincronizó con la temporada, y el jardín empezó a adelgazarse. [TBR]',
+          es: 'Deriva. El sistema fue armado bien en 2020, el propietario lo programó correctamente, y en cinco temporadas las cabezas lentamente se inclinaron, el controlador se desincronizó con la temporada, y el jardín empezó a adelgazarse.',
         },
       },
     ],

@@ -461,3 +461,21 @@ Phase 2.16 (automation agent Part A) ships **two of the three originally-planned
 **Decided by:** user (Goran) + Chat, 2026-05-15, before opening Phase 2.16.
 
 ---
+
+## 2026-05-15 — Phase 2.16: monthly cron idempotency went time-based, not per-topic
+
+The Phase 2.16 plan specified pre-generation idempotency on the blog cron as a per-topic check: "before invoking Anthropic, query Sanity for any existing `blogDraftPending` with `status == 'pending'` AND `automatedTopicId == topic.id` AND `generatedAt > now() - 1 day`." This design depends on the topic-picker's in-memory cache to keep the picker returning the SAME topic on consecutive cron retries within the cache TTL (60s). If the cache is still warm, picker returns topic[N] both times → idempotency check finds the previous pending → noop. Production-realistic.
+
+But the cache TTL is too short relative to the Anthropic call duration. The verification harness measured a single Anthropic call at ~2 min (Sonnet 4.6 generating ~800 words of structured bilingual JSON). Any cron retry > 60s after the previous picker invocation gets a cache miss → picker re-queries Sanity, sees the previous pending as a "used" topic, returns the NEXT topic → idempotency check is empty → fires Anthropic for a different topic. Net effect: per-topic idempotency silently fails for the exact case it's designed to catch (slow operations causing retries).
+
+**Resolution:** the idempotency check in `src/lib/automation/blog/runMonthly.ts` is now time-based and topic-agnostic — it runs BEFORE the picker and matches any pending blogDraftPending with `status == 'pending'` AND `generatedAt > now() - 1 day`. If found, the executor returns `noop` without invoking the picker or Anthropic. Behavior:
+
+- Vercel Cron retries within 1 day → noop (correct dedup)
+- Operator never decides on a pending → next month's cron sees `generatedAt > 1 month ago`, NOT within last 1 day → idempotency does not fire → cron generates a new draft for a NEW topic (picker skips the still-pending topic via its status-!=-rejected used-set query). End state: 2 pending drafts in queue, both auditable, both decideable. Acceptable.
+- Operator approves/rejects within 1 day, cron retries → no pending docs (status flipped) → idempotency does not fire → cron generates a new draft. Correct (the previous run already produced a usable artifact).
+
+**Why this matters for future phases:** Phase 2.17's on-demand portfolio publish should follow the same shape — time-based dedup (any pending of this kind in the last X hours) is more robust than per-topic dedup against operations that may outlast a module-scope cache.
+
+**Decided by:** Code, in-phase during Phase 2.16 execution. Caught by the verification harness's Test 4 (idempotency replay), which initially failed because Anthropic took > cache TTL between consecutive cron POSTs.
+
+---

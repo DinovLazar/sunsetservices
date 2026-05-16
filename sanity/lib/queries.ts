@@ -48,8 +48,12 @@ const TAG = {
   review: 'review',
 } as const;
 
-const cachedTagged = (tag: string) =>
-  ({cache: 'force-cache', next: {tags: [tag]}}) as const;
+// Return shape matches the @sanity/client `FilteredResponseQueryOptions` —
+// `next.tags` is a mutable `string[]`, NOT `readonly`. Hence no `as const`.
+const cachedTagged = (tag: string): {cache: 'force-cache'; next: {tags: string[]}} => ({
+  cache: 'force-cache',
+  next: {tags: [tag]},
+});
 
 // GROQ snippet — produces `{en, es}` for a string/text field with ES falling
 // back to EN. Wrapped in a string-template helper so each field reads

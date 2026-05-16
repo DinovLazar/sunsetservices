@@ -171,7 +171,12 @@ export async function revalidateForDocument(
 
   const tags = Array.from(new Set(mapping.tags));
   for (const tag of tags) {
-    revalidateTag(tag);
+    // Next 16 deprecated the single-arg form: revalidateTag now requires a
+    // cache profile (or CacheLifeConfig) as the second argument. 'max' is the
+    // recommended value for "purge all cached entries tagged with this tag" —
+    // matches the legacy single-arg behavior. See:
+    //   https://nextjs.org/docs/messages/revalidate-tag-single-arg
+    revalidateTag(tag, 'max');
   }
 
   const concretePaths = mapping.paths.flatMap((p) => expandPattern(p, payload));

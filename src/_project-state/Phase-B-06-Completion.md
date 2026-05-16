@@ -3,7 +3,7 @@
 **Phase:** Phase B.06 — Code — Accessibility audit (WCAG 2.2 AA).
 **Date:** 2026-05-16.
 **Branch:** `claude/keen-joliot-4ef5e1` (worktree of `main`; not yet merged).
-**Outcome:** **Shipped.** A11y validation harness (`scripts/validate-a11y.mjs`) exits 0 with **zero axe AA violations, zero WCAG 2.2 SC findings, and Lighthouse a11y score 100/100 on every URL** across the 15 EN representative routes + the 3 ES parity spot-check routes, against `http://localhost:3002` (Vercel Preview verification carried forward — see §7). B.04 (`validate:schema`) and B.05 (`validate:seo`) regression harnesses both re-run clean. Manual NVDA / VoiceOver screen-reader testing is the carryover handed to Goran per D1 — full test plan in §10.
+**Outcome:** **Shipped.** A11y validation harness (`scripts/validate-a11y.mjs`) exits 0 with **zero axe AA violations, zero WCAG 2.2 SC findings, and Lighthouse a11y score 100/100 on every URL** across the 15 EN representative routes + the 3 ES parity spot-check routes — on BOTH `http://localhost:3002` AND on the Vercel Preview deploy at `https://sunsetservices-git-claude-keen-joli-b4a9ed-dinovlazars-projects.vercel.app/` (commit `8524351`). B.04 (`validate:schema`) and B.05 (`validate:seo`) regression harnesses both re-run clean. Manual NVDA / VoiceOver screen-reader testing is the carryover handed to Goran per D1 — full test plan in §10.
 
 ---
 
@@ -185,7 +185,7 @@ The pre-existing `npm run build` local failure (`@react-email/render` prettier p
 
 Cross-referenced against §11 of the brief:
 
-- ✅ `scripts/validate-a11y.mjs` exists, wired as `npm run validate:a11y`, exits 0 on `http://localhost:3002`. (Vercel Preview verification carried forward — see §7.)
+- ✅ `scripts/validate-a11y.mjs` exists, wired as `npm run validate:a11y`, exits 0 on `http://localhost:3002` AND on the Vercel Preview deploy at `https://sunsetservices-git-claude-keen-joli-b4a9ed-dinovlazars-projects.vercel.app/` (commit `8524351`).
 - ✅ Zero `wcag2a` / `wcag2aa` / `wcag21a` / `wcag21aa` / `wcag22a` / `wcag22aa` violations across all 18 URLs.
 - ✅ Every WCAG 2.2 net-new AA SC verified (2.4.11 programmatically, 2.5.7 by code review, 2.5.8 programmatically, 3.2.6 by code review, 3.3.7 by code review).
 - ✅ Lighthouse a11y category = 100 on all 18 URLs (≥ 95 required).
@@ -205,17 +205,28 @@ Cross-referenced against §11 of the brief:
 
 ---
 
-## Carryover (out-of-phase by design — D1)
+## Vercel Preview verification (done — 2026-05-16, commit `8524351`)
 
-**Vercel Preview verification of `validate:a11y`.** The harness runs clean on localhost. After this branch is pushed and Vercel builds the Preview, the same harness needs to run against the Preview URL with the project's bypass token. Same command pattern as B.04/B.05:
+Same harness, same env-var contract as B.04 / B.05:
 
 ```bash
-BASE_URL=https://sunsetservices-<sha>-dinovlazars-projects.vercel.app \
-  BYPASS_TOKEN=<token from Vercel project settings> \
+BASE_URL=https://sunsetservices-git-claude-keen-joli-b4a9ed-dinovlazars-projects.vercel.app \
+  BYPASS_TOKEN=<vercel-project-bypass-token> \
   node scripts/validate-a11y.mjs
 ```
 
-If Preview differs from localhost on any URL, fix and re-run. Typical drift causes: CDN-only behaviors (Cloudflare/Vercel headers), build-time vs runtime divergence, third-party iframe load timing. The expected outcome is the same exit-0 result — there's no localhost-only optimization in this phase.
+**Result — same as localhost:** 18 / 18 URLs PASS, 0 axe AA violations, 0 SC 2.4.11 findings, 0 SC 2.5.8 findings, **all Lighthouse a11y = 100 / 100**, `prefers-reduced-motion` matchMedia plumbing verified.
+
+The Preview verification took two iterations after the initial localhost-clean push (commit `0143137`):
+
+| Iteration | Build SHA | What it surfaced | Fix |
+|---|---|---|---|
+| 1 | `0143137` | 111 false-positive SC 2.4.11 findings on every URL (cookie consent banner overlapping focused elements after `scrollIntoViewIfNeeded`). Real users never hit it — the banner has a hand-rolled focus trap that `el.focus()` bypasses. Also: React error #185 (Maximum update depth exceeded) when the harness pre-set `localStorage` to dismiss the banner during the audit — `getConsent()` returned a fresh object literal on every read, breaking `useSyncExternalStore` reference equality. | `consent.ts` — memoize parsed `decided` state by raw localStorage string; `globals.css` — `html { scroll-padding-bottom: 120px }` so real keyboard nav stays clear of bottom overlays; `validate-a11y.mjs` — `addInitScript` to pre-dismiss the banner in the audit context. Commit `2dd5dd9`. |
+| 2 | `2dd5dd9` | 3 ES URLs failing Lighthouse a11y at 87-89 (color-contrast / link-in-text-block / meta-viewport). Investigation: Lighthouse's chrome-launcher Chrome was hitting Vercel's SSO challenge on later ES URLs because the `Cookie: _vercel_jwt=…` extraHeader proved flaky across multiple Lighthouse calls reusing the same Chrome instance — Lighthouse was auditing Vercel's signup UI, not ours. Separately: Termly's iframe loader injects `<div role="progressbar">` with no accessible name (fires `aria-progressbar-name` on `/privacy`); hero sections rendered cream-on-white in Lighthouse mobile because the photos hadn't loaded; footer legal links are 17 px tall (fail SC 2.5.8 minimum). | `validate-a11y.mjs` — switch Lighthouse bypass from cookie header to `?x-vercel-protection-bypass=` query param (stateless, per-request); `TermlyPolicyEmbed.tsx` — `MutationObserver` labels any injected progressbar with `legal.embed.loadingLabel`; `HomeHero` / `AudienceHero` / `ServiceHero` / `AboutHero` / `NewsletterSignup` — explicit `background-color: var(--color-bg-charcoal)` fallback so Lighthouse can compute contrast against a real color; `FooterLegal.tsx` — `inline-flex items-center min-h-[24px]` on the 4 legal links to clear SC 2.5.8; `NavbarMobile.tsx` — drop `aria-controls="mobile-drawer"` from the menu-open trigger (base-ui Dialog.Portal mounts the popup lazily; base-ui already wires aria-expanded + aria-haspopup="dialog") + same conditional pattern on the drawer accordion. Commit `8524351`. |
+
+Both iterations are recorded in `Sunset-Services-Decisions.md` under the 2026-05-16 B.06 execution-time entries so any future phase that re-runs this audit can see why each branch was chosen.
+
+## Carryover (out-of-phase by design — D1)
 
 **Manual screen-reader testing (Goran, NVDA on Windows + VoiceOver on Mac).** Code can simulate `prefers-reduced-motion` and assert that `aria-live` attributes are present, but cannot verify that NVDA actually announces "New message from chat" or that the wizard step-indicator's progress is read correctly. See §10 for the exact test plan.
 

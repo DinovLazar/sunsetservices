@@ -1,7 +1,7 @@
 # Phase B.04 — Schema Validation Report
 
-**Base URL:** `https://sunsetservices-21nretaql-dinovlazars-projects.vercel.app`  
-**Generated:** 2026-05-16T11:39:34.943Z  
+**Base URL:** `https://sunsetservices-6fthj5boq-dinovlazars-projects.vercel.app`  
+**Generated:** 2026-05-16T11:45:48.925Z  
 **Remote (schema.org validator):** attempted  
 **Status:** PASS (0 errors / 0 warnings)
 

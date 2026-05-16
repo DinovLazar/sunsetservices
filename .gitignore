@@ -64,3 +64,11 @@ next-env.d.ts
 # of the table lives at src/_project-state/Phase-B-05-Completion.md)
 /scripts/.seo-validation-report.json
 /scripts/.seo-validation-cache.json
+
+# Phase B.06 — a11y validation harness temp artifacts (the committed copy
+# of the findings table lives at src/_project-state/Phase-B-06-Completion.md)
+/scripts/.a11y-validation-report.json
+/scripts/.a11y-validation-cache.json
+/test-results/
+/playwright-report/
+/.playwright/

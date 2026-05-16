@@ -98,6 +98,25 @@ export async function getAllProjectSlugs(): Promise<string[]> {
   );
 }
 
+/**
+ * Phase B.05 sitemap helper — returns `{slug, _updatedAt}` so the sitemap
+ * can stamp per-entry `lastModified`. Kept separate from the slug-only
+ * helper above so the `generateStaticParams` call sites that just want
+ * strings stay unchanged.
+ */
+export async function getAllProjectSlugsForSitemap(): Promise<
+  Array<{slug: string; updatedAt: string}>
+> {
+  return sanityClient.fetch(
+    `*[_type == "project" && defined(slug.current)]{
+      "slug": slug.current,
+      "updatedAt": _updatedAt
+    }`,
+    {},
+    FETCH_OPTS,
+  );
+}
+
 export async function getProjectBySlug(slug: string): Promise<ProjectDetail | null> {
   return sanityClient.fetch(
     `*[_type == "project" && slug.current == $slug][0] ${PROJECT_DETAIL_PROJECTION}`,
@@ -161,6 +180,19 @@ export async function getAllBlogPostSlugs(): Promise<string[]> {
   );
 }
 
+export async function getAllBlogPostSlugsForSitemap(): Promise<
+  Array<{slug: string; updatedAt: string}>
+> {
+  return sanityClient.fetch(
+    `*[_type == "blogPost" && defined(slug.current)]{
+      "slug": slug.current,
+      "updatedAt": coalesce(_updatedAt, publishedAt)
+    }`,
+    {},
+    FETCH_OPTS,
+  );
+}
+
 export async function getBlogPostBySlug(slug: string): Promise<BlogPostDetail | null> {
   return sanityClient.fetch(
     `*[_type == "blogPost" && slug.current == $slug][0] ${BLOG_DETAIL_PROJECTION}`,
@@ -216,6 +248,19 @@ export async function getAllResources(): Promise<ResourceSummary[]> {
 export async function getAllResourceSlugs(): Promise<string[]> {
   return sanityClient.fetch(
     `*[_type == "resourceArticle" && defined(slug.current)].slug.current`,
+    {},
+    FETCH_OPTS,
+  );
+}
+
+export async function getAllResourceSlugsForSitemap(): Promise<
+  Array<{slug: string; updatedAt: string}>
+> {
+  return sanityClient.fetch(
+    `*[_type == "resourceArticle" && defined(slug.current)]{
+      "slug": slug.current,
+      "updatedAt": _updatedAt
+    }`,
     {},
     FETCH_OPTS,
   );

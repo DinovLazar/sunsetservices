@@ -7,8 +7,8 @@ import ServiceAreasCTA from '@/components/sections/service-areas/ServiceAreasCTA
 import {LOCATIONS} from '@/data/locations';
 import {buildBreadcrumbList} from '@/lib/schema/breadcrumb';
 import {buildServiceAreasItemList} from '@/lib/schema/location';
-import {BUSINESS_URL} from '@/lib/constants/business';
 import {routing} from '@/i18n/routing';
+import {canonicalUrl, hreflangAlternates} from '@/lib/seo/urls';
 
 type Locale = 'en' | 'es';
 
@@ -19,19 +19,14 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const {locale} = await params;
   const t = await getTranslations({locale, namespace: 'serviceAreas.meta'});
-  const enPath = '/service-areas/';
-  const esPath = '/es/service-areas/';
-  const selfPath = locale === 'en' ? enPath : esPath;
+  const loc: Locale = locale === 'es' ? 'es' : 'en';
+  const path = '/service-areas';
   return {
     title: t('title'),
     description: t('description'),
     alternates: {
-      canonical: `${BUSINESS_URL}${selfPath}`,
-      languages: {
-        en: `${BUSINESS_URL}${enPath}`,
-        es: `${BUSINESS_URL}${esPath}`,
-        'x-default': `${BUSINESS_URL}${enPath}`,
-      },
+      canonical: canonicalUrl(path, loc),
+      languages: hreflangAlternates(path),
     },
   };
 }

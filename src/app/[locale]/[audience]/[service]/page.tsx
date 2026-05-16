@@ -22,6 +22,7 @@ import {buildBreadcrumbList} from '@/lib/schema/breadcrumb';
 import {buildServiceSchema, localePath} from '@/lib/schema/service';
 import {buildContentFaqSchema} from '@/lib/schema/article';
 import {routing} from '@/i18n/routing';
+import {canonicalUrl, hreflangAlternates} from '@/lib/seo/urls';
 import {getFaqsForService} from '@sanity-lib/queries';
 
 // Phase 2.05 — ISR (30 min) so Sanity FAQ edits propagate without a redeploy.
@@ -48,9 +49,14 @@ export async function generateMetadata({
   const svc = getService(service, audience);
   if (!svc) return {};
   const loc = (routing.locales.includes(locale as Locale) ? locale : 'en') as Locale;
+  const path = `/${audience}/${svc.slug}`;
   return {
     title: `${svc.hero.h1[loc]} — Sunset Services`,
     description: svc.hero.subhead[loc],
+    alternates: {
+      canonical: canonicalUrl(path, loc),
+      languages: hreflangAlternates(path),
+    },
   };
 }
 

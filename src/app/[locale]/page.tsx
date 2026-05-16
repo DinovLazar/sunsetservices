@@ -8,6 +8,7 @@ import HomeAbout from '@/components/sections/home/HomeAbout';
 import HomeProjects from '@/components/sections/home/HomeProjects';
 import HomeCTA from '@/components/sections/home/HomeCTA';
 import {BUSINESS_URL} from '@/lib/constants/business';
+import {canonicalUrl, hreflangAlternates, type Locale} from '@/lib/seo/urls';
 
 export async function generateMetadata({
   params,
@@ -16,9 +17,14 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const {locale} = await params;
   const t = await getTranslations({locale, namespace: 'home.meta'});
+  const loc: Locale = locale === 'es' ? 'es' : 'en';
   return {
     title: t('title'),
     description: t('description'),
+    alternates: {
+      canonical: canonicalUrl('/', loc),
+      languages: hreflangAlternates('/'),
+    },
   };
 }
 

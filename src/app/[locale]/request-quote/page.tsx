@@ -2,6 +2,7 @@ import type {Metadata} from 'next';
 import {Suspense} from 'react';
 import {getTranslations, setRequestLocale} from 'next-intl/server';
 import WizardShell from '@/components/wizard/WizardShell';
+import {canonicalUrl, hreflangAlternates, type Locale} from '@/lib/seo/urls';
 
 export async function generateMetadata({
   params,
@@ -10,9 +11,15 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const {locale} = await params;
   const t = await getTranslations({locale, namespace: 'wizard'});
+  const loc: Locale = locale === 'es' ? 'es' : 'en';
+  const path = '/request-quote';
   return {
     title: `${t('title')} — Sunset Services`,
     description: t('subtitle'),
+    alternates: {
+      canonical: canonicalUrl(path, loc),
+      languages: hreflangAlternates(path),
+    },
   };
 }
 

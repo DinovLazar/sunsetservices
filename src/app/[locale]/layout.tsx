@@ -24,6 +24,7 @@ import {
   BUSINESS_PHONE_TEL,
   BUSINESS_URL,
 } from '@/lib/constants/business';
+import {SITE_URL, hreflangAlternates} from '@/lib/seo/urls';
 import '../globals.css';
 
 const manrope = Manrope({
@@ -40,9 +41,27 @@ const onest = Onest({
   variable: '--font-body',
 });
 
+/**
+ * Sitewide default metadata.
+ *
+ * `metadataBase` lets per-page `openGraph` / `twitter` URLs be relative;
+ * Next resolves them against this base. Sitewide `alternates.languages`
+ * covers the root locale switch (`/` ↔ `/es`) so any page that doesn't
+ * override gets at least a sane default — every public page-level
+ * `generateMetadata` then overrides `alternates.canonical` +
+ * `alternates.languages` with route-specific values via the
+ * `canonicalUrl` / `hreflangAlternates` helpers from `@/lib/seo/urls`.
+ */
+const ROOT_HREFLANG = hreflangAlternates('/');
+
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: 'Sunset Services',
   description: 'Landscaping & outdoor living in Aurora, IL.',
+  alternates: {
+    canonical: ROOT_HREFLANG.en,
+    languages: ROOT_HREFLANG,
+  },
 };
 
 /**

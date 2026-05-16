@@ -17,8 +17,8 @@ import {
   buildLocationServicesItemList,
 } from '@/lib/schema/location';
 import {buildContentFaqSchema} from '@/lib/schema/article';
-import {BUSINESS_URL} from '@/lib/constants/business';
 import {routing} from '@/i18n/routing';
+import {canonicalUrl, hreflangAlternates} from '@/lib/seo/urls';
 import {getFaqsForCity, getPublishedReviewsForCity} from '@sanity-lib/queries';
 
 // Phase 2.05 — ISR (30 min) so Sanity FAQ edits propagate without a redeploy.
@@ -40,21 +40,14 @@ export async function generateMetadata({
   const location = getLocation(city);
   if (!location) return {};
   const loc = (routing.locales.includes(locale as Locale) ? locale : 'en') as Locale;
-
-  const enPath = `/service-areas/${city}/`;
-  const esPath = `/es/service-areas/${city}/`;
-  const selfPath = loc === 'en' ? enPath : esPath;
+  const path = `/service-areas/${city}`;
 
   return {
     title: location.meta.title[loc],
     description: location.meta.description[loc],
     alternates: {
-      canonical: `${BUSINESS_URL}${selfPath}`,
-      languages: {
-        en: `${BUSINESS_URL}${enPath}`,
-        es: `${BUSINESS_URL}${esPath}`,
-        'x-default': `${BUSINESS_URL}${enPath}`,
-      },
+      canonical: canonicalUrl(path, loc),
+      languages: hreflangAlternates(path),
     },
   };
 }

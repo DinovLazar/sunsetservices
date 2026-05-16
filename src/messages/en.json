@@ -669,6 +669,9 @@
     "embed": {
       "preparingFallback": "Legal content is being prepared. Please check back soon, or contact info@sunsetservices.us for a copy."
     },
+    "toc": {
+      "heading": "On this page"
+    },
     "privacy": {
       "meta": {
         "title": "Privacy policy · Sunset Services",

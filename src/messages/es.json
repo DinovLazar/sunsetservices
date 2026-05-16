@@ -669,6 +669,9 @@
     "embed": {
       "preparingFallback": "El contenido legal se está preparando. Vuelva a consultar pronto, o escríbanos a info@sunsetservices.us para solicitar una copia."
     },
+    "toc": {
+      "heading": "En esta página"
+    },
     "privacy": {
       "meta": {
         "title": "Política de privacidad · Sunset Services",

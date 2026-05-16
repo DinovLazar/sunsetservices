@@ -79,7 +79,7 @@ export default async function TermsPage({
         dangerouslySetInnerHTML={{__html: JSON.stringify(breadcrumbs)}}
       />
       <LegalPageHero type="terms" locale={locale} />
-      <LegalPageBody type="terms" />
+      <LegalPageBody type="terms" locale={locale} />
     </>
   );
 }

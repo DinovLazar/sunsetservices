@@ -583,40 +583,136 @@ Eight in-phase decisions Code made during Phase B.03 execution. None are user-fa
 
 ---
 
-## 2026-05-15 — Phase B.03c (Code) — Partial ship: 2 of 5 Termly IDs populated, format concern flagged, architectural finding surfaced
+## 2026-05-15 — Phase B.04 scope + iubenda choice + B.02 handover correction
 
-Phase B.03c was scoped to populate the 5 Termly env vars on Vercel, verify all 4 legal routes render real content, implement the TOC sidebar, validate Consent Mode v2 with Tag Assistant, and reconcile B.03 against the B.02 design handover docs. It shipped a partial ship — 2 of 5 IDs populated on Vercel — and surfaced two concerns that need follow-up. Five things to record.
+- **B.04 = Schema validation (Code) per the canonical Phase Plan Continuation.** B.03's completion report incorrectly referred to "B.04 — Cowork Termly account setup"; that work is real but is now slotted as B.03b (Cowork) + B.03c (Code), inserted before B.04.
+- **iubenda chosen over Termly** per user direction. Different embed mechanism means a small Code swap is required after Cowork captures the iubenda IDs — that's B.03c. Final ordering: B.03b (Cowork) → B.03c (Code swap) → B.04 (Code schema validation).
+- **B.02 design handover docs are NOT missing.** They live at `C:\Users\user\Desktop\SunSet-V2\docs\design-handovers\`. B.03's Code implementer did not read them and listed DM-3 + DM-4 as "not accessible" in their completion report — this is a B.03 reconciliation risk. B.04's prompt will include a step instructing Code to read the B.02 handover and reconcile any drift before schema validation.
 
-1. **Cowork's `.termly-ids.txt` carries only 2 of the 5 expected IDs.** The file lives at the parent root `C:\Users\user\Desktop\SunSet-V2\.termly-ids.txt` (not inside the worktree — for future Code, the "project root" in B.03c-style briefs means the parent, not the worktree). It was created 2026-05-15 16:47:13 local. Contents: `TERMLY_WEBSITE_ID=b722b489-62a2-4e5a-9510-e6466f804c69` + `TERMLY_PRIVACY_EN_ID=13687462`. Missing: `TERMLY_PRIVACY_ES_ID`, `TERMLY_TERMS_EN_ID`, `TERMLY_TERMS_ES_ID`. The 3 missing IDs leave `/es/privacy/`, `/en/terms/`, `/es/terms/` on the graceful "Legal content is being prepared" fallback by design. Cowork needs to supply them in a B.03b follow-up.
+---
+## 2026-05-15 — Phase B.03b — iubenda decision re-reversed back to Termly (free plan, reduced scope)
 
-2. **The `TERMLY_PRIVACY_EN_ID` format looks wrong.** Website ID `b722b489-62a2-4e5a-9510-e6466f804c69` is a UUID (Termly's documented format). Privacy EN ID `13687462` is an 8-digit numeric — the same shape as iubenda's policy IDs. Cowork's brief was originally written for iubenda before pivoting to Termly; the numeric ID looks like residue from that. **User was surfaced the concern, accepted the risk, and chose "Proceed with both IDs"** (the 2nd of 4 options). Empirical verification on the post-deploy /en/privacy/ route will tell us whether the ID is wrong (embed will 404 or render the wrong document) or whether Termly accepts this format for some configurations.
+**The earlier same-day iubenda choice (logged above) is re-reversed.** Phase B.03b execution surfaced a pricing reality the earlier decision did not account for, and user directed a different course mid-phase.
 
-3. **Architectural finding the B.03c brief did not anticipate: cross-origin iframe blocks BOTH the CSS and TOC strategies.** [TermlyPolicyEmbed.tsx:97-102](src/components/legal/TermlyPolicyEmbed.tsx:97) configures the embed div with `data-type="iframe"`, which (per Termly's documented behavior) renders the policy inside an iframe served from a Termly origin — cross-origin to the host page. Two cascading consequences: (a) Document-level `<style>` rules in the host page do not penetrate a cross-origin iframe, so the first-pass CSS override block at lines 67-91 lands on the wrapper, not on the actual policy content. The brief's Step 5 acknowledges this scenario and gives a fallback (move CSS to Termly's dashboard "Custom CSS" panel). (b) `iframe.contentDocument` access is blocked across origins, so the brief's Step 6 ("walk the rendered DOM for `h2` and `h3` headings inside the Termly container") cannot work — and the brief does NOT acknowledge this scenario; it appears to assume inline rendering. Empirical post-deploy verification on /en/privacy/ will confirm or refute. Before any TOC sidebar implementation, Chat needs to choose Path A (switch embed to `data-type="document"` for inline rendering) or Path B (keep iframe + Termly-dashboard CSS + drop or server-side-derive TOC).
+**What happened.** Phase B.03b opened with iubenda as the chosen vendor. Cowork (the Phase B.03b executor) navigated to iubenda.com and read their pricing page before any account work. iubenda's cheapest plan that includes **multilingual support** (Privacy + Terms in EN + ES, which was the original Phase B.03b scope) is **Advanced at $24.99/mo annual** or **$27.99/mo monthly** — roughly **3-4x the phase-doc estimate of "~$5-10/month"**. The Essentials tier ($5.99/mo annual) was confirmed to be single-language only and therefore unable to deliver the ES side of the scope.
 
-4. **B.02 design handover docs still do not exist.** Same gap B.03 documented at `Phase-B-03-Completion.md:16` and decisions entry above. Step 0 reconciliation remains not actionable; B.03c did not attempt to fake it.
+**User's mid-phase decisions** (in order, all 2026-05-15):
+1. **Pause iubenda; pivot to Termly free plan instead.** Cost concern was the driver — Termly free is $0, Termly Pro+ (the full-scope-equivalent) is €13.50/mo annual (~$14.50/mo USD) which is meaningfully cheaper than iubenda Advanced at $24.99/mo.
+2. **Accept reduced scope: Privacy Policy in English ONLY.** Termly free plan allows exactly 1 legal policy and 1 language. User chose Privacy EN as the single doc (most legally critical given the site's data collection). Terms EN, Privacy ES, and Terms ES are all DEFERRED.
+3. **Keep the site as EN + ES UI.** The locale toggle stays; the ES legal pages will continue rendering the existing "Legal content is being prepared" placeholder (shipped in B.03) until an upgrade unlocks multilingual.
 
-5. **Token-refresh discovery for future Code.** The cached Vercel CLI auth token at `%APPDATA%\xdg.data\com.vercel.cli\auth.json` was expired at session-start (expiresAt 2026-05-15 13:01:45 local; session ran ~16:47–17:07). Direct REST API calls returned `403 invalidToken`. Calling `vercel whoami` (which only checks identity) triggered a silent CLI-side token refresh that wrote a new token + new refreshToken + new expiresAt back to `auth.json`. Re-read the file after `vercel whoami` and the Phase 2.02/2.03 REST helper pattern works again. Recommended pattern: always `vercel whoami` once at the start of any session that will call the REST API; if the first call returns 403, re-read `auth.json` (don't assume the token is permanently bad).
+**What was delivered in B.03b.**
+- Termly account created (free plan), website entry `Sunset Services` at `https://sunsetservices.us` with English as primary language.
+- One Privacy Policy generated and **published** (Termly's Published state, confirmed visually in the dashboard preview).
+- Captured IDs: `TERMLY_WEBSITE_ID` and `TERMLY_PRIVACY_EN_ID` — both written to `.termly-ids.txt` at the repo root (gitignored).
+- `.gitignore` updated with one new line covering `.termly-ids.txt`.
 
-**What shipped:**
-- `NEXT_PUBLIC_TERMLY_WEBSITE_ID=b722b489-62a2-4e5a-9510-e6466f804c69` upserted on Vercel Production + Preview (env-var id `gDmL9bWsmwK6gQWL`, type=plain).
-- `NEXT_PUBLIC_TERMLY_PRIVACY_EN_ID=13687462` upserted on Vercel Production + Preview (env-var id `SRl4LL06YQVb5CAa`, type=plain).
-- `.env.local` created in the worktree with the same 2 IDs (gitignored, matches `.env*` rule at `.gitignore:34`).
-- `.env.local.example` Phase B.03 block updated with the B.03c partial-populate header.
-- `src/_project-state/Phase-B-03c-Completion.md` (new) + this Decisions entry + `current-state.md` Phase B.03c block + `file-map.md` entry.
-- Preview deploy went READY at SHA `bcbd9d5` (URL `sunsetservices-mzi406cp0-dinovlazars-projects.vercel.app`).
+**Convenient alignment with the existing codebase.** B.03 Code wired the codebase for Termly originally (`NEXT_PUBLIC_TERMLY_*_ID` env vars + `.termly-embed-wrap` CSS overrides). The iubenda re-direction logged earlier today was never actually executed in code. So re-reversing back to Termly means **B.03c is smaller than it would have been** — Code does not need to swap selectors or rename env vars. The remaining B.03c work is: wire the Privacy EN doc into the existing Termly env-var slot, and document the new constraint that the other three slots (Privacy ES, Terms EN, Terms ES) are intentionally empty for the free-plan ship.
 
-**Empirical verification done post-deploy** (via Vercel Protection Bypass token + curl — bypass token discovered at `project.protectionBypass.<key>`; useful pattern for future Code phases that need to verify Preview content programmatically):
-- `/privacy` (canonical EN URL — `localePrefix: 'as-needed'` strips `/en` and the 308 then 307 redirect chain drops the trailing slash) returns 200 with SSR HTML containing `<div name="termly-embed" data-id="13687462" data-type="iframe" data-website-id="b722b489-...">` — both env vars made it into the build correctly. ✅
-- The 3 empty-ID routes all correctly render the locale-appropriate fallback: `/es/privacy` shows the Spanish "contenido legal … preparando" fallback; `/terms` shows the English "Legal content is being prepared…" fallback; `/es/terms` shows the Spanish fallback. The `if (!docId)` gate at `TermlyPolicyEmbed.tsx:39` is working on all 3. ✅
-- The Privacy EN ID format concern (`13687462` numeric vs UUID) is **less black-and-white than expected**. Termly's URL routing accepts numeric IDs as `policyUUID` parameters without 4xx-rejection (probed `/document/13687462` → 301 to `/policy-viewer/policy.html?policyUUID=13687462`); the actual policy content is fetched client-side by Termly's `/hosted.min.js` SPA. **Whether `13687462` resolves to a real Sunset-Services-owned Termly document is unconfirmed** — that question can only be answered by (a) Cowork checking the Termly dashboard against the doc ID, or (b) a real browser session on `/privacy` to see if the iframe renders the expected Privacy Policy.
-- The cross-origin iframe architectural concern is **consistent with the SSR evidence** (`data-type="iframe"` IS in the rendered HTML) but **not yet runtime-confirmed**. A browser session on `/privacy` with DevTools open would settle Path A vs Path B definitively — if an `<iframe>` element appears under the embed div, Path B applies; if content renders inline, Path A applies. **This is now a 10-minute decision check, not a Chat-level open question.**
+**Constraint that B.03c must work around: Termly free plan offers HTML Format embed ONLY.** Code Snippet and URL embed options are both Pro+ paywalled. This means:
+- There is **no public Termly URL** for the policy — incognito-window verification (as the original phase doc described) is **not applicable**. Verification was instead performed inside the Termly dashboard preview.
+- B.03c will need to either (a) copy the Termly-generated HTML into the codebase as a static asset and render it inside `.termly-embed-wrap`, OR (b) recommend a Pro+ upgrade ($15/mo) before B.03c closes. Decision deferred to B.03c.
 
-**What did NOT ship:**
-- Zero source code modified. The TermlyPolicyEmbed, LegalPageBody, LegalPageHero, privacy/page, terms/page, and all analytics components remain exactly as B.03 shipped them.
-- 3 of 5 Termly IDs still empty.
-- TOC sidebar not implemented (depends on the architectural decision + ID set completion).
-- Tag Assistant verification + Lighthouse smoke — both require a desktop Chrome session outside Code's environment; user can execute manually against the Preview URL.
+**Recurring cost logged: $0/month.** No subscription. Upgrade path to Termly Pro+ is documented in the B.03b completion report; the budget conversation is deferred.
 
-**Decided by:** Code, in-phase during Phase B.03c execution, after the user accepted the format-concern risk and chose "Proceed with both IDs" when the partial-IDs and PRIVACY_EN_ID format concern were surfaced.
+**Decided by:** user (Goran), in Chat 2026-05-15, after Cowork surfaced the iubenda pricing finding during Phase B.03b execution.
+
+---
+## 2026-05-15 — Phase B.03c (Code) — Termly embed type: iframe (Path B)
+
+- **Decision:** Keep Termly's `data-type="iframe"` rendering. Policy text renders inside
+  the cross-origin Termly iframe with Termly's default styling. Brand styling applies only
+  to the page chrome around the embed (hero, breadcrumb, "Last updated" subtitle, TOC
+  sidebar wrapper, surrounding sections).
+- **Rationale:** Termly's auto-update + compliance/audit value is the actual reason to use
+  the service. Legal pages are low-traffic, brand-styled legal copy is cosmetic; the
+  iframe boundary preserves Termly's compliance story without meaningful UX cost.
+- **Consequence:** The CSS overrides B.03 shipped (`.termly-embed-wrap h1/h2/h3/p/a/ul/ol`
+  selectors in `src/components/legal/TermlyPolicyEmbed.tsx`) cannot reach inside the
+  cross-origin iframe and become dead code. B.03d removes them.
+- **TOC sidebar scope reduces.** B.03c originally planned to walk Termly headings for
+  TOC anchors — that's not possible across the iframe boundary. B.03d either drops the
+  TOC sidebar entirely or replaces it with a static "On this page" stub (Privacy, Terms,
+  Contact us) defined in code, not scraped from Termly. B.03d picks one.
+- **Off-table:** Switching to `data-type="inline"` to enable brand styling. Revisit only
+  if Erick post-launch decides legal pages need brand styling for a specific reason
+  (e.g., regulatory audit asks "why don't your policies match your site"; Termly inline
+  becomes a paid-tier feature; etc.).
+
+---
+## 2026-05-15 — Phase B.03c (Code) — Addendum: iframe path is OFF; static-HTML embed is ON (free plan reality)
+
+The iframe-vs-inline decision above was written assuming Termly's `data-type` script embed
+(Code Snippet) was available. On Termly's free plan — the plan B.03b actually shipped on —
+**both `data-type="iframe"` and `data-type="inline"` script embeds are Pro+ paywalled**.
+Free plan offers **only HTML Format** (static HTML copy/paste).
+
+**Active path for B.03c on free plan:**
+
+- B.03c copies Termly's HTML Format output (Dashboard → Privacy Policy → ADD TO WEBSITE →
+  HTML Format → COPY TO CLIPBOARD) into the codebase as a static asset. Suggested location:
+  `src/content/legal/privacy-en.html` (new directory) or inlined into the Privacy page
+  component. B.03c picks one.
+- The `<TermlyPolicyEmbed>` component renders the static HTML (probably via
+  `dangerouslySetInnerHTML` or a static import) inside the existing `.termly-embed-wrap`
+  container.
+- **The CSS overrides B.03 shipped DO apply** to static HTML rendered inline (no
+  cross-origin iframe boundary). They are not dead code in this path. **B.03d does not
+  need to clean them up.** (The above iframe-decision block's "consequence" item is
+  OBE on free plan.)
+- **TOC sidebar can scrape headings.** Static HTML rendered inline IS reachable from
+  same-origin JavaScript, so the original B.03 plan to walk Termly headings for TOC
+  anchors works again. B.03d makes the TOC decision based on whether the rendered
+  Privacy EN has enough headings to be useful.
+- **The trade-off this path imposes.** Termly's "auto-update" value disappears on free
+  plan via HTML Format — when laws change, Termly updates THEIR copy, but the static
+  HTML in our codebase is frozen. Cowork (or a developer) must re-export the HTML and
+  re-commit on each material update. This is a real ongoing cost that B.03c's
+  completion report should call out.
+
+**`NEXT_PUBLIC_TERMLY_PRIVACY_EN_ID` env var becomes informational only on this path** —
+it's still useful for cross-referencing what Termly doc was the source of the static HTML,
+but the runtime no longer reads it for embed loading. B.03c decides whether to keep the
+env-var slot (for documentation) or remove it (cleaner code).
+
+**The other three legal routes (Privacy ES, Terms EN, Terms ES) keep their B.03 fallback.**
+B.03c verifies the fallback string "Legal content is being prepared" still renders in
+those three routes. No code changes to those slots beyond a comment that they're
+intentionally placeholder until a Termly Pro+ upgrade unlocks multilingual + more docs.
+
+**B.03d cleanup scope on this path:**
+1. Decide TOC sidebar fate (drop, static stub, or scraped-from-rendered-HTML).
+2. Run Tag Assistant Consent Mode v2 validation.
+3. Lighthouse smoke on `/privacy`.
+4. *Skip* the dead-CSS removal item — those overrides are live on this path.
+
+**Decided by:** Cowork + user (Goran), 2026-05-15, surfaced when Cowork flagged the
+inconsistency between Chat's B.03c plan-block (assumed iframe) and B.03b's actual
+shipped plan (free plan, HTML-only).
+
+---
+## 2026-05-16 — Phase B.03c (Code) — Execution log: false-start + redo on static-HTML path
+
+This entry documents the actual Code execution of B.03c across two passes. It supersedes nothing in the four entries above — it reports what was *done* against the plan they describe.
+
+**First pass (wrong approach — kept in git history at SHA `bcbd9d5` for audit):**
+
+Code ran B.03c without first reading the four Decisions entries above or the B.03b completion report. The session started inside a git worktree (`.claude/worktrees/gifted-pare-143263/`) where searches only saw the worktree's tracked files; the parent worktree's uncommitted/untracked work (B.02 docs, B.03b report, the four Decisions entries above) was invisible. Code's initial search reported `.termly-ids.txt` as absent + B.02 docs as absent and stopped before any code change. User pointed at the actual `.termly-ids.txt` location (`C:\Users\user\Desktop\SunSet-V2\.termly-ids.txt`, parent root, not worktree). With 2 of 5 IDs surfaced and the format concern flagged (`13687462` numeric not UUID), user chose "Proceed with both IDs." Code then upserted `NEXT_PUBLIC_TERMLY_WEBSITE_ID` + `NEXT_PUBLIC_TERMLY_PRIVACY_EN_ID` to Vercel Production + Preview, redeployed, and verified the SSR layer rendered the Termly script-embed div correctly. This entire ship was technically wrong for the free plan (Termly free doesn't support script embeds at all) — the runtime would have rendered empty/broken content in a real browser. The false start was caught when Code subsequently tried to merge the feature branch into main and discovered the parent worktree's uncommitted work — including the addendum entry above stating "iframe path is OFF; static-HTML embed is ON."
+
+**Second pass (correct approach — this is what landed):**
+
+User instructed "Redo B.03c here with static HTML." Code:
+1. Brought parent's uncommitted/untracked work into the feature branch: copied `docs/design-handovers/Phase-B-02-Legal-Design-Handover.md`, `docs/design-handovers/Phase-B-02-Handover-Preview.html`, `src/_project-state/Phase-B-03b-Completion.md`, `Sunset-Services-Phase-Plan-Continuation.md` (both root and `src/_project-state/` locations), applied the `.gitignore` change adding `.termly-ids.txt`, and merged this Decisions entry against parent's 4 new entries.
+2. Read the B.02 design handover in full. Reconciled against B.03's shipped surfaces: banner + modal + Consent Mode v2 are all on-spec or close-enough; the open gaps are legal page body (currently script embed wiring; needs static-HTML refactor) and TOC sidebar (currently empty `<aside>`; B.02 §2.4 specs a `LegalTocSidebar` component).
+3. Refactored `src/components/legal/TermlyPolicyEmbed.tsx`: removed the `next/script` Termly script load, removed the embed div, switched to rendering static HTML imported from `src/content/legal/privacy-en.html` via `dangerouslySetInnerHTML`, updated CSS-override selectors from `.termly-embed-wrap` to `.termly-policy-content` per B.02 §3.1 (matches what Termly's HTML Format actually outputs).
+4. Created `src/content/legal/privacy-en.html` carrying the Termly HTML Format export (user provided the HTML).
+5. Implemented `src/components/legal/LegalTocSidebar.tsx` per B.02 §2.4 — sticky right sidebar at `lg:` breakpoint, `<details>` accordion below `lg:`, IntersectionObserver scroll-spy with `rootMargin: '-96px 0px -60% 0px'`, slug-and-anchor h2/h3 from rendered static HTML.
+6. Updated `LegalPageBody.tsx` to wire the TOC sidebar into the previously-empty `<aside>` slot.
+7. Kept the Vercel env vars upserted in pass 1 — they become informational-only on the static-HTML path per the addendum, but are useful as a cross-reference to the source Termly doc and forward-compat for a future Pro+ upgrade.
+8. Verified SSR via the Vercel Protection Bypass token: `/privacy` now SSR-renders the static HTML inside `.termly-policy-content`; the 3 empty-ID routes still render the locale-appropriate fallback.
+
+**Trade-off logged.** Termly's "auto-update" value is forfeit on the static-HTML path — when laws change, the operator must re-export the HTML from Termly's dashboard and re-commit. The completion report tags this as an ongoing operator task. Mitigation: a future B.03c-update phase or a Pro+ upgrade restores auto-update.
+
+**Decided by:** Code + user (Goran), 2026-05-16, after the false-start was caught and user explicitly approved the static-HTML redo path.
 
 ---

@@ -55,11 +55,7 @@ export function buildArticleSchema(input: ArticleSchemaInput) {
     datePublished: input.datePublished,
     dateModified: input.dateModified ?? input.datePublished,
     author: resolveAuthor(input.byline, input.locale),
-    publisher: {
-      '@type': 'Organization',
-      name: 'Sunset Services',
-      url: BUSINESS_URL,
-    },
+    publisher: {'@id': `${BUSINESS_URL}/#organization`},
     mainEntityOfPage: toAbsolute(input.canonical),
     inLanguage: LOCALE_TAG[input.locale],
     articleSection: input.articleSection,
@@ -81,11 +77,7 @@ export function buildHowToSchema(input: HowToSchemaInput) {
     datePublished: input.datePublished,
     dateModified: input.dateModified ?? input.datePublished,
     author: resolveAuthor(input.byline, input.locale),
-    publisher: {
-      '@type': 'Organization',
-      name: 'Sunset Services',
-      url: BUSINESS_URL,
-    },
+    publisher: {'@id': `${BUSINESS_URL}/#organization`},
     mainEntityOfPage: toAbsolute(input.canonical),
     inLanguage: LOCALE_TAG[input.locale],
     step: input.steps.map((s, idx) => ({

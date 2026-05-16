@@ -122,3 +122,17 @@ export type ReviewEntry = {
   rating: number;
   placeholder: boolean;
 };
+
+/**
+ * Phase B.04 — shape returned by `getPublishedReviewsForCity`. Same fields
+ * as `ReviewEntry` minus `placeholder` (always false by filter) plus the
+ * `source` + `publishedAt` fields the `Review` JSON-LD builder needs.
+ */
+export type PublishedReviewEntry = {
+  _id: string;
+  quote: Localized;
+  attribution: Localized;
+  rating: number;
+  source: 'google' | 'manual';
+  publishedAt: string;
+};

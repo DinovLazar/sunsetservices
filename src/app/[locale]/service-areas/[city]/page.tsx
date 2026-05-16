@@ -19,7 +19,7 @@ import {
 import {buildContentFaqSchema} from '@/lib/schema/article';
 import {BUSINESS_URL} from '@/lib/constants/business';
 import {routing} from '@/i18n/routing';
-import {getFaqsForCity} from '@sanity-lib/queries';
+import {getFaqsForCity, getPublishedReviewsForCity} from '@sanity-lib/queries';
 
 // Phase 2.05 — ISR (30 min) so Sanity FAQ edits propagate without a redeploy.
 export const revalidate = 1800;
@@ -105,7 +105,19 @@ export default async function LocationPage({
   ];
 
   const breadcrumbSchema = buildBreadcrumbList(breadcrumbItems);
-  const placeSchema = buildPlaceSchema(location, location.meta.description[loc]);
+
+  // Phase B.04 — published (non-placeholder) reviews drive the optional
+  // `review[]` + `aggregateRating` fields on the Place node. Today the
+  // helper returns `[]` for every city (no real reviews exist yet); the
+  // Phase 2.14 + 2.16 daily Google reviews cron will land entries once
+  // Google's GBP API approval clears, and they'll flow through unchanged.
+  const publishedReviews = await getPublishedReviewsForCity(city, loc);
+  const placeSchema = buildPlaceSchema(
+    location,
+    location.meta.description[loc],
+    publishedReviews,
+    loc,
+  );
   const servicesSchema = buildLocationServicesItemList(
     location,
     location.featuredServices,

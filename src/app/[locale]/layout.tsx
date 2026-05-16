@@ -56,18 +56,36 @@ export const viewport: Viewport = {
   interactiveWidget: 'resizes-content',
 };
 
-const localBusinessJsonLd = {
+// Phase B.04 — Two sitewide entity nodes shipped together in a `@graph`
+// container. The `@id`s are stable hash-fragment URIs so per-page builders
+// (Place.areaServed, Person.worksFor, ContactPage.mainEntity,
+// CreativeWork.creator, Article/BlogPosting.publisher, Service.provider)
+// can reference them without restating the NAP block. LocalBusiness covers
+// physical-storefront cases; Organization covers publisher/author cases.
+// Both reference the same canonical name/url so they stay in lockstep.
+const sitewideJsonLd = {
   '@context': 'https://schema.org',
-  '@type': 'LocalBusiness',
-  name: BUSINESS_NAME,
-  address: {
-    '@type': 'PostalAddress',
-    ...BUSINESS_ADDRESS,
-  },
-  telephone: BUSINESS_PHONE_TEL,
-  email: BUSINESS_EMAIL,
-  url: BUSINESS_URL,
-  areaServed: BUSINESS_AREA_SERVED,
+  '@graph': [
+    {
+      '@type': 'LocalBusiness',
+      '@id': `${BUSINESS_URL}/#localbusiness`,
+      name: BUSINESS_NAME,
+      address: {
+        '@type': 'PostalAddress',
+        ...BUSINESS_ADDRESS,
+      },
+      telephone: BUSINESS_PHONE_TEL,
+      email: BUSINESS_EMAIL,
+      url: BUSINESS_URL,
+      areaServed: BUSINESS_AREA_SERVED,
+    },
+    {
+      '@type': 'Organization',
+      '@id': `${BUSINESS_URL}/#organization`,
+      name: BUSINESS_NAME,
+      url: BUSINESS_URL,
+    },
+  ],
 };
 
 export function generateStaticParams() {
@@ -96,7 +114,7 @@ export default async function LocaleLayout({
         <ConsentModeDefault />
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{__html: JSON.stringify(localBusinessJsonLd)}}
+          dangerouslySetInnerHTML={{__html: JSON.stringify(sitewideJsonLd)}}
         />
       </head>
       <body className="antialiased">

@@ -46,9 +46,17 @@ function projectListItem(p: Project, locale: Locale, leadImageUrl: string, posit
       name: p.title[locale],
       image: leadImageUrl,
       dateCreated: `${p.year}-01-01`,
+      // Phase B.04 — locationCreated Place mirrors the detail-page shape so
+      // a `name`-only stub doesn't fail Place's required-address rule.
       locationCreated: {
         '@type': 'Place',
         name: cityName,
+        address: {
+          '@type': 'PostalAddress',
+          addressLocality: cityName,
+          addressRegion: 'IL',
+          addressCountry: 'US',
+        },
       },
       creator: {
         '@id': `${BUSINESS_URL}/#localbusiness`,

@@ -360,6 +360,24 @@
 - `.env.local` — **Modified (Phase B.03, gitignored).** Phase B.03 Termly block appended with the 5 keys; `NEXT_PUBLIC_TERMLY_WEBSITE_ID` + `NEXT_PUBLIC_TERMLY_PRIVACY_EN_ID` populated with the values from `.termly-ids.txt` (matches Vercel exactly). The 3 ES/Terms vars left empty until Cowork's finish-up provides them.
 - `.gitignore` — **Modified (Phase B.03)** added `.termly-ids.txt` line to keep Cowork's captured IDs out of git.
 
+## Phase B.04 — Schema validation pass (added 2026-05-16)
+
+- `src/app/[locale]/layout.tsx` — **Modified (Phase B.04)** sitewide JSON-LD now emits both `LocalBusiness` (`@id: …/#localbusiness`) and `Organization` (`@id: …/#organization`) under a single `@graph` block. Replaces the single `LocalBusiness` node from Phase 1.05 with a stable two-node graph that per-page builders reference by `@id`.
+- `src/lib/schema/service.ts` — **Modified (Phase B.04)** `Service.provider` switched from inline `LocalBusiness` object to `{"@id": "…/#localbusiness"}`. NAP not restated per service-detail page.
+- `src/lib/schema/article.ts` — **Modified (Phase B.04)** `Article` / `BlogPosting` / `HowTo` `publisher` switched from inline `Organization` object to `{"@id": "…/#organization"}`.
+- `src/lib/schema/author.ts` — **Modified (Phase B.04)** `resolveAuthor()` returns single-key `{"@id": "…/#organization"}` reference when byline is `"Sunset Services Team"` (was inline `Organization` node). Named-person bylines still inline as `Person`. New `SchemaAuthor` union member for the reference form.
+- `src/lib/schema/location.ts` — **Modified (Phase B.04)** `buildPlaceSchema()` extended with optional `reviews: PublishedReviewEntry[]` + `locale` args; conditionally adds `aggregateRating` + `review[]` to the Place node when 1+ published non-placeholder reviews exist (otherwise omitted, today's default). `buildServiceListItem()` flattened from nested `Service`+`areaServed.Place` to a bare `{position, url, name}` ListItem matching `buildAudienceItemList`.
+- `src/lib/schema/project.ts` — **Modified (Phase B.04)** projects-index `locationCreated.Place` now carries a full `PostalAddress` (locality + region: 'IL' + country: 'US'), matching the project-detail builder's shape.
+- `sanity/lib/queries.ts` — **Modified (Phase B.04)** new `getPublishedReviewsForCity(citySlug, locale)` GROQ helper. Extends `getReviewsForCity` with `placeholder !== true` filter + `source` + `publishedAt` projection + `publishedAt desc` ordering. Returns `[]` for every city today.
+- `sanity/lib/types.ts` — **Modified (Phase B.04)** new `PublishedReviewEntry` type matching the new helper's projection shape.
+- `src/app/[locale]/service-areas/[city]/page.tsx` — **Modified (Phase B.04)** wires `getPublishedReviewsForCity(city, loc)` into the Place schema build. Inline comment notes the Phase 2.14 + 2.16 cron dependency.
+- `scripts/validate-schema.mjs` — **NEW (Phase B.04)** re-runnable schema validation harness. Walks 22 representative URLs (14 EN content surfaces + 2 EN zero-schema routes + 5 ES spot-check + homepage). Per page: JSON-parse + required-fields-per-type table (20+ schema types) + `@id` reference resolution + absolute-URL check. Best-effort external pass via `validator.schema.org/validate` (URL-fetch mode for public base URLs; skipped on localhost). Accepts `BASE_URL` + optional `BYPASS_TOKEN` (primes a `_vercel_jwt` cookie). Exits 0 only on zero errors AND zero warnings. Outputs colored stdout table + `scripts/.schema-validation-report.json` (gitignored) + `src/_project-state/Phase-B-04-Validation-Report.md` (committed). Reachable via `npm run validate:schema`.
+- `src/_project-state/Phase-B-04-Validation-Report.md` — **NEW (Phase B.04)** committed passing summary table. Currently snapshots the Vercel Preview run; the harness rewrites in place on every invocation.
+- `src/_project-state/Phase-B-04-Completion.md` — **NEW (Phase B.04)** completion report. Folds in the Phase-B-04-Audit per the plan's "or fold into completion report" clause.
+- `.gitignore` — **Modified (Phase B.04)** added `scripts/.schema-validation-report.json` + `scripts/.schema-validation-cache.json` so the harness's two temp artifacts stay out of git.
+- `package.json` — **Modified (Phase B.04)** added `"validate:schema": "node scripts/validate-schema.mjs"` script entry.
+- `Sunset-Services-Decisions.md` — **Modified (Phase B.04)** appended `2026-05-16 — Phase B.04 (Code) — Schema validation pass` entry with the in-phase off-spec decisions (external validator API `code=` → `url=` repurpose, location ItemList flattening, projects locationCreated address shape, deferred logo/image fields, `.env.local` mirror).
+
 ## dist/ + .sanity/ (gitignored)
 
 - `dist/` — **gitignored** Sanity Studio production build output (~7.9MB, written by `npm run studio:build`).

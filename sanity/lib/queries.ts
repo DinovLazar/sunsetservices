@@ -7,9 +7,15 @@
  *   in at the GROQ layer: `"title": {"en": coalesce(title.en, ""),
  *   "es": coalesce(title.es, title.en, "")}`. Page-level consumers can
  *   continue to use the Phase 1.x `data.title[locale]` access pattern.
- * - Every fetch sets `next: { revalidate: 1800 }` so per-route ISR
- *   (30 min) aligns with `export const revalidate = 1800` on every page.
- *   Phase 2.05+ will swap this for webhook-driven revalidation.
+ * - Every fetch sets `{cache: 'force-cache', next: {tags: ['<doc-type>']}}`
+ *   per the Phase B.08 tag schema, so the Phase B.08 webhook at
+ *   `/api/revalidate` can selectively invalidate cached fetch results
+ *   when a Sanity document publishes. The `cache: 'force-cache'` opt-in
+ *   is canonical for cached-and-taggable Next.js fetches (some next-sanity
+ *   versions default to `no-store`). Page-level `export const revalidate
+ *   = 1800` on each consuming route group stays in place as the safety
+ *   net (D2 in the B.08 plan-of-record) — if the webhook ever breaks,
+ *   max staleness is the page revalidate window.
  * - Functions return plain serializable objects suitable for passing
  *   across the Server Component → Client Component boundary.
  */
@@ -31,8 +37,19 @@ import type {
   ReviewEntry,
 } from './types';
 
-const REVALIDATE = 1800; // 30 minutes
-const FETCH_OPTS = {next: {revalidate: REVALIDATE}} as const;
+// Tag values must match the keys in src/lib/sanity/revalidation.ts MAPPINGS.
+const TAG = {
+  project: 'project',
+  blogPost: 'blogPost',
+  resourceArticle: 'resourceArticle',
+  service: 'service',
+  location: 'location',
+  faq: 'faq',
+  review: 'review',
+} as const;
+
+const cachedTagged = (tag: string) =>
+  ({cache: 'force-cache', next: {tags: [tag]}}) as const;
 
 // GROQ snippet — produces `{en, es}` for a string/text field with ES falling
 // back to EN. Wrapped in a string-template helper so each field reads
@@ -87,7 +104,7 @@ export async function getAllProjects(): Promise<ProjectSummary[]> {
   return sanityClient.fetch(
     `*[_type == "project"] | order(year desc, slug asc) ${PROJECT_SUMMARY_PROJECTION}`,
     {},
-    FETCH_OPTS,
+    cachedTagged(TAG.project),
   );
 }
 
@@ -95,7 +112,7 @@ export async function getAllProjectSlugs(): Promise<string[]> {
   return sanityClient.fetch(
     `*[_type == "project" && defined(slug.current)].slug.current`,
     {},
-    FETCH_OPTS,
+    cachedTagged(TAG.project),
   );
 }
 
@@ -114,7 +131,7 @@ export async function getAllProjectSlugsForSitemap(): Promise<
       "updatedAt": _updatedAt
     }`,
     {},
-    FETCH_OPTS,
+    cachedTagged(TAG.project),
   );
 }
 
@@ -122,7 +139,7 @@ export async function getProjectBySlug(slug: string): Promise<ProjectDetail | nu
   return sanityClient.fetch(
     `*[_type == "project" && slug.current == $slug][0] ${PROJECT_DETAIL_PROJECTION}`,
     {slug},
-    FETCH_OPTS,
+    cachedTagged(TAG.project),
   );
 }
 
@@ -169,7 +186,7 @@ export async function getAllBlogPosts(): Promise<BlogPostSummary[]> {
   return sanityClient.fetch(
     `*[_type == "blogPost"] | order(publishedAt desc) ${BLOG_SUMMARY_PROJECTION}`,
     {},
-    FETCH_OPTS,
+    cachedTagged(TAG.blogPost),
   );
 }
 
@@ -177,7 +194,7 @@ export async function getAllBlogPostSlugs(): Promise<string[]> {
   return sanityClient.fetch(
     `*[_type == "blogPost" && defined(slug.current)].slug.current`,
     {},
-    FETCH_OPTS,
+    cachedTagged(TAG.blogPost),
   );
 }
 
@@ -190,7 +207,7 @@ export async function getAllBlogPostSlugsForSitemap(): Promise<
       "updatedAt": coalesce(_updatedAt, publishedAt)
     }`,
     {},
-    FETCH_OPTS,
+    cachedTagged(TAG.blogPost),
   );
 }
 
@@ -198,7 +215,7 @@ export async function getBlogPostBySlug(slug: string): Promise<BlogPostDetail | 
   return sanityClient.fetch(
     `*[_type == "blogPost" && slug.current == $slug][0] ${BLOG_DETAIL_PROJECTION}`,
     {slug},
-    FETCH_OPTS,
+    cachedTagged(TAG.blogPost),
   );
 }
 
@@ -242,7 +259,7 @@ export async function getAllResources(): Promise<ResourceSummary[]> {
   return sanityClient.fetch(
     `*[_type == "resourceArticle"] | order(category asc, slug asc) ${RESOURCE_SUMMARY_PROJECTION}`,
     {},
-    FETCH_OPTS,
+    cachedTagged(TAG.resourceArticle),
   );
 }
 
@@ -250,7 +267,7 @@ export async function getAllResourceSlugs(): Promise<string[]> {
   return sanityClient.fetch(
     `*[_type == "resourceArticle" && defined(slug.current)].slug.current`,
     {},
-    FETCH_OPTS,
+    cachedTagged(TAG.resourceArticle),
   );
 }
 
@@ -263,7 +280,7 @@ export async function getAllResourceSlugsForSitemap(): Promise<
       "updatedAt": _updatedAt
     }`,
     {},
-    FETCH_OPTS,
+    cachedTagged(TAG.resourceArticle),
   );
 }
 
@@ -271,7 +288,7 @@ export async function getResourceBySlug(slug: string): Promise<ResourceDetail | 
   return sanityClient.fetch(
     `*[_type == "resourceArticle" && slug.current == $slug][0] ${RESOURCE_DETAIL_PROJECTION}`,
     {slug},
-    FETCH_OPTS,
+    cachedTagged(TAG.resourceArticle),
   );
 }
 
@@ -288,7 +305,7 @@ export async function getFaqsForService(audience: Audience, slug: string): Promi
   return sanityClient.fetch(
     `*[_type == "faq" && scope == $scope] | order(order asc) ${FAQ_PROJECTION}`,
     {scope: `service:${audience}:${slug}`},
-    FETCH_OPTS,
+    cachedTagged(TAG.faq),
   );
 }
 
@@ -296,7 +313,7 @@ export async function getFaqsForCity(citySlug: string): Promise<FaqEntry[]> {
   return sanityClient.fetch(
     `*[_type == "faq" && scope == $scope] | order(order asc) ${FAQ_PROJECTION}`,
     {scope: `city:${citySlug}`},
-    FETCH_OPTS,
+    cachedTagged(TAG.faq),
   );
 }
 
@@ -304,7 +321,7 @@ export async function getFaqsForAudience(audience: Audience): Promise<FaqEntry[]
   return sanityClient.fetch(
     `*[_type == "faq" && scope == $scope] | order(order asc) ${FAQ_PROJECTION}`,
     {scope: `audience:${audience}`},
-    FETCH_OPTS,
+    cachedTagged(TAG.faq),
   );
 }
 
@@ -312,7 +329,7 @@ export async function getFaqsForBlog(slug: string): Promise<FaqEntry[]> {
   return sanityClient.fetch(
     `*[_type == "faq" && scope == $scope] | order(order asc) ${FAQ_PROJECTION}`,
     {scope: `blog:${slug}`},
-    FETCH_OPTS,
+    cachedTagged(TAG.faq),
   );
 }
 
@@ -320,7 +337,7 @@ export async function getFaqsForResource(slug: string): Promise<FaqEntry[]> {
   return sanityClient.fetch(
     `*[_type == "faq" && scope == $scope] | order(order asc) ${FAQ_PROJECTION}`,
     {scope: `resource:${slug}`},
-    FETCH_OPTS,
+    cachedTagged(TAG.faq),
   );
 }
 
@@ -365,7 +382,7 @@ export async function getAllServicesForChat(locale: 'en' | 'es'): Promise<ChatSe
       "priceIncludes": coalesce(priceIncludes[]{ "v": coalesce(${locale}, en, "") }.v, [])
     }`,
     {},
-    FETCH_OPTS,
+    cachedTagged(TAG.service),
   );
 }
 
@@ -378,7 +395,7 @@ export async function getAllLocationsForChat(locale: 'en' | 'es'): Promise<ChatL
       "featuredServiceSlugs": coalesce(featuredServices[]->slug.current, [])
     }`,
     {},
-    FETCH_OPTS,
+    cachedTagged(TAG.location),
   );
 }
 
@@ -402,7 +419,7 @@ export async function getTopFaqsForChat(locale: 'en' | 'es', limit: number = 10)
           "a": coalesce(answer.${locale}, answer.en, "")
         }`,
         {scope, n: PER_AUDIENCE},
-        FETCH_OPTS,
+        cachedTagged(TAG.faq),
       ),
     ),
   );
@@ -418,7 +435,7 @@ export async function getTopFaqsForChat(locale: 'en' | 'es', limit: number = 10)
         "a": coalesce(answer.${locale}, answer.en, "")
       }`,
       {n: limit - merged.length},
-      FETCH_OPTS,
+      cachedTagged(TAG.faq),
     );
     merged = merged.concat(topUp);
   }
@@ -438,7 +455,7 @@ export async function getReviewsForCity(citySlug: string): Promise<ReviewEntry[]
       "placeholder": coalesce(placeholder, false)
     }`,
     {cityId: `location-${citySlug}`},
-    FETCH_OPTS,
+    cachedTagged(TAG.review),
   );
 }
 
@@ -473,7 +490,7 @@ export async function getPublishedReviewsForCity(
       "publishedAt": coalesce(publishedAt, _createdAt)
     }`,
     {cityId: `location-${citySlug}`},
-    FETCH_OPTS,
+    cachedTagged(TAG.review),
   );
 }
 
@@ -487,6 +504,11 @@ export async function getPublishedReviewsForCity(
 //
 // Pre-flight length check rejects obviously-malformed tokens (real UUIDs are
 // 36 chars) before issuing the GROQ query — saves quota on bot traffic.
+//
+// NOT TAGGED — `writeClient` (no-CDN) is the intentional bypass for the
+// time-critical unsubscribe lookup; the Phase B.08 webhook-driven cache
+// invalidation scheme doesn't apply here (the data is fetched live every
+// time and never goes through the Next data cache).
 
 export type NewsletterSubscriberLookup = {
   _id: string;

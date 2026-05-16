@@ -36,8 +36,9 @@ export default async function FooterBrand() {
       </address>
       {/* Unilock Authorized Contractor — Erick supplies real logo in Part 2. */}
       <div
-        className="inline-flex items-center justify-center w-[120px] h-9 rounded text-[11px] text-[var(--color-sunset-green-300)] border border-dashed border-[var(--color-sunset-green-300)]/60"
+        role="img"
         aria-label="Unilock Authorized Contractor (placeholder)"
+        className="inline-flex items-center justify-center w-[120px] h-9 rounded text-[11px] text-[var(--color-sunset-green-300)] border border-dashed border-[var(--color-sunset-green-300)]/60"
       >
         UNILOCK BADGE
       </div>

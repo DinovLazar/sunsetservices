@@ -77,7 +77,10 @@ export default function ChatBubble({
         className={`chat-bubble ${consented ? '' : 'chat-bubble--gated'}`}
         aria-label={ariaLabel}
         aria-expanded={open}
-        aria-controls="chat-panel"
+        // Only reference the panel ID while the panel is mounted —
+        // ChatPanel is conditionally rendered behind `open`. Setting
+        // `aria-controls` to a missing ID is a WCAG SC 4.1.2 violation.
+        aria-controls={open ? 'chat-panel' : undefined}
         data-analytics-event="chat_bubble_clicked"
         onClick={handleClick}
         onMouseEnter={() => setHovered(true)}

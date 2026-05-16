@@ -58,6 +58,8 @@ export default function TermlyPolicyEmbed({type}: Props) {
       className="termly-embed-wrap"
       data-termly-type={type}
       data-state="rendered"
+      role="region"
+      aria-label={t(type === 'privacy' ? 'regionLabelPrivacy' : 'regionLabelTerms')}
     >
       {React.createElement('div', {
         name: 'termly-embed',

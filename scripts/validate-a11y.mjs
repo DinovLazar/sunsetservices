@@ -70,14 +70,19 @@ const SKIP_LIGHTHOUSE = process.argv.includes('--skip-lighthouse');
 const LIGHTHOUSE_MIN_SCORE = 95;
 
 // ---------------------------------------------------------------------------
-// Representative URL set — 15 EN + 3 ES parity spot-check = 18 URLs.
+// Representative URL set — 16 EN + 3 ES parity spot-check = 19 URLs.
 //
 // One per route family + the four legal/auth routes (per plan §3). ES
 // spot-check covers home + service detail + wizard.
+//
+// Phase B.07 added `/unsubscribe/SAMPLE_TOKEN_INVALID` — the invalid-token
+// surface renders 1 heading + 1 paragraph + 1 link (minimal but non-zero
+// a11y surface). The harness still asserts zero AA violations + Lighthouse
+// a11y = 100 on it.
 // ---------------------------------------------------------------------------
 
 const URLS = [
-  // ----- EN: 15-URL representative set -----
+  // ----- EN: 16-URL representative set -----
   {path: '/', label: 'home'},
   {path: '/residential', label: 'audience-landing'},
   {path: '/residential/lawn-care', label: 'service-detail'},
@@ -93,6 +98,7 @@ const URLS = [
   {path: '/contact', label: 'contact-calendly'},
   {path: '/request-quote', label: 'quote-wizard'},
   {path: '/privacy', label: 'legal-termly'},
+  {path: '/unsubscribe/SAMPLE_TOKEN_INVALID', label: 'unsubscribe-invalid'},
   // ----- ES parity spot-check (3 URLs) -----
   {path: '/es', label: 'es-home'},
   {path: '/es/residential/lawn-care', label: 'es-service-detail'},

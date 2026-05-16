@@ -1501,6 +1501,42 @@
       "home": "Volver al inicio →"
     }
   },
+  "unsubscribe": {
+    "meta": {
+      "title": "Cancelar suscripción — Sunset Services",
+      "description": "Administre su suscripción a los correos de Sunset Services."
+    },
+    "confirm": {
+      "heading": "Confirme la cancelación",
+      "body": "Dejaremos de enviarle correos del boletín. Puede volver a suscribirse cuando quiera.",
+      "cta": "Cancelar mi suscripción",
+      "confirming": "Cancelando…"
+    },
+    "success": {
+      "heading": "Su suscripción se canceló.",
+      "body": "No le enviaremos más correos del boletín. Lamentamos verlo partir.",
+      "resubscribeCta": "Cambié de opinión — vuélvanme a suscribir",
+      "resubscribing": "Volviendo a suscribir…"
+    },
+    "welcomeBack": {
+      "heading": "Bienvenido de vuelta.",
+      "body": "Está de regreso en la lista. El próximo boletín llegará a su bandeja de entrada."
+    },
+    "alreadyUnsubscribed": {
+      "heading": "Ya canceló su suscripción.",
+      "body": "Este correo ya no está en nuestra lista. Use el botón de abajo si quiere volver a suscribirse."
+    },
+    "invalid": {
+      "heading": "Este enlace no funciona.",
+      "body": "El enlace puede haber caducado, o ya canceló su suscripción. Si desea salir de la lista, contáctenos directamente.",
+      "homeLink": "Ir al inicio"
+    },
+    "error": {
+      "message": "Algo salió mal. Inténtelo de nuevo.",
+      "retryCta": "Intentar de nuevo"
+    },
+    "homeLink": "Volver al inicio"
+  },
   "chat": {
     "bubble": {
       "aria": "Abrir chat con Sunset Services",

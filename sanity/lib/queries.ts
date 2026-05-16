@@ -15,6 +15,7 @@
  */
 
 import {sanityClient} from './client';
+import {writeClient} from './write-client';
 import type {
   Audience,
   BlogPostDetail,
@@ -474,4 +475,49 @@ export async function getPublishedReviewsForCity(
     {cityId: `location-${citySlug}`},
     FETCH_OPTS,
   );
+}
+
+// ---------- Newsletter subscriber lookup (Phase B.07) ----------
+//
+// Used by the unsubscribe page + API route to resolve a token-bearing URL to
+// its subscriber. Bypasses the CDN (writeClient, useCdn:false) so a freshly-
+// created subscriber's welcome-email link works inside the 60-second CDN
+// window, and so a freshly-flipped `unsubscribed` value reflects immediately
+// on the same-URL refresh.
+//
+// Pre-flight length check rejects obviously-malformed tokens (real UUIDs are
+// 36 chars) before issuing the GROQ query — saves quota on bot traffic.
+
+export type NewsletterSubscriberLookup = {
+  _id: string;
+  email: string;
+  locale: 'en' | 'es';
+  unsubscribed: boolean;
+};
+
+export async function getSubscriberByToken(
+  token: string,
+): Promise<NewsletterSubscriberLookup | null> {
+  if (!token || typeof token !== 'string' || token.length < 20 || token.length > 100) {
+    return null;
+  }
+  // GROQ param name is `tk` (NOT `token`) — `@sanity/client`'s `QueryParams`
+  // type marks `token` as `never` (deprecated reserved key, flagged to catch
+  // a common mistake of passing a Sanity-client option as a GROQ param).
+  const raw = await writeClient.fetch<{
+    _id: string;
+    email: string;
+    locale: 'en' | 'es';
+    unsubscribed?: boolean;
+  } | null>(
+    `*[_type == "newsletterSubscriber" && unsubscribeToken == $tk][0]{_id, email, locale, unsubscribed}`,
+    {tk: token},
+  );
+  if (!raw) return null;
+  return {
+    _id: raw._id,
+    email: raw.email,
+    locale: raw.locale,
+    unsubscribed: raw.unsubscribed === true,
+  };
 }

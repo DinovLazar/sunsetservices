@@ -187,11 +187,16 @@ const ES_PATHS = EN_PATHS.map((p) => (p === '/' ? '/es' : `/es${p}`));
 const EXPECTED_PATHS = [...EN_PATHS, ...ES_PATHS];
 
 // Sitemap exclusions per D6 + plan §1.
+// Phase B.07 added `/unsubscribe/SAMPLE_TOKEN_INVALID` + ES variant — the
+// page is token-gated + noindex; invalid-token renders 200 with the
+// "invalid" state, which is the harness's per-noindex assertion target.
 const EXCLUDED_PATHS = new Set([
   '/thank-you',
   '/es/thank-you',
   '/dev/system',
   '/es/dev/system',
+  '/unsubscribe/SAMPLE_TOKEN_INVALID',
+  '/es/unsubscribe/SAMPLE_TOKEN_INVALID',
 ]);
 
 // Pages we still fetch (to assert noindex/robots-meta) but exclude from
@@ -201,6 +206,8 @@ const NOINDEX_PATHS = new Set([
   '/es/thank-you',
   '/dev/system',
   '/es/dev/system',
+  '/unsubscribe/SAMPLE_TOKEN_INVALID',
+  '/es/unsubscribe/SAMPLE_TOKEN_INVALID',
 ]);
 
 // Pages we fetch to verify robots-meta. Append all noindex paths to the
@@ -653,10 +660,14 @@ async function validateRobotsTxt() {
     result.errors.push('robots.txt does not contain an absolute Sitemap: line');
   }
   // Inspect each "User-agent: *" section's allow/disallow set.
+  // Phase B.07 added an assertion: `/unsubscribe/` AND `/es/unsubscribe/`
+  // must both appear in the disallow set (path matching is host-anchored;
+  // the EN entry does NOT cover the ES locale prefix).
+  const requiredDisallows = ['/unsubscribe/', '/es/unsubscribe/'];
   const blocks = resp.text.split(/\n\s*\n/);
   for (const block of blocks) {
     if (!/User-agent:\s*\*/i.test(block)) continue;
-    // Permissible: "Disallow:" (empty), or specific prefixes like /api/, /og/.
+    const disallowedHere = [];
     const lines = block.split(/\r?\n/);
     for (const line of lines) {
       const m = /^\s*Disallow:\s*(.*)\s*$/i.exec(line);
@@ -664,6 +675,14 @@ async function validateRobotsTxt() {
       const value = m[1].trim();
       if (value === '/' || value === '/*') {
         result.errors.push(`robots.txt has broad "Disallow: ${value}" in User-agent: * block`);
+      }
+      if (value) disallowedHere.push(value);
+    }
+    for (const required of requiredDisallows) {
+      if (!disallowedHere.includes(required)) {
+        result.errors.push(
+          `robots.txt User-agent: * block missing "Disallow: ${required}" (Phase B.07 requirement)`,
+        );
       }
     }
   }

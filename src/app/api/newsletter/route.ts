@@ -1,9 +1,11 @@
+import crypto from 'node:crypto';
 import * as React from 'react';
 import {z} from 'zod';
 import {NextResponse} from 'next/server';
 import {writeClient} from '@sanity-lib/write-client';
 import {sendBrandedEmail} from '@/lib/email/send';
 import {NewsletterWelcomeEmail} from '@/lib/email/templates/NewsletterWelcomeEmail';
+import {canonicalUrl} from '@/lib/seo/urls';
 
 /**
  * POST /api/newsletter — footer newsletter signup (Phase 2.08).
@@ -72,6 +74,12 @@ export async function POST(request: Request) {
   const {email, locale, sourcePage} = parsed.data;
   const normalizedEmail = email.trim().toLowerCase();
   const now = new Date().toISOString();
+  // Phase B.07 — fresh UUID per create + resubscribe. Regenerating on
+  // resubscribe naturally invalidates the prior unsubscribe link (the old
+  // welcome email's token is no longer in the doc). `already_subscribed`
+  // doesn't reach the create/resubscribe branches, so the token is unused
+  // there — cheap to generate and not worth branching for.
+  const unsubscribeToken = crypto.randomUUID();
 
   // Look for an existing subscriber by exact email match.
   let existing: {_id: string; unsubscribed?: boolean} | null = null;
@@ -92,7 +100,9 @@ export async function POST(request: Request) {
     alreadySubscribed = true;
     sanityDocId = existing._id;
   } else if (existing && existing.unsubscribed === true) {
-    // Resubscribe — flip back, update timestamp, re-send welcome.
+    // Resubscribe — flip back, update timestamp, rotate the unsubscribe
+    // token (Phase B.07 — invalidates the prior welcome email's link),
+    // re-send welcome.
     try {
       const doc = await writeClient
         .patch(existing._id)
@@ -102,6 +112,7 @@ export async function POST(request: Request) {
           subscribedAt: now,
           sourcePage: sourcePage || undefined,
           locale,
+          unsubscribeToken,
         })
         .commit();
       sanityDocId = doc._id;
@@ -120,6 +131,7 @@ export async function POST(request: Request) {
         locale,
         unsubscribed: false,
         mauticSynced: false,
+        unsubscribeToken,
       });
       sanityDocId = doc._id;
       shouldSendWelcome = true;
@@ -133,11 +145,16 @@ export async function POST(request: Request) {
       locale === 'es'
         ? 'Bienvenido al boletín de Sunset Services'
         : 'Welcome to Sunset Services';
+    const unsubscribeUrl = canonicalUrl(`/unsubscribe/${unsubscribeToken}`, locale);
     const sendResult = await sendBrandedEmail({
       to: normalizedEmail,
       intendedRecipient: normalizedEmail,
       subject,
-      react: React.createElement(NewsletterWelcomeEmail, {email: normalizedEmail, locale}),
+      react: React.createElement(NewsletterWelcomeEmail, {
+        email: normalizedEmail,
+        locale,
+        unsubscribeUrl,
+      }),
     });
     if (!sendResult.ok) {
       console.error('[/api/newsletter] welcome send failed', sendResult.error);

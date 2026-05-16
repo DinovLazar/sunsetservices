@@ -177,7 +177,20 @@ The brief's "Definition of done" said: "All 15 checklist items pass. Legal pages
 
 ## Production verification
 
-To be appended after merge to `main` + Production deploy goes READY.
+Main HEAD `0e7e1a4` (merge commit `Merge branch 'claude/competent-mahavira-5bb2bf' into main`). Production deploy at `https://sunsetservices-qr91dtdwe-dinovlazars-projects.vercel.app/` went READY at 10:07 UTC (~60 sec build). Aliased prod domain `https://sunsetservices.vercel.app/` serves the same deploy.
+
+SSR-verified via direct curl against the aliased prod domain (no bypass token needed — production isn't behind SSO):
+
+| Route | HTTP | Size | data-state | Termly embed div | Embed script | Fallback rendered |
+| --- | --- | --- | --- | --- | --- | --- |
+| `/privacy/` | 200 | 127 KB | `rendered` | ✅ `data-id="13687462" data-type="iframe" data-website-id="b722b489-…"` | ✅ `app.termly.io/embed-policy.min.js` | n/a |
+| `/es/privacy/` | 200 | 132 KB | `fallback` | n/a | n/a | ✅ ES "preparando" |
+| `/terms/` | 200 | 127 KB | `fallback` | n/a | n/a | ✅ EN "preparing" |
+| `/es/terms/` | 200 | 132 KB | `fallback` | n/a | n/a | ✅ ES "preparando" |
+
+Production state matches Preview state exactly. Zero TOC `<nav>` elements on any route.
+
+Phase B.03d is closed on the Code side. Browser-side verification (Tag Assistant Consent Mode v2 + Lighthouse smoke) sits with the user per the handoff section above.
 
 ---
 

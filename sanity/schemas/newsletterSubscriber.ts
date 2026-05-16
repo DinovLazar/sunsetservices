@@ -75,7 +75,18 @@ export const newsletterSubscriber = defineType({
       name: 'unsubscribedAt',
       type: 'datetime',
       title: 'Unsubscribed at',
+      description:
+        'Set by /api/newsletter/unsubscribe when the subscriber clicks the email unsubscribe link. Cleared on resubscribe.',
+      readOnly: true,
       hidden: ({parent}) => !parent?.unsubscribed,
+    }),
+    defineField({
+      name: 'unsubscribeToken',
+      type: 'string',
+      title: 'Unsubscribe token',
+      description:
+        'Server-generated UUID used in the unsubscribe link. Regenerated on create + resubscribe. Read-only.',
+      readOnly: true,
     }),
     defineField({
       name: 'mauticSynced',

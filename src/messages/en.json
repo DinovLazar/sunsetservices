@@ -1501,6 +1501,42 @@
       "home": "Back to homepage →"
     }
   },
+  "unsubscribe": {
+    "meta": {
+      "title": "Unsubscribe — Sunset Services",
+      "description": "Manage your subscription to Sunset Services emails."
+    },
+    "confirm": {
+      "heading": "Confirm unsubscribe",
+      "body": "We'll stop sending you newsletter emails. You can resubscribe anytime.",
+      "cta": "Unsubscribe me",
+      "confirming": "Unsubscribing…"
+    },
+    "success": {
+      "heading": "You're unsubscribed.",
+      "body": "We won't send any more newsletter emails. Sorry to see you go.",
+      "resubscribeCta": "I changed my mind — resubscribe me",
+      "resubscribing": "Re-subscribing…"
+    },
+    "welcomeBack": {
+      "heading": "Welcome back.",
+      "body": "You're back on the list. The next newsletter will land in your inbox."
+    },
+    "alreadyUnsubscribed": {
+      "heading": "Already unsubscribed.",
+      "body": "This email isn't on our newsletter list. Use the button below if you'd like back in."
+    },
+    "invalid": {
+      "heading": "This link doesn't work.",
+      "body": "The link may have expired, or you may have already unsubscribed. If you'd like off the list, contact us directly.",
+      "homeLink": "Go to the homepage"
+    },
+    "error": {
+      "message": "Something went wrong. Please try again.",
+      "retryCta": "Try again"
+    },
+    "homeLink": "Back to home"
+  },
   "chat": {
     "bubble": {
       "aria": "Open chat with Sunset Services",

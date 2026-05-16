@@ -89,9 +89,23 @@ export function EmailLayout({
             <Text style={copyrightStyle}>© 2026 Sunset Services. Aurora, IL.</Text>
             {unsubscribeUrl ? (
               <Text style={copyrightStyle}>
-                <Link href={unsubscribeUrl} style={footerLinkStyle}>
-                  Unsubscribe
-                </Link>
+                {locale === 'es' ? (
+                  <>
+                    ¿No desea recibir estos correos?{' '}
+                    <Link href={unsubscribeUrl} style={footerLinkStyle}>
+                      Cancele su suscripción
+                    </Link>
+                    .
+                  </>
+                ) : (
+                  <>
+                    Don&apos;t want these emails?{' '}
+                    <Link href={unsubscribeUrl} style={footerLinkStyle}>
+                      Unsubscribe
+                    </Link>
+                    .
+                  </>
+                )}
               </Text>
             ) : null}
           </Section>

@@ -19,6 +19,10 @@ export const ANALYTICS_EVENTS = {
   NEWSLETTER_SUBSCRIBED: 'newsletter_subscribed', // ← CONVERSION
   NEWSLETTER_ALREADY_SUBSCRIBED: 'newsletter_already_subscribed',
   NEWSLETTER_SUBMIT_FAILED: 'newsletter_submit_failed',
+  // Newsletter unsubscribe (Phase B.07) — informational, not conversion.
+  // Payload carries `locale` only — no email, no token, no PII.
+  NEWSLETTER_UNSUBSCRIBED: 'newsletter_unsubscribed',
+  NEWSLETTER_RESUBSCRIBED_VIA_LINK: 'newsletter_resubscribed_via_link',
 
   // Chat (Phase 2.09) — none marked as conversion
   CHAT_OPENED: 'chat_opened',

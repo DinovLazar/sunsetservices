@@ -56,6 +56,11 @@ import * as chromeLauncher from 'chrome-launcher';
 
 const BASE_URL = (process.env.BASE_URL || 'http://localhost:3000').replace(/\/$/, '');
 const BYPASS_TOKEN = process.env.BYPASS_TOKEN || '';
+// Phase B.07: `_vercel_share` token (from the Vercel MCP `get_access_to_vercel_url`)
+// is an alternative bypass mechanism — same `_vercel_jwt` cookie, different
+// priming query param. When set, wins over BYPASS_TOKEN. Lighthouse also
+// uses _vercel_share=… as the per-call query param.
+const SHARE_TOKEN = process.env.VERCEL_SHARE_TOKEN || '';
 // Reserved env var; the harness currently does no remote-validator calls.
 // Kept in the contract for parity with B.04 + B.05 — surface it so a future
 // extension (Pa11y CI, WAVE API, axe DevTools cloud) can plug in without
@@ -70,14 +75,19 @@ const SKIP_LIGHTHOUSE = process.argv.includes('--skip-lighthouse');
 const LIGHTHOUSE_MIN_SCORE = 95;
 
 // ---------------------------------------------------------------------------
-// Representative URL set — 15 EN + 3 ES parity spot-check = 18 URLs.
+// Representative URL set — 16 EN + 3 ES parity spot-check = 19 URLs.
 //
 // One per route family + the four legal/auth routes (per plan §3). ES
 // spot-check covers home + service detail + wizard.
+//
+// Phase B.07 added `/unsubscribe/SAMPLE_TOKEN_INVALID` — the invalid-token
+// surface renders 1 heading + 1 paragraph + 1 link (minimal but non-zero
+// a11y surface). The harness still asserts zero AA violations + Lighthouse
+// a11y = 100 on it.
 // ---------------------------------------------------------------------------
 
 const URLS = [
-  // ----- EN: 15-URL representative set -----
+  // ----- EN: 16-URL representative set -----
   {path: '/', label: 'home'},
   {path: '/residential', label: 'audience-landing'},
   {path: '/residential/lawn-care', label: 'service-detail'},
@@ -93,6 +103,7 @@ const URLS = [
   {path: '/contact', label: 'contact-calendly'},
   {path: '/request-quote', label: 'quote-wizard'},
   {path: '/privacy', label: 'legal-termly'},
+  {path: '/unsubscribe/SAMPLE_TOKEN_INVALID', label: 'unsubscribe-invalid'},
   // ----- ES parity spot-check (3 URLs) -----
   {path: '/es', label: 'es-home'},
   {path: '/es/residential/lawn-care', label: 'es-service-detail'},
@@ -145,8 +156,15 @@ let bypassCookieName = '';
 let bypassCookieValue = '';
 
 async function primeBypassCookie() {
-  if (!BYPASS_TOKEN || bypassCookieName) return;
-  const url = `${BASE_URL}/?x-vercel-protection-bypass=${BYPASS_TOKEN}&x-vercel-set-bypass-cookie=samesitenone`;
+  if (bypassCookieName) return;
+  let url;
+  if (SHARE_TOKEN) {
+    url = `${BASE_URL}/?_vercel_share=${SHARE_TOKEN}`;
+  } else if (BYPASS_TOKEN) {
+    url = `${BASE_URL}/?x-vercel-protection-bypass=${BYPASS_TOKEN}&x-vercel-set-bypass-cookie=samesitenone`;
+  } else {
+    return;
+  }
   const res = await fetch(url, {redirect: 'manual'});
   const setCookie = res.headers.get('set-cookie') || '';
   const m = /(_vercel_jwt|vercel_bypass[^=]*)=([^;]+)/i.exec(setCookie);
@@ -407,7 +425,10 @@ async function runLighthouse(targetUrl) {
   // bypass without depending on cookie persistence in Lighthouse's
   // chrome-launcher Chrome.
   let url = targetUrl;
-  if (BYPASS_TOKEN) {
+  if (SHARE_TOKEN) {
+    const sep = url.includes('?') ? '&' : '?';
+    url = `${url}${sep}_vercel_share=${SHARE_TOKEN}`;
+  } else if (BYPASS_TOKEN) {
     const sep = url.includes('?') ? '&' : '?';
     url = `${url}${sep}x-vercel-protection-bypass=${BYPASS_TOKEN}&x-vercel-set-bypass-cookie=samesitenone`;
   }

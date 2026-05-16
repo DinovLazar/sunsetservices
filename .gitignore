@@ -54,3 +54,8 @@ next-env.d.ts
 
 # Termly document IDs (Phase B.03b — gitignored secrets file)
 .termly-ids.txt
+
+# Phase B.04 — validation harness temp artifacts (the committed copy of the
+# report lives at src/_project-state/Phase-B-04-Validation-Report.md)
+/scripts/.schema-validation-report.json
+/scripts/.schema-validation-cache.json

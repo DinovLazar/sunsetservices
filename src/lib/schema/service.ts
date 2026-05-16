@@ -29,11 +29,9 @@ export function localePath(locale: Locale, path: string): string {
 
 /**
  * Service JSON-LD per §5.2.
- * Uses a same-page reference to the sitewide LocalBusiness. The Phase 1.05
- * locale layout's LocalBusiness payload has no @id — for Phase 1.09, we
- * emit a Service that names the provider by `name` instead, matching the
- * LocalBusiness's "Sunset Services" name. Refactor to a hashed @id in a
- * later phase if Cowork wants to wire `provider.@id` through.
+ * `provider` is an `@id` reference to the sitewide LocalBusiness emitted from
+ * the locale layout (Phase B.04). Resolves through the document-level graph
+ * so the NAP block isn't restated.
  */
 export function buildServiceSchema(
   service: Service,
@@ -49,11 +47,7 @@ export function buildServiceSchema(
     serviceType: pickLocalized(service.name, locale),
     name: pickLocalized(service.hero.h1, locale),
     description: pickLocalized(service.hero.subhead, locale),
-    provider: {
-      '@type': 'LocalBusiness',
-      name: 'Sunset Services',
-      url: BUSINESS_URL,
-    },
+    provider: {'@id': `${BUSINESS_URL}/#localbusiness`},
     areaServed: {
       '@type': 'AdministrativeArea',
       name: 'DuPage County, Illinois',

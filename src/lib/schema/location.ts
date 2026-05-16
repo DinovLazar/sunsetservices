@@ -11,6 +11,7 @@
 import {BUSINESS_URL} from '@/lib/constants/business';
 import type {LocationCity, LocationFeaturedService} from '@/data/locations';
 import {getService, type Service} from '@/data/services';
+import type {PublishedReviewEntry} from '@sanity-lib/types';
 
 type Locale = 'en' | 'es';
 
@@ -57,12 +58,19 @@ export function buildServiceAreasItemList(
 /**
  * City page — `Place` schema. `address.postalCode` omitted until Cowork
  * (Phase 2.04) returns codes per city — Schema.org accepts the page without.
+ *
+ * Phase B.04 — accepts an optional `reviews` array. When non-empty, the
+ * Place node carries `review[]` + `aggregateRating`. When empty (today's
+ * reality), neither field is emitted, keeping the schema compact and valid.
+ * Real reviews flow when Phase 2.14 + 2.16's daily Google reviews cron lands.
  */
 export function buildPlaceSchema(
   location: LocationCity,
   description: string,
+  reviews: PublishedReviewEntry[] = [],
+  locale: Locale = 'en',
 ): Record<string, unknown> {
-  return {
+  const base: Record<string, unknown> = {
     '@context': 'https://schema.org',
     '@type': 'Place',
     name: `Sunset Services in ${location.name}, ${location.state}`,
@@ -83,6 +91,41 @@ export function buildPlaceSchema(
     },
     // References the sitewide LocalBusiness emitted from the locale layout.
     areaServed: {'@id': `${BUSINESS_URL}/#localbusiness`},
+  };
+
+  if (reviews.length === 0) {
+    return base;
+  }
+
+  const reviewNodes = reviews.map((r) => ({
+    '@type': 'Review',
+    reviewBody: r.quote[locale] || r.quote.en,
+    reviewRating: {
+      '@type': 'Rating',
+      ratingValue: r.rating,
+      bestRating: 5,
+      worstRating: 1,
+    },
+    author: {
+      '@type': 'Person',
+      name: r.attribution[locale] || r.attribution.en,
+    },
+    datePublished: r.publishedAt,
+  }));
+
+  const total = reviews.reduce((acc, r) => acc + r.rating, 0);
+  const average = Math.round((total / reviews.length) * 10) / 10;
+
+  return {
+    ...base,
+    aggregateRating: {
+      '@type': 'AggregateRating',
+      ratingValue: average,
+      reviewCount: reviews.length,
+      bestRating: 5,
+      worstRating: 1,
+    },
+    review: reviewNodes,
   };
 }
 
@@ -118,18 +161,17 @@ function buildServiceListItem(
   locale: Locale,
   position: number,
 ): Record<string, unknown> {
+  // Phase B.04 — flat ListItem shape matching `buildAudienceItemList`.
+  // The full Service schema (name + serviceType + provider + areaServed + …)
+  // lives on the linked service-detail page; here we just need an ordered
+  // pointer to it. `location` is referenced via the Place node emitted as a
+  // sibling block on the same city page, so per-item duplication isn't needed.
+  void location;
   return {
     '@type': 'ListItem',
     position,
-    item: {
-      '@type': 'Service',
-      name: svc.name[locale],
-      url: toAbsolute(localePath(locale, `/${audience}/${svc.slug}/`)),
-      areaServed: {
-        '@type': 'Place',
-        name: `${location.name}, ${location.state}`,
-      },
-    },
+    url: toAbsolute(localePath(locale, `/${audience}/${svc.slug}/`)),
+    name: svc.name[locale],
   };
 }
 

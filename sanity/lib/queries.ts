@@ -24,6 +24,7 @@ import type {
   LocalizedBody,
   ProjectDetail,
   ProjectSummary,
+  PublishedReviewEntry,
   ResourceDetail,
   ResourceSummary,
   ReviewEntry,
@@ -389,6 +390,41 @@ export async function getReviewsForCity(citySlug: string): Promise<ReviewEntry[]
       ${biling('attribution')},
       rating,
       "placeholder": coalesce(placeholder, false)
+    }`,
+    {cityId: `location-${citySlug}`},
+    FETCH_OPTS,
+  );
+}
+
+/**
+ * Phase B.04 — `Review` + `AggregateRating` schema source.
+ *
+ * Same shape as `getReviewsForCity` but with two additional fields the JSON-LD
+ * builder needs (`source`, `publishedAt`) and a hard filter on placeholders.
+ * Phase 2.05's seed testimonials carry `placeholder: true`; only real reviews
+ * published via the Phase 2.14 + 2.16 daily cron qualify for structured data.
+ *
+ * Today this returns `[]` for every city — no real reviews exist yet. The
+ * cron lands when Google's GBP API approval clears, and at that point this
+ * helper naturally starts returning real entries with no further code change.
+ *
+ * The `locale` argument is accepted but the underlying GROQ projection
+ * already returns bilingual `{en, es}` strings; the consumer picks the
+ * matching locale at the schema-build step.
+ */
+export async function getPublishedReviewsForCity(
+  citySlug: string,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  _locale: 'en' | 'es',
+): Promise<PublishedReviewEntry[]> {
+  return sanityClient.fetch(
+    `*[_type == "review" && city._ref == $cityId && coalesce(placeholder, false) == false] | order(coalesce(publishedAt, _createdAt) desc) {
+      _id,
+      ${biling('quote')},
+      ${biling('attribution')},
+      rating,
+      "source": coalesce(source, "manual"),
+      "publishedAt": coalesce(publishedAt, _createdAt)
     }`,
     {cityId: `location-${citySlug}`},
     FETCH_OPTS,

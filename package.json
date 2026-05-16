@@ -13,7 +13,8 @@
     "translate:sanity": "node scripts/translate-sanity-es.mjs",
     "telegram:setup": "node scripts/setup-telegram-webhook.mjs",
     "telegram:info": "node scripts/get-telegram-webhook-info.mjs",
-    "test:consent": "node scripts/test-consent-mode-v2.mjs"
+    "test:consent": "node scripts/test-consent-mode-v2.mjs",
+    "validate:schema": "node scripts/validate-schema.mjs"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.92.0",

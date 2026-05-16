@@ -934,3 +934,47 @@ Same SC 4.1.2 pattern as the `MegaPanelTrigger` fix in the prior commit: base-ui
 **Decided by:** Code, 2026-05-16, during B.06 Preview verification. Each fix was triaged from the failing audit nodes (rather than guessed) — the harness exposes audit details (rule ID + node selector + node snippet + failure explanation) precisely so this kind of forensic triage is possible. Two iterations were needed because the first (consent ref-stability) had to ship and rebuild before the Lighthouse SSO + hero contrast + footer + Termly fixes were discoverable.
 
 ---
+
+## 2026-05-16 — Phase B.07 (Code) — Plan-of-record: Newsletter unsubscribe page + API
+
+Phase B.07 closes the trailing "Newsletter unsubscribe page missing" item from Phase 2.08 (`current-state.md` line 286 at start of phase). Ships a working unsubscribe path so every newsletter email — starting with the welcome email — carries a real, CAN-SPAM-compliant unsubscribe link. The path is two-click (email link → confirmation page → POST), bilingual under `[locale]`, token-gated by a per-subscriber UUID stored on the `newsletterSubscriber` Sanity doc, indexable-no (`noindex,nofollow` + sitemap exclusion + `robots.txt` Disallow under both locale variants), and not flag-gated (the right to leave can't be gated on the same flag that gates joining). The unsubscribe link inside `NewsletterWelcomeEmail` has been hidden since Phase 2.08 because the URL was `undefined` — this phase flips it on for real.
+
+**Seven locked decisions (D1–D7) — settled before execution:**
+
+1. **D1. Token shape: random UUID stored on the `newsletterSubscriber` doc in a new `unsubscribeToken` field.** Generated fresh on every create AND on every resubscribe in `/api/newsletter` (the `already_subscribed` short-circuit needs no new token because no new email goes out). Stateless HMAC was considered + rejected — UUID lookup is simpler, and regenerating on resubscribe naturally invalidates the prior unsubscribe link from a stale welcome email, which is the safer default.
+2. **D2. Flow: two clicks.** Email link → `/[locale]/unsubscribe/[token]` page (server-rendered confirm card) → "Confirm unsubscribe" button → POST `/api/newsletter/unsubscribe` → success state. Never GET-mutates (email previewers, link scanners, anti-virus URL-fetchers, and HEAD probes would unsubscribe people accidentally on a GET-mutate route).
+3. **D3. Success-state affordance: inline "I changed my mind — re-subscribe me" button on the success surface.** Same API endpoint, `action: 'resubscribe'` body field. On success → "Welcome back" state. The same affordance also lives on the `alreadyUnsubscribed` server-rendered initial state.
+4. **D4. Locale routing under `[locale]` so the page inherits next-intl routing.** The email's unsubscribe URL is built with `canonicalUrl(\`/unsubscribe/${token}\`, locale)` so an ES subscriber's link lands in `/es/unsubscribe/<token>` and the page renders ES strings throughout.
+5. **D5. Indexability: page MUST emit `robots: {index: false, follow: false}`.** Page MUST NOT appear in `sitemap.ts`. `robots.txt` gains `Disallow: /unsubscribe/` AND `Disallow: /es/unsubscribe/` (path-prefix matching is anchored at host root, so the EN variant doesn't cover the `/es/` prefix). The page itself is token-gated and individual subscribers' URLs are non-enumerable, but the noindex + robots gates are defense-in-depth against URL leakage.
+6. **D6. No flag-gating.** Unsubscribe always works regardless of `NEWSLETTER_SUBMIT_ENABLED`. That flag gates signup intake only — once someone IS subscribed, their right to leave can't be flag-gated. Conversely, the new `/api/newsletter/unsubscribe` route does not check the flag, and the page works for every subscriber regardless of flag state.
+7. **D7. ES strings: post-B.01 — no `[TBR]` prefix.** Write straight LatAm Spanish using the Phase 2.11 glossary (`Sunset-Services-TRANSLATION_NOTES.md`) in the `usted` register (this is transactional/forms surface, not marketing). Native review folds into Phase M.03 like every other ES string written after B.01.
+
+**Pre-phase dependencies — re-verified:**
+
+- Phase 2.08 — `/api/newsletter` route + `newsletterSubscriber` Sanity schema + `NewsletterWelcomeEmail` template + `EmailLayout` with `unsubscribeUrl` prop + footer-anchor conditional all in place. ✓
+- Phase B.05 — `src/lib/seo/urls.ts` (`SITE_URL` + `canonicalUrl(path, locale)`) — used to build the absolute unsubscribe URL with the right locale prefix. ✓
+- Phase B.06 — the three validation harnesses (`scripts/validate-schema.mjs`, `scripts/validate-seo.mjs`, `scripts/validate-a11y.mjs`) re-exit 0 at the end of this phase. The SEO + a11y harnesses get small extensions (a new noindex-routes assertion + a new sample-token URL for a11y); the schema harness is unchanged (the unsubscribe page emits zero JSON-LD by design — D5's noindex implies no schema surface).
+
+**File map (NEW + MODIFIED):**
+
+- NEW: `src/app/[locale]/unsubscribe/[token]/page.tsx` (server component, three server-rendered initial states — confirm / alreadyUnsubscribed / invalid — driven by `getSubscriberByToken(token)` lookup).
+- NEW: `src/app/[locale]/unsubscribe/[token]/UnsubscribeActions.tsx` (client component, owns the state machine for the five client-side transitions — confirming / success / resubscribing / welcomeBack / error — wired to POST `/api/newsletter/unsubscribe`).
+- NEW: `src/app/api/newsletter/unsubscribe/route.ts` (POST handler — Zod-validates `{token, action}`, looks up subscriber, idempotent on `already-unsubscribed` / `already-subscribed`, patches `unsubscribed` + `unsubscribedAt` + (on resubscribe) `subscribedAt` + clears `unsubscribedAt`. Opaque error bodies — never leak internal Zod tree or Sanity error). `runtime = 'nodejs'`.
+- NEW: `scripts/backfill-newsletter-tokens.mjs` (one-shot CLI — finds `*[_type == "newsletterSubscriber" && !defined(unsubscribeToken)]`, patches each with a fresh UUID. Idempotent — second run finds zero matches).
+- NEW: `src/_project-state/Phase-B-07-Completion.md`.
+- MODIFIED: `sanity/schemas/newsletterSubscriber.ts` — add `unsubscribeToken` (string, readOnly). The existing `unsubscribedAt` field gets `readOnly: true` (the patch is server-driven via the API route, not editor-driven). No `meta` field group exists in this schema (per-plan §2 the additions land as flat fields matching the existing convention).
+- MODIFIED: `sanity/lib/queries.ts` — add `getSubscriberByToken(token)` + `NewsletterSubscriberLookup` type. Pre-flight length check (20 ≤ length ≤ 100) rejects obviously-malformed tokens before hitting Sanity.
+- MODIFIED: `src/app/api/newsletter/route.ts` — generate a fresh `unsubscribeToken` once at the top of the handler body; include in `client.create` (fresh subscriber branch) AND in `client.patch.set` (resubscribe branch). Build `unsubscribeUrl = canonicalUrl(\`/unsubscribe/${unsubscribeToken}\`, locale)`; pass to `<NewsletterWelcomeEmail unsubscribeUrl={unsubscribeUrl} />`. `already_subscribed` branch gets no new token (no welcome email is sent in that branch).
+- MODIFIED: `src/lib/email/templates/NewsletterWelcomeEmail.tsx` — verified the `unsubscribeUrl` prop is plumbed; the actual anchor renders in `EmailLayout.tsx` (already in place from Phase 2.08, currently English-only). `EmailLayout` gets a small locale-aware tweak so ES subscribers see "Cancele su suscripción" instead of "Unsubscribe".
+- MODIFIED: `src/app/robots.ts` — add `Disallow: /unsubscribe/` AND `Disallow: /es/unsubscribe/` to the existing rule's `disallow` array.
+- MODIFIED: `src/lib/analytics/events.ts` — register `NEWSLETTER_UNSUBSCRIBED = 'newsletter_unsubscribed'` + `NEWSLETTER_RESUBSCRIBED_VIA_LINK = 'newsletter_resubscribed_via_link'` in the existing `ANALYTICS_EVENTS` block. Neither is a conversion (both informational); neither carries PII (no email, no token in the event payload, only `locale`).
+- MODIFIED: `src/messages/en.json` + `src/messages/es.json` — new `unsubscribe.*` namespace (meta + 5 state-blocks: confirm / success / welcomeBack / alreadyUnsubscribed / invalid + error + homeLink). ES `usted` register, no `[TBR]` marker.
+- MODIFIED: `package.json` — new `"sanity:backfill-unsubscribe-tokens": "node scripts/backfill-newsletter-tokens.mjs"` script.
+- MODIFIED: `scripts/validate-seo.mjs` — extend the existing `NOINDEX_PATHS` + `ROBOTS_META_PATHS` blocks to include `/unsubscribe/SAMPLE_TOKEN_INVALID` and `/es/unsubscribe/SAMPLE_TOKEN_INVALID`. The harness's per-URL check for noindex routes already asserts: HTTP 200 + `robots` meta = `noindex,nofollow` + absence from sitemap. The invalid-token URL renders the "invalid" state at HTTP 200, which is exactly the assertion target.
+- MODIFIED: `scripts/validate-a11y.mjs` — add `/unsubscribe/SAMPLE_TOKEN_INVALID` to the EN URL set (was 15 EN + 3 ES = 18; becomes 16 EN + 3 ES = 19). The invalid state surfaces 1 heading + 1 paragraph + 1 link — minimal but non-zero a11y surface; the harness still asserts zero AA violations + Lighthouse a11y = 100 on it.
+
+**Carryover (none in-phase by design).** Phase 2.13 native ES review (now Phase M.03) handles the ES strings here exactly like every other ES surface written post-B.01.
+
+**Decided by:** Chat, 2026-05-16, before B.07 execution. D1–D7 are the input contract; any execution-time off-spec decisions append below this entry once Code surfaces them.
+
+---

@@ -182,7 +182,19 @@ SKIP_REMOTE=1 BASE_URL=… node scripts/validate-schema.mjs
 
 ## Production verification
 
-Not yet merged. Production verification will run after the branch lands on `main` (same flow as B.03 — local merge, push, Vercel auto-deploy, re-run harness against the production URL). When that happens, the resulting Production run's exit code and the production URL go into a brief production-verification append at the bottom of this report.
+Main HEAD `c4f4a23` (merge commit `Merge branch 'claude/epic-hertz-d58af1' into main`). Production deploy at `https://sunsetservices-rhx2hhbuc-dinovlazars-projects.vercel.app/` went READY at ~04:49 PDT (~1 min from queue to READY). Aliased prod domain `https://sunsetservices.vercel.app/` serves the same deploy.
+
+Validation harness re-run against the aliased prod domain (no bypass token needed — production isn't behind SSO):
+
+```
+BASE_URL=https://sunsetservices.vercel.app node scripts/validate-schema.mjs
+…
+TOTAL: 0 errors / 0 warnings across 22 URLs
+```
+
+Production state matches Preview state exactly — all 22 representative URLs PASS the internal rule set (required-fields-per-type + `@id` resolution across the sitewide `LocalBusiness` + `Organization` graph + absolute-URL check + type-presence assertions per page). The schema.org external validator pass attempts via `validator.schema.org/validate` but the public API's anti-abuse layer transport-fails 22/22 (Google CAPTCHA — not actionable from automation), exactly matching the Preview behaviour.
+
+Phase B.04 is closed on the Code side. Browser-side verification (manual Google Rich Results Test sweep of the 14 EN representative URLs per the user-facing carryover above) sits with the user.
 
 ---
 

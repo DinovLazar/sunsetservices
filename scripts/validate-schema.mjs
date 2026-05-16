@@ -28,7 +28,10 @@
  * OUTPUTS
  *   stdout                                            colored per-URL table
  *   scripts/.schema-validation-report.json            full machine report
- *   src/_project-state/Phase-B-04-Validation-Report.md  human summary
+ *
+ * The committed human-readable snapshot of the table lives inline in
+ * `src/_project-state/Phase-B-04-Completion.md`. The harness does NOT write
+ * a separate markdown file — re-runs surface fresh results in stdout only.
  */
 
 import crypto from 'node:crypto';
@@ -49,7 +52,6 @@ const SKIP_REMOTE = process.env.SKIP_REMOTE === '1' || !IS_PUBLIC_BASE;
 
 const REPORT_PATH = resolve('scripts/.schema-validation-report.json');
 const CACHE_PATH = resolve('scripts/.schema-validation-cache.json');
-const SUMMARY_PATH = resolve('src/_project-state/Phase-B-04-Validation-Report.md');
 
 // Stable @id values declared by src/app/[locale]/layout.tsx — every page
 // inherits these via the sitewide `<script type="application/ld+json">` block.
@@ -668,60 +670,6 @@ function writeJsonReport(results, totals) {
   );
 }
 
-function writeMarkdownSummary(results, totals) {
-  mkdirSync(dirname(SUMMARY_PATH), {recursive: true});
-  const pass = totals.errors === 0 && totals.warnings === 0;
-  const lines = [];
-  lines.push('# Phase B.04 — Schema Validation Report');
-  lines.push('');
-  lines.push(`**Base URL:** \`${BASE_URL}\`  `);
-  lines.push(`**Generated:** ${new Date().toISOString()}  `);
-  lines.push(`**Remote (schema.org validator):** ${SKIP_REMOTE ? 'skipped' : 'attempted'}  `);
-  lines.push(`**Status:** ${pass ? 'PASS (0 errors / 0 warnings)' : `FAIL (${totals.errors} errors / ${totals.warnings} warnings)`}`);
-  lines.push('');
-  lines.push('## Per-URL summary');
-  lines.push('');
-  lines.push('| URL | Blocks | Errors | Warnings | Types |');
-  lines.push('|---|---|---|---|---|');
-  for (const r of results) {
-    lines.push(
-      `| \`${r.path}\` | ${r.blocks} | ${r.errors.length} | ${r.warnings.length} | ${r.types.join(', ') || '—'} |`,
-    );
-  }
-  lines.push('');
-  if (!pass) {
-    lines.push('## Findings');
-    lines.push('');
-    for (const r of results) {
-      if (r.errors.length === 0 && r.warnings.length === 0) continue;
-      lines.push(`### \`${r.path}\``);
-      lines.push('');
-      for (const e of r.errors) lines.push(`- **error:** ${e}`);
-      for (const w of r.warnings) lines.push(`- **warn:** ${w}`);
-      lines.push('');
-    }
-  } else {
-    lines.push('All representative URLs validate clean. Phase B.04 acceptance gate met.');
-    lines.push('');
-  }
-  if (!SKIP_REMOTE) {
-    const transportFails = results.reduce((a, r) => a + r.remote.transportFailures, 0);
-    const apiAttempted = results.reduce((a, r) => a + r.remote.attempted, 0);
-    lines.push('## schema.org validator API');
-    lines.push('');
-    lines.push(`- API calls attempted: ${apiAttempted} (after cache misses)`);
-    lines.push(`- Transport failures (non-fatal): ${transportFails}`);
-    lines.push('');
-    if (transportFails > 0) {
-      lines.push(
-        '> Transport failures don\'t fail the run — they mean the external validator was unreachable for those payloads. Internal checks (required fields, @id resolution, absolute URLs, presence of mandatory @types) are authoritative.',
-      );
-      lines.push('');
-    }
-  }
-  writeFileSync(SUMMARY_PATH, lines.join('\n'));
-}
-
 // ---------------------------------------------------------------------------
 // Main
 // ---------------------------------------------------------------------------
@@ -752,13 +700,11 @@ async function main() {
 
   printTable(results);
   writeJsonReport(results, totals);
-  writeMarkdownSummary(results, totals);
 
   console.log(
     `${C.bold}TOTAL:${C.reset} ${totals.errors} errors / ${totals.warnings} warnings across ${URLS.length} URLs`,
   );
   console.log(`Report: ${REPORT_PATH}`);
-  console.log(`Summary: ${SUMMARY_PATH}`);
 
   process.exit(totals.errors === 0 && totals.warnings === 0 ? 0 : 1);
 }

@@ -26,26 +26,42 @@ Phase B.04 closes the schema-validation loop. The sitewide root layout now emits
 | [sanity/lib/queries.ts](sanity/lib/queries.ts) | New `getPublishedReviewsForCity(citySlug, locale)` GROQ helper. Same shape as the existing `getReviewsForCity` but adds `source` + `publishedAt` projection and filters `placeholder !== true` and orders by `publishedAt desc`. |
 | [sanity/lib/types.ts](sanity/lib/types.ts) | New `PublishedReviewEntry` type matching the new helper's projection. |
 | [src/app/[locale]/service-areas/[city]/page.tsx](src/app/[locale]/service-areas/[city]/page.tsx) | Wires `getPublishedReviewsForCity()` into the Place schema build. |
-| [scripts/validate-schema.mjs](scripts/validate-schema.mjs) | NEW — re-runnable validation harness. Reads `BASE_URL` + optional `BYPASS_TOKEN` env vars; fetches every representative URL; extracts every `<script type="application/ld+json">` block; runs a layered rule set (JSON-parse + required-fields-per-type table + `@id` resolution across the document graph and the two sitewide IDs + absolute-URL check); best-effort external pass via `validator.schema.org/validate` (only attempted for non-localhost base URLs, since the validator's API fetches the URL itself); exits 0 only when zero errors AND zero warnings. |
-| [.gitignore](.gitignore) | Adds `scripts/.schema-validation-report.json` + `scripts/.schema-validation-cache.json` so the harness's two temp artifacts stay out of git. The committed copy of the report lives at `src/_project-state/Phase-B-04-Validation-Report.md`. |
+| [scripts/validate-schema.mjs](scripts/validate-schema.mjs) | NEW — re-runnable validation harness. Reads `BASE_URL` + optional `BYPASS_TOKEN` env vars; fetches every representative URL; extracts every `<script type="application/ld+json">` block; runs a layered rule set (JSON-parse + required-fields-per-type table + `@id` resolution across the document graph and the two sitewide IDs + absolute-URL check); best-effort external pass via `validator.schema.org/validate` (only attempted for non-localhost base URLs, since the validator's API fetches the URL itself); exits 0 only when zero errors AND zero warnings. Output is the stdout per-URL table + a gitignored JSON report at `scripts/.schema-validation-report.json`; the committed snapshot is the table inline in this completion report. |
+| [.gitignore](.gitignore) | Adds `scripts/.schema-validation-report.json` + `scripts/.schema-validation-cache.json` so the harness's two temp artifacts stay out of git. The per-URL pass/fail matrix is folded directly into this completion report. |
 | [package.json](package.json) | Adds `"validate:schema": "node scripts/validate-schema.mjs"` so the harness is reachable via `npm run validate:schema`. |
-| [src/_project-state/Phase-B-04-Validation-Report.md](src/_project-state/Phase-B-04-Validation-Report.md) | NEW — committed passing summary table. Currently snapshots the run against the Vercel Preview deploy (`https://sunsetservices-21nretaql-dinovlazars-projects.vercel.app/`). |
 
 ---
 
 ## Per-page validation summary
 
-Full breakdown lives in [`Phase-B-04-Validation-Report.md`](src/_project-state/Phase-B-04-Validation-Report.md).
+**Headline:** 22 / 22 URLs PASS. 0 errors. 0 warnings — confirmed on `localhost:3000`, on the Vercel Preview deploy, and on Production (`https://sunsetservices.vercel.app/`).
 
-**Headline:** 22 / 22 URLs PASS. 0 errors. 0 warnings.
+| URL | Blocks | Errors | Warnings | Types detected |
+|---|---|---|---|---|
+| `/` | 2 | 0 | 0 | EntryPoint, LocalBusiness, Organization, PostalAddress, SearchAction, WebSite |
+| `/residential/` | 3 | 0 | 0 | BreadcrumbList, ItemList, ListItem, LocalBusiness, Organization, PostalAddress |
+| `/commercial/` | 3 | 0 | 0 | BreadcrumbList, ItemList, ListItem, LocalBusiness, Organization, PostalAddress |
+| `/hardscape/` | 3 | 0 | 0 | BreadcrumbList, ItemList, ListItem, LocalBusiness, Organization, PostalAddress |
+| `/residential/lawn-care/` | 4 | 0 | 0 | AdministrativeArea, Answer, Audience, BreadcrumbList, FAQPage, ListItem, LocalBusiness, Offer, Organization, PostalAddress, Question, Service |
+| `/commercial/snow-removal/` | 4 | 0 | 0 | AdministrativeArea, Answer, Audience, BreadcrumbList, FAQPage, ListItem, LocalBusiness, Offer, Organization, PostalAddress, Question, Service |
+| `/service-areas/` | 3 | 0 | 0 | BreadcrumbList, ItemList, ListItem, LocalBusiness, Organization, Place, PostalAddress |
+| `/service-areas/aurora/` | 5 | 0 | 0 | AdministrativeArea, Answer, BreadcrumbList, FAQPage, GeoCoordinates, ItemList, ListItem, LocalBusiness, Organization, Place, PostalAddress, Question |
+| `/projects/` | 3 | 0 | 0 | BreadcrumbList, CreativeWork, ItemList, ListItem, LocalBusiness, Organization, Place, PostalAddress |
+| `/about/` | 5 | 0 | 0 | BreadcrumbList, ListItem, LocalBusiness, Organization, Person, PostalAddress |
+| `/contact/` | 3 | 0 | 0 | BreadcrumbList, ContactPage, ListItem, LocalBusiness, Organization, PostalAddress |
+| `/resources/` | 3 | 0 | 0 | BreadcrumbList, ItemList, ListItem, LocalBusiness, Organization, PostalAddress |
+| `/blog/` | 3 | 0 | 0 | BreadcrumbList, ItemList, ListItem, LocalBusiness, Organization, PostalAddress |
+| `/privacy/` | 3 | 0 | 0 | BreadcrumbList, ListItem, LocalBusiness, Organization, PostalAddress, WebPage |
+| `/terms/` | 3 | 0 | 0 | BreadcrumbList, ListItem, LocalBusiness, Organization, PostalAddress, WebPage |
+| `/request-quote/` | 1 | 0 | 0 | LocalBusiness, Organization, PostalAddress |
+| `/thank-you/` | 1 | 0 | 0 | LocalBusiness, Organization, PostalAddress |
+| `/es/` | 2 | 0 | 0 | EntryPoint, LocalBusiness, Organization, PostalAddress, SearchAction, WebSite |
+| `/es/residential/lawn-care/` | 4 | 0 | 0 | AdministrativeArea, Answer, Audience, BreadcrumbList, FAQPage, ListItem, LocalBusiness, Offer, Organization, PostalAddress, Question, Service |
+| `/es/service-areas/aurora/` | 5 | 0 | 0 | AdministrativeArea, Answer, BreadcrumbList, FAQPage, GeoCoordinates, ItemList, ListItem, LocalBusiness, Organization, Place, PostalAddress, Question |
+| `/es/blog/` | 3 | 0 | 0 | BreadcrumbList, ItemList, ListItem, LocalBusiness, Organization, PostalAddress |
+| `/es/projects/` | 3 | 0 | 0 | BreadcrumbList, CreativeWork, ItemList, ListItem, LocalBusiness, Organization, Place, PostalAddress |
 
-| Sweep | URLs | Status |
-|---|---|---|
-| EN full sweep — content surfaces | 15 (`/`, audience ×3, service detail ×2, service-areas index, location detail, projects index, about, contact, resources index, blog index, privacy, terms) | All PASS |
-| EN zero-schema routes (D14 + D15) | 2 (`/request-quote/`, `/thank-you/`) | All PASS — sitewide LocalBusiness + Organization present from the locale layout; no page-level JSON-LD as designed |
-| ES spot-check | 5 (`/es/`, `/es/residential/lawn-care/`, `/es/service-areas/aurora/`, `/es/blog/`, `/es/projects/`) | All PASS |
-
-The same harness was run against both `localhost:3000` (with `.env.local` mirrored from the parent project root so the Sanity client could initialize — `.env.local` is gitignored so this stays out of the repo) and the live Vercel Preview deploy. Both runs exit 0.
+The harness was run against `localhost:3000` (with `.env.local` mirrored from the parent project root so the Sanity client could initialize — `.env.local` is gitignored), the Vercel Preview deploy, and Production (`https://sunsetservices.vercel.app/`). All three runs exit 0 with the matrix above.
 
 ### Note on the external schema.org validator
 
@@ -113,7 +129,7 @@ SKIP_REMOTE=1 BASE_URL=… node scripts/validate-schema.mjs
 - stdout — colored per-URL table (green PASS / yellow WARN / red FAIL) + a findings block listing every error/warning that fired.
 - [`scripts/.schema-validation-report.json`](scripts/.schema-validation-report.json) — full machine-readable report (gitignored — temp artifact).
 - [`scripts/.schema-validation-cache.json`](scripts/.schema-validation-cache.json) — cache of external-validator responses keyed by SHA-256 of the page URL (gitignored — re-runs skip the network for unchanged URLs).
-- [`src/_project-state/Phase-B-04-Validation-Report.md`](src/_project-state/Phase-B-04-Validation-Report.md) — human-readable summary, committed to the repo.
+- The Per-page validation summary table above in this completion report is the committed snapshot. Re-runs print fresh results to stdout; capture them in a follow-up phase report if a future schema-touching phase needs a fresh committed snapshot.
 
 **Exit code:**
 - `0` — zero errors AND zero warnings across every URL.
@@ -210,7 +226,7 @@ Phase B.04 is closed on the Code side. Browser-side verification (manual Google 
 - ✅ `scripts/validate-schema.mjs` exists, is executable via `node scripts/validate-schema.mjs` (or `npm run validate:schema`), accepts `BASE_URL` + optional `BYPASS_TOKEN` + `SKIP_REMOTE`
 - ✅ Validation harness exits 0 against `localhost:3000` (0 errors / 0 warnings, 22 URLs)
 - ✅ Validation harness exits 0 against the Vercel Preview deploy `https://sunsetservices-21nretaql-dinovlazars-projects.vercel.app/` (0 errors / 0 warnings, 22 URLs)
-- ✅ `src/_project-state/Phase-B-04-Validation-Report.md` committed with passing summary table (Vercel Preview snapshot)
+- ✅ Per-page validation summary table committed inline in this completion report (Production snapshot)
 - ✅ `npm run lint` exits 0 with no new warnings
 - ✅ `npx tsc --noEmit --skipLibCheck` exits 0 in changed files
 - ⚠ `npm run build` local — pre-existing prettier peer-dep issue; Vercel build verified green (SHA `2975f7b`)

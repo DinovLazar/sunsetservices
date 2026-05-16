@@ -582,3 +582,35 @@ Eight in-phase decisions Code made during Phase B.03 execution. None are user-fa
 **Decided by:** Code, in-phase during Phase B.03 execution, after user explicitly chose "Proceed and improvise visuals" when the missing handover docs were surfaced as a blocker at session start.
 
 ---
+
+## 2026-05-15 — Phase B.03c (Code) — Partial ship: 2 of 5 Termly IDs populated, format concern flagged, architectural finding surfaced
+
+Phase B.03c was scoped to populate the 5 Termly env vars on Vercel, verify all 4 legal routes render real content, implement the TOC sidebar, validate Consent Mode v2 with Tag Assistant, and reconcile B.03 against the B.02 design handover docs. It shipped a partial ship — 2 of 5 IDs populated on Vercel — and surfaced two concerns that need follow-up. Five things to record.
+
+1. **Cowork's `.termly-ids.txt` carries only 2 of the 5 expected IDs.** The file lives at the parent root `C:\Users\user\Desktop\SunSet-V2\.termly-ids.txt` (not inside the worktree — for future Code, the "project root" in B.03c-style briefs means the parent, not the worktree). It was created 2026-05-15 16:47:13 local. Contents: `TERMLY_WEBSITE_ID=b722b489-62a2-4e5a-9510-e6466f804c69` + `TERMLY_PRIVACY_EN_ID=13687462`. Missing: `TERMLY_PRIVACY_ES_ID`, `TERMLY_TERMS_EN_ID`, `TERMLY_TERMS_ES_ID`. The 3 missing IDs leave `/es/privacy/`, `/en/terms/`, `/es/terms/` on the graceful "Legal content is being prepared" fallback by design. Cowork needs to supply them in a B.03b follow-up.
+
+2. **The `TERMLY_PRIVACY_EN_ID` format looks wrong.** Website ID `b722b489-62a2-4e5a-9510-e6466f804c69` is a UUID (Termly's documented format). Privacy EN ID `13687462` is an 8-digit numeric — the same shape as iubenda's policy IDs. Cowork's brief was originally written for iubenda before pivoting to Termly; the numeric ID looks like residue from that. **User was surfaced the concern, accepted the risk, and chose "Proceed with both IDs"** (the 2nd of 4 options). Empirical verification on the post-deploy /en/privacy/ route will tell us whether the ID is wrong (embed will 404 or render the wrong document) or whether Termly accepts this format for some configurations.
+
+3. **Architectural finding the B.03c brief did not anticipate: cross-origin iframe blocks BOTH the CSS and TOC strategies.** [TermlyPolicyEmbed.tsx:97-102](src/components/legal/TermlyPolicyEmbed.tsx:97) configures the embed div with `data-type="iframe"`, which (per Termly's documented behavior) renders the policy inside an iframe served from a Termly origin — cross-origin to the host page. Two cascading consequences: (a) Document-level `<style>` rules in the host page do not penetrate a cross-origin iframe, so the first-pass CSS override block at lines 67-91 lands on the wrapper, not on the actual policy content. The brief's Step 5 acknowledges this scenario and gives a fallback (move CSS to Termly's dashboard "Custom CSS" panel). (b) `iframe.contentDocument` access is blocked across origins, so the brief's Step 6 ("walk the rendered DOM for `h2` and `h3` headings inside the Termly container") cannot work — and the brief does NOT acknowledge this scenario; it appears to assume inline rendering. Empirical post-deploy verification on /en/privacy/ will confirm or refute. Before any TOC sidebar implementation, Chat needs to choose Path A (switch embed to `data-type="document"` for inline rendering) or Path B (keep iframe + Termly-dashboard CSS + drop or server-side-derive TOC).
+
+4. **B.02 design handover docs still do not exist.** Same gap B.03 documented at `Phase-B-03-Completion.md:16` and decisions entry above. Step 0 reconciliation remains not actionable; B.03c did not attempt to fake it.
+
+5. **Token-refresh discovery for future Code.** The cached Vercel CLI auth token at `%APPDATA%\xdg.data\com.vercel.cli\auth.json` was expired at session-start (expiresAt 2026-05-15 13:01:45 local; session ran ~16:47–17:07). Direct REST API calls returned `403 invalidToken`. Calling `vercel whoami` (which only checks identity) triggered a silent CLI-side token refresh that wrote a new token + new refreshToken + new expiresAt back to `auth.json`. Re-read the file after `vercel whoami` and the Phase 2.02/2.03 REST helper pattern works again. Recommended pattern: always `vercel whoami` once at the start of any session that will call the REST API; if the first call returns 403, re-read `auth.json` (don't assume the token is permanently bad).
+
+**What shipped:**
+- `NEXT_PUBLIC_TERMLY_WEBSITE_ID=b722b489-62a2-4e5a-9510-e6466f804c69` upserted on Vercel Production + Preview (env-var id `gDmL9bWsmwK6gQWL`, type=plain).
+- `NEXT_PUBLIC_TERMLY_PRIVACY_EN_ID=13687462` upserted on Vercel Production + Preview (env-var id `SRl4LL06YQVb5CAa`, type=plain).
+- `.env.local` created in the worktree with the same 2 IDs (gitignored, matches `.env*` rule at `.gitignore:34`).
+- `.env.local.example` Phase B.03 block updated with the B.03c partial-populate header.
+- `src/_project-state/Phase-B-03c-Completion.md` (new) + this Decisions entry + `current-state.md` Phase B.03c block + `file-map.md` entry.
+- Preview deploy triggered by the commit/push following this entry.
+
+**What did NOT ship:**
+- Zero source code modified. The TermlyPolicyEmbed, LegalPageBody, LegalPageHero, privacy/page, terms/page, and all analytics components remain exactly as B.03 shipped them.
+- 3 of 5 Termly IDs still empty.
+- TOC sidebar not implemented (depends on the architectural decision + ID set completion).
+- Tag Assistant verification + Lighthouse smoke — both require a desktop Chrome session outside Code's environment; user can execute manually against the Preview URL.
+
+**Decided by:** Code, in-phase during Phase B.03c execution, after the user accepted the format-concern risk and chose "Proceed with both IDs" when the partial-IDs and PRIVACY_EN_ID format concern were surfaced.
+
+---

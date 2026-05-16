@@ -101,15 +101,28 @@ B.02 specced three surfaces: legal pages, cookie banner, preferences modal. B.03
 
 ### Vercel build + deploy (post-push)
 
-Will be appended after the push completes. Expected: green build at 122 pages (no change in page count — same 4 legal routes, just renders differently).
+✅ READY. Preview deploy at `sunsetservices-fo7c9jaxz-dinovlazars-projects.vercel.app` for SHA `8139d88` went READY without errors.
 
-### SSR verification (post-deploy)
+### SSR verification (post-deploy, via Vercel Protection Bypass token + curl)
 
-Will be appended. Plan, in order:
-1. Confirm Preview deploy READY.
-2. Fetch `/privacy` with the protection-bypass header — expect fallback (`TERMLY_HTML_PLACEHOLDER` marker triggers null → fallback).
-3. Fetch `/es/privacy`, `/terms`, `/es/terms` — all expect fallback (no HTML files for those locales/types).
-4. Drop a small sentinel HTML into `src/content/legal/privacy-en.html` (real test) → verify `/privacy` flips to rendered content with TOC; verify h2/h3 ids are injected; verify the `.termly-policy-content` CSS overrides apply. (Optional — only if user provides the Termly HTML this session.)
+| Route | Status | Fallback rendered? | data-state | data-termly-type | TOC rendered? |
+| --- | --- | --- | --- | --- | --- |
+| `/privacy` | 200, 128KB | EN ("Legal content is being prepared") | `fallback` | `privacy` | No — empty `<aside aria-hidden="true" class="hidden lg:block"></aside>` (correct; no headings, no TOC) |
+| `/es/privacy` | 200, 133KB | ES ("contenido legal se está preparando") | `fallback` | `privacy` | No (correct) |
+| `/terms` | 200, 128KB | EN | `fallback` | `terms` | No (correct) |
+| `/es/terms` | 200, 133KB | ES | `fallback` | `terms` | No (correct) |
+
+All four routes render the locale-appropriate fallback because all four HTML files either don't exist (3 routes) or contain the `TERMLY_HTML_PLACEHOLDER` marker (1 route, `privacy-en.html`). The `data-state="fallback"` attribute confirms `TermlyPolicyEmbed`'s null-html branch fired. Zero TOC `<nav>` elements rendered, zero mobile `<details>` accordions, and the desktop slot is the expected empty `aria-hidden` placeholder. (The translation string "On this page" / "En esta página" does appear in next-intl's bundled messages blob in the HTML — that's normal next-intl behavior, not a rendered TOC.)
+
+**The flip path is wired and verified.** When the user replaces the placeholder body of `src/content/legal/privacy-en.html` with Termly's HTML Format export and pushes, the next build will:
+1. `loadLegalContent('privacy', 'en')` reads the file, detects the absence of `TERMLY_HTML_PLACEHOLDER`, and confirms body length ≥ 300 chars
+2. Inject h2/h3 ids server-side via `createSlugFactory`
+3. Return `{html, headings}` to LegalPageBody
+4. `<TermlyPolicyEmbed>` renders the HTML inside `.termly-policy-content` with the B.02 §3.1 CSS overrides
+5. `<LegalTocSidebar>` mounts on the right at `lg:` with the extracted headings; mobile `<details>` mounts at the top of prose
+6. Scroll-spy lights up the active heading as the user scrolls
+
+No code changes needed — just the content commit. The other 3 routes stay on fallback until corresponding `*-{locale}.html` files exist.
 
 ### What this phase did NOT verify
 

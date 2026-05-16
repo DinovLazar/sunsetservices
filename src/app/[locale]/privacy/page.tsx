@@ -78,7 +78,7 @@ export default async function PrivacyPage({
         dangerouslySetInnerHTML={{__html: JSON.stringify(breadcrumbs)}}
       />
       <LegalPageHero type="privacy" locale={locale} />
-      <LegalPageBody type="privacy" />
+      <LegalPageBody type="privacy" locale={locale} />
     </>
   );
 }

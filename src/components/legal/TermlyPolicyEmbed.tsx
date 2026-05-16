@@ -1,45 +1,37 @@
-'use client';
-
-import * as React from 'react';
-import Script from 'next/script';
-import {useLocale, useTranslations} from 'next-intl';
+import {getTranslations} from 'next-intl/server';
+import type {LegalPolicyType} from '@/lib/legal/load-content';
 
 type Props = {
-  type: 'privacy' | 'terms';
+  type: LegalPolicyType;
+  locale: string;
+  html: string | null;
 };
 
 /**
- * TermlyPolicyEmbed — Phase B.03.
+ * Renders the legal policy body — Phase B.03c (free-plan static-HTML path).
  *
- * Mounts Termly's embed script (`https://app.termly.io/embed-policy.min.js`)
- * once per page via `next/script` `afterInteractive`, then renders the
- * Termly policy iframe via the `name="termly-embed"` div Termly's script
- * targets.
+ * On Termly's free plan, both script-embed strategies (`data-type="iframe"`
+ * and `data-type="inline"`) are Pro+ paywalled. Free plan offers only the
+ * HTML Format export. This component renders that static HTML inline so
+ * (a) same-origin CSS overrides land on real content and (b) the TOC
+ * sidebar can scroll-spy real headings.
  *
- * Document IDs are looked up by `{type, locale}`. All four IDs ship empty
- * at B.03 — Cowork populates them in Phase B.04 (Termly account setup).
- * When the relevant ID is empty, the component renders a graceful fallback
- * card instead of the broken empty embed.
+ * Selectors below match Termly's HTML Format output (`.termly-policy-content`
+ * wrapper around `h1/h2/h3/p/li/td/strong/em/blockquote/table/a`) per
+ * Phase B.02 §3.1.
  *
- * Custom CSS overrides: a `<style>` block scoped to the wrapper applies
- * project typography + spacing to Termly's default rendering. Since the
- * Phase B.02 mockups + selector list aren't available in this worktree,
- * the override block is a first-pass best-effort hitting Termly's known
- * default class names (`termly-document-name`, `.termly-section`, etc).
- * Chat to re-verify selectors against the real embed once a Termly doc
- * is provisioned in B.04.
+ * When `html` is null (placeholder file or unprovisioned route) the
+ * "Legal content is being prepared" fallback card renders instead.
  */
-export default function TermlyPolicyEmbed({type}: Props) {
-  const t = useTranslations('legal.embed');
-  const locale = useLocale();
+export default async function TermlyPolicyEmbed({type, locale, html}: Props) {
+  const t = await getTranslations({locale, namespace: 'legal.embed'});
 
-  const docId = lookupTermlyId(type, locale);
-  const websiteId = process.env.NEXT_PUBLIC_TERMLY_WEBSITE_ID;
-
-  if (!docId) {
+  if (!html) {
     return (
       <div
-        className="termly-embed-wrap"
+        className="termly-policy-content"
+        data-termly-type={type}
+        data-state="fallback"
         style={{
           padding: 'var(--spacing-8)',
           background: 'var(--color-bg-cream)',
@@ -62,64 +54,108 @@ export default function TermlyPolicyEmbed({type}: Props) {
   }
 
   return (
-    <div className="termly-embed-wrap" data-termly-type={type}>
-      <style
-        // First-pass override hitting Termly's known default classes.
-        // Chat to verify against real embed once B.04 provisions a doc.
-        dangerouslySetInnerHTML={{
-          __html: `
-            .termly-embed-wrap { font-family: var(--font-body); color: var(--color-text-primary); }
-            .termly-embed-wrap h1,
-            .termly-embed-wrap h2,
-            .termly-embed-wrap h3,
-            .termly-embed-wrap h4,
-            .termly-embed-wrap h5,
-            .termly-embed-wrap h6 {
-              font-family: var(--font-heading);
-              color: var(--color-text-primary);
-              letter-spacing: var(--tracking-snug);
-            }
-            .termly-embed-wrap h1 { font-size: var(--text-h2); margin-top: var(--spacing-10); margin-bottom: var(--spacing-4); }
-            .termly-embed-wrap h2 { font-size: var(--text-h3); margin-top: var(--spacing-8); margin-bottom: var(--spacing-3); }
-            .termly-embed-wrap h3 { font-size: var(--text-h4); margin-top: var(--spacing-6); margin-bottom: var(--spacing-2); }
-            .termly-embed-wrap p, .termly-embed-wrap li { font-size: var(--text-body); line-height: var(--leading-relaxed); color: var(--color-text-secondary); }
-            .termly-embed-wrap a { color: var(--color-sunset-green-700); text-decoration: underline; text-underline-offset: 0.18em; }
-            .termly-embed-wrap a:hover { color: var(--color-sunset-green-500); }
-            .termly-embed-wrap ul, .termly-embed-wrap ol { padding-left: var(--spacing-6); margin: var(--spacing-3) 0; }
-            .termly-embed-wrap li { margin-bottom: var(--spacing-2); }
-          `,
-        }}
+    <>
+      <style dangerouslySetInnerHTML={{__html: TERMLY_CSS_OVERRIDES}} />
+      <div
+        className="termly-policy-content"
+        data-termly-type={type}
+        data-state="rendered"
+        dangerouslySetInnerHTML={{__html: html}}
       />
-      {/* Termly's embed script (https://app.termly.io/embed-policy.min.js)
-          targets divs by `name="termly-embed"`. React passes the `name`
-          attribute through to the DOM; React's HTMLAttributes type allows
-          it on any HTMLElement. */}
-      {React.createElement('div', {
-        name: 'termly-embed',
-        'data-id': docId,
-        'data-type': 'iframe',
-        'data-website-id': websiteId || undefined,
-      })}
-      <Script
-        id={`termly-embed-${type}`}
-        src="https://app.termly.io/embed-policy.min.js"
-        strategy="afterInteractive"
-      />
-    </div>
+    </>
   );
 }
 
-function lookupTermlyId(
-  type: 'privacy' | 'terms',
-  locale: string,
-): string | undefined {
-  const isEs = locale === 'es';
-  if (type === 'privacy') {
-    return isEs
-      ? process.env.NEXT_PUBLIC_TERMLY_PRIVACY_ES_ID
-      : process.env.NEXT_PUBLIC_TERMLY_PRIVACY_EN_ID;
+const TERMLY_CSS_OVERRIDES = `
+  /* Phase B.02 §3.1 — aligns Termly's HTML Format output to locked design tokens. */
+  .termly-policy-content,
+  .termly-policy-content p,
+  .termly-policy-content li,
+  .termly-policy-content td {
+    font-family: var(--font-body), system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    font-size: 17px;
+    line-height: 1.65;
+    color: var(--color-text-primary);
+    font-weight: 400;
   }
-  return isEs
-    ? process.env.NEXT_PUBLIC_TERMLY_TERMS_ES_ID
-    : process.env.NEXT_PUBLIC_TERMLY_TERMS_EN_ID;
-}
+  .termly-policy-content h1,
+  .termly-policy-content h2,
+  .termly-policy-content h3,
+  .termly-policy-content h4 {
+    font-family: var(--font-heading), system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    color: var(--color-text-primary);
+    text-wrap: balance;
+    letter-spacing: -0.01em;
+  }
+  /* H1 is rendered by the page hero, not by the policy body. */
+  .termly-policy-content h1 { display: none; }
+  .termly-policy-content h2 {
+    font-size: 30px;
+    font-weight: 700;
+    line-height: 1.2;
+    margin: 40px 0 12px;
+    scroll-margin-top: 96px;
+  }
+  .termly-policy-content h3 {
+    font-size: 22px;
+    font-weight: 600;
+    line-height: 1.25;
+    margin: 28px 0 8px;
+    scroll-margin-top: 96px;
+  }
+  .termly-policy-content h4 {
+    font-size: 18px;
+    font-weight: 600;
+    margin: 20px 0 6px;
+  }
+  .termly-policy-content p { margin: 0 0 14px; }
+  .termly-policy-content ul,
+  .termly-policy-content ol { padding-left: 22px; margin: 0 0 14px; }
+  .termly-policy-content li { margin: 4px 0; }
+  .termly-policy-content ul li::marker { color: var(--color-sunset-green-500); }
+  .termly-policy-content a {
+    color: var(--color-sunset-green-700);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.18em;
+    text-decoration-color: rgba(47, 93, 39, 0.4);
+  }
+  .termly-policy-content a:hover {
+    text-decoration-color: rgba(47, 93, 39, 1);
+  }
+  .termly-policy-content a:focus-visible {
+    outline: 2px solid var(--color-focus-ring);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+  .termly-policy-content table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0 20px;
+    font-size: 15px;
+  }
+  .termly-policy-content th,
+  .termly-policy-content td {
+    border: 1px solid var(--color-border);
+    padding: 10px 14px;
+    text-align: left;
+    vertical-align: top;
+  }
+  .termly-policy-content th {
+    background: var(--color-bg-cream);
+    font-family: var(--font-heading), sans-serif;
+    font-weight: 600;
+    color: var(--color-sunset-green-700);
+  }
+  .termly-policy-content strong {
+    font-weight: 600;
+    color: var(--color-text-primary);
+  }
+  .termly-policy-content em { font-style: italic; }
+  .termly-policy-content blockquote {
+    border-left: 4px solid var(--color-sunset-green-500);
+    padding: 8px 0 8px 20px;
+    margin: 16px 0;
+    color: var(--color-text-secondary);
+  }
+`;

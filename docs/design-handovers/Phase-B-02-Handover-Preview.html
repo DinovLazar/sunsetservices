@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Phase B.02 — Legal Pages, Cookie Banner & Preferences Modal — Design Handover</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Onest:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/marked@12.0.2/marked.min.js"></script>
+<style>
+  :root {
+    --bg: #FFFFFF;
+    --bg-cream: #FAF7F1;
+    --bg-cream-deep: #F2EDE3;
+    --border: #E5E0D5;
+    --border-strong: #C9C0AE;
+    --text: #1A1A1A;
+    --muted: #4A4A4A;
+    --faint: #6B6B6B;
+    --green-700: #2F5D27;
+    --green-500: #4D8A3F;
+    --green-100: #DCE8D5;
+    --amber: #E8A33D;
+    --error: #C84B31;
+    --mono: 'JetBrains Mono', ui-monospace, monospace;
+    --serif: 'Onest', Georgia, serif;
+    --sans: 'Manrope', system-ui, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--bg-cream); color: var(--text); font-family: var(--sans); font-size: 16px; line-height: 1.55; }
+
+  .topbar {
+    position: sticky; top: 0; z-index: 10;
+    background: var(--bg); border-bottom: 1px solid var(--border);
+    padding: 16px 32px; display: flex; align-items: center; gap: 24px;
+  }
+  .topbar .title { font-family: var(--serif); font-weight: 600; font-size: 18px; color: var(--green-700); }
+  .topbar .crumb { font-family: var(--mono); font-size: 12px; color: var(--faint); letter-spacing: 0.06em; }
+  .topbar .spacer { flex: 1; }
+  .topbar .meta { font-family: var(--mono); font-size: 11px; color: var(--faint); letter-spacing: 0.04em; }
+  .topbar a.mockups { display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px; background: var(--green-700); color: #fff; border-radius: 8px; font-family: var(--sans); font-size: 13px; font-weight: 600; text-decoration: none; }
+  .topbar a.mockups:hover { background: var(--green-500); }
+
+  .layout { display: grid; grid-template-columns: 280px 1fr; gap: 0; max-width: 1480px; margin: 0 auto; }
+  .toc {
+    position: sticky; top: 65px; height: calc(100vh - 65px); overflow: auto;
+    padding: 32px 24px; border-right: 1px solid var(--border); background: var(--bg-cream);
+  }
+  .toc h3 { font-family: var(--mono); font-size: 11px; color: var(--green-700); letter-spacing: 0.12em; margin: 0 0 16px; text-transform: uppercase; }
+  .toc ul { list-style: none; padding: 0; margin: 0; }
+  .toc li a { display: block; padding: 6px 0; color: var(--text); text-decoration: none; font-size: 13px; border-left: 2px solid transparent; padding-left: 12px; transition: all 120ms ease; }
+  .toc li a:hover { color: var(--green-700); border-left-color: var(--green-500); background: rgba(77,138,63,0.04); }
+  .toc li.l3 a { padding-left: 24px; font-size: 12px; color: var(--muted); }
+
+  main { background: var(--bg); padding: 56px 64px 120px; min-height: 100vh; }
+  main .inner { max-width: 920px; margin: 0 auto; }
+
+  main h1, main h2, main h3, main h4 { font-family: var(--serif); font-weight: 600; color: var(--text); line-height: 1.2; }
+  main h1 { font-size: 40px; margin: 0 0 8px; }
+  main h2 { font-size: 28px; margin: 56px 0 16px; padding-top: 16px; border-top: 1px solid var(--border); }
+  main h2:first-child { border-top: none; padding-top: 0; margin-top: 0; }
+  main h3 { font-size: 20px; margin: 36px 0 12px; }
+  main h4 { font-size: 16px; margin: 24px 0 8px; }
+  main p { margin: 0 0 16px; color: var(--text); }
+  main strong { font-weight: 600; }
+  main em { font-style: italic; }
+  main ul, main ol { padding-left: 24px; margin: 0 0 16px; }
+  main li { margin: 4px 0; }
+  main a { color: var(--green-700); text-decoration: underline; text-underline-offset: 2px; }
+  main hr { border: 0; border-top: 1px solid var(--border); margin: 40px 0; }
+
+  main code { font-family: var(--mono); font-size: 13px; background: var(--bg-cream); padding: 2px 6px; border-radius: 4px; color: var(--green-700); }
+  main pre { background: #1A1A1A; color: #F2EDE3; padding: 20px 24px; border-radius: 12px; overflow-x: auto; margin: 16px 0; }
+  main pre code { background: transparent; color: #F2EDE3; padding: 0; font-size: 12.5px; line-height: 1.6; }
+
+  main table { border-collapse: collapse; margin: 16px 0; font-size: 13px; width: 100%; }
+  main th, main td { border: 1px solid var(--border); padding: 8px 12px; text-align: left; vertical-align: top; }
+  main th { background: var(--bg-cream); font-family: var(--mono); font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--green-700); font-weight: 600; }
+  main tr:nth-child(even) td { background: rgba(250,247,241,0.4); }
+
+  main blockquote { border-left: 3px solid var(--green-500); padding: 8px 0 8px 20px; margin: 16px 0; color: var(--muted); font-style: italic; background: var(--bg-cream); border-radius: 0 8px 8px 0; }
+
+  main p:has(> svg), main figure { margin: 24px 0; }
+  main svg {
+    display: block; max-width: 100%; height: auto;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.03), 0 8px 24px -12px rgba(0,0,0,0.08);
+  }
+
+  .loading { text-align: center; padding: 80px 24px; color: var(--faint); font-family: var(--mono); font-size: 13px; }
+  .err { background: #FFF4F0; border: 1px solid var(--error); color: var(--error); padding: 16px 20px; border-radius: 8px; margin: 24px 0; font-family: var(--mono); font-size: 13px; }
+
+  .badge { display: inline-block; padding: 2px 8px; border-radius: 12px; font-family: var(--mono); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; vertical-align: middle; margin-left: 8px; }
+  .badge.locked { background: var(--green-100); color: var(--green-700); }
+
+  @media (max-width: 1024px) {
+    .layout { grid-template-columns: 1fr; }
+    .toc { display: none; }
+    main { padding: 32px 24px 80px; }
+  }
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="title">Sunset V2 · Phase B.02</div>
+  <div class="crumb">Legal Pages · Cookie Banner · Preferences Modal · Design Handover</div>
+  <div class="spacer"></div>
+  <a class="mockups" href="docs/design-handovers/Phase-B-02-Legal-Mockups.html" target="_blank">View mockups →</a>
+  <div class="meta">Design → Code (B.03)</div>
+</header>
+
+<div class="layout">
+  <aside class="toc" id="toc">
+    <h3>Contents</h3>
+    <ul id="toc-list"><li><span class="loading">building TOC…</span></li></ul>
+  </aside>
+
+  <main>
+    <div class="inner" id="md"><div class="loading">Loading handover…</div></div>
+  </main>
+</div>
+
+<script>
+async function load() {
+  try {
+    const res = await fetch('docs/design-handovers/Phase-B-02-Legal-Design-Handover.md');
+    if (!res.ok) throw new Error('Failed to load .md (HTTP ' + res.status + ')');
+    const text = await res.text();
+    marked.setOptions({ gfm: true, breaks: false, headerIds: true, mangle: false });
+    const html = marked.parse(text);
+    const el = document.getElementById('md');
+    el.innerHTML = html;
+    el.querySelectorAll('pre > code').forEach((code) => {
+      const cls = code.className || '';
+      const txt = code.textContent || '';
+      const looksLikeSvg = /language-svg/i.test(cls) || /^\s*<svg[\s>]/i.test(txt);
+      if (looksLikeSvg) {
+        const wrap = document.createElement('figure');
+        wrap.innerHTML = txt;
+        code.parentElement.replaceWith(wrap);
+      }
+    });
+    const toc = document.getElementById('toc-list');
+    toc.innerHTML = '';
+    const heads = el.querySelectorAll('h2, h3');
+    heads.forEach((h, i) => {
+      if (!h.id) h.id = 'h-' + i;
+      const li = document.createElement('li');
+      if (h.tagName === 'H3') li.className = 'l3';
+      const a = document.createElement('a');
+      a.href = '#' + h.id;
+      a.textContent = h.textContent.replace(/^[\d.]+\s*/, '');
+      li.appendChild(a);
+      toc.appendChild(li);
+    });
+  } catch (e) {
+    document.getElementById('md').innerHTML = '<div class="err">Could not load handover markdown: ' + e.message + '<br><br>Open <code>docs/design-handovers/Phase-B-02-Legal-Design-Handover.md</code> directly to read.</div>';
+  }
+}
+load();
+</script>
+</body>
+</html>

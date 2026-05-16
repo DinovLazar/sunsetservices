@@ -56,6 +56,11 @@ import * as chromeLauncher from 'chrome-launcher';
 
 const BASE_URL = (process.env.BASE_URL || 'http://localhost:3000').replace(/\/$/, '');
 const BYPASS_TOKEN = process.env.BYPASS_TOKEN || '';
+// Phase B.07: `_vercel_share` token (from the Vercel MCP `get_access_to_vercel_url`)
+// is an alternative bypass mechanism — same `_vercel_jwt` cookie, different
+// priming query param. When set, wins over BYPASS_TOKEN. Lighthouse also
+// uses _vercel_share=… as the per-call query param.
+const SHARE_TOKEN = process.env.VERCEL_SHARE_TOKEN || '';
 // Reserved env var; the harness currently does no remote-validator calls.
 // Kept in the contract for parity with B.04 + B.05 — surface it so a future
 // extension (Pa11y CI, WAVE API, axe DevTools cloud) can plug in without
@@ -151,8 +156,15 @@ let bypassCookieName = '';
 let bypassCookieValue = '';
 
 async function primeBypassCookie() {
-  if (!BYPASS_TOKEN || bypassCookieName) return;
-  const url = `${BASE_URL}/?x-vercel-protection-bypass=${BYPASS_TOKEN}&x-vercel-set-bypass-cookie=samesitenone`;
+  if (bypassCookieName) return;
+  let url;
+  if (SHARE_TOKEN) {
+    url = `${BASE_URL}/?_vercel_share=${SHARE_TOKEN}`;
+  } else if (BYPASS_TOKEN) {
+    url = `${BASE_URL}/?x-vercel-protection-bypass=${BYPASS_TOKEN}&x-vercel-set-bypass-cookie=samesitenone`;
+  } else {
+    return;
+  }
   const res = await fetch(url, {redirect: 'manual'});
   const setCookie = res.headers.get('set-cookie') || '';
   const m = /(_vercel_jwt|vercel_bypass[^=]*)=([^;]+)/i.exec(setCookie);
@@ -413,7 +425,10 @@ async function runLighthouse(targetUrl) {
   // bypass without depending on cookie persistence in Lighthouse's
   // chrome-launcher Chrome.
   let url = targetUrl;
-  if (BYPASS_TOKEN) {
+  if (SHARE_TOKEN) {
+    const sep = url.includes('?') ? '&' : '?';
+    url = `${url}${sep}_vercel_share=${SHARE_TOKEN}`;
+  } else if (BYPASS_TOKEN) {
     const sep = url.includes('?') ? '&' : '?';
     url = `${url}${sep}x-vercel-protection-bypass=${BYPASS_TOKEN}&x-vercel-set-bypass-cookie=samesitenone`;
   }

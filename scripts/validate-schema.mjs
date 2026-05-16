@@ -44,6 +44,10 @@ import {dirname, resolve} from 'node:path';
 
 const BASE_URL = (process.env.BASE_URL || 'http://localhost:3000').replace(/\/$/, '');
 const BYPASS_TOKEN = process.env.BYPASS_TOKEN || '';
+// Phase B.07: `_vercel_share` token (from the Vercel MCP `get_access_to_vercel_url`)
+// is an alternative bypass mechanism — same `_vercel_jwt` cookie, different
+// priming query param. When set, wins over BYPASS_TOKEN.
+const SHARE_TOKEN = process.env.VERCEL_SHARE_TOKEN || '';
 // The schema.org validator API can only fetch publicly-reachable URLs. When
 // BASE_URL is localhost (no public reachability), we silently skip the
 // external pass and rely on internal checks alone — which are authoritative.
@@ -286,8 +290,15 @@ let bypassCookie = '';
  * relying on the query string per request fails after the first hop.
  */
 async function primeBypassCookie() {
-  if (!BYPASS_TOKEN || bypassCookie) return;
-  const url = `${BASE_URL}/?x-vercel-protection-bypass=${BYPASS_TOKEN}&x-vercel-set-bypass-cookie=samesitenone`;
+  if (bypassCookie) return;
+  let url;
+  if (SHARE_TOKEN) {
+    url = `${BASE_URL}/?_vercel_share=${SHARE_TOKEN}`;
+  } else if (BYPASS_TOKEN) {
+    url = `${BASE_URL}/?x-vercel-protection-bypass=${BYPASS_TOKEN}&x-vercel-set-bypass-cookie=samesitenone`;
+  } else {
+    return;
+  }
   const res = await fetch(url, {redirect: 'manual'});
   const setCookie = res.headers.get('set-cookie') || '';
   const m = /(_vercel_jwt|vercel_bypass[^=]*)=([^;]+)/i.exec(setCookie);

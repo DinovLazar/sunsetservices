@@ -978,3 +978,19 @@ Phase B.07 closes the trailing "Newsletter unsubscribe page missing" item from P
 **Decided by:** Chat, 2026-05-16, before B.07 execution. D1–D7 are the input contract; any execution-time off-spec decisions append below this entry once Code surfaces them.
 
 ---
+
+## 2026-05-16 — Phase B.07 (Code) — Execution: harness `VERCEL_SHARE_TOKEN` support
+
+The Phase B.07 Preview-verification step (plan §15) was originally written assuming `BYPASS_TOKEN` would be supplied as an env var — same pattern B.05 + B.06 used (Vercel project's "Protection Bypass for Automation" token, primed via `?x-vercel-protection-bypass=…` and captured as a `_vercel_jwt` cookie). For B.07 the token came from a different source: the Vercel MCP plugin (`mcp__plugin_vercel_vercel__get_access_to_vercel_url`), which issues a temporary `_vercel_share` token. The share token sets the **same** `_vercel_jwt` cookie but uses a **different** priming query param (`?_vercel_share=…`).
+
+**Decision.** Extended all three validation harnesses (`scripts/validate-schema.mjs`, `scripts/validate-seo.mjs`, `scripts/validate-a11y.mjs`) with a `VERCEL_SHARE_TOKEN` env var that, when set, takes precedence over `BYPASS_TOKEN` and uses the `?_vercel_share=…` priming pattern. The Lighthouse per-call query-param flow in `validate-a11y.mjs` was extended the same way (Lighthouse appends `?_vercel_share=…` when present, falling back to `?x-vercel-protection-bypass=…`). Both tokens land the same `_vercel_jwt` cookie; the downstream cookie-capture regex is unchanged.
+
+**Why purely additive (BYPASS_TOKEN still works).** Past phases' Preview snapshots were captured with `BYPASS_TOKEN`. Renaming or replacing the env var would invalidate the recorded run commands in those phases' completion reports. The two env vars coexist cleanly — share-token wins when both are set.
+
+**Cost / blast radius.** ~6 lines added per harness file. No change to the existing `BYPASS_TOKEN` flow. No change to the cookie name (always `_vercel_jwt`), no change to the per-URL fetch path, no change to the report shapes. Localhost runs untouched (no Vercel auth needed).
+
+**Verification.** All three harnesses re-run against the Vercel Preview at `https://sunsetservices-git-claude-clever-sa-ecdeca-dinovlazars-projects.vercel.app/` (commit `8a642f0`) using `VERCEL_SHARE_TOKEN`: schema 22/22 PASS 0/0, SEO 120/120 + sitemap + robots PASS 0/0, a11y 19/19 PASS (0 axe AA, 0 SC 2.4.11/2.5.8, all Lighthouse a11y = 100).
+
+**Decided by:** Code, 2026-05-16, during B.07 Preview verification. Surfaced when the user chose the MCP-driven Vercel auth flow over the manual-token-paste flow.
+
+---

@@ -19,6 +19,7 @@ import {AUDIENCE_HERO, AUDIENCE_PROJECT_TILES, SERVICE_TILE} from '@/data/imageM
 import {buildBreadcrumbList} from '@/lib/schema/breadcrumb';
 import {buildAudienceItemList, localePath} from '@/lib/schema/service';
 import {routing} from '@/i18n/routing';
+import {canonicalUrl, hreflangAlternates} from '@/lib/seo/urls';
 
 type Locale = 'en' | 'es';
 
@@ -39,9 +40,15 @@ export async function generateMetadata({
   const {locale, audience} = await params;
   if (!isAudience(audience)) return {};
   const t = await getTranslations({locale, namespace: `audience.${audience}.meta`});
+  const loc: Locale = locale === 'es' ? 'es' : 'en';
+  const path = `/${audience}`;
   return {
     title: t('title'),
     description: t('description'),
+    alternates: {
+      canonical: canonicalUrl(path, loc),
+      languages: hreflangAlternates(path),
+    },
   };
 }
 

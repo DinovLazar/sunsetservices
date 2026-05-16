@@ -3,7 +3,7 @@ import {getTranslations, setRequestLocale} from 'next-intl/server';
 import LegalPageBody from '@/components/legal/LegalPageBody';
 import LegalPageHero from '@/components/legal/LegalPageHero';
 import {buildBreadcrumbList} from '@/lib/schema/breadcrumb';
-import {BUSINESS_URL} from '@/lib/constants/business';
+import {canonicalUrl, hreflangAlternates, type Locale} from '@/lib/seo/urls';
 
 export async function generateMetadata({
   params,
@@ -12,9 +12,15 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const {locale} = await params;
   const t = await getTranslations({locale, namespace: 'legal.privacy.meta'});
+  const loc: Locale = locale === 'es' ? 'es' : 'en';
+  const path = '/privacy';
   return {
     title: t('title'),
     description: t('description'),
+    alternates: {
+      canonical: canonicalUrl(path, loc),
+      languages: hreflangAlternates(path),
+    },
   };
 }
 
@@ -45,10 +51,7 @@ export default async function PrivacyPage({
   });
   const tMeta = await getTranslations({locale, namespace: 'legal.privacy.meta'});
 
-  const url =
-    locale === 'en'
-      ? `${BUSINESS_URL}/privacy/`
-      : `${BUSINESS_URL}/${locale}/privacy/`;
+  const url = canonicalUrl('/privacy', locale === 'es' ? 'es' : 'en');
 
   const webPageJsonLd = {
     '@context': 'https://schema.org',

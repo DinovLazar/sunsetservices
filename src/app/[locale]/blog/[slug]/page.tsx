@@ -22,8 +22,8 @@ import {
   buildArticleSchema,
   buildContentFaqSchema,
 } from '@/lib/schema/article';
-import {BUSINESS_URL} from '@/lib/constants/business';
 import {routing} from '@/i18n/routing';
+import {canonicalUrl, hreflangAlternates, SITE_URL} from '@/lib/seo/urls';
 import {
   getAllBlogPosts,
   getAllBlogPostSlugs,
@@ -38,8 +38,6 @@ type Locale = 'en' | 'es';
 export const revalidate = 1800;
 export const dynamic = 'force-static';
 export const dynamicParams = false;
-
-const SITE_ORIGIN = process.env.NEXT_PUBLIC_SITE_URL || BUSINESS_URL;
 
 function locPath(loc: Locale, path: string): string {
   return loc === 'en' ? path : `/${loc}${path}`;
@@ -75,25 +73,20 @@ export async function generateMetadata({
   const title = `${post.title[loc]} | Sunset Services Blog`;
   const description =
     post.seo?.description[loc] || post.dek[loc].slice(0, 160);
-  const enPath = `/blog/${slug}/`;
-  const esPath = `/es/blog/${slug}/`;
-  const selfPath = loc === 'en' ? enPath : esPath;
+  const path = `/blog/${slug}`;
+  const selfUrl = canonicalUrl(path, loc);
   return {
     title,
     description,
     alternates: {
-      canonical: `${SITE_ORIGIN}${selfPath}`,
-      languages: {
-        en: `${SITE_ORIGIN}${enPath}`,
-        es: `${SITE_ORIGIN}${esPath}`,
-        'x-default': `${SITE_ORIGIN}${enPath}`,
-      },
+      canonical: selfUrl,
+      languages: hreflangAlternates(path),
     },
     openGraph: {
       title: post.title[loc],
       description,
-      url: `${SITE_ORIGIN}${selfPath}`,
-      images: [`${SITE_ORIGIN}/og/blog/${slug}/?locale=${loc}`],
+      url: selfUrl,
+      images: [`${SITE_URL}/og/blog/${slug}/?locale=${loc}`],
       type: 'article',
       publishedTime: post.publishedAt,
     },

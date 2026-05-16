@@ -7,6 +7,7 @@ import ContactCalendlyPlaceholder from '@/components/sections/contact/ContactCal
 import ServiceAreaStrip from '@/components/sections/ServiceAreaStrip';
 import {buildContactPageSchema} from '@/lib/schema/contactPage';
 import {buildBreadcrumbList} from '@/lib/schema/breadcrumb';
+import {canonicalUrl, hreflangAlternates, type Locale} from '@/lib/seo/urls';
 
 export async function generateMetadata({
   params,
@@ -15,9 +16,15 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const {locale} = await params;
   const t = await getTranslations({locale, namespace: 'contact.meta'});
+  const loc: Locale = locale === 'es' ? 'es' : 'en';
+  const path = '/contact';
   return {
     title: t('title'),
     description: t('description'),
+    alternates: {
+      canonical: canonicalUrl(path, loc),
+      languages: hreflangAlternates(path),
+    },
   };
 }
 

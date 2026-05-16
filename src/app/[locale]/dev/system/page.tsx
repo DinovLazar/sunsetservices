@@ -1,8 +1,19 @@
+import type {Metadata} from 'next';
 import {setRequestLocale} from 'next-intl/server';
 import AnimateIn from '@/components/global/motion/AnimateIn';
 import StaggerContainer from '@/components/global/motion/StaggerContainer';
 import StaggerItem from '@/components/global/motion/StaggerItem';
 import {DialogDemo, TooltipDemo} from './_client-demos';
+
+/**
+ * Dev-only design-system smoke test — Phase B.05 noindexes it so the route
+ * (still publicly reachable for the moment) never appears in search.
+ * Excluded from `sitemap.xml`; no canonical / hreflang because the page
+ * shouldn't be indexed in the first place.
+ */
+export const metadata: Metadata = {
+  robots: {index: false, follow: false},
+};
 
 const SWATCHES: Array<{
   label: string;

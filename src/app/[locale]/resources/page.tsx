@@ -13,16 +13,14 @@ import {
 } from '@/data/resources';
 import {buildBreadcrumbList} from '@/lib/schema/breadcrumb';
 import {buildContentItemList} from '@/lib/schema/article';
-import {BUSINESS_URL} from '@/lib/constants/business';
 import {routing} from '@/i18n/routing';
+import {canonicalUrl, hreflangAlternates} from '@/lib/seo/urls';
 import {getAllResources} from '@sanity-lib/queries';
 
 type Locale = 'en' | 'es';
 
 // Phase 2.05 — ISR (30 min).
 export const revalidate = 1800;
-
-const SITE_ORIGIN = process.env.NEXT_PUBLIC_SITE_URL || BUSINESS_URL;
 
 function locPath(loc: Locale, path: string): string {
   return loc === 'en' ? path : `/${loc}${path}`;
@@ -51,19 +49,14 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const {locale} = await params;
   const t = await getTranslations({locale, namespace: 'resources.meta'});
-  const enPath = '/resources/';
-  const esPath = '/es/resources/';
-  const selfPath = locale === 'en' ? enPath : esPath;
+  const loc: Locale = locale === 'es' ? 'es' : 'en';
+  const path = '/resources';
   return {
     title: t('title'),
     description: t('description'),
     alternates: {
-      canonical: `${SITE_ORIGIN}${selfPath}`,
-      languages: {
-        en: `${SITE_ORIGIN}${enPath}`,
-        es: `${SITE_ORIGIN}${esPath}`,
-        'x-default': `${SITE_ORIGIN}${enPath}`,
-      },
+      canonical: canonicalUrl(path, loc),
+      languages: hreflangAlternates(path),
     },
   };
 }

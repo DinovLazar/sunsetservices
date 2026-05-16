@@ -13,6 +13,7 @@ import {buildBreadcrumbList} from '@/lib/schema/breadcrumb';
 import {buildProjectsItemList} from '@/lib/schema/project';
 import {BUSINESS_URL} from '@/lib/constants/business';
 import {routing} from '@/i18n/routing';
+import {canonicalUrl, hreflangAlternates} from '@/lib/seo/urls';
 import {getAllProjects} from '@sanity-lib/queries';
 import {sanityProjectSummaryToTs} from '@/lib/sanity-adapters';
 
@@ -23,15 +24,6 @@ const PAGE_SIZE = 12;
 // Phase 2.05 — ISR (30 min). Webhook-driven revalidation deferred.
 export const revalidate = 1800;
 
-/**
- * Site origin for canonical/hreflang. Defaults to production
- * `BUSINESS_URL`; localhost test runs override via `NEXT_PUBLIC_SITE_URL`
- * so Lighthouse's canonical audit (which checks canonical-host ===
- * page-host) passes against the test server. Production deploys leave the
- * env var unset and emit production URLs.
- */
-const SITE_ORIGIN = process.env.NEXT_PUBLIC_SITE_URL || BUSINESS_URL;
-
 export async function generateMetadata({
   params,
 }: {
@@ -39,19 +31,14 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const {locale} = await params;
   const t = await getTranslations({locale, namespace: 'projects.meta'});
-  const enPath = '/projects';
-  const esPath = '/es/projects';
-  const selfPath = locale === 'en' ? enPath : esPath;
+  const loc: Locale = locale === 'es' ? 'es' : 'en';
+  const path = '/projects';
   return {
     title: t('title'),
     description: t('description'),
     alternates: {
-      canonical: `${SITE_ORIGIN}${selfPath}`,
-      languages: {
-        en: `${SITE_ORIGIN}${enPath}`,
-        es: `${SITE_ORIGIN}${esPath}`,
-        'x-default': `${SITE_ORIGIN}${enPath}`,
-      },
+      canonical: canonicalUrl(path, loc),
+      languages: hreflangAlternates(path),
     },
   };
 }

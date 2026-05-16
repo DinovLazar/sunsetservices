@@ -9,6 +9,7 @@ import HomeProjects from '@/components/sections/home/HomeProjects';
 import {team} from '@/data/team';
 import {buildPersonSchema} from '@/lib/schema/person';
 import {buildBreadcrumbList} from '@/lib/schema/breadcrumb';
+import {canonicalUrl, hreflangAlternates, type Locale} from '@/lib/seo/urls';
 
 export async function generateMetadata({
   params,
@@ -17,9 +18,15 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const {locale} = await params;
   const t = await getTranslations({locale, namespace: 'about.meta'});
+  const loc: Locale = locale === 'es' ? 'es' : 'en';
+  const path = '/about';
   return {
     title: t('title'),
     description: t('description'),
+    alternates: {
+      canonical: canonicalUrl(path, loc),
+      languages: hreflangAlternates(path),
+    },
   };
 }
 

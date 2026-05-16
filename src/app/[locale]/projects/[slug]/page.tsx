@@ -15,6 +15,7 @@ import {buildBreadcrumbList} from '@/lib/schema/breadcrumb';
 import {buildProjectCreativeWork} from '@/lib/schema/project';
 import {BUSINESS_URL} from '@/lib/constants/business';
 import {routing} from '@/i18n/routing';
+import {canonicalUrl, hreflangAlternates} from '@/lib/seo/urls';
 import {
   getAllProjects,
   getAllProjectSlugs,
@@ -29,9 +30,6 @@ type Locale = 'en' | 'es';
 
 // Phase 2.05 — ISR (30 min). Webhook-driven revalidation deferred.
 export const revalidate = 1800;
-
-/** See ../page.tsx for the SITE_ORIGIN env-override rationale. */
-const SITE_ORIGIN = process.env.NEXT_PUBLIC_SITE_URL || BUSINESS_URL;
 
 export async function generateStaticParams() {
   const slugs = await getAllProjectSlugs();
@@ -59,21 +57,14 @@ export async function generateMetadata({
 
   const title = `${project.title[loc]} — ${audienceLabel} project in ${cityName} · Sunset Services`;
   const description = `${project.shortDek[loc]} ${cityName}, IL. By Sunset Services.`;
-
-  const enPath = `/projects/${slug}`;
-  const esPath = `/es/projects/${slug}`;
-  const selfPath = loc === 'en' ? enPath : esPath;
+  const path = `/projects/${slug}`;
 
   return {
     title,
     description,
     alternates: {
-      canonical: `${SITE_ORIGIN}${selfPath}`,
-      languages: {
-        en: `${SITE_ORIGIN}${enPath}`,
-        es: `${SITE_ORIGIN}${esPath}`,
-        'x-default': `${SITE_ORIGIN}${enPath}`,
-      },
+      canonical: canonicalUrl(path, loc),
+      languages: hreflangAlternates(path),
     },
   };
 }

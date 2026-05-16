@@ -59,3 +59,8 @@ next-env.d.ts
 # report lives at src/_project-state/Phase-B-04-Validation-Report.md)
 /scripts/.schema-validation-report.json
 /scripts/.schema-validation-cache.json
+
+# Phase B.05 — SEO validation harness temp artifacts (the committed copy
+# of the table lives at src/_project-state/Phase-B-05-Completion.md)
+/scripts/.seo-validation-report.json
+/scripts/.seo-validation-cache.json

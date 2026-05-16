@@ -1053,3 +1053,19 @@ Per-doc concretization: when the webhook payload includes `slug.current`, expand
 **Decided by:** Chat, 2026-05-16, before B.08 execution. D1–D3 are the input contract; any execution-time off-spec decisions append below this entry once Code surfaces them.
 
 ---
+
+## 2026-05-16 — Phase B.08 (Code) — Execution: Next 16 `revalidateTag` two-arg form
+
+The Phase B.08 plan-of-record's helper sketch wrote `revalidateTag(docType)` — the single-argument form that has worked since the `revalidateTag` API landed in Next 13. Next 16 deprecated that signature: the runtime now logs a deprecation warning per call (`"revalidateTag" without the second argument is now deprecated, add second argument of "max" or use "updateTag". See more info here: https://nextjs.org/docs/messages/revalidate-tag-single-arg`) AND the TypeScript declaration in `node_modules/next/dist/server/web/spec-extension/revalidate.d.ts` now requires the second argument unconditionally (`function revalidateTag(tag: string, profile: string | CacheLifeConfig): undefined`). `npx tsc --noEmit` flagged it as `TS2554: Expected 2 arguments, but got 1`.
+
+**Decision.** Switched the four call sites in `src/lib/sanity/revalidation.ts` to `revalidateTag(tag, 'max')` per the runtime warning's recommended value. `'max'` is the canonical Next 16 cache profile name for "purge all cached entries tagged with this tag" — matches the legacy single-arg semantics. The new alternative API (`updateTag(tag)` — still single-arg) is reserved for Server Actions with read-your-own-writes semantics; webhook route handlers want the `revalidateTag` purge path.
+
+**Cost / blast radius.** ~3 lines added (the inline comment explaining the API change + the second argument). No behavior change vs. the legacy single-arg form. Production behavior is identical to what the plan-of-record described — instant tag invalidation on webhook fire — but now without the deprecation warning + TypeScript error.
+
+**Verification.** Re-ran `npx tsc --noEmit` → 0 new errors. Re-ran `npm run test:revalidate` → 14 / 14 PASS. The webhook successfully invalidates tagged cached entries when the harness fires valid signatures across all 8 doc types.
+
+**Why not `'default'` instead of `'max'`?** Next 16's deprecation message explicitly recommends `'max'`. Both profile names work for the webhook-driven purge use case, but `'max'` is the documented canonical value.
+
+**Decided by:** Code, 2026-05-16, during B.08 Step 8 (local harness run). Surfaced when the TypeScript compiler error stopped `npx tsc --noEmit` and the runtime deprecation warning appeared on every harness test that fired a valid signature.
+
+---

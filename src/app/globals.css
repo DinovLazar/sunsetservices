@@ -43,6 +43,13 @@
   --color-sunset-green-200: #B8D2A8;
   --color-sunset-green-300: #8FB67A;
   --color-sunset-green-500: #4D8A3F;
+  /* green-600 (Phase B.06) — AA-compliant white-text-on-green
+     (5.2:1). green-500's contrast against white text is 4.18, below
+     the 4.5 AA threshold for normal text. Used by .btn-primary base
+     and .link:hover, where white text or text-on-white needs to clear
+     AA. green-500 remains the brand decorative color for non-text uses
+     (focus rings, accent borders, input accent-color, etc.). */
+  --color-sunset-green-600: #3F7335;
   --color-sunset-green-700: #2F5D27;
   --color-sunset-green-900: #1A3617;
 
@@ -347,9 +354,10 @@
   .btn-lg { height: 52px; padding-inline: var(--spacing-6); font-size: 17px; }
   .btn-icon { width: 44px; padding-inline: 0; }
 
-  /* Primary (solid green) */
+  /* Primary (solid green) — base uses green-600 (Phase B.06 a11y) so
+     white text clears AA 4.5:1. Hover darkens to green-700 (7.7:1). */
   .btn-primary {
-    background: var(--color-sunset-green-500);
+    background: var(--color-sunset-green-600);
     color: var(--color-text-on-green);
     box-shadow: var(--shadow-soft);
   }
@@ -777,7 +785,9 @@
     text-decoration: none;
     transition: color var(--motion-fast) var(--easing-standard);
   }
-  .link:hover { color: var(--color-sunset-green-500); }
+  /* Hover uses green-600 (Phase B.06 a11y) so the hover color clears
+     AA 4.5:1 on white surfaces, same as the base green-700. */
+  .link:hover { color: var(--color-sunset-green-600); }
   .link:focus-visible {
     outline: var(--border-2) solid var(--color-focus-ring);
     outline-offset: 2px;

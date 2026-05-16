@@ -142,7 +142,7 @@ export default function ResourcesMegaPanel() {
                     <Link
                       href={col.headerHref}
                       role="menuitem"
-                      className="block pb-2 mb-4 border-b border-[var(--color-border)] text-[var(--color-sunset-green-700)] font-heading font-bold text-[17px] no-underline hover:text-[var(--color-sunset-green-500)]"
+                      className="block pb-2 mb-4 border-b border-[var(--color-border)] text-[var(--color-sunset-green-700)] font-heading font-bold text-[17px] no-underline hover:text-[var(--color-sunset-green-600)]"
                     >
                       {t(col.headerKey)}
                     </Link>

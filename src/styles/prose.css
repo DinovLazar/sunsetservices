@@ -112,7 +112,7 @@
   transition: color var(--motion-fast) var(--easing-standard);
 }
 .prose__link:hover {
-  color: var(--color-sunset-green-500);
+  color: var(--color-sunset-green-600);
 }
 
 /* Inline code */

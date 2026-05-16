@@ -65,19 +65,38 @@ Locale expansion doubles each path count above; the bare home is `/` AND `/es` (
 
 ## Verification harness results (Step 8)
 
-**Local run** (`npm run test:revalidate`):
+**Local run** (`npm run test:revalidate`): **14 / 14 PASS, 0 FAIL**.
 
-TODO_FILL_IN_AFTER_RUN — harness output goes here. Expected: 14/14 PASS.
+```
+✓ T1 webhook missing signature → 401 missing-signature
+✓ T2 webhook invalid signature → 401 invalid-signature
+✓ T3 webhook missing _type → 400 missing-doc-type
+✓ T4 webhook unknown _type → 200 unhandled:true
+✓ T5 webhook blogPost(slug) → tags + EN/ES index + EN/ES detail
+✓ T6 webhook service(slug) → tags + 50 fanned-out paths (32 svc-detail + 6 audience + 12 city) — total paths=50
+✓ T7 webhook project(NO slug) → indices + cross-page reads; NO detail paths
+✓ T8 webhook faq → tags=["faq"], paths=[]
+✓ T9 webhook team → /about + /es/about
+✓ T10 webhook location(aurora) → /service-areas + /service-areas/aurora (× 2 locales)
+✓ T11 test-route flag-off → 404 forbidden
+✓ T12 test-route missing auth → 401 invalid-auth
+✓ T13 test-route wrong secret → 401 invalid-auth
+✓ T14 test-route valid auth + blogPost → 200 + same shape as T5
+```
 
-The parseBody (next-sanity/webhook) helper waits 3 seconds per valid-signature request for Sanity Content Lake eventual consistency. Tests 3-10 (8 webhook tests with valid signatures) each incur the wait — ~24s baked into the total runtime. Plus the `next start` cold boots for server A and server B. Total harness runtime: ~60-90s.
+T6 initially failed on first run with `pathsLen=50` against an expected `>= 100`. The expectation was mis-derived — I'd assumed `/[audience]/[service]` would cross-product 16 slugs × 2-3 audiences (~32-48 EN paths × 2 locales) but the actual fan-out is one entry per (audience, slug) pair from `SERVICES` (16 entries) + 3 audience landings + 6 city pages = 25 EN paths × 2 locales = 50 total. The system's behavior was correct; the test assertion was wrong. Fixed in commit `8dd1456`.
+
+Harness runtime note: `parseBody` (`next-sanity/webhook`) waits 3 seconds per valid-signature request for Sanity Content Lake eventual consistency. Tests 3-10 (8 webhook tests with valid signatures) each incur the wait — ~24s baked into the total runtime. Plus the `next start` cold boots for server A and server B. Total observed runtime: ~75s.
 
 ---
 
 ## Regression checks (the 3 Phase B.04/B.05/B.06 harnesses)
 
-**Local** (`http://localhost:3001`):
+**Local** (`http://localhost:3007`):
 
-TODO_FILL_IN_AFTER_RUN — `npm run validate:schema` (22/22), `npm run validate:seo` (120/120), `npm run validate:a11y` (19/19) should all exit 0. B.08 changes are caching-only; no new URLs, no schema changes, no a11y surfaces. Any failure indicates a typo in the tagging refactor or an accidentally-changed return shape.
+- `npm run validate:schema` → **22 / 22 URLs PASS, 0 errors, 0 warnings**.
+- `npm run validate:seo` → **120 / 120 URLs + sitemap + robots PASS, 0 errors, 0 warnings**.
+- `npm run validate:a11y` → **19 / 19 URLs PASS, 0 axe AA violations, 0 SC 2.4.11 findings, 0 SC 2.5.8 findings, all Lighthouse a11y = 100/100**, 10 incomplete (color-contrast-over-photo, same baseline as B.06).
 
 **Vercel Preview:**
 
@@ -87,13 +106,36 @@ TODO_FILL_IN_AFTER_RUN — same three harnesses against the Preview URL using `V
 
 ## Lint / types / build
 
-TODO_FILL_IN_AFTER_RUN — lint clean (0 errors, ≤7 pre-existing warnings); typecheck clean modulo the pre-existing Phase 2.04 image-asset module-not-found errors; build succeeds.
+- `npm run lint` → **0 errors, 6 warnings** (same pre-existing B.07 baseline — unused-vars on imports that no longer have references).
+- `npx tsc --noEmit` → **0 new errors** modulo the pre-existing Phase 2.04 image-asset module-not-found errors (~30 entries — accepted baseline). Initial run flagged one new error: `TS2554` on `revalidateTag(tag)` because Next 16 deprecated the single-arg form. Switched to `revalidateTag(tag, 'max')` per the deprecation warning's recommendation; `npx tsc --noEmit` then re-passed clean. Also flagged a `readonly` vs mutable mismatch on the `cachedTagged` helper in `sanity/lib/queries.ts`; dropped the `as const` and added an explicit non-readonly return type signature.
+- `npm run build` → **succeeded at 137 pages**. Both `/api/revalidate` and `/api/test/revalidate` show up correctly in the ƒ-Dynamic route list. No new MISSING_MESSAGE warnings.
 
 ---
 
 ## Vercel Preview verification
 
-TODO_FILL_IN_AFTER_PUSH — Preview URL, build commit SHA, the three regression harnesses (schema 22 / SEO 120 / a11y 19) all exit 0; manual `curl` smoke against `<preview>/api/revalidate` with valid + invalid signature confirms 200 + revalidation shape (valid) and 401 (invalid); `curl` against `<preview>/api/test/revalidate` returns 404 `{status:'forbidden'}` (test routes are off on Vercel by default).
+Preview deployment: `https://sunsetservices-c905h0lft-dinovlazars-projects.vercel.app` (redeployment of the branch-tip commit `3fc6123` after the env var landed). Branch alias: `https://sunsetservices-git-claude-nostalgic-0211da-dinovlazars-projects.vercel.app`.
+
+The initial deployment (`dpl_ETcfoR89Y88XAhfhuGPBNmCrtasW`) was built BEFORE `SANITY_REVALIDATE_SECRET` was upserted to Vercel — so its `/api/revalidate` returned `{"status":"error","reason":"server-misconfigured"}` (500) for every request. Upserting the env var via the Vercel REST API + triggering a `vercel redeploy` of the branch URL produced `dpl_6qAdw3UJZzKjxfH9zDanBDJCR484` (alias `sunsetservices-c905h0lft-…`), which has the env var bound at function-instance creation time. From here forward, every push to the branch deploys with the env var pre-bound.
+
+**Curl smoke (commit `3fc6123`, redeployed `c905h0lft`):**
+
+```
+T1 missing signature  → HTTP 401  {"status":"error","reason":"missing-signature"}   ✓
+T2 invalid signature  → HTTP 401  {"status":"error","reason":"invalid-signature"}   ✓
+T3 valid blogPost sig → HTTP 200  {"status":"ok","docType":"blogPost",
+                                   "revalidatedTags":["blogPost","faq"],
+                                   "revalidatedPaths":["/blog","/es/blog",
+                                                       "/blog/preview-smoke-test",
+                                                       "/es/blog/preview-smoke-test"]}  ✓
+T4 test route flag-off → HTTP 404 {"status":"forbidden"}                              ✓
+```
+
+**Three regression harnesses against Preview** (`VERCEL_SHARE_TOKEN=<mcp-issued> BASE_URL=<preview>`):
+
+- `validate:schema` → **22 / 22 PASS, 0/0**.
+- `validate:seo` → **120 / 120 URLs + sitemap + robots PASS, 0/0**.
+- `validate:a11y` → **19 / 19 URLs PASS, 0 axe AA violations, 0 SC 2.4.11 findings, 0 SC 2.5.8 findings, all Lighthouse a11y = 100/100**. 10 `incomplete` color-contrast findings on text-over-photo+gradient surfaces (same B.06 baseline; documented).
 
 ---
 
@@ -118,8 +160,11 @@ Project (sunsetservices) → API → Webhooks → Create webhook
                         "slug": slug.current
                       }
   URL (production):   https://sunsetservices.us/api/revalidate
-  URL (preview/dev):  https://sunsetservices.vercel.app/api/revalidate
-                      (use preview URL until Phase P.06 DNS cutover)
+                      — OR until Phase P.06 DNS cutover —
+                      https://sunsetservices.vercel.app/api/revalidate
+  URL (this branch):  https://sunsetservices-git-claude-nostalgic-0211da-dinovlazars-projects.vercel.app/api/revalidate
+                      (the branch's stable Preview alias — re-test the
+                      webhook here before merging to main)
   HTTP method:        POST
   HTTP Headers:       leave default (Content-Type: application/json is auto)
   API version:        2024-10-01 (or latest stable v-date)
@@ -144,13 +189,13 @@ Project (sunsetservices) → API → Webhooks → Create webhook
 - [x] `POST /api/revalidate` exists, verifies HMAC signature, calls `revalidateForDocument`, returns the documented shape.
 - [x] `POST /api/test/revalidate` exists, flag-gated, auth-gated, calls the same helper.
 - [x] `scripts/test-revalidate-webhook.mjs` exists; `npm run test:revalidate` wired in `package.json`.
-- [ ] All 14 harness tests pass — TODO_FILL_IN_AFTER_RUN.
+- [x] All 14 harness tests pass.
 - [x] `SANITY_REVALIDATE_SECRET` populated in `.env.local`; documented in `.env.local.example`.
-- [ ] `SANITY_REVALIDATE_SECRET` upserted to Vercel Production + Preview as `sensitive` — TODO_FILL_IN.
+- [x] `SANITY_REVALIDATE_SECRET` upserted to Vercel Production + Preview as `sensitive` (env id `Qtgdr467jWItzs2e`).
 - [x] `REVALIDATE_TEST_ROUTES_ENABLED` documented in `.env.local.example`; NOT added to Vercel.
 - [x] `export const revalidate = 1800` lines on the existing 5 route groups remain in place (D2 safety net).
-- [ ] The three Phase B.04/B.05/B.06 regression harnesses all exit 0 against BOTH localhost AND Vercel Preview — TODO_FILL_IN_AFTER_RUN.
-- [ ] Manual `curl` smoke against `<preview>/api/revalidate` confirms 200 + revalidation shape on valid signature; 401 on invalid — TODO_FILL_IN_AFTER_PUSH.
+- [x] All three regression harnesses (schema 22/22, SEO 120/120, a11y 19/19) exit 0 against BOTH localhost (port 3007) AND Vercel Preview (`sunsetservices-c905h0lft-…`).
+- [x] Manual `curl` smoke against `<preview>/api/revalidate` confirms 200 + correct shape on valid signature; 401 on missing/invalid; 404 forbidden on `/api/test/revalidate` (test routes deliberately off on Vercel).
 - [x] `current-state.md`, `file-map.md`, `Phase-B-08-Completion.md` all written.
 - [x] Completion report includes the user-runnable Sanity webhook config block (above).
 

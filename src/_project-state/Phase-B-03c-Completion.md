@@ -84,18 +84,75 @@ Either path requires real Termly content to verify. **Code did not implement eit
 
 ## Empirical verification (post-deploy)
 
-**Status:** pending Preview deploy completion. This section will be appended once the deploy is green and `/en/privacy/` is reachable.
+**Status:** done for the SSR layer; client-side runtime verification of the Termly iframe content still pending a real-browser session (see "What still requires a browser" below).
 
-The verification plan, in priority order:
-1. Confirm the Preview deploy went green (no build regressions from env-var addition).
-2. Open `/en/privacy/` in incognito. Does the embed render content or stay on the "Legal content is being prepared" fallback?
-3. If content renders: is it the expected Privacy Policy (verify against Termly's dashboard expected content), or a different document, or an error page?
-4. Inspect the rendered DOM: is the policy inside an iframe (confirms the architectural finding) or inline?
-5. If inline: do the CSS overrides at `TermlyPolicyEmbed.tsx:67-91` actually land on headings, paragraphs, links? Can `document.querySelectorAll('.termly-embed-wrap h2')` walk real headings?
-6. If iframe: the brief's Step 6 TOC strategy is confirmed unworkable in this configuration; Path A vs Path B decision becomes urgent.
-7. Confirm the 3 still-empty doc IDs leave the other 3 routes on the fallback (sanity check that the gate at [TermlyPolicyEmbed.tsx:39](../components/legal/TermlyPolicyEmbed.tsx:39) is working).
+### Setup
+- **Preview URL:** `https://sunsetservices-mzi406cp0-dinovlazars-projects.vercel.app` (SHA `bcbd9d5`, branch `claude/gifted-pare-143263`, state READY in Vercel API).
+- **Vercel SSO bypass token:** the project carries a Protection Bypass for Automation token at `project.protectionBypass.<key>`. Fetching `Preview URL/<path>` with the header `x-vercel-protection-bypass: <token>` skips the SSO gate and returns the real SSR HTML. Useful for any future Code phase that needs to verify Preview content programmatically. The token value is sensitive — do not commit it; pull it fresh via `GET /v9/projects/<projectId>` per session.
+- **Canonical path:** Next.js `localePrefix: 'as-needed'` strips `/en` for the default locale and drops trailing slashes via a 308 then 307 redirect chain. The real URL for EN privacy is `/privacy` (not `/en/privacy/`). ES routes keep their `/es/` prefix.
 
-Results will be recorded under headings "Deploy result", "Embed render outcome on /en/privacy/", "DOM inspection: iframe vs inline", "CSS override verification", and "Fallback behavior on the 3 empty routes" appended to this section after observation.
+### Deploy result
+Preview build for the B.03c commit (`bcbd9d5`) went READY in Vercel without error. No regression from B.03 (still 122 pages). Build picked up both new env vars (verified via SSR DOM, below).
+
+### `/privacy` (EN) — Termly env vars confirmed in build
+Fetched `https://<preview>/privacy` with the bypass header. Status 200, 128,990 bytes. Key DOM observations:
+
+- `<link rel="preload" href="https://app.termly.io/embed-policy.min.js" as="script"/>` — `next/script afterInteractive` preloads the Termly script. ✅
+- `<div name="termly-embed" data-id="13687462" data-type="iframe" data-website-id="b722b489-62a2-4e5a-9510-e6466f804c69"></div>` — the embed div is SSR-rendered with both env-var values flowing through correctly. ✅
+- The `.termly-embed-wrap` CSS override `<style>` block from `TermlyPolicyEmbed.tsx:67-91` is SSR-rendered exactly as written. ✅
+- Page title `<title>Privacy policy · Sunset Services</title>` — correct locale + B.03 chrome intact. ✅
+- The fallback string "Legal content is being prepared" is **not present**, confirming the `if (!docId)` gate at `TermlyPolicyEmbed.tsx:39` correctly resolves to the embed branch when env vars are populated. ✅
+
+**Conclusion:** the SSR-layer wiring is correct. Whether Termly's client-side script then loads the actual policy content into an iframe or renders inline is a runtime question that requires a browser.
+
+### Fallback gate sanity check on the 3 empty-ID routes
+Fetched all three with the bypass header:
+
+| Route | Status | Embed div present? | Fallback marker | Verdict |
+| --- | --- | --- | --- | --- |
+| `/es/privacy` | 200 | no | "contenido legal … preparando" (ES fallback) + title "Política de privacidad · Sunset Services" | ✅ correct fallback |
+| `/terms` | 200 | no | "Legal content is being prepared. Please check back soon, or contact info@sunsetservices.us for a copy." (EN fallback) | ✅ correct fallback |
+| `/es/terms` | 200 | no | "contenido legal … preparando" (ES fallback) + ES title | ✅ correct fallback |
+
+The `if (!docId)` gate is working on all 3 empty-ID routes. None show a broken embed, none leak the EN fallback string into ES routes. The B.03 fallback strategy is intact.
+
+### Architectural finding — verification status
+
+The pre-deploy concern was: `TermlyPolicyEmbed.tsx:99` passes `data-type="iframe"` to Termly's script, which (based on Termly's docs) renders the policy inside a cross-origin iframe, blocking both document-level CSS overrides AND the brief's Step 6 TOC heading-walk strategy.
+
+**SSR-layer evidence:** the `data-type="iframe"` attribute IS in the SSR HTML, confirming Termly's script will receive it. ✅ (no surprise — it's a static prop in the component.)
+
+**Runtime evidence:** **NOT yet collected.** Requires a browser session that runs Termly's `embed-policy.min.js`. The script likely:
+1. Reads `data-id` + `data-website-id` + `data-type` from the div
+2. Creates an `<iframe>` element (because `data-type="iframe"`)
+3. Sets `iframe.src` to a URL on `app.termly.io` (the cross-origin host)
+
+Once the iframe mounts, the parent page cannot reach into it. CSS overrides won't penetrate; `iframe.contentDocument` is blocked by same-origin policy.
+
+**Path A vs Path B decision is still on the critical path.** The SSR evidence is consistent with the iframe hypothesis; the next step is a browser run on `/privacy` with DevTools open to confirm an `<iframe>` appears under the embed div (vs inline content).
+
+### Privacy EN ID `13687462` — empirical resolution UNCONFIRMED
+
+I probed Termly's URL routing directly with the ID:
+
+| URL | Result | Interpretation |
+| --- | --- | --- |
+| `HEAD https://app.termly.io/document/13687462` | 301 → `policy-viewer/policy.html?policyUUID=13687462` | Termly's URL normalizer accepts numeric `13687462` as a `policyUUID` parameter without complaint — no format-level rejection |
+| `HEAD https://app.termly.io/document/<uuid>/<numeric>` | 301 → `policy-viewer/policy.html?policyUUID=<numeric>` | Both arg positions accepted |
+| `GET https://app.termly.io/policy-viewer/policy.html?policyUUID=13687462&...` | 200, 1581 bytes | Returns the SPA shell (same shape regardless of ID — content is fetched client-side by `/hosted.min.js`) |
+| `GET https://app.termly.io/policy-viewer/iframe-content?policyUUID=<any>&...` | 404 for ALL values tested (`13687462`, UUID, bogus) | Endpoint is either auth-gated or not the direct fetch URL — 404 here is uninformative about ID validity |
+
+**Conclusion:** Termly's URL routing accepts the `13687462` format without 4xx-rejection at the routing layer, but this does NOT confirm the ID maps to a real Sunset Services Termly document. The actual policy fetch happens client-side in the SPA via `/hosted.min.js`. **A browser session on `/privacy` is the only way to confirm whether the iframe renders the expected Privacy Policy, the wrong document, or an error.**
+
+The format concern I raised pre-flight (numeric vs UUID) turns out to be less black-and-white than expected — Termly's routing accepts both. The real question is whether `13687462` is a Sunset-Services-owned document on Termly's side. That answer lives in Cowork's Termly dashboard, not in code.
+
+### What still requires a browser
+1. Open `https://sunsetservices-mzi406cp0-dinovlazars-projects.vercel.app/privacy?x-vercel-protection-bypass=<token>&x-vercel-set-bypass-cookie=true` in an incognito Chrome window. (Replace `<token>` with the protection bypass value pulled fresh from the Vercel project API — never commit it.)
+2. Check whether the area below the "Last updated" subtitle renders the expected Privacy Policy content within ~3 seconds, or shows an empty iframe, or surfaces a Termly error.
+3. If content renders: open DevTools, inspect the embed div, confirm whether an `<iframe>` sits inside (validates Path B decision) or whether content rendered inline (validates Path A decision).
+4. If content does NOT render: the format concern is real — `13687462` is either an iubenda residue or a wrong-tenant Termly ID. Cowork verifies against the Termly dashboard.
+5. Run Tag Assistant Preview against the same URL through the Accept all / Reject all / Save preferences flows (Step 7 of the original brief). Confirm the four `consent_update` signals fire correctly. This is straightforward once a browser session is open.
+6. Run Lighthouse desktop + mobile on `/privacy` for the Step 8 smoke (the Termly third-party script's impact on Performance + Best Practices).
 
 ---
 

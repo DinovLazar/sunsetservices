@@ -21,6 +21,7 @@ export default async function HomeHero() {
     <section
       aria-labelledby="home-hero-h1"
       className="relative isolate overflow-hidden flex flex-col h-[max(75vh,560px)] lg:h-[max(85vh,600px)] text-[var(--color-text-on-dark)]"
+      style={{backgroundColor: 'var(--color-bg-charcoal)'}}
     >
       {/* Photo + gradient overlay layer. Sits behind the content via source
           order; isolation:isolate (on the section) keeps z-stacking local. */}

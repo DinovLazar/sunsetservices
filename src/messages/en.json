@@ -669,7 +669,8 @@
     "embed": {
       "preparingFallback": "Legal content is being prepared. Please check back soon, or contact info@sunsetservices.us for a copy.",
       "regionLabelPrivacy": "Privacy policy",
-      "regionLabelTerms": "Terms of service"
+      "regionLabelTerms": "Terms of service",
+      "loadingLabel": "Loading legal content"
     },
     "privacy": {
       "meta": {

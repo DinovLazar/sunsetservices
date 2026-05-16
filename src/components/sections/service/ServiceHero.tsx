@@ -47,7 +47,11 @@ export default function ServiceHero({
     <section
       aria-labelledby="service-hero-h1"
       className="relative isolate overflow-hidden flex flex-col h-[max(44vh,320px)] sm:h-[max(48vh,380px)] lg:h-[max(52vh,420px)] text-[var(--color-text-on-dark)]"
-      style={{maxHeight: '600px'}}
+      // bg-charcoal fallback — keeps cream copy AA-readable while the hero
+      // photo loads (or if it fails to load entirely). Lighthouse on mobile
+      // form-factor was computing contrast against #ffffff because the photo
+      // hadn't finished decoding by audit time.
+      style={{maxHeight: '600px', backgroundColor: 'var(--color-bg-charcoal)'}}
     >
       <div className="absolute inset-0">
         <Image

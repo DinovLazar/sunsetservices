@@ -69,7 +69,13 @@ export default function NavbarMobile({logo}: NavbarMobileProps) {
             <button
               type="button"
               aria-label={t('chrome.mobile.openMenu')}
-              aria-controls="mobile-drawer"
+              // `aria-controls` removed — base-ui's Dialog.Trigger renders the
+              // popup inside Dialog.Portal, which only mounts when the dialog
+              // is open. Referencing `#mobile-drawer` while it's not in the
+              // DOM is a WCAG SC 4.1.2 violation (`aria-valid-attr-value`).
+              // base-ui's Dialog.Trigger already wires aria-expanded +
+              // aria-haspopup="dialog" via its render-prop integration, so
+              // omitting aria-controls is the correct semantic.
               className="inline-flex items-center justify-center w-11 h-11 rounded-md border border-[var(--color-border)] hover:border-[var(--color-border-strong)] bg-transparent shrink-0"
             />
           }
@@ -249,7 +255,9 @@ function DrawerAccordion({item, expanded, onToggle, onNavigate}: DrawerAccordion
       <button
         type="button"
         aria-expanded={expanded}
-        aria-controls={`drawer-${item.id}-panel`}
+        // `aria-controls` only when the panel is mounted — see SC 4.1.2
+        // companion fix in MegaPanelTrigger.tsx (Phase B.06).
+        aria-controls={expanded ? `drawer-${item.id}-panel` : undefined}
         onClick={onToggle}
         className="flex items-center justify-between w-full px-6 h-12 text-[18px] font-heading font-semibold text-[var(--color-text-primary)] hover:bg-[var(--color-sunset-green-50)] cursor-pointer bg-transparent border-0 text-left"
       >

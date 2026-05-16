@@ -399,16 +399,25 @@ async function killLighthouseChrome() {
 
 async function runLighthouse(targetUrl) {
   const chrome = await ensureLighthouseChrome();
-  const extraHeaders = {};
-  if (bypassCookieName) extraHeaders.Cookie = bypassCookieHeader();
+  // Vercel SSO bypass via QUERY PARAM rather than Cookie header — the
+  // cookie path proved flaky across multiple Lighthouse calls reusing
+  // one Chrome instance (some later requests would hit the SSO signup
+  // page and Lighthouse would audit Vercel's UI, not ours). The query
+  // param is stateless and per-request: every navigation re-asserts the
+  // bypass without depending on cookie persistence in Lighthouse's
+  // chrome-launcher Chrome.
+  let url = targetUrl;
+  if (BYPASS_TOKEN) {
+    const sep = url.includes('?') ? '&' : '?';
+    url = `${url}${sep}x-vercel-protection-bypass=${BYPASS_TOKEN}&x-vercel-set-bypass-cookie=samesitenone`;
+  }
   const result = await lighthouse(
-    targetUrl,
+    url,
     {
       port: chrome.port,
       output: 'json',
       logLevel: 'error',
       onlyCategories: ['accessibility'],
-      extraHeaders,
       // Mobile form-factor mirrors how Google scores; matches the default
       // configuration Lighthouse uses on the web UI.
       formFactor: 'mobile',
@@ -794,9 +803,8 @@ async function main() {
         window.localStorage.setItem('sunset_consent_v2', JSON.stringify(payload));
       }
     } catch (err) {
-      // Print to harness stdout via console.log so a localStorage failure is
-      // observable from CI logs without crashing the audit run.
-      // eslint-disable-next-line no-console
+      // Print to harness stdout so a localStorage failure is observable
+      // from CI logs without crashing the audit run.
       console.log('[a11y harness] consent-init failed:', err && err.message);
     }
   });

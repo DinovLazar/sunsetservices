@@ -23,6 +23,7 @@ export default async function AboutHero() {
       style={{
         height: '40vh',
         minHeight: '420px',
+        backgroundColor: 'var(--color-bg-charcoal)',
       }}
     >
       <div className="absolute inset-0 lg:[height:50vh]">

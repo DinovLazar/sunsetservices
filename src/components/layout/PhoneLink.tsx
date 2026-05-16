@@ -37,13 +37,16 @@ export default async function PhoneLink({
       className={[
         'inline-flex items-center justify-center gap-2 rounded-md',
         'text-[15px] font-medium leading-none no-underline',
-        'text-[var(--color-sunset-green-700)] hover:text-[var(--color-sunset-green-500)]',
+        'text-[var(--color-sunset-green-700)] hover:text-[var(--color-sunset-green-600)]',
+        // Mobile/tablet: 44px min hit-area (recommended). Desktop variant
+        // shrinks padding but keeps a 24px min hit-area to satisfy
+        // WCAG SC 2.5.8 (Target Size Minimum).
         'min-h-[44px] min-w-[44px] px-2',
         showText
           ? ''
           : hideText
             ? ''
-            : 'xl:min-h-0 xl:min-w-0 xl:px-0 xl:justify-start',
+            : 'xl:min-h-[24px] xl:min-w-[24px] xl:px-0 xl:justify-start',
         className,
       ]
         .filter(Boolean)

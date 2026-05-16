@@ -101,7 +101,7 @@ export default function NewsletterSignup() {
   return (
     <section
       aria-labelledby="footer-newsletter-heading"
-      className="border-b border-[rgba(250,247,241,0.16)]"
+      className="bg-[var(--color-bg-charcoal)] border-b border-[rgba(250,247,241,0.16)]"
     >
       <div className="mx-auto max-w-[var(--container-default)] px-4 sm:px-6 lg:px-8 xl:px-12 py-10 lg:py-12">
         <div className="grid gap-6 lg:gap-12 grid-cols-1 lg:grid-cols-[1fr_1.4fr] lg:items-center">

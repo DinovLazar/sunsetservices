@@ -18,16 +18,22 @@ import {LOCATIONS} from '@/data/locations';
 export default async function ServiceAreaMap() {
   const t = await getTranslations('serviceAreas.map');
 
+  // Map functions as a navigation surface: each pin is a real link to a
+  // city page. Per WCAG SC 4.1.2, an element with `role="img"` cannot have
+  // focusable descendants — so we wrap the SVG in a <nav> landmark for the
+  // accessible structure and drop `role="img"` from the SVG. The <title>
+  // + <desc> inside still provide an accessible name + description for AT
+  // that discovers the SVG element directly.
   return (
-    <svg
-      viewBox="0 0 600 500"
-      xmlns="http://www.w3.org/2000/svg"
-      role="img"
-      width="100%"
-      height="auto"
-      aria-labelledby="sa-map-title sa-map-desc"
-      style={{display: 'block', maxWidth: '100%'}}
-    >
+    <nav aria-label={t('title')}>
+      <svg
+        viewBox="0 0 600 500"
+        xmlns="http://www.w3.org/2000/svg"
+        width="100%"
+        height="auto"
+        aria-labelledby="sa-map-title sa-map-desc"
+        style={{display: 'block', maxWidth: '100%'}}
+      >
       <title id="sa-map-title">{t('title')}</title>
       <desc id="sa-map-desc">{t('desc')}</desc>
 
@@ -129,6 +135,7 @@ export default async function ServiceAreaMap() {
           }
         }
       `}</style>
-    </svg>
+      </svg>
+    </nav>
   );
 }

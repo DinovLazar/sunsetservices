@@ -17,9 +17,13 @@ type MegaPanelTriggerProps = {
 
 /**
  * Shared trigger button for the desktop mega-panels (Services / Resources).
- * ARIA per §3.6: aria-haspopup="menu", aria-expanded, aria-controls. Caret
- * rotates 180° when open. Active page emphasis (weight + underline) is
- * delegated to the parent via the `active` prop.
+ * ARIA per §3.6: aria-haspopup="menu", aria-expanded. `aria-controls` is only
+ * set while `open=true` — the panel is mounted lazily via `AnimatePresence`,
+ * so the referenced ID does not exist in the DOM while closed. Setting
+ * `aria-controls` to a missing ID is a WCAG SC 4.1.2 violation
+ * (`aria-valid-attr-value`). Caret rotates 180° when open. Active page
+ * emphasis (weight + underline) is delegated to the parent via the `active`
+ * prop.
  */
 const MegaPanelTrigger = React.forwardRef<HTMLButtonElement, MegaPanelTriggerProps>(
   function MegaPanelTrigger(
@@ -32,7 +36,7 @@ const MegaPanelTrigger = React.forwardRef<HTMLButtonElement, MegaPanelTriggerPro
         type="button"
         aria-haspopup="menu"
         aria-expanded={open}
-        aria-controls={controls}
+        aria-controls={open ? controls : undefined}
         data-active={active || undefined}
         data-open={open || undefined}
         onClick={onClick}

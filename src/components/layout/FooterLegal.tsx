@@ -20,11 +20,16 @@ export default async function FooterLegal() {
         <p className="text-[var(--color-sunset-green-200)] m-0">
           {t('copyright', {year})}
         </p>
+        {/* Each legal link wears `inline-flex items-center min-h-[24px]` so
+            the tap area clears WCAG SC 2.5.8 (Target Size Minimum) — the
+            17-px text alone is 17×~60 which fails the 24×24 floor even with
+            the 20-px horizontal gap. Vertical padding alone is the
+            minimum-blast-radius fix; the visual rhythm is unchanged. */}
         <ul className="list-none m-0 p-0 flex flex-wrap items-center gap-x-5 gap-y-2">
           <li>
             <Link
               href="/privacy/"
-              className="text-[var(--color-sunset-green-300)] hover:text-[var(--color-sunset-green-100)] no-underline"
+              className="inline-flex items-center min-h-[24px] text-[var(--color-sunset-green-300)] hover:text-[var(--color-sunset-green-100)] no-underline"
             >
               {t('privacy')}
             </Link>
@@ -32,7 +37,7 @@ export default async function FooterLegal() {
           <li>
             <Link
               href="/terms/"
-              className="text-[var(--color-sunset-green-300)] hover:text-[var(--color-sunset-green-100)] no-underline"
+              className="inline-flex items-center min-h-[24px] text-[var(--color-sunset-green-300)] hover:text-[var(--color-sunset-green-100)] no-underline"
             >
               {t('terms')}
             </Link>
@@ -40,7 +45,7 @@ export default async function FooterLegal() {
           <li>
             <Link
               href="/accessibility/"
-              className="text-[var(--color-sunset-green-300)] hover:text-[var(--color-sunset-green-100)] no-underline"
+              className="inline-flex items-center min-h-[24px] text-[var(--color-sunset-green-300)] hover:text-[var(--color-sunset-green-100)] no-underline"
             >
               {t('accessibility')}
             </Link>
@@ -51,7 +56,7 @@ export default async function FooterLegal() {
               locale={otherLocale}
               hrefLang={otherLocale}
               lang={otherLocale}
-              className="text-[var(--color-sunset-green-300)] hover:text-[var(--color-sunset-green-100)] no-underline"
+              className="inline-flex items-center min-h-[24px] text-[var(--color-sunset-green-300)] hover:text-[var(--color-sunset-green-100)] no-underline"
             >
               {t(localeSwitchKey)}
             </Link>

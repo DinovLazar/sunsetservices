@@ -26,6 +26,27 @@ export default function TermlyPolicyEmbed({type}: Props) {
   const docId = lookupTermlyId(type, locale);
   const websiteId = process.env.NEXT_PUBLIC_TERMLY_WEBSITE_ID;
 
+  // Termly's embed script injects a `<div role="progressbar">` while the
+  // iframe loads. That progressbar has no accessible name, firing
+  // WCAG SC 4.1.2 (`aria-progressbar-name`). We can't change Termly's
+  // markup directly, but we can observe our wrapper for injected
+  // progressbars and label them ourselves. Idempotent — runs on each
+  // mutation but the early-return guard prevents repeated work.
+  const wrapperRef = React.useRef<HTMLDivElement | null>(null);
+  React.useEffect(() => {
+    const root = wrapperRef.current;
+    if (!root) return;
+    const label = t('loadingLabel');
+    function labelAny() {
+      const bars = root!.querySelectorAll<HTMLElement>('[role="progressbar"]:not([aria-label])');
+      for (const bar of bars) bar.setAttribute('aria-label', label);
+    }
+    labelAny();
+    const obs = new MutationObserver(labelAny);
+    obs.observe(root, {childList: true, subtree: true, attributes: true, attributeFilter: ['role']});
+    return () => obs.disconnect();
+  }, [t]);
+
   if (!docId) {
     return (
       <div
@@ -55,9 +76,12 @@ export default function TermlyPolicyEmbed({type}: Props) {
 
   return (
     <div
+      ref={wrapperRef}
       className="termly-embed-wrap"
       data-termly-type={type}
       data-state="rendered"
+      role="region"
+      aria-label={t(type === 'privacy' ? 'regionLabelPrivacy' : 'regionLabelTerms')}
     >
       {React.createElement('div', {
         name: 'termly-embed',

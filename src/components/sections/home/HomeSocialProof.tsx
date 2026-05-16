@@ -137,6 +137,8 @@ export default async function HomeSocialProof() {
           >
             {/* 1. Unilock mark placeholder */}
             <div
+              role="img"
+              aria-label={t('cred.unilockAlt')}
               className="flex-shrink-0 flex items-center justify-center"
               style={{
                 width: '240px',
@@ -146,7 +148,6 @@ export default async function HomeSocialProof() {
                 borderRadius: 'var(--radius-md)',
                 scrollSnapAlign: 'center',
               }}
-              aria-label={t('cred.unilockAlt')}
             >
               <span
                 className="font-heading font-semibold uppercase"

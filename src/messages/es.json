@@ -667,7 +667,10 @@
       "terms": "Términos"
     },
     "embed": {
-      "preparingFallback": "El contenido legal se está preparando. Vuelva a consultar pronto, o escríbanos a info@sunsetservices.us para solicitar una copia."
+      "preparingFallback": "El contenido legal se está preparando. Vuelva a consultar pronto, o escríbanos a info@sunsetservices.us para solicitar una copia.",
+      "regionLabelPrivacy": "Política de privacidad",
+      "regionLabelTerms": "Términos del servicio",
+      "loadingLabel": "Cargando contenido legal"
     },
     "privacy": {
       "meta": {

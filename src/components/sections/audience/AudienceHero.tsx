@@ -44,7 +44,10 @@ export default function AudienceHero({
     <section
       aria-labelledby="audience-hero-h1"
       className="relative isolate overflow-hidden flex flex-col h-[max(50vh,360px)] sm:h-[max(50vh,420px)] lg:h-[max(60vh,480px)] text-[var(--color-text-on-dark)]"
-      style={{maxHeight: '720px'}}
+      // bg-charcoal fallback so cream copy clears AA contrast even before
+      // the hero photo decodes (Phase B.06 — Lighthouse mobile audit
+      // surfaced contrast failures when the photo hadn't loaded yet).
+      style={{maxHeight: '720px', backgroundColor: 'var(--color-bg-charcoal)'}}
     >
       {/* Photo + gradient overlay */}
       <div className="absolute inset-0">

@@ -76,12 +76,38 @@ function parseStored(raw: string | null): ConsentState | null {
   return null;
 }
 
+/**
+ * Reference-stability cache for `getConsent()`. `useSyncExternalStore`
+ * compares snapshots by reference; if two reads of the same underlying
+ * localStorage value return different object references, React enters an
+ * infinite-update loop trying to reconcile a perpetually "changed"
+ * snapshot. Caching the parsed object keyed by the raw localStorage
+ * string guarantees `getConsent()` returns the same reference between
+ * actual state changes.
+ *
+ * Discovered in Phase B.06 when the a11y harness pre-set
+ * `sunset_consent_v2` to a `decided` state via Playwright's
+ * `addInitScript` to dismiss the banner during the audit — the
+ * SSR→hydration mismatch (server PENDING, client DECIDED) triggered
+ * React error #185 because every getSnapshot call produced a fresh
+ * decided-object literal. Real users never hit this path (they start
+ * with empty localStorage = PENDING singleton), but the bug is real
+ * and any future flow that pre-populates the key would trip the same
+ * loop.
+ */
+let lastRaw: string | null = null;
+let lastState: ConsentState = PENDING;
+
 export function getConsent(): ConsentState {
   if (typeof window === 'undefined') return PENDING;
   try {
     runV1Migration();
     const raw = window.localStorage.getItem(STORAGE_KEY);
-    return parseStored(raw) ?? PENDING;
+    if (raw === lastRaw) return lastState;
+    const parsed = parseStored(raw) ?? PENDING;
+    lastRaw = raw;
+    lastState = parsed;
+    return parsed;
   } catch {
     return PENDING;
   }

@@ -210,6 +210,12 @@
     font-family: var(--font-body);
     color: var(--color-text-primary);
     -webkit-text-size-adjust: 100%;
+    /* Reserve clearance at the viewport bottom for the cookie consent
+       banner (~110px when visible) + chat bubble (~80px). Browser-level
+       focus auto-scroll respects scroll-padding so a `Tab`-ed focused
+       element doesn't end up underneath those persistent overlays —
+       WCAG SC 2.4.11 (Focus Not Obscured Minimum). */
+    scroll-padding-bottom: 120px;
   }
   body {
     font-size: var(--text-body);

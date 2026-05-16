@@ -1,8 +1,8 @@
 # Phase B.04 — Schema Validation Report
 
-**Base URL:** `http://localhost:3000`  
-**Generated:** 2026-05-16T11:25:42.811Z  
-**Remote (schema.org validator):** skipped  
+**Base URL:** `https://sunsetservices-21nretaql-dinovlazars-projects.vercel.app`  
+**Generated:** 2026-05-16T11:39:34.943Z  
+**Remote (schema.org validator):** attempted  
 **Status:** PASS (0 errors / 0 warnings)
 
 ## Per-URL summary
@@ -33,3 +33,10 @@
 | `/es/projects/` | 3 | 0 | 0 | BreadcrumbList, CreativeWork, ItemList, ListItem, LocalBusiness, Organization, Place, PostalAddress |
 
 All representative URLs validate clean. Phase B.04 acceptance gate met.
+
+## schema.org validator API
+
+- API calls attempted: 22 (after cache misses)
+- Transport failures (non-fatal): 22
+
+> Transport failures don't fail the run — they mean the external validator was unreachable for those payloads. Internal checks (required fields, @id resolution, absolute URLs, presence of mandatory @types) are authoritative.

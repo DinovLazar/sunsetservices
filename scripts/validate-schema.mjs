@@ -276,23 +276,28 @@ function pad(s, n) {
 
 let bypassCookie = '';
 
+/**
+ * One-shot priming request: when BYPASS_TOKEN is provided, hit the base
+ * URL with the bypass query string in `redirect: 'manual'` mode to capture
+ * the resulting `_vercel_jwt` cookie. Subsequent requests forward only the
+ * cookie — Vercel strips the query string on its internal 307 redirect, so
+ * relying on the query string per request fails after the first hop.
+ */
+async function primeBypassCookie() {
+  if (!BYPASS_TOKEN || bypassCookie) return;
+  const url = `${BASE_URL}/?x-vercel-protection-bypass=${BYPASS_TOKEN}&x-vercel-set-bypass-cookie=samesitenone`;
+  const res = await fetch(url, {redirect: 'manual'});
+  const setCookie = res.headers.get('set-cookie') || '';
+  const m = /(_vercel_jwt|vercel_bypass[^=]*)=([^;]+)/i.exec(setCookie);
+  if (m) bypassCookie = `${m[1]}=${m[2]}`;
+}
+
 async function fetchHtml(path) {
-  let url = `${BASE_URL}${path}`;
-  if (BYPASS_TOKEN) {
-    const sep = url.includes('?') ? '&' : '?';
-    url = `${url}${sep}x-vercel-protection-bypass=${BYPASS_TOKEN}&x-vercel-set-bypass-cookie=samesitenone`;
-  }
+  await primeBypassCookie();
+  const url = `${BASE_URL}${path}`;
   const headers = {};
   if (bypassCookie) headers.Cookie = bypassCookie;
   const res = await fetch(url, {headers, redirect: 'follow'});
-  if (BYPASS_TOKEN && !bypassCookie) {
-    const setCookie = res.headers.get('set-cookie');
-    if (setCookie) {
-      // Capture the Vercel bypass cookie for subsequent requests
-      const m = /(_vercel_jwt|vercel_bypass[^=]*)=([^;]+)/i.exec(setCookie);
-      if (m) bypassCookie = `${m[1]}=${m[2]}`;
-    }
-  }
   if (!res.ok) {
     throw new Error(`HTTP ${res.status} fetching ${url}`);
   }

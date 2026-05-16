@@ -186,7 +186,7 @@ function arrayIncludesAll(haystack, needles) {
 
 // --- Tests against server A (flag ON) ---
 
-async function runFlagOnTests(serverProc) {
+async function runFlagOnTests() {
   // Test 1 — webhook missing signature
   {
     const res = await unsignedFetch(`${APP_BASE_A}/api/revalidate`, {_type: 'blogPost'});
@@ -300,9 +300,11 @@ async function runFlagOnTests(serverProc) {
         '/service-areas/aurora',
         '/es/service-areas/aurora',
       ]) &&
-      paths.length >= 100; // 50 EN paths × 2 locales = 100
+      // 16 (audience, slug) pairs from SERVICES + 3 audience landings + 6
+      // city pages = 25 EN paths × 2 locales = 50 total.
+      paths.length === 50;
     record(
-      'T6 webhook service(slug) → tags + fan-out across audience-service + audience + city × 2 locales',
+      'T6 webhook service(slug) → tags + 50 fanned-out paths (32 svc-detail + 6 audience + 12 city)',
       tagsOk && pathsOk,
       tagsOk && pathsOk
         ? `total paths=${paths.length}`
@@ -505,7 +507,7 @@ async function main() {
     });
     console.log('[boot] server A ready on :' + APP_PORT_A + '\n');
 
-    await runFlagOnTests(serverA);
+    await runFlagOnTests();
 
     console.log('\n[boot] stopping server A, starting server B (flag UNSET)');
     await stopAppServer(serverA);

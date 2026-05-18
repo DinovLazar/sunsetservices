@@ -16,6 +16,7 @@
     "telegram:info": "node scripts/get-telegram-webhook-info.mjs",
     "test:consent": "node scripts/test-consent-mode-v2.mjs",
     "test:revalidate": "node scripts/test-revalidate-webhook.mjs",
+    "test:rate-limit": "node scripts/test-rate-limit.mjs",
     "validate:schema": "node scripts/validate-schema.mjs",
     "validate:seo": "node scripts/validate-seo.mjs",
     "validate:a11y": "node scripts/validate-a11y.mjs"
@@ -29,6 +30,7 @@
     "@react-email/render": "^2.0.8",
     "@sanity/image-url": "^2.1.1",
     "@sanity/vision": "^5.25.0",
+    "@upstash/redis": "^1.38.0",
     "@vercel/analytics": "^2.0.1",
     "jsdom": "^25.0.1",
     "lucide-react": "^1.14.0",

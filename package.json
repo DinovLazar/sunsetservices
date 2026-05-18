@@ -15,6 +15,7 @@
     "telegram:setup": "node scripts/setup-telegram-webhook.mjs",
     "telegram:info": "node scripts/get-telegram-webhook-info.mjs",
     "test:consent": "node scripts/test-consent-mode-v2.mjs",
+    "test:revalidate": "node scripts/test-revalidate-webhook.mjs",
     "validate:schema": "node scripts/validate-schema.mjs",
     "validate:seo": "node scripts/validate-seo.mjs",
     "validate:a11y": "node scripts/validate-a11y.mjs"

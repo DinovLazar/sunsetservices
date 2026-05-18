@@ -994,3 +994,78 @@ The Phase B.07 Preview-verification step (plan §15) was originally written assu
 **Decided by:** Code, 2026-05-16, during B.07 Preview verification. Surfaced when the user chose the MCP-driven Vercel auth flow over the manual-token-paste flow.
 
 ---
+
+## 2026-05-16 — Phase B.08 (Code) — Plan-of-record: Sanity → site instant revalidate webhook
+
+Phase B.08 closes the trailing "30-min ISR staleness on every Sanity-read page" item that has been carried since Phase 2.05. Every page that reads Sanity (`/projects`, `/blog`, `/resources`, `/[audience]/[service]`, `/service-areas/[city]`) currently runs `export const revalidate = 1800`, so when Erick publishes a typo fix or swaps a hero photo in Sanity Studio he waits up to half an hour to see it live. After B.08 that drops to ~2 seconds for content changes that matter — without dropping the 30-min auto-refresh as a safety net if the webhook ever breaks.
+
+**Three locked decisions (D1–D3) — settled before execution:**
+
+1. **D1. Revalidation granularity: smart per-doc-type via `revalidateTag` + concrete-path `revalidatePath`.** A `blogPost` publish refreshes only blog routes; a `service` publish only routes that read services; an `faq` publish only routes that read FAQs; etc. Implemented by tagging every Sanity GROQ fetch with its return doc type (per the schema in §"Tag + path mapping" below), and having the webhook call `revalidateTag(docType)` AND `revalidatePath(concretePath, 'page')` for each path affected. Locale-aware path expansion: every path emits EN AND `/es` variants.
+2. **D2. Keep `export const revalidate = 1800` as safety net.** The webhook gives instant updates in the happy path; the page-level ISR catches anything that slips through (webhook misconfigured, signature mismatch, Sanity webhook outage, etc.). Max staleness if the webhook ever breaks: 30 min (same as today). Cost: zero — the safety net is already in place on all 5 Sanity-read route groups from Phase 2.05.
+3. **D3. Ship `POST /api/test/revalidate` test route.** Same flag-gated pattern as Phase 2.16's `/api/test/blog-draft-run` and Phase 2.17's `/api/test/portfolio-pipeline-run`. New env var `REVALIDATE_TEST_ROUTES_ENABLED` (unset on Vercel by default → route returns 404 + `{status:'forbidden'}`). Auth: REUSE the existing `TEST_ROUTES_SECRET` from Phase 2.16 — no new test secret introduced.
+
+**Pre-phase dependencies — re-verified:**
+
+- Phase 2.05 — every Sanity-read page already runs `export const revalidate = 1800` via page-level ISR. ✓ (Per `grep -rn "export const revalidate" src/app/` — 7 pages on `1800`, one unsubscribe page on `0`.)
+- Phase 2.16 — introduced the test-route pattern (`TEST_ROUTES_SECRET` + flag-gated routes that 404 when the flag is unset). ✓ Reused verbatim — no new test secret.
+- `next-sanity@^12.4.0` — present in `package.json` (Phase 2.03). `parseBody` from `next-sanity/webhook` is the canonical HMAC-signature verification helper (re-exports `@sanity/webhook`'s `isValidSignature` under the hood). ✓
+- `@sanity/client`'s `next` cache integration — wraps Next 16's `fetch` cache; passing `{cache, next: {tags}}` through `client.fetch` works out of the box. ✓
+
+**Tag + path mapping (single source of truth — implemented by `src/lib/sanity/revalidation.ts`):**
+
+| Sanity `_type` | Tags invalidated | Concrete paths invalidated (per-locale, EN + ES) |
+|---|---|---|
+| `service` | `service`, `faq` | `/[audience]/[service]` (32 routes), `/[audience]` (6 routes), `/service-areas/[city]` (12 routes) |
+| `project` | `project` | `/projects`, `/projects/[slug]`, `/[audience]`, `/service-areas/[city]`, `/`, `/about` |
+| `blogPost` | `blogPost`, `faq` | `/blog`, `/blog/[slug]` |
+| `resourceArticle` | `resourceArticle`, `faq` | `/resources`, `/resources/[slug]` |
+| `location` | `location` | `/service-areas`, `/service-areas/[city]` |
+| `faq` | `faq` | (none — FAQ pages refetch on next visit via the invalidated tag) |
+| `review` | `review` | `/service-areas/[city]` |
+| `team` | `team` | `/about` |
+
+Locale expansion: every path emits BOTH `<path>` and `/es<path>`. The bare home is the one exception — emit `/` AND `/es` (not `/es/`).
+
+Per-doc concretization: when the webhook payload includes `slug.current`, expand `[slug]` to the concrete value. When it does not (collection-affecting types like `service`, deleted docs without a slug), enumerate from the existing static-param sources (`src/data/services.ts` 16 entries, `src/data/locations.ts` 6 entries).
+
+**File map (NEW + MODIFIED):**
+
+- NEW: `src/lib/sanity/revalidation.ts` — central helper. Exports `revalidateForDocument(payload)` that the webhook + test route both call. Owns the doc-type → tags + paths mapping and the locale + slug expansion.
+- NEW: `src/app/api/revalidate/route.ts` — Sanity webhook receiver. POST only. Verifies signature via `parseBody(req, secret)` from `next-sanity/webhook`. Returns `{status, revalidatedTags, revalidatedPaths, docType}`. `runtime = 'nodejs'`, `dynamic = 'force-dynamic'`.
+- NEW: `src/app/api/test/revalidate/route.ts` — flag-gated test route. POST only. Auth via `Bearer ${TEST_ROUTES_SECRET}`. Accepts `{docType, slug?, _id?}` and routes through the same `revalidateForDocument` helper. Same runtime/dynamic config as the production route.
+- NEW: `scripts/test-revalidate-webhook.mjs` — synthetic verification harness. ~14 tests covering signature verification (valid + invalid + missing), per-doc-type tag/path correctness, unknown doc type, missing `_type`, test-route auth, test-route flag-off. Spawns `next start` once and exercises both routes via real HTTP.
+- NEW: `src/_project-state/Phase-B-08-Completion.md`.
+- MODIFIED: `sanity/lib/queries.ts` — add `{cache: 'force-cache', next: {tags: [...]}}` to every `client.fetch` call per the schema above. `getSubscriberByToken` (Phase B.07) deliberately untagged (uses `writeClient`, no CDN).
+- MODIFIED: `src/_project-state/current-state.md` — last-completed phase bumped to B.08; new "What works (Phase B.08 additions)" block; the "30-min ISR" line under "What does NOT work yet" reframed to "Sanity webhook NOT yet configured in `manage.sanity.io` — the route is live but no actual webhook fires until the user creates it via the Studio dashboard config".
+- MODIFIED: `src/_project-state/file-map.md` — new "Phase B.08" section listing every NEW + MODIFIED file.
+- MODIFIED: `.env.local` (gitignored) + `.env.local.example` — new `SANITY_REVALIDATE_SECRET` (random 64-hex, sensitive) and `REVALIDATE_TEST_ROUTES_ENABLED` (test-only, NEVER true on Vercel) under a new "Phase B.08 — instant revalidation" block.
+- MODIFIED: `package.json` — new `"test:revalidate": "node scripts/test-revalidate-webhook.mjs"` script.
+
+**NOT touched:** the 5 page-level `export const revalidate = 1800` lines (D2 safety net). `dynamic`, `dynamicParams`, `generateStaticParams` on every page. `sanity/lib/client.ts` (`useCdn` / `perspective` / `apiVersion` unchanged). `getSubscriberByToken` (Phase B.07 — uses `writeClient`, no caching, intentionally bypasses the tag scheme).
+
+**Vercel env wiring:** `SANITY_REVALIDATE_SECRET` upserted to Production + Preview as `sensitive` (same value across both — single shared secret for simplicity; rotation note in carryover). `REVALIDATE_TEST_ROUTES_ENABLED` deliberately NOT added to Vercel — leaving it unset is the gate.
+
+**User-runnable next step (not Code-runnable).** After the phase merges, the user (or Cowork) creates the actual webhook in `manage.sanity.io` per the exact field-by-field block documented in §"User-runnable next step" of `Phase-B-08-Completion.md`. The webhook posts to `/api/revalidate` with HMAC-SHA256 signature using the `SANITY_REVALIDATE_SECRET` shared secret. Sanity dashboard config takes ~5 min to set up.
+
+**Carryover:** `SANITY_REVALIDATE_SECRET` reused across Production + Preview targets. Rotate before Phase P.06 DNS cutover; consider per-environment-distinct secrets in Phase P.01 (Vercel Pro upgrade).
+
+**Decided by:** Chat, 2026-05-16, before B.08 execution. D1–D3 are the input contract; any execution-time off-spec decisions append below this entry once Code surfaces them.
+
+---
+
+## 2026-05-16 — Phase B.08 (Code) — Execution: Next 16 `revalidateTag` two-arg form
+
+The Phase B.08 plan-of-record's helper sketch wrote `revalidateTag(docType)` — the single-argument form that has worked since the `revalidateTag` API landed in Next 13. Next 16 deprecated that signature: the runtime now logs a deprecation warning per call (`"revalidateTag" without the second argument is now deprecated, add second argument of "max" or use "updateTag". See more info here: https://nextjs.org/docs/messages/revalidate-tag-single-arg`) AND the TypeScript declaration in `node_modules/next/dist/server/web/spec-extension/revalidate.d.ts` now requires the second argument unconditionally (`function revalidateTag(tag: string, profile: string | CacheLifeConfig): undefined`). `npx tsc --noEmit` flagged it as `TS2554: Expected 2 arguments, but got 1`.
+
+**Decision.** Switched the four call sites in `src/lib/sanity/revalidation.ts` to `revalidateTag(tag, 'max')` per the runtime warning's recommended value. `'max'` is the canonical Next 16 cache profile name for "purge all cached entries tagged with this tag" — matches the legacy single-arg semantics. The new alternative API (`updateTag(tag)` — still single-arg) is reserved for Server Actions with read-your-own-writes semantics; webhook route handlers want the `revalidateTag` purge path.
+
+**Cost / blast radius.** ~3 lines added (the inline comment explaining the API change + the second argument). No behavior change vs. the legacy single-arg form. Production behavior is identical to what the plan-of-record described — instant tag invalidation on webhook fire — but now without the deprecation warning + TypeScript error.
+
+**Verification.** Re-ran `npx tsc --noEmit` → 0 new errors. Re-ran `npm run test:revalidate` → 14 / 14 PASS. The webhook successfully invalidates tagged cached entries when the harness fires valid signatures across all 8 doc types.
+
+**Why not `'default'` instead of `'max'`?** Next 16's deprecation message explicitly recommends `'max'`. Both profile names work for the webhook-driven purge use case, but `'max'` is the documented canonical value.
+
+**Decided by:** Code, 2026-05-16, during B.08 Step 8 (local harness run). Surfaced when the TypeScript compiler error stopped `npx tsc --noEmit` and the runtime deprecation warning appeared on every harness test that fired a valid signature.
+
+---

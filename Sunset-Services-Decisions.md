@@ -1093,3 +1093,64 @@ Phase B.09 replaces the Phase 2.09 module-scoped `Map`-based limiter in `src/lib
 **Decided by:** Chat, 2026-05-18, before B.09 execution. D1–D6 are the input contract; any execution-time off-spec decisions append below this entry once Code surfaces them.
 
 ---
+
+## 2026-05-19 — Phase B.10 (Code) — Plan-of-record: Google Places address autocomplete on quote wizard Step 4
+
+Phase B.10 wires Google Places Autocomplete to the `data-autocomplete-stub="address"` slot on quote wizard Step 4 (`src/components/wizard/WizardStep4Contact.tsx:137`). Typing a street prefills city + state + ZIP; manual entry stays fully functional as a fallback. This closes the last placeholder behavior in the wizard from Phase 1.20 and the mini-phase that the 2026-05-12 decision-log entry (`Phase 2.13.3`) carved out of Phase 2.07.
+
+**Dependency-satisfied note.** The Phase Plan Continuation marks B.10 as blocked on M.04 (Google Places API key). That dependency is satisfied today: `GOOGLE_PLACES_API_KEY=AIzaSyD_X-wk9ujNFtspFjED06gf7rMzg9w6qBQ` was populated in `.env.local` + Vercel by Goran in Phase 2.10 A.1b (per the 2026-05-13 "Phase 2.10 A.1b addendum: GCP credentials partially populated mid-session" entry). No M.04 / M.05 dependency to wait on; B.10 runs now.
+
+**D1 — Geographic restriction.** Any US address. `componentRestrictions: { country: ['us'] }`. No IL bias. Out-of-area visitors still find their address; Erick declines manually if not serviceable. User decision, Chat 2026-05-18.
+
+**D2 — Library choice.** `@googlemaps/js-api-loader@^1.16.x` + the legacy `google.maps.places.Autocomplete` class. Google's deprecation timeline for the legacy class does not sunset it before 2026-Q3. The newer `PlaceAutocompleteElement` web component requires significantly more shadow-DOM styling work to match the wizard chrome AND ships its own input field (replacing the existing styled `<input>` field). The legacy class attaches with one line, preserves the existing input visuals exactly, and is the cleaner B.10 scope. Re-evaluate at the deprecation date.
+
+**D3 — API key strategy.** Client-side `NEXT_PUBLIC_GOOGLE_PLACES_API_KEY` with HTTP referrer restrictions in GCP (Cowork carryover, see below). A server-proxy approach was considered and rejected — adds 150–300 ms latency per keystroke for negligible security benefit since the actual security boundary is the GCP-side referrer allowlist. The new env var carries the same value as the existing `GOOGLE_PLACES_API_KEY` verbatim. `NEXT_PUBLIC_*` variables are client-bundle-embedded by design and cannot be marked `sensitive` on Vercel; this var must be type `plain`.
+
+**D4 — Lazy-load on Step 4 mount, not on wizard mount.** Steps 1–3 don't need the ~250 KB Maps JS bundle. The loader runs in a `useEffect` keyed to the Step 4 component being mounted (already conditional in `WizardShell.tsx` — `{effectiveStep === 4 ? <WizardStep4Contact .../> : null}`). The loader is idempotent — a second mount of Step 4 (after backing to Step 3 and forward again) reuses the already-loaded library via a module-scoped singleton.
+
+**D5 — Autocomplete is additive — manual entry still works.** No blocking behavior on submit. If the visitor types something Google doesn't recognize, skips the dropdown, or the API errors out, all four fields stay editable and the wizard validates exactly as today. B.10 is polish, not a gating change.
+
+**D6 — Place-selected → four-field map.** `street` = `street_number` + `route` concatenated (space-separated); `city` = `locality` (or `sublocality_level_1` if `locality` is missing — some unincorporated areas only carry the sublocality); `state` = `administrative_area_level_1.short_name` (two-letter); `zip` = `postal_code`. If any sub-component is missing from the Google result, leave that field's current value untouched (a partial fill never wipes manual typing). Concretely: the parser returns a `Partial<AddressFields>` where missing keys are simply absent (NOT set to empty strings).
+
+**D7 — Analytics.** Fire `wizard_address_autocompleted` CustomEvent + dataLayer push on place select. Payload `{step: 4, source: 'autocomplete'}`. NOT a conversion event — informational, lets us measure autocomplete adoption rate vs manual typing. Registered in `src/lib/analytics/events.ts` as `WIZARD_ADDRESS_AUTOCOMPLETED` and in `src/lib/wizard/events.ts` as `WIZARD_EVENTS.ADDRESS_AUTOCOMPLETED`. Fires on `document`, not `window`, `bubbles: false` — same convention as every other wizard event since Phase 2.06.
+
+**D8 — Verification surface.** `data-autocomplete-state="loading|ready|error|disabled"` on the street wrapper. Replaces the existing `data-autocomplete-stub="address"` marker. Harness asserts against state transitions.
+
+**AnalyticsBridge dispatch convention — minor off-spec from the plan's literal snippet.** The plan's Step 5.5 prescribes `document.dispatchEvent(new CustomEvent('sunset:wizard-event', {detail: {event: 'wizard_address_autocompleted', payload: {step: 4, source: 'autocomplete'}}}))` — i.e. nested `{event, payload}`. The live Phase 2.10 `AnalyticsBridge` (`src/components/analytics/AnalyticsBridge.tsx:34-41`) and the existing `fireWizardEvent` helper (`src/lib/wizard/events.ts:43-46`) use a FLAT shape: `detail: {name: '<event-wire-name>', ...payload}`. Using the plan's literal snippet would land a `detail.name === undefined` row on `dataLayer` — analytics would silently not fire. We use the live bridge convention (`detail.name`) so analytics actually works. The harness's T4 assertion is adapted accordingly (`detail.name === 'wizard_address_autocompleted'` + `detail.step === 4` + `detail.source === 'autocomplete'`).
+
+**Cowork carryover #1 — HTTP referrer restrictions on the Places API key (GCP Console).** Without this, the public client-bundle key can be used from any origin in the world; an attacker can run up Sunset Services' GCP bill. 2-minute click-through in GCP Console → APIs & Services → Credentials → the existing Places API key → Application restrictions → HTTP referrers. Allow:
+
+- `http://localhost:3000/*` (Code development)
+- `https://sunsetservices.vercel.app/*` (Vercel Production)
+- `https://*.dinovlazars-projects.vercel.app/*` (Vercel Preview, all branches)
+- `https://sunsetservices.us/*` (post-cutover — Phase P.06 onward)
+
+Goran has GCP project ownership (2026-05-12 credentials-handoff decision); the dashboard step is on his side.
+
+**Cowork carryover #2 — GCP billing alerts.** Confirm GCP billing alerts are wired at sensible thresholds ($20 monthly cap with email alerts at 50% / 90% / 100%) for an inbox Goran or the user actively monitors. Places API usage is currently zero; will tick up once B.10 ships and the wizard goes live. The 2026-05-10 "Anthropic-billing-alert risk pattern" (account email on a less-used inbox) applies here too if not configured.
+
+**File map (NEW + MODIFIED):**
+
+- NEW: `src/lib/google/placesAutocomplete.ts` — D6 parser + D4 lazy-load hook + D8 state machine. Module-scope loader singleton so StrictMode + remount reuse the already-loaded library.
+- NEW: `scripts/test-wizard-autocomplete.mjs` — Playwright-based verification battery. 6 tests: T1 loading→ready, T2 happy-path 4-field fill, T3 missing-postal-code partial fill, T4 analytics event, T5 manual-entry fallback, T6 disabled branch on empty key. Mocks `window.google.maps.places.Autocomplete` via `page.addInitScript` so the tests never hit the real Maps JS API (deterministic + zero GCP quota burn).
+- NEW: `src/_project-state/Phase-B-10-Completion.md`.
+- MODIFIED: `src/components/wizard/WizardStep4Contact.tsx` — drop `data-autocomplete-stub` marker; add `data-autocomplete-state`; wire the hook + the four-field setter; render the EN/ES loading + error helper lines.
+- MODIFIED: `src/components/wizard/WizardField.tsx` — accept an optional `inputRef` prop and forward it to the `text`/`email`/`tel` input element (only the `text` kind is needed by B.10, but adding it for the three text-like kinds is one extra line and aligns the primitive going forward).
+- MODIFIED: `src/lib/analytics/events.ts` — register `WIZARD_ADDRESS_AUTOCOMPLETED: 'wizard_address_autocompleted'`.
+- MODIFIED: `src/lib/wizard/events.ts` — register `ADDRESS_AUTOCOMPLETED: 'wizard_address_autocompleted'`.
+- MODIFIED: `src/messages/en.json` + `src/messages/es.json` — add `wizard.step4.address.{autocompleteLoading,autocompleteError}`. EN per spec; ES straight LatAm Spanish in the `usted` register per the plan's locked tone-for-this-string-pair direction (the wizard's broader step-4 strings predate Phase 2.11's tone-map ratification and remain in `tú`; that's a separate carryover for Phase M.03, not B.10).
+- MODIFIED: `package.json` — add `@googlemaps/js-api-loader@^1.16.x` to dependencies + `"test:wizard-autocomplete": "node scripts/test-wizard-autocomplete.mjs"` to scripts.
+- MODIFIED: `package-lock.json` — lockfile update.
+- MODIFIED: `.env.local.example` — new "Phase B.10 — Google Places autocomplete" block documenting `NEXT_PUBLIC_GOOGLE_PLACES_API_KEY` + the security-boundary comment (GCP-side referrer allowlist is the real defense — Cowork carryover #1).
+- MODIFIED: `.env.local` (gitignored) — `NEXT_PUBLIC_GOOGLE_PLACES_API_KEY=<value of existing GOOGLE_PLACES_API_KEY>`.
+- MODIFIED: `Sunset-Services-Decisions.md` — this entry, committed first.
+- MODIFIED: `src/_project-state/current-state.md` — last-completed phase bumped to B.10; new "What works (Phase B.10 additions)" sub-block; the `Address autocomplete` line in "What does NOT work yet" removed (the placeholder behavior is now live).
+- MODIFIED: `src/_project-state/file-map.md` — new "Phase B.10" section listing every NEW + MODIFIED file.
+
+**Vercel env wiring.** `NEXT_PUBLIC_GOOGLE_PLACES_API_KEY` upserted to Production + Preview as `plain` type (must be plain — the `NEXT_PUBLIC_*` prefix is client-bundle-embedded by design). Same value as the existing `GOOGLE_PLACES_API_KEY` (which stays in place — it's used by Phase 2.16's daily Google reviews cron fetcher when GBP/Places API access lands; the server-side variable is a separate consumer).
+
+**NOT touched.** The existing `GOOGLE_PLACES_API_KEY` (server-side variable, used by Phase 2.16). The wizard's other steps. The Step 4 PII-boundary autosave skip (D9 of Phase 1.20 — Step 4 still never persists to localStorage). The submit flow.
+
+**Decided by:** Chat, 2026-05-18, before B.10 execution. D1–D8 + both Cowork carryovers + the dependency-satisfied note are the input contract; any execution-time off-spec decisions append below this entry once Code surfaces them.
+
+---

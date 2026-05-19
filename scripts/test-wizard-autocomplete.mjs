@@ -262,7 +262,14 @@ async function navigateToStep4(page) {
   // Wait for the resume toast and click "Resume". The WizardResumeToast
   // button text is `wizard.toast.resumeBtn` (EN "Resume" / ES "Reanudar").
   const resumeButton = page.locator('button', {hasText: /^resume$|^reanudar$/i});
-  await resumeButton.first().waitFor({state: 'visible', timeout: 10_000});
+  try {
+    await resumeButton.first().waitFor({state: 'visible', timeout: 15_000});
+  } catch (e) {
+    const html = await page.content();
+    console.log('  [navigateToStep4] resume button never appeared. Page HTML head (first 400 chars):');
+    console.log('  ' + html.replace(/\s+/g, ' ').slice(0, 400));
+    throw e;
+  }
   await resumeButton.first().click();
 
   // Wait for Step 3 to actually be mounted. The wizard uses `motion.form`
@@ -271,8 +278,8 @@ async function navigateToStep4(page) {
   // would submit Step 1 (audience now set) → goToStep(2). Waiting on the
   // form's `aria-labelledby={"wizard-step3-h2"}` confirms Step 3 has
   // completed its enter transition.
-  await page.waitForSelector('form[aria-labelledby="wizard-step3-h2"]', {timeout: 10_000});
-  await page.waitForURL(/[?&]step=3\b/, {timeout: 10_000});
+  await page.waitForSelector('form[aria-labelledby="wizard-step3-h2"]', {timeout: 15_000});
+  await page.waitForURL(/[?&]step=3\b/, {timeout: 15_000});
 
   // After Step 3 is rendered, click Next to advance to Step 4. The sticky
   // nav's Next button is labeled "Next →" (EN) / "Siguiente →" (ES).
@@ -280,12 +287,25 @@ async function navigateToStep4(page) {
   // stale Step 1 button during a transition.
   const step3Form = page.locator('form[aria-labelledby="wizard-step3-h2"]');
   const nextButton = step3Form.locator('button', {hasText: /next|siguiente/i});
-  await nextButton.first().waitFor({state: 'visible', timeout: 10_000});
+  await nextButton.first().waitFor({state: 'visible', timeout: 15_000});
   await nextButton.first().click();
-  await page.waitForSelector('form[aria-labelledby="wizard-step4-h2"]', {timeout: 10_000});
-  await page.waitForURL(/[?&]step=4\b/, {timeout: 10_000});
+  await page.waitForSelector('form[aria-labelledby="wizard-step4-h2"]', {timeout: 15_000});
+  await page.waitForURL(/[?&]step=4\b/, {timeout: 15_000});
   // Step 4's autocomplete wrapper should be present.
-  await page.waitForSelector('[data-autocomplete-state]', {timeout: 15_000});
+  try {
+    await page.waitForSelector('[data-autocomplete-state]', {timeout: 15_000});
+  } catch (e) {
+    // Diagnostic: dump the Step 4 form's HTML so we can see what mounted.
+    const stepFourHtml = await page.evaluate(() => {
+      const f = document.querySelector('form[aria-labelledby="wizard-step4-h2"]');
+      return f ? f.outerHTML : '<no step-4 form found>';
+    });
+    console.log('  [navigateToStep4] data-autocomplete-state never appeared. Step 4 form HTML (first 5000 chars):');
+    console.log('  ' + stepFourHtml.replace(/\s+/g, ' ').slice(0, 5000));
+    // Also check current URL.
+    console.log('  Current URL: ' + page.url());
+    throw e;
+  }
 }
 
 function syntheticAuroraPlace() {

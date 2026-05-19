@@ -4,7 +4,8 @@ import * as React from 'react';
 import {useTranslations} from 'next-intl';
 import {WIZARD_STEP_4_FIELDS} from '@/data/wizard';
 import {BUSINESS_PHONE_TEL} from '@/lib/constants/business';
-import {WIZARD_EVENTS} from '@/lib/wizard/events';
+import {WIZARD_EVENTS, fireWizardEvent} from '@/lib/wizard/events';
+import {useGooglePlacesAutocomplete} from '@/lib/google/placesAutocomplete';
 import WizardField from './WizardField';
 
 export type Step4Values = {
@@ -21,15 +22,18 @@ type Props = {
 };
 
 /**
- * Step 4 — contact info. Phase 1.19 §3.6, D7.
+ * Step 4 — contact info. Phase 1.19 §3.6, D7. Phase B.10 wires the
+ * Google Places autocomplete onto the street field per the
+ * `Sunset-Services-Decisions.md` 2026-05-19 entry.
  *
- * Required: firstName, lastName, email, phone, street, city, state (IL default),
- * zip. Optional: unit, bestTime, contactMethod. Phone field auto-formats via
- * `formatPhoneUS`. Street field carries `data-autocomplete-stub="address"` for
- * Phase 2.07 to swap in Google Places.
+ * Required: firstName, lastName, email, phone, street, city, state (IL
+ * default), zip. Optional: unit, bestTime, contactMethod. Phone field
+ * auto-formats via `formatPhoneUS`. The street wrapper carries
+ * `data-autocomplete-state` (loading|ready|error|disabled) — replaces
+ * the Phase 1.20 `data-autocomplete-stub="address"` marker.
  *
- * **PII boundary** — none of these values pass through autosave. They live in
- * React state only.
+ * **PII boundary** — none of these values pass through autosave. They
+ * live in React state only.
  */
 export default function WizardStep4Contact({
   values,
@@ -38,6 +42,45 @@ export default function WizardStep4Contact({
   onFieldBlur,
 }: Props) {
   const t = useTranslations();
+  const streetInputRef = React.useRef<HTMLInputElement | null>(null);
+
+  // Fresh closure each render — the hook's internal ref keeps the
+  // place_changed listener stable while always firing the LATEST
+  // closure (which captures the LATEST `values` + `onChange`).
+  const handlePlaceSelect = (
+    fields: Partial<Pick<Step4Values, 'street' | 'city' | 'state' | 'zip'>>,
+  ) => {
+    const next: Step4Values = {...values};
+    let changed = false;
+    if (fields.street != null) {
+      next.street = fields.street;
+      changed = true;
+    }
+    if (fields.city != null) {
+      next.city = fields.city;
+      changed = true;
+    }
+    if (fields.state != null) {
+      next.state = fields.state;
+      changed = true;
+    }
+    if (fields.zip != null) {
+      next.zip = fields.zip;
+      changed = true;
+    }
+    if (changed) {
+      onChange(next);
+      fireWizardEvent(WIZARD_EVENTS.ADDRESS_AUTOCOMPLETED, {
+        step: 4,
+        source: 'autocomplete',
+      });
+    }
+  };
+
+  const {state: autocompleteState} = useGooglePlacesAutocomplete({
+    inputRef: streetInputRef,
+    onPlaceSelect: handlePlaceSelect,
+  });
 
   function setField(id: string, value: string | string[]) {
     onChange({...values, [id]: value as string});
@@ -47,6 +90,12 @@ export default function WizardStep4Contact({
   const fieldById = Object.fromEntries(
     WIZARD_STEP_4_FIELDS.map((f) => [f.id, f]),
   );
+
+  const helperLineStyle: React.CSSProperties = {
+    fontSize: 13,
+    color: 'var(--color-text-muted)',
+    margin: '6px 0 0 0',
+  };
 
   return (
     <div>
@@ -134,7 +183,7 @@ export default function WizardStep4Contact({
       />
 
       <div className="grid grid-cols-1 lg:grid-cols-[1fr_240px] gap-x-6 gap-y-6">
-        <div data-autocomplete-stub="address">
+        <div data-autocomplete-state={autocompleteState}>
           <WizardField
             field={fieldById['street']}
             value={values.street}
@@ -142,7 +191,26 @@ export default function WizardStep4Contact({
             onBlur={() => onFieldBlur('street')}
             error={errors.street}
             idPrefix="wiz-step4"
+            inputRef={streetInputRef}
           />
+          {autocompleteState === 'loading' ? (
+            <p
+              data-autocomplete-helper="loading"
+              style={helperLineStyle}
+              aria-live="polite"
+            >
+              {t('wizard.step4.address.autocompleteLoading')}
+            </p>
+          ) : null}
+          {autocompleteState === 'error' ? (
+            <p
+              data-autocomplete-helper="error"
+              style={helperLineStyle}
+              aria-live="polite"
+            >
+              {t('wizard.step4.address.autocompleteError')}
+            </p>
+          ) : null}
         </div>
         <WizardField
           field={fieldById['unit']}

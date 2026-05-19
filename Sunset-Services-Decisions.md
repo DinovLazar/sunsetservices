@@ -1069,3 +1069,27 @@ The Phase B.08 plan-of-record's helper sketch wrote `revalidateTag(docType)` —
 **Decided by:** Code, 2026-05-16, during B.08 Step 8 (local harness run). Surfaced when the TypeScript compiler error stopped `npx tsc --noEmit` and the runtime deprecation warning appeared on every harness test that fired a valid signature.
 
 ---
+
+## 2026-05-18 — Phase B.09 (Code) — Plan-of-record: chat rate-limit store swap (in-memory → Upstash Redis, flag-gated)
+
+Phase B.09 replaces the Phase 2.09 module-scoped `Map`-based limiter in `src/lib/chat/rateLimit.ts` with one backed by Upstash Redis (Vercel Marketplace integration). The contract for `checkRateLimit(ip)` is preserved in shape, but the function becomes `async`. A single env flag (`CHAT_RATELIMIT_STORE=memory|kv`) selects the backend. The memory branch is preserved bit-for-bit (it stays the local-dev default); the live code path on Vercel stays on `memory` until a small Cowork follow-up installs the Marketplace integration and flips the flag — so Code merges without waiting on any external provisioning.
+
+**D1 — Store choice.** Upstash Redis via the Vercel Marketplace integration. Vercel deprecated `@vercel/kv` in 2024 in favor of `@upstash/redis`. The Marketplace integration auto-injects `UPSTASH_REDIS_REST_URL` + `UPSTASH_REDIS_REST_TOKEN` (some legacy installs use `KV_REST_API_URL` + `KV_REST_API_TOKEN`); `@upstash/redis` auto-detects both prefix sets — zero config drift if Vercel renames again. Free tier is 10K commands/day, well above our daily 50-per-IP × normal traffic envelope.
+
+**D2 — API surface.** `checkRateLimit(ip)` becomes async. Returns `Promise<{allowed: boolean; reason?: 'burst' | 'daily'; retryAfter?: number}>` (same shape, now wrapped in a `Promise`). One breaking change site in the repo: `src/app/api/chat/route.ts` adds an `await`. `git grep -n 'checkRateLimit'` confirms the export + that single import are the only call sites in `src/`.
+
+**D3 — Feature flag.** `CHAT_RATELIMIT_STORE`. Values: `'memory'` (default, local dev), `'kv'` (Preview + Production after Cowork provisions). Unset / unknown → memory mode + one `console.warn('[ratelimit] CHAT_RATELIMIT_STORE not set, falling back to memory')` on first call. Memory branch preserves Phase 2.09 behavior bit-for-bit (the existing `Map`-based logic moves into a private `checkRateLimitMemory(ip)` and is wrapped in `Promise.resolve(...)` for signature uniformity).
+
+**D4 — Key schema.** `chat:burst:<ip>` (TTL = `Math.ceil(CHAT_BURST_INTERVAL_MS / 1000)`s, default 2s), `chat:daily:<ip>` (TTL 86400s, count via `INCR`). Burst uses `SET key 1 NX EX <ttl>` returning `'OK'` (allowed — first request in window) or `null` (blocked — key already exists). Daily uses `INCR` then conditional `EXPIRE` on first hit only; over-limit detected when returned count > `CHAT_DAILY_LIMIT_PER_IP`.
+
+**D5 — retryAfter computation.** Burst: constant `Math.ceil(CHAT_BURST_INTERVAL_MS / 1000)`. Daily: one extra `TTL chat:daily:<ip>` round-trip only when over limit (rare hot path stays one SET + one INCR + at-most-one EXPIRE).
+
+**D6 — Failure mode.** Fail-open. If any Upstash REST call throws, log `console.error('[ratelimit] kv check failed', err)` and return `{allowed: true}`. Better to take a spam hit than to wedge the chat for every visitor on a transient Redis blip. Vercel function logs surface failures for monitoring. A future small follow-up after Phase M.06 (Telegram flag-on in Production) can wire `notifyOperator` for kv failures.
+
+**Path note.** The plan continuation refers to `src/lib/chat/rate-limit.ts` (kebab-case); the live file from Phase 2.09 is `src/lib/chat/rateLimit.ts` (camelCase, per commit `2779fba`). Live code wins — use `rateLimit.ts` throughout the phase.
+
+**Cowork follow-up (NOT in this Code phase).** After this branch merges, Cowork installs the Vercel Marketplace Upstash Redis integration on the `sunsetservices` project (Production + Preview), then flips `CHAT_RATELIMIT_STORE` from `'memory'` → `'kv'` on both environments and triggers a redeploy. Verification steps (curl burst + 20-min-wait persistence) are documented in the completion report.
+
+**Decided by:** Chat, 2026-05-18, before B.09 execution. D1–D6 are the input contract; any execution-time off-spec decisions append below this entry once Code surfaces them.
+
+---

@@ -47,9 +47,10 @@ export async function POST(request: NextRequest) {
     return Response.json({status: 'disabled'}, {status: 503});
   }
 
-  // 2. Rate limit (BEFORE body parsing — cheaper to reject)
+  // 2. Rate limit (BEFORE body parsing — cheaper to reject).
+  // Phase B.09: checkRateLimit is async — backend may be Upstash Redis.
   const ip = getClientIp(request.headers);
-  const rl = checkRateLimit(ip);
+  const rl = await checkRateLimit(ip);
   if (!rl.allowed) {
     return Response.json(
       {status: 'rate_limited', reason: rl.reason, retryAfter: rl.retryAfter},

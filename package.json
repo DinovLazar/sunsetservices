@@ -17,6 +17,7 @@
     "test:consent": "node scripts/test-consent-mode-v2.mjs",
     "test:revalidate": "node scripts/test-revalidate-webhook.mjs",
     "test:rate-limit": "node scripts/test-rate-limit.mjs",
+    "test:wizard-autocomplete": "node scripts/test-wizard-autocomplete.mjs",
     "validate:schema": "node scripts/validate-schema.mjs",
     "validate:seo": "node scripts/validate-seo.mjs",
     "validate:a11y": "node scripts/validate-a11y.mjs"
@@ -24,6 +25,7 @@
   "dependencies": {
     "@anthropic-ai/sdk": "^0.92.0",
     "@base-ui/react": "^1.4.1",
+    "@googlemaps/js-api-loader": "^1.16.10",
     "@portabletext/block-tools": "^5.1.1",
     "@portabletext/react": "^4.0.3",
     "@react-email/components": "^1.0.12",
@@ -50,6 +52,7 @@
   "devDependencies": {
     "@axe-core/playwright": "^4.11.3",
     "@tailwindcss/postcss": "^4",
+    "@types/google.maps": "^3.64.1",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",

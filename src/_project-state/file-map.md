@@ -514,4 +514,17 @@
 
 ## Phase M.01a — Photo source discovery & inventory (added 2026-05-20)
 
-- `src/_project-state/Phase-M-01a-Photo-Inventory.md` — **NEW (Phase M.01a)** read-only inventory of `D:\Sunset Shared Drive` (the corrected photo source path — 
+- `src/_project-state/Phase-M-01a-Photo-Inventory.md` — **NEW (Phase M.01a)** read-only inventory of `D:\Sunset Shared Drive` (the corrected photo source path — the prompt's `D:\Goran PC BackUp` mounted empty). Folder-by-folder media breakdown (counts by extension, sample filenames, naming patterns, Sunset-relevance classification), executive summary, visual spot-check of sample job photos, and an items-flagged-for-Chat-review section. Headline finding: the bulk of the photo library is still inside ~78 un-extracted Google Takeout ZIP parts; the `Extracted\` tree holds only ~51 media files (mostly graphics/logos/stock/AI clips). Byte sizes / true mtimes were not capturable (external drive can't be `stat`-ed by the read-only tools).
+- `src/_project-state/Phase-M-01a-Completion.md` — **NEW (Phase M.01a)** completion report for Phase M.01a: drive-access status, headline numbers, surprises encountered, confirmation nothing on `D:\` was modified, and open questions for Chat ahead of M.01b.
+
+## Phase M.01b — Takeout extraction & full inventory (added 2026-05-20)
+
+- `src/_project-state/Phase-M-01b-Photo-Inventory.md` — **NEW (Phase M.01b)** full inventory of the extracted Takeout corpus. Real byte sizes + true mtimes (content now on internal C:). Executive summary, complete 66-folder table (photos/RAW/video, size, date range, Sunset-relevance class), visual spot-check (photo opens + ffmpeg video thumbnails), and items-flagged-for-Chat-review. Headline: 2,191 media files / ~141 GB (835 photos, 627 RAW, 729 video) — almost entirely 2025.
+- `src/_project-state/Phase-M-01b-Completion.md` — **NEW (Phase M.01b)** completion report: disk-space before/after, ZIP extract counts (77/78, 0 failed), duplicate + manifest findings, headline corpus numbers, surprises, D:-unchanged confirmation, and open questions for M.01c.
+- `C:\sunset-photos\` — **working folder, NOT in repo (not committed).** Created by M.01b on the user's internal C: drive. `extracted\` = merged Takeout tree (~141 GB media); `logs\06-media-files.csv` = every media file; `logs\07-folder-summary.json` = per-folder aggregates; `logs\08-summary.txt` = sitewide summary; `quarantine\` = empty (no failed ZIPs). Kept pending the user's cleanup decision after M.01c.
+- `_m01b/` (temporary, under the repo root) — the PowerShell pre-flight + extraction scripts and their `.bat` launchers used to run the extraction on Windows, plus their output text files. **Not committed** (excluded from the M.01b commit). Left on disk and harmless; the user can delete the `C:\Users\user\Desktop\SunSet-V2\_m01b\` folder at any time.
+
+## dist/ + .sanity/ (gitignored)
+
+- `dist/` — **gitignored** Sanity Studio production build output (~7.9MB, written by `npm run studio:build`).
+- `.sanity/` — **gitignored** Sanity dev-server runtime cache (`runtime/` subdirectory).

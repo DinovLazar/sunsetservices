@@ -512,7 +512,6 @@
 - `src/_project-state/current-state.md` — **Modified (Phase B.10)** last-completed-phase bumped to B.10 (long expository paragraph); each prior-N label shifted down by 1 (B.09 → prior 1, B.08 → prior 2, etc.); new "What works (Phase B.10 additions)" sub-block under "What works"; the `Address autocomplete` line under "What does NOT work yet" removed (the placeholder behavior is now live); two new Cowork carryovers appended to "What does NOT work yet" (GCP HTTP referrer allowlist + billing alerts); the `/request-quote/` line under "What works on localhost:3000" reframed to note the B.10 swap from `data-autocomplete-stub` to `data-autocomplete-state`; "Next phase" updated to flag the GCP referrer task as the highest-priority pre-cutover follow-up.
 - `src/_project-state/file-map.md` — **Modified (Phase B.10)** new "Phase B.10" section listing every NEW + MODIFIED file (this section).
 
-## dist/ + .sanity/ (gitignored)
+## Phase M.01a — Photo source discovery & inventory (added 2026-05-20)
 
-- `dist/` — **gitignored** Sanity Studio production build output (~7.9MB, written by `npm run studio:build`).
-- `.sanity/` — **gitignored** Sanity dev-server runtime cache (`runtime/` subdirectory).
+- `src/_project-state/Phase-M-01a-Photo-Inventory.md` — **NEW (Phase M.01a)** read-only inventory of `D:\Sunset Shared Drive` (the corrected photo source path — 

@@ -1154,3 +1154,13 @@ Goran has GCP project ownership (2026-05-12 credentials-handoff decision); the d
 **Decided by:** Chat, 2026-05-18, before B.10 execution. D1–D8 + both Cowork carryovers + the dependency-satisfied note are the input contract; any execution-time off-spec decisions append below this entry once Code surfaces them.
 
 ---
+
+## Phase M.01 — Photo source change + split into M.01a / M.01b
+
+- **Photo source moved.** Original plan assumed Erick's Google Drive. Actual source is the user's local PC backup at `D:\Goran PC BackUp`. Drive access from Erick is no longer the blocker; M.01 is now unblocked.
+- **M.01 split into two sub-phases.**
+  - **M.01a — Discovery (this phase):** read-only inventory of `D:\Goran PC BackUp`. Produces `Phase-M-01a-Photo-Inventory.md`. Nothing copied or uploaded.
+  - **M.01b — Curation + Sanity upload (next phase):** Chat plans this in detail after reviewing the M.01a inventory. Scope depends entirely on what M.01a finds.
+- **Rationale.** Original M.01 prompt assumed a curated folder structure already in place. Real backup drive structure is unknown — we have to look before we can plan. Splitting into discovery + execution keeps the workflow honest and prevents writing an execution prompt based on imagined contents.
+- **Hard deadline carried over.** M.01b still must close before P.05 (pre-cutover QA) so real photos are live for the launch Lighthouse sample. M.02 (Performance pass) is the immediate downstream dependency.
+- **Path correction discovered during M.01a execution (2026-05-20).** The actual source path is **`D:\Sunset Shared Drive`**, NOT `D:\Goran PC BackUp` (the latter mounted empty; the user corrected the path mid-run). The drive is an external drive labelled "HV620S (D:)". M.01b must use the corrected path (`D:\Sunset Shared Drive`). The inventory at `Phase-M-01a-Photo-Inventory.md` reflects this.

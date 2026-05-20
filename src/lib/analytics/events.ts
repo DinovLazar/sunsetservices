@@ -8,6 +8,9 @@ export const ANALYTICS_EVENTS = {
   WIZARD_SUBMIT_ATTEMPTED: 'wizard_submit_attempted',
   WIZARD_SUBMIT_SUCCEEDED: 'quote_submit_succeeded', // ← CONVERSION
   WIZARD_SUBMIT_FAILED: 'wizard_submit_failed',
+  // Wizard Step 4 — Phase B.10 address autocomplete. Informational, NOT a
+  // conversion. Payload {step: 4, source: 'autocomplete'} — zero PII.
+  WIZARD_ADDRESS_AUTOCOMPLETED: 'wizard_address_autocompleted',
 
   // Contact form (Phase 2.08)
   CONTACT_SUBMIT_ATTEMPTED: 'contact_submit_attempted',

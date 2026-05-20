@@ -1326,7 +1326,11 @@
     },
     "step4": {
       "title": "¿Cómo te contactamos?",
-      "subtitle": "Erick responderá en un día hábil."
+      "subtitle": "Erick responderá en un día hábil.",
+      "address": {
+        "autocompleteLoading": "Cargando sugerencias de direcciones...",
+        "autocompleteError": "Escriba su dirección manualmente."
+      }
     },
     "step5": {
       "title": "¿Se ve bien?",

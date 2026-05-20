@@ -24,6 +24,12 @@ export const WIZARD_EVENTS = {
    */
   SUBMIT_SUCCEEDED: 'quote_submit_succeeded',
   SUBMIT_FAILED: 'wizard_submit_failed',
+  /**
+   * Phase B.10 — fires once on each successful Google Places place_changed.
+   * Payload `{step: 4, source: 'autocomplete'}`. Not a conversion event.
+   * Mirrors `ANALYTICS_EVENTS.WIZARD_ADDRESS_AUTOCOMPLETED`.
+   */
+  ADDRESS_AUTOCOMPLETED: 'wizard_address_autocompleted',
   FIELD_ERROR: (field: string) => `wizard_field_error_${field}`,
   RESUME_OFFERED: 'wizard_resume_offered',
   RESUME_ACCEPTED: 'wizard_resume_accepted',

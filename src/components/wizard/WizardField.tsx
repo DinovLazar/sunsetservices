@@ -28,6 +28,13 @@ export type WizardFieldProps = {
   density?: FieldDensity;
   /** Disambiguates `id` when the same field id appears in multiple forms. */
   idPrefix?: string;
+  /**
+   * Phase B.10 — optional forwarded ref for the underlying `<input>`.
+   * Only honored by `text` / `email` / `tel` kinds (the only input-element
+   * surfaces in B.10's scope). The Step 4 street field uses it to attach
+   * Google Places Autocomplete via `useGooglePlacesAutocomplete`.
+   */
+  inputRef?: React.Ref<HTMLInputElement>;
 };
 
 const densityWrapperClass: Record<FieldDensity, string> = {
@@ -43,6 +50,7 @@ export default function WizardField({
   error,
   density = 'default',
   idPrefix = 'wiz',
+  inputRef,
 }: WizardFieldProps) {
   const t = useTranslations();
   const fieldId = `${idPrefix}-${field.id}`;
@@ -76,6 +84,7 @@ export default function WizardField({
       control = (
         <input
           {...baseInputProps}
+          ref={inputRef}
           type="text"
           className="field-input"
           autoComplete={field.autoComplete}
@@ -138,6 +147,7 @@ export default function WizardField({
       control = (
         <input
           {...baseInputProps}
+          ref={inputRef}
           type="email"
           inputMode="email"
           autoComplete="email"
@@ -152,6 +162,7 @@ export default function WizardField({
       control = (
         <input
           {...baseInputProps}
+          ref={inputRef}
           type="tel"
           inputMode="tel"
           autoComplete="tel"

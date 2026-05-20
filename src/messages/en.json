@@ -1326,7 +1326,11 @@
     },
     "step4": {
       "title": "How can we reach you?",
-      "subtitle": "Erick will follow up within one business day."
+      "subtitle": "Erick will follow up within one business day.",
+      "address": {
+        "autocompleteLoading": "Loading address suggestions...",
+        "autocompleteError": "Type your address manually."
+      }
     },
     "step5": {
       "title": "Look good?",

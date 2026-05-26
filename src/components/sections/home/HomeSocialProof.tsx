@@ -1,5 +1,7 @@
+import Image from 'next/image';
 import {Star} from 'lucide-react';
 import {getTranslations} from 'next-intl/server';
+import unilockBadge from '@/assets/brand/unilock-authorized-contractor.png';
 import AnimateIn from '@/components/global/motion/AnimateIn';
 import StaggerContainer from '@/components/global/motion/StaggerContainer';
 import StaggerItem from '@/components/global/motion/StaggerItem';
@@ -135,30 +137,18 @@ export default async function HomeSocialProof() {
               scrollPaddingInline: '16px',
             }}
           >
-            {/* 1. Unilock mark placeholder */}
+            {/* 1. Unilock Authorized Contractor badge (Phase M.01c — real badge) */}
             <div
-              role="img"
-              aria-label={t('cred.unilockAlt')}
               className="flex-shrink-0 flex items-center justify-center"
-              style={{
-                width: '240px',
-                height: '64px',
-                background: 'var(--color-bg-stone)',
-                border: '1px dashed var(--color-border-strong)',
-                borderRadius: 'var(--radius-md)',
-                scrollSnapAlign: 'center',
-              }}
+              style={{height: '64px', scrollSnapAlign: 'center'}}
             >
-              <span
-                className="font-heading font-semibold uppercase"
-                style={{
-                  fontSize: '13px',
-                  letterSpacing: 'var(--tracking-eyebrow)',
-                  color: 'var(--color-text-secondary)',
-                }}
-              >
-                {t('cred.unilockPlaceholder')}
-              </span>
+              <Image
+                src={unilockBadge}
+                alt={t('cred.unilockAlt')}
+                width={88}
+                height={56}
+                style={{height: '56px', width: 'auto'}}
+              />
             </div>
 
             {/* 2. 25+ years */}

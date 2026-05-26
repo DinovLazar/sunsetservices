@@ -1,4 +1,6 @@
 import * as React from 'react';
+import Image from 'next/image';
+import unilockBadge from '@/assets/brand/unilock-authorized-contractor.png';
 import {
   Award,
   Users,
@@ -121,44 +123,16 @@ type ServiceIconProps = {
  * doesn't conflict with lucide's icon system.
  */
 function UnilockBadge({size = 32, className}: {size?: number; className?: string}) {
+  // Phase M.01c — real licensed Unilock Authorized Contractor badge.
   return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 64 64"
+    <Image
+      src={unilockBadge}
+      alt="Unilock Authorized Contractor"
       width={size}
-      height={size}
+      height={Math.round((size * 230) / 360)}
       className={className}
-      role="img"
-      aria-label="Unilock Authorized Contractor"
-    >
-      <rect x="4" y="4" width="56" height="56" rx="6" fill="currentColor" opacity="0.08" />
-      <rect x="8" y="8" width="48" height="48" rx="4" fill="none" stroke="currentColor" strokeWidth="1.5" />
-      <text
-        x="32"
-        y="29"
-        fontFamily="system-ui, -apple-system, sans-serif"
-        fontSize="11"
-        fontWeight="700"
-        fill="currentColor"
-        textAnchor="middle"
-        letterSpacing="0.04em"
-      >
-        UNILOCK
-      </text>
-      <text
-        x="32"
-        y="44"
-        fontFamily="system-ui, -apple-system, sans-serif"
-        fontSize="6"
-        fontWeight="600"
-        fill="currentColor"
-        textAnchor="middle"
-        letterSpacing="0.12em"
-        opacity="0.85"
-      >
-        AUTHORIZED
-      </text>
-    </svg>
+      style={{width: size, height: 'auto'}}
+    />
   );
 }
 

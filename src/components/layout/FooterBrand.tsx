@@ -1,5 +1,7 @@
+import Image from 'next/image';
 import {getTranslations} from 'next-intl/server';
 import Logo from '@/components/global/Logo';
+import unilockBadge from '@/assets/brand/unilock-authorized-contractor.png';
 import {
   BUSINESS_ADDRESS_LINE1,
   BUSINESS_ADDRESS_LINE2,
@@ -34,13 +36,15 @@ export default async function FooterBrand() {
           {BUSINESS_EMAIL}
         </a>
       </address>
-      {/* Unilock Authorized Contractor — Erick supplies real logo in Part 2. */}
-      <div
-        role="img"
-        aria-label="Unilock Authorized Contractor (placeholder)"
-        className="inline-flex items-center justify-center w-[120px] h-9 rounded text-[11px] text-[var(--color-sunset-green-300)] border border-dashed border-[var(--color-sunset-green-300)]/60"
-      >
-        UNILOCK BADGE
+      {/* Unilock Authorized Contractor — real badge on a white chip for legibility on the dark footer. */}
+      <div className="inline-flex items-center justify-center bg-white rounded p-2 w-fit">
+        <Image
+          src={unilockBadge}
+          alt="Unilock Authorized Contractor"
+          width={110}
+          height={70}
+          style={{height: 'auto', width: '110px'}}
+        />
       </div>
     </div>
   );

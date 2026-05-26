@@ -1176,3 +1176,17 @@ Goran has GCP project ownership (2026-05-12 credentials-handoff decision); the d
 - **Manifest gap:** no Takeout manifest (`archive_browser.html`/`index.html`) was present in the archives, so the exact gap from the 3 missing parts cannot be measured. Estimated ~85 media files lost (~28 media/part × 3). If recovery is wanted, the source Google Drive `MARKETING\MEDIA` folder presumably still exists and a fresh Takeout would recover everything.
 - **Corpus headline:** 2,786 files / 150.91 GB extracted; **2,191 media files / 140.86 GB** (835 photos, 627 RAW/NEF, 729 video) across 66 media folders, almost entirely from 2025 (May–Oct shooting window). The 330 `EditedPhotos` JPGs are the curated web-ready set; per-address job folders (1008 Homerton, 807/811 Edgewater, etc.) map onto project pages. Curation flags for M.01c: HEIC conversion (204), RAW export (627), and excluding Adobe Premiere `.PRV` render-cache `.mov` (~142, ~14 GB) and the `GraphicDesign`/`SocialMedia` non-job assets. Full detail in `Phase-M-01b-Photo-Inventory.md`.
 - **Source preserved.** ZIPs on D:\ untouched (read-only extraction). Extracted tree + logs kept under `C:\sunset-photos\` pending the user's decision on cleanup after M.01c stabilizes.
+
+---
+
+## Phase M.01c — Photo curation, conversion & Sanity upload prep (2026-05-26, Cowork)
+
+- **Vendor turf set corrected.** Plan said "~142 .mov files"; actual `refsproductions` set is 28 `.MP4` files (~14.5 GB). The ~160 .mov in the M.01b inventory were the Premiere render-cache fragments in the dropped `.PRV` folder (confirmed against the M.01b corpus-headline note above). Video manifest built for 26 turf clips → YouTube.
+- **807 vs 811 Edgewater kept as two separate projects** — each has its own dedicated edited-photo set (12 and 60 JPGs in `EditedPhotos`), so no manual split was needed.
+- **6135 Belmont and 1227 Colchester had no still photos, only video.** Project imagery produced by extracting sharp frames from the job videos (frames slightly softer than camera stills).
+- **Unknown Address → published as "Aurora-area patio"** (slug `aurora-area-patio`). Erick NOT contacted (Goran will follow up directly if identification is needed).
+- **Orphan RAW development capped at a curated 106** (folders feeding real buckets), per the plan's "quality over coverage" rule. ~521 orphan RAWs left undeveloped.
+- **Sanity upload mechanism changed to a local script.** The Sanity API is unreachable from the Cowork sandbox (network egress locked, incl. proxy), so programmatic upload from Cowork is impossible. Resolved by `scripts/upload-m01c-photos.mjs`, run by the user locally (dry-run by default, `--commit` to write).
+- **`locations.ts` per-city `projectsCompleted` figures left UNCHANGED.** They represent a 25-year business and cannot be honestly re-derived from a photo sample; lowering them would understate the operation. Flagged for Erick to supply real counts. No `downers-grove` / `north-aurora` location docs exist, so Belmont/Homerton won't auto-link a city until added.
+- **Status:** local processing + curation + upload prep complete; Sanity write, YouTube upload, and live-preview spot-check pending user action. Filed as a PARTIAL completion per the phase's "stop and surface to Chat" clause. Full detail in `src/_project-state/Phase-M-01c-Completion.md`.
+- **Decided by:** Cowork during execution, 2026-05-26 — surfaced for Chat confirmation.

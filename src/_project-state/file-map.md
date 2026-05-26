@@ -524,6 +524,15 @@
 - `C:\sunset-photos\` — **working folder, NOT in repo (not committed).** Created by M.01b on the user's internal C: drive. `extracted\` = merged Takeout tree (~141 GB media); `logs\06-media-files.csv` = every media file; `logs\07-folder-summary.json` = per-folder aggregates; `logs\08-summary.txt` = sitewide summary; `quarantine\` = empty (no failed ZIPs). Kept pending the user's cleanup decision after M.01c.
 - `_m01b/` (temporary, under the repo root) — the PowerShell pre-flight + extraction scripts and their `.bat` launchers used to run the extraction on Windows, plus their output text files. **Not committed** (excluded from the M.01b commit). Left on disk and harmless; the user can delete the `C:\Users\user\Desktop\SunSet-V2\_m01b\` folder at any time.
 
+## Phase M.01c — Photo curation, conversion & Sanity upload prep (added 2026-05-26)
+
+- `scripts/upload-m01c-photos.mjs` — **NEW (Phase M.01c)** one-command Sanity uploader the user runs locally (the Sanity API is unreachable from the Cowork sandbox). Dry-run by default; `--commit` writes. Uploads the 45 curated project photos + 4 team + 8 brand logos, creates 7 real `project` docs (deterministic `_id` `project-<slug>`, bilingual title/narrative, runtime-resolved service + city references, gallery entries, before/after for Scott & Sarah's), and deletes the 12 Phase-1.16 placeholder projects. Loads `.env.local` via dotenv; reads curated files + metadata from `C:\sunset-photos\processed\` (override with `PHOTOS_ROOT`).
+- `src/_project-state/Phase-M-01c-Completion.md` — **NEW (Phase M.01c)** PARTIAL completion report: headline numbers, plan corrections (142→26 turf clips, 807/811 split, Belmont/Colchester video-frame stills, locations.ts stats left unchanged), and the open items pending user action (run uploader, YouTube uploads, drone compression, city confirmations, location docs, preview spot-check).
+- `Sunset-Services-Decisions.md` — **Modified (Phase M.01c)** appended the M.01c execution-time decisions block.
+- `src/_project-state/current-state.md` — **Modified (Phase M.01c)** added the M.01c partial-completion status note in the standalone-status section.
+- `src/_project-state/file-map.md` — **Modified (Phase M.01c)** this section.
+- `C:\sunset-photos\processed\` + `C:\sunset-photos\video-manifest.json` — **working outputs, NOT in repo.** Curated photos (`projects/`, `team/`, `brand/`), `heic-converted/`, `raw-developed/`, `sanity-upload-plan.json` (upload source-of-truth), `_curation_contact_sheet.png`, and the 32-entry video manifest.
+
 ## dist/ + .sanity/ (gitignored)
 
 - `dist/` — **gitignored** Sanity Studio production build output (~7.9MB, written by `npm run studio:build`).

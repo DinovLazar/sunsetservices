@@ -1,10 +1,17 @@
 import Image, {type StaticImageData} from 'next/image';
 import {Link} from '@/i18n/navigation';
 import Breadcrumb from '@/components/ui/Breadcrumb';
-import type {Audience} from '@/data/services';
+import type {Audience, Division} from '@/data/services';
 
 type AudienceHeroProps = {
-  audience: Audience;
+  /**
+   * Phase M.01e — accepts either an audience slug (legacy /residential/ etc.,
+   * now retired) or a division slug. The prop name stays `audience` because
+   * the component is shared between the surviving audience-style page chrome
+   * and the new division landings; URL/query-string usage downstream is
+   * audience- or division-agnostic.
+   */
+  audience: Audience | Division;
   audienceLabel: string;
   homeLabel: string;
   kicker: string;

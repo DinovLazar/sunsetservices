@@ -140,9 +140,9 @@ export function buildLocationServicesItemList(
 ): Record<string, unknown> {
   const items = featuredServices
     .map((entry, idx) => {
-      const svc = getService(entry.slug, entry.audience);
+      const svc = getService(entry.slug);
       if (!svc) return null;
-      return buildServiceListItem(svc, entry.audience, location, locale, idx + 1);
+      return buildServiceListItem(svc, entry.division, location, locale, idx + 1);
     })
     .filter((x): x is Record<string, unknown> => x !== null);
 
@@ -156,7 +156,7 @@ export function buildLocationServicesItemList(
 
 function buildServiceListItem(
   svc: Service,
-  audience: LocationFeaturedService['audience'],
+  division: LocationFeaturedService['division'],
   location: LocationCity,
   locale: Locale,
   position: number,
@@ -170,7 +170,7 @@ function buildServiceListItem(
   return {
     '@type': 'ListItem',
     position,
-    url: toAbsolute(localePath(locale, `/${audience}/${svc.slug}/`)),
+    url: toAbsolute(localePath(locale, `/${division}/${svc.slug}/`)),
     name: svc.name[locale],
   };
 }

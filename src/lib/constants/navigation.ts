@@ -56,8 +56,19 @@ export const NAV_TOP_LEVEL: readonly TopNavItem[] = [
   },
 ] as const;
 
+/**
+ * Phase M.01e — navbar mega-panel rewired by division (was by audience).
+ * 4 service columns + 1 service-areas column. Mobile menu mirrors the
+ * same structure as a 4-section accordion under "Services" plus a
+ * "Service areas" link.
+ */
 export type ServicesColumn = {
-  readonly id: 'residential' | 'commercial' | 'hardscape';
+  readonly id:
+    | 'landscape'
+    | 'hardscape'
+    | 'waterproofing'
+    | 'snow-removal'
+    | 'service-areas';
   readonly headerKey: string;
   readonly headerHref: string;
   readonly children: readonly {readonly labelKey: string; readonly href: string}[];
@@ -65,57 +76,18 @@ export type ServicesColumn = {
 
 export const SERVICES_PANEL: readonly ServicesColumn[] = [
   {
-    id: 'residential',
-    headerKey: 'chrome.nav.servicesPanel.residentialTitle',
-    headerHref: '/residential/',
+    id: 'landscape',
+    headerKey: 'chrome.nav.servicesPanel.landscapeTitle',
+    headerHref: '/landscape/',
     children: [
-      {
-        labelKey: 'chrome.nav.servicesPanel.residential.lawnCare',
-        href: '/residential/lawn-care/',
-      },
-      {
-        labelKey: 'chrome.nav.servicesPanel.residential.landscapeDesign',
-        href: '/residential/landscape-design/',
-      },
-      {
-        labelKey: 'chrome.nav.servicesPanel.residential.treeServices',
-        href: '/residential/tree-services/',
-      },
-      {
-        labelKey: 'chrome.nav.servicesPanel.residential.sprinklerSystems',
-        href: '/residential/sprinkler-systems/',
-      },
-      {
-        labelKey: 'chrome.nav.servicesPanel.residential.snowRemoval',
-        href: '/residential/snow-removal/',
-      },
-      {
-        labelKey: 'chrome.nav.servicesPanel.residential.seasonalCleanup',
-        href: '/residential/seasonal-cleanup/',
-      },
-    ],
-  },
-  {
-    id: 'commercial',
-    headerKey: 'chrome.nav.servicesPanel.commercialTitle',
-    headerHref: '/commercial/',
-    children: [
-      {
-        labelKey: 'chrome.nav.servicesPanel.commercial.maintenance',
-        href: '/commercial/landscape-maintenance/',
-      },
-      {
-        labelKey: 'chrome.nav.servicesPanel.commercial.snowRemoval',
-        href: '/commercial/snow-removal/',
-      },
-      {
-        labelKey: 'chrome.nav.servicesPanel.commercial.propertyEnhancement',
-        href: '/commercial/property-enhancement/',
-      },
-      {
-        labelKey: 'chrome.nav.servicesPanel.commercial.turfManagement',
-        href: '/commercial/turf-management/',
-      },
+      {labelKey: 'chrome.nav.servicesPanel.landscape.lawnCare', href: '/landscape/lawn-care/'},
+      {labelKey: 'chrome.nav.servicesPanel.landscape.landscapeDesign', href: '/landscape/landscape-design/'},
+      {labelKey: 'chrome.nav.servicesPanel.landscape.treeServices', href: '/landscape/tree-services/'},
+      {labelKey: 'chrome.nav.servicesPanel.landscape.sprinklerSystems', href: '/landscape/sprinkler-systems/'},
+      {labelKey: 'chrome.nav.servicesPanel.landscape.seasonalCleanup', href: '/landscape/seasonal-cleanup/'},
+      {labelKey: 'chrome.nav.servicesPanel.landscape.maintenance', href: '/landscape/landscape-maintenance/'},
+      {labelKey: 'chrome.nav.servicesPanel.landscape.propertyEnhancement', href: '/landscape/property-enhancement/'},
+      {labelKey: 'chrome.nav.servicesPanel.landscape.turfManagement', href: '/landscape/turf-management/'},
     ],
   },
   {
@@ -123,30 +95,54 @@ export const SERVICES_PANEL: readonly ServicesColumn[] = [
     headerKey: 'chrome.nav.servicesPanel.hardscapeTitle',
     headerHref: '/hardscape/',
     children: [
-      {
-        labelKey: 'chrome.nav.servicesPanel.hardscape.patiosWalkways',
-        href: '/hardscape/patios-walkways/',
-      },
-      {
-        labelKey: 'chrome.nav.servicesPanel.hardscape.retainingWalls',
-        href: '/hardscape/retaining-walls/',
-      },
-      {
-        labelKey: 'chrome.nav.servicesPanel.hardscape.firePitsFeatures',
-        href: '/hardscape/fire-pits-features/',
-      },
-      {
-        labelKey: 'chrome.nav.servicesPanel.hardscape.pergolasPavilions',
-        href: '/hardscape/pergolas-pavilions/',
-      },
-      {
-        labelKey: 'chrome.nav.servicesPanel.hardscape.driveways',
-        href: '/hardscape/driveways/',
-      },
-      {
-        labelKey: 'chrome.nav.servicesPanel.hardscape.outdoorKitchens',
-        href: '/hardscape/outdoor-kitchens/',
-      },
+      {labelKey: 'chrome.nav.servicesPanel.hardscape.patiosWalkways', href: '/hardscape/patios-walkways/'},
+      {labelKey: 'chrome.nav.servicesPanel.hardscape.retainingWalls', href: '/hardscape/retaining-walls/'},
+      {labelKey: 'chrome.nav.servicesPanel.hardscape.firePitsFeatures', href: '/hardscape/fire-pits-features/'},
+      {labelKey: 'chrome.nav.servicesPanel.hardscape.pergolasPavilions', href: '/hardscape/pergolas-pavilions/'},
+      {labelKey: 'chrome.nav.servicesPanel.hardscape.driveways', href: '/hardscape/driveways/'},
+      {labelKey: 'chrome.nav.servicesPanel.hardscape.outdoorKitchens', href: '/hardscape/outdoor-kitchens/'},
+    ],
+  },
+  {
+    id: 'waterproofing',
+    headerKey: 'chrome.nav.servicesPanel.waterproofingTitle',
+    headerHref: '/waterproofing/',
+    children: [
+      {labelKey: 'chrome.nav.servicesPanel.waterproofing.basementWaterproofing', href: '/waterproofing/basement-waterproofing/'},
+      {labelKey: 'chrome.nav.servicesPanel.waterproofing.foundationRepair', href: '/waterproofing/foundation-repair/'},
+      {labelKey: 'chrome.nav.servicesPanel.waterproofing.sumpPumps', href: '/waterproofing/sump-pumps/'},
+      {labelKey: 'chrome.nav.servicesPanel.waterproofing.yardDrainage', href: '/waterproofing/yard-drainage/'},
+      {labelKey: 'chrome.nav.servicesPanel.waterproofing.gutterServices', href: '/waterproofing/gutter-services/'},
+      {labelKey: 'chrome.nav.servicesPanel.waterproofing.windowWells', href: '/waterproofing/window-wells/'},
+      {labelKey: 'chrome.nav.servicesPanel.waterproofing.crawlSpaces', href: '/waterproofing/crawl-spaces/'},
+      {labelKey: 'chrome.nav.servicesPanel.waterproofing.concreteRaising', href: '/waterproofing/concrete-raising/'},
+      {labelKey: 'chrome.nav.servicesPanel.waterproofing.humidityControl', href: '/waterproofing/humidity-control/'},
+      {labelKey: 'chrome.nav.servicesPanel.waterproofing.radonMitigation', href: '/waterproofing/radon-mitigation/'},
+    ],
+  },
+  {
+    id: 'snow-removal',
+    headerKey: 'chrome.nav.servicesPanel.snowRemovalTitle',
+    headerHref: '/snow-removal/',
+    children: [
+      {labelKey: 'chrome.nav.servicesPanel.snowRemoval.driveway', href: '/snow-removal/driveway-snow-removal/'},
+      {labelKey: 'chrome.nav.servicesPanel.snowRemoval.sidewalk', href: '/snow-removal/sidewalk-shoveling/'},
+      {labelKey: 'chrome.nav.servicesPanel.snowRemoval.deIcing', href: '/snow-removal/de-icing/'},
+      {labelKey: 'chrome.nav.servicesPanel.snowRemoval.commercial', href: '/snow-removal/commercial-snow-plowing/'},
+    ],
+  },
+  {
+    id: 'service-areas',
+    headerKey: 'chrome.nav.servicesPanel.serviceAreasTitle',
+    headerHref: '/service-areas/',
+    children: [
+      {labelKey: 'chrome.footer.cities.aurora', href: '/service-areas/aurora/'},
+      {labelKey: 'chrome.footer.cities.naperville', href: '/service-areas/naperville/'},
+      {labelKey: 'chrome.footer.cities.wheaton', href: '/service-areas/wheaton/'},
+      {labelKey: 'chrome.footer.cities.batavia', href: '/service-areas/batavia/'},
+      {labelKey: 'chrome.nav.servicesPanel.serviceAreas.oakBrook', href: '/service-areas/oak-brook/'},
+      {labelKey: 'chrome.nav.servicesPanel.serviceAreas.hinsdale', href: '/service-areas/hinsdale/'},
+      {labelKey: 'chrome.nav.servicesPanel.serviceAreas.seeAll', href: '/service-areas/'},
     ],
   },
 ] as const;
@@ -198,11 +194,11 @@ export const FOOTER_LINKS: readonly FooterColumn[] = [
     id: 'services',
     headingKey: 'chrome.footer.servicesHeading',
     children: [
-      {labelKey: 'chrome.footer.links.residential', href: '/residential/'},
-      {labelKey: 'chrome.footer.links.commercial', href: '/commercial/'},
+      {labelKey: 'chrome.footer.links.landscape', href: '/landscape/'},
       {labelKey: 'chrome.footer.links.hardscape', href: '/hardscape/'},
-      {labelKey: 'chrome.footer.links.snowRemoval', href: '/residential/snow-removal/'},
-      {labelKey: 'chrome.footer.links.allServices', href: '/residential/'},
+      {labelKey: 'chrome.footer.links.waterproofing', href: '/waterproofing/'},
+      {labelKey: 'chrome.footer.links.snowRemoval', href: '/snow-removal/'},
+      {labelKey: 'chrome.footer.links.allServices', href: '/landscape/'},
     ],
   },
   {

@@ -209,7 +209,7 @@ export const PROJECTS: Project[] = [
   {
     slug: 'wheaton-bank-frontage',
     audience: 'commercial',
-    serviceSlugs: ['lawn-care', 'snow-removal'],
+    serviceSlugs: ['lawn-care', 'commercial-snow-plowing'],
     citySlug: 'wheaton',
     year: 2022,
     durationWeeks: 3,
@@ -340,7 +340,7 @@ export const PROJECTS: Project[] = [
   {
     slug: 'bolingbrook-office-court',
     audience: 'commercial',
-    serviceSlugs: ['lawn-care', 'snow-removal', 'landscape-design'],
+    serviceSlugs: ['lawn-care', 'commercial-snow-plowing', 'landscape-design'],
     citySlug: 'bolingbrook',
     year: 2023,
     durationWeeks: 3,

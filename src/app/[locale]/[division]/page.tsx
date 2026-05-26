@@ -10,38 +10,30 @@ import AudienceUnilockBand from '@/components/sections/audience/AudienceUnilockB
 import AudienceSocialProof from '@/components/sections/audience/AudienceSocialProof';
 import AudienceFAQ from '@/components/sections/audience/AudienceFAQ';
 import AudienceCTA from '@/components/sections/audience/AudienceCTA';
-import {
-  AUDIENCES,
-  type Audience,
-  getServicesForAudience,
-} from '@/data/services';
+import {getServicesForDivision} from '@/data/services';
+import {DIVISIONS, getDivisionMeta, isDivision} from '@/data/divisions';
 import {AUDIENCE_HERO, AUDIENCE_PROJECT_TILES, SERVICE_TILE} from '@/data/imageMap';
 import {buildBreadcrumbList} from '@/lib/schema/breadcrumb';
-import {buildAudienceItemList, localePath} from '@/lib/schema/service';
+import {buildDivisionItemList, localePath} from '@/lib/schema/service';
 import {routing} from '@/i18n/routing';
 import {canonicalUrl, hreflangAlternates} from '@/lib/seo/urls';
 
 type Locale = 'en' | 'es';
 
 export function generateStaticParams() {
-  // Cross product locale × audience handled at the segment level.
-  return AUDIENCES.map((audience) => ({audience}));
-}
-
-function isAudience(slug: string): slug is Audience {
-  return (AUDIENCES as readonly string[]).includes(slug);
+  return DIVISIONS.map((division) => ({division}));
 }
 
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{locale: string; audience: string}>;
+  params: Promise<{locale: string; division: string}>;
 }): Promise<Metadata> {
-  const {locale, audience} = await params;
-  if (!isAudience(audience)) return {};
-  const t = await getTranslations({locale, namespace: `audience.${audience}.meta`});
+  const {locale, division} = await params;
+  if (!isDivision(division)) return {};
+  const t = await getTranslations({locale, namespace: `division.${division}.meta`});
   const loc: Locale = locale === 'es' ? 'es' : 'en';
-  const path = `/${audience}`;
+  const path = `/${division}`;
   return {
     title: t('title'),
     description: t('description'),
@@ -52,36 +44,47 @@ export async function generateMetadata({
   };
 }
 
-export default async function AudienceLandingPage({
+/**
+ * Phase M.01e — division landing page. Replaces the audience landings
+ * (`/residential/`, `/commercial/`, `/hardscape/`). Renders 4 division
+ * landings via `generateStaticParams` (DIVISIONS × locales = 8 routes).
+ *
+ * Reuses the existing audience-landing component composition. The accent
+ * tokens (`--audience-accent` / `--audience-chip-bg`) are wired by the
+ * `[data-division='<slug>']` selectors in globals.css so existing
+ * components keep rendering correctly.
+ */
+export default async function DivisionLandingPage({
   params,
 }: {
-  params: Promise<{locale: string; audience: string}>;
+  params: Promise<{locale: string; division: string}>;
 }) {
-  const {locale, audience} = await params;
-  if (!isAudience(audience)) notFound();
+  const {locale, division} = await params;
+  if (!isDivision(division)) notFound();
   if (!routing.locales.includes(locale as Locale)) notFound();
   const loc = locale as Locale;
   setRequestLocale(loc);
 
-  const t = await getTranslations({locale, namespace: `audience.${audience}`});
-  const tShared = await getTranslations({locale, namespace: 'audience'});
+  const t = await getTranslations({locale, namespace: `division.${division}`});
+  const tShared = await getTranslations({locale, namespace: 'division'});
 
-  const audienceLabel = t('label');
+  const divisionLabel = t('label');
   const homeLabel = tShared('breadcrumbHome');
-  const services = getServicesForAudience(audience);
-  const heroPhoto = AUDIENCE_HERO[audience];
+  const services = getServicesForDivision(division);
+  const meta = getDivisionMeta(division);
+  const heroPhoto = AUDIENCE_HERO[meta.heroImageKey];
 
   // ---- Schema ----
   const breadcrumbSchema = buildBreadcrumbList([
     {name: homeLabel, item: localePath(loc, '/')},
-    {name: audienceLabel, item: localePath(loc, `/${audience}/`)},
+    {name: divisionLabel, item: localePath(loc, `/${division}/`)},
   ]);
-  const itemListSchema = buildAudienceItemList(audience, services, loc, audienceLabel);
+  const itemListSchema = buildDivisionItemList(division, services, loc, divisionLabel);
 
   // ---- Hero ----
   const heroBlock = {
-    audience,
-    audienceLabel,
+    audience: division,
+    audienceLabel: divisionLabel,
     homeLabel,
     kicker: t('hero.kicker'),
     h1: t('hero.h1'),
@@ -101,18 +104,18 @@ export default async function AudienceLandingPage({
   ] as [string, string, string, string];
 
   // ---- Services grid: tile photos keyed by URL slug. Asset lookup uses
-  // imageKey when present (disambiguates services that share a URL slug
-  // across audiences, e.g., residential vs commercial `snow-removal`). ----
+  // imageKey when present (placeholders for new waterproofing + snow-removal
+  // services alias to existing photo keys; M.01f swaps in real photography).
   const tilePhotos: Record<string, {src: string; width: number; height: number; blurDataURL?: string}> = {};
   for (const s of services) {
     const img = SERVICE_TILE[s.imageKey ?? s.slug];
     if (img) tilePhotos[s.slug] = {src: img.src, width: img.width, height: img.height, blurDataURL: img.blurDataURL};
   }
 
-  // ---- Featured projects (3 tiles per audience) ----
-  const projectImages = AUDIENCE_PROJECT_TILES[audience];
+  // ---- Featured projects (3 tiles per division) ----
+  const projectImages = AUDIENCE_PROJECT_TILES[meta.projectTilesKey];
   const featuredProjectTiles = (['one', 'two', 'three'] as const).map((key, idx) => ({
-    key: `${audience}-${key}`,
+    key: `${division}-${key}`,
     title: t(`featuredProjects.tiles.${key}.title`),
     meta: t(`featuredProjects.tiles.${key}.meta`),
     photoSrc: projectImages[idx]?.src ?? '',
@@ -125,44 +128,26 @@ export default async function AudienceLandingPage({
     icon: t(`whySunset.props.${key}.icon`),
   }));
 
-  // ---- Social proof reviews + credentials ----
+  // ---- Social proof reviews + credentials (4 chips, division-specific) ----
   const reviews = (['one', 'two'] as const).map((key) => ({
     quote: t(`socialProof.reviews.${key}.quote`),
     name: t(`socialProof.reviews.${key}.name`),
     city: t(`socialProof.reviews.${key}.city`),
   }));
-  const credentialsCommercial = audience === 'commercial';
-  const credentialsHardscape = audience === 'hardscape';
-  const credentials = credentialsCommercial
-    ? [
-        {big: t('socialProof.credentials.rating'), sub: t('socialProof.credentials.ratingSub')},
-        {big: t('socialProof.credentials.insured'), sub: t('socialProof.credentials.insuredSub')},
-        {big: t('socialProof.credentials.years'), sub: t('socialProof.credentials.yearsSub')},
-        {big: t('socialProof.credentials.homes'), sub: t('socialProof.credentials.homesSub')},
-      ]
-    : credentialsHardscape
-      ? [
-          {big: t('socialProof.credentials.rating'), sub: t('socialProof.credentials.ratingSub')},
-          {big: t('socialProof.credentials.unilock'), sub: t('socialProof.credentials.unilockSub')},
-          {big: t('socialProof.credentials.warranty'), sub: t('socialProof.credentials.warrantySub')},
-          {big: t('socialProof.credentials.installs'), sub: t('socialProof.credentials.installsSub')},
-        ]
-      : [
-          {big: t('socialProof.credentials.rating'), sub: t('socialProof.credentials.ratingSub')},
-          {big: t('socialProof.credentials.unilock'), sub: t('socialProof.credentials.unilockSub')},
-          {big: t('socialProof.credentials.years'), sub: t('socialProof.credentials.yearsSub')},
-          {big: t('socialProof.credentials.homes'), sub: t('socialProof.credentials.homesSub')},
-        ];
+  const credentials = (['one', 'two', 'three', 'four'] as const).map((key) => ({
+    big: t(`socialProof.credentials.${key}.big`),
+    sub: t(`socialProof.credentials.${key}.sub`),
+  }));
 
   // ---- FAQ ----
   const faqItems = (['one', 'two', 'three', 'four', 'five'] as const).map((key) => ({
-    id: `audience-${audience}-faq-${key}`,
+    id: `division-${division}-faq-${key}`,
     question: t(`faq.items.${key}.q`),
     answer: t(`faq.items.${key}.a`),
   }));
 
   return (
-    <div data-audience={audience}>
+    <div data-division={division}>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{__html: JSON.stringify(breadcrumbSchema)}}
@@ -179,7 +164,7 @@ export default async function AudienceLandingPage({
         pills={pills}
       />
       <AudienceServicesGrid
-        audience={audience}
+        audience={division}
         locale={loc}
         eyebrow={t('servicesGrid.eyebrow')}
         h2={t('servicesGrid.h2')}
@@ -188,12 +173,12 @@ export default async function AudienceLandingPage({
         tilePhotos={tilePhotos}
       />
       <AudienceFeaturedProjects
-        audience={audience}
+        audience={division}
         locale={loc}
         eyebrow={t('featuredProjects.eyebrow')}
         h2={t('featuredProjects.h2')}
         viewAll={t('featuredProjects.viewAll')}
-        tag={audienceLabel.toUpperCase()}
+        tag={divisionLabel.toUpperCase()}
         tiles={featuredProjectTiles}
       />
       <AudienceWhyUs
@@ -201,7 +186,7 @@ export default async function AudienceLandingPage({
         h2={t('whySunset.h2')}
         props={whyProps}
       />
-      {audience === 'hardscape' ? (
+      {division === 'hardscape' ? (
         <AudienceUnilockBand
           eyebrow={t('unilock.eyebrow')}
           h2={t('unilock.h2')}
@@ -223,7 +208,7 @@ export default async function AudienceLandingPage({
         items={faqItems}
       />
       <AudienceCTA
-        audience={audience}
+        audience={division}
         eyebrow={t('cta.eyebrow')}
         h2={t('cta.h2')}
         body={t('cta.body')}

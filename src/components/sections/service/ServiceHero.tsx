@@ -3,10 +3,10 @@ import {Link} from '@/i18n/navigation';
 import {Phone} from 'lucide-react';
 import Breadcrumb from '@/components/ui/Breadcrumb';
 import {BUSINESS_PHONE_TEL} from '@/lib/constants/business';
-import type {Audience} from '@/data/services';
+import type {Audience, Division} from '@/data/services';
 
 type ServiceHeroProps = {
-  audience: Audience;
+  audience: Audience | Division;
   audienceLabel: string;
   audienceKicker: string;
   serviceName: string;

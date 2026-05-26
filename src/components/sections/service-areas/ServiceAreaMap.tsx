@@ -1,6 +1,14 @@
 import {getTranslations} from 'next-intl/server';
 import {Link} from '@/i18n/navigation';
-import {getVisibleLocations} from '@/data/locations';
+import {LOCATIONS} from '@/data/locations';
+
+/**
+ * Phase M.01e — show all 22 surfaced cities (24 total minus the 2 retired:
+ * Lisle + Bolingbrook). Coordinates were computed via Web Mercator
+ * projection (see `projectGeo.ts`) and committed into `locations.ts` so the
+ * SVG renders deterministically without runtime computation.
+ */
+const RETIRED_CITY_SLUGS = new Set(['lisle', 'bolingbrook']);
 
 /**
  * ServiceAreaMap — Phase 1.14 §3.2 production SVG.
@@ -85,8 +93,8 @@ export default async function ServiceAreaMap() {
         </text>
       </g>
 
-      {/* Pins — 6 cities, each a real <Link> */}
-      {getVisibleLocations().map((loc) => (
+      {/* Pins — 22 surfaced cities (24 minus the 2 retired), each a real <Link> */}
+      {LOCATIONS.filter((loc) => !RETIRED_CITY_SLUGS.has(loc.slug)).map((loc) => (
         <Link
           key={loc.slug}
           href={`/service-areas/${loc.slug}/`}

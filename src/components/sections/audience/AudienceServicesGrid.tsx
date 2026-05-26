@@ -4,12 +4,13 @@ import {ArrowUpRight} from 'lucide-react';
 import AnimateIn from '@/components/global/motion/AnimateIn';
 import StaggerContainer from '@/components/global/motion/StaggerContainer';
 import StaggerItem from '@/components/global/motion/StaggerItem';
-import type {Service, Audience} from '@/data/services';
+import type {Service, Audience, Division} from '@/data/services';
 
 type Locale = 'en' | 'es';
 
 type AudienceServicesGridProps = {
-  audience: Audience;
+  /** Phase M.01e — accepts either an audience or a division slug (see AudienceHero comment). */
+  audience: Audience | Division;
   locale: Locale;
   eyebrow: string;
   h2: string;

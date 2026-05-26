@@ -92,21 +92,19 @@ const SITE_ORIGIN = 'https://sunsetservices.us';
 // homepage is `/` for EN and `/es` for ES.
 // ---------------------------------------------------------------------------
 
-const AUDIENCES = ['residential', 'commercial', 'hardscape'];
+// Phase M.01e — IA flipped from 3 audiences to 4 divisions. 28 services total
+// (was 16). URL shape is now /<division>/<slug>/.
+const DIVISIONS = ['landscape', 'hardscape', 'waterproofing', 'snow-removal'];
 
 const SERVICE_SLUGS = {
-  // Mirrors src/data/services.ts. Total: 16 services across 3 audiences.
-  residential: [
+  // Mirrors src/data/services.ts. Total: 28 services across 4 divisions.
+  landscape: [
     'lawn-care',
     'landscape-design',
     'tree-services',
     'sprinkler-systems',
-    'snow-removal',
     'seasonal-cleanup',
-  ],
-  commercial: [
     'landscape-maintenance',
-    'snow-removal',
     'property-enhancement',
     'turf-management',
   ],
@@ -118,15 +116,50 @@ const SERVICE_SLUGS = {
     'driveways',
     'outdoor-kitchens',
   ],
+  waterproofing: [
+    'basement-waterproofing',
+    'foundation-repair',
+    'sump-pumps',
+    'yard-drainage',
+    'gutter-services',
+    'window-wells',
+    'crawl-spaces',
+    'concrete-raising',
+    'humidity-control',
+    'radon-mitigation',
+  ],
+  'snow-removal': [
+    'de-icing',
+    'sidewalk-shoveling',
+    'driveway-snow-removal',
+    'commercial-snow-plowing',
+  ],
 };
 
+// Phase M.01e — 22 surfaced cities (24 - 2 retired: Lisle + Bolingbrook).
 const CITY_SLUGS = [
   'aurora',
   'naperville',
   'batavia',
   'wheaton',
-  'lisle',
-  'bolingbrook',
+  'hinsdale',
+  'oak-brook',
+  'elmhurst',
+  'clarendon-hills',
+  'burr-ridge',
+  'western-springs',
+  'glen-ellyn',
+  'downers-grove',
+  'winfield',
+  'lombard',
+  'st-charles',
+  'geneva',
+  'south-elgin',
+  'elburn',
+  'north-aurora',
+  'oswego',
+  'yorkville',
+  'plainfield',
 ];
 
 const PROJECT_SLUGS = [
@@ -163,12 +196,13 @@ const RESOURCE_SLUGS = [
 function buildEnPaths() {
   const out = [];
   out.push('/');
-  for (const a of AUDIENCES) {
-    out.push(`/${a}`);
-    for (const s of SERVICE_SLUGS[a]) {
-      out.push(`/${a}/${s}`);
+  for (const d of DIVISIONS) {
+    out.push(`/${d}`);
+    for (const s of SERVICE_SLUGS[d]) {
+      out.push(`/${d}/${s}`);
     }
   }
+  out.push('/qa');
   out.push('/service-areas');
   for (const c of CITY_SLUGS) out.push(`/service-areas/${c}`);
   out.push('/projects');

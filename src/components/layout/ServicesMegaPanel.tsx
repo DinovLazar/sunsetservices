@@ -137,23 +137,24 @@ export default function ServicesMegaPanel() {
             className="fixed left-0 right-0 top-[72px] z-[var(--z-dropdown)] bg-[var(--color-bg)] border-t border-[var(--color-border)] shadow-[var(--shadow-card)]"
           >
             <div className="mx-auto max-w-[var(--container-wide)] px-4 sm:px-6 lg:px-8 xl:px-12 py-10">
-              <div className="grid gap-8 grid-cols-3 xl:grid-cols-[1fr_1fr_1fr_400px]">
+              {/* Phase M.01e — 5-column layout: 4 division columns + 1 service-areas column. */}
+              <div className="grid gap-6 lg:gap-8 grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
                 {SERVICES_PANEL.map((col) => (
                   <div key={col.id}>
                     <Link
                       href={col.headerHref}
                       role="menuitem"
-                      className="block pb-2 mb-4 border-b border-[var(--color-border)] text-[var(--color-sunset-green-700)] font-heading font-bold text-[17px] no-underline hover:text-[var(--color-sunset-green-600)]"
+                      className="block pb-2 mb-4 border-b border-[var(--color-border)] text-[var(--color-sunset-green-700)] font-heading font-bold text-[16px] no-underline hover:text-[var(--color-sunset-green-600)]"
                     >
                       {t(col.headerKey)}
                     </Link>
-                    <ul className="space-y-3.5">
+                    <ul className="space-y-3">
                       {col.children.map((child) => (
                         <li key={child.href}>
                           <Link
                             href={child.href}
                             role="menuitem"
-                            className="block text-[15px] font-medium text-[var(--color-text-secondary)] hover:text-[var(--color-sunset-green-700)] no-underline"
+                            className="block text-[14px] font-medium text-[var(--color-text-secondary)] hover:text-[var(--color-sunset-green-700)] no-underline"
                           >
                             {t(child.labelKey)}
                           </Link>
@@ -162,23 +163,6 @@ export default function ServicesMegaPanel() {
                     </ul>
                   </div>
                 ))}
-                <div className="hidden xl:block">
-                  <Link
-                    href="/projects/"
-                    role="menuitem"
-                    className="block relative h-[216px] rounded-[var(--radius-lg)] overflow-hidden bg-gradient-to-br from-[var(--color-sunset-green-700)] to-[var(--color-sunset-green-900)] no-underline group"
-                  >
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                    <div className="absolute bottom-5 left-5 right-5">
-                      <p className="font-heading font-bold text-[18px] text-[var(--color-text-on-dark)] group-hover:translate-x-1 transition-transform duration-[var(--motion-fast)]">
-                        {t('chrome.nav.servicesPanel.photoCaption')}
-                      </p>
-                      <p className="text-[13px] text-[var(--color-sunset-green-100)] mt-1">
-                        {t('chrome.nav.servicesPanel.photoSubcaption')}
-                      </p>
-                    </div>
-                  </Link>
-                </div>
               </div>
             </div>
           </motion.div>

@@ -1,8 +1,15 @@
 import {getTranslations} from 'next-intl/server';
 import AnimateIn from '@/components/global/motion/AnimateIn';
 import LocationCard from '@/components/ui/LocationCard';
-import {getVisibleLocations} from '@/data/locations';
+import {LOCATIONS} from '@/data/locations';
 import {LOCATION_CARD} from '@/data/imageMap';
+
+/**
+ * Phase M.01e — show all 22 surfaced cities (24 total minus the 2 retired:
+ * Lisle + Bolingbrook). The retired cities are surfaced as a static prose
+ * note below the grid (see OutsideAreaBand → `serviceAreas.extendedArea.*`).
+ */
+const RETIRED_CITY_SLUGS = new Set(['lisle', 'bolingbrook']);
 
 /**
  * CitiesGrid — Phase 1.14 §3.3.
@@ -61,20 +68,52 @@ export default async function CitiesGrid() {
             </p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
-            {getVisibleLocations().map((loc) => (
+            {LOCATIONS.filter((loc) => !RETIRED_CITY_SLUGS.has(loc.slug)).map((loc) => (
               <LocationCard
                 key={loc.slug}
                 href={`/service-areas/${loc.slug}/`}
                 cityName={loc.name}
                 state={loc.state}
-                tagline={tagline(loc.slug)}
-                photo={LOCATION_CARD[loc.slug]}
+                tagline={(() => {
+                  try {
+                    return tagline(loc.slug);
+                  } catch {
+                    // New M.01d cities not yet seeded into `serviceAreas.grid.tagline.*`.
+                    // M.01f adds bespoke taglines; fall back to a neutral city label.
+                    return `${loc.name}, ${loc.state}`;
+                  }
+                })()}
+                photo={LOCATION_CARD[loc.slug] ?? LOCATION_CARD.aurora}
                 cardCtaLabel={t('cardCta')}
               />
             ))}
           </div>
+          <ExtendedAreaNote />
         </AnimateIn>
       </div>
     </section>
+  );
+}
+
+/**
+ * Phase M.01e — Lisle + Bolingbrook were retired as dedicated city pages but
+ * remain in the service area. Rendered as plain prose under the grid so the
+ * SEO signal (Sunset works in those towns) survives the retirement of the
+ * dedicated pages. The bilingual strings live under
+ * `serviceAreas.extendedArea.*`.
+ */
+async function ExtendedAreaNote() {
+  const t = await getTranslations('serviceAreas.extendedArea');
+  return (
+    <p
+      className="m-0 mt-8 lg:mt-12 max-w-[60ch]"
+      style={{
+        fontSize: 'var(--text-body)',
+        color: 'var(--color-text-secondary)',
+        lineHeight: 'var(--leading-relaxed)',
+      }}
+    >
+      {t('note')}
+    </p>
   );
 }

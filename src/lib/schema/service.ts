@@ -7,7 +7,7 @@
  */
 
 import {BUSINESS_URL} from '@/lib/constants/business';
-import type {Service, Audience, Localized} from '@/data/services';
+import type {Service, Audience, Division, Localized} from '@/data/services';
 
 type Locale = 'en' | 'es';
 
@@ -37,7 +37,7 @@ export function buildServiceSchema(
   service: Service,
   locale: Locale,
 ): Record<string, unknown> {
-  const url = toAbsolute(localePath(locale, `/${service.audience}/${service.slug}/`));
+  const url = toAbsolute(localePath(locale, `/${service.division}/${service.slug}/`));
   const offerUrl = toAbsolute(
     localePath(locale, `/request-quote/?service=${service.slug}`),
   );
@@ -52,10 +52,7 @@ export function buildServiceSchema(
       '@type': 'AdministrativeArea',
       name: 'DuPage County, Illinois',
     },
-    audience: {
-      '@type': 'Audience',
-      audienceType: service.audience,
-    },
+    category: service.division,
     url,
     offers: {
       '@type': 'Offer',
@@ -82,6 +79,30 @@ export function buildAudienceItemList(
       '@type': 'ListItem',
       position: idx + 1,
       url: toAbsolute(localePath(locale, `/${audience}/${s.slug}/`)),
+      name: pickLocalized(s.name, locale),
+    })),
+  };
+}
+
+/**
+ * Phase M.01e — division-aware ItemList. Same shape as audience version but
+ * URLs use `/<division>/<slug>/`. Used by the dynamic `/[locale]/[division]`
+ * landing page.
+ */
+export function buildDivisionItemList(
+  division: Division,
+  services: Service[],
+  locale: Locale,
+  divisionDisplayName: string,
+): Record<string, unknown> {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: `${divisionDisplayName} services`,
+    itemListElement: services.map((s, idx) => ({
+      '@type': 'ListItem',
+      position: idx + 1,
+      url: toAbsolute(localePath(locale, `/${division}/${s.slug}/`)),
       name: pickLocalized(s.name, locale),
     })),
   };

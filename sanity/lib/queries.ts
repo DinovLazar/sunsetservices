@@ -305,10 +305,19 @@ const FAQ_PROJECTION = `{
   order
 }`;
 
-export async function getFaqsForService(audience: Audience, slug: string): Promise<FaqEntry[]> {
+/**
+ * Phase M.01e — scope tag migrated from `service:<audience>:<slug>` to
+ * `service:<division>:<slug>`. The Sanity migration script
+ * (scripts/migrate-faq-to-divisions.mjs) patches existing docs to the new
+ * format. Callers pass a division slug; the type is widened to `string`
+ * here to accept both audience and division values during the migration
+ * window — the runtime scope value is what matters and the Sanity-side
+ * data lives at exactly one canonical scope key after the migration.
+ */
+export async function getFaqsForService(division: string, slug: string): Promise<FaqEntry[]> {
   return sanityClient.fetch(
     `*[_type == "faq" && scope == $scope] | order(order asc) ${FAQ_PROJECTION}`,
-    {scope: `service:${audience}:${slug}`},
+    {scope: `service:${division}:${slug}`},
     cachedTagged(TAG.faq),
   );
 }

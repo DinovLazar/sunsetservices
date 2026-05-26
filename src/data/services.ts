@@ -286,7 +286,7 @@ export const SERVICES: Service[] = [
         imageKey: 'lawn-care-2',
       },
     ],
-    related: ['landscape-design', 'sprinkler-systems', 'snow-removal', 'seasonal-cleanup'],
+    related: ['landscape-design', 'sprinkler-systems', 'driveway-snow-removal', 'seasonal-cleanup'],
     projectsTag: 'lawn-care',
   },
 
@@ -698,129 +698,9 @@ export const SERVICES: Service[] = [
     projectsTag: 'sprinkler-systems',
   },
 
-  {
-    slug: 'snow-removal',
-    division: 'snow-removal',
-    audience: 'residential',
-    icon: 'Snowflake',
-    name: {en: 'Snow Removal', es: 'Remoción de Nieve'},
-    hero: {
-      h1: {
-        en: 'Residential Snow Removal in DuPage.',
-        es: 'Remoción de Nieve Residencial en DuPage.',
-      },
-      subhead: {
-        en: 'Plowing, walks, steps, and de-icing on a 2-inch trigger. 24/7 dispatch and a 2-hour response window once we trigger.',
-        es: 'Arado, senderos, escalones y deshielo con activación a 2 pulgadas. Despacho 24/7 y respuesta en 2 horas tras activar.',
-      },
-      photoSlot: 'service.snow-removal.16x9',
-    },
-    whatsIncluded: [
-      {
-        headline: {en: 'Plowing', es: 'Arado'},
-        description: {
-          en: 'Driveway plowed clear to pavement.',
-          es: 'Entrada arada hasta el pavimento.',
-        },
-        icon: 'Snowflake',
-      },
-      {
-        headline: {en: 'Shoveling walks + steps', es: 'Pala en senderos y escalones'},
-        description: {
-          en: 'Front walks and steps cleared by hand.',
-          es: 'Senderos delanteros y escalones limpiados a mano.',
-        },
-        icon: 'Footprints',
-      },
-      {
-        headline: {en: 'De-icing', es: 'Deshielo'},
-        description: {
-          en: 'Pet-safe melt applied where needed.',
-          es: 'Sal pet-safe aplicada donde se necesita.',
-        },
-        icon: 'Droplets',
-      },
-      {
-        headline: {en: '2" trigger', es: 'Activación a 2"'},
-        description: {
-          en: 'We service every storm at or above 2 inches.',
-          es: 'Servicio en cada tormenta de 2 pulgadas o más.',
-        },
-        icon: 'Ruler',
-      },
-    ],
-    process: [
-      {
-        headline: {en: 'Pre-season prep', es: 'Preparación pre-temporada'},
-        description: {
-          en: 'Mark drives, walk lines, and irrigation heads in October.',
-          es: 'Marcamos entradas, senderos y cabezales de riego en octubre.',
-        },
-      },
-      {
-        headline: {en: 'Storm trigger', es: 'Activación por tormenta'},
-        description: {
-          en: 'Forecast plus on-site verification triggers dispatch.',
-          es: 'Pronóstico y verificación en sitio activan el despacho.',
-        },
-      },
-      {
-        headline: {en: 'Service', es: 'Servicio'},
-        description: {
-          en: 'Plow, shovel, de-ice — usually inside 2 hours.',
-          es: 'Arado, pala, deshielo — normalmente en 2 horas.',
-        },
-      },
-      {
-        headline: {en: 'Post-storm check', es: 'Revisión post-tormenta'},
-        description: {
-          en: 'Drive-by once snow stops to clear drift accumulation.',
-          es: 'Pasada al detenerse la nieve para limpiar acumulación.',
-        },
-      },
-    ],
-    whyUs: [
-      {
-        headline: {en: '2-hr response after trigger', es: '2 horas tras activación'},
-        description: {
-          en: 'You\'re served before most people are out of bed.',
-          es: 'Atendido antes de que la mayoría se levante.',
-        },
-        icon: 'Clock',
-      },
-      {
-        headline: {en: '24/7 dispatch', es: 'Despacho 24/7'},
-        description: {
-          en: 'Storm at 2am? We\'re already on the way.',
-          es: '¿Tormenta a las 2am? Ya vamos en camino.',
-        },
-        icon: 'PhoneCall',
-      },
-      {
-        headline: {en: 'Insured fleet', es: 'Flotilla asegurada'},
-        description: {
-          en: 'Property-damage coverage on every plow on the road.',
-          es: 'Cobertura por daños en cada vehículo de arado.',
-        },
-        icon: 'ShieldCheck',
-      },
-    ],
-    pricing: {mode: 'explainer', explainerFactors: GENERIC_FACTORS},
-    projects: [
-      {
-        title: {en: 'Naperville HOA, all-season', es: 'HOA en Naperville, temporada completa'},
-        meta: {en: 'Naperville · 2023–2024', es: 'Naperville · 2023–2024'},
-        imageKey: 'snow-removal-1',
-      },
-      {
-        title: {en: 'Wheaton residential cluster', es: 'Cluster residencial en Wheaton'},
-        meta: {en: 'Wheaton · 2023–2024', es: 'Wheaton · 2023–2024'},
-        imageKey: 'snow-removal-2',
-      },
-    ],
-    related: ['lawn-care', 'seasonal-cleanup'],
-    projectsTag: 'snow-removal',
-  },
+  // Phase M.01e — residential `snow-removal` retired. Content merged into
+  // `driveway-snow-removal`. Old URL `/residential/snow-removal/` 301-redirects
+  // to `/snow-removal/driveway-snow-removal/` (see next.config.ts).
 
   {
     slug: 'seasonal-cleanup',
@@ -1098,150 +978,15 @@ export const SERVICES: Service[] = [
         imageKey: 'landscape-maintenance-2',
       },
     ],
-    related: ['snow-removal', 'property-enhancement', 'turf-management'],
+    related: ['commercial-snow-plowing', 'property-enhancement', 'turf-management'],
     projectsTag: 'landscape-maintenance',
   },
 
-  {
-    slug: 'snow-removal',
-    division: 'snow-removal',
-    audience: 'commercial',
-    icon: 'Snowflake',
-    name: {en: 'Commercial Snow Removal', es: 'Remoción Comercial de Nieve'},
-    /** Asset key — disambiguates from residential `snow-removal` (same URL slug, different audience). */
-    imageKey: 'commercial-snow-removal',
-    hero: {
-      h1: {
-        en: 'Commercial Snow Removal in DuPage County.',
-        es: 'Remoción Comercial de Nieve en DuPage.',
-      },
-      subhead: {
-        en: 'Plowing, sidewalks, de-icing, 24/7 dispatch, and a per-event storm log. After-hours response with 2-hour SLA after trigger.',
-        es: 'Arado, senderos, deshielo, despacho 24/7 y bitácora por evento. Respuesta fuera de horario con SLA de 2 horas tras activar.',
-      },
-      photoSlot: 'service.commercial-snow-removal.16x9',
-    },
-    whatsIncluded: [
-      {
-        headline: {en: 'Plowing', es: 'Arado'},
-        description: {
-          en: 'Parking lots and approaches plowed to pavement.',
-          es: 'Estacionamientos y accesos arados al pavimento.',
-        },
-        icon: 'Snowflake',
-      },
-      {
-        headline: {en: 'Sidewalks', es: 'Senderos'},
-        description: {
-          en: 'Walks shoveled and salted; ADA compliance maintained.',
-          es: 'Senderos paleados y salados; cumple con ADA.',
-        },
-        icon: 'Footprints',
-      },
-      {
-        headline: {en: 'De-icing', es: 'Deshielo'},
-        description: {
-          en: 'Calibrated salt or eco-melt per contract spec.',
-          es: 'Sal calibrada o eco-melt según contrato.',
-        },
-        icon: 'Droplets',
-      },
-      {
-        headline: {en: '24/7 dispatch', es: 'Despacho 24/7'},
-        description: {
-          en: 'Live operator response any hour during snow season.',
-          es: 'Respuesta de operador en vivo a toda hora en temporada.',
-        },
-        icon: 'PhoneCall',
-      },
-      {
-        headline: {en: 'Storm log', es: 'Bitácora de tormenta'},
-        description: {
-          en: 'Per-event timing, depths, and applications report.',
-          es: 'Reporte por evento de tiempos, profundidades y aplicaciones.',
-        },
-        icon: 'FileText',
-      },
-    ],
-    process: [
-      {
-        headline: {en: 'Pre-season audit', es: 'Auditoría pre-temporada'},
-        description: {
-          en: 'Lot mapping, drift analysis, equipment placement.',
-          es: 'Mapeo del lote, análisis de drift, ubicación de equipo.',
-        },
-      },
-      {
-        headline: {en: 'Contract + COI', es: 'Contrato y COI'},
-        description: {
-          en: 'Master contract signed, COI issued before November 1.',
-          es: 'Contrato maestro firmado, COI emitido antes del 1 de noviembre.',
-        },
-      },
-      {
-        headline: {en: 'Trigger', es: 'Activación'},
-        description: {
-          en: 'Forecast plus on-site verification triggers dispatch.',
-          es: 'Pronóstico y verificación en sitio activan el despacho.',
-        },
-      },
-      {
-        headline: {en: 'Service', es: 'Servicio'},
-        description: {
-          en: 'Plow, walk, de-ice — all inside the 2-hour SLA.',
-          es: 'Arado, senderos, deshielo — dentro del SLA de 2 horas.',
-        },
-      },
-      {
-        headline: {en: 'Reporting', es: 'Reportes'},
-        description: {
-          en: 'Storm-event log emailed before close of next business day.',
-          es: 'Bitácora del evento por correo antes del próximo día hábil.',
-        },
-      },
-    ],
-    whyUs: [
-      {
-        headline: {en: 'After-hours dispatch', es: 'Despacho fuera de horario'},
-        description: {
-          en: 'Live operator at 2am, not a call-back tomorrow.',
-          es: 'Operador en vivo a las 2am, no devolución mañana.',
-        },
-        icon: 'Clock',
-      },
-      {
-        headline: {en: 'Storm-event reporting', es: 'Reportes por evento'},
-        description: {
-          en: 'PDF log per storm: timing, depth, application weights.',
-          es: 'PDF por tormenta: tiempos, profundidad, pesos de aplicación.',
-        },
-        icon: 'FileText',
-      },
-      {
-        headline: {en: '2-hr response SLA', es: 'SLA de 2 horas'},
-        description: {
-          en: 'Contractually committed response inside 2 hours after trigger.',
-          es: 'Respuesta contractualmente garantizada en 2 horas tras activar.',
-        },
-        icon: 'BadgeCheck',
-      },
-    ],
-    pricing: {mode: 'explainer', explainerFactors: GENERIC_FACTORS},
-    projects: [
-      {
-        title: {en: 'Aurora retail center', es: 'Centro comercial en Aurora'},
-        meta: {en: 'Aurora · 2023–2024', es: 'Aurora · 2023–2024'},
-        imageKey: 'commercial-snow-removal-1',
-      },
-      {
-        title: {en: 'Naperville office park', es: 'Parque de oficinas en Naperville'},
-        meta: {en: 'Naperville · 2023–2024', es: 'Naperville · 2023–2024'},
-        imageKey: 'commercial-snow-removal-2',
-      },
-    ],
-    related: ['landscape-maintenance', 'property-enhancement'],
-    projectsTag: 'commercial-snow-removal',
-  },
+  // Phase M.01e — commercial `snow-removal` retired. Content merged into
+  // `commercial-snow-plowing` (which inherits the `commercial-snow-removal`
+  // imageKey so the existing photo asset keeps rendering). Old URL
+  // `/commercial/snow-removal/` 301-redirects to
+  // `/snow-removal/commercial-snow-plowing/` (see next.config.ts).
 
   {
     slug: 'property-enhancement',
@@ -2380,6 +2125,8 @@ export const SERVICES: Service[] = [
     division: 'waterproofing',
     icon: 'Droplets',
     name: {en: 'Basement Waterproofing', es: 'Impermeabilización de Sótanos'},
+    /** M.01e placeholder alias — real waterproofing photography lands in M.01f. */
+    imageKey: 'retaining-walls',
     hero: {
       h1: {
         en: 'Basement Waterproofing in DuPage County.',
@@ -2516,6 +2263,7 @@ export const SERVICES: Service[] = [
     division: 'waterproofing',
     icon: 'Construction',
     name: {en: 'Foundation Repair', es: 'Reparación de Cimientos'},
+    imageKey: 'retaining-walls',
     hero: {
       h1: {
         en: 'Foundation Repair in DuPage County.',
@@ -2652,6 +2400,7 @@ export const SERVICES: Service[] = [
     division: 'waterproofing',
     icon: 'Gauge',
     name: {en: 'Sump Pumps', es: 'Bombas de Sumidero'},
+    imageKey: 'sprinkler-systems',
     hero: {
       h1: {
         en: 'Sump Pumps in DuPage County.',
@@ -2780,6 +2529,7 @@ export const SERVICES: Service[] = [
     division: 'waterproofing',
     icon: 'Waves',
     name: {en: 'Yard Drainage', es: 'Drenaje del Jardín'},
+    imageKey: 'seasonal-cleanup',
     hero: {
       h1: {
         en: 'Yard Drainage in DuPage County.',
@@ -2924,6 +2674,7 @@ export const SERVICES: Service[] = [
     division: 'waterproofing',
     icon: 'CloudRain',
     name: {en: 'Gutter Services', es: 'Servicios de Canaletas'},
+    imageKey: 'tree-services',
     hero: {
       h1: {
         en: 'Gutter Services in DuPage County.',
@@ -3060,6 +2811,7 @@ export const SERVICES: Service[] = [
     division: 'waterproofing',
     icon: 'Square',
     name: {en: 'Window Wells', es: 'Pozos de Ventana'},
+    imageKey: 'patios-walkways',
     hero: {
       h1: {
         en: 'Window Wells in DuPage County.',
@@ -3196,6 +2948,7 @@ export const SERVICES: Service[] = [
     division: 'waterproofing',
     icon: 'Home',
     name: {en: 'Crawl Spaces', es: 'Sótanos de Acceso'},
+    imageKey: 'retaining-walls',
     hero: {
       h1: {
         en: 'Crawl Space Encapsulation in DuPage.',
@@ -3332,6 +3085,7 @@ export const SERVICES: Service[] = [
     division: 'waterproofing',
     icon: 'ArrowUp',
     name: {en: 'Concrete Raising', es: 'Levantamiento de Concreto'},
+    imageKey: 'driveways',
     hero: {
       h1: {
         en: 'Concrete Raising in DuPage County.',
@@ -3460,6 +3214,7 @@ export const SERVICES: Service[] = [
     division: 'waterproofing',
     icon: 'Wind',
     name: {en: 'Humidity Control', es: 'Control de Humedad'},
+    imageKey: 'sprinkler-systems',
     hero: {
       h1: {
         en: 'Humidity Control in DuPage County.',
@@ -3588,6 +3343,7 @@ export const SERVICES: Service[] = [
     division: 'waterproofing',
     icon: 'Radiation',
     name: {en: 'Radon Mitigation', es: 'Mitigación de Radón'},
+    imageKey: 'landscape-maintenance',
     hero: {
       h1: {
         en: 'Radon Mitigation in DuPage County.',
@@ -3721,6 +3477,7 @@ export const SERVICES: Service[] = [
     division: 'snow-removal',
     icon: 'Droplets',
     name: {en: 'De-Icing', es: 'Deshielo'},
+    imageKey: 'snow-removal',
     hero: {
       h1: {
         en: 'De-Icing in DuPage County.',
@@ -3849,6 +3606,7 @@ export const SERVICES: Service[] = [
     division: 'snow-removal',
     icon: 'Footprints',
     name: {en: 'Sidewalk Shoveling', es: 'Pala de Senderos'},
+    imageKey: 'snow-removal',
     hero: {
       h1: {
         en: 'Sidewalk Shoveling in DuPage County.',
@@ -3977,6 +3735,7 @@ export const SERVICES: Service[] = [
     division: 'snow-removal',
     icon: 'Snowflake',
     name: {en: 'Driveway Snow Removal', es: 'Remoción de Nieve en Entradas'},
+    imageKey: 'snow-removal',
     hero: {
       h1: {
         en: 'Driveway Snow Removal in DuPage.',
@@ -4105,6 +3864,12 @@ export const SERVICES: Service[] = [
     division: 'snow-removal',
     icon: 'Building2',
     name: {en: 'Commercial Snow Plowing', es: 'Arado Comercial de Nieve'},
+    /**
+     * Phase M.01e — inherits the retired `commercial-snow-removal` photo asset
+     * key so existing imageMap entries (commercial-snow-removal hero + tile)
+     * keep rendering for this service without a duplicate map entry.
+     */
+    imageKey: 'commercial-snow-removal',
     hero: {
       h1: {
         en: 'Commercial Snow Plowing in DuPage.',
@@ -4242,32 +4007,34 @@ export const SERVICE_SLUGS = SERVICES.map((s) => s.slug);
 export const AUDIENCES: Audience[] = ['residential', 'commercial', 'hardscape'];
 
 /**
- * Lookup a service by URL slug. When `audience` is provided, the lookup is
- * scoped to that audience — required when two services share the same slug
- * across audiences (e.g., `snow-removal` exists for both residential and
- * commercial). Without `audience`, the first match wins.
+ * Phase M.01e — service slugs are globally unique. The single-arg form is
+ * canonical; the optional `audience` second arg is kept as a backwards-compat
+ * for callers like blog crossLinks. If supplied it's tried first, then
+ * falls back to the slug-only match so legacy `audience` tags don't fail
+ * lookups for the 14 new services that have no audience.
  */
 export function getService(slug: string, audience?: Audience): Service | undefined {
   if (audience) {
-    return SERVICES.find((s) => s.slug === slug && s.audience === audience);
+    return (
+      SERVICES.find((s) => s.slug === slug && s.audience === audience) ??
+      SERVICES.find((s) => s.slug === slug)
+    );
   }
   return SERVICES.find((s) => s.slug === slug);
 }
 
 /**
- * Resolve a related-service slug, preferring a same-audience match before
- * falling back to a cross-audience match. Encodes D7 (within-audience for
- * residential + commercial; cross-sell for hardscape) by relying on the
- * caller's audience to disambiguate slugs that exist in multiple audiences.
+ * Phase M.01e — service slugs are now globally unique (the previous
+ * residential/commercial duplicate of `snow-removal` was retired and
+ * replaced with `driveway-snow-removal` + `commercial-snow-plowing`).
+ * `parentAudience` is no longer required; the single-arg form is sufficient.
+ * A second arg is accepted for backwards-compat callers but ignored.
  */
 export function getRelatedService(
   slug: string,
-  parentAudience: Audience,
+  _parentAudience?: Audience,
 ): Service | undefined {
-  return (
-    SERVICES.find((s) => s.slug === slug && s.audience === parentAudience) ??
-    SERVICES.find((s) => s.slug === slug)
-  );
+  return SERVICES.find((s) => s.slug === slug);
 }
 
 export function getServicesForAudience(audience: Audience): Service[] {

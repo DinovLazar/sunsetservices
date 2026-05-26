@@ -4,7 +4,7 @@ import ServiceAreasHero from '@/components/sections/service-areas/ServiceAreasHe
 import CitiesGrid from '@/components/sections/service-areas/CitiesGrid';
 import OutsideAreaBand from '@/components/sections/service-areas/OutsideAreaBand';
 import ServiceAreasCTA from '@/components/sections/service-areas/ServiceAreasCTA';
-import {getVisibleLocations} from '@/data/locations';
+import {LOCATIONS} from '@/data/locations';
 import {buildBreadcrumbList} from '@/lib/schema/breadcrumb';
 import {buildServiceAreasItemList} from '@/lib/schema/location';
 import {routing} from '@/i18n/routing';
@@ -61,8 +61,11 @@ export default async function ServiceAreasPage({
   ];
 
   const breadcrumbSchema = buildBreadcrumbList(breadcrumbItems);
-  // Phase M.01d: pass only the 6 visible cities — M.01e returns to all 24.
-  const itemListSchema = buildServiceAreasItemList(getVisibleLocations(), loc);
+  // Phase M.01e — enumerate the 22 surfaced cities (24 total minus the
+  // 2 retired: Lisle + Bolingbrook, which 301-redirect to this index).
+  const RETIRED = new Set(['lisle', 'bolingbrook']);
+  const surfaced = LOCATIONS.filter((l) => !RETIRED.has(l.slug));
+  const itemListSchema = buildServiceAreasItemList(surfaced, loc);
 
   return (
     <>

@@ -5,7 +5,8 @@ import {
   getAllResourceSlugsForSitemap,
 } from '@sanity-lib/queries';
 import {SERVICES} from '@/data/services';
-import {LOCATION_SLUGS} from '@/data/locations';
+import {DIVISIONS} from '@/data/divisions';
+import {ALL_LOCATION_SLUGS} from '@/data/locations';
 import {canonicalUrl, hreflangAlternates, type Locale} from '@/lib/seo/urls';
 
 /**
@@ -38,11 +39,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   // ---------- Static, code-driven routes ----------
   // Each entry is a locale-less path; the helper adds /es when needed.
+  // Phase M.01e — `/residential`, `/commercial` retired (homepage redirect);
+  // 4 division landings added; `/qa` added.
   const STATIC_PATHS: string[] = [
     '/',
-    '/residential',
-    '/commercial',
-    '/hardscape',
+    ...DIVISIONS.map((d) => `/${d}`),
+    '/qa',
     '/service-areas',
     '/projects',
     '/about',
@@ -54,22 +56,17 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     '/request-quote',
   ];
 
-  // ---------- Service detail routes (16) — from typed seed ----------
-  // Phase M.01d: skip new-division services that don't have an audience yet
-  // (Waterproofing + Snow Removal). They live in services.ts but aren't
-  // surfaced under /residential/ etc.; M.01e adds /landscape/, /waterproofing/,
-  // /snow-removal/ landings and their sitemap entries.
-  const servicePaths: string[] = SERVICES.filter((s) => s.audience !== undefined).map(
-    (s) => `/${s.audience}/${s.slug}`,
-  );
+  // ---------- Service detail routes (28) — from typed seed ----------
+  // Phase M.01e — every service has a `division`; URL is /<division>/<slug>/.
+  const servicePaths: string[] = SERVICES.map((s) => `/${s.division}/${s.slug}`);
 
-  // ---------- Location detail routes (6) — from typed seed ----------
-  // Phase M.01d: use `LOCATION_SLUGS` (the visible-now subset) — the 18 new
-  // cities in `LOCATIONS` don't have pages yet; M.01e wires them and swaps
-  // this back to `LOCATIONS.map`.
-  const locationPaths: string[] = LOCATION_SLUGS.map(
-    (slug) => `/service-areas/${slug}`,
-  );
+  // ---------- Location detail routes (22) — from typed seed ----------
+  // Phase M.01e — all 22 surfaced cities (24 total minus the 2 retired:
+  // Lisle + Bolingbrook, which 301-redirect to the service-areas index).
+  const RETIRED_CITY_SLUGS = new Set<string>(['lisle', 'bolingbrook']);
+  const locationPaths: string[] = ALL_LOCATION_SLUGS.filter(
+    (slug) => !RETIRED_CITY_SLUGS.has(slug),
+  ).map((slug) => `/service-areas/${slug}`);
 
   // ---------- Sanity-driven dynamic routes ----------
   // _updatedAt is the per-document lastmod. Fetched in parallel.

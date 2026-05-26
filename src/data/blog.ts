@@ -635,7 +635,7 @@ Cada cotización de Sunset Services lista la marca, el SKU, y la resistencia a h
       width: 1280,
       height: 720,
     },
-    inlineServiceCrossLink: {audience: 'commercial', serviceSlug: 'snow-removal'},
+    inlineServiceCrossLink: {audience: 'commercial', serviceSlug: 'commercial-snow-plowing'},
     body: {
       en: `If you manage commercial property in DuPage County, your snow vendor is one of the three line items that decides whether the year ends well. Bad vendor in February costs you a slip-and-fall claim, a tenant defection, and a budget overrun. Good vendor costs you 8–15% more upfront and is invisible the rest of the year.
 

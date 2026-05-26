@@ -10,7 +10,7 @@ import WhyLocalPanel from '@/components/sections/location/WhyLocalPanel';
 import LocationFaq from '@/components/sections/location/LocationFaq';
 import LocationCTA from '@/components/sections/location/LocationCTA';
 import ServiceAreaStrip from '@/components/sections/ServiceAreaStrip';
-import {getLocation, isLocationSlug, LOCATION_SLUGS} from '@/data/locations';
+import {getLocation, isLocationSlug, ALL_LOCATION_SLUGS} from '@/data/locations';
 import {buildBreadcrumbList} from '@/lib/schema/breadcrumb';
 import {
   buildPlaceSchema,
@@ -27,9 +27,14 @@ export const revalidate = 1800;
 type Locale = 'en' | 'es';
 
 export function generateStaticParams() {
-  // Phase M.01d: use `LOCATION_SLUGS` (6) — the 18 new cities exist in
-  // `LOCATIONS` but their detail pages aren't wired until M.01e.
-  return LOCATION_SLUGS.map((slug) => ({city: slug}));
+  // Phase M.01e — all 22 surfaced cities (24 in LOCATIONS minus the 2
+  // retired in M.01e: Lisle + Bolingbrook, which 301-redirect to the
+  // service-areas index). ALL_LOCATION_SLUGS still enumerates all 24;
+  // the city-detail page rejects retired slugs via isLocationSlug below.
+  const RETIRED = new Set<string>(['lisle', 'bolingbrook']);
+  return ALL_LOCATION_SLUGS.filter((slug) => !RETIRED.has(slug)).map(
+    (slug) => ({city: slug}),
+  );
 }
 
 export async function generateMetadata({

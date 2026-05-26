@@ -35,16 +35,16 @@ export default async function LocationServicesGrid({
   // resolve we throw at module-eval time so the seed table can never ship
   // a broken card.
   const items = location.featuredServices.map((entry) => {
-    const svc = getService(entry.slug, entry.audience);
+    const svc = getService(entry.slug);
     if (!svc) {
       throw new Error(
-        `LocationServicesGrid: featuredService not found — slug="${entry.slug}", audience="${entry.audience}", location="${location.slug}". Update locations.ts or services.ts.`,
+        `LocationServicesGrid: featuredService not found — slug="${entry.slug}", division="${entry.division}", location="${location.slug}". Update locations.ts or services.ts.`,
       );
     }
     const tileKey = svc.imageKey ?? svc.slug;
     return {
       slug: svc.slug,
-      audience: entry.audience,
+      division: entry.division,
       name: svc.name[locale],
       photo: SERVICE_TILE[tileKey],
     };
@@ -85,9 +85,9 @@ export default async function LocationServicesGrid({
           </div>
           <ul className="m-0 p-0 list-none grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
             {items.map((s) => (
-              <li key={`${s.audience}-${s.slug}`}>
+              <li key={`${s.division}-${s.slug}`}>
                 <Link
-                  href={`/${s.audience}/${s.slug}/`}
+                  href={`/${s.division}/${s.slug}/`}
                   className="card card-photo block relative h-full"
                   style={{background: 'var(--color-sunset-green-700)'}}
                 >

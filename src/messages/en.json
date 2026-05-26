@@ -18,6 +18,39 @@
         "area": "Aurora · Naperville · DuPage"
       }
     },
+    "divisions": {
+      "eyebrow": "What we do",
+      "h2": "Four divisions, one family team.",
+      "sub": "Pick the work that fits — landscape, hardscape, waterproofing, snow removal. Same crew accountability across all four.",
+      "landscape": {
+        "tag": "Landscape",
+        "h3": "Yards that hold up.",
+        "desc": "Lawn care, design, sprinklers, trees, and seasonal cleanups — eight services, one crew.",
+        "cta": "Explore Landscape",
+        "alt": "A lush DuPage front yard with crisp edging and mature plantings at golden hour."
+      },
+      "hardscape": {
+        "tag": "Hardscape",
+        "h3": "Built to last.",
+        "desc": "Patios, walls, fire features, kitchens, pergolas, and driveways — Unilock-authorized since 2010.",
+        "cta": "Explore Hardscape",
+        "alt": "A Unilock paver patio with a seating wall and a stone fire feature at sunset."
+      },
+      "waterproofing": {
+        "tag": "Waterproofing",
+        "h3": "Dry basements.",
+        "desc": "Basements, foundations, sump pumps, yard drainage, gutters — ten services for water management.",
+        "cta": "Explore Waterproofing",
+        "alt": "An exterior view of a DuPage home foundation with new drainage tile at the perimeter."
+      },
+      "snow-removal": {
+        "tag": "Snow Removal",
+        "h3": "Plowed by dawn.",
+        "desc": "Driveways, sidewalks, de-icing, and commercial plowing. 24/7 dispatch, 2-hour response after trigger.",
+        "cta": "Explore Snow Removal",
+        "alt": "A freshly plowed driveway at dawn with snow piled cleanly off to one side."
+      }
+    },
     "audience": {
       "eyebrow": "Find your fit",
       "h2": "Three ways we work.",
@@ -438,6 +471,353 @@
       }
     }
   },
+  "division": {
+    "breadcrumbHome": "Home",
+    "landscape": {
+      "label": "Landscape",
+      "meta": {
+        "title": "Landscape Services in DuPage County — Sunset Services",
+        "description": "Lawn care, landscape design, sprinkler systems, tree services, and seasonal cleanups for homes and businesses across DuPage County. 25+ years."
+      },
+      "hero": {
+        "kicker": "LANDSCAPE DIVISION",
+        "h1": "Yards that look intentional in every season.",
+        "subhead": "Lawn care, design, sprinklers, trees, and seasonal cleanups — eight services, one crew. Residential and commercial properties across DuPage County.",
+        "alt": "A lush front yard with crisp edging, mature plantings, and a paver walkway at golden hour.",
+        "primary": "Get a Free Estimate",
+        "secondary": "View Landscape Projects"
+      },
+      "qualifier": {
+        "eyebrow": "FOR DUPAGE PROPERTIES",
+        "h2": "Who this is for.",
+        "body": "If you want one team handling the lawn, the beds, the irrigation, and the seasonal work — without juggling three vendors — this page is for you. Same crew every visit, bilingual leads, free 48-hour estimate.",
+        "pills": {
+          "one": "Same crew every visit",
+          "two": "Bilingual EN · ES",
+          "three": "Free 48-hr estimate",
+          "four": "25 years in business"
+        }
+      },
+      "servicesGrid": {
+        "eyebrow": "EIGHT SERVICES · ONE CREW",
+        "h2": "Services in the landscape division.",
+        "sub": "Pick a service to see what's included, our process, and recent projects."
+      },
+      "featuredProjects": {
+        "eyebrow": "RECENT WORK",
+        "h2": "Featured landscape projects.",
+        "viewAll": "View all landscape",
+        "tiles": {
+          "one": {"title": "Backyard transformation", "meta": "Naperville · 2024"},
+          "two": {"title": "Curb-appeal refresh", "meta": "Wheaton · 2024"},
+          "three": {"title": "Aurora HOA frontage", "meta": "Aurora · 2024"}
+        }
+      },
+      "whySunset": {
+        "eyebrow": "WHY SUNSET",
+        "h2": "Twenty-five years on DuPage lawns.",
+        "props": {
+          "one": {"headline": "25+ years on DuPage", "description": "Erick founded Sunset Services in 2000. We've seen the seasons.", "icon": "Award"},
+          "two": {"headline": "Same crew every visit", "description": "Your lead won't change. Quality stays consistent.", "icon": "Users"},
+          "three": {"headline": "Bilingual team · EN · ES", "description": "Crew leads speak both. Quotes available in either.", "icon": "Languages"},
+          "four": {"headline": "One contact across services", "description": "Lawn, design, snow — single phone number, single person.", "icon": "PhoneCall"}
+        }
+      },
+      "socialProof": {
+        "eyebrow": "FROM YOUR NEIGHBORS",
+        "h2": "Reviewed by DuPage homeowners.",
+        "reviews": {
+          "one": {"quote": "Same crew, same quality, week after week. Five years in.", "name": "Marco D.", "city": "Aurora"},
+          "two": {"quote": "They re-designed the front beds and the lawn finally looks intentional.", "name": "Lisa K.", "city": "Naperville"}
+        },
+        "credentials": {
+          "one": {"big": "★ 4.9", "sub": "Google · 287 reviews"},
+          "two": {"big": "25+", "sub": "years in DuPage County"},
+          "three": {"big": "1,200+", "sub": "properties served"},
+          "four": {"big": "EN · ES", "sub": "bilingual crews"}
+        }
+      },
+      "faq": {
+        "eyebrow": "QUESTIONS · ANSWERED",
+        "h2": "Common questions about landscape services.",
+        "items": {
+          "one": {"q": "Do you offer one-time visits or only contracts?", "a": "Both. Most lawn-care customers prefer a seasonal contract for consistency, but we'll do one-time cleanups, design consults, and project work without a recurring commitment."},
+          "two": {"q": "How quickly can you start?", "a": "Lawn-care and seasonal cleanup usually start within two weeks. Design and bed work depends on scope — most book within four to six weeks of estimate sign-off."},
+          "three": {"q": "Are estimates free?", "a": "Yes — site visit, measurements, and itemized estimate are free. Quotes land in your inbox within 48 hours of the visit."},
+          "four": {"q": "Do you handle commercial properties?", "a": "Yes — about a third of our landscape book is commercial. We do property maintenance, turf management, and seasonal enhancements on quarterly cadence."},
+          "five": {"q": "Are you insured?", "a": "Yes — $2M general liability plus full workers' comp. Insurance certificates available on request before the first visit."}
+        }
+      },
+      "cta": {
+        "eyebrow": "READY WHEN YOU ARE",
+        "h2": "Tell us about the property.",
+        "body": "Free estimate within 48 hours. No high-pressure sales — just a clear quote.",
+        "button": "Get a Free Estimate",
+        "phonePrefix": "or call",
+        "phoneNumber": "(630) 946-9321"
+      }
+    },
+    "hardscape": {
+      "label": "Hardscape",
+      "meta": {
+        "title": "Hardscape & Unilock Pavers in DuPage County — Sunset Services",
+        "description": "Patios, walls, fire features, outdoor kitchens, pergolas, and driveways by a Unilock Authorized Contractor. 5-year installation warranty. 25+ years."
+      },
+      "hero": {
+        "kicker": "HARDSCAPE DIVISION",
+        "h1": "Built to last twenty-five years and counting.",
+        "subhead": "Patios, walls, fire features, outdoor kitchens, pergolas, and driveways — installed by a Unilock Authorized Contractor with two decades of paver experience.",
+        "alt": "A Unilock paver patio with seating wall and fire feature at sunset.",
+        "primary": "Get a Free Estimate",
+        "secondary": "View Hardscape Projects"
+      },
+      "qualifier": {
+        "eyebrow": "FOR DUPAGE HOMEOWNERS",
+        "h2": "Who this is for.",
+        "body": "If you want a patio, walkway, retaining wall, or outdoor kitchen built by a Unilock Authorized Contractor — engineering reviewed, base prep in-house, and a 5-year installation warranty — this page is for you.",
+        "pills": {
+          "one": "Unilock Authorized",
+          "two": "5-yr installation warranty",
+          "three": "Engineered for the soil",
+          "four": "20+ years on hardscape"
+        }
+      },
+      "servicesGrid": {
+        "eyebrow": "SIX HARDSCAPE SERVICES",
+        "h2": "Services for outdoor living.",
+        "sub": "Pick a service to see what's included, our process, and recent installs."
+      },
+      "featuredProjects": {
+        "eyebrow": "RECENT INSTALLS",
+        "h2": "Featured hardscape projects.",
+        "viewAll": "View all hardscape",
+        "tiles": {
+          "one": {"title": "Naperville patio + fire", "meta": "Naperville · 2024"},
+          "two": {"title": "Glen Ellyn fire pit", "meta": "Glen Ellyn · 2024"},
+          "three": {"title": "Lisle multi-tier wall", "meta": "Lisle · 2024"}
+        }
+      },
+      "whySunset": {
+        "eyebrow": "WHY SUNSET",
+        "h2": "Two decades on pavers.",
+        "props": {
+          "one": {"headline": "Unilock Authorized Contractor", "description": "Awarded — not bought. Held for fifteen years and counting.", "icon": "Unilock"},
+          "two": {"headline": "5-year installation warranty", "description": "Workmanship covered five years, no questions asked.", "icon": "BadgeCheck"},
+          "three": {"headline": "In-house design", "description": "Designer, engineer, and crew lead under one roof.", "icon": "PencilRuler"},
+          "four": {"headline": "20+ years on hardscape", "description": "Marcin's team has been laying pavers since 2003.", "icon": "Hammer"}
+        }
+      },
+      "unilock": {
+        "eyebrow": "UNILOCK AUTHORIZED CONTRACTOR",
+        "h2": "The paver brand pros pick.",
+        "body": "Unilock Authorization is awarded — not bought — to contractors who can prove consistent installation quality. We've held it for fifteen years and counting.",
+        "stat": "FIFTEEN YEARS · 380+ INSTALLS · 5-YEAR INSTALLATION WARRANTY",
+        "viewProjects": "View Unilock projects",
+        "badgeAlt": "Unilock Authorized Contractor"
+      },
+      "socialProof": {
+        "eyebrow": "FROM HARDSCAPE CLIENTS",
+        "h2": "Reviewed by hardscape clients.",
+        "reviews": {
+          "one": {"quote": "Erick's crew rebuilt our front walk in two days. Three winters in, the joint sand looks the same as day one.", "name": "Patricia M.", "city": "Aurora"},
+          "two": {"quote": "Our patio is the reason we stayed. Same crew sealed it the next spring without me asking.", "name": "James K.", "city": "Naperville"}
+        },
+        "credentials": {
+          "one": {"big": "★ 4.9", "sub": "Google · 287 reviews"},
+          "two": {"big": "Unilock", "sub": "Authorized Contractor"},
+          "three": {"big": "5-year", "sub": "installation warranty"},
+          "four": {"big": "380+", "sub": "Unilock installs"}
+        }
+      },
+      "faq": {
+        "eyebrow": "QUESTIONS · ANSWERED",
+        "h2": "Common questions from hardscape clients.",
+        "items": {
+          "one": {"q": "How long does a typical patio take?", "a": "A 400–600 sq ft residential paver patio runs 5–8 days from break-ground to walkthrough. Larger scopes or weather-impacted weeks can stretch to two weeks."},
+          "two": {"q": "What warranty covers Unilock installs?", "a": "5-year workmanship warranty on the install. Unilock's manufacturer warranty on the pavers themselves runs separately and depends on the paver line."},
+          "three": {"q": "Do you do design before construction?", "a": "Yes — most hardscape projects start with a concept conversation, scaled drawings, and a materials walkthrough. Design and build are separate engagements; you keep the plans either way."},
+          "four": {"q": "What materials do you typically use?", "a": "Unilock primarily — Authorized Contractor since 2010. We can also work with Belgard or other premium lines on request, though our crew is most efficient on Unilock systems."},
+          "five": {"q": "How does your project schedule work?", "a": "Spring builds typically book by late February; summer/fall slots open through April. We confirm a start window inside the quote and lock the date once the deposit clears."}
+        }
+      },
+      "cta": {
+        "eyebrow": "READY WHEN YOU ARE",
+        "h2": "Tell us about the project.",
+        "body": "Free site walk and concept sketch within a week. Permitting and engineering folded into the quote.",
+        "button": "Get a Free Estimate",
+        "phonePrefix": "or call",
+        "phoneNumber": "(630) 946-9321"
+      }
+    },
+    "waterproofing": {
+      "label": "Waterproofing",
+      "meta": {
+        "title": "Waterproofing & Foundation Services in DuPage County — Sunset Services",
+        "description": "Basement waterproofing, foundation repair, sump pumps, yard drainage, gutters, window wells, crawl spaces, concrete raising, humidity control, and radon mitigation."
+      },
+      "hero": {
+        "kicker": "WATERPROOFING DIVISION",
+        "h1": "Dry basements. Foundations that hold.",
+        "subhead": "Ten services for water management around the house — basements, foundations, sump pumps, yard drainage, gutters, window wells, and more. Diagnose first, then fix.",
+        "alt": "An exterior view of a DuPage home foundation with new drainage tile installed at the perimeter.",
+        "primary": "Get a Free Estimate",
+        "secondary": "View Waterproofing Projects"
+      },
+      "qualifier": {
+        "eyebrow": "FOR DUPAGE HOMEOWNERS",
+        "h2": "Who this is for.",
+        "body": "If your basement leaks every spring, your foundation has hairline cracks, your yard puddles after rain, or your crawl space smells musty — this page is for you. We diagnose the source before we sell you a solution.",
+        "pills": {
+          "one": "Diagnostic first",
+          "two": "10 services in one division",
+          "three": "Most warranties 5–25 years",
+          "four": "Old-house experienced"
+        }
+      },
+      "servicesGrid": {
+        "eyebrow": "TEN WATERPROOFING SERVICES",
+        "h2": "Services in the waterproofing division.",
+        "sub": "Pick a service to see what's included, our process, and recent jobs."
+      },
+      "featuredProjects": {
+        "eyebrow": "RECENT WORK",
+        "h2": "Featured waterproofing projects.",
+        "viewAll": "View all waterproofing",
+        "tiles": {
+          "one": {"title": "Hinsdale basement reset", "meta": "Hinsdale · 2024"},
+          "two": {"title": "Glen Ellyn yard drainage", "meta": "Glen Ellyn · 2024"},
+          "three": {"title": "Elmhurst foundation repair", "meta": "Elmhurst · 2024"}
+        }
+      },
+      "whySunset": {
+        "eyebrow": "WHY SUNSET",
+        "h2": "Foundation work without the upsell.",
+        "props": {
+          "one": {"headline": "Diagnose first", "description": "We find the actual source of water before we recommend a fix.", "icon": "SearchCheck"},
+          "two": {"headline": "5–25-year warranties", "description": "Per service. We tell you the range before we quote.", "icon": "ShieldCheck"},
+          "three": {"headline": "Old-house experienced", "description": "Brick foundations, century homes, additions on additions.", "icon": "Home"},
+          "four": {"headline": "Same crew, same accountability", "description": "No subcontractor handoffs on the work that matters most.", "icon": "Users"}
+        }
+      },
+      "socialProof": {
+        "eyebrow": "FROM HOMEOWNERS",
+        "h2": "Reviewed by DuPage owners.",
+        "reviews": {
+          "one": {"quote": "We had three quotes for the basement. Sunset was the only one who actually walked the perimeter and explained what was failing.", "name": "Caroline T.", "city": "Hinsdale"},
+          "two": {"quote": "The yard used to puddle every April. Two seasons in, the new drainage is invisible and the lawn is even.", "name": "Brian J.", "city": "Wheaton"}
+        },
+        "credentials": {
+          "one": {"big": "★ 4.9", "sub": "Google · 287 reviews"},
+          "two": {"big": "25+", "sub": "years in DuPage County"},
+          "three": {"big": "5–25 yr", "sub": "warranties per service"},
+          "four": {"big": "EN · ES", "sub": "bilingual crews"}
+        }
+      },
+      "faq": {
+        "eyebrow": "QUESTIONS · ANSWERED",
+        "h2": "Common questions about waterproofing.",
+        "items": {
+          "one": {"q": "How do I know if my basement actually has a leak?", "a": "A real leak shows up after a heavy rain — water at the floor edges or staining on the walls. Condensation alone (musty smell, occasional dampness in summer) is a humidity issue and the fix is different. We can tell which it is during the site visit."},
+          "two": {"q": "Will fixing my basement require digging up my yard?", "a": "Sometimes. Interior drain tile installs from inside the basement with no excavation. Exterior membranes do require digging the foundation perimeter — usually a 3-5 day job, and we restore the landscape after."},
+          "three": {"q": "How long do your fixes last?", "a": "Interior drain tile and sump systems carry 25-year warranties when installed by us. Exterior membranes 10-15 years. Foundation crack repair 5-10 years depending on the crack."},
+          "four": {"q": "Can you fix a yard that floods every spring?", "a": "Yes — yard drainage is one of our ten waterproofing services. We map low spots, install French drains or surface drains, and route the water to a daylight outlet. Most jobs done in 2-3 days."},
+          "five": {"q": "Are estimates free?", "a": "Yes — site visit, diagnosis, and itemized estimate are free. We don't quote without walking the property; phone-only quotes for waterproofing tend to be wrong."}
+        }
+      },
+      "cta": {
+        "eyebrow": "READY WHEN YOU ARE",
+        "h2": "Tell us about the water.",
+        "body": "Free site walk and itemized estimate within 48 hours. We diagnose before we quote.",
+        "button": "Get a Free Estimate",
+        "phonePrefix": "or call",
+        "phoneNumber": "(630) 946-9321"
+      }
+    },
+    "snow-removal": {
+      "label": "Snow Removal",
+      "meta": {
+        "title": "Snow Removal in DuPage County — Sunset Services",
+        "description": "Driveway plowing, sidewalk shoveling, de-icing, and commercial snow plowing for DuPage homes, HOAs, and offices. 24/7 dispatch, 2-hour response after trigger."
+      },
+      "hero": {
+        "kicker": "SNOW REMOVAL DIVISION",
+        "h1": "Plowed before you're out of bed.",
+        "subhead": "Driveways, sidewalks, de-icing, commercial lots — four services covering every snow scenario in DuPage County. 24/7 dispatch, 2-hour response after the trigger.",
+        "alt": "A freshly plowed driveway with snow piled cleanly off to one side at dawn after an overnight storm.",
+        "primary": "Get a Free Estimate",
+        "secondary": "View Snow Removal Projects"
+      },
+      "qualifier": {
+        "eyebrow": "FOR DUPAGE PROPERTIES",
+        "h2": "Who this is for.",
+        "body": "If you want a snow vendor that actually shows up — single-family driveway, HOA roadways, office park, multi-property contract — this page is for you. 2-inch trigger, automatic dispatch, no per-storm phone calls.",
+        "pills": {
+          "one": "24/7 dispatch",
+          "two": "2-hr response after trigger",
+          "three": "2-inch trigger",
+          "four": "Insured fleet"
+        }
+      },
+      "servicesGrid": {
+        "eyebrow": "FOUR SNOW SERVICES",
+        "h2": "Services in the snow-removal division.",
+        "sub": "Pick a service to see what's included, our process, and how the contract works."
+      },
+      "featuredProjects": {
+        "eyebrow": "RECENT WORK",
+        "h2": "Featured snow-removal contracts.",
+        "viewAll": "View all snow-removal",
+        "tiles": {
+          "one": {"title": "Naperville HOA, all-season", "meta": "Naperville · 2023–2024"},
+          "two": {"title": "Aurora retail center", "meta": "Aurora · 2023–2024"},
+          "three": {"title": "Wheaton residential cluster", "meta": "Wheaton · 2023–2024"}
+        }
+      },
+      "whySunset": {
+        "eyebrow": "WHY SUNSET",
+        "h2": "Storm response that holds up.",
+        "props": {
+          "one": {"headline": "2-hour response", "description": "You're served before most people are out of bed.", "icon": "Clock"},
+          "two": {"headline": "24/7 dispatch", "description": "Storm at 2am? We're already on the way.", "icon": "PhoneCall"},
+          "three": {"headline": "Insured fleet", "description": "Property-damage coverage on every plow on the road.", "icon": "ShieldCheck"},
+          "four": {"headline": "Apron-return pass", "description": "Second pass after the village plow comes through.", "icon": "Repeat"}
+        }
+      },
+      "socialProof": {
+        "eyebrow": "FROM CONTRACT HOLDERS",
+        "h2": "Reviewed by snow customers.",
+        "reviews": {
+          "one": {"quote": "Snow at 5am, every storm. Drive was clear before I had coffee. Worth every dollar.", "name": "David R.", "city": "Naperville"},
+          "two": {"quote": "Storm-event reports hit my inbox before I'm out of bed. Saved a tenant complaint last winter.", "name": "Mark T.", "city": "Aurora Retail"}
+        },
+        "credentials": {
+          "one": {"big": "★ 4.9", "sub": "Google · 287 reviews"},
+          "two": {"big": "2 hr", "sub": "response after trigger"},
+          "three": {"big": "24/7", "sub": "live dispatch"},
+          "four": {"big": "$2M", "sub": "general liability"}
+        }
+      },
+      "faq": {
+        "eyebrow": "QUESTIONS · ANSWERED",
+        "h2": "Common questions about snow service.",
+        "items": {
+          "one": {"q": "When do contracts sign?", "a": "Most contracts sign before Halloween for the upcoming winter. We mark drives, walks, and sprinkler heads in November so the crew knows the property before the first storm."},
+          "two": {"q": "What's the trigger?", "a": "2 inches by default. Below 2 inches we don't service residential. Commercial contracts can specify a lower trigger (1 inch or zero-trigger ice management) for an additional fee."},
+          "three": {"q": "What's your response time?", "a": "2 hours from trigger fire on residential. 2 hours by contracted SLA on commercial. We dispatch in waves — residential routes run after the commercial accounts."},
+          "four": {"q": "Do you do de-icing only?", "a": "Yes — de-icing is a standalone service. Pet-safe melt on residential, calibrated salt or eco-melt on commercial per the contract spec."},
+          "five": {"q": "What if I cancel mid-season?", "a": "Seasonal contracts have no mid-season cancellation; the price assumes a full season's work. Per-event service is pay-as-you-go and you can stop any time."}
+        }
+      },
+      "cta": {
+        "eyebrow": "READY FOR WINTER?",
+        "h2": "Sign before October 15.",
+        "body": "Free estimate within 48 hours. Most contracts sign in September. Don't wait for the first storm.",
+        "button": "Get a Free Estimate",
+        "phonePrefix": "or call",
+        "phoneNumber": "(630) 946-9321"
+      }
+    }
+  },
   "servicePage": {
     "breadcrumbHome": "Home",
     "hero": {
@@ -483,7 +863,10 @@
       "h2": {
         "residential": "More from Sunset Residential.",
         "commercial": "More from Sunset Commercial.",
-        "hardscape": "Often combined with this."
+        "hardscape": "Often combined with this.",
+        "landscape": "More from the Landscape division.",
+        "waterproofing": "Often combined with waterproofing.",
+        "snow-removal": "More from the Snow Removal division."
       }
     },
     "cta": {
@@ -507,20 +890,18 @@
       "resources": "Resources",
       "contact": "Contact",
       "servicesPanel": {
-        "residentialTitle": "Residential",
-        "commercialTitle": "Commercial",
+        "landscapeTitle": "Landscape",
         "hardscapeTitle": "Hardscape",
-        "residential": {
+        "waterproofingTitle": "Waterproofing",
+        "snowRemovalTitle": "Snow Removal",
+        "serviceAreasTitle": "Service Areas",
+        "landscape": {
           "lawnCare": "Lawn Care",
           "landscapeDesign": "Landscape Design",
           "treeServices": "Tree Services",
           "sprinklerSystems": "Sprinkler Systems",
-          "snowRemoval": "Snow Removal",
-          "seasonalCleanup": "Seasonal Cleanup"
-        },
-        "commercial": {
+          "seasonalCleanup": "Seasonal Cleanup",
           "maintenance": "Landscape Maintenance",
-          "snowRemoval": "Snow Removal",
           "propertyEnhancement": "Property Enhancement",
           "turfManagement": "Turf Management"
         },
@@ -532,8 +913,31 @@
           "driveways": "Driveways",
           "outdoorKitchens": "Outdoor Kitchens"
         },
+        "waterproofing": {
+          "basementWaterproofing": "Basement Waterproofing",
+          "foundationRepair": "Foundation Repair",
+          "sumpPumps": "Sump Pumps",
+          "yardDrainage": "Yard Drainage",
+          "gutterServices": "Gutter Services",
+          "windowWells": "Window Wells",
+          "crawlSpaces": "Crawl Spaces",
+          "concreteRaising": "Concrete Raising",
+          "humidityControl": "Humidity Control",
+          "radonMitigation": "Radon Mitigation"
+        },
+        "snowRemoval": {
+          "driveway": "Driveway Snow Removal",
+          "sidewalk": "Sidewalk Shoveling",
+          "deIcing": "De-Icing",
+          "commercial": "Commercial Snow Plowing"
+        },
+        "serviceAreas": {
+          "oakBrook": "Oak Brook",
+          "hinsdale": "Hinsdale",
+          "seeAll": "See all 22 cities →"
+        },
         "photoCaption": "See recent projects →",
-        "photoSubcaption": "30+ residential, commercial & hardscape"
+        "photoSubcaption": "30+ projects across 4 divisions"
       },
       "resourcesPanel": {
         "resourcesTitle": "Resources",
@@ -582,12 +986,14 @@
       "serviceAreasHeading": "Service Areas",
       "serviceAreasNavAriaLabel": "Service areas",
       "links": {
-        "residential": "Residential",
-        "commercial": "Commercial",
+        "landscape": "Landscape",
         "hardscape": "Hardscape",
+        "waterproofing": "Waterproofing",
         "snowRemoval": "Snow Removal",
         "allServices": "All services →",
-        "blog": "Blog"
+        "blog": "Blog",
+        "residential": "Residential",
+        "commercial": "Commercial"
       },
       "cities": {
         "aurora": "Aurora",
@@ -942,6 +1348,9 @@
         "yorkville": "Acre-lot Kendall County",
         "plainfield": "Historic downtown + new growth"
       }
+    },
+    "extendedArea": {
+      "note": "We also service Lisle and Bolingbrook. Call (630) 946-9321 to discuss your project."
     },
     "outside": {
       "h2": "Don't see your city?",

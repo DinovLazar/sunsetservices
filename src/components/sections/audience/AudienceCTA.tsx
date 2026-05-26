@@ -2,10 +2,10 @@ import {Link} from '@/i18n/navigation';
 import {Phone} from 'lucide-react';
 import AnimateIn from '@/components/global/motion/AnimateIn';
 import {BUSINESS_PHONE_TEL} from '@/lib/constants/business';
-import type {Audience} from '@/data/services';
+import type {Audience, Division} from '@/data/services';
 
 type AudienceCTAProps = {
-  audience: Audience;
+  audience: Audience | Division;
   eyebrow: string;
   h2: string;
   body: string;

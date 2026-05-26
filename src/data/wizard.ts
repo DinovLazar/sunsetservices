@@ -10,6 +10,19 @@
  */
 import {AUDIENCES, getServicesForAudience, type Audience} from './services';
 
+/**
+ * Phase M.01e — wizard remains on the 3-audience model. The division IA
+ * flip (locked decision #12 in M.01e) needs storage migration + Sanity
+ * `quoteLead` schema migration + email-template + API validator changes,
+ * which is non-trivial and best handled as a focused slice with its own
+ * verification pass. Deferred to M.01e-pt2; the wizard continues to
+ * produce residential/commercial/hardscape audience values, and the
+ * /request-quote/ deep-link query parameter (`?audience=X`) still passes
+ * audience values from the division landings (where division ≠ audience).
+ * The deferred slice closes that gap by either renaming the field to
+ * `division` or by silently mapping incoming division slugs onto the
+ * closest audience.
+ */
 export type WizardAudience = Audience;
 
 export type WizardOption = {

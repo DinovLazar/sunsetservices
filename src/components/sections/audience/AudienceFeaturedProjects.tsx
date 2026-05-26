@@ -4,7 +4,7 @@ import {ArrowRight} from 'lucide-react';
 import AnimateIn from '@/components/global/motion/AnimateIn';
 import StaggerContainer from '@/components/global/motion/StaggerContainer';
 import StaggerItem from '@/components/global/motion/StaggerItem';
-import type {Audience} from '@/data/services';
+import type {Audience, Division} from '@/data/services';
 
 type Locale = 'en' | 'es';
 
@@ -16,7 +16,7 @@ type ProjectTile = {
 };
 
 type AudienceFeaturedProjectsProps = {
-  audience: Audience;
+  audience: Audience | Division;
   locale: Locale;
   eyebrow: string;
   h2: string;

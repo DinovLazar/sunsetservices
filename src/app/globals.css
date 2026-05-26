@@ -1087,6 +1087,36 @@
     --audience-chip-bg: var(--color-sunset-amber-50);
   }
 
+  /* ---------- Division accents (Phase M.01e) ----------
+   * Mirrors the `[data-audience]` block above so every component that reads
+   * `var(--audience-accent)` keeps rendering correctly under the new
+   * `[data-division]` wrapper. Landscape inherits residential's accent
+   * (broadest, most homeowner-facing); Hardscape keeps the amber kept since
+   * 1.09. Waterproofing leans into the deeper green-900 (foundation /
+   * depth / serious-work feel). Snow Removal uses the neutral text-primary
+   * + stone palette (cool, professional, year-round contract-grade).
+   */
+  [data-division='landscape'] {
+    --audience-accent: var(--color-sunset-green-700);
+    --audience-accent-strong: var(--color-sunset-green-700);
+    --audience-chip-bg: var(--color-sunset-green-100);
+  }
+  [data-division='hardscape'] {
+    --audience-accent: var(--color-sunset-amber-700);
+    --audience-accent-strong: var(--color-sunset-amber-700);
+    --audience-chip-bg: var(--color-sunset-amber-50);
+  }
+  [data-division='waterproofing'] {
+    --audience-accent: var(--color-sunset-green-900);
+    --audience-accent-strong: var(--color-sunset-green-900);
+    --audience-chip-bg: var(--color-sunset-green-50);
+  }
+  [data-division='snow-removal'] {
+    --audience-accent: var(--color-text-primary);
+    --audience-accent-strong: var(--color-text-primary);
+    --audience-chip-bg: var(--color-bg-stone);
+  }
+
   /* ---------- 6.12 Skip link ---------- */
   .skip-link {
     position: absolute;

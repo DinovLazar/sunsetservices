@@ -743,7 +743,7 @@ Si tres de los cuatro faltan, la cotización te está vendiendo "cuidado de jard
       width: 1280,
       height: 720,
     },
-    inlineServiceCrossLink: {audience: 'commercial', serviceSlug: 'snow-removal'},
+    inlineServiceCrossLink: {audience: 'commercial', serviceSlug: 'commercial-snow-plowing'},
     body: {
       en: `Property managers running multi-tenant commercial sites in DuPage know the snow phone calls. The 6 a.m. tenant complaint that the lot wasn't plowed by 7. The HOA board email asking why the salt is in piles instead of spread. The slip-and-fall claim that surfaces three weeks after the storm.
 

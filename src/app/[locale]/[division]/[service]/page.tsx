@@ -10,13 +10,8 @@ import ServiceFeaturedProjects from '@/components/sections/service/ServiceFeatur
 import ServiceFAQ from '@/components/sections/service/ServiceFAQ';
 import ServiceRelated from '@/components/sections/service/ServiceRelated';
 import ServiceCTA from '@/components/sections/service/ServiceCTA';
-import {
-  AUDIENCES,
-  SERVICES,
-  type Audience,
-  getService,
-  getRelatedService,
-} from '@/data/services';
+import {SERVICES, getService, getRelatedService} from '@/data/services';
+import {isDivision} from '@/data/divisions';
 import {SERVICE_HERO, SERVICE_PROJECT} from '@/data/imageMap';
 import {buildBreadcrumbList} from '@/lib/schema/breadcrumb';
 import {buildServiceSchema, localePath} from '@/lib/schema/service';
@@ -31,30 +26,22 @@ export const revalidate = 1800;
 type Locale = 'en' | 'es';
 
 export function generateStaticParams() {
-  // Pre-render every (audience, service) pair for both locales (locale at parent).
-  // Phase M.01d: filter out new-division services that have no audience yet —
-  // they live in services.ts but aren't surfaced under /residential/ etc.;
-  // M.01e wires them to /landscape/ /waterproofing/ /snow-removal/ etc.
-  return SERVICES
-    .filter((s): s is typeof s & {audience: Audience} => s.audience !== undefined)
-    .map((s) => ({audience: s.audience, service: s.slug}));
-}
-
-function isAudience(slug: string): slug is Audience {
-  return (AUDIENCES as readonly string[]).includes(slug);
+  // Phase M.01e — every service has a `division`. Pre-render every
+  // (division, service) pair for both locales (locale at parent).
+  return SERVICES.map((s) => ({division: s.division, service: s.slug}));
 }
 
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{locale: string; audience: string; service: string}>;
+  params: Promise<{locale: string; division: string; service: string}>;
 }): Promise<Metadata> {
-  const {locale, audience, service} = await params;
-  if (!isAudience(audience)) return {};
-  const svc = getService(service, audience);
-  if (!svc) return {};
+  const {locale, division, service} = await params;
+  if (!isDivision(division)) return {};
+  const svc = getService(service);
+  if (!svc || svc.division !== division) return {};
   const loc = (routing.locales.includes(locale as Locale) ? locale : 'en') as Locale;
-  const path = `/${audience}/${svc.slug}`;
+  const path = `/${division}/${svc.slug}`;
   return {
     title: `${svc.hero.h1[loc]} — Sunset Services`,
     description: svc.hero.subhead[loc],
@@ -68,22 +55,23 @@ export async function generateMetadata({
 export default async function ServiceDetailPage({
   params,
 }: {
-  params: Promise<{locale: string; audience: string; service: string}>;
+  params: Promise<{locale: string; division: string; service: string}>;
 }) {
-  const {locale, audience, service} = await params;
+  const {locale, division, service} = await params;
   if (!routing.locales.includes(locale as Locale)) notFound();
-  if (!isAudience(audience)) notFound();
-  const svc = getService(service, audience);
+  if (!isDivision(division)) notFound();
+  const svc = getService(service);
   if (!svc) notFound();
+  if (svc.division !== division) notFound();
   const loc = locale as Locale;
   setRequestLocale(loc);
 
-  const tAudience = await getTranslations({locale, namespace: `audience.${audience}`});
-  const tShared = await getTranslations({locale, namespace: 'audience'});
+  const tDivision = await getTranslations({locale, namespace: `division.${division}`});
+  const tShared = await getTranslations({locale, namespace: 'division'});
   const tSvc = await getTranslations({locale, namespace: 'servicePage'});
 
-  const audienceLabel = tAudience('label');
-  const audienceKicker = tAudience('hero.kicker');
+  const divisionLabel = tDivision('label');
+  const divisionKicker = tDivision('hero.kicker');
   const homeLabel = tShared('breadcrumbHome');
   const serviceName = svc.name[loc];
   const assetKey = svc.imageKey ?? svc.slug;
@@ -92,14 +80,16 @@ export default async function ServiceDetailPage({
   // ---- Schema ----
   const breadcrumbSchema = buildBreadcrumbList([
     {name: homeLabel, item: localePath(loc, '/')},
-    {name: audienceLabel, item: localePath(loc, `/${audience}/`)},
-    {name: serviceName, item: localePath(loc, `/${audience}/${svc.slug}/`)},
+    {name: divisionLabel, item: localePath(loc, `/${division}/`)},
+    {name: serviceName, item: localePath(loc, `/${division}/${svc.slug}/`)},
   ]);
   const serviceSchema = buildServiceSchema(svc, loc);
 
-  // Phase 2.05 — FAQs come from Sanity, not the TS seed. Scope tag:
-  // `service:<audience>:<slug>`. Page knows both, so no ambiguity.
-  const faqs = await getFaqsForService(audience as Audience, service);
+  // Phase 2.05 → Phase M.01e — FAQs come from Sanity, scope tag
+  // `service:<division>:<slug>`. The Sanity migration script
+  // (scripts/migrate-faq-to-divisions.mjs) patches old
+  // `service:<audience>:<slug>` scopes to the new format.
+  const faqs = await getFaqsForService(division, service);
   const faqSchema = buildContentFaqSchema(
     faqs.map((f) => ({q: f.question[loc], a: f.answer[loc]})),
   );
@@ -151,11 +141,10 @@ export default async function ServiceDetailPage({
     answer: q.answer[loc],
   }));
 
-  // ---- Related services (D7: prefer same-audience match for residential +
-  // commercial; hardscape rows still resolve correctly because their related
-  // slugs are unique within the hardscape set). ----
+  // ---- Related services. All current slugs are globally unique, so the
+  // single-arg helper is sufficient.
   const relatedServices = svc.related
-    .map((slug) => getRelatedService(slug, audience))
+    .map((slug) => getRelatedService(slug))
     .filter((s): s is NonNullable<typeof s> => Boolean(s))
     .map((rs) => ({
       service: rs,
@@ -163,7 +152,7 @@ export default async function ServiceDetailPage({
     }));
 
   return (
-    <div data-audience={audience}>
+    <div data-division={division}>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{__html: JSON.stringify(breadcrumbSchema)}}
@@ -177,9 +166,9 @@ export default async function ServiceDetailPage({
         dangerouslySetInnerHTML={{__html: JSON.stringify(faqSchema)}}
       />
       <ServiceHero
-        audience={audience}
-        audienceLabel={audienceLabel}
-        audienceKicker={audienceKicker}
+        audience={division}
+        audienceLabel={divisionLabel}
+        audienceKicker={divisionKicker}
         serviceName={serviceName}
         serviceSlug={svc.slug}
         homeLabel={homeLabel}
@@ -235,7 +224,7 @@ export default async function ServiceDetailPage({
       <ServiceRelated
         locale={loc}
         eyebrow={tSvc('related.eyebrow')}
-        h2={tSvc(`related.h2.${audience}`)}
+        h2={tSvc(`related.h2.${division}`)}
         tiles={relatedServices}
       />
       <ServiceCTA

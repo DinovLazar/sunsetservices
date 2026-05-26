@@ -18,6 +18,39 @@
         "area": "Aurora · Naperville · DuPage"
       }
     },
+    "divisions": {
+      "eyebrow": "Lo que hacemos",
+      "h2": "Cuatro divisiones, un equipo familiar.",
+      "sub": "Elige el trabajo que te queda — paisajismo, hardscape, impermeabilización, remoción de nieve. La misma responsabilidad de equipo en las cuatro.",
+      "landscape": {
+        "tag": "Paisajismo",
+        "h3": "Jardines que aguantan.",
+        "desc": "Cuidado de césped, diseño, riego, árboles y limpiezas de temporada — ocho servicios, un equipo.",
+        "cta": "Explorar Paisajismo",
+        "alt": "Un jardín frondoso de DuPage con bordes definidos y plantaciones maduras al atardecer."
+      },
+      "hardscape": {
+        "tag": "Hardscape",
+        "h3": "Construido para durar.",
+        "desc": "Patios, muros, fogatas, cocinas, pérgolas y entradas — Autorizados por Unilock desde 2010.",
+        "cta": "Explorar Hardscape",
+        "alt": "Un patio de adoquines Unilock con muro de asiento y fogata de piedra al atardecer."
+      },
+      "waterproofing": {
+        "tag": "Impermeabilización",
+        "h3": "Sótanos secos.",
+        "desc": "Sótanos, cimientos, bombas de sumidero, drenaje del jardín, canaletas — diez servicios para el agua.",
+        "cta": "Explorar Impermeabilización",
+        "alt": "Vista exterior del cimiento de una casa de DuPage con tubería de drenaje nueva en el perímetro."
+      },
+      "snow-removal": {
+        "tag": "Remoción de Nieve",
+        "h3": "Arado al amanecer.",
+        "desc": "Entradas, senderos, deshielo y arado comercial. Despacho 24/7, respuesta en 2 horas tras activación.",
+        "cta": "Explorar Remoción de Nieve",
+        "alt": "Una entrada recién arada al amanecer con la nieve apilada limpiamente a un lado."
+      }
+    },
     "audience": {
       "eyebrow": "Encuentra tu encaje",
       "h2": "Tres formas de trabajar.",
@@ -438,6 +471,353 @@
       }
     }
   },
+  "division": {
+    "breadcrumbHome": "Inicio",
+    "landscape": {
+      "label": "Paisajismo",
+      "meta": {
+        "title": "Servicios de Paisajismo en DuPage County — Sunset Services",
+        "description": "Cuidado de césped, diseño paisajista, sistemas de riego, servicios de árboles y limpiezas de temporada para hogares y negocios en DuPage County. 25+ años."
+      },
+      "hero": {
+        "kicker": "DIVISIÓN PAISAJISMO",
+        "h1": "Jardines que se ven cuidados en cada estación.",
+        "subhead": "Cuidado de césped, diseño, riego, árboles y limpiezas de temporada — ocho servicios, un solo equipo. Propiedades residenciales y comerciales en DuPage County.",
+        "alt": "Un jardín delantero frondoso con bordes definidos, plantaciones maduras y un sendero de adoquines al atardecer.",
+        "primary": "Obtén un Estimado Gratis",
+        "secondary": "Ver Proyectos de Paisajismo"
+      },
+      "qualifier": {
+        "eyebrow": "PARA PROPIEDADES EN DUPAGE",
+        "h2": "Para quién es esta página.",
+        "body": "Si quieres un solo equipo que maneje el césped, los arriates, el riego y el trabajo de temporada — sin tener que coordinar tres proveedores — esta página es para ti. Mismo equipo en cada visita, líderes bilingües, estimado gratis en 48 horas.",
+        "pills": {
+          "one": "Mismo equipo cada visita",
+          "two": "Bilingüe EN · ES",
+          "three": "Estimado gratis en 48 hrs",
+          "four": "25 años en el negocio"
+        }
+      },
+      "servicesGrid": {
+        "eyebrow": "OCHO SERVICIOS · UN EQUIPO",
+        "h2": "Servicios en la división de paisajismo.",
+        "sub": "Elige un servicio para ver qué incluye, nuestro proceso y proyectos recientes."
+      },
+      "featuredProjects": {
+        "eyebrow": "TRABAJO RECIENTE",
+        "h2": "Proyectos destacados de paisajismo.",
+        "viewAll": "Ver todo paisajismo",
+        "tiles": {
+          "one": {"title": "Transformación de patio", "meta": "Naperville · 2024"},
+          "two": {"title": "Renovación de fachada", "meta": "Wheaton · 2024"},
+          "three": {"title": "Fachada de HOA en Aurora", "meta": "Aurora · 2024"}
+        }
+      },
+      "whySunset": {
+        "eyebrow": "POR QUÉ SUNSET",
+        "h2": "Veinticinco años en jardines de DuPage.",
+        "props": {
+          "one": {"headline": "25+ años en DuPage", "description": "Erick fundó Sunset Services en el año 2000. Hemos visto todas las temporadas.", "icon": "Award"},
+          "two": {"headline": "Mismo equipo cada visita", "description": "Tu líder no cambia. La calidad se mantiene.", "icon": "Users"},
+          "three": {"headline": "Equipo bilingüe · EN · ES", "description": "Los líderes hablan ambos. Estimados en cualquiera.", "icon": "Languages"},
+          "four": {"headline": "Un solo contacto", "description": "Césped, diseño, nieve — un solo número, una sola persona.", "icon": "PhoneCall"}
+        }
+      },
+      "socialProof": {
+        "eyebrow": "DE TUS VECINOS",
+        "h2": "Reseñado por propietarios de DuPage.",
+        "reviews": {
+          "one": {"quote": "Mismo equipo, misma calidad, semana tras semana. Cinco años así.", "name": "Marco D.", "city": "Aurora"},
+          "two": {"quote": "Rediseñaron los arriates del frente y el césped por fin se ve intencional.", "name": "Lisa K.", "city": "Naperville"}
+        },
+        "credentials": {
+          "one": {"big": "★ 4.9", "sub": "Google · 287 reseñas"},
+          "two": {"big": "25+", "sub": "años en DuPage County"},
+          "three": {"big": "1,200+", "sub": "propiedades atendidas"},
+          "four": {"big": "EN · ES", "sub": "equipos bilingües"}
+        }
+      },
+      "faq": {
+        "eyebrow": "PREGUNTAS · RESPUESTAS",
+        "h2": "Preguntas comunes sobre servicios de paisajismo.",
+        "items": {
+          "one": {"q": "¿Ofrecen visitas únicas o solo contratos?", "a": "Ambos. La mayoría de clientes de césped prefiere contrato de temporada para consistencia, pero hacemos limpiezas únicas, consultas de diseño y trabajos puntuales sin compromiso recurrente."},
+          "two": {"q": "¿Qué tan rápido pueden empezar?", "a": "Cuidado de césped y limpieza de temporada usualmente empiezan en dos semanas. Diseño y trabajos de arriates dependen del alcance — la mayoría se reserva en cuatro a seis semanas tras firmar el estimado."},
+          "three": {"q": "¿Los estimados son gratis?", "a": "Sí — visita al sitio, medidas y estimado detallado son gratis. Las cotizaciones llegan a tu correo en 48 horas tras la visita."},
+          "four": {"q": "¿Atienden propiedades comerciales?", "a": "Sí — alrededor de un tercio de nuestro libro de paisajismo es comercial. Hacemos mantenimiento, manejo de césped y mejoras de temporada en cadencia trimestral."},
+          "five": {"q": "¿Están asegurados?", "a": "Sí — $2M de responsabilidad general más compensación laboral completa. Certificados de seguro disponibles antes de la primera visita."}
+        }
+      },
+      "cta": {
+        "eyebrow": "CUANDO QUIERAS",
+        "h2": "Cuéntanos sobre la propiedad.",
+        "body": "Estimado gratis en 48 horas. Sin ventas a presión — solo un precio claro.",
+        "button": "Obtén un Estimado Gratis",
+        "phonePrefix": "o llama al",
+        "phoneNumber": "(630) 946-9321"
+      }
+    },
+    "hardscape": {
+      "label": "Pavimentos y Construcción Exterior",
+      "meta": {
+        "title": "Hardscape y Adoquines Unilock en DuPage County — Sunset Services",
+        "description": "Patios, muros, fogatas, cocinas exteriores, pérgolas y entradas por un Contratista Autorizado Unilock. Garantía de 5 años en instalación. 25+ años."
+      },
+      "hero": {
+        "kicker": "DIVISIÓN HARDSCAPE",
+        "h1": "Construido para durar veinticinco años y los que vienen.",
+        "subhead": "Patios, muros, fogatas, cocinas exteriores, pérgolas y entradas — instalados por un Contratista Autorizado Unilock con dos décadas de experiencia en adoquines.",
+        "alt": "Un patio de adoquines Unilock con muro de asiento y fogata al atardecer.",
+        "primary": "Obtén un Estimado Gratis",
+        "secondary": "Ver Proyectos de Hardscape"
+      },
+      "qualifier": {
+        "eyebrow": "PARA PROPIETARIOS DE DUPAGE",
+        "h2": "Para quién es esta página.",
+        "body": "Si quieres un patio, sendero, muro de contención o cocina exterior construido por un Contratista Autorizado Unilock — con ingeniería revisada, preparación de base en casa y garantía de 5 años de instalación — esta página es para ti.",
+        "pills": {
+          "one": "Autorizado Unilock",
+          "two": "Garantía de instalación 5 años",
+          "three": "Diseñado para el suelo",
+          "four": "20+ años en hardscape"
+        }
+      },
+      "servicesGrid": {
+        "eyebrow": "SEIS SERVICIOS DE HARDSCAPE",
+        "h2": "Servicios para vida al aire libre.",
+        "sub": "Elige un servicio para ver qué incluye, nuestro proceso e instalaciones recientes."
+      },
+      "featuredProjects": {
+        "eyebrow": "INSTALACIONES RECIENTES",
+        "h2": "Proyectos destacados de hardscape.",
+        "viewAll": "Ver todo hardscape",
+        "tiles": {
+          "one": {"title": "Patio + fogata en Naperville", "meta": "Naperville · 2024"},
+          "two": {"title": "Fogata en Glen Ellyn", "meta": "Glen Ellyn · 2024"},
+          "three": {"title": "Muro de varios niveles en Lisle", "meta": "Lisle · 2024"}
+        }
+      },
+      "whySunset": {
+        "eyebrow": "POR QUÉ SUNSET",
+        "h2": "Dos décadas en adoquines.",
+        "props": {
+          "one": {"headline": "Contratista Autorizado Unilock", "description": "Otorgada — no comprada. La hemos mantenido por quince años y los que vienen.", "icon": "Unilock"},
+          "two": {"headline": "Garantía de instalación 5 años", "description": "Mano de obra cubierta cinco años, sin preguntas.", "icon": "BadgeCheck"},
+          "three": {"headline": "Diseño en casa", "description": "Diseñador, ingeniero y líder de equipo bajo un mismo techo.", "icon": "PencilRuler"},
+          "four": {"headline": "20+ años en hardscape", "description": "El equipo de Marcin ha colocado adoquines desde 2003.", "icon": "Hammer"}
+        }
+      },
+      "unilock": {
+        "eyebrow": "CONTRATISTA AUTORIZADO UNILOCK",
+        "h2": "La marca de adoquines que escogen los profesionales.",
+        "body": "La autorización Unilock se otorga — no se compra — a contratistas que demuestran consistencia en la calidad de instalación. La hemos mantenido por quince años y los que vienen.",
+        "stat": "QUINCE AÑOS · 380+ INSTALACIONES · GARANTÍA DE 5 AÑOS",
+        "viewProjects": "Ver proyectos Unilock",
+        "badgeAlt": "Contratista Autorizado Unilock"
+      },
+      "socialProof": {
+        "eyebrow": "DE CLIENTES DE HARDSCAPE",
+        "h2": "Reseñado por clientes de hardscape.",
+        "reviews": {
+          "one": {"quote": "El equipo de Erick reconstruyó nuestra entrada en dos días. Tres inviernos después, la arena de las juntas se ve igual que el primer día.", "name": "Patricia M.", "city": "Aurora"},
+          "two": {"quote": "Nuestro patio es la razón por la que nos quedamos. El mismo equipo lo selló la primavera siguiente sin que pidiéramos.", "name": "James K.", "city": "Naperville"}
+        },
+        "credentials": {
+          "one": {"big": "★ 4.9", "sub": "Google · 287 reseñas"},
+          "two": {"big": "Unilock", "sub": "Contratista Autorizado"},
+          "three": {"big": "5 años", "sub": "garantía de instalación"},
+          "four": {"big": "380+", "sub": "instalaciones Unilock"}
+        }
+      },
+      "faq": {
+        "eyebrow": "PREGUNTAS · RESPUESTAS",
+        "h2": "Preguntas comunes de clientes de hardscape.",
+        "items": {
+          "one": {"q": "¿Cuánto toma un patio típico?", "a": "Un patio residencial de adoquines de 400–600 pies cuadrados toma 5–8 días desde inicio hasta entrega. Alcances más grandes o semanas con clima pueden extenderse a dos semanas."},
+          "two": {"q": "¿Qué garantía cubre la instalación Unilock?", "a": "Garantía de mano de obra de 5 años en la instalación. La garantía del fabricante Unilock sobre los adoquines mismos va por separado y depende de la línea de adoquín."},
+          "three": {"q": "¿Hacen diseño antes de construir?", "a": "Sí — la mayoría de proyectos de hardscape empiezan con una conversación de concepto, planos a escala y un recorrido de materiales. Diseño y construcción son contratos separados; te quedas con los planos en cualquier caso."},
+          "four": {"q": "¿Qué materiales usan típicamente?", "a": "Principalmente Unilock — Contratista Autorizado desde 2010. También trabajamos con Belgard u otras líneas premium si lo pides, aunque nuestro equipo es más eficiente con sistemas Unilock."},
+          "five": {"q": "¿Cómo funciona su programación?", "a": "Las construcciones de primavera usualmente se reservan para finales de febrero; los espacios de verano/otoño se abren hasta abril. Confirmamos una ventana de inicio en la cotización y bloqueamos la fecha cuando se aprueba el depósito."}
+        }
+      },
+      "cta": {
+        "eyebrow": "CUANDO QUIERAS",
+        "h2": "Cuéntanos sobre el proyecto.",
+        "body": "Recorrido gratis y boceto de concepto en una semana. Permisos e ingeniería incluidos en la cotización.",
+        "button": "Obtén un Estimado Gratis",
+        "phonePrefix": "o llama al",
+        "phoneNumber": "(630) 946-9321"
+      }
+    },
+    "waterproofing": {
+      "label": "Impermeabilización",
+      "meta": {
+        "title": "Impermeabilización y Cimientos en DuPage County — Sunset Services",
+        "description": "Impermeabilización de sótanos, reparación de cimientos, bombas de sumidero, drenaje del jardín, canaletas, pozos de ventana, sótanos de acceso, levantamiento de concreto, control de humedad y mitigación de radón."
+      },
+      "hero": {
+        "kicker": "DIVISIÓN IMPERMEABILIZACIÓN",
+        "h1": "Sótanos secos. Cimientos que aguantan.",
+        "subhead": "Diez servicios para el manejo de agua alrededor de la casa — sótanos, cimientos, bombas de sumidero, drenaje del jardín, canaletas, pozos de ventana y más. Diagnosticamos primero, reparamos después.",
+        "alt": "Vista exterior del cimiento de una casa en DuPage con tubería de drenaje nueva instalada en el perímetro.",
+        "primary": "Obtén un Estimado Gratis",
+        "secondary": "Ver Proyectos de Impermeabilización"
+      },
+      "qualifier": {
+        "eyebrow": "PARA PROPIETARIOS DE DUPAGE",
+        "h2": "Para quién es esta página.",
+        "body": "Si tu sótano se filtra cada primavera, tu cimiento tiene grietas finas, tu jardín se encharca tras la lluvia o tu sótano de acceso huele a humedad — esta página es para ti. Diagnosticamos la fuente antes de venderte una solución.",
+        "pills": {
+          "one": "Diagnóstico primero",
+          "two": "10 servicios en una división",
+          "three": "Garantías 5–25 años",
+          "four": "Experiencia en casas antiguas"
+        }
+      },
+      "servicesGrid": {
+        "eyebrow": "DIEZ SERVICIOS DE IMPERMEABILIZACIÓN",
+        "h2": "Servicios en la división de impermeabilización.",
+        "sub": "Elige un servicio para ver qué incluye, nuestro proceso y trabajos recientes."
+      },
+      "featuredProjects": {
+        "eyebrow": "TRABAJO RECIENTE",
+        "h2": "Proyectos destacados de impermeabilización.",
+        "viewAll": "Ver toda la impermeabilización",
+        "tiles": {
+          "one": {"title": "Restablecimiento de sótano en Hinsdale", "meta": "Hinsdale · 2024"},
+          "two": {"title": "Drenaje de jardín en Glen Ellyn", "meta": "Glen Ellyn · 2024"},
+          "three": {"title": "Reparación de cimiento en Elmhurst", "meta": "Elmhurst · 2024"}
+        }
+      },
+      "whySunset": {
+        "eyebrow": "POR QUÉ SUNSET",
+        "h2": "Trabajo de cimientos sin presión de venta.",
+        "props": {
+          "one": {"headline": "Diagnóstico primero", "description": "Encontramos la fuente real del agua antes de recomendar una solución.", "icon": "SearchCheck"},
+          "two": {"headline": "Garantías 5–25 años", "description": "Por servicio. Te decimos el rango antes de cotizar.", "icon": "ShieldCheck"},
+          "three": {"headline": "Experiencia en casas antiguas", "description": "Cimientos de ladrillo, casas centenarias, ampliaciones sobre ampliaciones.", "icon": "Home"},
+          "four": {"headline": "Mismo equipo, misma responsabilidad", "description": "Sin entregas a subcontratistas en el trabajo que más importa.", "icon": "Users"}
+        }
+      },
+      "socialProof": {
+        "eyebrow": "DE PROPIETARIOS",
+        "h2": "Reseñado por dueños de DuPage.",
+        "reviews": {
+          "one": {"quote": "Tuvimos tres cotizaciones para el sótano. Sunset fue el único que de verdad recorrió el perímetro y explicó qué estaba fallando.", "name": "Caroline T.", "city": "Hinsdale"},
+          "two": {"quote": "El jardín se encharcaba cada abril. Dos temporadas después, el nuevo drenaje es invisible y el césped está parejo.", "name": "Brian J.", "city": "Wheaton"}
+        },
+        "credentials": {
+          "one": {"big": "★ 4.9", "sub": "Google · 287 reseñas"},
+          "two": {"big": "25+", "sub": "años en DuPage County"},
+          "three": {"big": "5–25 años", "sub": "garantías por servicio"},
+          "four": {"big": "EN · ES", "sub": "equipos bilingües"}
+        }
+      },
+      "faq": {
+        "eyebrow": "PREGUNTAS · RESPUESTAS",
+        "h2": "Preguntas comunes sobre impermeabilización.",
+        "items": {
+          "one": {"q": "¿Cómo sé si mi sótano realmente tiene una fuga?", "a": "Una fuga real aparece después de una lluvia fuerte — agua en los bordes del piso o manchas en las paredes. La condensación sola (olor a humedad, humedad ocasional en verano) es problema de humedad y la solución es distinta. Podemos decir cuál es durante la visita."},
+          "two": {"q": "¿Reparar mi sótano requiere excavar el jardín?", "a": "A veces. El drenaje interior se instala desde dentro del sótano sin excavación. Las membranas exteriores sí requieren excavar el perímetro del cimiento — usualmente un trabajo de 3–5 días, y restauramos el jardín al terminar."},
+          "three": {"q": "¿Cuánto duran las reparaciones?", "a": "El drenaje interior y los sistemas de sumidero traen garantías de 25 años cuando los instalamos nosotros. Membranas exteriores 10–15 años. Reparación de grietas 5–10 años según la grieta."},
+          "four": {"q": "¿Pueden arreglar un jardín que se inunda cada primavera?", "a": "Sí — el drenaje del jardín es uno de nuestros diez servicios de impermeabilización. Mapeamos puntos bajos, instalamos drenajes franceses o de superficie, y dirigimos el agua a una salida visible. La mayoría de trabajos toma 2–3 días."},
+          "five": {"q": "¿Los estimados son gratis?", "a": "Sí — visita al sitio, diagnóstico y estimado detallado son gratis. No cotizamos sin recorrer la propiedad; las cotizaciones por teléfono para impermeabilización suelen ser incorrectas."}
+        }
+      },
+      "cta": {
+        "eyebrow": "CUANDO QUIERAS",
+        "h2": "Cuéntanos sobre el agua.",
+        "body": "Recorrido gratis y estimado detallado en 48 horas. Diagnosticamos antes de cotizar.",
+        "button": "Obtén un Estimado Gratis",
+        "phonePrefix": "o llama al",
+        "phoneNumber": "(630) 946-9321"
+      }
+    },
+    "snow-removal": {
+      "label": "Remoción de Nieve",
+      "meta": {
+        "title": "Remoción de Nieve en DuPage County — Sunset Services",
+        "description": "Arado de entradas, pala de senderos, deshielo y arado comercial para hogares, HOAs y oficinas en DuPage. Despacho 24/7, respuesta en 2 horas tras activación."
+      },
+      "hero": {
+        "kicker": "DIVISIÓN REMOCIÓN DE NIEVE",
+        "h1": "Arado antes de que te levantes.",
+        "subhead": "Entradas, senderos, deshielo, lotes comerciales — cuatro servicios cubriendo todo escenario de nieve en DuPage County. Despacho 24/7, respuesta en 2 horas tras activación.",
+        "alt": "Una entrada recién arada con nieve apilada limpiamente a un lado al amanecer tras una tormenta nocturna.",
+        "primary": "Obtén un Estimado Gratis",
+        "secondary": "Ver Proyectos de Remoción de Nieve"
+      },
+      "qualifier": {
+        "eyebrow": "PARA PROPIEDADES EN DUPAGE",
+        "h2": "Para quién es esta página.",
+        "body": "Si quieres un proveedor de nieve que de verdad llega — entrada residencial, vías de HOA, parque de oficinas, contrato de múltiples propiedades — esta página es para ti. Activación a 2 pulgadas, despacho automático, sin llamadas por cada tormenta.",
+        "pills": {
+          "one": "Despacho 24/7",
+          "two": "2 hrs tras activación",
+          "three": "Activación a 2 pulgadas",
+          "four": "Flotilla asegurada"
+        }
+      },
+      "servicesGrid": {
+        "eyebrow": "CUATRO SERVICIOS DE NIEVE",
+        "h2": "Servicios en la división de remoción de nieve.",
+        "sub": "Elige un servicio para ver qué incluye, nuestro proceso y cómo funciona el contrato."
+      },
+      "featuredProjects": {
+        "eyebrow": "TRABAJO RECIENTE",
+        "h2": "Contratos destacados de remoción de nieve.",
+        "viewAll": "Ver toda la remoción de nieve",
+        "tiles": {
+          "one": {"title": "HOA en Naperville, temporada completa", "meta": "Naperville · 2023–2024"},
+          "two": {"title": "Centro comercial en Aurora", "meta": "Aurora · 2023–2024"},
+          "three": {"title": "Cluster residencial en Wheaton", "meta": "Wheaton · 2023–2024"}
+        }
+      },
+      "whySunset": {
+        "eyebrow": "POR QUÉ SUNSET",
+        "h2": "Respuesta a la tormenta que aguanta.",
+        "props": {
+          "one": {"headline": "Respuesta en 2 horas", "description": "Te atienden antes de que la mayoría se levante.", "icon": "Clock"},
+          "two": {"headline": "Despacho 24/7", "description": "¿Tormenta a las 2am? Ya vamos en camino.", "icon": "PhoneCall"},
+          "three": {"headline": "Flotilla asegurada", "description": "Cobertura por daños en cada vehículo de arado.", "icon": "ShieldCheck"},
+          "four": {"headline": "Pasada de borde incluida", "description": "Segunda pasada tras el arado del pueblo.", "icon": "Repeat"}
+        }
+      },
+      "socialProof": {
+        "eyebrow": "DE CLIENTES CON CONTRATO",
+        "h2": "Reseñado por clientes de nieve.",
+        "reviews": {
+          "one": {"quote": "Nieve a las 5am, cada tormenta. La entrada estaba limpia antes de mi primer café. Vale cada dólar.", "name": "David R.", "city": "Naperville"},
+          "two": {"quote": "Los reportes por evento llegan a mi correo antes de que salga de la cama. Evitaron una queja de inquilino el invierno pasado.", "name": "Mark T.", "city": "Aurora Retail"}
+        },
+        "credentials": {
+          "one": {"big": "★ 4.9", "sub": "Google · 287 reseñas"},
+          "two": {"big": "2 hrs", "sub": "respuesta tras activación"},
+          "three": {"big": "24/7", "sub": "despacho en vivo"},
+          "four": {"big": "$2M", "sub": "responsabilidad general"}
+        }
+      },
+      "faq": {
+        "eyebrow": "PREGUNTAS · RESPUESTAS",
+        "h2": "Preguntas comunes sobre servicio de nieve.",
+        "items": {
+          "one": {"q": "¿Cuándo se firman los contratos?", "a": "La mayoría firma antes de Halloween para el invierno entrante. Marcamos entradas, senderos y cabezales de riego en noviembre para que el equipo conozca la propiedad antes de la primera tormenta."},
+          "two": {"q": "¿Cuál es la activación?", "a": "2 pulgadas por defecto. Por debajo de 2 pulgadas no atendemos residencial. Los contratos comerciales pueden especificar activación menor (1 pulgada o manejo de hielo sin activación) por un cargo adicional."},
+          "three": {"q": "¿Cuál es su tiempo de respuesta?", "a": "2 horas desde la activación en residencial. 2 horas por SLA contratado en comercial. Despachamos en olas — las rutas residenciales corren después de las cuentas comerciales."},
+          "four": {"q": "¿Hacen solo deshielo?", "a": "Sí — el deshielo es un servicio independiente. Sal pet-safe en residencial, sal calibrada o eco-melt en comercial según el contrato."},
+          "five": {"q": "¿Qué pasa si cancelo a mitad de temporada?", "a": "Los contratos de temporada no se cancelan a mitad; el precio asume el trabajo de la temporada completa. El servicio por evento es pague-según-use y puedes parar cuando quieras."}
+        }
+      },
+      "cta": {
+        "eyebrow": "¿LISTO PARA EL INVIERNO?",
+        "h2": "Firma antes del 15 de octubre.",
+        "body": "Estimado gratis en 48 horas. La mayoría de contratos firma en septiembre. No esperes la primera tormenta.",
+        "button": "Obtén un Estimado Gratis",
+        "phonePrefix": "o llama al",
+        "phoneNumber": "(630) 946-9321"
+      }
+    }
+  },
   "servicePage": {
     "breadcrumbHome": "Inicio",
     "hero": {
@@ -483,7 +863,10 @@
       "h2": {
         "residential": "Más de Sunset Residencial.",
         "commercial": "Más de Sunset Comercial.",
-        "hardscape": "Frecuentemente combinado con esto."
+        "hardscape": "Frecuentemente combinado con esto.",
+        "landscape": "Más de la división de Paisajismo.",
+        "waterproofing": "Frecuentemente combinado con impermeabilización.",
+        "snow-removal": "Más de la división de Remoción de Nieve."
       }
     },
     "cta": {
@@ -507,20 +890,18 @@
       "resources": "Recursos",
       "contact": "Contacto",
       "servicesPanel": {
-        "residentialTitle": "Residencial",
-        "commercialTitle": "Comercial",
+        "landscapeTitle": "Paisajismo",
         "hardscapeTitle": "Hardscape",
-        "residential": {
+        "waterproofingTitle": "Impermeabilización",
+        "snowRemovalTitle": "Remoción de Nieve",
+        "serviceAreasTitle": "Áreas de Servicio",
+        "landscape": {
           "lawnCare": "Cuidado del Césped",
           "landscapeDesign": "Diseño de Paisajismo",
           "treeServices": "Servicios de Árboles",
           "sprinklerSystems": "Sistemas de Riego",
-          "snowRemoval": "Remoción de Nieve",
-          "seasonalCleanup": "Limpieza de Temporada"
-        },
-        "commercial": {
+          "seasonalCleanup": "Limpieza de Temporada",
           "maintenance": "Mantenimiento de Paisajismo",
-          "snowRemoval": "Remoción de Nieve",
           "propertyEnhancement": "Mejora de Propiedades",
           "turfManagement": "Manejo de Césped"
         },
@@ -532,8 +913,31 @@
           "driveways": "Entradas de Auto",
           "outdoorKitchens": "Cocinas Exteriores"
         },
+        "waterproofing": {
+          "basementWaterproofing": "Impermeabilización de Sótanos",
+          "foundationRepair": "Reparación de Cimientos",
+          "sumpPumps": "Bombas de Sumidero",
+          "yardDrainage": "Drenaje del Jardín",
+          "gutterServices": "Servicios de Canaletas",
+          "windowWells": "Pozos de Ventana",
+          "crawlSpaces": "Sótanos de Acceso",
+          "concreteRaising": "Levantamiento de Concreto",
+          "humidityControl": "Control de Humedad",
+          "radonMitigation": "Mitigación de Radón"
+        },
+        "snowRemoval": {
+          "driveway": "Remoción de Nieve en Entradas",
+          "sidewalk": "Pala de Senderos",
+          "deIcing": "Deshielo",
+          "commercial": "Arado Comercial de Nieve"
+        },
+        "serviceAreas": {
+          "oakBrook": "Oak Brook",
+          "hinsdale": "Hinsdale",
+          "seeAll": "Ver las 22 ciudades →"
+        },
         "photoCaption": "Ver proyectos recientes →",
-        "photoSubcaption": "Más de 30 proyectos residenciales, comerciales y de hardscape"
+        "photoSubcaption": "Más de 30 proyectos en 4 divisiones"
       },
       "resourcesPanel": {
         "resourcesTitle": "Recursos",
@@ -582,12 +986,14 @@
       "serviceAreasHeading": "Áreas de Servicio",
       "serviceAreasNavAriaLabel": "Áreas de servicio",
       "links": {
-        "residential": "Residencial",
-        "commercial": "Comercial",
+        "landscape": "Paisajismo",
         "hardscape": "Hardscape",
+        "waterproofing": "Impermeabilización",
         "snowRemoval": "Remoción de Nieve",
         "allServices": "Todos los servicios →",
-        "blog": "Blog"
+        "blog": "Blog",
+        "residential": "Residencial",
+        "commercial": "Comercial"
       },
       "cities": {
         "aurora": "Aurora",
@@ -942,6 +1348,9 @@
         "yorkville": "Lotes de un acre, condado de Kendall",
         "plainfield": "Centro histórico + crecimiento nuevo"
       }
+    },
+    "extendedArea": {
+      "note": "También damos servicio en Lisle y Bolingbrook. Llámenos al (630) 946-9321 para conversar sobre su proyecto."
     },
     "outside": {
       "h2": "¿No ves tu ciudad?",

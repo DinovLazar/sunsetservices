@@ -16,7 +16,7 @@
  *   resolves through the existing `imageMap` AVIF placeholders.
  */
 
-import type {Audience} from './services';
+import type {Division} from './services';
 
 export type LocationLocalized = {en: string; es: string};
 
@@ -50,8 +50,12 @@ export type LocationCitySlug =
 
 export type LocationFeaturedService = {
   slug: string;
-  /** Required so the link target is unambiguous when slugs span audiences (e.g., snow-removal). */
-  audience: Audience;
+  /**
+   * Phase M.01e — `division` replaces `audience` as the URL-segment dictator
+   * for service links. Each featured-service entry resolves to
+   * `/<locale>/<division>/<slug>/`.
+   */
+  division: Division;
 };
 
 export type LocationTestimonial = {
@@ -99,7 +103,7 @@ export const LOCATIONS: LocationCity[] = [
     name: 'Aurora',
     state: 'IL',
     geo: {lat: 41.7606, lng: -88.3201},
-    pin: {x: 140, y: 320},
+    pin: {x: 201.2, y: 297.7},
     hero: {
       h1: {
         en: 'Landscaping & Hardscape in Aurora, IL',
@@ -113,12 +117,12 @@ export const LOCATIONS: LocationCity[] = [
     },
     trust: {yearsServing: 25, projectsCompleted: 200, responseTimeDays: 5},
     featuredServices: [
-      {slug: 'patios-walkways', audience: 'hardscape'},
-      {slug: 'retaining-walls', audience: 'hardscape'},
-      {slug: 'lawn-care', audience: 'residential'},
-      {slug: 'landscape-design', audience: 'residential'},
-      {slug: 'landscape-maintenance', audience: 'commercial'},
-      {slug: 'snow-removal', audience: 'commercial'},
+      {slug: 'patios-walkways', division: 'hardscape'},
+      {slug: 'retaining-walls', division: 'hardscape'},
+      {slug: 'lawn-care', division: 'landscape'},
+      {slug: 'landscape-design', division: 'landscape'},
+      {slug: 'landscape-maintenance', division: 'landscape'},
+      {slug: 'commercial-snow-plowing', division: 'snow-removal'},
     ],
     whyLocal: {
       en: "Aurora is home. The yard our trucks pull out of every morning sits on Mountain Street, and a quarter of our jobs are within a ten-minute drive of it. We know which subdivisions on the east side have curb cuts that won't fit a skid steer, which streets the city plows last after a heavy storm, and which corner lots tend to flood at the back fence after a hard April rain. That's not searchable — it's twenty-five years of paying attention. When you call (630) 946-9321, Erick or his son picks up. The crew that walks your property is the crew that pours the base. No subcontracted hand-offs.",
@@ -153,7 +157,7 @@ export const LOCATIONS: LocationCity[] = [
     name: 'Naperville',
     state: 'IL',
     geo: {lat: 41.7508, lng: -88.1535},
-    pin: {x: 240, y: 350},
+    pin: {x: 324, y: 307.4},
     hero: {
       h1: {
         en: 'Landscaping & Hardscape in Naperville, IL',
@@ -167,12 +171,12 @@ export const LOCATIONS: LocationCity[] = [
     },
     trust: {yearsServing: 25, projectsCompleted: 120, responseTimeDays: 5},
     featuredServices: [
-      {slug: 'patios-walkways', audience: 'hardscape'},
-      {slug: 'retaining-walls', audience: 'hardscape'},
-      {slug: 'outdoor-kitchens', audience: 'hardscape'},
-      {slug: 'fire-pits-features', audience: 'hardscape'},
-      {slug: 'landscape-design', audience: 'residential'},
-      {slug: 'lawn-care', audience: 'residential'},
+      {slug: 'patios-walkways', division: 'hardscape'},
+      {slug: 'retaining-walls', division: 'hardscape'},
+      {slug: 'outdoor-kitchens', division: 'hardscape'},
+      {slug: 'fire-pits-features', division: 'hardscape'},
+      {slug: 'landscape-design', division: 'landscape'},
+      {slug: 'lawn-care', division: 'landscape'},
     ],
     whyLocal: {
       en: 'Our crews drive Naperville every day. We know which lots back up to forest preserve, which subdivisions have HOA approval forms that need three weeks, which slope grades drain into the sewer easement and which feed the neighbor\'s patio. That\'s not a search-engine fact — that\'s twenty-five years of going back when something settles wrong. When you call (630) 946-9321, Erick or his son picks up. The crew that walks your property is the crew that pours the base. You won\'t hand off to a subcontractor we just met. Naperville is a third of our hardscape book; we have a Unilock yard a short truck-ride from your driveway.',
@@ -207,7 +211,7 @@ export const LOCATIONS: LocationCity[] = [
     name: 'Batavia',
     state: 'IL',
     geo: {lat: 41.85, lng: -88.312},
-    pin: {x: 118, y: 190},
+    pin: {x: 207.2, y: 209.3},
     hero: {
       h1: {
         en: 'Landscaping & Hardscape in Batavia, IL',
@@ -221,12 +225,12 @@ export const LOCATIONS: LocationCity[] = [
     },
     trust: {yearsServing: 25, projectsCompleted: 60, responseTimeDays: 7},
     featuredServices: [
-      {slug: 'lawn-care', audience: 'residential'},
-      {slug: 'landscape-design', audience: 'residential'},
-      {slug: 'tree-services', audience: 'residential'},
-      {slug: 'patios-walkways', audience: 'hardscape'},
-      {slug: 'retaining-walls', audience: 'hardscape'},
-      {slug: 'landscape-maintenance', audience: 'commercial'},
+      {slug: 'lawn-care', division: 'landscape'},
+      {slug: 'landscape-design', division: 'landscape'},
+      {slug: 'tree-services', division: 'landscape'},
+      {slug: 'patios-walkways', division: 'hardscape'},
+      {slug: 'retaining-walls', division: 'hardscape'},
+      {slug: 'landscape-maintenance', division: 'landscape'},
     ],
     whyLocal: {
       en: "Batavia is the river town we've been mowing since 2003. The lots along the Fox River drain differently than the inland streets — what looks like a flat backyard often has a six-inch grade we can read off a hose-line in five minutes. That matters when you're putting in a patio or planting beds: get the grade wrong and the first big storm tells you. We've placed enough natural stone walls along the slope of the bluff to know where the city wants the drainage tile. When you call (630) 946-9321, the same crew you'd see at the estimate is the crew that does the work — no handoff to someone you've never met.",
@@ -261,7 +265,7 @@ export const LOCATIONS: LocationCity[] = [
     name: 'Wheaton',
     state: 'IL',
     geo: {lat: 41.8661, lng: -88.107},
-    pin: {x: 282, y: 200},
+    pin: {x: 358.2, y: 193.4},
     hero: {
       h1: {
         en: 'Landscaping & Hardscape in Wheaton, IL',
@@ -275,12 +279,12 @@ export const LOCATIONS: LocationCity[] = [
     },
     trust: {yearsServing: 25, projectsCompleted: 80, responseTimeDays: 5},
     featuredServices: [
-      {slug: 'patios-walkways', audience: 'hardscape'},
-      {slug: 'retaining-walls', audience: 'hardscape'},
-      {slug: 'fire-pits-features', audience: 'hardscape'},
-      {slug: 'landscape-design', audience: 'residential'},
-      {slug: 'lawn-care', audience: 'residential'},
-      {slug: 'tree-services', audience: 'residential'},
+      {slug: 'patios-walkways', division: 'hardscape'},
+      {slug: 'retaining-walls', division: 'hardscape'},
+      {slug: 'fire-pits-features', division: 'hardscape'},
+      {slug: 'landscape-design', division: 'landscape'},
+      {slug: 'lawn-care', division: 'landscape'},
+      {slug: 'tree-services', division: 'landscape'},
     ],
     whyLocal: {
       en: "Wheaton is mature trees, brick driveways, and lawns that have looked the same since the Eighties — for good reason. The job there is usually less about reinventing a property and more about respecting it: matching the brick on a front walk that's been settling for forty years, planting under a hundred-year oak without rolling its root flare, getting a retaining wall to read like it's always been there. We've been working Wheaton since 2002. The same crew you meet at the estimate is the crew that builds the project. When you call (630) 946-9321, Erick or his son picks up; you don't get a sales rep. We're not the biggest crew in town, and we're not trying to be.",
@@ -315,7 +319,7 @@ export const LOCATIONS: LocationCity[] = [
     name: 'Lisle',
     state: 'IL',
     geo: {lat: 41.8011, lng: -88.0742},
-    pin: {x: 370, y: 270},
+    pin: {x: 382.4, y: 257.7},
     hero: {
       h1: {
         en: 'Landscaping & Hardscape in Lisle, IL',
@@ -329,12 +333,12 @@ export const LOCATIONS: LocationCity[] = [
     },
     trust: {yearsServing: 25, projectsCompleted: 70, responseTimeDays: 5},
     featuredServices: [
-      {slug: 'landscape-maintenance', audience: 'commercial'},
-      {slug: 'snow-removal', audience: 'commercial'},
-      {slug: 'turf-management', audience: 'commercial'},
-      {slug: 'lawn-care', audience: 'residential'},
-      {slug: 'sprinkler-systems', audience: 'residential'},
-      {slug: 'patios-walkways', audience: 'hardscape'},
+      {slug: 'landscape-maintenance', division: 'landscape'},
+      {slug: 'commercial-snow-plowing', division: 'snow-removal'},
+      {slug: 'turf-management', division: 'landscape'},
+      {slug: 'lawn-care', division: 'landscape'},
+      {slug: 'sprinkler-systems', division: 'landscape'},
+      {slug: 'patios-walkways', division: 'hardscape'},
     ],
     whyLocal: {
       en: "Lisle is the corporate corridor — Warrenville Road and the I-88 frontage are why we put a second commercial truck on the road in 2014. We mow, edge, and snow-clear for property managers who get one chance per visit and a phone call from corporate when something looks off. Most of our Lisle work happens before 7 a.m. so it's done before tenants pull in. On the residential side, the established neighborhoods east of College Road have been on our maintenance routes for fifteen-plus years. When you call (630) 946-9321, the same Sunset Services number residential homeowners reach is the number Lisle property managers reach. One crew, one phone, one accountable family.",
@@ -369,7 +373,7 @@ export const LOCATIONS: LocationCity[] = [
     name: 'Bolingbrook',
     state: 'IL',
     geo: {lat: 41.6986, lng: -88.0684},
-    pin: {x: 402, y: 370},
+    pin: {x: 386.7, y: 358.9},
     hero: {
       h1: {
         en: 'Landscaping & Hardscape in Bolingbrook, IL',
@@ -383,12 +387,12 @@ export const LOCATIONS: LocationCity[] = [
     },
     trust: {yearsServing: 25, projectsCompleted: 65, responseTimeDays: 7},
     featuredServices: [
-      {slug: 'landscape-maintenance', audience: 'commercial'},
-      {slug: 'snow-removal', audience: 'commercial'},
-      {slug: 'property-enhancement', audience: 'commercial'},
-      {slug: 'lawn-care', audience: 'residential'},
-      {slug: 'landscape-design', audience: 'residential'},
-      {slug: 'snow-removal', audience: 'residential'},
+      {slug: 'landscape-maintenance', division: 'landscape'},
+      {slug: 'commercial-snow-plowing', division: 'snow-removal'},
+      {slug: 'property-enhancement', division: 'landscape'},
+      {slug: 'lawn-care', division: 'landscape'},
+      {slug: 'landscape-design', division: 'landscape'},
+      {slug: 'driveway-snow-removal', division: 'snow-removal'},
     ],
     whyLocal: {
       en: "Bolingbrook is a mix — newer subdivisions, an established commercial spine along Boughton Road, and a stretch of multifamily that needs reliable mowing every seven days from April through October. We've been running there since 2007. The crews know which retention ponds need quarterly weed control, which subdivision HOAs require Friday-only mowing, and which streets the village plows last in a heavy snow event. When you call (630) 946-9321, you get the same family-run team residential clients reach in Naperville and commercial property managers reach in Lisle. We're not a national chain with a Bolingbrook franchise; we're one crew based in Aurora that's been driving the I-355 corridor for nearly twenty years.",
@@ -434,7 +438,7 @@ export const LOCATIONS: LocationCity[] = [
     name: 'Hinsdale',
     state: 'IL',
     geo: {lat: 41.8009, lng: -87.937},
-    pin: {x: 0, y: 0},
+    pin: {x: 483.5, y: 257.9},
     hero: {
       h1: {
         en: 'Landscaping & Hardscape in Hinsdale, IL',
@@ -448,12 +452,12 @@ export const LOCATIONS: LocationCity[] = [
     },
     trust: {yearsServing: 25, projectsCompleted: 45, responseTimeDays: 5},
     featuredServices: [
-      {slug: 'patios-walkways', audience: 'hardscape'},
-      {slug: 'retaining-walls', audience: 'hardscape'},
-      {slug: 'landscape-design', audience: 'residential'},
-      {slug: 'tree-services', audience: 'residential'},
-      {slug: 'lawn-care', audience: 'residential'},
-      {slug: 'seasonal-cleanup', audience: 'residential'},
+      {slug: 'patios-walkways', division: 'hardscape'},
+      {slug: 'retaining-walls', division: 'hardscape'},
+      {slug: 'landscape-design', division: 'landscape'},
+      {slug: 'tree-services', division: 'landscape'},
+      {slug: 'lawn-care', division: 'landscape'},
+      {slug: 'seasonal-cleanup', division: 'landscape'},
     ],
     whyLocal: {
       en: "Hinsdale is brick driveways, century oaks, and additions on top of additions. The job here is almost always less about reinventing a property and more about respecting it — matching the masonry on a wall that's stood since the 1920s, planting under a tree whose root flare you can't disturb, getting a new patio to read like it was always there. Around the Robbins Park corridor, almost every lot has a basement that's been getting wetter every spring; foundation and waterproofing work has become a Hinsdale specialty for us. When you call (630) 946-9321, you don't get a sales rep — Erick or his son answers. The same crew that walks your property is the crew that pours the base.",
@@ -489,7 +493,7 @@ export const LOCATIONS: LocationCity[] = [
     name: 'Oak Brook',
     state: 'IL',
     geo: {lat: 41.8328, lng: -87.9292},
-    pin: {x: 0, y: 0},
+    pin: {x: 489.3, y: 226.4},
     hero: {
       h1: {
         en: 'Landscaping & Hardscape in Oak Brook, IL',
@@ -503,12 +507,12 @@ export const LOCATIONS: LocationCity[] = [
     },
     trust: {yearsServing: 25, projectsCompleted: 55, responseTimeDays: 5},
     featuredServices: [
-      {slug: 'landscape-maintenance', audience: 'commercial'},
-      {slug: 'snow-removal', audience: 'commercial'},
-      {slug: 'turf-management', audience: 'commercial'},
-      {slug: 'patios-walkways', audience: 'hardscape'},
-      {slug: 'landscape-design', audience: 'residential'},
-      {slug: 'property-enhancement', audience: 'commercial'},
+      {slug: 'landscape-maintenance', division: 'landscape'},
+      {slug: 'commercial-snow-plowing', division: 'snow-removal'},
+      {slug: 'turf-management', division: 'landscape'},
+      {slug: 'patios-walkways', division: 'hardscape'},
+      {slug: 'landscape-design', division: 'landscape'},
+      {slug: 'property-enhancement', division: 'landscape'},
     ],
     whyLocal: {
       en: "Oak Brook is corporate headquarters along Spring Road and estates with frontage on Salt Creek. The commercial side of our book here is property managers who get one chance per visit; we mow the Oakbrook Center perimeter and a handful of office parks along 22nd Street before tenants pull in. On the residential side, the Briarwood and Forest Hill neighborhoods have lots that ask for thoughtful design work — mature plantings, hardscape that reads as estate, and irrigation that actually keeps up in August. When you call (630) 946-9321, the same number a residential homeowner reaches in Naperville is the number an Oak Brook property manager reaches. One crew, one phone, one accountable family.",
@@ -544,7 +548,7 @@ export const LOCATIONS: LocationCity[] = [
     name: 'Elmhurst',
     state: 'IL',
     geo: {lat: 41.8995, lng: -87.9403},
-    pin: {x: 0, y: 0},
+    pin: {x: 481.1, y: 160.4},
     hero: {
       h1: {
         en: 'Landscaping & Hardscape in Elmhurst, IL',
@@ -558,12 +562,12 @@ export const LOCATIONS: LocationCity[] = [
     },
     trust: {yearsServing: 25, projectsCompleted: 50, responseTimeDays: 5},
     featuredServices: [
-      {slug: 'lawn-care', audience: 'residential'},
-      {slug: 'landscape-design', audience: 'residential'},
-      {slug: 'tree-services', audience: 'residential'},
-      {slug: 'patios-walkways', audience: 'hardscape'},
-      {slug: 'retaining-walls', audience: 'hardscape'},
-      {slug: 'seasonal-cleanup', audience: 'residential'},
+      {slug: 'lawn-care', division: 'landscape'},
+      {slug: 'landscape-design', division: 'landscape'},
+      {slug: 'tree-services', division: 'landscape'},
+      {slug: 'patios-walkways', division: 'hardscape'},
+      {slug: 'retaining-walls', division: 'hardscape'},
+      {slug: 'seasonal-cleanup', division: 'landscape'},
     ],
     whyLocal: {
       en: "Elmhurst is the kind of place where the house was built before the Eisenhower-era addition, and the addition is older than most contractors who knock on the door. Around the Wilder Park and the York-Vallette corridor, basement waterproofing has become as much of the conversation as patio design — the clay-loam under most of north Elmhurst holds water for weeks after a heavy spring rain. We've been on Elmhurst job sites since 2005. The same crew that walks your property at the estimate is the crew that pours the base. When you call (630) 946-9321, you get Erick or his son — no sales rep, no callback queue, no handoff to a subcontractor you've never met.",
@@ -599,7 +603,7 @@ export const LOCATIONS: LocationCity[] = [
     name: 'Clarendon Hills',
     state: 'IL',
     geo: {lat: 41.7975, lng: -87.9554},
-    pin: {x: 0, y: 0},
+    pin: {x: 470, y: 261.3},
     hero: {
       h1: {
         en: 'Landscaping & Hardscape in Clarendon Hills, IL',
@@ -613,12 +617,12 @@ export const LOCATIONS: LocationCity[] = [
     },
     trust: {yearsServing: 25, projectsCompleted: 35, responseTimeDays: 5},
     featuredServices: [
-      {slug: 'lawn-care', audience: 'residential'},
-      {slug: 'landscape-design', audience: 'residential'},
-      {slug: 'patios-walkways', audience: 'hardscape'},
-      {slug: 'retaining-walls', audience: 'hardscape'},
-      {slug: 'tree-services', audience: 'residential'},
-      {slug: 'seasonal-cleanup', audience: 'residential'},
+      {slug: 'lawn-care', division: 'landscape'},
+      {slug: 'landscape-design', division: 'landscape'},
+      {slug: 'patios-walkways', division: 'hardscape'},
+      {slug: 'retaining-walls', division: 'hardscape'},
+      {slug: 'tree-services', division: 'landscape'},
+      {slug: 'seasonal-cleanup', division: 'landscape'},
     ],
     whyLocal: {
       en: "Clarendon Hills is one of those west-suburban pockets where the entire walk-to-Metra core has lots under a quarter acre, and the houses are 1920s bungalows that haven't been touched in twenty years. The job here is precision — getting a hardscape walkway to align with brick the masons set ninety years ago, threading a new sprinkler system through mature root systems without losing a tree. We know the streets around Prospect Park and the Clarendon-Norfolk corridor well; some of those subdivisions go back to 1900. When you call (630) 946-9321, you get the same family-run team Hinsdale and Elmhurst homeowners reach. One crew, one phone, twenty-five years of paying attention.",
@@ -654,7 +658,7 @@ export const LOCATIONS: LocationCity[] = [
     name: 'Burr Ridge',
     state: 'IL',
     geo: {lat: 41.7486, lng: -87.9171},
-    pin: {x: 0, y: 0},
+    pin: {x: 498.2, y: 309.6},
     hero: {
       h1: {
         en: 'Landscaping & Hardscape in Burr Ridge, IL',
@@ -668,12 +672,12 @@ export const LOCATIONS: LocationCity[] = [
     },
     trust: {yearsServing: 25, projectsCompleted: 40, responseTimeDays: 5},
     featuredServices: [
-      {slug: 'landscape-design', audience: 'residential'},
-      {slug: 'patios-walkways', audience: 'hardscape'},
-      {slug: 'retaining-walls', audience: 'hardscape'},
-      {slug: 'outdoor-kitchens', audience: 'hardscape'},
-      {slug: 'fire-pits-features', audience: 'hardscape'},
-      {slug: 'lawn-care', audience: 'residential'},
+      {slug: 'landscape-design', division: 'landscape'},
+      {slug: 'patios-walkways', division: 'hardscape'},
+      {slug: 'retaining-walls', division: 'hardscape'},
+      {slug: 'outdoor-kitchens', division: 'hardscape'},
+      {slug: 'fire-pits-features', division: 'hardscape'},
+      {slug: 'lawn-care', division: 'landscape'},
     ],
     whyLocal: {
       en: "Burr Ridge is the kind of community where most properties were built as custom builds and ask for landscape work that matches. Around the Carriage Way and County Line Road corridors, the lots run an acre-plus and the design conversations usually include a full-yard plan: paver patio that flows from the kitchen, a fire feature sized for the family, retaining walls that double as seating. That's the work we love. We've been on Burr Ridge job sites since 2009. When you call (630) 946-9321, Erick or his son picks up — no sales rep, no callback queue. The crew that walks your property at the estimate is the crew that builds the project, start to finish.",
@@ -709,7 +713,7 @@ export const LOCATIONS: LocationCity[] = [
     name: 'Western Springs',
     state: 'IL',
     geo: {lat: 41.8125, lng: -87.9001},
-    pin: {x: 0, y: 0},
+    pin: {x: 510.7, y: 246.4},
     hero: {
       h1: {
         en: 'Landscaping & Hardscape in Western Springs, IL',
@@ -723,12 +727,12 @@ export const LOCATIONS: LocationCity[] = [
     },
     trust: {yearsServing: 25, projectsCompleted: 35, responseTimeDays: 5},
     featuredServices: [
-      {slug: 'lawn-care', audience: 'residential'},
-      {slug: 'landscape-design', audience: 'residential'},
-      {slug: 'tree-services', audience: 'residential'},
-      {slug: 'patios-walkways', audience: 'hardscape'},
-      {slug: 'retaining-walls', audience: 'hardscape'},
-      {slug: 'seasonal-cleanup', audience: 'residential'},
+      {slug: 'lawn-care', division: 'landscape'},
+      {slug: 'landscape-design', division: 'landscape'},
+      {slug: 'tree-services', division: 'landscape'},
+      {slug: 'patios-walkways', division: 'hardscape'},
+      {slug: 'retaining-walls', division: 'hardscape'},
+      {slug: 'seasonal-cleanup', division: 'landscape'},
     ],
     whyLocal: {
       en: "Western Springs is the walk-to-train neighborhoods around Spring Rock Park and the Western Springs station, and the houses go back to the early 1900s in the older blocks. The lots are tight, the trees are mature, and the work asks for crews that understand both — laying a paver walk that matches brick from 1910, planting under a sixty-foot maple without disturbing the root flare. We've been on Western Springs job sites since 2008. When you call (630) 946-9321, you don't get a sales rep — Erick or his son answers. The same crew that walks your property is the crew that pours the base. No subcontracted handoffs.",
@@ -764,7 +768,7 @@ export const LOCATIONS: LocationCity[] = [
     name: 'Glen Ellyn',
     state: 'IL',
     geo: {lat: 41.8775, lng: -88.067},
-    pin: {x: 0, y: 0},
+    pin: {x: 387.7, y: 182.1},
     hero: {
       h1: {
         en: 'Landscaping & Hardscape in Glen Ellyn, IL',
@@ -778,12 +782,12 @@ export const LOCATIONS: LocationCity[] = [
     },
     trust: {yearsServing: 25, projectsCompleted: 60, responseTimeDays: 5},
     featuredServices: [
-      {slug: 'landscape-design', audience: 'residential'},
-      {slug: 'patios-walkways', audience: 'hardscape'},
-      {slug: 'retaining-walls', audience: 'hardscape'},
-      {slug: 'lawn-care', audience: 'residential'},
-      {slug: 'tree-services', audience: 'residential'},
-      {slug: 'fire-pits-features', audience: 'hardscape'},
+      {slug: 'landscape-design', division: 'landscape'},
+      {slug: 'patios-walkways', division: 'hardscape'},
+      {slug: 'retaining-walls', division: 'hardscape'},
+      {slug: 'lawn-care', division: 'landscape'},
+      {slug: 'tree-services', division: 'landscape'},
+      {slug: 'fire-pits-features', division: 'hardscape'},
     ],
     whyLocal: {
       en: "Glen Ellyn is the Lake Ellyn neighborhoods, the old estate corridors around Crescent Boulevard, and the College of DuPage campus edge — three different design conversations on three different streets. We've been planting in Glen Ellyn since 2006. The lots around Lake Ellyn ask for plantings that can handle reflected light off the water; the streets near Newton Avenue need walls and walks that match house brick from the 1920s; the newer subdivisions south of Roosevelt Road want full-yard plans with patios and fire features. When you call (630) 946-9321, you get Erick or his son — no sales rep, no handoffs to a subcontractor you've never met. The crew you meet at the estimate is the crew that builds the project.",
@@ -819,7 +823,7 @@ export const LOCATIONS: LocationCity[] = [
     name: 'Downers Grove',
     state: 'IL',
     geo: {lat: 41.8094, lng: -88.0109},
-    pin: {x: 0, y: 0},
+    pin: {x: 429.1, y: 249.5},
     hero: {
       h1: {
         en: 'Landscaping & Hardscape in Downers Grove, IL',
@@ -833,12 +837,12 @@ export const LOCATIONS: LocationCity[] = [
     },
     trust: {yearsServing: 25, projectsCompleted: 70, responseTimeDays: 5},
     featuredServices: [
-      {slug: 'lawn-care', audience: 'residential'},
-      {slug: 'landscape-design', audience: 'residential'},
-      {slug: 'patios-walkways', audience: 'hardscape'},
-      {slug: 'retaining-walls', audience: 'hardscape'},
-      {slug: 'tree-services', audience: 'residential'},
-      {slug: 'sprinkler-systems', audience: 'residential'},
+      {slug: 'lawn-care', division: 'landscape'},
+      {slug: 'landscape-design', division: 'landscape'},
+      {slug: 'patios-walkways', division: 'hardscape'},
+      {slug: 'retaining-walls', division: 'hardscape'},
+      {slug: 'tree-services', division: 'landscape'},
+      {slug: 'sprinkler-systems', division: 'landscape'},
     ],
     whyLocal: {
       en: "Downers Grove is a layered town — the downtown-walk blocks around Burlington Avenue, the established residential streets near Maple Avenue, and the newer subdivisions south of Ogden. We've worked across all three since 2004. The Maple Avenue corridor has lots that ask for thoughtful design — mature trees, brick driveways, walks that have to match what's there. The newer south-side neighborhoods want patios and fire features. When you call (630) 946-9321, you don't get a sales rep — Erick or his son picks up. The same crew that walks your property is the crew that pours the base. No subcontracted handoffs. The Sunset trucks are on Downers Grove roads at least three days a week, year-round.",
@@ -874,7 +878,7 @@ export const LOCATIONS: LocationCity[] = [
     name: 'Winfield',
     state: 'IL',
     geo: {lat: 41.8614, lng: -88.1531},
-    pin: {x: 0, y: 0},
+    pin: {x: 324.3, y: 198.1},
     hero: {
       h1: {
         en: 'Landscaping & Hardscape in Winfield, IL',
@@ -888,12 +892,12 @@ export const LOCATIONS: LocationCity[] = [
     },
     trust: {yearsServing: 25, projectsCompleted: 30, responseTimeDays: 7},
     featuredServices: [
-      {slug: 'lawn-care', audience: 'residential'},
-      {slug: 'landscape-design', audience: 'residential'},
-      {slug: 'tree-services', audience: 'residential'},
-      {slug: 'patios-walkways', audience: 'hardscape'},
-      {slug: 'sprinkler-systems', audience: 'residential'},
-      {slug: 'seasonal-cleanup', audience: 'residential'},
+      {slug: 'lawn-care', division: 'landscape'},
+      {slug: 'landscape-design', division: 'landscape'},
+      {slug: 'tree-services', division: 'landscape'},
+      {slug: 'patios-walkways', division: 'hardscape'},
+      {slug: 'sprinkler-systems', division: 'landscape'},
+      {slug: 'seasonal-cleanup', division: 'landscape'},
     ],
     whyLocal: {
       en: "Winfield is mostly residential — the streets east of Geneva Road sit on acre-plus lots with mature trees and lawns that benefit from a real maintenance routine. We started working Winfield in 2010 alongside the existing Wheaton + Glen Ellyn routes. The properties around the Cantigny Park edge ask for landscape design that handles deer pressure and shade plantings under hundred-year oaks; the streets near Beecher Park need turf programs that hold up to kid use and dog use. When you call (630) 946-9321, you get the same family-run team Wheaton homeowners reach. One crew, one phone, and trucks already on the road in your area three days a week.",
@@ -929,7 +933,7 @@ export const LOCATIONS: LocationCity[] = [
     name: 'Lombard',
     state: 'IL',
     geo: {lat: 41.88, lng: -88.0078},
-    pin: {x: 0, y: 0},
+    pin: {x: 431.3, y: 179.7},
     hero: {
       h1: {
         en: 'Landscaping & Hardscape in Lombard, IL',
@@ -943,12 +947,12 @@ export const LOCATIONS: LocationCity[] = [
     },
     trust: {yearsServing: 25, projectsCompleted: 55, responseTimeDays: 5},
     featuredServices: [
-      {slug: 'lawn-care', audience: 'residential'},
-      {slug: 'landscape-design', audience: 'residential'},
-      {slug: 'patios-walkways', audience: 'hardscape'},
-      {slug: 'landscape-maintenance', audience: 'commercial'},
-      {slug: 'snow-removal', audience: 'commercial'},
-      {slug: 'tree-services', audience: 'residential'},
+      {slug: 'lawn-care', division: 'landscape'},
+      {slug: 'landscape-design', division: 'landscape'},
+      {slug: 'patios-walkways', division: 'hardscape'},
+      {slug: 'landscape-maintenance', division: 'landscape'},
+      {slug: 'commercial-snow-plowing', division: 'snow-removal'},
+      {slug: 'tree-services', division: 'landscape'},
     ],
     whyLocal: {
       en: "Lombard is the Roosevelt Road commercial spine plus the residential streets that flank it on both sides. We've been in Lombard since 2005. The properties along the Yorktown corridor and the office parks near Highland Avenue have been on our commercial maintenance routes for fifteen-plus years; the residential streets around Lilacia Park ask for thoughtful design work and seasonal cleanup. When you call (630) 946-9321, the same number commercial property managers reach is the same number a residential homeowner reaches. One crew, one phone, one accountable family. We're on Lombard roads at least four days a week through the growing season.",
@@ -984,7 +988,7 @@ export const LOCATIONS: LocationCity[] = [
     name: 'St. Charles',
     state: 'IL',
     geo: {lat: 41.9136, lng: -88.3092},
-    pin: {x: 0, y: 0},
+    pin: {x: 209.3, y: 146.4},
     hero: {
       h1: {
         en: 'Landscaping & Hardscape in St. Charles, IL',
@@ -998,12 +1002,12 @@ export const LOCATIONS: LocationCity[] = [
     },
     trust: {yearsServing: 25, projectsCompleted: 50, responseTimeDays: 5},
     featuredServices: [
-      {slug: 'landscape-design', audience: 'residential'},
-      {slug: 'patios-walkways', audience: 'hardscape'},
-      {slug: 'retaining-walls', audience: 'hardscape'},
-      {slug: 'tree-services', audience: 'residential'},
-      {slug: 'lawn-care', audience: 'residential'},
-      {slug: 'seasonal-cleanup', audience: 'residential'},
+      {slug: 'landscape-design', division: 'landscape'},
+      {slug: 'patios-walkways', division: 'hardscape'},
+      {slug: 'retaining-walls', division: 'hardscape'},
+      {slug: 'tree-services', division: 'landscape'},
+      {slug: 'lawn-care', division: 'landscape'},
+      {slug: 'seasonal-cleanup', division: 'landscape'},
     ],
     whyLocal: {
       en: "St. Charles is the Fox River town with two distinct landscape stories — the historic streets around the Hotel Baker that ask for restoration-style work, and the newer subdivisions north of Highway 64 that want full-yard plans. We started working St. Charles in 2006 from the Batavia route, and a handful of our long-running clients are along the river bluff between 7th Avenue and Dean Street. The bluff lots drain differently than inland streets — what looks like a flat backyard often has six inches of grade we can read with a hose-line in five minutes. When you call (630) 946-9321, you get Erick or his son. The crew you meet at the estimate is the crew that builds the project.",
@@ -1039,7 +1043,7 @@ export const LOCATIONS: LocationCity[] = [
     name: 'Geneva',
     state: 'IL',
     geo: {lat: 41.8875, lng: -88.3054},
-    pin: {x: 0, y: 0},
+    pin: {x: 212.1, y: 172.2},
     hero: {
       h1: {
         en: 'Landscaping & Hardscape in Geneva, IL',
@@ -1053,12 +1057,12 @@ export const LOCATIONS: LocationCity[] = [
     },
     trust: {yearsServing: 25, projectsCompleted: 45, responseTimeDays: 5},
     featuredServices: [
-      {slug: 'landscape-design', audience: 'residential'},
-      {slug: 'patios-walkways', audience: 'hardscape'},
-      {slug: 'retaining-walls', audience: 'hardscape'},
-      {slug: 'tree-services', audience: 'residential'},
-      {slug: 'lawn-care', audience: 'residential'},
-      {slug: 'seasonal-cleanup', audience: 'residential'},
+      {slug: 'landscape-design', division: 'landscape'},
+      {slug: 'patios-walkways', division: 'hardscape'},
+      {slug: 'retaining-walls', division: 'hardscape'},
+      {slug: 'tree-services', division: 'landscape'},
+      {slug: 'lawn-care', division: 'landscape'},
+      {slug: 'seasonal-cleanup', division: 'landscape'},
     ],
     whyLocal: {
       en: "Geneva is the historic-downtown core around the Kane County courthouse and the Third Street shopping district, plus residential streets that climb up from the Fox River bluff. We've been on Geneva job sites since 2007, mostly out of our Batavia crew. The riverside lots ask for grading and drainage work that respects the natural slope; the streets around Island Park need walks and walls that match limestone foundations from the 1800s. When you call (630) 946-9321, you get the same family-run team Batavia and St. Charles homeowners reach. One crew, one phone, one accountable family. The crew you meet at the estimate is the crew that pours the base.",
@@ -1094,7 +1098,7 @@ export const LOCATIONS: LocationCity[] = [
     name: 'South Elgin',
     state: 'IL',
     geo: {lat: 42.0008, lng: -88.2917},
-    pin: {x: 0, y: 0},
+    pin: {x: 222.2, y: 60},
     hero: {
       h1: {
         en: 'Landscaping & Hardscape in South Elgin, IL',
@@ -1108,12 +1112,12 @@ export const LOCATIONS: LocationCity[] = [
     },
     trust: {yearsServing: 25, projectsCompleted: 30, responseTimeDays: 7},
     featuredServices: [
-      {slug: 'lawn-care', audience: 'residential'},
-      {slug: 'landscape-design', audience: 'residential'},
-      {slug: 'patios-walkways', audience: 'hardscape'},
-      {slug: 'sprinkler-systems', audience: 'residential'},
-      {slug: 'tree-services', audience: 'residential'},
-      {slug: 'seasonal-cleanup', audience: 'residential'},
+      {slug: 'lawn-care', division: 'landscape'},
+      {slug: 'landscape-design', division: 'landscape'},
+      {slug: 'patios-walkways', division: 'hardscape'},
+      {slug: 'sprinkler-systems', division: 'landscape'},
+      {slug: 'tree-services', division: 'landscape'},
+      {slug: 'seasonal-cleanup', division: 'landscape'},
     ],
     whyLocal: {
       en: "South Elgin grew fast in the 1990s and 2000s, and the housing stock reflects it — mostly newer construction in subdivisions along Stearns Road and the IL-31 corridor. The work here is less about restoration and more about establishing the routines that didn't come with the builder: solid lawn care, mature-plant infill, sprinkler tune-ups every spring. We've been on South Elgin routes since 2011. When you call (630) 946-9321, you get the same family-run team St. Charles and Geneva homeowners reach. One crew, one phone, and trucks in the area at least two days a week from April through November.",
@@ -1149,7 +1153,7 @@ export const LOCATIONS: LocationCity[] = [
     name: 'Elburn',
     state: 'IL',
     geo: {lat: 41.8911, lng: -88.472},
-    pin: {x: 0, y: 0},
+    pin: {x: 89.3, y: 168.7},
     hero: {
       h1: {
         en: 'Landscaping & Hardscape in Elburn, IL',
@@ -1163,12 +1167,12 @@ export const LOCATIONS: LocationCity[] = [
     },
     trust: {yearsServing: 25, projectsCompleted: 20, responseTimeDays: 7},
     featuredServices: [
-      {slug: 'lawn-care', audience: 'residential'},
-      {slug: 'landscape-design', audience: 'residential'},
-      {slug: 'patios-walkways', audience: 'hardscape'},
-      {slug: 'tree-services', audience: 'residential'},
-      {slug: 'sprinkler-systems', audience: 'residential'},
-      {slug: 'seasonal-cleanup', audience: 'residential'},
+      {slug: 'lawn-care', division: 'landscape'},
+      {slug: 'landscape-design', division: 'landscape'},
+      {slug: 'patios-walkways', division: 'hardscape'},
+      {slug: 'tree-services', division: 'landscape'},
+      {slug: 'sprinkler-systems', division: 'landscape'},
+      {slug: 'seasonal-cleanup', division: 'landscape'},
     ],
     whyLocal: {
       en: "Elburn sits at the western edge of Kane County, where the residential subdivisions give way to farmland inside a mile. The properties along Keslinger Road and the new neighborhoods south of Route 47 mostly run an acre-plus, and the work asks for crews that can handle the scale — proper irrigation, tree care that respects mature plantings, real maintenance routines. We've been on Elburn routes since 2014, usually from the Geneva crew. When you call (630) 946-9321, you don't get a sales rep — Erick or his son picks up. The same crew that walks your property is the crew that pours the base. No subcontracted handoffs.",
@@ -1204,7 +1208,7 @@ export const LOCATIONS: LocationCity[] = [
     name: 'North Aurora',
     state: 'IL',
     geo: {lat: 41.8125, lng: -88.3173},
-    pin: {x: 0, y: 0},
+    pin: {x: 203.3, y: 246.4},
     hero: {
       h1: {
         en: 'Landscaping & Hardscape in North Aurora, IL',
@@ -1218,12 +1222,12 @@ export const LOCATIONS: LocationCity[] = [
     },
     trust: {yearsServing: 25, projectsCompleted: 80, responseTimeDays: 5},
     featuredServices: [
-      {slug: 'lawn-care', audience: 'residential'},
-      {slug: 'landscape-design', audience: 'residential'},
-      {slug: 'patios-walkways', audience: 'hardscape'},
-      {slug: 'retaining-walls', audience: 'hardscape'},
-      {slug: 'landscape-maintenance', audience: 'commercial'},
-      {slug: 'snow-removal', audience: 'commercial'},
+      {slug: 'lawn-care', division: 'landscape'},
+      {slug: 'landscape-design', division: 'landscape'},
+      {slug: 'patios-walkways', division: 'hardscape'},
+      {slug: 'retaining-walls', division: 'hardscape'},
+      {slug: 'landscape-maintenance', division: 'landscape'},
+      {slug: 'commercial-snow-plowing', division: 'snow-removal'},
     ],
     whyLocal: {
       en: "North Aurora is literally up the street from our Mountain Street yard, and a meaningful chunk of our route — both residential and commercial — happens within the village boundary. We mow the Stoneridge subdivisions on Wednesdays, plow the office parks along Randall Road on every storm event, and have planted in the Riverwoods neighborhood every spring since 2002. The crews know which streets the village salts last in a storm; which subdivisions have HOA approval forms that need three weeks; which lots back up to the Fox River and ask for grading work. When you call (630) 946-9321, the same Sunset team that built our reputation in Aurora is the team that picks up. One crew, one phone, twenty-five years of paying attention.",
@@ -1259,7 +1263,7 @@ export const LOCATIONS: LocationCity[] = [
     name: 'Oswego',
     state: 'IL',
     geo: {lat: 41.6831, lng: -88.3514},
-    pin: {x: 0, y: 0},
+    pin: {x: 178.2, y: 374.2},
     hero: {
       h1: {
         en: 'Landscaping & Hardscape in Oswego, IL',
@@ -1273,12 +1277,12 @@ export const LOCATIONS: LocationCity[] = [
     },
     trust: {yearsServing: 25, projectsCompleted: 35, responseTimeDays: 5},
     featuredServices: [
-      {slug: 'lawn-care', audience: 'residential'},
-      {slug: 'landscape-design', audience: 'residential'},
-      {slug: 'patios-walkways', audience: 'hardscape'},
-      {slug: 'retaining-walls', audience: 'hardscape'},
-      {slug: 'sprinkler-systems', audience: 'residential'},
-      {slug: 'fire-pits-features', audience: 'hardscape'},
+      {slug: 'lawn-care', division: 'landscape'},
+      {slug: 'landscape-design', division: 'landscape'},
+      {slug: 'patios-walkways', division: 'hardscape'},
+      {slug: 'retaining-walls', division: 'hardscape'},
+      {slug: 'sprinkler-systems', division: 'landscape'},
+      {slug: 'fire-pits-features', division: 'hardscape'},
     ],
     whyLocal: {
       en: "Oswego is mostly 2000s-and-newer construction along the Route 30 / Route 71 corridors south of the Fox River. The lots run an acre-plus on average and most properties want the kind of full-yard plan you build once and keep for twenty years — paver patio that flows from the kitchen, retaining wall that doubles as seating, a fire feature sized for actual family use. We've been on Oswego routes since 2011. When you call (630) 946-9321, you get Erick or his son. The same crew that walks your property at the estimate is the crew that builds the project. No subcontracted handoffs to someone you've never met.",
@@ -1314,7 +1318,7 @@ export const LOCATIONS: LocationCity[] = [
     name: 'Yorkville',
     state: 'IL',
     geo: {lat: 41.6411, lng: -88.4473},
-    pin: {x: 0, y: 0},
+    pin: {x: 107.5, y: 415.7},
     hero: {
       h1: {
         en: 'Landscaping & Hardscape in Yorkville, IL',
@@ -1328,12 +1332,12 @@ export const LOCATIONS: LocationCity[] = [
     },
     trust: {yearsServing: 25, projectsCompleted: 25, responseTimeDays: 7},
     featuredServices: [
-      {slug: 'lawn-care', audience: 'residential'},
-      {slug: 'landscape-design', audience: 'residential'},
-      {slug: 'tree-services', audience: 'residential'},
-      {slug: 'patios-walkways', audience: 'hardscape'},
-      {slug: 'retaining-walls', audience: 'hardscape'},
-      {slug: 'sprinkler-systems', audience: 'residential'},
+      {slug: 'lawn-care', division: 'landscape'},
+      {slug: 'landscape-design', division: 'landscape'},
+      {slug: 'tree-services', division: 'landscape'},
+      {slug: 'patios-walkways', division: 'hardscape'},
+      {slug: 'retaining-walls', division: 'hardscape'},
+      {slug: 'sprinkler-systems', division: 'landscape'},
     ],
     whyLocal: {
       en: "Yorkville is the seat of Kendall County and sits at the edge of where the suburbs give way to farmland. The properties along Route 47 and the streets near Hoover Park run an acre-plus and ask for landscape work that respects the scale — proper grading, real irrigation, hardscape that holds up to two decades of weather without resetting. We've been on Yorkville routes since 2013, usually paired with the Oswego crew. When you call (630) 946-9321, the same family-run team Aurora and Oswego homeowners reach is the team that picks up. One crew, one phone, no subcontracted handoffs.",
@@ -1369,7 +1373,7 @@ export const LOCATIONS: LocationCity[] = [
     name: 'Plainfield',
     state: 'IL',
     geo: {lat: 41.6164, lng: -88.2042},
-    pin: {x: 0, y: 0},
+    pin: {x: 286.6, y: 440},
     hero: {
       h1: {
         en: 'Landscaping & Hardscape in Plainfield, IL',
@@ -1383,12 +1387,12 @@ export const LOCATIONS: LocationCity[] = [
     },
     trust: {yearsServing: 25, projectsCompleted: 45, responseTimeDays: 5},
     featuredServices: [
-      {slug: 'lawn-care', audience: 'residential'},
-      {slug: 'landscape-design', audience: 'residential'},
-      {slug: 'patios-walkways', audience: 'hardscape'},
-      {slug: 'retaining-walls', audience: 'hardscape'},
-      {slug: 'sprinkler-systems', audience: 'residential'},
-      {slug: 'tree-services', audience: 'residential'},
+      {slug: 'lawn-care', division: 'landscape'},
+      {slug: 'landscape-design', division: 'landscape'},
+      {slug: 'patios-walkways', division: 'hardscape'},
+      {slug: 'retaining-walls', division: 'hardscape'},
+      {slug: 'sprinkler-systems', division: 'landscape'},
+      {slug: 'tree-services', division: 'landscape'},
     ],
     whyLocal: {
       en: "Plainfield is two towns in one — the historic downtown around Lockport Street with its 1800s storefronts, and the explosive newer growth along Route 59 and Route 30 with thousands of acres of subdivisions built in the last twenty years. The newer subdivisions ask for established maintenance routines and full-yard plans; the historic downtown core asks for restoration-style work that matches limestone foundations and mature trees. We've been on Plainfield routes since 2008. When you call (630) 946-9321, you get the same family-run team Naperville and Bolingbrook homeowners reach. One crew, one phone, twenty-five years of paying attention to the streets the GPS misses.",
@@ -1477,8 +1481,19 @@ export function getLocation(slug: string): LocationCity | undefined {
   return LOCATIONS.find((l) => l.slug === slug);
 }
 
+/**
+ * Phase M.01e — accepts any of the 22 live city slugs (24 total minus
+ * the 2 retired). The 2 retired cities (Lisle, Bolingbrook) return false
+ * here so the route 404s rather than rendering; the
+ * `next.config.ts` redirects send those URLs to `/service-areas/`.
+ */
+const RETIRED_CITY_SLUGS = new Set<string>(['lisle', 'bolingbrook']);
+
 export function isLocationSlug(slug: string): slug is LocationCitySlug {
-  return (LOCATION_SLUGS as readonly string[]).includes(slug);
+  return (
+    !RETIRED_CITY_SLUGS.has(slug) &&
+    (ALL_LOCATION_SLUGS as readonly string[]).includes(slug)
+  );
 }
 
 /**

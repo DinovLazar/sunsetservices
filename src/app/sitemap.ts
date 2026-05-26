@@ -5,7 +5,7 @@ import {
   getAllResourceSlugsForSitemap,
 } from '@sanity-lib/queries';
 import {SERVICES} from '@/data/services';
-import {LOCATIONS} from '@/data/locations';
+import {LOCATION_SLUGS} from '@/data/locations';
 import {canonicalUrl, hreflangAlternates, type Locale} from '@/lib/seo/urls';
 
 /**
@@ -55,13 +55,20 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   ];
 
   // ---------- Service detail routes (16) — from typed seed ----------
-  const servicePaths: string[] = SERVICES.map(
+  // Phase M.01d: skip new-division services that don't have an audience yet
+  // (Waterproofing + Snow Removal). They live in services.ts but aren't
+  // surfaced under /residential/ etc.; M.01e adds /landscape/, /waterproofing/,
+  // /snow-removal/ landings and their sitemap entries.
+  const servicePaths: string[] = SERVICES.filter((s) => s.audience !== undefined).map(
     (s) => `/${s.audience}/${s.slug}`,
   );
 
   // ---------- Location detail routes (6) — from typed seed ----------
-  const locationPaths: string[] = LOCATIONS.map(
-    (l) => `/service-areas/${l.slug}`,
+  // Phase M.01d: use `LOCATION_SLUGS` (the visible-now subset) — the 18 new
+  // cities in `LOCATIONS` don't have pages yet; M.01e wires them and swaps
+  // this back to `LOCATIONS.map`.
+  const locationPaths: string[] = LOCATION_SLUGS.map(
+    (slug) => `/service-areas/${slug}`,
   );
 
   // ---------- Sanity-driven dynamic routes ----------

@@ -6,7 +6,7 @@
     },
     "hero": {
       "kicker": "Aurora · Naperville · DuPage County",
-      "h1": "Outdoor spaces, built to last 25+ years.",
+      "h1": "Build your outdoor legacy",
       "sub": "Premium hardscape, full-service landscaping, and snow management across DuPage County. Family-run, Unilock-authorized, since 2000.",
       "alt": "Paver patio with a stone fire feature at golden hour, surrounded by mature plantings.",
       "primary": "Get a Free Estimate",
@@ -922,7 +922,25 @@
         "batavia": "Riverside character, residential focus",
         "wheaton": "Established affluent, full-service",
         "lisle": "Corporate corridor, commercial focus",
-        "bolingbrook": "Suburban-commercial mix"
+        "bolingbrook": "Suburban-commercial mix",
+        "hinsdale": "Old-house specialists, since 2007",
+        "oak-brook": "Corporate corridor + estate residential",
+        "elmhurst": "Pre-war foundations, mature yards",
+        "clarendon-hills": "Walk-to-Metra bungalow precision",
+        "burr-ridge": "Custom-home full-yard plans",
+        "western-springs": "Walk-to-train older-home experts",
+        "glen-ellyn": "Lake Ellyn estates, full-yard work",
+        "downers-grove": "Downtown-walk and suburban mix",
+        "winfield": "Acre-lot residential, mature plantings",
+        "lombard": "Roosevelt Road commercial + residential",
+        "st-charles": "Fox River bluff specialists",
+        "geneva": "Historic-downtown character",
+        "south-elgin": "New-construction maintenance",
+        "elburn": "Acre-lot, farm-edge properties",
+        "north-aurora": "5 minutes from HQ — we own the corridor",
+        "oswego": "Newer-construction full-yard plans",
+        "yorkville": "Acre-lot Kendall County",
+        "plainfield": "Historic downtown + new growth"
       }
     },
     "outside": {
@@ -1610,6 +1628,182 @@
       "prompt2Reply": "Yes — Naperville is in our weekly route. We service most DuPage County cities (Aurora, Naperville, Wheaton, Lisle, Batavia, Bolingbrook). Want me to grab a few details so Erick can call?",
       "prompt3Reply": "We typically schedule walk-throughs within 3–5 business days. If your timing is urgent, mention it in the request and we'll prioritize. Want to get one on the calendar?",
       "generic": "Thanks for the question — Erick will follow up by email or phone. Want me to grab a few details so we can be ready when we call?"
+    }
+  },
+  "qa": {
+    "meta": {
+      "title": "Common questions — Sunset Services",
+      "description": "Answers to the questions DuPage County homeowners ask most about landscaping, hardscaping, waterproofing, and snow removal."
+    },
+    "hero": {
+      "eyebrow": "Q&A",
+      "h1": "Common questions",
+      "dek": "The 25 questions DuPage County homeowners ask us most often — pricing, timeline, materials, service area, and the day-to-day logistics. Don't see yours? Call (630) 946-9321."
+    },
+    "categories": {
+      "pricing": "Pricing & estimates",
+      "process": "Process & timeline",
+      "materials": "Materials & quality",
+      "serviceArea": "Service area",
+      "logistics": "Logistics & payment"
+    },
+    "questions": [
+      {
+        "id": "q-01",
+        "category": "pricing",
+        "q": "How much does a paver patio cost in DuPage County?",
+        "a": "A new paver patio runs $18–32 per square foot installed, depending on the paver line and base prep. A typical 200 sq ft patio lands around $4,500–$6,500; a 400 sq ft patio with a fire feature runs $9,000–$13,500. We give an itemized estimate within 48 hours of the site walk so there are no surprises."
+      },
+      {
+        "id": "q-02",
+        "category": "pricing",
+        "q": "Do you offer free estimates?",
+        "a": "Yes — every estimate is free, itemized, and delivered within 48 hours of the site walk. We don't quote until we've walked the property; phone-only quotes for hardscape, landscape design, and waterproofing tend to be wrong. There's no obligation to sign."
+      },
+      {
+        "id": "q-03",
+        "category": "pricing",
+        "q": "What's the typical price range for landscape design?",
+        "a": "A full-yard landscape design package — site walk, two concept renderings, plant + materials list, and phased build plan — runs $2,500–$6,000 depending on lot size and complexity. The design fee is credited toward the build if you move forward with us within 12 months."
+      },
+      {
+        "id": "q-04",
+        "category": "pricing",
+        "q": "Do you offer financing?",
+        "a": "Yes, we partner with a national home-improvement lender for projects $5,000 and up. Most homeowners qualify for 12- or 24-month deferred-interest plans. The application is online and takes about 10 minutes; approval is typically same-day."
+      },
+      {
+        "id": "q-05",
+        "category": "pricing",
+        "q": "Is the estimate price the final price?",
+        "a": "Yes — barring scope changes you sign off on, the estimate is the final price. If we discover something during the build that wasn't visible at the estimate (an old buried slab, a tree root, etc.), we stop work and bring the cost to you before we move on. No surprise charges at the end."
+      },
+      {
+        "id": "q-06",
+        "category": "process",
+        "q": "How long does a typical patio installation take?",
+        "a": "Most patios under 400 sq ft finish in 5–7 working days from break-ground to final clean. Larger projects with retaining walls, fire features, or outdoor kitchens run 2–4 weeks. We give you a real start + end date in the contract, not a vague window."
+      },
+      {
+        "id": "q-07",
+        "category": "process",
+        "q": "What's the process from estimate to install?",
+        "a": "Site walk → itemized estimate within 48 hours → signed contract + deposit → permits and materials ordered → start date locked in (usually 3–6 weeks out for hardscape, sooner for lawn work). The same crew that walks your property is the crew that builds the project — no subcontractor handoffs."
+      },
+      {
+        "id": "q-08",
+        "category": "process",
+        "q": "Do I need permits for my project?",
+        "a": "Most patios under 30 inches off grade don't need permits in DuPage County. Retaining walls over 4 feet, decks, pergolas, and outdoor kitchens with gas runs almost always do. We pull every required permit, schedule the inspections, and include the cost in the estimate."
+      },
+      {
+        "id": "q-09",
+        "category": "process",
+        "q": "What happens if it rains during my project?",
+        "a": "We work in light rain on most jobs, but a real storm pushes the schedule a day. We text you the morning of each weather call so you're never wondering whether the crew is showing up. Rain-day extensions don't add to the cost — the contract price holds."
+      },
+      {
+        "id": "q-10",
+        "category": "process",
+        "q": "When's the best time to schedule landscape work?",
+        "a": "Hardscape and design work runs March through November in DuPage County; the sweet spot is May–September. Spring-planting work is best in April–May; fall planting in September–October. Snow contracts sign by October 15 for the season."
+      },
+      {
+        "id": "q-11",
+        "category": "materials",
+        "q": "Why Unilock pavers?",
+        "a": "Unilock is the premium paver in the Chicagoland market — they manufacture in the Midwest, they hold up to our freeze-thaw cycles, and they back their product with a transferable lifetime warranty. We've been a Unilock Authorized Contractor since 2003. We do work with other paver lines on request, but Unilock is our default."
+      },
+      {
+        "id": "q-12",
+        "category": "materials",
+        "q": "What kind of warranty do you offer?",
+        "a": "Hardscape gets a 5-year workmanship warranty in writing. Unilock paver products carry their own lifetime transferable manufacturer warranty. Plantings carry a 1-year replacement guarantee on year-one losses. Foundation and waterproofing fixes carry their own warranties (typically 5–25 years depending on the work)."
+      },
+      {
+        "id": "q-13",
+        "category": "materials",
+        "q": "What's the difference between pavers and stamped concrete?",
+        "a": "Pavers are individual stones set in a sand bed over a crushed-stone base — if one cracks or settles, you pull it and reset just that stone. Stamped concrete is a single slab that cracks predictably over 5–10 years in our freeze-thaw climate, and the repair is much harder to hide. We almost always recommend pavers for our climate."
+      },
+      {
+        "id": "q-14",
+        "category": "materials",
+        "q": "Do you only use professional-grade materials?",
+        "a": "Yes. Every base is woven geotextile + 6 inches of crushed stone, not the 3-inch shortcut some contractors use. Plants come from established Midwest growers, not big-box stock. Concrete is mixed and delivered, not bagged on-site. We can show you the supplier names on the estimate if you ask."
+      },
+      {
+        "id": "q-15",
+        "category": "materials",
+        "q": "How do you choose plants for the DuPage County climate?",
+        "a": "We plant species that survive zone 5b winters and DuPage clay-loam soil. That means natives and Midwest-adapted cultivars first, ornamentals second, and almost never the marketing-friendly plants you see at big-box garden centers. The 1-year replacement guarantee covers anything we plant that doesn't establish."
+      },
+      {
+        "id": "q-16",
+        "category": "serviceArea",
+        "q": "What towns do you service?",
+        "a": "Our weekly route covers Aurora, Naperville, Wheaton, Batavia, Lisle, Bolingbrook, Hinsdale, Oak Brook, Elmhurst, Clarendon Hills, Burr Ridge, Western Springs, Glen Ellyn, Downers Grove, Winfield, Lombard, St. Charles, Geneva, South Elgin, Elburn, North Aurora, Oswego, Yorkville, and Plainfield. Surrounding DuPage and Kane County towns on request."
+      },
+      {
+        "id": "q-17",
+        "category": "serviceArea",
+        "q": "Do you service Hinsdale?",
+        "a": "Yes — Hinsdale has been on our route since 2007. We have crews in Hinsdale most weeks of the growing season; basement waterproofing and foundation work have become a Hinsdale specialty for us given the older housing stock. Call (630) 946-9321 for a free walk-through."
+      },
+      {
+        "id": "q-18",
+        "category": "serviceArea",
+        "q": "Do you take projects outside DuPage County?",
+        "a": "We take adjacent-county projects (Kane, Will, Cook edges) on a case-by-case basis. The crews are based in Aurora, so anything more than 40 minutes out gets harder to schedule and a small travel line shows up on the estimate. Call and ask — we'll tell you straight whether we're the right fit."
+      },
+      {
+        "id": "q-19",
+        "category": "serviceArea",
+        "q": "How far do you travel for jobs?",
+        "a": "Our default service area is everything within a 30-minute drive of our Aurora yard, which covers most of DuPage and the eastern edge of Kane County. For hardscape projects $25,000 and up, we'll travel further on request — call to confirm."
+      },
+      {
+        "id": "q-20",
+        "category": "serviceArea",
+        "q": "Do you have a minimum project size?",
+        "a": "For new hardscape (patios, walls, driveways), the practical minimum is around $3,500 — below that, the mobilization cost dominates the price. For maintenance services (lawn care, seasonal cleanup, snow removal), there's no real minimum. Tree work and small repairs are quoted job-by-job."
+      },
+      {
+        "id": "q-21",
+        "category": "logistics",
+        "q": "Do I need to be home during the installation?",
+        "a": "No. Once the start date is locked in and the deposit is paid, the crew can work without you home. We text you a morning-of update every day, send photo progress at end-of-day, and walk you through the finished job whenever you're back. About 30% of our hardscape clients aren't home for most of the build."
+      },
+      {
+        "id": "q-22",
+        "category": "logistics",
+        "q": "What payment methods do you accept?",
+        "a": "Check, ACH transfer, and major credit cards (a 3% processing fee applies to cards on amounts over $2,500). Financed projects through our lending partner are billed directly to the lender. We don't accept cash for projects over $1,000 — paper trails protect both of us."
+      },
+      {
+        "id": "q-23",
+        "category": "logistics",
+        "q": "Do you require a deposit?",
+        "a": "Yes — typically 30% at contract signing, 30% at material delivery, 40% at job completion. For projects under $5,000 it's usually a 50/50 split. Maintenance contracts (lawn, snow) are billed monthly with no upfront deposit."
+      },
+      {
+        "id": "q-24",
+        "category": "logistics",
+        "q": "What happens if I'm not satisfied?",
+        "a": "We come back inside 24 hours and fix it — that's the standard. If something doesn't hold up over the season, the 5-year workmanship warranty covers the rework. We've been around 25 years because we treat punch-list items like real items, not like favors."
+      },
+      {
+        "id": "q-25",
+        "category": "logistics",
+        "q": "Do you handle clean-up?",
+        "a": "Yes — every job ends with the property cleaner than when we showed up. Driveways and walks blown clean, debris hauled off-site same day, no piles left behind. The final walkthrough doesn't happen until that's done."
+      }
+    ],
+    "cta": {
+      "h2": "Still have a question?",
+      "sub": "Get a free estimate or give us a call — we'll talk through your project, no pressure.",
+      "primaryCta": "Get a free estimate",
+      "secondaryCta": "Call (630) 946-9321"
     }
   }
 }

@@ -6,7 +6,7 @@
     },
     "hero": {
       "kicker": "Aurora · Naperville · Condado de DuPage",
-      "h1": "Espacios exteriores, construidos para durar 25+ años.",
+      "h1": "Construye tu legado al aire libre",
       "sub": "Hardscape premium, paisajismo integral y manejo de nieve en el Condado de DuPage. Empresa familiar, autorizada Unilock, desde 2000.",
       "alt": "Patio de adoquines con chimenea de piedra al atardecer, rodeado de plantaciones maduras.",
       "primary": "Solicita un Presupuesto Gratis",
@@ -922,7 +922,25 @@
         "batavia": "Carácter ribereño, enfoque residencial",
         "wheaton": "Vecindarios establecidos, servicio integral",
         "lisle": "Corredor corporativo, enfoque comercial",
-        "bolingbrook": "Mezcla suburbana y comercial"
+        "bolingbrook": "Mezcla suburbana y comercial",
+        "hinsdale": "Especialistas en casas antiguas, desde 2007",
+        "oak-brook": "Corredor corporativo + residencial de finca",
+        "elmhurst": "Cimientos pre-guerra, patios maduros",
+        "clarendon-hills": "Precisión en bungalows a pasos del Metra",
+        "burr-ridge": "Planes completos para casas personalizadas",
+        "western-springs": "Expertos en casas antiguas a pasos del tren",
+        "glen-ellyn": "Propiedades del Lago Ellyn, trabajo completo",
+        "downers-grove": "Centro a pie y mezcla suburbana",
+        "winfield": "Residencial con lotes de un acre y plantas maduras",
+        "lombard": "Comercial de Roosevelt Road + residencial",
+        "st-charles": "Especialistas del barranco del Río Fox",
+        "geneva": "Carácter del centro histórico",
+        "south-elgin": "Mantenimiento para construcción nueva",
+        "elburn": "Lotes de un acre, propiedades a borde de granja",
+        "north-aurora": "A 5 minutos de la sede — dominamos el corredor",
+        "oswego": "Planes completos para construcción más nueva",
+        "yorkville": "Lotes de un acre, condado de Kendall",
+        "plainfield": "Centro histórico + crecimiento nuevo"
       }
     },
     "outside": {
@@ -1610,6 +1628,182 @@
       "prompt2Reply": "Sí — Naperville está en nuestra ruta semanal. Atendemos la mayoría de las ciudades del condado de DuPage (Aurora, Naperville, Wheaton, Lisle, Batavia, Bolingbrook). ¿Te tomo unos datos para que Erick te llame?",
       "prompt3Reply": "Solemos agendar visitas en 3–5 días hábiles. Si tu tiempo es urgente, dilo en la solicitud y le damos prioridad. ¿Agendamos una?",
       "generic": "Gracias por tu pregunta — Erick te responderá por correo o teléfono. ¿Te tomo unos datos para que estemos listos cuando llamemos?"
+    }
+  },
+  "qa": {
+    "meta": {
+      "title": "Preguntas frecuentes — Sunset Services",
+      "description": "Respuestas a las preguntas que más hacen los propietarios del condado de DuPage sobre paisajismo, hardscape, impermeabilización y remoción de nieve."
+    },
+    "hero": {
+      "eyebrow": "Preguntas",
+      "h1": "Preguntas frecuentes",
+      "dek": "Las 25 preguntas que más nos hacen los propietarios del condado de DuPage — precios, plazos, materiales, área de servicio y logística del día a día. ¿No ve la suya? Llame al (630) 946-9321."
+    },
+    "categories": {
+      "pricing": "Precios y estimados",
+      "process": "Proceso y plazos",
+      "materials": "Materiales y calidad",
+      "serviceArea": "Área de servicio",
+      "logistics": "Logística y pagos"
+    },
+    "questions": [
+      {
+        "id": "q-01",
+        "category": "pricing",
+        "q": "¿Cuánto cuesta un patio de adoquines en el condado de DuPage?",
+        "a": "Un patio de adoquines nuevo cuesta $18–32 por pie cuadrado instalado, según la línea de adoquines y la preparación de base. Un patio típico de 200 pies² queda alrededor de $4,500–$6,500; uno de 400 pies² con brasero ronda los $9,000–$13,500. Le entregamos un estimado detallado dentro de 48 horas tras la visita para que no haya sorpresas."
+      },
+      {
+        "id": "q-02",
+        "category": "pricing",
+        "q": "¿Ofrecen estimados gratis?",
+        "a": "Sí — cada estimado es gratis, detallado y se entrega dentro de 48 horas tras la visita al sitio. No cotizamos sin haber caminado la propiedad; las cotizaciones por teléfono para hardscape, diseño y impermeabilización suelen estar erradas. No hay obligación de firmar."
+      },
+      {
+        "id": "q-03",
+        "category": "pricing",
+        "q": "¿Cuál es el rango de precios típico para el diseño de paisaje?",
+        "a": "Un paquete completo de diseño — visita al sitio, dos bocetos conceptuales, lista de plantas y materiales, plan de construcción por fases — cuesta entre $2,500 y $6,000 según el tamaño del lote y la complejidad. La tarifa de diseño se acredita a la construcción si avanza con nosotros dentro de 12 meses."
+      },
+      {
+        "id": "q-04",
+        "category": "pricing",
+        "q": "¿Ofrecen financiamiento?",
+        "a": "Sí, trabajamos con un prestamista nacional de mejoras al hogar para proyectos de $5,000 en adelante. La mayoría de los propietarios califica para planes de 12 o 24 meses con interés diferido. La solicitud es en línea y toma unos 10 minutos; la aprobación suele ser el mismo día."
+      },
+      {
+        "id": "q-05",
+        "category": "pricing",
+        "q": "¿El precio del estimado es el precio final?",
+        "a": "Sí — salvo cambios de alcance que usted firme, el estimado es el precio final. Si durante la obra encontramos algo que no era visible en la visita (una losa enterrada, una raíz, etc.), paramos el trabajo y le presentamos el costo antes de continuar. Sin cargos sorpresa al final."
+      },
+      {
+        "id": "q-06",
+        "category": "process",
+        "q": "¿Cuánto dura una instalación típica de patio?",
+        "a": "La mayoría de los patios menores a 400 pies² se terminan en 5–7 días laborables, desde el inicio de obra hasta la limpieza final. Proyectos más grandes con muros de contención, braseros o cocinas al aire libre toman 2–4 semanas. Le damos una fecha real de inicio y de entrega en el contrato, no una ventana vaga."
+      },
+      {
+        "id": "q-07",
+        "category": "process",
+        "q": "¿Cuál es el proceso desde el estimado hasta la instalación?",
+        "a": "Visita al sitio → estimado detallado en 48 horas → contrato firmado + depósito → permisos y materiales pedidos → fecha de inicio fija (usualmente 3–6 semanas para hardscape, antes para trabajo de jardín). El mismo equipo que camina su propiedad es el equipo que construye el proyecto — sin entregar a subcontratistas."
+      },
+      {
+        "id": "q-08",
+        "category": "process",
+        "q": "¿Necesito permisos para mi proyecto?",
+        "a": "La mayoría de los patios menores a 30 pulgadas sobre el nivel no necesitan permisos en el condado de DuPage. Muros de contención sobre 4 pies, terrazas, pérgolas y cocinas exteriores con conexión de gas casi siempre los necesitan. Nosotros tramitamos cada permiso requerido, agendamos las inspecciones e incluimos el costo en el estimado."
+      },
+      {
+        "id": "q-09",
+        "category": "process",
+        "q": "¿Qué pasa si llueve durante mi proyecto?",
+        "a": "Trabajamos con lluvia ligera en la mayoría de los trabajos, pero una tormenta real corre el horario un día. Le enviamos un mensaje cada mañana con la decisión del clima para que nunca se quede preguntándose si llegará el equipo. Los días de lluvia no aumentan el costo — el precio del contrato se mantiene."
+      },
+      {
+        "id": "q-10",
+        "category": "process",
+        "q": "¿Cuándo es el mejor momento para agendar trabajo de paisajismo?",
+        "a": "Hardscape y diseño se trabajan de marzo a noviembre en el condado de DuPage; el momento óptimo es de mayo a septiembre. La plantación de primavera es mejor en abril–mayo; la de otoño en septiembre–octubre. Los contratos de nieve se firman antes del 15 de octubre para la temporada."
+      },
+      {
+        "id": "q-11",
+        "category": "materials",
+        "q": "¿Por qué Unilock?",
+        "a": "Unilock es el adoquín premium del mercado de Chicagoland — fabrica en el medio oeste, aguanta nuestros ciclos de congelamiento-deshielo y respalda su producto con una garantía de por vida transferible. Somos Contratista Autorizado Unilock desde 2003. Trabajamos con otras líneas a pedido, pero Unilock es nuestro estándar."
+      },
+      {
+        "id": "q-12",
+        "category": "materials",
+        "q": "¿Qué tipo de garantía ofrecen?",
+        "a": "El hardscape lleva 5 años de garantía de mano de obra por escrito. Los productos Unilock llevan su propia garantía de por vida transferible del fabricante. Las plantas llevan garantía de reemplazo de 1 año en pérdidas del primer año. Cimientos e impermeabilización llevan sus propias garantías (5–25 años según el trabajo)."
+      },
+      {
+        "id": "q-13",
+        "category": "materials",
+        "q": "¿Cuál es la diferencia entre adoquines y concreto estampado?",
+        "a": "Los adoquines son piedras individuales asentadas sobre arena y base de piedra triturada — si una se quiebra o se asienta, se saca y se reemplaza solo esa. El concreto estampado es una losa única que se agrieta de forma predecible en 5–10 años en nuestro clima de congelamiento-deshielo, y la reparación es difícil de disimular. Casi siempre recomendamos adoquines para nuestro clima."
+      },
+      {
+        "id": "q-14",
+        "category": "materials",
+        "q": "¿Solo usan materiales de grado profesional?",
+        "a": "Sí. Cada base es geotextil tejido más 6 pulgadas de piedra triturada, no el atajo de 3 pulgadas que usan algunos contratistas. Las plantas vienen de viveros establecidos del medio oeste, no de stock de tiendas grandes. El concreto se mezcla y se entrega, no en sacos en el sitio. Si lo pide, podemos mostrarle los nombres de los proveedores en el estimado."
+      },
+      {
+        "id": "q-15",
+        "category": "materials",
+        "q": "¿Cómo eligen las plantas para el clima del condado de DuPage?",
+        "a": "Plantamos especies que sobreviven inviernos zona 5b y el suelo arcilloso de DuPage. Eso significa nativas y cultivares adaptados al medio oeste primero, ornamentales después, y casi nunca las plantas amigables al marketing que se ven en tiendas grandes. La garantía de reemplazo de 1 año cubre cualquier planta nuestra que no se establezca."
+      },
+      {
+        "id": "q-16",
+        "category": "serviceArea",
+        "q": "¿En qué pueblos trabajan?",
+        "a": "Nuestra ruta semanal cubre Aurora, Naperville, Wheaton, Batavia, Lisle, Bolingbrook, Hinsdale, Oak Brook, Elmhurst, Clarendon Hills, Burr Ridge, Western Springs, Glen Ellyn, Downers Grove, Winfield, Lombard, St. Charles, Geneva, South Elgin, Elburn, North Aurora, Oswego, Yorkville y Plainfield. Pueblos vecinos de los condados de DuPage y Kane bajo solicitud."
+      },
+      {
+        "id": "q-17",
+        "category": "serviceArea",
+        "q": "¿Atienden Hinsdale?",
+        "a": "Sí — Hinsdale está en nuestra ruta desde 2007. Tenemos equipos en Hinsdale la mayoría de las semanas de la temporada de crecimiento; la impermeabilización de sótanos y la reparación de cimientos se han vuelto una especialidad de Hinsdale para nosotros dada la antigüedad del inventario de casas. Llame al (630) 946-9321 para una visita gratis."
+      },
+      {
+        "id": "q-18",
+        "category": "serviceArea",
+        "q": "¿Toman proyectos fuera del condado de DuPage?",
+        "a": "Tomamos proyectos en condados adyacentes (bordes de Kane, Will y Cook) caso por caso. Los equipos están en Aurora, así que cualquier cosa a más de 40 minutos se vuelve más difícil de agendar y aparece una pequeña línea de viaje en el estimado. Llame y pregunte — le diremos con franqueza si somos el equipo correcto."
+      },
+      {
+        "id": "q-19",
+        "category": "serviceArea",
+        "q": "¿Qué tan lejos viajan para los trabajos?",
+        "a": "Nuestra área de servicio por defecto es todo lo que esté a 30 minutos en auto de nuestra base en Aurora, lo cual cubre la mayoría del condado de DuPage y el borde este del condado de Kane. Para proyectos de hardscape de $25,000 en adelante, viajamos más lejos a pedido — llame para confirmar."
+      },
+      {
+        "id": "q-20",
+        "category": "serviceArea",
+        "q": "¿Tienen un tamaño mínimo de proyecto?",
+        "a": "Para hardscape nuevo (patios, muros, entradas), el mínimo práctico ronda los $3,500 — por debajo de eso, el costo de movilización domina el precio. Para servicios de mantenimiento (cuidado del césped, limpieza de temporada, nieve) no hay mínimo real. El trabajo de árboles y las reparaciones pequeñas se cotizan caso por caso."
+      },
+      {
+        "id": "q-21",
+        "category": "logistics",
+        "q": "¿Necesito estar en casa durante la instalación?",
+        "a": "No. Una vez fijada la fecha de inicio y pagado el depósito, el equipo puede trabajar sin que usted esté. Le enviamos un mensaje cada mañana, fotos al final del día y le hacemos un recorrido del trabajo terminado cuando regrese. Cerca del 30% de nuestros clientes de hardscape no están en casa durante la mayor parte de la obra."
+      },
+      {
+        "id": "q-22",
+        "category": "logistics",
+        "q": "¿Qué métodos de pago aceptan?",
+        "a": "Cheque, transferencia ACH y tarjetas de crédito mayores (aplica un cargo del 3% por procesamiento de tarjeta en montos superiores a $2,500). Los proyectos financiados a través de nuestro prestamista se facturan directamente al prestamista. No aceptamos efectivo en proyectos sobre $1,000 — los registros nos protegen a ambos."
+      },
+      {
+        "id": "q-23",
+        "category": "logistics",
+        "q": "¿Requieren depósito?",
+        "a": "Sí — usualmente 30% al firmar el contrato, 30% al entregar los materiales, 40% al terminar el trabajo. Para proyectos bajo $5,000 normalmente es 50/50. Los contratos de mantenimiento (césped, nieve) se facturan mensualmente sin depósito inicial."
+      },
+      {
+        "id": "q-24",
+        "category": "logistics",
+        "q": "¿Qué pasa si no quedo satisfecho?",
+        "a": "Regresamos dentro de 24 horas y lo arreglamos — ese es el estándar. Si algo no aguanta durante la temporada, la garantía de 5 años de mano de obra cubre el re-trabajo. Llevamos 25 años en esto porque tratamos los pendientes de lista como pendientes reales, no como favores."
+      },
+      {
+        "id": "q-25",
+        "category": "logistics",
+        "q": "¿Manejan la limpieza?",
+        "a": "Sí — cada trabajo termina con la propiedad más limpia que cuando llegamos. Entradas y senderos soplados, escombros retirados el mismo día, sin pilas pendientes. El recorrido final no ocurre hasta que eso esté hecho."
+      }
+    ],
+    "cta": {
+      "h2": "¿Aún tiene una pregunta?",
+      "sub": "Solicite un estimado gratuito o llámenos — conversamos sobre su proyecto, sin presión.",
+      "primaryCta": "Solicitar un estimado gratuito",
+      "secondaryCta": "Llamar al (630) 946-9321"
     }
   }
 }

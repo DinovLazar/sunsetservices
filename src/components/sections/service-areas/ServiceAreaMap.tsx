@@ -1,6 +1,6 @@
 import {getTranslations} from 'next-intl/server';
 import {Link} from '@/i18n/navigation';
-import {LOCATIONS} from '@/data/locations';
+import {getVisibleLocations} from '@/data/locations';
 
 /**
  * ServiceAreaMap — Phase 1.14 §3.2 production SVG.
@@ -86,7 +86,7 @@ export default async function ServiceAreaMap() {
       </g>
 
       {/* Pins — 6 cities, each a real <Link> */}
-      {LOCATIONS.map((loc) => (
+      {getVisibleLocations().map((loc) => (
         <Link
           key={loc.slug}
           href={`/service-areas/${loc.slug}/`}

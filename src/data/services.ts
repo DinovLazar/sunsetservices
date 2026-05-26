@@ -17,6 +17,14 @@
 
 export type Audience = 'residential' | 'commercial' | 'hardscape';
 
+/**
+ * Phase M.01d — site division. Replaces audience as the primary IA grouping.
+ * `audience` stays as an optional secondary tag on existing services for
+ * backwards-compat through M.01d; M.01e retires it when /residential/* and
+ * /commercial/* landings are deleted and replaced with /landscape/* etc.
+ */
+export type Division = 'landscape' | 'hardscape' | 'waterproofing' | 'snow-removal';
+
 export type Localized = {en: string; es: string};
 
 export type WhatsIncludedItem = {
@@ -56,7 +64,19 @@ export type ServiceProject = {
 
 export type Service = {
   slug: string;
-  audience: Audience;
+  /**
+   * Phase M.01d — division replaces audience as the primary IA grouping.
+   * Required on every service.
+   */
+  division: Division;
+  /**
+   * Phase M.01d — now optional. Existing services keep their audience tag
+   * through M.01d so the 6 audience landings + 16 audience-aware service
+   * detail URLs (/residential/<slug>/, /commercial/<slug>/, /hardscape/<slug>/)
+   * keep resolving. New Waterproofing + Snow Removal services omit it.
+   * M.01e drops the field entirely when those landings are deleted.
+   */
+  audience?: Audience;
   /** lucide-react icon for the eyebrow / Why-us tile (PascalCase). */
   icon: string;
   name: Localized;
@@ -115,6 +135,7 @@ export const SERVICES: Service[] = [
   // -------------------- RESIDENTIAL (6) --------------------
   {
     slug: 'lawn-care',
+    division: 'landscape',
     audience: 'residential',
     icon: 'Scissors',
     name: {en: 'Lawn Care', es: 'Cuidado de Césped'},
@@ -271,6 +292,7 @@ export const SERVICES: Service[] = [
 
   {
     slug: 'landscape-design',
+    division: 'landscape',
     audience: 'residential',
     icon: 'PencilRuler',
     name: {en: 'Landscape Design', es: 'Diseño de Paisaje'},
@@ -422,6 +444,7 @@ export const SERVICES: Service[] = [
 
   {
     slug: 'tree-services',
+    division: 'landscape',
     audience: 'residential',
     icon: 'Trees',
     name: {en: 'Tree Services', es: 'Servicios de Árboles'},
@@ -545,6 +568,7 @@ export const SERVICES: Service[] = [
 
   {
     slug: 'sprinkler-systems',
+    division: 'landscape',
     audience: 'residential',
     icon: 'Droplets',
     name: {en: 'Sprinkler Systems', es: 'Sistemas de Riego'},
@@ -676,6 +700,7 @@ export const SERVICES: Service[] = [
 
   {
     slug: 'snow-removal',
+    division: 'snow-removal',
     audience: 'residential',
     icon: 'Snowflake',
     name: {en: 'Snow Removal', es: 'Remoción de Nieve'},
@@ -799,6 +824,7 @@ export const SERVICES: Service[] = [
 
   {
     slug: 'seasonal-cleanup',
+    division: 'landscape',
     audience: 'residential',
     icon: 'Leaf',
     name: {en: 'Seasonal Cleanup', es: 'Limpieza de Temporada'},
@@ -931,6 +957,7 @@ export const SERVICES: Service[] = [
   // -------------------- COMMERCIAL (4) --------------------
   {
     slug: 'landscape-maintenance',
+    division: 'landscape',
     audience: 'commercial',
     icon: 'Building2',
     name: {en: 'Landscape Maintenance', es: 'Mantenimiento de Paisaje'},
@@ -1077,6 +1104,7 @@ export const SERVICES: Service[] = [
 
   {
     slug: 'snow-removal',
+    division: 'snow-removal',
     audience: 'commercial',
     icon: 'Snowflake',
     name: {en: 'Commercial Snow Removal', es: 'Remoción Comercial de Nieve'},
@@ -1217,6 +1245,7 @@ export const SERVICES: Service[] = [
 
   {
     slug: 'property-enhancement',
+    division: 'landscape',
     audience: 'commercial',
     icon: 'Sparkles',
     name: {en: 'Property Enhancement', es: 'Mejora de Propiedades'},
@@ -1355,6 +1384,7 @@ export const SERVICES: Service[] = [
 
   {
     slug: 'turf-management',
+    division: 'landscape',
     audience: 'commercial',
     icon: 'Sprout',
     name: {en: 'Turf Management', es: 'Manejo de Césped'},
@@ -1495,6 +1525,7 @@ export const SERVICES: Service[] = [
   // -------------------- HARDSCAPE (6) — D7 cross-sell --------------------
   {
     slug: 'patios-walkways',
+    division: 'hardscape',
     audience: 'hardscape',
     icon: 'Layers',
     name: {en: 'Patios & Walkways', es: 'Patios y Senderos'},
@@ -1646,6 +1677,7 @@ export const SERVICES: Service[] = [
 
   {
     slug: 'retaining-walls',
+    division: 'hardscape',
     audience: 'hardscape',
     icon: 'Wall',
     name: {en: 'Retaining Walls', es: 'Muros de Contención'},
@@ -1784,6 +1816,7 @@ export const SERVICES: Service[] = [
 
   {
     slug: 'fire-pits-features',
+    division: 'hardscape',
     audience: 'hardscape',
     icon: 'Flame',
     name: {en: 'Fire Pits & Features', es: 'Chimeneas y Elementos de Fuego'},
@@ -1922,6 +1955,7 @@ export const SERVICES: Service[] = [
 
   {
     slug: 'pergolas-pavilions',
+    division: 'hardscape',
     audience: 'hardscape',
     icon: 'Home',
     name: {en: 'Pergolas & Pavilions', es: 'Pérgolas y Pabellones'},
@@ -2060,6 +2094,7 @@ export const SERVICES: Service[] = [
 
   {
     slug: 'driveways',
+    division: 'hardscape',
     audience: 'hardscape',
     icon: 'Car',
     name: {en: 'Driveways', es: 'Entradas de Auto'},
@@ -2198,6 +2233,7 @@ export const SERVICES: Service[] = [
 
   {
     slug: 'outdoor-kitchens',
+    division: 'hardscape',
     audience: 'hardscape',
     icon: 'ChefHat',
     name: {en: 'Outdoor Kitchens', es: 'Cocinas Exteriores'},
@@ -2333,6 +2369,1872 @@ export const SERVICES: Service[] = [
     related: ['patios-walkways', 'fire-pits-features', 'pergolas-pavilions'],
     projectsTag: 'outdoor-kitchens',
   },
+
+  // -------------------- WATERPROOFING (10) — Phase M.01d --------------------
+  // Division added 2026-05-26. No `audience` field — these services don't
+  // surface under /residential/ or /commercial/ in M.01d. M.01e wires the
+  // /waterproofing/<slug>/ landing routes. Inclusions per the Phase M.01d
+  // sub-service map. ES uses `tú` register (marketing/content surfaces).
+  {
+    slug: 'basement-waterproofing',
+    division: 'waterproofing',
+    icon: 'Droplets',
+    name: {en: 'Basement Waterproofing', es: 'Impermeabilización de Sótanos'},
+    hero: {
+      h1: {
+        en: 'Basement Waterproofing in DuPage County.',
+        es: 'Impermeabilización de Sótanos en DuPage County.',
+      },
+      subhead: {
+        en: 'Interior drain tile, exterior membranes, crack repair, and vapor barriers. We diagnose the source before we sell you a solution — no over-spec, no upsell.',
+        es: 'Drenaje interior, membranas exteriores, reparación de grietas y barreras de vapor. Diagnosticamos la fuente antes de venderte una solución — sin sobre-especificar, sin presionar.',
+      },
+      photoSlot: 'service.basement-waterproofing.16x9',
+    },
+    whatsIncluded: [
+      {
+        headline: {en: 'Interior drain tile', es: 'Drenaje interior'},
+        description: {
+          en: 'Perforated pipe under the basement slab, routed to a sump pit.',
+          es: 'Tubería perforada bajo la losa del sótano, dirigida al pozo de sumidero.',
+        },
+        icon: 'Waves',
+      },
+      {
+        headline: {en: 'Exterior waterproofing', es: 'Impermeabilización exterior'},
+        description: {
+          en: 'Excavate, clean the wall, apply a peel-and-stick membrane, backfill clean.',
+          es: 'Excavamos, limpiamos el muro, aplicamos membrana adhesiva y rellenamos.',
+        },
+        icon: 'Shield',
+      },
+      {
+        headline: {en: 'Wall crack repair', es: 'Reparación de grietas en muros'},
+        description: {
+          en: 'Polyurethane injection from inside — sealed for the life of the wall.',
+          es: 'Inyección de poliuretano desde adentro — sellado por la vida del muro.',
+        },
+        icon: 'Wrench',
+      },
+      {
+        headline: {en: 'Floor crack repair', es: 'Reparación de grietas en piso'},
+        description: {
+          en: 'Slab cracks routed, filled with hydraulic mortar, top-sealed.',
+          es: 'Grietas en losa abiertas, rellenadas con mortero hidráulico y selladas.',
+        },
+        icon: 'Hammer',
+      },
+      {
+        headline: {en: 'Water vapor barrier', es: 'Barrera de vapor'},
+        description: {
+          en: '12-mil reinforced sheet on walls and floor, taped at every seam.',
+          es: 'Plástico reforzado de 12 mil en muros y piso, sellado en cada junta.',
+        },
+        icon: 'Layers',
+      },
+    ],
+    process: [
+      {
+        headline: {en: 'Diagnose the source', es: 'Diagnosticamos la fuente'},
+        description: {
+          en: 'On-site walk, moisture meter readings, and a written cause-and-fix.',
+          es: 'Visita en sitio, lecturas de humedad y un informe escrito de causa y solución.',
+        },
+      },
+      {
+        headline: {en: 'Itemized estimate', es: 'Presupuesto detallado'},
+        description: {
+          en: 'Within 48 hours. We tell you what you need, not what we want to sell.',
+          es: 'En 48 horas. Te decimos lo que necesitas, no lo que queremos vender.',
+        },
+      },
+      {
+        headline: {en: 'Install', es: 'Instalación'},
+        description: {
+          en: 'Same crew, locked-in start. Most jobs finish in 2–4 days.',
+          es: 'Mismo equipo, fecha fija de inicio. La mayoría termina en 2–4 días.',
+        },
+      },
+      {
+        headline: {en: 'Walkthrough + warranty', es: 'Recorrido y garantía'},
+        description: {
+          en: 'Final walkthrough, photo log, written warranty handed to you.',
+          es: 'Recorrido final, registro fotográfico y garantía escrita en mano.',
+        },
+      },
+    ],
+    whyUs: [
+      {
+        headline: {en: 'Diagnose, then sell', es: 'Diagnóstico antes de vender'},
+        description: {
+          en: "We don't oversell exterior dig-outs when interior tile will fix it.",
+          es: 'No te vendemos excavación exterior si el drenaje interior basta.',
+        },
+        icon: 'Search',
+      },
+      {
+        headline: {en: 'Written warranty', es: 'Garantía por escrito'},
+        description: {
+          en: 'Lifetime on interior drain tile installs. Transferable on home sale.',
+          es: 'De por vida en drenaje interior. Transferible al vender la casa.',
+        },
+        icon: 'ShieldCheck',
+      },
+      {
+        headline: {en: '25 years local', es: '25 años en el área'},
+        description: {
+          en: 'We know which DuPage subdivisions have clay-loam that traps groundwater.',
+          es: 'Sabemos qué subdivisiones de DuPage tienen arcilla que retiene el agua.',
+        },
+        icon: 'MapPin',
+      },
+    ],
+    pricing: {mode: 'explainer', explainerFactors: GENERIC_FACTORS},
+    projects: [
+      {
+        title: {en: 'Aurora basement reset', es: 'Renovación de sótano en Aurora'},
+        meta: {en: 'Aurora · 2024', es: 'Aurora · 2024'},
+        imageKey: 'landscape-maintenance-1',
+      },
+      {
+        title: {en: 'Naperville interior drain tile', es: 'Drenaje interior en Naperville'},
+        meta: {en: 'Naperville · 2024', es: 'Naperville · 2024'},
+        imageKey: 'property-enhancement-1',
+      },
+      {
+        title: {en: 'Wheaton exterior membrane', es: 'Membrana exterior en Wheaton'},
+        meta: {en: 'Wheaton · 2024', es: 'Wheaton · 2024'},
+        imageKey: 'property-enhancement-2',
+      },
+    ],
+    related: ['foundation-repair', 'sump-pumps', 'crawl-spaces'],
+    projectsTag: 'basement-waterproofing',
+  },
+
+  {
+    slug: 'foundation-repair',
+    division: 'waterproofing',
+    icon: 'Construction',
+    name: {en: 'Foundation Repair', es: 'Reparación de Cimientos'},
+    hero: {
+      h1: {
+        en: 'Foundation Repair in DuPage County.',
+        es: 'Reparación de Cimientos en DuPage County.',
+      },
+      subhead: {
+        en: 'Carbon fiber, steel I-beam reinforcement, push piers, and joist replacement. Every job starts with a structural inspection — not a sales pitch.',
+        es: 'Fibra de carbono, refuerzo con vigas de acero, pilares de empuje y reemplazo de viguetas. Cada trabajo empieza con una inspección estructural — no con una venta.',
+      },
+      photoSlot: 'service.foundation-repair.16x9',
+    },
+    whatsIncluded: [
+      {
+        headline: {en: 'Carbon fiber wall reinforcement', es: 'Refuerzo de fibra de carbono'},
+        description: {
+          en: 'Vertical straps bonded to bowed block walls — stops the bow, doesn\'t reverse it.',
+          es: 'Tiras verticales adheridas a muros pandeados — detienen el pandeo, no lo revierten.',
+        },
+        icon: 'Grid3x3',
+      },
+      {
+        headline: {en: 'Steel I-beam reinforcement', es: 'Refuerzo con vigas de acero'},
+        description: {
+          en: 'Anchored top + bottom for severely bowed or actively moving walls.',
+          es: 'Ancladas arriba y abajo para muros con pandeo severo o movimiento activo.',
+        },
+        icon: 'Columns3',
+      },
+      {
+        headline: {en: 'Crawl space joist replacement', es: 'Reemplazo de viguetas'},
+        description: {
+          en: 'Rotted or insect-damaged joists sistered or replaced full-length.',
+          es: 'Viguetas podridas o dañadas por insectos hermanadas o reemplazadas completas.',
+        },
+        icon: 'Hammer',
+      },
+      {
+        headline: {en: 'Foundation inspections', es: 'Inspecciones de cimientos'},
+        description: {
+          en: 'Written report with photo log — useful for closing or insurance claims.',
+          es: 'Informe escrito con registro fotográfico — útil para cierre o seguro.',
+        },
+        icon: 'ClipboardCheck',
+      },
+      {
+        headline: {en: 'Push pier installation', es: 'Pilares de empuje'},
+        description: {
+          en: 'Hydraulically driven steel piers to bedrock for settling foundations.',
+          es: 'Pilares de acero hincados hidráulicamente hasta roca firme para cimientos asentados.',
+        },
+        icon: 'ArrowDownToLine',
+      },
+    ],
+    process: [
+      {
+        headline: {en: 'Structural inspection', es: 'Inspección estructural'},
+        description: {
+          en: 'Visual walk, crack mapping, level readings. Written findings the same day.',
+          es: 'Recorrido visual, mapeo de grietas, lecturas de nivel. Resultados por escrito el mismo día.',
+        },
+      },
+      {
+        headline: {en: 'Engineered estimate', es: 'Presupuesto con ingeniería'},
+        description: {
+          en: 'For load-bearing fixes, a licensed structural engineer signs off.',
+          es: 'Para reparaciones estructurales, un ingeniero con licencia firma el plan.',
+        },
+      },
+      {
+        headline: {en: 'Install', es: 'Instalación'},
+        description: {
+          en: 'Same crew start-to-finish. Most fixes complete inside one week.',
+          es: 'Mismo equipo de principio a fin. La mayoría termina en una semana.',
+        },
+      },
+      {
+        headline: {en: 'Re-inspection + warranty', es: 'Re-inspección y garantía'},
+        description: {
+          en: '6-month follow-up to verify the fix held. Written warranty handed over.',
+          es: 'Seguimiento a 6 meses para verificar la reparación. Garantía por escrito.',
+        },
+      },
+    ],
+    whyUs: [
+      {
+        headline: {en: 'Engineer-signed when needed', es: 'Firmado por ingeniero cuando aplica'},
+        description: {
+          en: 'Load-bearing repairs come with the stamp; insurance and lenders accept it.',
+          es: 'Reparaciones estructurales con sello; aseguradoras y bancos lo aceptan.',
+        },
+        icon: 'BadgeCheck',
+      },
+      {
+        headline: {en: '6-month re-inspection', es: 'Re-inspección a 6 meses'},
+        description: {
+          en: "We come back to verify, not just to chase a referral.",
+          es: 'Regresamos a verificar, no solo a buscar una referencia.',
+        },
+        icon: 'Repeat',
+      },
+      {
+        headline: {en: 'Transferable warranty', es: 'Garantía transferible'},
+        description: {
+          en: 'Warranty transfers on home sale — adds resale value.',
+          es: 'La garantía se transfiere al vender — agrega valor de reventa.',
+        },
+        icon: 'ShieldCheck',
+      },
+    ],
+    pricing: {mode: 'explainer', explainerFactors: GENERIC_FACTORS},
+    projects: [
+      {
+        title: {en: 'Wheaton wall stabilization', es: 'Estabilización de muro en Wheaton'},
+        meta: {en: 'Wheaton · 2024', es: 'Wheaton · 2024'},
+        imageKey: 'landscape-maintenance-1',
+      },
+      {
+        title: {en: 'Naperville push-pier repair', es: 'Reparación con pilares en Naperville'},
+        meta: {en: 'Naperville · 2024', es: 'Naperville · 2024'},
+        imageKey: 'retaining-walls-1',
+      },
+      {
+        title: {en: 'Aurora joist replacement', es: 'Reemplazo de viguetas en Aurora'},
+        meta: {en: 'Aurora · 2024', es: 'Aurora · 2024'},
+        imageKey: 'property-enhancement-1',
+      },
+    ],
+    related: ['basement-waterproofing', 'crawl-spaces', 'concrete-raising'],
+    projectsTag: 'foundation-repair',
+  },
+
+  {
+    slug: 'sump-pumps',
+    division: 'waterproofing',
+    icon: 'Gauge',
+    name: {en: 'Sump Pumps', es: 'Bombas de Sumidero'},
+    hero: {
+      h1: {
+        en: 'Sump Pumps in DuPage County.',
+        es: 'Bombas de Sumidero en DuPage County.',
+      },
+      subhead: {
+        en: 'Install, replace, and service primary + battery-backup sump systems. Same-day emergency response when yours fails mid-storm.',
+        es: 'Instalamos, reemplazamos y damos servicio a sistemas primarios y de respaldo con batería. Respuesta el mismo día cuando falla a media tormenta.',
+      },
+      photoSlot: 'service.sump-pumps.16x9',
+    },
+    whatsIncluded: [
+      {
+        headline: {en: 'Sump pump installation', es: 'Instalación de bomba'},
+        description: {
+          en: 'New basin, cast-iron primary pump, sealed lid, discharge line out.',
+          es: 'Pozo nuevo, bomba primaria de hierro fundido, tapa sellada, línea de descarga.',
+        },
+        icon: 'Gauge',
+      },
+      {
+        headline: {en: 'Battery backup sump pump', es: 'Bomba de respaldo con batería'},
+        description: {
+          en: 'Secondary DC pump on its own battery — runs when the power doesn\'t.',
+          es: 'Bomba secundaria DC con su propia batería — funciona cuando no hay luz.',
+        },
+        icon: 'BatteryCharging',
+      },
+      {
+        headline: {en: 'Maintenance & repair', es: 'Mantenimiento y reparación'},
+        description: {
+          en: 'Annual service: clean the basin, test the float, check the check-valve.',
+          es: 'Servicio anual: limpiamos el pozo, probamos el flotador, revisamos la válvula.',
+        },
+        icon: 'Wrench',
+      },
+      {
+        headline: {en: 'Sewage & ejector pumps', es: 'Bombas de aguas residuales y eyectoras'},
+        description: {
+          en: 'Solids-handling pumps for basement bathrooms and laundry.',
+          es: 'Bombas para sólidos en baños y lavanderías de sótano.',
+        },
+        icon: 'CircleDot',
+      },
+    ],
+    process: [
+      {
+        headline: {en: 'Site visit', es: 'Visita al sitio'},
+        description: {
+          en: 'We look at the existing pit, the discharge route, and the panel.',
+          es: 'Revisamos el pozo existente, la ruta de descarga y el panel eléctrico.',
+        },
+      },
+      {
+        headline: {en: 'Estimate', es: 'Presupuesto'},
+        description: {
+          en: 'Itemized within 48 hours; emergency replacements quoted same day.',
+          es: 'Detallado en 48 horas; reemplazos de emergencia el mismo día.',
+        },
+      },
+      {
+        headline: {en: 'Install', es: 'Instalación'},
+        description: {
+          en: 'Most installs finish in 4–6 hours. We test before we leave.',
+          es: 'La mayoría termina en 4–6 horas. Probamos antes de irnos.',
+        },
+      },
+      {
+        headline: {en: 'Annual service reminder', es: 'Recordatorio anual'},
+        description: {
+          en: 'We text you each spring before storm season to schedule a check.',
+          es: 'Te enviamos un mensaje cada primavera antes de la temporada de tormentas.',
+        },
+      },
+    ],
+    whyUs: [
+      {
+        headline: {en: 'Emergency response', es: 'Respuesta de emergencia'},
+        description: {
+          en: 'Same-day swap for a failed pump during heavy rain.',
+          es: 'Cambio el mismo día por bomba fallida en lluvia fuerte.',
+        },
+        icon: 'Zap',
+      },
+      {
+        headline: {en: 'Cast-iron, not plastic', es: 'Hierro fundido, no plástico'},
+        description: {
+          en: 'We install cast-iron primary pumps standard — they outlast plastic 3-to-1.',
+          es: 'Instalamos bombas de hierro fundido por defecto — duran 3 veces más que las plásticas.',
+        },
+        icon: 'Award',
+      },
+      {
+        headline: {en: 'Battery backup as standard offer', es: 'Respaldo con batería como opción'},
+        description: {
+          en: 'Every quote includes a battery-backup option, priced separately.',
+          es: 'Cada cotización incluye opción de respaldo con batería, con precio aparte.',
+        },
+        icon: 'BatteryCharging',
+      },
+    ],
+    pricing: {mode: 'explainer', explainerFactors: GENERIC_FACTORS},
+    projects: [
+      {
+        title: {en: 'Naperville dual-pump install', es: 'Instalación de doble bomba en Naperville'},
+        meta: {en: 'Naperville · 2024', es: 'Naperville · 2024'},
+        imageKey: 'property-enhancement-1',
+      },
+      {
+        title: {en: 'Aurora emergency replacement', es: 'Reemplazo de emergencia en Aurora'},
+        meta: {en: 'Aurora · 2024', es: 'Aurora · 2024'},
+        imageKey: 'landscape-maintenance-2',
+      },
+      {
+        title: {en: 'Wheaton sewage ejector', es: 'Bomba eyectora en Wheaton'},
+        meta: {en: 'Wheaton · 2024', es: 'Wheaton · 2024'},
+        imageKey: 'property-enhancement-2',
+      },
+    ],
+    related: ['basement-waterproofing', 'yard-drainage', 'crawl-spaces'],
+    projectsTag: 'sump-pumps',
+  },
+
+  {
+    slug: 'yard-drainage',
+    division: 'waterproofing',
+    icon: 'Waves',
+    name: {en: 'Yard Drainage', es: 'Drenaje del Jardín'},
+    hero: {
+      h1: {
+        en: 'Yard Drainage in DuPage County.',
+        es: 'Drenaje del Jardín en DuPage County.',
+      },
+      subhead: {
+        en: 'French drains, drain tile, downspout extensions, and grading. We follow the water from the roof to the curb — and fix the actual problem, not the symptom.',
+        es: 'Drenajes franceses, tubería de drenaje, extensiones de bajantes y nivelación. Seguimos el agua del techo a la calle — arreglamos el problema, no el síntoma.',
+      },
+      photoSlot: 'service.yard-drainage.16x9',
+    },
+    whatsIncluded: [
+      {
+        headline: {en: 'French drain systems', es: 'Drenajes franceses'},
+        description: {
+          en: 'Perforated pipe in a gravel trench, wrapped in fabric, daylighted out.',
+          es: 'Tubería perforada en zanja de grava, envuelta en tela, salida al exterior.',
+        },
+        icon: 'Waves',
+      },
+      {
+        headline: {en: 'Drain tile', es: 'Tubería de drenaje'},
+        description: {
+          en: 'Solid PVC drain lines connecting catch basins and downspouts to daylight.',
+          es: 'Tubería sólida de PVC conectando rejillas y bajantes a salida exterior.',
+        },
+        icon: 'GitBranch',
+      },
+      {
+        headline: {en: 'Sump pump discharge lines', es: 'Líneas de descarga del sumidero'},
+        description: {
+          en: 'Frozen-pipe-resistant routing well away from the foundation.',
+          es: 'Ruta resistente a congelamiento, lejos de los cimientos.',
+        },
+        icon: 'Snowflake',
+      },
+      {
+        headline: {en: 'Window well drains', es: 'Drenajes de pozos de ventana'},
+        description: {
+          en: 'Tied into the perimeter drain tile so wells never fill.',
+          es: 'Conectados al drenaje perimetral para que los pozos no se llenen.',
+        },
+        icon: 'CircleDot',
+      },
+      {
+        headline: {en: 'Downspout drain lines', es: 'Líneas de bajantes'},
+        description: {
+          en: 'Buried 4" PVC carries roof water to the curb or a pop-up emitter.',
+          es: 'PVC enterrado de 4" lleva el agua del techo al borde o a un emisor.',
+        },
+        icon: 'ArrowDownRight',
+      },
+      {
+        headline: {en: 'Grate & pop-up drains', es: 'Rejillas y emisores'},
+        description: {
+          en: 'Surface inlets at low spots; pop-up outlets at the discharge.',
+          es: 'Entradas en superficie en puntos bajos; emisores a la salida.',
+        },
+        icon: 'CircleEqual',
+      },
+    ],
+    process: [
+      {
+        headline: {en: 'Walk the lot in rain', es: 'Recorrer en lluvia'},
+        description: {
+          en: 'We schedule the site visit during or right after rain when possible.',
+          es: 'Programamos la visita durante o justo después de la lluvia cuando es posible.',
+        },
+      },
+      {
+        headline: {en: 'Map the flow', es: 'Mapear el flujo'},
+        description: {
+          en: 'Where water enters, pools, and exits — drawn on a site plan.',
+          es: 'Dónde entra, se acumula y sale el agua — dibujado en un plano.',
+        },
+      },
+      {
+        headline: {en: 'Install', es: 'Instalación'},
+        description: {
+          en: 'Low-impact trenching; we replace sod, not bare-dirt-and-leave.',
+          es: 'Zanjeo de bajo impacto; reponemos césped, no dejamos tierra expuesta.',
+        },
+      },
+      {
+        headline: {en: 'Verify in next storm', es: 'Verificar en la siguiente tormenta'},
+        description: {
+          en: 'We follow up after the next 1" storm — fix anything that didn\'t hold.',
+          es: 'Volvemos tras la siguiente tormenta de 1" — arreglamos lo que no aguantó.',
+        },
+      },
+    ],
+    whyUs: [
+      {
+        headline: {en: 'We diagnose in rain', es: 'Diagnosticamos en lluvia'},
+        description: {
+          en: 'You can\'t fix drainage by looking at a dry yard.',
+          es: 'No puedes arreglar drenaje mirando un patio seco.',
+        },
+        icon: 'CloudRain',
+      },
+      {
+        headline: {en: 'Sod replaced, not abandoned', es: 'Césped repuesto'},
+        description: {
+          en: 'Trenches close with new sod, not bare dirt.',
+          es: 'Las zanjas cierran con césped nuevo, no tierra expuesta.',
+        },
+        icon: 'Sprout',
+      },
+      {
+        headline: {en: 'Post-storm verification', es: 'Verificación post-tormenta'},
+        description: {
+          en: 'We come back after the next 1" event to confirm it held.',
+          es: 'Regresamos tras la siguiente tormenta de 1" para confirmar.',
+        },
+        icon: 'CheckCircle',
+      },
+    ],
+    pricing: {mode: 'explainer', explainerFactors: GENERIC_FACTORS},
+    projects: [
+      {
+        title: {en: 'Batavia French drain', es: 'Drenaje francés en Batavia'},
+        meta: {en: 'Batavia · 2024', es: 'Batavia · 2024'},
+        imageKey: 'landscape-maintenance-1',
+      },
+      {
+        title: {en: 'Naperville downspout reroute', es: 'Re-ruta de bajantes en Naperville'},
+        meta: {en: 'Naperville · 2024', es: 'Naperville · 2024'},
+        imageKey: 'property-enhancement-1',
+      },
+      {
+        title: {en: 'Aurora yard grading', es: 'Nivelación en Aurora'},
+        meta: {en: 'Aurora · 2024', es: 'Aurora · 2024'},
+        imageKey: 'seasonal-cleanup-1',
+      },
+    ],
+    related: ['basement-waterproofing', 'sump-pumps', 'gutter-services'],
+    projectsTag: 'yard-drainage',
+  },
+
+  {
+    slug: 'gutter-services',
+    division: 'waterproofing',
+    icon: 'CloudRain',
+    name: {en: 'Gutter Services', es: 'Servicios de Canaletas'},
+    hero: {
+      h1: {
+        en: 'Gutter Services in DuPage County.',
+        es: 'Servicios de Canaletas en DuPage County.',
+      },
+      subhead: {
+        en: 'Install, repair, guard, and extend. Gutters that hold leaves overflow during the storms you bought them for — we fix the system, not just the gutters.',
+        es: 'Instalación, reparación, protección y extensión. Las canaletas tapadas se desbordan en las tormentas para las que las compraste — arreglamos el sistema, no solo las canaletas.',
+      },
+      photoSlot: 'service.gutter-services.16x9',
+    },
+    whatsIncluded: [
+      {
+        headline: {en: 'Gutter installation', es: 'Instalación de canaletas'},
+        description: {
+          en: 'Seamless 5" or 6" K-style aluminum, hidden hangers every 24".',
+          es: 'Canaletas K-style de aluminio sin costuras 5" o 6", soportes ocultos cada 24".',
+        },
+        icon: 'CloudRain',
+      },
+      {
+        headline: {en: 'Gutter repair', es: 'Reparación de canaletas'},
+        description: {
+          en: 'Re-pitch, re-hang, seam reseal, end-cap replacement.',
+          es: 'Re-inclinación, re-colocación, sellado de juntas, reemplazo de tapas.',
+        },
+        icon: 'Wrench',
+      },
+      {
+        headline: {en: 'Gutter guard systems', es: 'Sistemas de protección'},
+        description: {
+          en: 'Micro-mesh guards that keep leaves out without choking water flow.',
+          es: 'Mallas finas que mantienen las hojas afuera sin ahogar el flujo.',
+        },
+        icon: 'Grid3x3',
+      },
+      {
+        headline: {en: 'Downspout extensions', es: 'Extensiones de bajantes'},
+        description: {
+          en: 'Hard-piped or hinged extensions to move water 6+ ft from the foundation.',
+          es: 'Extensiones rígidas o articuladas para alejar el agua 6+ pies de los cimientos.',
+        },
+        icon: 'ArrowDownRight',
+      },
+      {
+        headline: {en: 'Buried downspout lines', es: 'Líneas de bajantes enterradas'},
+        description: {
+          en: 'Buried 4" PVC carries roof water to the street or a pop-up emitter.',
+          es: 'PVC enterrado de 4" lleva el agua del techo a la calle o a un emisor.',
+        },
+        icon: 'CircleDot',
+      },
+    ],
+    process: [
+      {
+        headline: {en: 'Inspection', es: 'Inspección'},
+        description: {
+          en: 'Roof-edge walk, downspout-route check, fascia condition.',
+          es: 'Revisión del borde del techo, ruta de bajantes y condición de la fascia.',
+        },
+      },
+      {
+        headline: {en: 'Estimate', es: 'Presupuesto'},
+        description: {
+          en: 'Itemized within 48 hours. Color samples for fascia match.',
+          es: 'Detallado en 48 horas. Muestras de color para hacer juego con la fascia.',
+        },
+      },
+      {
+        headline: {en: 'Install', es: 'Instalación'},
+        description: {
+          en: 'Most houses done in one day. We haul off the old material.',
+          es: 'La mayoría de las casas en un día. Retiramos el material viejo.',
+        },
+      },
+      {
+        headline: {en: 'Post-storm check', es: 'Revisión post-tormenta'},
+        description: {
+          en: 'Free check after your first heavy storm to verify everything holds.',
+          es: 'Revisión gratis tras la primera tormenta fuerte para verificar.',
+        },
+      },
+    ],
+    whyUs: [
+      {
+        headline: {en: 'Seamless on-site', es: 'Sin costuras en sitio'},
+        description: {
+          en: 'We bring the brake to your driveway and form gutters to exact length.',
+          es: 'Llevamos la formadora a tu entrada y formamos canaletas a la medida exacta.',
+        },
+        icon: 'Ruler',
+      },
+      {
+        headline: {en: 'Hidden hangers, not spikes', es: 'Soportes ocultos, no clavos'},
+        description: {
+          en: 'Hidden hangers every 24" — no sag, no pull-out over 20 years.',
+          es: 'Soportes ocultos cada 24" — no se hunden ni se sueltan en 20 años.',
+        },
+        icon: 'Anchor',
+      },
+      {
+        headline: {en: 'One-day finish', es: 'Terminado en un día'},
+        description: {
+          en: 'Most installs start at 7am and finish by 3pm same day.',
+          es: 'La mayoría empieza a las 7am y termina a las 3pm el mismo día.',
+        },
+        icon: 'Clock',
+      },
+    ],
+    pricing: {mode: 'explainer', explainerFactors: GENERIC_FACTORS},
+    projects: [
+      {
+        title: {en: 'Wheaton seamless install', es: 'Instalación sin costuras en Wheaton'},
+        meta: {en: 'Wheaton · 2024', es: 'Wheaton · 2024'},
+        imageKey: 'seasonal-cleanup-1',
+      },
+      {
+        title: {en: 'Aurora micro-mesh guards', es: 'Mallas finas en Aurora'},
+        meta: {en: 'Aurora · 2024', es: 'Aurora · 2024'},
+        imageKey: 'property-enhancement-1',
+      },
+      {
+        title: {en: 'Naperville buried downspouts', es: 'Bajantes enterradas en Naperville'},
+        meta: {en: 'Naperville · 2024', es: 'Naperville · 2024'},
+        imageKey: 'landscape-maintenance-1',
+      },
+    ],
+    related: ['yard-drainage', 'basement-waterproofing', 'window-wells'],
+    projectsTag: 'gutter-services',
+  },
+
+  {
+    slug: 'window-wells',
+    division: 'waterproofing',
+    icon: 'Square',
+    name: {en: 'Window Wells', es: 'Pozos de Ventana'},
+    hero: {
+      h1: {
+        en: 'Window Wells in DuPage County.',
+        es: 'Pozos de Ventana en DuPage County.',
+      },
+      subhead: {
+        en: 'New wells, drains, liners, covers, and egress upgrades. We tie every well into the perimeter drain so it actually drains.',
+        es: 'Pozos nuevos, drenajes, recubrimientos, tapas y mejoras de escape. Conectamos cada pozo al drenaje perimetral para que realmente drene.',
+      },
+      photoSlot: 'service.window-wells.16x9',
+    },
+    whatsIncluded: [
+      {
+        headline: {en: 'Window well installation', es: 'Instalación de pozos'},
+        description: {
+          en: 'Galvanized steel or composite wells set in clean gravel base.',
+          es: 'Pozos de acero galvanizado o compuesto sobre base de grava limpia.',
+        },
+        icon: 'Square',
+      },
+      {
+        headline: {en: 'Window well drainage', es: 'Drenaje del pozo'},
+        description: {
+          en: 'Each well tied into the perimeter drain or a dedicated dry well.',
+          es: 'Cada pozo conectado al drenaje perimetral o a un pozo seco dedicado.',
+        },
+        icon: 'CircleDot',
+      },
+      {
+        headline: {en: 'Window well liners', es: 'Recubrimientos'},
+        description: {
+          en: 'Composite liner inserts for rusted or stained galvanized wells.',
+          es: 'Inserciones de compuesto para pozos oxidados o manchados.',
+        },
+        icon: 'Layers',
+      },
+      {
+        headline: {en: 'Egress windows', es: 'Ventanas de escape'},
+        description: {
+          en: 'Code-compliant egress for finished basements — cut, frame, install.',
+          es: 'Escapes según código para sótanos terminados — corte, marco, instalación.',
+        },
+        icon: 'DoorOpen',
+      },
+      {
+        headline: {en: 'Window well repair', es: 'Reparación de pozos'},
+        description: {
+          en: 'Re-pin loose wells, replace failed caulking, restore the seal.',
+          es: 'Re-anclar pozos sueltos, reemplazar sellador fallido, restaurar el sello.',
+        },
+        icon: 'Wrench',
+      },
+    ],
+    process: [
+      {
+        headline: {en: 'Site visit', es: 'Visita al sitio'},
+        description: {
+          en: 'Measure each well, check the drain status and the foundation seal.',
+          es: 'Medimos cada pozo, revisamos el estado del drenaje y el sello del cimiento.',
+        },
+      },
+      {
+        headline: {en: 'Estimate', es: 'Presupuesto'},
+        description: {
+          en: 'Itemized within 48 hours. Egress permits priced separately.',
+          es: 'Detallado en 48 horas. Permisos de escape cotizados aparte.',
+        },
+      },
+      {
+        headline: {en: 'Install', es: 'Instalación'},
+        description: {
+          en: 'Most wells installed in half a day. Egress windows in 1–2 days.',
+          es: 'La mayoría de los pozos en medio día. Ventanas de escape en 1–2 días.',
+        },
+      },
+      {
+        headline: {en: 'Cover + walkthrough', es: 'Tapa y recorrido'},
+        description: {
+          en: 'Polycarbonate cover fitted; we walk you through the egress release.',
+          es: 'Tapa de policarbonato instalada; te mostramos el mecanismo de escape.',
+        },
+      },
+    ],
+    whyUs: [
+      {
+        headline: {en: 'Every well drains', es: 'Todos los pozos drenan'},
+        description: {
+          en: 'We don\'t install wells without tying them into a drain — period.',
+          es: 'No instalamos pozos sin conectarlos a un drenaje — punto.',
+        },
+        icon: 'Waves',
+      },
+      {
+        headline: {en: 'Code-compliant egress', es: 'Escapes según código'},
+        description: {
+          en: 'IL residential code met — useful for finished-basement permits.',
+          es: 'Cumple código residencial de IL — útil para permisos de sótanos terminados.',
+        },
+        icon: 'BadgeCheck',
+      },
+      {
+        headline: {en: 'Polycarbonate covers standard', es: 'Tapas de policarbonato'},
+        description: {
+          en: 'Clear cover lets light through while keeping leaves and animals out.',
+          es: 'Tapa transparente que deja pasar luz y bloquea hojas y animales.',
+        },
+        icon: 'Shield',
+      },
+    ],
+    pricing: {mode: 'explainer', explainerFactors: GENERIC_FACTORS},
+    projects: [
+      {
+        title: {en: 'Wheaton egress upgrade', es: 'Mejora de escape en Wheaton'},
+        meta: {en: 'Wheaton · 2024', es: 'Wheaton · 2024'},
+        imageKey: 'property-enhancement-1',
+      },
+      {
+        title: {en: 'Aurora 4-well refresh', es: 'Renovación de 4 pozos en Aurora'},
+        meta: {en: 'Aurora · 2024', es: 'Aurora · 2024'},
+        imageKey: 'landscape-maintenance-1',
+      },
+      {
+        title: {en: 'Naperville drainage retrofit', es: 'Retrofit de drenaje en Naperville'},
+        meta: {en: 'Naperville · 2024', es: 'Naperville · 2024'},
+        imageKey: 'property-enhancement-2',
+      },
+    ],
+    related: ['basement-waterproofing', 'yard-drainage', 'crawl-spaces'],
+    projectsTag: 'window-wells',
+  },
+
+  {
+    slug: 'crawl-spaces',
+    division: 'waterproofing',
+    icon: 'Home',
+    name: {en: 'Crawl Spaces', es: 'Sótanos de Acceso'},
+    hero: {
+      h1: {
+        en: 'Crawl Space Encapsulation in DuPage.',
+        es: 'Encapsulación de Sótanos de Acceso en DuPage.',
+      },
+      subhead: {
+        en: 'Encapsulation, insulation, vapor barriers, and dehumidification. We turn a damp crawl into conditioned storage that doesn\'t feed mold to the rooms above it.',
+        es: 'Encapsulación, aislamiento, barreras de vapor y deshumidificación. Convertimos un sótano húmedo en almacenamiento acondicionado que no alimenta moho hacia los cuartos de arriba.',
+      },
+      photoSlot: 'service.crawl-spaces.16x9',
+    },
+    whatsIncluded: [
+      {
+        headline: {en: 'Crawl space encapsulation', es: 'Encapsulación'},
+        description: {
+          en: '20-mil reinforced liner on walls and floor, mechanically fastened.',
+          es: 'Liner reforzado de 20 mil en muros y piso, sujetado mecánicamente.',
+        },
+        icon: 'Package',
+      },
+      {
+        headline: {en: 'Insulation', es: 'Aislamiento'},
+        description: {
+          en: 'Closed-cell foam on rim joists; foil-faced board on walls when needed.',
+          es: 'Espuma de celda cerrada en viguetas; tablero con foil en muros si aplica.',
+        },
+        icon: 'Layers',
+      },
+      {
+        headline: {en: 'Vapor barrier installation', es: 'Barrera de vapor'},
+        description: {
+          en: 'Sealed at the wall-to-floor seam — no soil moisture leaks through.',
+          es: 'Sellada en la unión muro-piso — sin escape de humedad del suelo.',
+        },
+        icon: 'Shield',
+      },
+      {
+        headline: {en: 'Mold remediation', es: 'Remediación de moho'},
+        description: {
+          en: 'IICRC-protocol cleaning, HEPA vacuum, antimicrobial treatment.',
+          es: 'Limpieza protocolo IICRC, aspirado HEPA, tratamiento antimicrobiano.',
+        },
+        icon: 'Sparkles',
+      },
+      {
+        headline: {en: 'Dehumidifier installation', es: 'Instalación de deshumidificador'},
+        description: {
+          en: 'Energy-Star unit sized to the cubic footage, condensate routed out.',
+          es: 'Unidad Energy-Star dimensionada al volumen, condensado dirigido afuera.',
+        },
+        icon: 'Wind',
+      },
+    ],
+    process: [
+      {
+        headline: {en: 'Inspection', es: 'Inspección'},
+        description: {
+          en: 'Crawl entry, moisture readings, mold check, structural look.',
+          es: 'Entrada al sótano, lecturas de humedad, revisión de moho y estructura.',
+        },
+      },
+      {
+        headline: {en: 'Plan + estimate', es: 'Plan y presupuesto'},
+        description: {
+          en: 'Itemized in 48 hours: liner, insulation, dehu, mold treatment as needed.',
+          es: 'Detallado en 48 horas: liner, aislamiento, deshu, tratamiento si aplica.',
+        },
+      },
+      {
+        headline: {en: 'Install', es: 'Instalación'},
+        description: {
+          en: 'Most jobs complete in 3–5 days. We bag and haul all debris.',
+          es: 'La mayoría termina en 3–5 días. Sacamos todos los escombros.',
+        },
+      },
+      {
+        headline: {en: 'Annual humidity check', es: 'Revisión anual de humedad'},
+        description: {
+          en: 'Free annual return visit to verify the dehu is holding RH below 55%.',
+          es: 'Visita anual gratis para verificar que la humedad relativa se mantiene bajo 55%.',
+        },
+      },
+    ],
+    whyUs: [
+      {
+        headline: {en: '20-mil liner standard', es: 'Liner de 20 mil estándar'},
+        description: {
+          en: 'Most contractors install 6-mil; we install 20-mil reinforced.',
+          es: 'La mayoría instala 6 mil; nosotros instalamos 20 mil reforzado.',
+        },
+        icon: 'Award',
+      },
+      {
+        headline: {en: 'IICRC mold protocol', es: 'Protocolo IICRC para moho'},
+        description: {
+          en: 'Industry-standard cleaning, not a shortcut bleach spray.',
+          es: 'Limpieza estándar de la industria, no atajos con cloro.',
+        },
+        icon: 'BadgeCheck',
+      },
+      {
+        headline: {en: 'Annual check included', es: 'Revisión anual incluida'},
+        description: {
+          en: "We come back yearly to confirm the dehu is doing its job.",
+          es: 'Volvemos cada año para confirmar que el deshu hace su trabajo.',
+        },
+        icon: 'Repeat',
+      },
+    ],
+    pricing: {mode: 'explainer', explainerFactors: GENERIC_FACTORS},
+    projects: [
+      {
+        title: {en: 'Wheaton full encapsulation', es: 'Encapsulación completa en Wheaton'},
+        meta: {en: 'Wheaton · 2024', es: 'Wheaton · 2024'},
+        imageKey: 'property-enhancement-1',
+      },
+      {
+        title: {en: 'Aurora mold remediation', es: 'Remediación de moho en Aurora'},
+        meta: {en: 'Aurora · 2024', es: 'Aurora · 2024'},
+        imageKey: 'landscape-maintenance-1',
+      },
+      {
+        title: {en: 'Naperville dehu retrofit', es: 'Retrofit de deshu en Naperville'},
+        meta: {en: 'Naperville · 2024', es: 'Naperville · 2024'},
+        imageKey: 'property-enhancement-2',
+      },
+    ],
+    related: ['basement-waterproofing', 'foundation-repair', 'humidity-control'],
+    projectsTag: 'crawl-spaces',
+  },
+
+  {
+    slug: 'concrete-raising',
+    division: 'waterproofing',
+    icon: 'ArrowUp',
+    name: {en: 'Concrete Raising', es: 'Levantamiento de Concreto'},
+    hero: {
+      h1: {
+        en: 'Concrete Raising in DuPage County.',
+        es: 'Levantamiento de Concreto en DuPage County.',
+      },
+      subhead: {
+        en: 'Mudjacking, polyurethane foam lifting, sealing, and leveling. We lift sunken slabs back into place for a fraction of replacement cost.',
+        es: 'Mudjacking, levantamiento con espuma de poliuretano, sellado y nivelación. Levantamos losas hundidas a una fracción del costo de reemplazo.',
+      },
+      photoSlot: 'service.concrete-raising.16x9',
+    },
+    whatsIncluded: [
+      {
+        headline: {en: 'Mudjacking', es: 'Mudjacking'},
+        description: {
+          en: 'Slurry of soil + cement pumped under the slab through small ports.',
+          es: 'Mezcla de tierra y cemento bombeada bajo la losa por puertos pequeños.',
+        },
+        icon: 'Layers',
+      },
+      {
+        headline: {en: 'Polyurethane foam lifting', es: 'Levantamiento con espuma'},
+        description: {
+          en: 'Expanding foam — lighter, faster cure, no soil-displacement risk.',
+          es: 'Espuma expansiva — más liviana, fragua más rápido, sin desplazamiento.',
+        },
+        icon: 'Droplet',
+      },
+      {
+        headline: {en: 'Concrete sealing & repair', es: 'Sellado y reparación de concreto'},
+        description: {
+          en: 'Crack seal, joint caulk, surface sealer to prevent re-settling.',
+          es: 'Sellado de grietas, juntas y superficie para prevenir asentamiento.',
+        },
+        icon: 'PaintBucket',
+      },
+      {
+        headline: {en: 'Sidewalk & driveway leveling', es: 'Nivelación de aceras y entradas'},
+        description: {
+          en: 'Trip-hazard mitigation; we re-level slabs back to grade.',
+          es: 'Mitigación de tropiezos; renivelamos las losas al nivel original.',
+        },
+        icon: 'AlignJustify',
+      },
+    ],
+    process: [
+      {
+        headline: {en: 'Site visit', es: 'Visita al sitio'},
+        description: {
+          en: 'Measure slab tilt, photograph crack pattern, check void cause.',
+          es: 'Medimos la inclinación, fotografiamos las grietas, revisamos la causa del vacío.',
+        },
+      },
+      {
+        headline: {en: 'Method recommendation', es: 'Recomendación de método'},
+        description: {
+          en: 'Mudjack for big slabs over stable soil; foam for tight access or weak soil.',
+          es: 'Mudjack para losas grandes sobre suelo estable; espuma para acceso difícil o suelo débil.',
+        },
+      },
+      {
+        headline: {en: 'Lift', es: 'Levantamiento'},
+        description: {
+          en: 'Most slabs raised in under 4 hours; use is restored same-day for foam.',
+          es: 'La mayoría se levanta en menos de 4 horas; uso restaurado el mismo día con espuma.',
+        },
+      },
+      {
+        headline: {en: 'Seal + warranty', es: 'Sellado y garantía'},
+        description: {
+          en: 'Joints and ports sealed; written warranty against re-settling.',
+          es: 'Juntas y puertos sellados; garantía escrita contra re-asentamiento.',
+        },
+      },
+    ],
+    whyUs: [
+      {
+        headline: {en: 'Two methods, one quote', es: 'Dos métodos, una cotización'},
+        description: {
+          en: 'We quote both mudjack and foam — you pick the right tool for the job.',
+          es: 'Cotizamos ambos métodos — eliges la herramienta correcta para el trabajo.',
+        },
+        icon: 'GitFork',
+      },
+      {
+        headline: {en: 'Same-day use', es: 'Uso el mismo día'},
+        description: {
+          en: 'Foam-lifted slabs are driveable inside 30 minutes.',
+          es: 'Las losas levantadas con espuma se pueden manejar en 30 minutos.',
+        },
+        icon: 'Clock',
+      },
+      {
+        headline: {en: 'Written warranty', es: 'Garantía por escrito'},
+        description: {
+          en: '5-year warranty against re-settling on most residential slabs.',
+          es: 'Garantía de 5 años contra re-asentamiento en la mayoría de losas residenciales.',
+        },
+        icon: 'ShieldCheck',
+      },
+    ],
+    pricing: {mode: 'explainer', explainerFactors: GENERIC_FACTORS},
+    projects: [
+      {
+        title: {en: 'Aurora driveway leveling', es: 'Nivelación de entrada en Aurora'},
+        meta: {en: 'Aurora · 2024', es: 'Aurora · 2024'},
+        imageKey: 'driveways-1',
+      },
+      {
+        title: {en: 'Naperville sidewalk lift', es: 'Levantamiento de acera en Naperville'},
+        meta: {en: 'Naperville · 2024', es: 'Naperville · 2024'},
+        imageKey: 'patios-walkways-1',
+      },
+      {
+        title: {en: 'Wheaton pool deck reset', es: 'Renivelación de borde de alberca en Wheaton'},
+        meta: {en: 'Wheaton · 2024', es: 'Wheaton · 2024'},
+        imageKey: 'patios-walkways-2',
+      },
+    ],
+    related: ['foundation-repair', 'yard-drainage', 'basement-waterproofing'],
+    projectsTag: 'concrete-raising',
+  },
+
+  {
+    slug: 'humidity-control',
+    division: 'waterproofing',
+    icon: 'Wind',
+    name: {en: 'Humidity Control', es: 'Control de Humedad'},
+    hero: {
+      h1: {
+        en: 'Humidity Control in DuPage County.',
+        es: 'Control de Humedad en DuPage County.',
+      },
+      subhead: {
+        en: 'Dehumidifiers, air-quality testing, ventilation, and moisture monitoring. We size the equipment to the room, not the catalog page.',
+        es: 'Deshumidificadores, pruebas de calidad del aire, ventilación y monitoreo. Dimensionamos el equipo al cuarto, no a la página del catálogo.',
+      },
+      photoSlot: 'service.humidity-control.16x9',
+    },
+    whatsIncluded: [
+      {
+        headline: {en: 'Dehumidifier installation', es: 'Instalación de deshumidificador'},
+        description: {
+          en: 'Energy-Star units sized by cubic footage with continuous drain routing.',
+          es: 'Unidades Energy-Star dimensionadas por volumen, con drenaje continuo.',
+        },
+        icon: 'Wind',
+      },
+      {
+        headline: {en: 'Air quality testing', es: 'Pruebas de calidad del aire'},
+        description: {
+          en: 'Lab-grade meter for RH, particulate count, VOC presence.',
+          es: 'Medidor de grado laboratorio para humedad, partículas y compuestos volátiles.',
+        },
+        icon: 'TestTube',
+      },
+      {
+        headline: {en: 'Ventilation solutions', es: 'Soluciones de ventilación'},
+        description: {
+          en: 'Bath fans, dryer-vent routing, and supply-air balancing.',
+          es: 'Extractores de baño, ruta de ventilación de secadora y balance de aire.',
+        },
+        icon: 'Fan',
+      },
+      {
+        headline: {en: 'Moisture monitoring', es: 'Monitoreo de humedad'},
+        description: {
+          en: 'Wi-Fi-connected sensors with alerts when RH crosses your threshold.',
+          es: 'Sensores Wi-Fi con alertas cuando la humedad supera tu umbral.',
+        },
+        icon: 'Activity',
+      },
+    ],
+    process: [
+      {
+        headline: {en: 'Assessment', es: 'Evaluación'},
+        description: {
+          en: 'Site walk + 24-hour RH log to capture the daily swing.',
+          es: 'Recorrido y registro de humedad por 24 horas para capturar el ciclo diario.',
+        },
+      },
+      {
+        headline: {en: 'Recommendation', es: 'Recomendación'},
+        description: {
+          en: 'Right-sized equipment with a target RH and a 30-day verification plan.',
+          es: 'Equipo dimensionado correctamente con humedad objetivo y plan de verificación de 30 días.',
+        },
+      },
+      {
+        headline: {en: 'Install', es: 'Instalación'},
+        description: {
+          en: 'Most installs complete in half a day with continuous drain routing.',
+          es: 'La mayoría termina en medio día con drenaje continuo.',
+        },
+      },
+      {
+        headline: {en: '30-day verification', es: 'Verificación de 30 días'},
+        description: {
+          en: 'We pull the sensor data 30 days in to confirm we hit target RH.',
+          es: 'Revisamos los datos del sensor a 30 días para confirmar la humedad objetivo.',
+        },
+      },
+    ],
+    whyUs: [
+      {
+        headline: {en: 'Sized by data, not vibes', es: 'Dimensionado por datos'},
+        description: {
+          en: 'We log 24 hours of RH before sizing the unit — not a guess.',
+          es: 'Registramos 24 horas de humedad antes de dimensionar — sin adivinar.',
+        },
+        icon: 'BarChart3',
+      },
+      {
+        headline: {en: 'Continuous drain', es: 'Drenaje continuo'},
+        description: {
+          en: 'No bucket to empty — drain line plumbed to a sump or floor drain.',
+          es: 'Sin cubeta que vaciar — línea de drenaje al sumidero o piso.',
+        },
+        icon: 'Droplet',
+      },
+      {
+        headline: {en: '30-day data review', es: 'Revisión a 30 días'},
+        description: {
+          en: 'Wi-Fi sensor data confirms the install actually holds target RH.',
+          es: 'Datos del sensor Wi-Fi confirman que la instalación mantiene la humedad.',
+        },
+        icon: 'CheckCircle',
+      },
+    ],
+    pricing: {mode: 'explainer', explainerFactors: GENERIC_FACTORS},
+    projects: [
+      {
+        title: {en: 'Wheaton whole-basement dehu', es: 'Deshu de sótano completo en Wheaton'},
+        meta: {en: 'Wheaton · 2024', es: 'Wheaton · 2024'},
+        imageKey: 'property-enhancement-1',
+      },
+      {
+        title: {en: 'Naperville bath ventilation', es: 'Ventilación de baño en Naperville'},
+        meta: {en: 'Naperville · 2024', es: 'Naperville · 2024'},
+        imageKey: 'landscape-maintenance-2',
+      },
+      {
+        title: {en: 'Aurora monitoring retrofit', es: 'Retrofit de monitoreo en Aurora'},
+        meta: {en: 'Aurora · 2024', es: 'Aurora · 2024'},
+        imageKey: 'property-enhancement-2',
+      },
+    ],
+    related: ['crawl-spaces', 'basement-waterproofing', 'radon-mitigation'],
+    projectsTag: 'humidity-control',
+  },
+
+  {
+    slug: 'radon-mitigation',
+    division: 'waterproofing',
+    icon: 'Radiation',
+    name: {en: 'Radon Mitigation', es: 'Mitigación de Radón'},
+    hero: {
+      h1: {
+        en: 'Radon Mitigation in DuPage County.',
+        es: 'Mitigación de Radón en DuPage County.',
+      },
+      subhead: {
+        en: 'Testing, active soil depressurization, vent pipe install, and ongoing monitoring. Illinois-licensed mitigation contractors — DuPage averages above EPA action level.',
+        es: 'Pruebas, despresurización activa del subsuelo, instalación de tubería de venteo y monitoreo continuo. Contratistas con licencia de Illinois — DuPage promedia por encima del nivel de acción de la EPA.',
+      },
+      photoSlot: 'service.radon-mitigation.16x9',
+    },
+    whatsIncluded: [
+      {
+        headline: {en: 'Radon testing', es: 'Prueba de radón'},
+        description: {
+          en: '48-hour continuous radon monitor placed by an IL-licensed measurement pro.',
+          es: 'Monitor continuo de 48 horas colocado por un profesional licenciado en IL.',
+        },
+        icon: 'TestTube',
+      },
+      {
+        headline: {en: 'Active soil depressurization', es: 'Despresurización activa del suelo'},
+        description: {
+          en: 'Suction point cored in the slab, fan-driven venting above the roofline.',
+          es: 'Punto de succión en la losa, venteo con ventilador por encima del techo.',
+        },
+        icon: 'ArrowUpFromLine',
+      },
+      {
+        headline: {en: 'Vent pipe installation', es: 'Instalación de tubería de venteo'},
+        description: {
+          en: '4" PVC routed exterior or interior, terminated above the roofline.',
+          es: 'PVC de 4" exterior o interior, terminado sobre el nivel del techo.',
+        },
+        icon: 'Pipette',
+      },
+      {
+        headline: {en: 'System monitoring', es: 'Monitoreo del sistema'},
+        description: {
+          en: 'Visible u-tube manometer + post-install retest to confirm reduction.',
+          es: 'Manómetro en U visible + re-prueba posterior para confirmar reducción.',
+        },
+        icon: 'Activity',
+      },
+    ],
+    process: [
+      {
+        headline: {en: 'Initial test', es: 'Prueba inicial'},
+        description: {
+          en: '48-hour test, lab-analyzed report with the radon level in pCi/L.',
+          es: 'Prueba de 48 horas, informe de laboratorio con el nivel en pCi/L.',
+        },
+      },
+      {
+        headline: {en: 'Mitigation plan', es: 'Plan de mitigación'},
+        description: {
+          en: 'Suction-point location, pipe route, fan model — drawn before install.',
+          es: 'Ubicación de succión, ruta de tubería, modelo de ventilador — antes de instalar.',
+        },
+      },
+      {
+        headline: {en: 'Install', es: 'Instalación'},
+        description: {
+          en: 'Most systems installed in one day. Manometer mounted at the panel.',
+          es: 'La mayoría se instala en un día. Manómetro montado en el panel.',
+        },
+      },
+      {
+        headline: {en: 'Post-install retest', es: 'Re-prueba post-instalación'},
+        description: {
+          en: 'Free 48-hour retest 24 hours after install — confirms < 4 pCi/L.',
+          es: 'Re-prueba gratis de 48 horas, 24 horas después de instalar — confirma < 4 pCi/L.',
+        },
+      },
+    ],
+    whyUs: [
+      {
+        headline: {en: 'IL-licensed mitigation', es: 'Mitigación con licencia de IL'},
+        description: {
+          en: 'Illinois IEMA-licensed mitigation pros — required for documented results.',
+          es: 'Profesionales con licencia IEMA de Illinois — necesarios para resultados documentados.',
+        },
+        icon: 'BadgeCheck',
+      },
+      {
+        headline: {en: 'Post-install retest free', es: 'Re-prueba post-instalación gratis'},
+        description: {
+          en: 'We confirm reduction with a real follow-up test, not a guarantee on paper.',
+          es: 'Confirmamos la reducción con una prueba de seguimiento real, no una promesa.',
+        },
+        icon: 'CheckCircle',
+      },
+      {
+        headline: {en: 'Above-roofline vent', es: 'Venteo sobre el techo'},
+        description: {
+          en: 'Code-compliant termination — not the cheaper sidewall shortcut.',
+          es: 'Terminación según código — no el atajo más barato por la pared lateral.',
+        },
+        icon: 'ArrowUp',
+      },
+    ],
+    pricing: {mode: 'explainer', explainerFactors: GENERIC_FACTORS},
+    projects: [
+      {
+        title: {en: 'Wheaton mitigation install', es: 'Instalación en Wheaton'},
+        meta: {en: 'Wheaton · 2024', es: 'Wheaton · 2024'},
+        imageKey: 'property-enhancement-1',
+      },
+      {
+        title: {en: 'Aurora real-estate pre-listing', es: 'Pre-listado de bienes raíces en Aurora'},
+        meta: {en: 'Aurora · 2024', es: 'Aurora · 2024'},
+        imageKey: 'landscape-maintenance-1',
+      },
+      {
+        title: {en: 'Naperville garage-bunker fix', es: 'Solución en Naperville'},
+        meta: {en: 'Naperville · 2024', es: 'Naperville · 2024'},
+        imageKey: 'property-enhancement-2',
+      },
+    ],
+    related: ['crawl-spaces', 'humidity-control', 'basement-waterproofing'],
+    projectsTag: 'radon-mitigation',
+  },
+
+  // -------------------- SNOW REMOVAL (4 new) — Phase M.01d --------------------
+  // These join the 2 existing snow-removal services (residential + commercial,
+  // both `audience`-tagged). Slug `commercial-snow-plowing` renamed from the
+  // candidate "snow-removal" to avoid the future /snow-removal/snow-removal/
+  // double-slug under M.01e's /<division>/<slug>/ routes. ES uses `tú`.
+  {
+    slug: 'de-icing',
+    division: 'snow-removal',
+    icon: 'Droplets',
+    name: {en: 'De-Icing', es: 'Deshielo'},
+    hero: {
+      h1: {
+        en: 'De-Icing in DuPage County.',
+        es: 'Deshielo en DuPage County.',
+      },
+      subhead: {
+        en: 'Salt and ice-melt application for driveways and walks. Pet-safe blends on request, rapid-response on storm events, 24/7 dispatch all winter.',
+        es: 'Sal y derretidor de hielo en entradas y senderos. Mezclas pet-safe a pedido, respuesta rápida en tormentas, despacho 24/7 todo el invierno.',
+      },
+      photoSlot: 'service.de-icing.16x9',
+    },
+    whatsIncluded: [
+      {
+        headline: {en: 'Driveway salting', es: 'Sal en entrada'},
+        description: {
+          en: 'Calibrated spreader pass — no piles, no waste, no overspray on plants.',
+          es: 'Pasada con esparcidor calibrado — sin pilas, sin desperdicio, sin daño a plantas.',
+        },
+        icon: 'Snowflake',
+      },
+      {
+        headline: {en: 'Walkway + step de-icing', es: 'Deshielo en senderos y escalones'},
+        description: {
+          en: 'Hand-broadcast on walks, treads, and around door thresholds.',
+          es: 'Esparcido a mano en senderos, escalones y umbrales de puertas.',
+        },
+        icon: 'Footprints',
+      },
+      {
+        headline: {en: 'Pet-safe blends', es: 'Mezclas pet-safe'},
+        description: {
+          en: 'Calcium-magnesium acetate on request — kinder to paws and plantings.',
+          es: 'Acetato de calcio-magnesio a pedido — mejor para patas y plantas.',
+        },
+        icon: 'Heart',
+      },
+      {
+        headline: {en: 'Pre-storm application', es: 'Aplicación pre-tormenta'},
+        description: {
+          en: 'Anti-ice treatment 4–12 hours ahead of major storms when forecast warrants.',
+          es: 'Tratamiento anti-hielo 4–12 horas antes de tormentas mayores cuando aplica.',
+        },
+        icon: 'Cloud',
+      },
+    ],
+    process: [
+      {
+        headline: {en: 'Seasonal contract', es: 'Contrato de temporada'},
+        description: {
+          en: 'Sign once in October for the whole winter — fixed per-event rate.',
+          es: 'Firma una vez en octubre para todo el invierno — tarifa fija por evento.',
+        },
+      },
+      {
+        headline: {en: 'Storm trigger', es: 'Activación por tormenta'},
+        description: {
+          en: 'Forecast + on-site verification triggers automatic dispatch.',
+          es: 'Pronóstico y verificación en sitio activan el despacho automático.',
+        },
+      },
+      {
+        headline: {en: 'Service', es: 'Servicio'},
+        description: {
+          en: 'Treatment applied within 2 hours of the trigger.',
+          es: 'Tratamiento aplicado dentro de 2 horas tras la activación.',
+        },
+      },
+      {
+        headline: {en: 'Post-event log', es: 'Bitácora post-evento'},
+        description: {
+          en: 'Photo + GPS log emailed to you after every service.',
+          es: 'Registro con foto y GPS enviado por correo tras cada servicio.',
+        },
+      },
+    ],
+    whyUs: [
+      {
+        headline: {en: 'Calibrated spreaders', es: 'Esparcidores calibrados'},
+        description: {
+          en: 'No over-salt damage to concrete or plantings near the drive.',
+          es: 'Sin daño por exceso de sal en concreto o plantas cercanas.',
+        },
+        icon: 'Gauge',
+      },
+      {
+        headline: {en: 'Pet-safe option', es: 'Opción pet-safe'},
+        description: {
+          en: 'Pet-friendly blends priced inline — no surprise upcharge.',
+          es: 'Mezclas amigables con mascotas con precio inline — sin recargos sorpresa.',
+        },
+        icon: 'Heart',
+      },
+      {
+        headline: {en: 'Per-event log', es: 'Registro por evento'},
+        description: {
+          en: 'Photo + GPS proof of service — useful for HOAs and PMs.',
+          es: 'Prueba de servicio con foto y GPS — útil para HOAs y administradores.',
+        },
+        icon: 'FileText',
+      },
+    ],
+    pricing: {mode: 'explainer', explainerFactors: GENERIC_FACTORS},
+    projects: [
+      {
+        title: {en: 'Naperville HOA winter program', es: 'Programa de invierno HOA en Naperville'},
+        meta: {en: 'Naperville · 2023–2024', es: 'Naperville · 2023–2024'},
+        imageKey: 'snow-removal-1',
+      },
+      {
+        title: {en: 'Aurora pet-safe rotation', es: 'Rotación pet-safe en Aurora'},
+        meta: {en: 'Aurora · 2023–2024', es: 'Aurora · 2023–2024'},
+        imageKey: 'snow-removal-2',
+      },
+      {
+        title: {en: 'Wheaton residential cluster', es: 'Cluster residencial en Wheaton'},
+        meta: {en: 'Wheaton · 2023–2024', es: 'Wheaton · 2023–2024'},
+        imageKey: 'commercial-snow-removal-1',
+      },
+    ],
+    related: ['driveway-snow-removal', 'sidewalk-shoveling', 'commercial-snow-plowing'],
+    projectsTag: 'de-icing',
+  },
+
+  {
+    slug: 'sidewalk-shoveling',
+    division: 'snow-removal',
+    icon: 'Footprints',
+    name: {en: 'Sidewalk Shoveling', es: 'Pala de Senderos'},
+    hero: {
+      h1: {
+        en: 'Sidewalk Shoveling in DuPage County.',
+        es: 'Pala de Senderos en DuPage County.',
+      },
+      subhead: {
+        en: 'Manual sidewalk + walkway clearing for residential homes and HOAs. We get there before the morning commute — no exceptions, no missed visits.',
+        es: 'Limpieza manual de senderos para hogares y HOAs. Llegamos antes del recorrido matutino — sin excepciones, sin visitas perdidas.',
+      },
+      photoSlot: 'service.sidewalk-shoveling.16x9',
+    },
+    whatsIncluded: [
+      {
+        headline: {en: 'Sidewalk clearing', es: 'Limpieza de senderos'},
+        description: {
+          en: 'Public-facing sidewalk shoveled curb-to-property-line.',
+          es: 'Sendero público limpiado del borde a la línea de propiedad.',
+        },
+        icon: 'Footprints',
+      },
+      {
+        headline: {en: 'Walkway + step clearing', es: 'Senderos y escalones'},
+        description: {
+          en: 'Front walk, side walks, and steps to door cleared by hand.',
+          es: 'Senderos delanteros, laterales y escalones a la puerta limpiados a mano.',
+        },
+        icon: 'PersonStanding',
+      },
+      {
+        headline: {en: 'Mail + delivery access', es: 'Acceso para correo y entregas'},
+        description: {
+          en: 'Path from sidewalk to mailbox and to the front porch.',
+          es: 'Ruta desde sendero a buzón y al porche delantero.',
+        },
+        icon: 'Mail',
+      },
+      {
+        headline: {en: 'De-icing if needed', es: 'Deshielo si aplica'},
+        description: {
+          en: 'Salt or pet-safe melt where treads remain slick after shoveling.',
+          es: 'Sal o derretidor pet-safe donde los escalones quedan resbalosos.',
+        },
+        icon: 'Droplets',
+      },
+    ],
+    process: [
+      {
+        headline: {en: 'Pre-season prep', es: 'Preparación pre-temporada'},
+        description: {
+          en: 'Mark walks and edges so they don\'t get cut into in October.',
+          es: 'Marcamos senderos y bordes para no cortarlos en octubre.',
+        },
+      },
+      {
+        headline: {en: 'Storm trigger', es: 'Activación por tormenta'},
+        description: {
+          en: 'Forecast + on-site verification triggers dispatch by 5am.',
+          es: 'Pronóstico y verificación en sitio activan el despacho para las 5am.',
+        },
+      },
+      {
+        headline: {en: 'Service', es: 'Servicio'},
+        description: {
+          en: 'Most homes done before 7am so the commute is clear.',
+          es: 'La mayoría termina antes de las 7am para el recorrido matutino.',
+        },
+      },
+      {
+        headline: {en: 'Post-storm check', es: 'Revisión post-tormenta'},
+        description: {
+          en: 'Return pass to clear drift accumulation once snow stops.',
+          es: 'Pasada de regreso para limpiar acumulación al detenerse la nieve.',
+        },
+      },
+    ],
+    whyUs: [
+      {
+        headline: {en: 'Pre-7am finish', es: 'Terminado antes de las 7am'},
+        description: {
+          en: 'Walks cleared before the morning commute, mail run, dog walk.',
+          es: 'Senderos limpios antes del recorrido matutino, correo y paseos.',
+        },
+        icon: 'Clock',
+      },
+      {
+        headline: {en: 'Hand-shoveled', es: 'Pala a mano'},
+        description: {
+          en: 'No snowblower scarring on stamped concrete or pavers.',
+          es: 'Sin marcas de máquina en concreto estampado o adoquines.',
+        },
+        icon: 'Hand',
+      },
+      {
+        headline: {en: 'HOA group rates', es: 'Tarifas grupales HOA'},
+        description: {
+          en: 'Multi-unit HOAs get a per-unit rate cut. We mow them in summer, too.',
+          es: 'HOAs con varias unidades obtienen descuento por unidad. También cortamos en verano.',
+        },
+        icon: 'Users',
+      },
+    ],
+    pricing: {mode: 'explainer', explainerFactors: GENERIC_FACTORS},
+    projects: [
+      {
+        title: {en: 'Naperville cluster HOA', es: 'Cluster HOA en Naperville'},
+        meta: {en: 'Naperville · 2023–2024', es: 'Naperville · 2023–2024'},
+        imageKey: 'snow-removal-1',
+      },
+      {
+        title: {en: 'Aurora elderly route', es: 'Ruta para adultos mayores en Aurora'},
+        meta: {en: 'Aurora · 2023–2024', es: 'Aurora · 2023–2024'},
+        imageKey: 'snow-removal-2',
+      },
+      {
+        title: {en: 'Wheaton residential block', es: 'Cuadra residencial en Wheaton'},
+        meta: {en: 'Wheaton · 2023–2024', es: 'Wheaton · 2023–2024'},
+        imageKey: 'commercial-snow-removal-2',
+      },
+    ],
+    related: ['driveway-snow-removal', 'de-icing', 'commercial-snow-plowing'],
+    projectsTag: 'sidewalk-shoveling',
+  },
+
+  {
+    slug: 'driveway-snow-removal',
+    division: 'snow-removal',
+    icon: 'Snowflake',
+    name: {en: 'Driveway Snow Removal', es: 'Remoción de Nieve en Entradas'},
+    hero: {
+      h1: {
+        en: 'Driveway Snow Removal in DuPage.',
+        es: 'Remoción de Nieve en Entradas en DuPage.',
+      },
+      subhead: {
+        en: 'Single-family driveway plowing — seasonal contracts and per-event service. 2-inch trigger, 24/7 dispatch, 2-hour response after the trigger fires.',
+        es: 'Arado de entradas residenciales — contratos de temporada y servicio por evento. Activación a 2 pulgadas, despacho 24/7, respuesta en 2 horas tras activación.',
+      },
+      photoSlot: 'service.driveway-snow-removal.16x9',
+    },
+    whatsIncluded: [
+      {
+        headline: {en: 'Driveway plow', es: 'Arado de entrada'},
+        description: {
+          en: 'Cleared to pavement, snow piled away from doors and walks.',
+          es: 'Limpiado al pavimento, nieve apilada lejos de puertas y senderos.',
+        },
+        icon: 'Snowflake',
+      },
+      {
+        headline: {en: 'Apron + curb cut', es: 'Acera y borde'},
+        description: {
+          en: 'Second pass after the village plow has come through.',
+          es: 'Segunda pasada tras el arado del pueblo.',
+        },
+        icon: 'Truck',
+      },
+      {
+        headline: {en: '2-inch trigger', es: 'Activación a 2 pulgadas'},
+        description: {
+          en: 'We service every storm at or above 2 inches, automatically.',
+          es: 'Servicio en cada tormenta de 2 pulgadas o más, automáticamente.',
+        },
+        icon: 'Ruler',
+      },
+      {
+        headline: {en: 'Seasonal contract', es: 'Contrato de temporada'},
+        description: {
+          en: 'Flat-rate seasonal pricing — no per-event surprises in a heavy winter.',
+          es: 'Tarifa fija por temporada — sin sorpresas por evento en un invierno fuerte.',
+        },
+        icon: 'CalendarRange',
+      },
+    ],
+    process: [
+      {
+        headline: {en: 'Sign in October', es: 'Firma en octubre'},
+        description: {
+          en: 'Most contracts sign before Halloween. We mark drives in November.',
+          es: 'La mayoría firma antes de Halloween. Marcamos entradas en noviembre.',
+        },
+      },
+      {
+        headline: {en: 'Storm trigger', es: 'Activación por tormenta'},
+        description: {
+          en: 'Forecast + on-site verification triggers automatic dispatch.',
+          es: 'Pronóstico y verificación en sitio activan el despacho.',
+        },
+      },
+      {
+        headline: {en: 'Service', es: 'Servicio'},
+        description: {
+          en: 'Plow + clean-up pass inside 2 hours of the trigger.',
+          es: 'Arado y limpieza dentro de 2 horas tras la activación.',
+        },
+      },
+      {
+        headline: {en: 'Apron return pass', es: 'Pasada de borde'},
+        description: {
+          en: 'Return pass after the village plow comes through.',
+          es: 'Pasada de regreso tras el arado del pueblo.',
+        },
+      },
+    ],
+    whyUs: [
+      {
+        headline: {en: '2-hour response', es: '2 horas de respuesta'},
+        description: {
+          en: 'You\'re served before most people are out of bed.',
+          es: 'Atendido antes de que la mayoría se levante.',
+        },
+        icon: 'Clock',
+      },
+      {
+        headline: {en: 'Apron return pass included', es: 'Pasada de borde incluida'},
+        description: {
+          en: 'Most contractors stop at one pass. We come back for the village pile.',
+          es: 'La mayoría de contratistas para en una pasada. Volvemos por la pila del pueblo.',
+        },
+        icon: 'Repeat',
+      },
+      {
+        headline: {en: 'Insured fleet', es: 'Flotilla asegurada'},
+        description: {
+          en: 'Property-damage coverage on every plow on the road.',
+          es: 'Cobertura por daños en cada vehículo de arado.',
+        },
+        icon: 'ShieldCheck',
+      },
+    ],
+    pricing: {mode: 'explainer', explainerFactors: GENERIC_FACTORS},
+    projects: [
+      {
+        title: {en: 'Aurora 40-home subdivision', es: 'Subdivisión de 40 casas en Aurora'},
+        meta: {en: 'Aurora · 2023–2024', es: 'Aurora · 2023–2024'},
+        imageKey: 'snow-removal-1',
+      },
+      {
+        title: {en: 'Naperville custom-driveway', es: 'Entrada personalizada en Naperville'},
+        meta: {en: 'Naperville · 2023–2024', es: 'Naperville · 2023–2024'},
+        imageKey: 'snow-removal-2',
+      },
+      {
+        title: {en: 'Wheaton seasonal route', es: 'Ruta de temporada en Wheaton'},
+        meta: {en: 'Wheaton · 2023–2024', es: 'Wheaton · 2023–2024'},
+        imageKey: 'commercial-snow-removal-1',
+      },
+    ],
+    related: ['de-icing', 'sidewalk-shoveling', 'commercial-snow-plowing'],
+    projectsTag: 'driveway-snow-removal',
+  },
+
+  {
+    slug: 'commercial-snow-plowing',
+    division: 'snow-removal',
+    icon: 'Building2',
+    name: {en: 'Commercial Snow Plowing', es: 'Arado Comercial de Nieve'},
+    hero: {
+      h1: {
+        en: 'Commercial Snow Plowing in DuPage.',
+        es: 'Arado Comercial de Nieve en DuPage.',
+      },
+      subhead: {
+        en: 'Multi-property lots, HOA roadways, and property-management contracts. 24/7 storm response, ADA-compliant ice management, per-event documentation.',
+        es: 'Lotes con múltiples propiedades, vías de HOA y contratos de administración. Respuesta 24/7, manejo de hielo según ADA, documentación por evento.',
+      },
+      photoSlot: 'service.commercial-snow-plowing.16x9',
+    },
+    whatsIncluded: [
+      {
+        headline: {en: 'Parking lot plowing', es: 'Arado de estacionamientos'},
+        description: {
+          en: 'Multi-truck dispatch sized to the lot — big lots get tandem plows.',
+          es: 'Despacho de varios camiones según el lote — los grandes con arados en tándem.',
+        },
+        icon: 'Truck',
+      },
+      {
+        headline: {en: 'HOA roadway clearing', es: 'Limpieza de vías HOA'},
+        description: {
+          en: 'Private streets cleared curb-to-curb on the HOA\'s schedule.',
+          es: 'Calles privadas limpiadas de borde a borde en el horario de la HOA.',
+        },
+        icon: 'Route',
+      },
+      {
+        headline: {en: 'ADA ice management', es: 'Manejo de hielo ADA'},
+        description: {
+          en: 'Code-compliant entries, ramps, and accessible stalls treated first.',
+          es: 'Entradas, rampas y plazas accesibles tratadas primero según código.',
+        },
+        icon: 'Accessibility',
+      },
+      {
+        headline: {en: 'Per-event documentation', es: 'Documentación por evento'},
+        description: {
+          en: 'Photo log + GPS verification of every visit, emailed within 12 hours.',
+          es: 'Registro fotográfico y GPS de cada visita, enviado en 12 horas.',
+        },
+        icon: 'FileText',
+      },
+      {
+        headline: {en: 'Snow-pile management', es: 'Manejo de pilas de nieve'},
+        description: {
+          en: 'Pile-relocation passes mid-season so lot capacity stays usable.',
+          es: 'Pasadas de reubicación de pilas a media temporada para mantener capacidad.',
+        },
+        icon: 'MoveRight',
+      },
+    ],
+    process: [
+      {
+        headline: {en: 'Pre-season meeting', es: 'Reunión pre-temporada'},
+        description: {
+          en: 'Lot walk with the property manager, scope + COI in writing.',
+          es: 'Recorrido del lote con el administrador, alcance y COI por escrito.',
+        },
+      },
+      {
+        headline: {en: 'Storm trigger', es: 'Activación por tormenta'},
+        description: {
+          en: 'Forecast + on-site verification triggers multi-truck dispatch.',
+          es: 'Pronóstico y verificación activan el despacho de varios camiones.',
+        },
+      },
+      {
+        headline: {en: 'Service', es: 'Servicio'},
+        description: {
+          en: 'Plow + treat per the contracted SLA — usually 2 hours after trigger.',
+          es: 'Arado y tratamiento según el SLA contratado — usualmente 2 horas tras activación.',
+        },
+      },
+      {
+        headline: {en: 'Per-event log', es: 'Registro por evento'},
+        description: {
+          en: 'Documentation emailed to the manager within 12 hours — useful for liability.',
+          es: 'Documentación enviada al administrador en 12 horas — útil para responsabilidad civil.',
+        },
+      },
+    ],
+    whyUs: [
+      {
+        headline: {en: '24/7 dispatch', es: 'Despacho 24/7'},
+        description: {
+          en: 'Storm at 2am? We\'re already on the way.',
+          es: '¿Tormenta a las 2am? Ya vamos en camino.',
+        },
+        icon: 'PhoneCall',
+      },
+      {
+        headline: {en: 'ADA-compliant', es: 'Cumple ADA'},
+        description: {
+          en: 'Accessible entries and ramps prioritized — code-compliant ice management.',
+          es: 'Entradas y rampas accesibles priorizadas — manejo de hielo según código.',
+        },
+        icon: 'Accessibility',
+      },
+      {
+        headline: {en: 'COI on file before day 1', es: 'COI antes del primer día'},
+        description: {
+          en: 'Insurance certificate emailed during onboarding.',
+          es: 'Certificado de seguro enviado durante la integración.',
+        },
+        icon: 'ShieldCheck',
+      },
+    ],
+    pricing: {mode: 'explainer', explainerFactors: GENERIC_FACTORS},
+    projects: [
+      {
+        title: {en: 'Lisle corporate park', es: 'Parque corporativo en Lisle'},
+        meta: {en: 'Lisle · 2023–2024', es: 'Lisle · 2023–2024'},
+        imageKey: 'commercial-snow-removal-1',
+      },
+      {
+        title: {en: 'Bolingbrook retail center', es: 'Centro comercial en Bolingbrook'},
+        meta: {en: 'Bolingbrook · 2023–2024', es: 'Bolingbrook · 2023–2024'},
+        imageKey: 'commercial-snow-removal-2',
+      },
+      {
+        title: {en: 'Aurora HOA roadways', es: 'Vías de HOA en Aurora'},
+        meta: {en: 'Aurora · 2023–2024', es: 'Aurora · 2023–2024'},
+        imageKey: 'snow-removal-1',
+      },
+    ],
+    related: ['de-icing', 'driveway-snow-removal', 'sidewalk-shoveling'],
+    projectsTag: 'commercial-snow-plowing',
+  },
 ];
 
 export const SERVICE_SLUGS = SERVICES.map((s) => s.slug);
@@ -2370,4 +4272,12 @@ export function getRelatedService(
 
 export function getServicesForAudience(audience: Audience): Service[] {
   return SERVICES.filter((s) => s.audience === audience);
+}
+
+/**
+ * Phase M.01d — division-aware lookup. M.01e wires this into the new
+ * /landscape/, /hardscape/, /waterproofing/, /snow-removal/ landings.
+ */
+export function getServicesForDivision(division: Division): Service[] {
+  return SERVICES.filter((s) => s.division === division);
 }

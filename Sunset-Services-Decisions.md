@@ -1224,3 +1224,70 @@ Goran reviewed the site after Phase M.01c and asked for a real expansion of the 
 - **`stripStreetNumber` regex handles both single and slash-separated leading numbers** (`/^\d+(?:\/\d+)?\s+/`). The M.01c photo corpus includes "807/811 Edgewater" as a real project address — a slash-separated multi-number prefix. The regex strips that pattern as a unit, not just the first number, so the rendered output reads "Edgewater" rather than "/811 Edgewater".
 
 **Decided by:** Chat, 2026-05-26, before M.01d execution. The decision list above is the input contract; the four code in-phase decisions were surfaced and resolved during execution.
+
+---
+
+## 2026-05-26 — Phase M.01e-pt2 — closes the three M.01e deferrals (wizard migration, featuredServices enrichment, map labels)
+
+Phase M.01e shipped the visible IA flip (4 division landings, 22 city pages, Q&A page, 56 redirects) but deferred three items to a focused follow-up slice. M.01e-pt2 closes them.
+
+**1. Wizard division migration.** Phase M.01e left the quote wizard on the 3-audience model. M.01e-pt2 swaps it end-to-end:
+
+- `WizardAudience` → `WizardDivision` (4-division union: `landscape | hardscape | waterproofing | snow-removal`). State key, Zod schema, autosave key, URL deep-link param, analytics event name all migrated.
+- Step 1 = 4-division tile picker (2-column grid; reuses M.01e's `divisions.ts` heroImageKey aliases until real photography lands in M.01f).
+- Step 2 service filter pivots on `getServicesForDivision()`.
+- Step 3's field map is now keyed by a `WizardStep3Group` enum (`residential | commercial | hardscape`) computed from `(division, propertyType)` via a new `getStep3Group()` helper. Hardscape always uses the hardscape group; snow-removal uses the commercial group (snow is overwhelmingly commercial-contract on this site's book); landscape + waterproofing default to the residential question set; landscape + propertyType=commercial switches to the commercial group.
+- **Step 4 gets a new required `propertyType` radio at the top of the form** (residential / commercial). EN copy: "Is this for a home or a business?" — Home (residential) / Business (commercial). ES copy: "¿Es para su casa o su negocio?" (usted register, matching the existing Step 4 B.10 autocomplete strings). Error when Next is clicked without selection: "Please pick whether this is for a home or a business." / "Indique si es para una casa o un negocio."
+- Deep-link from each division landing → `/request-quote/?division=<slug>` (was `?audience=`). Unknown `?division=` values are logged and ignored (no back-compat alias for `?audience=` — pre-launch site, no public traffic to preserve).
+- Zod schemas in `/api/quote` (required `division` + required `propertyType`) and `/api/quote/partial` (optional `division`; no `propertyType` because Step 4 is the PII boundary).
+- Sanity `quoteLead` schema: `audience` field renamed to `division`; new `propertyType` field added. `quoteLeadPartial` gets the rename too.
+- Lead-email templates render "Division" + "Property type" rows.
+- New analytics events `wizard_division_selected` + `wizard_property_type_selected` (informational; not conversion).
+
+**2. localStorage v1 → v2 migration.** Storage key bumped from `sunset_wizard_progress_v1` to `sunset_wizard_progress_v2` so an old reader can't consume the new shape (or vice versa). `loadStep1to3()` runs a one-shot migration on first read:
+
+- `step1.audience === 'hardscape'` → `step1.division = 'hardscape'` (clean map)
+- `step1.audience === 'residential' | 'commercial'` → `step1.division` left undefined (the visitor re-picks on Step 1, since the new model isn't "residential vs commercial" anymore)
+- After migration, v1 key is removed and v2 is written. On the next visit, v2 is the only key present.
+- Resume toast suppressed when migration produced an empty meaningful-fields set (no division, no services, no other-text) — so we don't promise a "Welcome back" that won't actually pre-fill anything.
+
+The Step-4 PII boundary is preserved — `propertyType` lives on Step 4 state in React only and never touches localStorage (same rule as firstName / email / phone). When a v1-migrated visitor returns, they re-pick propertyType on Step 4 with the form blank.
+
+**3. Sanity migration script.** `scripts/migrate-quotelead-audience-to-division.mjs` is idempotent. Operator runs once after deployment. Maps:
+
+- `audience: 'hardscape'` → `division: 'hardscape'`, `propertyType: 'residential'` (safe default — hardscape is overwhelmingly residential per the pre-M.01e service breakdown)
+- `audience: 'residential'` → `division: null` (operator decides per-doc later), `propertyType: 'residential'`
+- `audience: 'commercial'` → `division: null` (operator decides per-doc later), `propertyType: 'commercial'`
+- `audience` is unset after mapping so re-running the script is a no-op.
+
+**4. featuredServices enrichment per locked decision #16 (M.01e).** Every one of the 22 surfaced cities now renders exactly 6 featured services in this mix:
+
+- 2 Landscape (default: `lawn-care` + `landscape-design`)
+- 2 Hardscape (default: `patios-walkways` + `retaining-walls`)
+- 1 Waterproofing (per-city heuristic)
+- 1 Snow Removal (per-city heuristic)
+
+Waterproofing per city:
+- `basement-waterproofing`: Hinsdale, Elmhurst, Glen Ellyn, Wheaton, Western Springs, Geneva, St. Charles (older-housing cities)
+- `sump-pumps`: Naperville, Plainfield, Oswego, Aurora, North Aurora, Yorkville (flood-prone / lower-elevation / newer-build with drainage issues)
+- `crawl-spaces`: Batavia, Lombard, South Elgin, Elburn (older crawl-space housing stock)
+- `yard-drainage`: Clarendon Hills, Burr Ridge, Winfield, Downers Grove (newer-build / suburb-fringe drainage focus)
+- `foundation-repair`: Oak Brook (business-district / commercial-mix)
+
+Snow Removal per city:
+- `commercial-snow-plowing`: Oak Brook, Lombard, Downers Grove, Naperville, Aurora (business-district / commercial-dense)
+- `driveway-snow-removal`: all other 17 cities (residential-dominant)
+
+The 2 retired cities (Lisle, Bolingbrook) keep their existing featuredServices arrays unchanged; they don't render as detail pages so the arrays are dead data behind the scenes.
+
+**5. Map label de-overlap.** `ServiceAreaMap.tsx` renders 22 pin dots (same as M.01e) but only 8 cities get static `<text>` labels: Aurora, Naperville, Wheaton, Batavia, Oak Brook, Hinsdale, Plainfield, St. Charles. The other 14 cities are still pin-dot-interactive (click navigates, link `aria-label` carries the city name for screen readers), but no static label renders — eliminating the dense Hinsdale / Oak Brook / Clarendon Hills / Burr Ridge / Western Springs cluster overlap. The 8 allowlist is documented inline in the SVG component so the next person editing the map sees the rationale rather than re-adding all 22 labels by reflex. A leaflet-style hover-tooltip is on the M.01f roadmap.
+
+**In-phase code decisions (surfaced during execution):**
+
+- **`getStep3Group()` introduced.** The locked spec described Step 3's "audience-conditional" field map and called for renaming audience → division throughout. The naive replacement — re-keying `WIZARD_STEP_3_FIELDS` by `Division` — would have either dropped two question sets (residential + commercial) or created two new fragile mirror sets per division. Instead, kept the field map keyed by `WizardStep3Group` ('residential' | 'commercial' | 'hardscape') and added a runtime `getStep3Group(division, propertyType)` helper. Captures the right question set for each (division, propertyType) combo without duplicating 90% of the Step 3 fields four times.
+- **Step 2 service selection resets on division change.** When the visitor changes their Step 1 division pick mid-wizard, `WizardShell.handleStep1Change` clears Step 2's `selectedSlugs` + `primarySlug`. Step 2's service list is division-filtered, so stale slugs from the previous division would survive into Step 5 review and the API payload — confusing the lead email and the Sanity doc. `otherText` is preserved across the swap because it's free-text and might still apply.
+- **`?audience=` is NOT aliased to `?division=`.** Per the locked spec, no back-compat alias. The wizard reads `?division=<slug>`, validates via `isDivision()`, and logs+ignores unknown values. Site is pre-launch with zero public inbound links to `?audience=`, so the back-compat shim would be dead code.
+- **Step 4 propertyType validator runs FIRST in the Step 4 validation pass.** The locked spec calls for the radio "above name/email/phone/address" and for Next to be blocked without a selection. The implementation puts `propertyType` validation at the top of the Step 4 error map — so when multiple fields are empty, the visible focus + scroll lands on propertyType first.
+- **Resume toast suppressed when v1→v2 migration produces an empty set.** The locked spec calls for the toast to fire when v2 state is present and to skip when migration discarded everything. The implementation checks for at least one of `division`, `selectedSlugs.length`, or `otherText.length` before offering Resume. If a legacy v1 state had `audience: 'residential'` + no other fields filled, migration produces an empty v2 state and the toast doesn't fire — avoiding a "Welcome back" that wouldn't pre-fill anything.
+
+**Decided by:** Chat ratified all locked decisions before execution per the M.01e-pt2 phase prompt. The five in-phase code decisions were surfaced and resolved during execution.

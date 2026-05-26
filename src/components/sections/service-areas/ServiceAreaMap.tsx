@@ -11,12 +11,42 @@ import {LOCATIONS} from '@/data/locations';
 const RETIRED_CITY_SLUGS = new Set(['lisle', 'bolingbrook']);
 
 /**
+ * Phase M.01e-pt2 — static label allowlist.
+ *
+ * 22 city labels in a 600×500 viewBox overlap in the dense Hinsdale /
+ * Oak Brook / Clarendon Hills / Burr Ridge / Western Springs cluster.
+ * Rather than introduce a label-de-overlap solver or staggered offsets,
+ * we render static `<text>` labels for the 8 most-recognizable cities only;
+ * the other 14 keep their pin dot (interactive, navigates on click, exposes
+ * the city name via `aria-label`) but skip the static label.
+ *
+ * On mobile (no hover), the dot's link `aria-label` still announces the
+ * city; touch-tap navigates. This trades a small visual restraint for a
+ * cleaner read of the cluster region — refinement (e.g. a leaflet-style
+ * tooltip) is on the M.01f photography pass roadmap.
+ *
+ * The 8 allowlisted cities were picked by (a) name recognition outside the
+ * suburbs and (b) geographic distribution that doesn't trip the cluster.
+ */
+const STATIC_LABEL_SLUGS = new Set<string>([
+  'aurora',
+  'naperville',
+  'wheaton',
+  'batavia',
+  'oak-brook',
+  'hinsdale',
+  'plainfield',
+  'st-charles',
+]);
+
+/**
  * ServiceAreaMap — Phase 1.14 §3.2 production SVG.
  *
- * Static SVG illustration of DuPage County with six pins (one per city
- * Sunset Services serves). Each pin is a real `<Link>` from
- * `@/i18n/navigation` so locale prefixing works. The accessible name for
- * each pin is the visible city `<text>` inside the link.
+ * Static SVG illustration of DuPage County with pins (one per city Sunset
+ * Services serves). Each pin is a real `<Link>` from `@/i18n/navigation` so
+ * locale prefixing works. The accessible name for each pin comes from the
+ * visible city `<text>` (for the 8 allowlisted cities) or the `aria-label`
+ * on the link element (for the other 14, where no static label renders).
  *
  * Hover/focus translates the pin -2px on the y axis over `--motion-fast`
  * (150ms). Wrapped in `prefers-reduced-motion: reduce` short-circuit.
@@ -93,35 +123,44 @@ export default async function ServiceAreaMap() {
         </text>
       </g>
 
-      {/* Pins — 22 surfaced cities (24 minus the 2 retired), each a real <Link> */}
-      {LOCATIONS.filter((loc) => !RETIRED_CITY_SLUGS.has(loc.slug)).map((loc) => (
-        <Link
-          key={loc.slug}
-          href={`/service-areas/${loc.slug}/`}
-          className="sa-pin"
-          title={`${loc.name}, ${loc.state} — view location page`}
-        >
-          <circle
-            cx={loc.pin.x}
-            cy={loc.pin.y}
-            r={10}
-            fill="#4D8A3F"
-            stroke="#FFFFFF"
-            strokeWidth={2.5}
-          />
-          <text
-            x={loc.pin.x}
-            y={loc.pin.y + 30}
-            fontFamily="Manrope, sans-serif"
-            fontSize={14}
-            fontWeight={600}
-            fill="#1A1A1A"
-            textAnchor="middle"
+      {/* Pins — 22 surfaced cities (24 minus the 2 retired), each a real <Link>.
+          Only the 8 cities in STATIC_LABEL_SLUGS render a static <text> label;
+          the other 14 have their city name on the link's aria-label so AT
+          still announces it and touch-tap still navigates correctly. */}
+      {LOCATIONS.filter((loc) => !RETIRED_CITY_SLUGS.has(loc.slug)).map((loc) => {
+        const showStaticLabel = STATIC_LABEL_SLUGS.has(loc.slug);
+        return (
+          <Link
+            key={loc.slug}
+            href={`/service-areas/${loc.slug}/`}
+            className="sa-pin"
+            title={`${loc.name}, ${loc.state} — view location page`}
+            aria-label={`${loc.name}, ${loc.state}`}
           >
-            {loc.name}
-          </text>
-        </Link>
-      ))}
+            <circle
+              cx={loc.pin.x}
+              cy={loc.pin.y}
+              r={10}
+              fill="#4D8A3F"
+              stroke="#FFFFFF"
+              strokeWidth={2.5}
+            />
+            {showStaticLabel ? (
+              <text
+                x={loc.pin.x}
+                y={loc.pin.y + 30}
+                fontFamily="Manrope, sans-serif"
+                fontSize={14}
+                fontWeight={600}
+                fill="#1A1A1A"
+                textAnchor="middle"
+              >
+                {loc.name}
+              </text>
+            ) : null}
+          </Link>
+        );
+      })}
 
       <style>{`
         .sa-pin {

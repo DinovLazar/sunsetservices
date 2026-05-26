@@ -2,11 +2,15 @@
 
 import * as React from 'react';
 import {useTranslations} from 'next-intl';
-import {WIZARD_STEP_3_FIELDS, type WizardAudience} from '@/data/wizard';
+import {WIZARD_STEP_3_FIELDS, type WizardStep3Group} from '@/data/wizard';
 import WizardField from './WizardField';
 
 type Props = {
-  audience: WizardAudience;
+  /**
+   * Phase M.01e-pt2 — the field group is computed by the WizardShell from
+   * (division, propertyType). See `getStep3Group()` in `src/data/wizard.ts`.
+   */
+  group: WizardStep3Group;
   values: Record<string, string | string[]>;
   onChange: (next: Record<string, string | string[]>) => void;
   errors: Record<string, string>;
@@ -14,20 +18,23 @@ type Props = {
 };
 
 /**
- * Step 3 — audience-conditional details. Phase 1.19 §3.5, D6.
+ * Step 3 — group-conditional details. Phase 1.19 §3.5, D6.
+ * Phase M.01e-pt2 — keyed by Step 3 group (residential / commercial /
+ * hardscape) rather than audience.
  *
- * Field map per audience comes from `WIZARD_STEP_3_FIELDS`. A `data-photo-upload-slot`
- * placeholder is rendered (D11=B) for Part 2 to swap; no real file input.
+ * Field map per group comes from `WIZARD_STEP_3_FIELDS`. A
+ * `data-photo-upload-slot` placeholder is rendered (D11=B) for Part 2 to
+ * swap; no real file input.
  */
 export default function WizardStep3Details({
-  audience,
+  group,
   values,
   onChange,
   errors,
   onFieldBlur,
 }: Props) {
   const t = useTranslations();
-  const fields = WIZARD_STEP_3_FIELDS[audience];
+  const fields = WIZARD_STEP_3_FIELDS[group];
 
   return (
     <div>

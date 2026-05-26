@@ -11,6 +11,9 @@ export const ANALYTICS_EVENTS = {
   // Wizard Step 4 — Phase B.10 address autocomplete. Informational, NOT a
   // conversion. Payload {step: 4, source: 'autocomplete'} — zero PII.
   WIZARD_ADDRESS_AUTOCOMPLETED: 'wizard_address_autocompleted',
+  // Wizard — Phase M.01e-pt2 division migration.
+  WIZARD_DIVISION_SELECTED: 'wizard_division_selected',
+  WIZARD_PROPERTY_TYPE_SELECTED: 'wizard_property_type_selected',
 
   // Contact form (Phase 2.08)
   CONTACT_SUBMIT_ATTEMPTED: 'contact_submit_attempted',

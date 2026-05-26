@@ -27,7 +27,7 @@ export async function sendQuoteLeadAlertEmail(
   return sendBrandedEmail({
     to: TO,
     intendedRecipient: TO,
-    subject: `New quote — ${input.firstName} ${input.lastName} (${input.audience})`,
+    subject: `New quote — ${input.firstName} ${input.lastName} (${input.division})`,
     react: React.createElement(QuoteLeadAlertEmail, {
       lead: input,
       primaryServiceDisplayName,

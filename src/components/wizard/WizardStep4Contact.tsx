@@ -2,13 +2,19 @@
 
 import * as React from 'react';
 import {useTranslations} from 'next-intl';
-import {WIZARD_STEP_4_FIELDS} from '@/data/wizard';
+import {WIZARD_STEP_4_FIELDS, WIZARD_PROPERTY_TYPE_FIELD, type WizardPropertyType} from '@/data/wizard';
 import {BUSINESS_PHONE_TEL} from '@/lib/constants/business';
 import {WIZARD_EVENTS, fireWizardEvent} from '@/lib/wizard/events';
 import {useGooglePlacesAutocomplete} from '@/lib/google/placesAutocomplete';
 import WizardField from './WizardField';
 
 export type Step4Values = {
+  /**
+   * Phase M.01e-pt2 — required residential/commercial radio at the top of
+   * Step 4. Empty string is the unselected state; the validator blocks Next
+   * until one of `'residential'` or `'commercial'` is picked.
+   */
+  propertyType: WizardPropertyType | '';
   firstName: string; lastName: string; email: string; phone: string;
   street: string; unit: string; city: string; state: string; zip: string;
   bestTime: string; contactMethod: string;
@@ -24,13 +30,13 @@ type Props = {
 /**
  * Step 4 — contact info. Phase 1.19 §3.6, D7. Phase B.10 wires the
  * Google Places autocomplete onto the street field per the
- * `Sunset-Services-Decisions.md` 2026-05-19 entry.
+ * `Sunset-Services-Decisions.md` 2026-05-19 entry. Phase M.01e-pt2 adds the
+ * required propertyType radio at the top.
  *
- * Required: firstName, lastName, email, phone, street, city, state (IL
- * default), zip. Optional: unit, bestTime, contactMethod. Phone field
- * auto-formats via `formatPhoneUS`. The street wrapper carries
- * `data-autocomplete-state` (loading|ready|error|disabled) — replaces
- * the Phase 1.20 `data-autocomplete-stub="address"` marker.
+ * Required: propertyType (NEW M.01e-pt2), firstName, lastName, email, phone,
+ * street, city, state (IL default), zip. Optional: unit, bestTime,
+ * contactMethod. Phone field auto-formats via `formatPhoneUS`. The street
+ * wrapper carries `data-autocomplete-state` (loading|ready|error|disabled).
  *
  * **PII boundary** — none of these values pass through autosave. They
  * live in React state only.
@@ -86,6 +92,14 @@ export default function WizardStep4Contact({
     onChange({...values, [id]: value as string});
   }
 
+  function setPropertyType(next: string | string[]) {
+    const v = (typeof next === 'string' ? next : '') as WizardPropertyType | '';
+    onChange({...values, propertyType: v});
+    if (v === 'residential' || v === 'commercial') {
+      fireWizardEvent(WIZARD_EVENTS.PROPERTY_TYPE_SELECTED, {propertyType: v});
+    }
+  }
+
   // Layout: paired rows for desktop, stack for mobile.
   const fieldById = Object.fromEntries(
     WIZARD_STEP_4_FIELDS.map((f) => [f.id, f]),
@@ -117,8 +131,32 @@ export default function WizardStep4Contact({
         {t('wizard.step4.subtitle')}
       </p>
 
+      {/* Property type — Phase M.01e-pt2. Required. Renders FIRST. */}
+      <p
+        className="m-0 mt-8 mb-3 font-heading font-semibold uppercase"
+        style={{
+          fontSize: 13,
+          letterSpacing: 'var(--tracking-eyebrow)',
+          color: 'var(--color-sunset-green-700)',
+        }}
+      >
+        {t('wizard.step4.propertyType.section')}
+      </p>
+      <div
+        aria-hidden="true"
+        style={{height: 1, background: 'var(--color-border)', marginBottom: 24}}
+      />
+      <WizardField
+        field={WIZARD_PROPERTY_TYPE_FIELD}
+        value={values.propertyType}
+        onChange={setPropertyType}
+        onBlur={() => onFieldBlur('propertyType')}
+        error={errors.propertyType}
+        idPrefix="wiz-step4"
+      />
+
       {/* Name + email + phone row */}
-      <div className="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-x-6 gap-y-6">
+      <div className="mt-10 grid grid-cols-1 lg:grid-cols-2 gap-x-6 gap-y-6">
         <WizardField
           field={fieldById['firstName']}
           value={values.firstName}

@@ -1650,7 +1650,7 @@
       "body": "Tu dirección, una breve descripción del proyecto, y tu teléfono o correo — unos 5 minutos."
     },
     "step": {
-      "1": "Quién",
+      "1": "División",
       "2": "Servicio",
       "3": "Detalles del proyecto",
       "4": "Contacto",
@@ -1663,32 +1663,38 @@
       "mobileLabel": "PASO {n} DE 5 · {label}"
     },
     "step1": {
-      "title": "¿A quién ayudamos?",
+      "title": "¿Qué división se ajusta a tu proyecto?",
       "helper": "Elige la mejor opción — puedes añadir más en el Paso 2."
     },
-    "audience": {
-      "legend": "Audiencia",
-      "residential": {
-        "title": "Residencial",
-        "dek": "Césped, plantación, nieve, limpieza estacional en casa.",
-        "alt": "Un césped residencial cuidado con plantaciones maduras y un sendero de adoquines a finales de primavera."
-      },
-      "commercial": {
-        "title": "Comercial",
-        "dek": "Administración de propiedades, contratos de nieve, cuidado de césped.",
-        "alt": "Césped limpio y arriates definidos al frente de una propiedad comercial con luz del mediodía."
+    "division": {
+      "legend": "División",
+      "landscape": {
+        "title": "Paisajismo",
+        "dek": "Césped, diseño, riego, árboles y limpiezas estacionales.",
+        "alt": "Un jardín delantero de DuPage con bordes definidos y plantaciones maduras al atardecer."
       },
       "hardscape": {
         "title": "Hardscape",
-        "dek": "Patios, muros, entradas, fogatas, cocinas.",
-        "alt": "Un patio de adoquines con una fogata de piedra en luz cálida de tarde."
+        "dek": "Patios, muros, entradas, fogatas y cocinas exteriores.",
+        "alt": "Un patio de adoquines Unilock con muro de asiento y fogata de piedra al atardecer."
+      },
+      "waterproofing": {
+        "title": "Impermeabilización",
+        "dek": "Sótanos, cimientos, sumideros, drenaje del patio, canaletas.",
+        "alt": "Vista exterior de una casa de DuPage con nueva tubería de drenaje en el perímetro."
+      },
+      "snow-removal": {
+        "title": "Remoción de nieve",
+        "dek": "Entradas, banquetas, deshielo, arado comercial 24/7.",
+        "alt": "Una entrada recién despejada al amanecer con la nieve apilada limpiamente a un lado."
       }
     },
     "step2": {
       "title": {
-        "residential": "¿Qué servicios residenciales?",
-        "commercial": "¿Qué servicios comerciales?",
-        "hardscape": "¿Qué proyectos de hardscape?"
+        "landscape": "¿Qué servicios de paisajismo?",
+        "hardscape": "¿Qué proyectos de hardscape?",
+        "waterproofing": "¿Qué servicios de impermeabilización?",
+        "snow-removal": "¿Qué servicios de remoción de nieve?"
       },
       "helper": "Elige todos los que apliquen. Marca uno como principal si eliges más de uno.",
       "primary": "SERVICIO PRINCIPAL",
@@ -1754,19 +1760,30 @@
     "step4": {
       "title": "¿Cómo te contactamos?",
       "subtitle": "Erick responderá en un día hábil.",
+      "propertyType": {
+        "label": "¿Es para su casa o su negocio?",
+        "section": "TIPO DE PROPIEDAD",
+        "residential": "Mi casa (residencial)",
+        "commercial": "Mi negocio (comercial)"
+      },
       "address": {
         "autocompleteLoading": "Cargando sugerencias de direcciones...",
         "autocompleteError": "Escriba su dirección manualmente."
       }
     },
+    "propertyType": {
+      "residential": "Mi casa (residencial)",
+      "commercial": "Mi negocio (comercial)"
+    },
     "step5": {
       "title": "¿Se ve bien?",
       "subtitle": "Revisa tus respuestas — Erick las recibirá en su correo.",
       "edit": "Editar",
-      "step1": "PASO 1 · QUIÉN",
+      "step1": "PASO 1 · DIVISIÓN",
       "step2": "PASO 2 · SERVICIOS",
       "step3": "PASO 3 · DETALLES DEL PROYECTO",
       "step4": "PASO 4 · CONTACTO",
+      "propertyTypeLabel": "Tipo de propiedad",
       "consent": "Al enviar, aceptas nuestra {privacy} y {terms}. Solo usaremos tu información para hablar sobre tu proyecto.",
       "consentPrivacy": "Privacidad",
       "consentTerms": "Términos",
@@ -1878,6 +1895,7 @@
       "zip": "El código postal debe tener 5 dígitos.",
       "selectOne": "Por favor elige uno.",
       "selectAny": "Elige al menos uno o completa \"Otro\".",
+      "selectPropertyType": "Indique si es para una casa o un negocio.",
       "charLimit": "Reduce a {n} caracteres.",
       "submit": "Algo salió mal al enviar. Intenta de nuevo o llama al (630) 946-9321."
     }

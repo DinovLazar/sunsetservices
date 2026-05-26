@@ -134,7 +134,7 @@ export default function AudienceHero({
           </p>
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mt-2">
             <Link
-              href={`/request-quote/?audience=${audience}`}
+              href={`/request-quote/?division=${audience}`}
               className="btn btn-primary btn-lg"
               data-cr-tracking={`audience-${audience}-hero-primary`}
             >

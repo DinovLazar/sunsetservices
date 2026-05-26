@@ -3,16 +3,14 @@ import {writeClient} from '@sanity-lib/write-client';
 import {QuoteSubmitSchema, type QuoteSubmitInput} from '@/lib/quote/validation';
 import {sendQuoteLeadAlertEmail, sendQuoteVisitorConfirmationEmail} from '@/lib/quote/resend';
 import {pushFullLeadToMautic} from '@/lib/quote/mautic';
-import {getServiceOptionsForAudience} from '@/data/wizard';
+import {getServiceOptionsForDivision} from '@/data/wizard';
 
 /**
  * POST /api/quote — full Step-5 wizard submission.
  *
- * Phase 2.08 swap: both Resend sends now go through the branded
- * `sendBrandedEmail()` utility. A second send was added — a visitor-facing
- * confirmation (was plaintext lead-alert only at Phase 2.06).
- *
- * Order of operations is unchanged from Phase 2.06:
+ * Phase M.01e-pt2 swap: payload now carries `division` + `propertyType`
+ * (audience field gone). Sanity write + lead-email templates reflect the new
+ * shape. Order of operations unchanged from Phase 2.06:
  *
  *  1. Honor the master flag — when `WIZARD_SUBMIT_ENABLED=false`, return 200
  *     with `status: 'simulated'` and no side effects.
@@ -92,7 +90,8 @@ export async function POST(request: Request) {
       email: input.email,
       phone: input.phone,
       address: input.address,
-      audience: input.audience,
+      division: input.division,
+      propertyType: input.propertyType,
       services: input.services,
       primaryService: input.primaryService || undefined,
       otherText: input.otherText || undefined,
@@ -150,13 +149,13 @@ export async function POST(request: Request) {
 
 /**
  * Resolve the human-readable service name in the lead's locale. Falls back to
- * the raw slug if the audience/slug pair doesn't match a known service (rare —
+ * the raw slug if the division/slug pair doesn't match a known service (rare —
  * possible for free-text "other" entries which carry no primaryService).
  */
 function resolvePrimaryServiceDisplayName(input: QuoteSubmitInput): string {
   const slug = input.primaryService ?? input.services[0];
   if (!slug) return input.otherText?.trim() || 'a project';
-  const options = getServiceOptionsForAudience(input.audience);
+  const options = getServiceOptionsForDivision(input.division);
   const found = options.find((o) => o.slug === slug);
   if (!found) return slug;
   return found.name[input.locale] ?? found.name.en;

@@ -3,6 +3,11 @@ import {defineField, defineType} from 'sanity';
 /**
  * Quote Lead — full wizard submissions (Phase 2.06).
  *
+ * Phase M.01e-pt2 — `audience` field renamed to `division` (4-division
+ * union); new `propertyType` field added (`residential` | `commercial`).
+ * Operator runs `scripts/migrate-quotelead-audience-to-division.mjs` once
+ * after deployment to migrate existing docs.
+ *
  * Written by /api/quote when WIZARD_SUBMIT_ENABLED=true. The sessionId links
  * back to any quoteLeadPartial document the same visitor created during
  * Steps 1–3 (the partial gets `converted: true` set when the full lead lands).
@@ -152,19 +157,36 @@ export const quoteLead = defineType({
 
     // ─────────────────────── Project ───────────────────────
     defineField({
-      name: 'audience',
+      name: 'division',
       type: 'string',
-      title: 'Audience',
+      title: 'Division',
       group: 'project',
       options: {
         list: [
-          {title: 'Residential', value: 'residential'},
-          {title: 'Commercial', value: 'commercial'},
+          {title: 'Landscape', value: 'landscape'},
           {title: 'Hardscape', value: 'hardscape'},
+          {title: 'Waterproofing', value: 'waterproofing'},
+          {title: 'Snow Removal', value: 'snow-removal'},
         ],
         layout: 'radio',
       },
       validation: (r) => r.required(),
+    }),
+    defineField({
+      name: 'propertyType',
+      type: 'string',
+      title: 'Property type',
+      group: 'project',
+      options: {
+        list: [
+          {title: 'Residential (home)', value: 'residential'},
+          {title: 'Commercial (business)', value: 'commercial'},
+        ],
+        layout: 'radio',
+      },
+      validation: (r) => r.required(),
+      description:
+        'Phase M.01e-pt2 — required radio on Step 4 of the wizard.',
     }),
     defineField({
       name: 'services',
@@ -194,10 +216,10 @@ export const quoteLead = defineType({
     defineField({
       name: 'details',
       type: 'object',
-      title: 'Step 3 details (audience-conditional)',
+      title: 'Step 3 details (group-conditional)',
       group: 'project',
       description:
-        'Flexible bag of Step 3 fields. Shape depends on the audience the visitor picked.',
+        'Flexible bag of Step 3 fields. Shape depends on the (division, propertyType) group the visitor picked.',
       fields: [
         {name: 'propertySize', type: 'string', title: 'Property size (sq ft)'},
         {name: 'bedrooms', type: 'string', title: 'Bedrooms'},
@@ -230,13 +252,19 @@ export const quoteLead = defineType({
     select: {
       firstName: 'firstName',
       lastName: 'lastName',
-      audience: 'audience',
+      division: 'division',
+      propertyType: 'propertyType',
       submittedAt: 'submittedAt',
       status: 'status',
     },
-    prepare({firstName, lastName, audience, submittedAt, status}) {
+    prepare({firstName, lastName, division, propertyType, submittedAt, status}) {
       const name = `${firstName ?? ''} ${lastName ?? ''}`.trim() || '(no name)';
-      const subtitle = [audience ?? '—', status ?? 'new', submittedAt ?? '—']
+      const subtitle = [
+        division ?? '—',
+        propertyType ?? '—',
+        status ?? 'new',
+        submittedAt ?? '—',
+      ]
         .filter(Boolean)
         .join(' · ');
       return {title: name, subtitle};

@@ -15,6 +15,17 @@ export const WIZARD_EVENTS = {
    * and the GTM tag plan Cowork's Part B will configure.
    */
   STEP_ADVANCED: 'wizard_step_advanced',
+  /**
+   * Phase M.01e-pt2 — fires on Step 1 division tile selection. Payload
+   * `{division: '<slug>'}`. Replaces the deprecated `wizard_audience_selected`
+   * event from the 3-audience model.
+   */
+  DIVISION_SELECTED: 'wizard_division_selected',
+  /**
+   * Phase M.01e-pt2 — fires on Step 4 propertyType radio selection. Payload
+   * `{propertyType: 'residential' | 'commercial'}`.
+   */
+  PROPERTY_TYPE_SELECTED: 'wizard_property_type_selected',
   SUBMIT_ATTEMPTED: 'wizard_submit_attempted',
   /**
    * Phase 2.10: renamed wire value from `wizard_submit_succeeded` to

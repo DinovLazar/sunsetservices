@@ -20,8 +20,11 @@ import {
   WIZARD_DEFAULT_STATE,
   WIZARD_STEP_3_FIELDS,
   WIZARD_STEP_4_FIELDS,
-  type WizardAudience,
+  getStep3Group,
+  type WizardDivision,
+  type WizardPropertyType,
 } from '@/data/wizard';
+import {isDivision} from '@/data/divisions';
 import {
   loadStep1to3,
   saveStep1to3,
@@ -51,6 +54,8 @@ function clampStep(n: number): Step {
 /**
  * WizardShell — orchestrates step state, URL sync, autosave, validation,
  * scroll-to-error, and step-transition motion. Phase 1.19 / Phase 1.20.
+ * Phase M.01e-pt2 — audience → division migration; new propertyType state on
+ * Step 4; deep-link query param `?division=<slug>`.
  *
  * URL is the source of truth for the current step (`?step=N`); React state
  * holds form data. Autosave persists Steps 1–3 only; Step 4 PII never leaves
@@ -69,7 +74,7 @@ export default function WizardShell() {
   const urlStep = clampStep(Number.isFinite(stepParam) ? stepParam : 1);
 
   // ----- Form state -----
-  const [step1, setStep1] = React.useState<{audience: WizardAudience | ''}>(
+  const [step1, setStep1] = React.useState<{division: WizardDivision | ''}>(
     () => ({...WIZARD_DEFAULT_STATE.step1}),
   );
   const [step2, setStep2] = React.useState(() => ({
@@ -88,20 +93,35 @@ export default function WizardShell() {
   const formRef = React.useRef<HTMLDivElement>(null);
   const autosaveTimer = React.useRef<number | null>(null);
 
-  // ----- Mount: check for autosaved state -----
-  // Effect uses a sync function and queues state updates via React batching so
-  // they don't trigger the cascading-render warning. The autosave-load is
-  // safe to do post-mount because it only reads from localStorage.
+  // ----- Mount: read ?division= deep-link AND check for autosaved state -----
   React.useEffect(() => {
     let cancelled = false;
     const apply = () => {
       if (cancelled) return;
+      // Deep-link `?division=<slug>` from a division landing's "Get a quote".
+      // We only pre-fill if the visitor hasn't already selected something.
+      const divisionParam = searchParams.get('division');
+      if (divisionParam && isDivision(divisionParam)) {
+        setStep1({division: divisionParam});
+      } else if (divisionParam) {
+        // Log + ignore unknown values; never crash. Per locked decision #10
+        // there's no back-compat alias for `?audience=`.
+        console.warn('[wizard] ignoring unknown ?division=', divisionParam);
+      }
+
       if (!isWizardAutosaveEnabled()) {
         setHydrated(true);
         return;
       }
       const saved = loadStep1to3();
-      if (saved) {
+      // Only offer Resume when the migration produced at least one meaningful
+      // field. If migration dropped everything (legacy audience-only state),
+      // skip the toast to avoid a misleading "Welcome back".
+      const meaningful =
+        Boolean(saved?.step1?.division) ||
+        Boolean(saved?.step2?.selectedSlugs && saved.step2.selectedSlugs.length > 0) ||
+        Boolean(saved?.step2?.otherText && saved.step2.otherText.length > 0);
+      if (saved && meaningful) {
         setShowResume(true);
         fireWizardEvent(WIZARD_EVENTS.RESUME_OFFERED, {locale, lastStep: 3});
       }
@@ -127,9 +147,9 @@ export default function WizardShell() {
       window.clearTimeout(autosaveTimer.current);
     }
     autosaveTimer.current = window.setTimeout(() => {
-      if (step1.audience || step2.selectedSlugs.length > 0) {
+      if (step1.division || step2.selectedSlugs.length > 0) {
         saveStep1to3({
-          step1: {audience: step1.audience as string},
+          step1: {division: step1.division as string},
           step2,
           step3,
         });
@@ -153,7 +173,8 @@ export default function WizardShell() {
   function handleResume() {
     const saved = loadStep1to3();
     if (saved) {
-      setStep1({audience: (saved.step1.audience || '') as WizardAudience | ''});
+      const div = saved.step1.division;
+      setStep1({division: (div && isDivision(div) ? div : '') as WizardDivision | ''});
       setStep2(saved.step2);
       setStep3(saved.step3);
       setCompleted([1, 2]);
@@ -169,9 +190,9 @@ export default function WizardShell() {
   }
 
   function handleSaveLink() {
-    if (isWizardAutosaveEnabled() && (step1.audience || step2.selectedSlugs.length > 0)) {
+    if (isWizardAutosaveEnabled() && (step1.division || step2.selectedSlugs.length > 0)) {
       saveStep1to3({
-        step1: {audience: step1.audience as string},
+        step1: {division: step1.division as string},
         step2,
         step3,
       });
@@ -179,17 +200,31 @@ export default function WizardShell() {
     setShowSaved(true);
   }
 
+  function handleStep1Change(division: WizardDivision) {
+    setStep1({division});
+    fireWizardEvent(WIZARD_EVENTS.DIVISION_SELECTED, {division});
+    // Reset Step 2's service selection when the division changes — Step 2's
+    // service list is division-filtered and stale slugs would break Step 5
+    // review + primary-service logic.
+    if (step1.division !== division) {
+      setStep2({selectedSlugs: [], primarySlug: '', otherText: step2.otherText});
+    }
+  }
+
   // ----- Validation per step -----
   function validateStep(step: Step): {ok: boolean; errors: Record<string, string>} {
     const e: Record<string, string> = {};
     if (step === 1) {
-      if (!step1.audience) e.audience = t('wizard.error.selectOne');
+      if (!step1.division) e.division = t('wizard.error.selectOne');
     } else if (step === 2) {
       const v = validateSelectAtLeastOne(step2.selectedSlugs, step2.otherText);
       if (!v.ok) e.services = t(v.errorKey);
     } else if (step === 3) {
-      const audience = step1.audience as WizardAudience;
-      const fields = WIZARD_STEP_3_FIELDS[audience];
+      const group = getStep3Group(
+        step1.division as WizardDivision,
+        (step4.propertyType || undefined) as WizardPropertyType | undefined,
+      );
+      const fields = WIZARD_STEP_3_FIELDS[group];
       fields.forEach((f) => {
         const value = step3[f.id];
         if (f.kind === 'checkbox-group') {
@@ -212,16 +247,21 @@ export default function WizardShell() {
         }
       });
     } else if (step === 4) {
+      // Phase M.01e-pt2 — propertyType is required FIRST.
+      const ptValue = step4.propertyType ?? '';
+      if (ptValue !== 'residential' && ptValue !== 'commercial') {
+        e.propertyType = t('wizard.error.selectPropertyType');
+      }
       WIZARD_STEP_4_FIELDS.forEach((f) => {
         if (!('required' in f) || !f.required) return;
         const value = step4[f.id as keyof Step4Values] ?? '';
         let r;
-        if (f.kind === 'email') r = validateEmail(value);
-        else if (f.kind === 'tel') r = validatePhoneUS(value);
-        else if (f.kind === 'zip') r = validateZip5(value);
+        if (f.kind === 'email') r = validateEmail(value as string);
+        else if (f.kind === 'tel') r = validatePhoneUS(value as string);
+        else if (f.kind === 'zip') r = validateZip5(value as string);
         else if (f.kind === 'state-select' || f.kind === 'select' || f.kind === 'radio-group')
-          r = validateSelectOne(value);
-        else r = validateRequired(value);
+          r = validateSelectOne(value as string);
+        else r = validateRequired(value as string);
         if (!r.ok) e[f.id] = t(r.errorKey, 'errorParams' in r ? r.errorParams : undefined);
       });
     }
@@ -285,7 +325,7 @@ export default function WizardShell() {
       const payload = {
         sessionId: getOrCreateSessionId(),
         lastStepReached: currentStep,
-        audience: step1.audience || undefined,
+        division: step1.division || undefined,
         services:
           step2.selectedSlugs.length > 0 ? step2.selectedSlugs : undefined,
         primaryService: step2.primarySlug || undefined,
@@ -331,11 +371,11 @@ export default function WizardShell() {
   // ----- Allow deep-link to Step 3 only when autosave hydrated Steps 1–2 -----
   const effectiveStep: Step = React.useMemo(() => {
     if (!hydrated) return urlStep;
-    if (urlStep >= 2 && !step1.audience) return 1;
+    if (urlStep >= 2 && !step1.division) return 1;
     if (urlStep >= 3 && step2.selectedSlugs.length === 0 && step2.otherText.length === 0)
       return 2;
     return urlStep;
-  }, [hydrated, urlStep, step1.audience, step2.selectedSlugs.length, step2.otherText.length]);
+  }, [hydrated, urlStep, step1.division, step2.selectedSlugs.length, step2.otherText.length]);
 
   // Fire wizard-abandoned on visibilitychange→hidden once.
   React.useEffect(() => {
@@ -349,6 +389,11 @@ export default function WizardShell() {
     document.addEventListener('visibilitychange', handler);
     return () => document.removeEventListener('visibilitychange', handler);
   }, [urlStep, locale]);
+
+  const step3Group = getStep3Group(
+    step1.division as WizardDivision,
+    (step4.propertyType || undefined) as WizardPropertyType | undefined,
+  );
 
   return (
     <>
@@ -398,14 +443,14 @@ export default function WizardShell() {
             >
               {effectiveStep === 1 ? (
                 <WizardStep1Audience
-                  value={step1.audience}
-                  onChange={(audience) => setStep1({audience})}
-                  error={errors.audience}
+                  value={step1.division}
+                  onChange={handleStep1Change}
+                  error={errors.division}
                 />
               ) : null}
               {effectiveStep === 2 ? (
                 <WizardStep2Service
-                  audience={step1.audience as WizardAudience}
+                  division={step1.division as WizardDivision}
                   selectedSlugs={step2.selectedSlugs}
                   primarySlug={step2.primarySlug}
                   otherText={step2.otherText}
@@ -415,7 +460,7 @@ export default function WizardShell() {
               ) : null}
               {effectiveStep === 3 ? (
                 <WizardStep3Details
-                  audience={step1.audience as WizardAudience}
+                  group={step3Group}
                   values={step3}
                   onChange={setStep3}
                   errors={errors}
@@ -432,10 +477,11 @@ export default function WizardShell() {
               ) : null}
               {effectiveStep === 5 ? (
                 <WizardStep5Review
-                  audience={step1.audience as WizardAudience}
+                  division={step1.division as WizardDivision}
                   selectedSlugs={step2.selectedSlugs}
                   primarySlug={step2.primarySlug}
                   otherText={step2.otherText}
+                  step3Group={step3Group}
                   step3={step3}
                   step4={step4}
                   onEdit={(n) => goToStep(n)}

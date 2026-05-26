@@ -57,7 +57,7 @@ export async function POST(request: Request) {
   const patchFields = {
     lastUpdatedAt: now,
     lastStepReached: input.lastStepReached,
-    audience: input.audience,
+    division: input.division,
     services: input.services,
     primaryService: input.primaryService,
     otherText: input.otherText,

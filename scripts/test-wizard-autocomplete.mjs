@@ -176,12 +176,14 @@ function buildInitScript({forceDisabled = false} = {}) {
       // Pre-seed localStorage so the WizardShell's autosave-load offers a
       // "Resume" toast on mount — the harness clicks Resume + Next to land
       // at Step 4. Without this, deep-linking to ?step=4 deflects to Step 1
-      // (WizardShell's effectiveStep memo blocks unfilled step1.audience).
+      // (WizardShell's effectiveStep memo blocks unfilled step1.division).
+      // Phase M.01e-pt2: storage key bumped v1 → v2; field renamed audience
+      // → division (4-division union).
       try {
         window.localStorage.setItem(
-          'sunset_wizard_progress_v1',
+          'sunset_wizard_progress_v2',
           JSON.stringify({
-            step1: {audience: 'residential'},
+            step1: {division: 'landscape'},
             step2: {
               selectedSlugs: ['lawn-care'],
               primarySlug: 'lawn-care',
@@ -275,7 +277,7 @@ async function navigateToStep4(page) {
   // Wait for Step 3 to actually be mounted. The wizard uses `motion.form`
   // inside `<AnimatePresence mode="wait">`, so the Step 1 form lingers in
   // the DOM during the 200 ms exit animation. Clicking Next mid-transition
-  // would submit Step 1 (audience now set) → goToStep(2). Waiting on the
+  // would submit Step 1 (division now set) → goToStep(2). Waiting on the
   // form's `aria-labelledby={"wizard-step3-h2"}` confirms Step 3 has
   // completed its enter transition.
   await page.waitForSelector('form[aria-labelledby="wizard-step3-h2"]', {timeout: 15_000});

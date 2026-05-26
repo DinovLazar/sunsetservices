@@ -527,11 +527,11 @@ The site is built around getting leads, not just looking pretty. Three capture s
 
 | Step | Content |
 |---|---|
-| 1 | Division selection — Landscape / Hardscape / Waterproofing / Snow Removal (tile select). Replaces the pre-M.01d Residential / Commercial / Hardscape audience picker. |
-| 2 | Service selection — dynamic from Sanity based on Step 1 division; primary radio if more than one selected |
-| 3 | Division-conditional details — branches by division (square footage, # of properties, project type, etc.) |
-| 4 | Contact info + property address (US-formatted phone, IL-defaulted state, real Google Places autocomplete via `NEXT_PUBLIC_GOOGLE_PLACES_API_KEY` per Phase B.10). New M.01d sub-bullet: a Residential / Commercial radio (the moved-from-Step-1 distinction). |
-| 5 | Review & submit — single `.card-cream` review with per-step Edit links and amber Submit |
+| 1 | Division selection — Landscape / Hardscape / Waterproofing / Snow Removal (tile select). Replaces the pre-M.01d Residential / Commercial / Hardscape audience picker. **Live as of M.01e-pt2.** |
+| 2 | Service selection — dynamic from `src/data/services.ts` filtered by Step 1 division; primary radio if more than one selected. **Live as of M.01e-pt2.** |
+| 3 | Group-conditional details — keyed by (division, propertyType): hardscape uses the hardscape group; landscape + waterproofing default to the residential question set; snow-removal uses the commercial question set; landscape with propertyType=commercial switches to the commercial questions. |
+| 4 | Contact info + property address (US-formatted phone, IL-defaulted state, real Google Places autocomplete via `NEXT_PUBLIC_GOOGLE_PLACES_API_KEY` per Phase B.10). **New M.01e-pt2 sub-bullet: a required Residential / Commercial radio (`propertyType`) at the top of the form** — the moved-from-Step-1 distinction. |
+| 5 | Review & submit — single `.card-cream` review with per-step Edit links and amber Submit. Review renders Division + Property type rows. |
 
 URL-driven step via `?step=N`. Autosave Steps 1–3 only to `localStorage` with 30-day expiry behind `NEXT_PUBLIC_WIZARD_AUTOSAVE_ENABLED`. Resume toast on return-visit. Validation on-blur + on-Next with scroll-to-error and focus-to-error.
 

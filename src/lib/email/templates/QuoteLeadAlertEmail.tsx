@@ -6,6 +6,8 @@ import type {QuoteSubmitInput} from '@/lib/quote/validation';
 
 /**
  * QuoteLeadAlertEmail — to Erick when a wizard submission lands (Phase 2.08).
+ * Phase M.01e-pt2 — renders "Division" + "Property type" rows in place of the
+ * old "Audience" row.
  *
  * Replaces the Phase 2.06 plaintext lead alert. Visitors never see this; it
  * goes to RESEND_TO_EMAIL only.
@@ -16,6 +18,18 @@ export type QuoteLeadAlertEmailProps = {
   sanityDocId: string;
   locale: 'en' | 'es';
   intendedRecipient?: string;
+};
+
+const DIVISION_LABEL: Record<QuoteSubmitInput['division'], string> = {
+  landscape: 'Landscape',
+  hardscape: 'Hardscape',
+  waterproofing: 'Waterproofing',
+  'snow-removal': 'Snow Removal',
+};
+
+const PROPERTY_TYPE_LABEL: Record<QuoteSubmitInput['propertyType'], string> = {
+  residential: 'Residential (home)',
+  commercial: 'Commercial (business)',
 };
 
 export function QuoteLeadAlertEmail({
@@ -29,11 +43,13 @@ export function QuoteLeadAlertEmail({
   const addressLine1 = [lead.address.street, lead.address.unit].filter(Boolean).join(' ');
   const addressLine2 = `${lead.address.city}, ${lead.address.state} ${lead.address.zip}`;
   const studioUrl = `https://sunsetservices.sanity.studio/desk/quoteLead;${sanityDocId}`;
+  const divisionLabel = DIVISION_LABEL[lead.division] ?? lead.division;
+  const propertyTypeLabel = PROPERTY_TYPE_LABEL[lead.propertyType] ?? lead.propertyType;
 
   return (
     <EmailLayout
       locale={locale}
-      preheader={`New quote from ${lead.firstName} (${lead.audience}) — ${primaryServiceDisplayName}`}
+      preheader={`New quote from ${lead.firstName} (${divisionLabel}) — ${primaryServiceDisplayName}`}
       intendedRecipient={intendedRecipient}
     >
       <Heading as="h2" style={h1Style}>
@@ -79,7 +95,9 @@ export function QuoteLeadAlertEmail({
 
       {/* Project */}
       <SectionHeader>Project</SectionHeader>
-      <AudienceBadge audience={lead.audience} />
+      <DivisionBadge label={divisionLabel} />
+      <KeyValue label="Division" value={divisionLabel} />
+      <KeyValue label="Property type" value={propertyTypeLabel} />
       <KeyValue label="Primary service" value={primaryServiceDisplayName} />
       {lead.services.length > 1 ? (
         <KeyValue label="All services" value={lead.services.join(', ')} />
@@ -168,10 +186,10 @@ function KeyValue({label, value}: {label: string; value: React.ReactNode}) {
   );
 }
 
-function AudienceBadge({audience}: {audience: string}) {
+function DivisionBadge({label}: {label: string}) {
   return (
     <Text style={{margin: '4px 0 12px'}}>
-      <span style={audienceBadgeStyle}>{audience}</span>
+      <span style={divisionBadgeStyle}>{label}</span>
     </Text>
   );
 }
@@ -238,7 +256,7 @@ const quoteBlockStyle: React.CSSProperties = {
   whiteSpace: 'pre-wrap',
 };
 
-const audienceBadgeStyle: React.CSSProperties = {
+const divisionBadgeStyle: React.CSSProperties = {
   display: 'inline-block',
   padding: '4px 10px',
   borderRadius: 999,

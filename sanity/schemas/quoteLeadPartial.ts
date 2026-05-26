@@ -48,16 +48,18 @@ export const quoteLeadPartial = defineType({
       validation: (r) => r.required().integer().min(1).max(3),
     }),
     defineField({
-      name: 'audience',
+      name: 'division',
       type: 'string',
-      title: 'Audience',
+      title: 'Division',
       options: {
         list: [
-          {title: 'Residential', value: 'residential'},
-          {title: 'Commercial', value: 'commercial'},
+          {title: 'Landscape', value: 'landscape'},
           {title: 'Hardscape', value: 'hardscape'},
+          {title: 'Waterproofing', value: 'waterproofing'},
+          {title: 'Snow Removal', value: 'snow-removal'},
         ],
       },
+      description: 'Phase M.01e-pt2 — renamed from `audience`.',
     }),
     defineField({
       name: 'services',
@@ -119,14 +121,14 @@ export const quoteLeadPartial = defineType({
   ],
   preview: {
     select: {
-      audience: 'audience',
+      division: 'division',
       step: 'lastStepReached',
       updated: 'lastUpdatedAt',
       sessionId: 'sessionId',
       converted: 'converted',
     },
-    prepare({audience, step, updated, sessionId, converted}) {
-      const title = `${audience ?? '(no audience yet)'} · Step ${step ?? '?'}${converted ? ' · CONVERTED' : ''}`;
+    prepare({division, step, updated, sessionId, converted}) {
+      const title = `${division ?? '(no division yet)'} · Step ${step ?? '?'}${converted ? ' · CONVERTED' : ''}`;
       const subtitle = `${updated ?? '—'} · session ${(sessionId ?? '').slice(0, 8)}`;
       return {title, subtitle};
     },

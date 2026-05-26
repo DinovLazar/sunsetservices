@@ -78,7 +78,7 @@ export default function AudienceCTA({
           </p>
           <div className="flex flex-col items-center gap-4">
             <Link
-              href={`/request-quote/?audience=${audience}`}
+              href={`/request-quote/?division=${audience}`}
               className="btn btn-amber btn-lg"
               style={{minWidth: '280px'}}
               data-cr-tracking={`audience-${audience}-cta-amber`}

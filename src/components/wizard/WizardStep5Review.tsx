@@ -5,8 +5,9 @@ import {useTranslations, useLocale} from 'next-intl';
 import {useRouter, Link} from '@/i18n/navigation';
 import {
   WIZARD_STEP_3_FIELDS,
-  type WizardAudience,
-  getServiceOptionsForAudience,
+  type WizardDivision,
+  type WizardStep3Group,
+  getServiceOptionsForDivision,
 } from '@/data/wizard';
 import {WIZARD_EVENTS, fireWizardEvent} from '@/lib/wizard/events';
 import {isWizardSubmitEnabled} from '@/lib/chat/flags';
@@ -15,10 +16,11 @@ import {getOrCreateSessionId, clearSessionId} from '@/lib/quote/session';
 import type {Step4Values} from './WizardStep4Contact';
 
 type Props = {
-  audience: WizardAudience;
+  division: WizardDivision;
   selectedSlugs: string[];
   primarySlug: string;
   otherText: string;
+  step3Group: WizardStep3Group;
   step3: Record<string, string | string[]>;
   step4: Step4Values;
   onEdit: (step: 1 | 2 | 3 | 4) => void;
@@ -26,25 +28,19 @@ type Props = {
 
 /**
  * Step 5 — review + amber Submit. Phase 1.19 §3.7, D8; Phase 2.06 wiring.
+ * Phase M.01e-pt2 — consumes `division` + `propertyType`; payload field
+ * names renamed from `audience` → `division`.
  *
  * Single `.card-cream` (NOT `.card-featured` — 1.06 §2.4 forbids featured +
  * amber on the same page; Step 5 has the amber Submit). Per-step Edit links
  * route via `?step=N` while preserving all React state.
- *
- * Phase 2.06: Submit POSTs to `/api/quote`. Honeypot field is rendered
- * off-screen + tab-skipped + aria-hidden so naive bots fall into it. On
- * success, autosaved state + session ID are cleared and we redirect to
- * `/thank-you/`. On failure the visitor sees a friendly retry message.
- *
- * When `WIZARD_SUBMIT_ENABLED=false` the server route returns 200 +
- * `status: 'simulated'` so the wizard flows through the success path with
- * no real side effects.
  */
 export default function WizardStep5Review({
-  audience,
+  division,
   selectedSlugs,
   primarySlug,
   otherText,
+  step3Group,
   step3,
   step4,
   onEdit,
@@ -56,7 +52,7 @@ export default function WizardStep5Review({
   const [submitError, setSubmitError] = React.useState<string | null>(null);
   const [honeypot, setHoneypot] = React.useState('');
 
-  const services = React.useMemo(() => getServiceOptionsForAudience(audience), [audience]);
+  const services = React.useMemo(() => getServiceOptionsForDivision(division), [division]);
 
   function serviceSummary(): string {
     const parts: string[] = [];
@@ -74,7 +70,7 @@ export default function WizardStep5Review({
   }
 
   function detailsSummary(): string {
-    const fields = WIZARD_STEP_3_FIELDS[audience];
+    const fields = WIZARD_STEP_3_FIELDS[step3Group];
     const parts: string[] = [];
     fields.forEach((f) => {
       const v = step3[f.id];
@@ -134,7 +130,8 @@ export default function WizardStep5Review({
       sessionId: getOrCreateSessionId(),
       honeypot,
       locale,
-      audience,
+      division,
+      propertyType: step4.propertyType || undefined,
       services: selectedSlugs,
       primaryService: primarySlug || undefined,
       otherText: otherText.trim() || undefined,
@@ -160,11 +157,8 @@ export default function WizardStep5Review({
   async function handleSubmit() {
     setSubmitError(null);
     setSubmitting(true);
-    fireWizardEvent(WIZARD_EVENTS.SUBMIT_ATTEMPTED, {locale, audience});
+    fireWizardEvent(WIZARD_EVENTS.SUBMIT_ATTEMPTED, {locale, division});
 
-    // When the server flag is off, the route returns 200 + 'simulated' so the
-    // call site is identical. We use the same fetch path either way to keep
-    // both code paths exercised by the Phase 2.06 smoke tests.
     void isWizardSubmitEnabled();
 
     const payload = buildPayload();
@@ -177,13 +171,13 @@ export default function WizardStep5Review({
       });
 
       if (!res.ok) {
-        fireWizardEvent(WIZARD_EVENTS.SUBMIT_FAILED, {locale, audience, status: res.status});
+        fireWizardEvent(WIZARD_EVENTS.SUBMIT_FAILED, {locale, division, status: res.status});
         setSubmitError(t('wizard.error.submit'));
         setSubmitting(false);
         return;
       }
 
-      fireWizardEvent(WIZARD_EVENTS.SUBMIT_SUCCEEDED, {locale, audience});
+      fireWizardEvent(WIZARD_EVENTS.SUBMIT_SUCCEEDED, {locale, division});
 
       // Clear autosaved Steps 1–3 and the session ID so a return visit starts
       // fresh. (PII never touched localStorage to begin with — D9 boundary.)
@@ -194,7 +188,7 @@ export default function WizardStep5Review({
       router.push(`/thank-you/?firstName=${firstName}`);
     } catch (err) {
       console.error('[wizard] submit network error', err);
-      fireWizardEvent(WIZARD_EVENTS.SUBMIT_FAILED, {locale, audience, reason: 'network'});
+      fireWizardEvent(WIZARD_EVENTS.SUBMIT_FAILED, {locale, division, reason: 'network'});
       setSubmitError(t('wizard.error.submit'));
       setSubmitting(false);
     }
@@ -240,6 +234,9 @@ export default function WizardStep5Review({
   );
 
   const notesText = typeof step3.notes === 'string' ? step3.notes.trim() : '';
+  const propertyTypeLabel = step4.propertyType
+    ? t(`wizard.propertyType.${step4.propertyType}`)
+    : '';
 
   return (
     <div>
@@ -266,7 +263,7 @@ export default function WizardStep5Review({
         style={{padding: 0, boxShadow: 'var(--shadow-on-cream)'}}
       >
         <div style={{padding: '32px 32px'}}>
-          {/* Step 1 row */}
+          {/* Step 1 row — Division */}
           <div className="flex justify-between items-start gap-4">
             <div>{rowEyebrow('wizard.step5.step1')}</div>
             {editBtn(1)}
@@ -275,7 +272,7 @@ export default function WizardStep5Review({
             className="m-0 mt-2 font-heading"
             style={{fontSize: 'var(--text-h5)', fontWeight: 600}}
           >
-            {t(`wizard.audience.${audience}.title`)}
+            {t(`wizard.division.${division}.title`)}
           </p>
           {hr}
 
@@ -318,6 +315,14 @@ export default function WizardStep5Review({
             <div>{rowEyebrow('wizard.step5.step4')}</div>
             {editBtn(4)}
           </div>
+          {propertyTypeLabel ? (
+            <p
+              className="m-0 mt-2"
+              style={{fontSize: 'var(--text-body-sm)', color: 'var(--color-text-secondary)'}}
+            >
+              {t('wizard.step5.propertyTypeLabel')}: <strong>{propertyTypeLabel}</strong>
+            </p>
+          ) : null}
           <p className="m-0 mt-2" style={{fontSize: 'var(--text-body)'}}>
             {contactLine1()}
           </p>

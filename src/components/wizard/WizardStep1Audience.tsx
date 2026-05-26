@@ -7,27 +7,43 @@ import {useTranslations} from 'next-intl';
 import residentialSrc from '@/assets/home/audience-residential.jpg';
 import commercialSrc from '@/assets/home/audience-commercial.jpg';
 import hardscapeSrc from '@/assets/home/audience-hardscape.jpg';
-import type {WizardAudience} from '@/data/wizard';
+import type {WizardDivision} from '@/data/wizard';
+import {DIVISION_META} from '@/data/divisions';
 
-const TILES: ReadonlyArray<{key: WizardAudience; src: StaticImageData}> = [
-  {key: 'residential', src: residentialSrc},
-  {key: 'commercial', src: commercialSrc},
-  {key: 'hardscape', src: hardscapeSrc},
+/**
+ * Phase M.01e-pt2 — Step 1 is now the 4-division tile picker.
+ * Photo aliases mirror `DIVISION_META.heroImageKey` so waterproofing +
+ * snow-removal reuse existing audience photos until M.01f real photography
+ * lands. Strings come from `wizard.division.<slug>.*` (parity with
+ * the M.01e `home.divisions.<slug>.*` block on the homepage).
+ */
+const DIVISION_PHOTO: Record<'residential' | 'commercial' | 'hardscape', StaticImageData> = {
+  residential: residentialSrc,
+  commercial: commercialSrc,
+  hardscape: hardscapeSrc,
+};
+
+const TILE_ORDER: readonly WizardDivision[] = [
+  'landscape',
+  'hardscape',
+  'waterproofing',
+  'snow-removal',
 ];
 
 type Props = {
-  value: WizardAudience | '';
-  onChange: (next: WizardAudience) => void;
+  value: WizardDivision | '';
+  onChange: (next: WizardDivision) => void;
   error?: string;
 };
 
 /**
- * Step 1 — audience tile select. Phase 1.19 §3.3, D4.
+ * Step 1 — division tile select. Phase M.01e-pt2.
  *
- * Three large 4:3 photo tiles reusing the Phase 1.06 audience-entries assets.
- * Hidden `<input type="radio">` is the source of truth; clicking the tile
- * (which is its `<label>`) selects the radio. Selected tile gets a 2px green
- * ring + a 32px circle check chip in its bottom-right.
+ * Four large 4:3 photo tiles aliased to existing audience photos via
+ * `DIVISION_META.heroImageKey`. Hidden `<input type="radio">` is the source
+ * of truth; clicking the tile (which is its `<label>`) selects the radio.
+ * Selected tile gets a 2px green ring + a 32px circle check chip in its
+ * bottom-right.
  */
 export default function WizardStep1Audience({value, onChange, error}: Props) {
   const t = useTranslations();
@@ -74,12 +90,14 @@ export default function WizardStep1Audience({value, onChange, error}: Props) {
             border: 0,
           }}
         >
-          {t('wizard.audience.legend')}
+          {t('wizard.division.legend')}
         </legend>
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 lg:gap-6">
-          {TILES.map(({key, src}) => {
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 lg:gap-6">
+          {TILE_ORDER.map((key) => {
             const selected = value === key;
             const inputId = `wiz-step1-${key}`;
+            const meta = DIVISION_META[key];
+            const src = DIVISION_PHOTO[meta.heroImageKey];
             return (
               <label
                 key={key}
@@ -99,7 +117,7 @@ export default function WizardStep1Audience({value, onChange, error}: Props) {
                 <input
                   id={inputId}
                   type="radio"
-                  name="wizard-audience"
+                  name="wizard-division"
                   value={key}
                   checked={selected}
                   onChange={() => onChange(key)}
@@ -121,10 +139,10 @@ export default function WizardStep1Audience({value, onChange, error}: Props) {
                 >
                   <Image
                     src={src}
-                    alt={t(`wizard.audience.${key}.alt`)}
+                    alt={t(`wizard.division.${key}.alt`)}
                     fill
                     placeholder="blur"
-                    sizes="(max-width: 1023px) 100vw, 33vw"
+                    sizes="(max-width: 767px) 100vw, 50vw"
                     style={{objectFit: 'cover'}}
                   />
                   {selected ? (
@@ -150,13 +168,13 @@ export default function WizardStep1Audience({value, onChange, error}: Props) {
                 </div>
                 <div className="p-6 lg:p-8">
                   <h3 className="m-0" style={{fontSize: 'var(--text-h4)', fontWeight: 600}}>
-                    {t(`wizard.audience.${key}.title`)}
+                    {t(`wizard.division.${key}.title`)}
                   </h3>
                   <p
                     className="m-0 mt-2"
                     style={{fontSize: 'var(--text-body)', color: 'var(--color-text-secondary)'}}
                   >
-                    {t(`wizard.audience.${key}.dek`)}
+                    {t(`wizard.division.${key}.dek`)}
                   </p>
                 </div>
               </label>

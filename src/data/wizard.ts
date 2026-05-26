@@ -1,29 +1,33 @@
 /**
- * Quote wizard data layer — Phase 1.20.
+ * Quote wizard data layer — Phase 1.20 base, Phase M.01e-pt2 division migration.
  *
- * Step-3 audience-conditional field map (D6 matrix from Phase 1.19 §3.5),
- * Step-4 contact field set (D7), and the Step-2 service options derived
- * from `src/data/services.ts`.
+ * Phase M.01e-pt2 — wizard migrated from 3-audience → 4-division model.
+ * Step 1 now selects a `division` ('landscape' | 'hardscape' | 'waterproofing'
+ * | 'snow-removal'); Step 2 filters services by division; Step 4 carries a
+ * new required `propertyType` ('residential' | 'commercial') radio. The
+ * audience-flavored Step-3 field map is keyed by `WizardStep3Group`
+ * (residential / commercial / hardscape) — division → group is computed at
+ * runtime so each division shows the right Step-3 details:
+ *
+ *   landscape       → uses the `residential` field group by default; when
+ *                     `propertyType === 'commercial'` (set ahead of Step 3)
+ *                     switches to the `commercial` field group
+ *   hardscape       → uses the `hardscape` field group
+ *   waterproofing   → uses the `residential` field group (homeowner-voice)
+ *   snow-removal    → uses the `commercial` field group (snow is overwhelmingly
+ *                     commercial-contract on this site's plan)
  *
  * Pure data; no React. Imported by `WizardStep3Details`, `WizardStep4Contact`,
  * `WizardStep5Review`, and the validation helpers in `src/lib/wizard/`.
  */
-import {AUDIENCES, getServicesForAudience, type Audience} from './services';
+import {DIVISIONS} from './divisions';
+import {getServicesForDivision, type Division} from './services';
 
-/**
- * Phase M.01e — wizard remains on the 3-audience model. The division IA
- * flip (locked decision #12 in M.01e) needs storage migration + Sanity
- * `quoteLead` schema migration + email-template + API validator changes,
- * which is non-trivial and best handled as a focused slice with its own
- * verification pass. Deferred to M.01e-pt2; the wizard continues to
- * produce residential/commercial/hardscape audience values, and the
- * /request-quote/ deep-link query parameter (`?audience=X`) still passes
- * audience values from the division landings (where division ≠ audience).
- * The deferred slice closes that gap by either renaming the field to
- * `division` or by silently mapping incoming division slugs onto the
- * closest audience.
- */
-export type WizardAudience = Audience;
+export type WizardDivision = Division;
+export type WizardPropertyType = 'residential' | 'commercial';
+
+/** Field-group key for Step 3's conditional question set. */
+export type WizardStep3Group = 'residential' | 'commercial' | 'hardscape';
 
 export type WizardOption = {
   id: string;
@@ -146,6 +150,11 @@ const CONTACT_METHOD: WizardOption[] = [
   {id: 'text', labelKey: 'wizard.contactMethod.text'},
 ];
 
+const PROPERTY_TYPE_OPTS: WizardOption[] = [
+  {id: 'residential', labelKey: 'wizard.propertyType.residential'},
+  {id: 'commercial', labelKey: 'wizard.propertyType.commercial'},
+];
+
 /** US state options for Step 4. Illinois is the default selection. */
 export const US_STATES: ReadonlyArray<{value: string; label: string}> = [
   {value: 'AL', label: 'Alabama'}, {value: 'AK', label: 'Alaska'},
@@ -176,8 +185,15 @@ export const US_STATES: ReadonlyArray<{value: string; label: string}> = [
   {value: 'WI', label: 'Wisconsin'}, {value: 'WY', label: 'Wyoming'},
 ];
 
-/** Step-3 audience-conditional fields per Phase 1.19 D6 matrix. */
-export const WIZARD_STEP_3_FIELDS: Record<WizardAudience, WizardFieldDef[]> = {
+/**
+ * Step-3 audience-conditional fields. The field set is keyed by a Step 3
+ * "group" (residential / commercial / hardscape) so the existing question
+ * sets continue to make sense — division alone doesn't change the question
+ * set (a homeowner asking about waterproofing answers homeowner-style
+ * questions). The division → group map below picks the right group for each
+ * division + propertyType combination.
+ */
+export const WIZARD_STEP_3_FIELDS: Record<WizardStep3Group, WizardFieldDef[]> = {
   residential: [
     {kind: 'numeric', id: 'propertySize', labelKey: 'wizard.field.propertySize', placeholderKey: 'wizard.field.propertySize.placeholder'},
     {kind: 'select', id: 'bedrooms', labelKey: 'wizard.field.bedrooms', placeholderKey: 'wizard.field.bedrooms.placeholder', options: BEDROOMS},
@@ -205,7 +221,37 @@ export const WIZARD_STEP_3_FIELDS: Record<WizardAudience, WizardFieldDef[]> = {
   ],
 };
 
-/** Step-4 contact fields per Phase 1.19 D7. Audience-agnostic. */
+/**
+ * Map a (division, propertyType) pair to the Step 3 field group. Hardscape
+ * always uses the hardscape group regardless of property type. Landscape's
+ * commercial property type switches to the commercial questions. Waterproofing
+ * is homeowner-voice by default. Snow-removal is commercial-voice.
+ */
+export function getStep3Group(
+  division: WizardDivision,
+  propertyType: WizardPropertyType | undefined,
+): WizardStep3Group {
+  if (division === 'hardscape') return 'hardscape';
+  if (division === 'landscape') {
+    return propertyType === 'commercial' ? 'commercial' : 'residential';
+  }
+  if (division === 'waterproofing') return 'residential';
+  return 'commercial'; // snow-removal
+}
+
+/**
+ * Step-4 propertyType radio (Phase M.01e-pt2). Required. Renders at the TOP
+ * of Step 4 above the existing contact fields.
+ */
+export const WIZARD_PROPERTY_TYPE_FIELD: WizardFieldDef = {
+  kind: 'radio-group',
+  id: 'propertyType',
+  labelKey: 'wizard.step4.propertyType.label',
+  options: PROPERTY_TYPE_OPTS,
+  required: true,
+};
+
+/** Step-4 contact fields per Phase 1.19 D7. Division-agnostic. */
 export const WIZARD_STEP_4_FIELDS: WizardFieldDef[] = [
   {kind: 'text', id: 'firstName', labelKey: 'wizard.field.firstName', required: true, maxLength: 50, autoComplete: 'given-name'},
   {kind: 'text', id: 'lastName', labelKey: 'wizard.field.lastName', required: true, maxLength: 50, autoComplete: 'family-name'},
@@ -220,30 +266,32 @@ export const WIZARD_STEP_4_FIELDS: WizardFieldDef[] = [
   {kind: 'radio-group', id: 'contactMethod', labelKey: 'wizard.field.contactMethod', options: CONTACT_METHOD},
 ];
 
-/** Returns Step-2 service options for the selected audience. */
-export function getServiceOptionsForAudience(
-  audience: WizardAudience,
+/** Returns Step-2 service options for the selected division. */
+export function getServiceOptionsForDivision(
+  division: WizardDivision,
 ): ReadonlyArray<{slug: string; name: {en: string; es: string}}> {
-  return getServicesForAudience(audience).map((s) => ({slug: s.slug, name: s.name}));
+  return getServicesForDivision(division).map((s) => ({slug: s.slug, name: s.name}));
 }
 
-export const WIZARD_AUDIENCES = AUDIENCES;
+export const WIZARD_DIVISIONS = DIVISIONS;
 
 /** Default state values used when hydrating from a fresh session. */
 export const WIZARD_DEFAULT_STATE: {
-  step1: {audience: WizardAudience | ''};
+  step1: {division: WizardDivision | ''};
   step2: {selectedSlugs: string[]; primarySlug: string; otherText: string};
   step3: Record<string, string | string[]>;
   step4: {
+    propertyType: WizardPropertyType | '';
     firstName: string; lastName: string; email: string; phone: string;
     street: string; unit: string; city: string; state: string; zip: string;
     bestTime: string; contactMethod: string;
   };
 } = {
-  step1: {audience: ''},
+  step1: {division: ''},
   step2: {selectedSlugs: [], primarySlug: '', otherText: ''},
   step3: {},
   step4: {
+    propertyType: '',
     firstName: '', lastName: '', email: '', phone: '',
     street: '', unit: '', city: '', state: 'IL', zip: '',
     bestTime: '', contactMethod: '',

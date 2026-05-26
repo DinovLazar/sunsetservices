@@ -3,21 +3,28 @@ import {z} from 'zod';
 /**
  * Server-side Zod schemas for /api/quote + /api/quote/partial (Phase 2.06).
  *
- * Shape mirrors the wizard's runtime state shape from `src/data/wizard.ts`
- * (steps 1–4). Each leaf field carries a sensible `max()` to put a ceiling on
- * abuse without rejecting legitimate input. Top-level objects use `.strict()`
+ * Phase M.01e-pt2 — migrated the `audience` field to `division` (4-division
+ * union) and added a required `propertyType` field on the submit schema
+ * (optional on partials — Step 4 is the PII boundary, and propertyType lives
+ * on Step 4, so partial pushes for Steps 1–3 don't have it yet).
+ *
+ * Shape mirrors the wizard's runtime state shape from `src/data/wizard.ts`.
+ * Each leaf field carries a sensible `max()` to put a ceiling on abuse
+ * without rejecting legitimate input. Top-level objects use `.strict()`
  * so unknown keys are rejected (catches client-side typos early).
  *
- * Step 3 `details` accepts the union of all audience-conditional fields. The
- * route handler does NOT enforce audience-vs-field consistency — that's the
- * client's job and is purely informational on the server side.
+ * Step 3 `details` accepts the union of all conditional fields. The route
+ * handler does NOT enforce group-vs-field consistency — that's the client's
+ * job and is purely informational on the server side.
  */
 
-const Audience = z.enum(['residential', 'commercial', 'hardscape']);
+const Division = z.enum(['landscape', 'hardscape', 'waterproofing', 'snow-removal']);
+const PropertyType = z.enum(['residential', 'commercial']);
 
 /**
- * Step 3 details — audience-conditional. Every field optional; the wizard
- * decides which subset to include based on the audience picked on Step 1.
+ * Step 3 details — group-conditional. Every field optional; the wizard
+ * decides which subset to include based on the (division, propertyType)
+ * group picked.
  */
 const DetailsSchema = z
   .object({
@@ -75,7 +82,8 @@ export const QuoteSubmitSchema = z
     sessionId: z.string().uuid(),
     honeypot: z.string().max(500),
     locale: z.enum(['en', 'es']).default('en'),
-    audience: Audience,
+    division: Division,
+    propertyType: PropertyType,
     services: z.array(z.string().min(1).max(100)).min(1).max(50),
     primaryService: z.string().min(1).max(100).optional(),
     otherText: z.string().max(500).optional(),
@@ -93,13 +101,13 @@ export const QuoteSubmitSchema = z
  * Partial push — POST /api/quote/partial body. Sent fire-and-forget when the
  * visitor advances past Steps 1, 2, or 3. NEVER contains PII (Step 4 is the
  * PII boundary; the schema deliberately omits firstName/lastName/email/phone/
- * address — extra keys here will 400).
+ * address/propertyType — extra keys here will 400).
  */
 export const QuotePartialSchema = z
   .object({
     sessionId: z.string().uuid(),
     lastStepReached: z.number().int().min(1).max(3),
-    audience: Audience.optional(),
+    division: Division.optional(),
     services: z.array(z.string().min(1).max(100)).max(50).optional(),
     primaryService: z.string().max(100).optional(),
     otherText: z.string().max(500).optional(),

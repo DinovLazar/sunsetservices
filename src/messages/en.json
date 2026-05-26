@@ -1650,7 +1650,7 @@
       "body": "Your address, a brief project description, and your phone or email — about 5 minutes."
     },
     "step": {
-      "1": "Audience",
+      "1": "Division",
       "2": "Service",
       "3": "Project details",
       "4": "Contact",
@@ -1663,32 +1663,38 @@
       "mobileLabel": "STEP {n} OF 5 · {label}"
     },
     "step1": {
-      "title": "Who are we helping?",
+      "title": "Which division fits your project?",
       "helper": "Pick the closest match — you can add more in Step 2."
     },
-    "audience": {
-      "legend": "Audience",
-      "residential": {
-        "title": "Residential",
-        "dek": "Lawn, planting, snow, seasonal cleanup at home.",
-        "alt": "A curated home lawn with mature plantings and a paver walkway in late spring."
-      },
-      "commercial": {
-        "title": "Commercial",
-        "dek": "Property management, snow contracts, turf care.",
-        "alt": "Clean turf and defined planting beds at the front of a commercial property in mid-day light."
+    "division": {
+      "legend": "Division",
+      "landscape": {
+        "title": "Landscape",
+        "dek": "Lawn care, design, sprinklers, trees, and seasonal cleanups.",
+        "alt": "A lush DuPage front yard with crisp edging and mature plantings at golden hour."
       },
       "hardscape": {
         "title": "Hardscape",
-        "dek": "Patios, walls, driveways, fire features, kitchens.",
-        "alt": "A paver patio with a stone fire feature in warm late-afternoon light."
+        "dek": "Patios, walls, driveways, fire features, outdoor kitchens.",
+        "alt": "A Unilock paver patio with a seating wall and a stone fire feature at sunset."
+      },
+      "waterproofing": {
+        "title": "Waterproofing",
+        "dek": "Basements, foundations, sump pumps, yard drainage, gutters.",
+        "alt": "An exterior view of a DuPage home foundation with new drainage tile at the perimeter."
+      },
+      "snow-removal": {
+        "title": "Snow Removal",
+        "dek": "Driveways, sidewalks, de-icing, commercial plowing 24/7.",
+        "alt": "A freshly plowed driveway at dawn with snow piled cleanly off to one side."
       }
     },
     "step2": {
       "title": {
-        "residential": "Which residential services?",
-        "commercial": "Which commercial services?",
-        "hardscape": "Which hardscape projects?"
+        "landscape": "Which landscape services?",
+        "hardscape": "Which hardscape projects?",
+        "waterproofing": "Which waterproofing services?",
+        "snow-removal": "Which snow removal services?"
       },
       "helper": "Pick all that apply. Set a primary if more than one.",
       "primary": "PRIMARY SERVICE",
@@ -1754,19 +1760,30 @@
     "step4": {
       "title": "How can we reach you?",
       "subtitle": "Erick will follow up within one business day.",
+      "propertyType": {
+        "label": "Is this for a home or a business?",
+        "section": "PROPERTY TYPE",
+        "residential": "Home (residential)",
+        "commercial": "Business (commercial)"
+      },
       "address": {
         "autocompleteLoading": "Loading address suggestions...",
         "autocompleteError": "Type your address manually."
       }
     },
+    "propertyType": {
+      "residential": "Home (residential)",
+      "commercial": "Business (commercial)"
+    },
     "step5": {
       "title": "Look good?",
       "subtitle": "Review your answers — Erick will get them in his inbox.",
       "edit": "Edit",
-      "step1": "STEP 1 · AUDIENCE",
+      "step1": "STEP 1 · DIVISION",
       "step2": "STEP 2 · SERVICES",
       "step3": "STEP 3 · PROJECT DETAILS",
       "step4": "STEP 4 · CONTACT",
+      "propertyTypeLabel": "Property type",
       "consent": "By submitting, you agree to our {privacy} and {terms}. We'll only use your info to discuss your project.",
       "consentPrivacy": "Privacy",
       "consentTerms": "Terms",
@@ -1878,6 +1895,7 @@
       "zip": "ZIP should be 5 digits.",
       "selectOne": "Please choose one.",
       "selectAny": "Please pick at least one or fill \"Other\".",
+      "selectPropertyType": "Please pick whether this is for a home or a business.",
       "charLimit": "Trim to {n} characters.",
       "submit": "Something went wrong sending that. Please try again or call (630) 946-9321."
     }

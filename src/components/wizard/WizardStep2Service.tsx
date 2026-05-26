@@ -2,10 +2,10 @@
 
 import * as React from 'react';
 import {useTranslations, useLocale} from 'next-intl';
-import {getServiceOptionsForAudience, type WizardAudience} from '@/data/wizard';
+import {getServiceOptionsForDivision, type WizardDivision} from '@/data/wizard';
 
 type Props = {
-  audience: WizardAudience;
+  division: WizardDivision;
   selectedSlugs: string[];
   primarySlug: string;
   otherText: string;
@@ -16,7 +16,10 @@ type Props = {
 /**
  * Step 2 — service multi-select with primary radio. Phase 1.19 §3.4, D5.
  *
- * Audience-driven service list (filtered from Phase 1.09 `services.ts`).
+ * Phase M.01e-pt2 — filters the SERVICES list by the selected division (was
+ * filtered by audience pre-pt2). Service slugs are globally unique post-M.01e
+ * so the matching logic doesn't need a (division, slug) compound key.
+ *
  * Multi-select via checkboxes; "Primary service" radio strip above shows
  * only currently-checked services and defaults to the first checked.
  * Unchecking the current primary auto-rebinds to the first remaining.
@@ -24,7 +27,7 @@ type Props = {
  * Validation: at least one checked OR ≥3 chars in "Other".
  */
 export default function WizardStep2Service({
-  audience,
+  division,
   selectedSlugs,
   primarySlug,
   otherText,
@@ -35,7 +38,7 @@ export default function WizardStep2Service({
   const locale = useLocale() as 'en' | 'es';
   const errorId = error ? 'wiz-step2-error' : undefined;
 
-  const services = React.useMemo(() => getServiceOptionsForAudience(audience), [audience]);
+  const services = React.useMemo(() => getServiceOptionsForDivision(division), [division]);
 
   function toggle(slug: string) {
     const isChecked = selectedSlugs.includes(slug);
@@ -72,7 +75,7 @@ export default function WizardStep2Service({
           letterSpacing: 'var(--tracking-snug)',
         }}
       >
-        {t(`wizard.step2.title.${audience}`)}
+        {t(`wizard.step2.title.${division}`)}
       </h2>
       <p
         className="m-0 mt-2"

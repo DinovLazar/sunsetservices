@@ -69,7 +69,7 @@ export default function ServiceHero({
           className="absolute inset-0 pointer-events-none sm:hidden"
           style={{
             background:
-              'linear-gradient(180deg, rgba(0,0,0,0.10) 0%, rgba(0,0,0,0.20) 30%, rgba(0,0,0,0.78) 100%)',
+              'linear-gradient(180deg, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.12) 30%, rgba(0,0,0,0.60) 100%)',
           }}
         />
         <div
@@ -77,7 +77,7 @@ export default function ServiceHero({
           className="absolute inset-0 pointer-events-none hidden sm:block"
           style={{
             background:
-              'linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.20) 50%, rgba(0,0,0,0.74) 100%)',
+              'linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.12) 50%, rgba(0,0,0,0.57) 100%)',
           }}
         />
       </div>

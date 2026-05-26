@@ -122,7 +122,11 @@ function expandPattern(pattern: string, doc: SanityRevalidationPayload): string[
     case '/[audience]/[service]':
       // Service-detail pages. The projection doesn't carry audience so a
       // service publish bulk-invalidates all 16 (audience, slug) combos.
-      return SERVICES.map((s) => `/${s.audience}/${s.slug}`);
+      // Phase M.01d: filter out new-division services with no audience —
+      // they don't have an /[audience]/[service] URL yet.
+      return SERVICES.filter((s) => s.audience !== undefined).map(
+        (s) => `/${s.audience}/${s.slug}`,
+      );
     case '/[audience]':
       return AUDIENCES.map((a) => `/${a}`);
     case '/service-areas/[city]':

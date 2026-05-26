@@ -74,36 +74,69 @@ URL structure:
 
 ```
 /                                      Home
-/residential/                          Residential audience landing
-  /residential/lawn-care/
-  /residential/landscape-design/
-  /residential/tree-services/
-  /residential/sprinkler-systems/
-  /residential/snow-removal/
-  /residential/seasonal-cleanup/
-/commercial/                           Commercial audience landing
-  /commercial/landscape-maintenance/
-  /commercial/snow-removal/
-  /commercial/property-enhancement/
-  /commercial/turf-management/
-/hardscape/                            Hardscape audience landing
+/landscape/                            Landscape division landing
+  /landscape/lawn-care/
+  /landscape/landscape-design/
+  /landscape/tree-services/
+  /landscape/sprinkler-systems/
+  /landscape/seasonal-cleanup/
+  /landscape/landscape-maintenance/
+  /landscape/property-enhancement/
+  /landscape/turf-management/
+/hardscape/                            Hardscape division landing
   /hardscape/patios-walkways/
   /hardscape/retaining-walls/
   /hardscape/fire-pits-features/
   /hardscape/pergolas-pavilions/
   /hardscape/driveways/
   /hardscape/outdoor-kitchens/
+/waterproofing/                        Waterproofing division landing
+  /waterproofing/basement-waterproofing/
+  /waterproofing/foundation-repair/
+  /waterproofing/sump-pumps/
+  /waterproofing/yard-drainage/
+  /waterproofing/gutter-services/
+  /waterproofing/window-wells/
+  /waterproofing/crawl-spaces/
+  /waterproofing/concrete-raising/
+  /waterproofing/humidity-control/
+  /waterproofing/radon-mitigation/
+/snow-removal/                         Snow Removal division landing
+  /snow-removal/de-icing/
+  /snow-removal/sidewalk-shoveling/
+  /snow-removal/driveway-snow-removal/
+  /snow-removal/commercial-snow-plowing/
 /service-areas/                        Locations index
   /service-areas/aurora/
   /service-areas/naperville/
   /service-areas/batavia/
   /service-areas/wheaton/
-  /service-areas/lisle/
-  /service-areas/bolingbrook/
+  /service-areas/hinsdale/
+  /service-areas/oak-brook/
+  /service-areas/elmhurst/
+  /service-areas/clarendon-hills/
+  /service-areas/burr-ridge/
+  /service-areas/western-springs/
+  /service-areas/glen-ellyn/
+  /service-areas/downers-grove/
+  /service-areas/winfield/
+  /service-areas/lombard/
+  /service-areas/st-charles/
+  /service-areas/geneva/
+  /service-areas/south-elgin/
+  /service-areas/elburn/
+  /service-areas/north-aurora/
+  /service-areas/oswego/
+  /service-areas/yorkville/
+  /service-areas/plainfield/
+  (Lisle + Bolingbrook listed as "extended service areas" on the index;
+   their old /service-areas/lisle/ and /service-areas/bolingbrook/ routes
+   301-redirect to /service-areas/ as of M.01e.)
 /projects/                             Portfolio listing
   /projects/[slug]                     30+ individual project pages
 /about/
 /contact/
+/qa/                                   Common questions (25 Q&A, 5 categories)
 /resources/                            Resources index
   /resources/[slug]                    Seed articles
 /blog/                                 Blog index
@@ -115,9 +148,13 @@ URL structure:
 /404
 ```
 
-**Total page count at launch:** ~80 pages = 40 EN + 40 ES.
+**Total page count at launch:** ~140 pages = 70 EN + 70 ES.
 
-Note: the `snow-removal` slug exists under both `/residential/` and `/commercial/`. Service lookup is audience-aware via `getService(slug, audience?)`; the commercial row uses `imageKey: 'commercial-snow-removal'` so assets resolve uniquely.
+**Phase M.01d (2026-05-26) site shape expansion:**
+- 3 audience landings (Residential / Commercial / Hardscape) replaced by 4 division landings (Landscape / Hardscape / Waterproofing / Snow Removal). The Residential vs Commercial distinction moves from an IA-level audience picker into a Quote Wizard Step 4 radio (§11).
+- 16 audience-aware service detail pages replaced by 28 division-aware service detail pages: 8 Landscape + 6 Hardscape + 10 Waterproofing + 4 Snow Removal.
+- 6 city detail pages expanded to 22 (4 retained: Aurora / Naperville / Wheaton / Batavia; 18 new). Lisle + Bolingbrook retire as detail pages and surface as extended-area mentions on the index.
+- New `/qa/` page (single page, 25 questions in 5 categories) consolidates the FAQ surface across the site.
 
 ---
 
@@ -125,30 +162,33 @@ Note: the `snow-removal` slug exists under both `/residential/` and `/commercial
 
 | # | Page | Type | Notes |
 |---|---|---|---|
-| 1 | Home | Hero + 3 audience entry points + services + social proof + CTA | The most important page on the site |
-| 2 | Residential | Audience landing | Service grid + audience-specific copy |
-| 3–8 | 6 Residential service pages | Service detail | Individual services, FAQ schema each |
-| 9 | Commercial | Audience landing | |
-| 10–13 | 4 Commercial service pages | Service detail | |
-| 14 | Hardscape | Audience landing | Showcase Unilock badge prominently |
-| 15–20 | 6 Hardscape service pages | Service detail | |
-| 21 | Service areas index | Hub | Map + 6 city links |
-| 22–27 | 6 Location pages | Local SEO | One per city, schema-rich |
-| 28 | Projects index | Portfolio | Filterable grid |
-| 29 | Project detail | Dynamic | 30+ entries, Sanity-driven |
-| 30 | About | Brand story | Erick, Nick, Marcin, the team |
-| 31 | Contact | Contact + Calendly + map | |
-| 32 | Resources index | Hub | |
-| 33 | Resource detail | Dynamic | 5 seed articles |
-| 34 | Blog index | Hub | |
-| 35 | Blog post | Dynamic | 5 seed posts at launch |
-| 36 | Request a Quote | 5-step wizard | Primary lead capture |
-| 37 | Thank You | Post-submission | Calendly embed |
-| 38 | Privacy | Legal | |
-| 39 | Terms | Legal | |
-| 40 | 404 | Custom | On-brand |
+| 1 | Home | Hero + 4 division entry points + services + social proof + CTA | New H1 (Phase M.01d): "Build your outdoor legacy" |
+| 2 | Landscape | Division landing | Service grid + division-specific copy |
+| 3–10 | 8 Landscape service pages | Service detail | Lawn care, design, trees, sprinklers, seasonal cleanup, landscape maintenance, property enhancement, turf management |
+| 11 | Hardscape | Division landing | Showcase Unilock badge prominently |
+| 12–17 | 6 Hardscape service pages | Service detail | Patios, walls, fire features, pergolas, driveways, outdoor kitchens |
+| 18 | Waterproofing | Division landing | |
+| 19–28 | 10 Waterproofing service pages | Service detail | Basement waterproofing, foundation repair, sump pumps, yard drainage, gutter services, window wells, crawl spaces, concrete raising, humidity control, radon mitigation |
+| 29 | Snow Removal | Division landing | |
+| 30–33 | 4 Snow Removal service pages | Service detail | De-icing, sidewalk shoveling, driveway snow removal, commercial snow plowing |
+| 34 | Service areas index | Hub | Map + 22 city detail-page cards + Lisle/Bolingbrook extended-area mention |
+| 35–56 | 22 Location pages | Local SEO | One per city, schema-rich |
+| 57 | Projects index | Portfolio | Filterable grid |
+| 58 | Project detail | Dynamic | 30+ entries, Sanity-driven; M.01d strips leading street numbers from addresses at render |
+| 59 | About | Brand story | Erick, Nick, Marcin, the team |
+| 60 | Contact | Contact + Calendly + map | |
+| 61 | Common questions (Q&A) | Single page, 25 Q&A across 5 categories | New M.01d-added page; pricing / process / materials / service area / logistics |
+| 62 | Resources index | Hub | |
+| 63 | Resource detail | Dynamic | 5 seed articles |
+| 64 | Blog index | Hub | |
+| 65 | Blog post | Dynamic | 5 seed posts at launch |
+| 66 | Request a Quote | 5-step wizard | Step 1 is now a 4-division picker (M.01e); Step 4 carries the residential/commercial radio (formerly old Step 1's audience tile) |
+| 67 | Thank You | Post-submission | Calendly embed |
+| 68 | Privacy | Legal | |
+| 69 | Terms | Legal | |
+| 70 | 404 | Custom | On-brand |
 
-Each page has an English and Spanish version → 80 total.
+Each page has an English and Spanish version → ~140 total.
 
 ### 5 seed resource articles at launch
 1. *Patio Materials Guide* — slug `patio-materials-guide`
@@ -487,10 +527,10 @@ The site is built around getting leads, not just looking pretty. Three capture s
 
 | Step | Content |
 |---|---|
-| 1 | Audience selection — Residential / Commercial / Hardscape (tile select) |
-| 2 | Service selection — dynamic from Sanity based on Step 1 audience; primary radio if more than one selected |
-| 3 | Audience-conditional details — branches by audience (square footage, # of properties, project type, etc.) |
-| 4 | Contact info + property address (US-formatted phone, IL-defaulted state, `data-autocomplete-stub="address"` on street wrapper) |
+| 1 | Division selection — Landscape / Hardscape / Waterproofing / Snow Removal (tile select). Replaces the pre-M.01d Residential / Commercial / Hardscape audience picker. |
+| 2 | Service selection — dynamic from Sanity based on Step 1 division; primary radio if more than one selected |
+| 3 | Division-conditional details — branches by division (square footage, # of properties, project type, etc.) |
+| 4 | Contact info + property address (US-formatted phone, IL-defaulted state, real Google Places autocomplete via `NEXT_PUBLIC_GOOGLE_PLACES_API_KEY` per Phase B.10). New M.01d sub-bullet: a Residential / Commercial radio (the moved-from-Step-1 distinction). |
 | 5 | Review & submit — single `.card-cream` review with per-step Edit links and amber Submit |
 
 URL-driven step via `?step=N`. Autosave Steps 1–3 only to `localStorage` with 30-day expiry behind `NEXT_PUBLIC_WIZARD_AUTOSAVE_ENABLED`. Resume toast on return-visit. Validation on-blur + on-Next with scroll-to-error and focus-to-error.

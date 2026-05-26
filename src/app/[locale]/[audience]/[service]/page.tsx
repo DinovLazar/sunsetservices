@@ -32,7 +32,12 @@ type Locale = 'en' | 'es';
 
 export function generateStaticParams() {
   // Pre-render every (audience, service) pair for both locales (locale at parent).
-  return SERVICES.map((s) => ({audience: s.audience, service: s.slug}));
+  // Phase M.01d: filter out new-division services that have no audience yet —
+  // they live in services.ts but aren't surfaced under /residential/ etc.;
+  // M.01e wires them to /landscape/ /waterproofing/ /snow-removal/ etc.
+  return SERVICES
+    .filter((s): s is typeof s & {audience: Audience} => s.audience !== undefined)
+    .map((s) => ({audience: s.audience, service: s.slug}));
 }
 
 function isAudience(slug: string): slug is Audience {

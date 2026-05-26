@@ -31,6 +31,25 @@ type Locale = 'en' | 'es';
 // Phase 2.05 — ISR (30 min). Webhook-driven revalidation deferred.
 export const revalidate = 1800;
 
+/**
+ * Phase M.01d (2026-05-26) — display-layer helper that strips a leading
+ * street number from a project's address string. Sanity / `src/data/projects.ts`
+ * keeps the full street address ("1227 Colchester Lane, Aurora"); the rendered
+ * output reads "Colchester Lane, Aurora".
+ *
+ * Currently a no-op for every visible field — the 12 Phase 1.16 placeholder
+ * projects don't carry street numbers in any rendered field. The helper is
+ * in place defensively so it just works the moment the M.01c uploader lands
+ * real project documents whose title / locality includes a leading number
+ * (the M.01c photo corpus references addresses like "1227 Colchester Lane"
+ * and "807/811 Edgewater"). M.01d intentionally does NOT modify
+ * `src/data/projects.ts` or the Sanity project schema (per the phase plan):
+ * the strip happens only at render-time output.
+ */
+export function stripStreetNumber(address: string): string {
+  return address.replace(/^\d+(?:\/\d+)?\s+/, '');
+}
+
 export async function generateStaticParams() {
   const slugs = await getAllProjectSlugs();
   return slugs.map((slug) => ({slug}));
@@ -55,7 +74,11 @@ export async function generateMetadata({
     hardscape: {en: 'hardscape', es: 'hardscape'},
   }[project.audience][loc];
 
-  const title = `${project.title[loc]} — ${audienceLabel} project in ${cityName} · Sunset Services`;
+  // Phase M.01d: address-bearing title strings (when M.01c uploader lands
+  // real project content) get the leading street number stripped from the
+  // rendered output — Sanity keeps the full address; visitors don't see it.
+  const displayTitle = stripStreetNumber(project.title[loc]);
+  const title = `${displayTitle} — ${audienceLabel} project in ${cityName} · Sunset Services`;
   const description = `${project.shortDek[loc]} ${cityName}, IL. By Sunset Services.`;
   const path = `/projects/${slug}`;
 
@@ -100,12 +123,14 @@ export default async function ProjectDetailPage({
   const city = getLocation(project.citySlug);
   const cityName = city?.name ?? project.citySlug;
 
-  // Same-source breadcrumb items.
+  // Same-source breadcrumb items. Phase M.01d: strip leading street number
+  // from the project title before it's shown to the user (no-op for current
+  // placeholder projects; activates the moment real M.01c content lands).
   const tBreadcrumb = await getTranslations({locale, namespace: 'project.breadcrumb'});
   const breadcrumbItems = [
     {name: tBreadcrumb('home'), href: loc === 'en' ? '/' : `/${loc}/`},
     {name: tBreadcrumb('projects'), href: loc === 'en' ? '/projects/' : `/${loc}/projects/`},
-    {name: project.title[loc]},
+    {name: stripStreetNumber(project.title[loc])},
   ];
   const breadcrumbSchemaItems = breadcrumbItems.map((it) => ({
     name: it.name,

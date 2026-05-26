@@ -4,7 +4,7 @@ import ServiceAreasHero from '@/components/sections/service-areas/ServiceAreasHe
 import CitiesGrid from '@/components/sections/service-areas/CitiesGrid';
 import OutsideAreaBand from '@/components/sections/service-areas/OutsideAreaBand';
 import ServiceAreasCTA from '@/components/sections/service-areas/ServiceAreasCTA';
-import {LOCATIONS} from '@/data/locations';
+import {getVisibleLocations} from '@/data/locations';
 import {buildBreadcrumbList} from '@/lib/schema/breadcrumb';
 import {buildServiceAreasItemList} from '@/lib/schema/location';
 import {routing} from '@/i18n/routing';
@@ -61,7 +61,8 @@ export default async function ServiceAreasPage({
   ];
 
   const breadcrumbSchema = buildBreadcrumbList(breadcrumbItems);
-  const itemListSchema = buildServiceAreasItemList(LOCATIONS, loc);
+  // Phase M.01d: pass only the 6 visible cities — M.01e returns to all 24.
+  const itemListSchema = buildServiceAreasItemList(getVisibleLocations(), loc);
 
   return (
     <>

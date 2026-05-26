@@ -1,7 +1,7 @@
 import {getTranslations} from 'next-intl/server';
 import AnimateIn from '@/components/global/motion/AnimateIn';
 import LocationCard from '@/components/ui/LocationCard';
-import {LOCATIONS} from '@/data/locations';
+import {getVisibleLocations} from '@/data/locations';
 import {LOCATION_CARD} from '@/data/imageMap';
 
 /**
@@ -61,7 +61,7 @@ export default async function CitiesGrid() {
             </p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
-            {LOCATIONS.map((loc) => (
+            {getVisibleLocations().map((loc) => (
               <LocationCard
                 key={loc.slug}
                 href={`/service-areas/${loc.slug}/`}

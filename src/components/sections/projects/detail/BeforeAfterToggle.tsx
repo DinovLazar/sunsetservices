@@ -6,8 +6,8 @@ import type {StaticImageData} from 'next/image';
 import {useTranslations} from 'next-intl';
 
 type BeforeAfterToggleProps = {
-  before: StaticImageData;
-  after: StaticImageData;
+  before: StaticImageData | string;
+  after: StaticImageData | string;
   beforeAlt: string;
   afterAlt: string;
 };
@@ -123,7 +123,7 @@ export default function BeforeAfterToggle({
               fill
               loading="eager"
               sizes="(max-width: 1023px) 100vw, 1200px"
-              placeholder="blur"
+              {...(typeof after === 'string' ? {} : {placeholder: 'blur' as const})}
               style={{objectFit: 'cover'}}
             />
           </div>
@@ -139,7 +139,7 @@ export default function BeforeAfterToggle({
               fill
               loading="lazy"
               sizes="(max-width: 1023px) 100vw, 1200px"
-              placeholder="blur"
+              {...(typeof before === 'string' ? {} : {placeholder: 'blur' as const})}
               style={{objectFit: 'cover'}}
             />
           </div>

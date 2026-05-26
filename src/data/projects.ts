@@ -31,6 +31,8 @@ export type ProjectGalleryEntry = {
   /** Image filename in /public/images/projects/{slug}/ — e.g. '01.avif' */
   file: string;
   alt: {en: string; es: string};
+  /** Phase M.01c — resolved Sanity CDN URL (urlFor). Preferred over `file` when present. */
+  imageUrl?: string;
 };
 
 export type Project = {
@@ -56,6 +58,10 @@ export type Project = {
   gallery: ProjectGalleryEntry[];
   beforeAlt?: {en: string; es: string};
   afterAlt?: {en: string; es: string};
+  /** Phase M.01c — resolved Sanity CDN URLs (urlFor). Preferred over the imageMap placeholders when present. */
+  leadImageUrl?: string;
+  beforeImageUrl?: string;
+  afterImageUrl?: string;
 };
 
 export const PROJECTS: Project[] = [

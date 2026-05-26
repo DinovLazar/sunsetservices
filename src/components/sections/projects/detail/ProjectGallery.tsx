@@ -8,7 +8,7 @@ import {X, ChevronLeft, ChevronRight} from 'lucide-react';
 import AnimateIn from '@/components/global/motion/AnimateIn';
 
 type GalleryPhoto = {
-  asset: StaticImageData;
+  asset: StaticImageData | string;
   alt: string;
 };
 
@@ -139,7 +139,7 @@ export default function ProjectGallery({photos}: ProjectGalleryProps) {
                         fill
                         {...(eager ? {loading: 'eager' as const} : {loading: 'lazy' as const})}
                         sizes="(max-width: 1023px) 50vw, 33vw"
-                        placeholder="blur"
+                        {...(typeof photo.asset === 'string' ? {} : {placeholder: 'blur' as const})}
                         style={{objectFit: 'cover'}}
                       />
                     </div>

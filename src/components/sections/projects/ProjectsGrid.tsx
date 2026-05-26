@@ -58,7 +58,7 @@ export default async function ProjectsGrid({projects, locale}: ProjectsGridProps
             {projects.map((p, idx) => {
               const city = getLocation(p.citySlug);
               const cityName = city?.name ?? p.citySlug;
-              const photo = PROJECT_LEAD[p.slug];
+              const photo = p.leadImageUrl ?? PROJECT_LEAD[p.slug];
               const isLcpCandidate = idx === 0;
               // Only the LCP tile is eager (via priority). All other tiles
               // lazy-load via IntersectionObserver to free up mobile bandwidth

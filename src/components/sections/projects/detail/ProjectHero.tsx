@@ -31,7 +31,7 @@ export default async function ProjectHero({project, locale, breadcrumbItems}: Pr
 
   const city = getLocation(project.citySlug);
   const cityName = city?.name ?? project.citySlug;
-  const photo = PROJECT_LEAD[project.slug];
+  const photo = project.leadImageUrl ?? PROJECT_LEAD[project.slug];
 
   return (
     <section
@@ -117,7 +117,7 @@ export default async function ProjectHero({project, locale, breadcrumbItems}: Pr
                 fill
                 priority
                 fetchPriority="high"
-                placeholder="blur"
+                {...(typeof photo === 'string' ? {} : {placeholder: 'blur' as const})}
                 sizes="(max-width: 1023px) 100vw, 480px"
                 style={{objectFit: 'cover'}}
               />

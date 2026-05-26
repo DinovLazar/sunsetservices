@@ -15,8 +15,24 @@
 
 import type {Project, ProjectAudience, ProjectGalleryEntry} from '@/data/projects';
 import type {ProjectDetail, ProjectSummary} from '@sanity-lib/types';
+import {urlFor} from '@sanity-lib/image';
 
 const ZERO_LOCALIZED = {en: '', es: ''} as const;
+
+/**
+ * Phase M.01c — resolve a Sanity image field to a CDN URL via `urlFor()`.
+ * Returns undefined when the asset is absent so callers fall back to the
+ * `imageMap.ts` placeholder. `w` caps the long edge (no upscaling).
+ */
+type SanityImg = ProjectDetail['leadImage'];
+function assetUrl(img: SanityImg | null | undefined, w: number): string | undefined {
+  if (!img?.asset?._ref) return undefined;
+  try {
+    return urlFor(img).width(w).fit('max').auto('format').url();
+  } catch {
+    return undefined;
+  }
+}
 
 /** Build a TS-shape ProjectGalleryEntry list from a Sanity gallery list. */
 function adaptGallery(
@@ -25,6 +41,7 @@ function adaptGallery(
   return sanity.map((g, i) => ({
     file: `${String(i + 1).padStart(2, '0')}.avif`,
     alt: g.alt ?? ZERO_LOCALIZED,
+    imageUrl: assetUrl(g.image, 1600),
   }));
 }
 
@@ -45,6 +62,7 @@ export function sanityProjectSummaryToTs(p: ProjectSummary): Project {
     narrative: ZERO_LOCALIZED,
     leadAlt: p.leadAlt,
     gallery: [],
+    leadImageUrl: assetUrl(p.leadImage, 900),
   };
 }
 
@@ -76,5 +94,8 @@ export function sanityProjectDetailToTs(p: ProjectDetail): Project {
     gallery: adaptGallery(p.gallery ?? []),
     beforeAlt: p.hasBeforeAfter ? p.beforeAlt : undefined,
     afterAlt: p.hasBeforeAfter ? p.afterAlt : undefined,
+    leadImageUrl: assetUrl(p.leadImage, 1600),
+    beforeImageUrl: p.hasBeforeAfter ? assetUrl(p.beforeImage, 1600) : undefined,
+    afterImageUrl: p.hasBeforeAfter ? assetUrl(p.afterImage, 1600) : undefined,
   };
 }

@@ -114,23 +114,31 @@ export default async function ProjectDetailPage({
       (loc === 'en' ? `/projects/${slug}/` : `/${loc}/projects/${slug}/`),
   }));
 
-  // Same-source gallery photos: gallery length from Sanity (alt text),
-  // photo assets from imageMap.ts fallback until Phase 2.04.
+  // Phase M.01c: prefer the real Sanity photo (g.imageUrl); fall back to the
+  // Phase 1.16 imageMap placeholder only when no Sanity asset exists.
   const galleryAssets = PROJECT_GALLERY[project.slug] ?? [];
   const photos = project.gallery.map((g, i) => ({
-    asset: galleryAssets[i] ?? galleryAssets[0],
+    asset: g.imageUrl ?? galleryAssets[i] ?? galleryAssets[0],
     alt: g.alt[loc],
   }));
+
+  // Absolute URL for schema: Sanity URLs are already absolute (cdn.sanity.io);
+  // local StaticImageData paths get the business origin prefixed.
+  const toAbsoluteImageUrl = (a: {src: string} | string | undefined): string =>
+    !a ? '' : typeof a === 'string' ? a : `${BUSINESS_URL}${a.src}`;
 
   // Image URL list for schema (lead first, then gallery).
   const leadAsset = PROJECT_LEAD[project.slug];
   const imageUrls = [
-    leadAsset ? `${BUSINESS_URL}${leadAsset.src}` : '',
-    ...photos.map((p) => (p.asset ? `${BUSINESS_URL}${p.asset.src}` : '')),
+    toAbsoluteImageUrl(project.leadImageUrl ?? leadAsset),
+    ...photos.map((p) => toAbsoluteImageUrl(p.asset)),
   ].filter(Boolean);
 
   const beforeAfter = project.hasBeforeAfter
-    ? PROJECT_BEFORE_AFTER[project.slug]
+    ? {
+        before: project.beforeImageUrl ?? PROJECT_BEFORE_AFTER[project.slug]?.before,
+        after: project.afterImageUrl ?? PROJECT_BEFORE_AFTER[project.slug]?.after,
+      }
     : undefined;
 
   // Fetch the full project list for related-project selection.
@@ -158,7 +166,12 @@ export default async function ProjectDetailPage({
       <ProjectNarrative project={project} locale={loc} />
       <ProjectGallery photos={photos} />
       <ProjectFacts project={project} locale={loc} />
-      {project.hasBeforeAfter && beforeAfter && project.beforeAlt && project.afterAlt ? (
+      {project.hasBeforeAfter &&
+      beforeAfter &&
+      beforeAfter.before &&
+      beforeAfter.after &&
+      project.beforeAlt &&
+      project.afterAlt ? (
         <BeforeAfterToggle
           before={beforeAfter.before}
           after={beforeAfter.after}

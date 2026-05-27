@@ -684,3 +684,31 @@ See `src/_project-state/Phase-M-01e-Completion.md` for the canonical file list �
 1. `npm run studio:deploy` — push the new `contactSubmission.category` option list to Sanity Studio.
 2. Re-run `npm run validate:{schema,seo,a11y}` against a running dev server or Vercel Preview (all 3 configs updated).
 3. Share post-deploy Vercel Preview URL with Goran for re-walkthrough.
+
+## Phase M.10b — Content integration (added 2026-05-27)
+
+**New:**
+- `src/components/sections/home/HomeWhySunset.tsx` — new homepage band. Server component (matches `HomeProjects.tsx` pattern). Renders 8 brand-value cards from Marcin's "Why Homeowners Choose Sunset" list via `home.whySunset.cards[]`. `ICONS` const maps `idx → LucideIcon` (Home / Shield / DollarSign / Award / FileCheck / Compass / Heart / TrendingUp); each rendered in a 44×44 sunset-green-50 disc with sunset-green-700 stroke. Responsive `grid-cols-1 sm:grid-cols-2 lg:grid-cols-4`. Cream surface (decision: cream-cream adjacency with HomeCTA accepted — perfect alternation impossible at this insertion point with cream/white only).
+- `scripts/seed-faq-content-integration.mjs` — idempotent Sanity seed for 7 SEO FAQs. Modeled on `migrate-faq-to-divisions.mjs` (M.01e). Operator runs `npx tsx scripts/seed-faq-content-integration.mjs` with `SANITY_API_WRITE_TOKEN` in `.env.local`. Deterministic `_id`s (`faq-seo-<slug>`); `createOrReplace` for re-run safety. `order: 100+idx` keeps SEO FAQs at the end of each scope's FAQ list.
+- `src/_project-state/Phase-M-10b2-Completion.md` — completion report. Filename uses `M-10b2` (not `M-10b`) to avoid collision with the prior `Phase-M-10B-Completion.md` audit-fix-pass on Windows/git case-insensitive filesystems.
+
+**Modified (code — Q&A page rewrite for new 7-category shape):**
+- `src/app/[locale]/qa/page.tsx` — `QaCategory` literal union (5 keys) replaced with `CategoryKey = (typeof CATEGORY_ORDER)[number]` (7 keys). `QaQuestion = {id, category, q, a}` replaced with `QaItem = {q, a}` + `QaCategoryData = {title, eyebrow, questions[]}`. `byCategory` Record-bucket-by-category gone (questions now live inside each category). Page reads `t.raw('categories')` and iterates `CATEGORY_ORDER`. Added eyebrow above each category H2.
+
+**Modified (code — homepage wiring + About brand-story extension):**
+- `src/app/[locale]/page.tsx` — imported `HomeWhySunset`; inserted `<HomeWhySunset />` between `<HomeProjects />` and `<HomeCTA />`. No other edits.
+- `src/components/sections/about/AboutBrandStory.tsx` — added a 4th `<p>` rendering `{t('p4')}` (same styling as p1/p2/p3: `mt-4`, `text-body-lg`, secondary color, `60ch` max-width). No prop / type changes.
+
+**Modified (i18n):**
+- `src/messages/en.json` — `qa.*` namespace rewritten (`qa.categories.<7 keys>.{title, eyebrow, questions[]}`). `qa.hero.dek` updated for new 28-question count and 7-category surface. New `home.whySunset.*` namespace inserted between `home.projects` and `home.cta` (eyebrow + h2 + dek + cards[8]). `about.story.p4` added; p1/p2/p3 enriched with Marcin's "locally owned / not PE / long-term relationships" themes preserving the 25-year-history framing.
+- `src/messages/es.json` — parallel changes. `usted` for `qa.*` per M.01f1 informational-surface matrix; `tú` for `home.whySunset` card bodies (marketing surface); `whySunset.h2` uses 3rd-person "Le respondemos a nuestros clientes…" for natural read. Also: **pre-existing trailing-junk fix** — removed 3 extra lines at EOF (introduced in M.01f1 commit `47a74790`) that broke `JSON.parse` strict-mode; documented in the M.10b Decisions entry §2 #4.
+
+**Modified (state):**
+- `src/_project-state/current-state.md` — last-completed-phase bumped to M.10b with full summary block; prior phases shifted down by 1; new "What works (Phase M.10b additions)" sub-block; operator follow-up entries (Sanity seed run, validation re-run, Vercel Preview walk-through) inline in the M.10b summary text.
+- `src/_project-state/file-map.md` — this section.
+- `Sunset-Services-Decisions.md` — 2026-05-27 M.10b entry covering the 4 work units + 8 in-phase decisions.
+
+**Operator actions:**
+1. `npx tsx scripts/seed-faq-content-integration.mjs` — seed the 7 SEO FAQs (requires `SANITY_API_WRITE_TOKEN` in `.env.local`; idempotent).
+2. Re-run `npm run validate:{schema,seo,a11y}` against a running dev server or Vercel Preview. No new served routes; should pass unchanged.
+3. Vercel Preview walk-through: confirm `/qa/` shows 7 categories, homepage shows the new Why Sunset band between Projects and CTA, About shows the new p4 paragraph.

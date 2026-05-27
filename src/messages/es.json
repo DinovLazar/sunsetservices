@@ -183,6 +183,45 @@
       },
       "cta": "Ver todos los proyectos"
     },
+    "whySunset": {
+      "eyebrow": "Por qué Sunset",
+      "h2": "Le respondemos a nuestros clientes — no a inversionistas externos.",
+      "dek": "De propiedad local. Operada en familia. Construida para relaciones de largo plazo con las comunidades que atendemos.",
+      "cards": [
+        {
+          "label": "Empresa familiar y de operación local",
+          "body": "Con base en Aurora, IL — propiedad y operación de la familia Valle desde 2000."
+        },
+        {
+          "label": "Sin private equity ni inversionistas externos",
+          "body": "Sin grupo de propiedad externo, sin cuota trimestral. Las decisiones quedan en manos de quienes hacen el trabajo."
+        },
+        {
+          "label": "Precios justos y transparentes",
+          "body": "Estimados detallados en 48 horas. El precio que firmamos es el precio que pagas."
+        },
+        {
+          "label": "Materiales y estándares de instalación premium",
+          "body": "Productos Unilock y preparación de base hechos para el ciclo de congelamiento y deshielo de Illinois — no la versión barata."
+        },
+        {
+          "label": "Experiencia con HOA y permisos",
+          "body": "Tramitamos cada permiso requerido y manejamos las revisiones arquitectónicas para comunidades con HOA en todas las afueras del oeste."
+        },
+        {
+          "label": "Asesoría profesional de diseño",
+          "body": "Nuestro equipo te ayuda a tomar decisiones de inversión inteligentes — no solo a vender proyectos."
+        },
+        {
+          "label": "Relaciones de largo plazo con el cliente",
+          "body": "Muchos clientes del primer año (del 2000) siguen en nuestra ruta hoy. La reputación se construye un propietario a la vez."
+        },
+        {
+          "label": "Enfoque en valor — no en volumen",
+          "body": "Agendamos por calidad, no por cuota. Menos prisa; más atención a cada proyecto."
+        }
+      ]
+    },
     "cta": {
       "eyebrow": "¿Listo para empezar?",
       "h2": "Diseñemos tu espacio exterior.",
@@ -1172,9 +1211,10 @@
         "line1": "Empezó con Nick.",
         "line2": "Hoy lo dirige Erick."
       },
-      "p1": "Nick Valle fundó la empresa en 2000 con un camión y una ruta de mantenimiento entre Aurora y Naperville. El primer contrato sigue activo, veinticinco años después.",
-      "p2": "En 2018, Erick — el hijo de Nick — asumió las operaciones. La misma cuadrilla, el mismo arranque a las 6:30 a.m., el mismo estándar para una propiedad terminada. Sin sorpresas subcontratadas; quienes miden tu proyecto son quienes lo hacen.",
-      "p3": "Marcin se sumó para dirigir la división de hardscape — instalaciones autorizadas por Unilock, patios de adoquines, muros de contención, espacios de fuego. Los camiones comparten patio; tu proyecto cabe en una sola llamada.",
+      "p1": "Nick Valle fundó Sunset Services en 2000 con un camión y una ruta de mantenimiento entre Aurora y Naperville. El primer contrato sigue activo, veinticinco años después. Seguimos siendo una empresa de propiedad local y operación familiar desde el primer día — con base en Aurora, IL.",
+      "p2": "En 2018, Erick — el hijo de Nick — asumió las operaciones. La misma cuadrilla, el mismo arranque a las 6:30 a.m., el mismo estándar para una propiedad terminada. Le respondemos a nuestros clientes, no a grupos de propiedad externos ni a cuotas de private equity. Sin sorpresas subcontratadas; quienes miden tu proyecto son quienes lo hacen.",
+      "p3": "Marcin se sumó para dirigir la división de hardscape — instalaciones autorizadas por Unilock, patios de adoquines, muros de contención, espacios de fuego. El estándar es mano de obra excepcional, precios justos y una propiedad terminada que entregas a la familia con confianza. Los camiones comparten patio; tu proyecto cabe en una sola llamada.",
+      "p4": "Nuestra meta no es vender proyectos. Es ayudar a los propietarios a hacer inversiones inteligentes — espacios al aire libre que las familias puedan disfrutar por años. Nuestra reputación se construye un propietario, un vecindario, un proyecto a la vez.",
       "alt": "Erick y Nick trabajando juntos en una propiedad del condado de DuPage, luz de la tarde.",
       "cta": {
         "residential": "Ver servicios residenciales →",
@@ -2110,180 +2150,174 @@
   "qa": {
     "meta": {
       "title": "Preguntas frecuentes — Sunset Services",
-      "description": "Respuestas a las preguntas que más hacen los propietarios del condado de DuPage sobre paisajismo, hardscape, impermeabilización y remoción de nieve."
+      "description": "Respuestas directas a las 28 preguntas que más hacen los propietarios del área de Chicago sobre paisajismo, hardscape, impermeabilización y remoción de nieve."
     },
     "hero": {
       "eyebrow": "Preguntas",
       "h1": "Preguntas frecuentes",
-      "dek": "Las 25 preguntas que más nos hacen los propietarios del condado de DuPage — precios, plazos, materiales, área de servicio y logística del día a día. ¿No ve la suya? Llame al (630) 946-9321."
+      "dek": "Las 28 preguntas que más nos hacen los propietarios del área de Chicago — planeación, precios, materiales, drenaje, espacios al aire libre, mantenimiento y credenciales. ¿No ve la suya? Llame al (630) 946-9321."
     },
     "categories": {
-      "pricing": "Precios y estimados",
-      "process": "Proceso y plazos",
-      "materials": "Materiales y calidad",
-      "serviceArea": "Área de servicio",
-      "logistics": "Logística y pagos"
-    },
-    "questions": [
-      {
-        "id": "q-01",
-        "category": "pricing",
-        "q": "¿Cuánto cuesta un patio de adoquines en el condado de DuPage?",
-        "a": "Un patio de adoquines nuevo cuesta $18–32 por pie cuadrado instalado, según la línea de adoquines y la preparación de base. Un patio típico de 200 pies² queda alrededor de $4,500–$6,500; uno de 400 pies² con brasero ronda los $9,000–$13,500. Le entregamos un estimado detallado dentro de 48 horas tras la visita para que no haya sorpresas."
+      "projectPlanning": {
+        "title": "Planeación de proyectos y proceso",
+        "eyebrow": "Planeación",
+        "questions": [
+          {
+            "q": "¿Cómo funciona el proceso de diseño y estimado?",
+            "a": "Comenzamos con una consulta en sitio para revisar su propiedad, conversar sus metas, evaluar inquietudes de drenaje o elevación y explorar opciones de materiales. Luego preparamos una propuesta detallada y recomendaciones de diseño hechas a la medida de su espacio y su presupuesto."
+          },
+          {
+            "q": "¿Necesito un plat of survey (plano de la propiedad)?",
+            "a": "En muchos casos, sí — especialmente para patios, muros de contención, pabellones, pérgolas, entradas y trámites con la asociación de propietarios (HOA). El plat nos ayuda a verificar la distribución, los linderos, los retiros y los requisitos de permiso."
+          },
+          {
+            "q": "¿Sunset Services ayuda con las aprobaciones del HOA?",
+            "a": "Sí. Trabajamos con frecuencia en comunidades con HOA en las afueras del oeste de Chicago y podemos asistir con la presentación de revisiones arquitectónicas, hojas de materiales, planos y documentación de respaldo."
+          },
+          {
+            "q": "¿Manejan los permisos?",
+            "a": "Sí. Cuando se requieren, asistimos con las solicitudes de permisos y nos coordinamos con el municipio para ayudar a que el proyecto cumpla."
+          },
+          {
+            "q": "¿Con cuánta anticipación están agendando proyectos?",
+            "a": "La agenda varía a lo largo de la temporada. Los proyectos de primavera y verano se reservan a menudo con varias semanas o meses de anticipación, así que se recomienda planear con tiempo."
+          }
+        ]
       },
-      {
-        "id": "q-02",
-        "category": "pricing",
-        "q": "¿Ofrecen estimados gratis?",
-        "a": "Sí — cada estimado es gratis, detallado y se entrega dentro de 48 horas tras la visita al sitio. No cotizamos sin haber caminado la propiedad; las cotizaciones por teléfono para hardscape, diseño y impermeabilización suelen estar erradas. No hay obligación de firmar."
+      "pricing": {
+        "title": "Precios e inversión",
+        "eyebrow": "Precios",
+        "questions": [
+          {
+            "q": "¿Por qué son caros los proyectos de hardscape?",
+            "a": "Las instalaciones de hardscape de calidad requieren excavación extensa, preparación de base adecuada, planeación de drenaje, materiales premium, mano de obra calificada, equipo, costos de disposición y consideraciones estructurales de largo plazo. La instalación correcta protege contra asentamiento, movimiento y falla prematura."
+          },
+          {
+            "q": "¿Por qué Sunset Services no es el contratista más barato?",
+            "a": "Nos enfocamos en calidad de largo plazo, comunicación, profesionalismo y métodos de instalación adecuados — no en atajos. Nuestra meta es construir proyectos que duren y que aumenten el valor de su propiedad."
+          },
+          {
+            "q": "¿Ofrecen financiamiento?",
+            "a": "Sí. Hay opciones de financiamiento disponibles para clientes calificados a través de socios financieros externos."
+          },
+          {
+            "q": "¿Qué depósito se requiere?",
+            "a": "La mayoría de los proyectos requiere un depósito para asegurar la agenda y la compra de materiales. Los términos de pago finales se detallan en cada propuesta."
+          }
+        ]
       },
-      {
-        "id": "q-03",
-        "category": "pricing",
-        "q": "¿Cuál es el rango de precios típico para el diseño de paisaje?",
-        "a": "Un paquete completo de diseño — visita al sitio, dos bocetos conceptuales, lista de plantas y materiales, plan de construcción por fases — cuesta entre $2,500 y $6,000 según el tamaño del lote y la complejidad. La tarifa de diseño se acredita a la construcción si avanza con nosotros dentro de 12 meses."
+      "materials": {
+        "title": "Materiales e instalación",
+        "eyebrow": "Materiales",
+        "questions": [
+          {
+            "q": "¿Qué marcas de adoquines usan?",
+            "a": "Instalamos principalmente productos premium de Unilock y otros fabricantes de alta calidad reconocidos por su durabilidad, estética y desempeño de largo plazo."
+          },
+          {
+            "q": "¿Cuál es la diferencia entre concreto y adoquines?",
+            "a": "Los adoquines ofrecen mayor flexibilidad, reparación más fácil, mejor apariencia visual y mejor desempeño de largo plazo en climas con congelamiento y deshielo, comparados con el concreto vaciado estándar."
+          },
+          {
+            "q": "¿Qué es un sistema de adoquines permeables?",
+            "a": "Los sistemas permeables permiten que el agua se infiltre por las juntas hacia una base especializada de piedra debajo, lo que ayuda con el drenaje, la reducción de escurrimientos y el desempeño en invierno."
+          },
+          {
+            "q": "¿Los adoquines se asientan o se mueven con el tiempo?",
+            "a": "Cualquier superficie exterior puede desplazarse si se instala mal. La excavación correcta, la preparación de base, el manejo del drenaje y los sistemas de contención de bordes son críticos para el desempeño de largo plazo."
+          },
+          {
+            "q": "¿Usan arena polimérica?",
+            "a": "Sí. La arena polimérica ayuda a estabilizar las juntas, reducir el crecimiento de maleza y minimizar la intrusión de insectos, además de mejorar la apariencia general."
+          }
+        ]
       },
-      {
-        "id": "q-04",
-        "category": "pricing",
-        "q": "¿Ofrecen financiamiento?",
-        "a": "Sí, trabajamos con un prestamista nacional de mejoras al hogar para proyectos de $5,000 en adelante. La mayoría de los propietarios califica para planes de 12 o 24 meses con interés diferido. La solicitud es en línea y toma unos 10 minutos; la aprobación suele ser el mismo día."
+      "retainingWalls": {
+        "title": "Muros de contención y drenaje",
+        "eyebrow": "Muros y drenaje",
+        "questions": [
+          {
+            "q": "¿Por qué es tan importante el drenaje para los muros de contención?",
+            "a": "El drenaje deficiente crea presión hidrostática detrás del muro, que con el tiempo puede provocar movimiento o falla. Incorporamos prácticas de drenaje adecuadas para ayudar a proteger la estructura."
+          },
+          {
+            "q": "¿Pueden resolver problemas de agua o drenaje?",
+            "a": "Sí. Diseñamos con frecuencia soluciones de drenaje, incluyendo extensiones de bajantes, registros pluviales, lechos de arroyo seco, mejoras de nivelación y sistemas de drenaje francés."
+          },
+          {
+            "q": "¿Los muros de contención requieren permisos?",
+            "a": "Dependiendo de la altura del muro, la ubicación y el municipio, pueden requerirse permisos. Ayudamos al cliente a guiarse por ese proceso."
+          }
+        ]
       },
-      {
-        "id": "q-05",
-        "category": "pricing",
-        "q": "¿El precio del estimado es el precio final?",
-        "a": "Sí — salvo cambios de alcance que usted firme, el estimado es el precio final. Si durante la obra encontramos algo que no era visible en la visita (una losa enterrada, una raíz, etc.), paramos el trabajo y le presentamos el costo antes de continuar. Sin cargos sorpresa al final."
+      "outdoorLiving": {
+        "title": "Espacios al aire libre",
+        "eyebrow": "Espacios al aire libre",
+        "questions": [
+          {
+            "q": "¿Construyen cocinas al aire libre y áreas de entretenimiento?",
+            "a": "Sí. Diseñamos e instalamos cocinas al aire libre, elementos de fuego, muros con asientos, sistemas de iluminación, pérgolas, áreas de entretenimiento y ambientes exteriores personalizados."
+          },
+          {
+            "q": "¿Se puede agregar iluminación a patios o muros existentes?",
+            "a": "En muchos casos, sí. Instalamos iluminación de paisaje y de hardscape, incluyendo luces bajo coping, iluminación de escalones, iluminación de acento y sistemas de líneas de techo."
+          },
+          {
+            "q": "¿Instalan pérgolas y pabellones?",
+            "a": "Sí. Instalamos estructuras adosadas e independientes según la distribución del proyecto y los requisitos del municipio."
+          }
+        ]
       },
-      {
-        "id": "q-06",
-        "category": "process",
-        "q": "¿Cuánto dura una instalación típica de patio?",
-        "a": "La mayoría de los patios menores a 400 pies² se terminan en 5–7 días laborables, desde el inicio de obra hasta la limpieza final. Proyectos más grandes con muros de contención, braseros o cocinas al aire libre toman 2–4 semanas. Le damos una fecha real de inicio y de entrega en el contrato, no una ventana vaga."
+      "maintenance": {
+        "title": "Mantenimiento y garantía",
+        "eyebrow": "Mantenimiento",
+        "questions": [
+          {
+            "q": "¿Ofrecen garantía?",
+            "a": "Sí. Sunset Services ofrece garantía de mano de obra en las instalaciones que califican. Los detalles de la garantía van por escrito en cada propuesta."
+          },
+          {
+            "q": "¿Debería sellar mis adoquines?",
+            "a": "No siempre. Algunas superficies se benefician con el sellado y otras no lo requieren. Recomendamos el sellado según el material, la edad y la condición de la instalación."
+          },
+          {
+            "q": "¿Qué mantenimiento se requiere después de la instalación?",
+            "a": "Recomendamos limpieza ocasional, mantenimiento de la arena de juntas cuando sea necesario y evitar sales descongelantes agresivas durante el primer invierno en instalaciones nuevas de concreto."
+          },
+          {
+            "q": "¿Qué pasa si otro contratista repara o modifica el proyecto?",
+            "a": "El trabajo realizado por otros puede anular la cobertura de garantía de mano de obra en las áreas afectadas."
+          }
+        ]
       },
-      {
-        "id": "q-07",
-        "category": "process",
-        "q": "¿Cuál es el proceso desde el estimado hasta la instalación?",
-        "a": "Visita al sitio → estimado detallado en 48 horas → contrato firmado + depósito → permisos y materiales pedidos → fecha de inicio fija (usualmente 3–6 semanas para hardscape, antes para trabajo de jardín). El mismo equipo que camina su propiedad es el equipo que construye el proyecto — sin entregar a subcontratistas."
-      },
-      {
-        "id": "q-08",
-        "category": "process",
-        "q": "¿Necesito permisos para mi proyecto?",
-        "a": "La mayoría de los patios menores a 30 pulgadas sobre el nivel no necesitan permisos en el condado de DuPage. Muros de contención sobre 4 pies, terrazas, pérgolas y cocinas exteriores con conexión de gas casi siempre los necesitan. Nosotros tramitamos cada permiso requerido, agendamos las inspecciones e incluimos el costo en el estimado."
-      },
-      {
-        "id": "q-09",
-        "category": "process",
-        "q": "¿Qué pasa si llueve durante mi proyecto?",
-        "a": "Trabajamos con lluvia ligera en la mayoría de los trabajos, pero una tormenta real corre el horario un día. Le enviamos un mensaje cada mañana con la decisión del clima para que nunca se quede preguntándose si llegará el equipo. Los días de lluvia no aumentan el costo — el precio del contrato se mantiene."
-      },
-      {
-        "id": "q-10",
-        "category": "process",
-        "q": "¿Cuándo es el mejor momento para agendar trabajo de paisajismo?",
-        "a": "Hardscape y diseño se trabajan de marzo a noviembre en el condado de DuPage; el momento óptimo es de mayo a septiembre. La plantación de primavera es mejor en abril–mayo; la de otoño en septiembre–octubre. Los contratos de nieve se firman antes del 15 de octubre para la temporada."
-      },
-      {
-        "id": "q-11",
-        "category": "materials",
-        "q": "¿Por qué Unilock?",
-        "a": "Unilock es el adoquín premium del mercado de Chicagoland — fabrica en el medio oeste, aguanta nuestros ciclos de congelamiento-deshielo y respalda su producto con una garantía de por vida transferible. Somos Contratista Autorizado Unilock desde 2003. Trabajamos con otras líneas a pedido, pero Unilock es nuestro estándar."
-      },
-      {
-        "id": "q-12",
-        "category": "materials",
-        "q": "¿Qué tipo de garantía ofrecen?",
-        "a": "El hardscape lleva 5 años de garantía de mano de obra por escrito. Los productos Unilock llevan su propia garantía de por vida transferible del fabricante. Las plantas llevan garantía de reemplazo de 1 año en pérdidas del primer año. Cimientos e impermeabilización llevan sus propias garantías (5–25 años según el trabajo)."
-      },
-      {
-        "id": "q-13",
-        "category": "materials",
-        "q": "¿Cuál es la diferencia entre adoquines y concreto estampado?",
-        "a": "Los adoquines son piedras individuales asentadas sobre arena y base de piedra triturada — si una se quiebra o se asienta, se saca y se reemplaza solo esa. El concreto estampado es una losa única que se agrieta de forma predecible en 5–10 años en nuestro clima de congelamiento-deshielo, y la reparación es difícil de disimular. Casi siempre recomendamos adoquines para nuestro clima."
-      },
-      {
-        "id": "q-14",
-        "category": "materials",
-        "q": "¿Solo usan materiales de grado profesional?",
-        "a": "Sí. Cada base es geotextil tejido más 6 pulgadas de piedra triturada, no el atajo de 3 pulgadas que usan algunos contratistas. Las plantas vienen de viveros establecidos del medio oeste, no de stock de tiendas grandes. El concreto se mezcla y se entrega, no en sacos en el sitio. Si lo pide, podemos mostrarle los nombres de los proveedores en el estimado."
-      },
-      {
-        "id": "q-15",
-        "category": "materials",
-        "q": "¿Cómo eligen las plantas para el clima del condado de DuPage?",
-        "a": "Plantamos especies que sobreviven inviernos zona 5b y el suelo arcilloso de DuPage. Eso significa nativas y cultivares adaptados al medio oeste primero, ornamentales después, y casi nunca las plantas amigables al marketing que se ven en tiendas grandes. La garantía de reemplazo de 1 año cubre cualquier planta nuestra que no se establezca."
-      },
-      {
-        "id": "q-16",
-        "category": "serviceArea",
-        "q": "¿En qué pueblos trabajan?",
-        "a": "Nuestra ruta semanal cubre Aurora, Naperville, Wheaton, Batavia, Lisle, Bolingbrook, Hinsdale, Oak Brook, Elmhurst, Clarendon Hills, Burr Ridge, Western Springs, Glen Ellyn, Downers Grove, Winfield, Lombard, St. Charles, Geneva, South Elgin, Elburn, North Aurora, Oswego, Yorkville y Plainfield. Pueblos vecinos de los condados de DuPage y Kane bajo solicitud."
-      },
-      {
-        "id": "q-17",
-        "category": "serviceArea",
-        "q": "¿Atienden Hinsdale?",
-        "a": "Sí — Hinsdale está en nuestra ruta desde 2007. Tenemos equipos en Hinsdale la mayoría de las semanas de la temporada de crecimiento; la impermeabilización de sótanos y la reparación de cimientos se han vuelto una especialidad de Hinsdale para nosotros dada la antigüedad del inventario de casas. Llame al (630) 946-9321 para una visita gratis."
-      },
-      {
-        "id": "q-18",
-        "category": "serviceArea",
-        "q": "¿Toman proyectos fuera del condado de DuPage?",
-        "a": "Tomamos proyectos en condados adyacentes (bordes de Kane, Will y Cook) caso por caso. Los equipos están en Aurora, así que cualquier cosa a más de 40 minutos se vuelve más difícil de agendar y aparece una pequeña línea de viaje en el estimado. Llame y pregunte — le diremos con franqueza si somos el equipo correcto."
-      },
-      {
-        "id": "q-19",
-        "category": "serviceArea",
-        "q": "¿Qué tan lejos viajan para los trabajos?",
-        "a": "Nuestra área de servicio por defecto es todo lo que esté a 30 minutos en auto de nuestra base en Aurora, lo cual cubre la mayoría del condado de DuPage y el borde este del condado de Kane. Para proyectos de hardscape de $25,000 en adelante, viajamos más lejos a pedido — llame para confirmar."
-      },
-      {
-        "id": "q-20",
-        "category": "serviceArea",
-        "q": "¿Tienen un tamaño mínimo de proyecto?",
-        "a": "Para hardscape nuevo (patios, muros, entradas), el mínimo práctico ronda los $3,500 — por debajo de eso, el costo de movilización domina el precio. Para servicios de mantenimiento (cuidado del césped, limpieza de temporada, nieve) no hay mínimo real. El trabajo de árboles y las reparaciones pequeñas se cotizan caso por caso."
-      },
-      {
-        "id": "q-21",
-        "category": "logistics",
-        "q": "¿Necesito estar en casa durante la instalación?",
-        "a": "No. Una vez fijada la fecha de inicio y pagado el depósito, el equipo puede trabajar sin que usted esté. Le enviamos un mensaje cada mañana, fotos al final del día y le hacemos un recorrido del trabajo terminado cuando regrese. Cerca del 30% de nuestros clientes de hardscape no están en casa durante la mayor parte de la obra."
-      },
-      {
-        "id": "q-22",
-        "category": "logistics",
-        "q": "¿Qué métodos de pago aceptan?",
-        "a": "Cheque, transferencia ACH y tarjetas de crédito mayores (aplica un cargo del 3% por procesamiento de tarjeta en montos superiores a $2,500). Los proyectos financiados a través de nuestro prestamista se facturan directamente al prestamista. No aceptamos efectivo en proyectos sobre $1,000 — los registros nos protegen a ambos."
-      },
-      {
-        "id": "q-23",
-        "category": "logistics",
-        "q": "¿Requieren depósito?",
-        "a": "Sí — usualmente 30% al firmar el contrato, 30% al entregar los materiales, 40% al terminar el trabajo. Para proyectos bajo $5,000 normalmente es 50/50. Los contratos de mantenimiento (césped, nieve) se facturan mensualmente sin depósito inicial."
-      },
-      {
-        "id": "q-24",
-        "category": "logistics",
-        "q": "¿Qué pasa si no quedo satisfecho?",
-        "a": "Regresamos dentro de 24 horas y lo arreglamos — ese es el estándar. Si algo no aguanta durante la temporada, la garantía de 5 años de mano de obra cubre el re-trabajo. Llevamos 25 años en esto porque tratamos los pendientes de lista como pendientes reales, no como favores."
-      },
-      {
-        "id": "q-25",
-        "category": "logistics",
-        "q": "¿Manejan la limpieza?",
-        "a": "Sí — cada trabajo termina con la propiedad más limpia que cuando llegamos. Entradas y senderos soplados, escombros retirados el mismo día, sin pilas pendientes. El recorrido final no ocurre hasta que eso esté hecho."
+      "trust": {
+        "title": "Confianza y credenciales",
+        "eyebrow": "Confianza",
+        "questions": [
+          {
+            "q": "¿Sunset Services tiene seguro?",
+            "a": "Sí. Estamos totalmente asegurados para trabajo residencial y comercial."
+          },
+          {
+            "q": "¿Son contratistas certificados?",
+            "a": "Sí. Sunset Services se enorgullece de ser Contratista Autorizado Unilock y cuenta con certificaciones adicionales relacionadas con hardscape."
+          },
+          {
+            "q": "¿Qué áreas atienden?",
+            "a": "Atendemos principalmente las afueras del oeste del área de Chicago, incluyendo Aurora, Naperville, St. Charles, Geneva, Batavia, Downers Grove, Elmhurst, Barrington y comunidades vecinas."
+          },
+          {
+            "q": "¿Puedo ver ejemplos de su trabajo?",
+            "a": "Sí. Visite nuestra galería y nuestras redes sociales para ver proyectos terminados, renderizados e instalaciones en curso."
+          }
+        ]
       }
-    ],
+    },
     "cta": {
       "h2": "¿Aún tiene una pregunta?",
       "sub": "Solicite un estimado gratuito o llámenos — conversamos sobre su proyecto, sin presión.",
       "primaryCta": "Solicitar un estimado gratuito",
       "secondaryCta": "Llamar al (630) 946-9321"
     }
-  }
-}
-
   }
 }

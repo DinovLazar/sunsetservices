@@ -10,22 +10,30 @@ import {routing} from '@/i18n/routing';
 import {canonicalUrl, hreflangAlternates} from '@/lib/seo/urls';
 
 type Locale = 'en' | 'es';
-type QaCategory = 'pricing' | 'process' | 'materials' | 'serviceArea' | 'logistics';
 
-type QaQuestion = {
-  id: string;
-  category: QaCategory;
-  q: string;
-  a: string;
-};
-
-const CATEGORY_ORDER: readonly QaCategory[] = [
+/**
+ * Display order for the 7 Q&A categories (Phase M.10b — Goran's library).
+ * Add a new entry here and to the `qa.categories` namespace in `en.json` +
+ * `es.json` and it renders — the page no longer carries a hardcoded count.
+ */
+const CATEGORY_ORDER = [
+  'projectPlanning',
   'pricing',
-  'process',
   'materials',
-  'serviceArea',
-  'logistics',
-];
+  'retainingWalls',
+  'outdoorLiving',
+  'maintenance',
+  'trust',
+] as const;
+
+type CategoryKey = (typeof CATEGORY_ORDER)[number];
+
+type QaItem = {q: string; a: string};
+type QaCategoryData = {
+  title: string;
+  eyebrow: string;
+  questions: QaItem[];
+};
 
 export async function generateMetadata({
   params,
@@ -47,16 +55,16 @@ export async function generateMetadata({
 }
 
 /**
- * Phase M.01e — sitewide Q&A page at `/qa/`.
+ * Phase M.10b — sitewide Q&A page at `/qa/`.
  *
- * Renders the 25 questions seeded in M.01d (`qa.*` namespace) grouped into
- * 5 categories. Per Phase M.01e locked decision #20 we do NOT emit
+ * Renders Goran's 28-question library (`qa.categories.*` namespace) across
+ * 7 categories. Per Phase M.01e locked decision #20 we do NOT emit
  * `FAQPage` JSON-LD on this surface — the per-service / per-city FAQ
  * schemas are the canonical structured-data home for each question.
  * Adding sitewide FAQPage here could dilute those schemas' targeting.
  *
- * Visual treatment matches the existing service-detail FAQ band:
- * an `<h2>` per category, then `<details>` accordion items.
+ * Visual treatment matches the existing service-detail FAQ band: an
+ * eyebrow + `<h2>` per category, then `<details>` accordion items.
  */
 export default async function QaPage({
   params,
@@ -77,19 +85,10 @@ export default async function QaPage({
     {name: t('hero.h1'), item: localePath(loc, '/qa/')},
   ]);
 
-  // `t.raw()` returns the raw JSON value (the 25-question array) so we can
-  // group it by category. The array shape is locked by the seed.
-  const questions = t.raw('questions') as QaQuestion[];
-  const byCategory: Record<QaCategory, QaQuestion[]> = {
-    pricing: [],
-    process: [],
-    materials: [],
-    serviceArea: [],
-    logistics: [],
-  };
-  for (const q of questions) {
-    if (byCategory[q.category]) byCategory[q.category].push(q);
-  }
+  // `t.raw()` returns the raw namespace value so we can iterate by ordered
+  // category key. Shape is locked by the seed: each category carries
+  // {title, eyebrow, questions[]}.
+  const categories = t.raw('categories') as Record<CategoryKey, QaCategoryData>;
 
   return (
     <>
@@ -145,10 +144,20 @@ export default async function QaPage({
       >
         <div className="mx-auto max-w-[var(--container-default)] px-4 sm:px-6 lg:px-8 xl:px-12">
           {CATEGORY_ORDER.map((cat) => {
-            const items = byCategory[cat];
-            if (items.length === 0) return null;
+            const data = categories[cat];
+            if (!data || data.questions.length === 0) return null;
             return (
               <div key={cat} className="mb-12 lg:mb-16 last:mb-0">
+                <p
+                  className="font-heading font-semibold uppercase m-0 mb-2"
+                  style={{
+                    fontSize: '13px',
+                    letterSpacing: 'var(--tracking-eyebrow)',
+                    color: 'var(--color-sunset-green-700)',
+                  }}
+                >
+                  {data.eyebrow}
+                </p>
                 <h2
                   id={`qa-cat-${cat}`}
                   className="m-0 mb-6 font-heading"
@@ -160,12 +169,12 @@ export default async function QaPage({
                     color: 'var(--color-text-primary)',
                   }}
                 >
-                  {t(`categories.${cat}`)}
+                  {data.title}
                 </h2>
                 <ul className="m-0 p-0 list-none border-t border-[var(--color-border)]">
-                  {items.map((item) => (
+                  {data.questions.map((item, idx) => (
                     <li
-                      key={item.id}
+                      key={`${cat}-${idx}`}
                       className="border-b border-[var(--color-border)]"
                     >
                       <details className="group">

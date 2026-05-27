@@ -1350,3 +1350,58 @@ Closes 10 user-visible bugs Goran flagged on a Preview walkthrough. Polish pass 
 11. **Accessibility page (Issue 10).** Net-new route at `/[locale]/accessibility/` with the same chrome shape as `/privacy/` and `/terms/`. WCAG 2.2 AA commitment statement. ES uses `usted` register (legal-adjacent informational surface). New `accessibility.*` i18n namespace in both locales. Added to `sitemap.ts`, `EXPECTED_PATHS` in `validate-seo.mjs`, and URL sweep in `validate-a11y.mjs`. Indexable (no noindex) — the page is a marketing+compliance asset.
 
 **Decided by:** user (Goran) flagged the 10 issues during walkthrough; chat resolved per-issue trade-offs during execution per the M.10 phase prompt.
+
+---
+
+## 2026-05-27 — Phase M.10b — Content integration: Marcin's brand story + Goran's Q&A library + 7 SEO FAQs
+
+Closes a content-only phase: drops in real brand copy from Marcin (Hardscape Lead) and Goran's 28-question Q&A library, plus a 7-FAQ Sanity seed targeting high-volume Chicago-area searches that the existing per-service / per-city FAQ corpus doesn't cover cleanly. No new routes; no schema changes; existing chrome unchanged.
+
+### 1. Four work units shipped
+
+1. **Q&A rewrite from 5 → 7 categories, 25 → 28 questions** (`/qa/` + `/es/qa/`). Goran's exact structure and English text drop in verbatim; old 5-category corpus is fully retired. New categories: Project Planning & Process (5), Pricing & Investment (4), Materials & Installation (5), Retaining Walls & Drainage (3), Outdoor Living Features (3), Maintenance & Warranty (4), Trust & Credibility (4). i18n shape changed: was `qa.categories.<key>` = string + `qa.questions[]` = flat array filtered by category; now `qa.categories.<key>` = `{title, eyebrow, questions[]}`. Page rewritten to consume the new shape via `t.raw('categories')`; `CATEGORY_ORDER` is now the only display-order source (page no longer carries a hardcoded category-count). Schema unchanged: `BreadcrumbList` only, no `FAQPage` (per M.01e locked decision #20 — avoids diluting per-service/per-city FAQ schemas).
+
+2. **New homepage "Why Sunset?" band** at `src/components/sections/home/HomeWhySunset.tsx`. Server component, matches the existing `HomeProjects.tsx` / `HomeAudienceEntries.tsx` server-component pattern. Inserted into `src/app/[locale]/page.tsx` between `<HomeProjects/>` and `<HomeCTA/>`. 8 brand-value cards from Marcin's "Why Homeowners Choose Sunset" list in a `grid-cols-1 sm:grid-cols-2 lg:grid-cols-4` responsive grid. New i18n namespace `home.whySunset.*` in both locales (eyebrow + h2 + dek + cards[8]). Per-card lucide icons: `Home` / `Shield` / `DollarSign` / `Award` / `FileCheck` / `Compass` / `Heart` / `TrendingUp` — picked from the user's suggested set; one icon per card, rendered inside a 44×44 sunset-green-50 disc with sunset-green-700 stroke at `strokeWidth={1.75}`.
+
+3. **About brand-story enrichment** (`about.story.*` namespace + `AboutBrandStory.tsx`). Grew from 3 paragraphs to 4 by weaving Marcin's "locally owned, family-operated, NOT private-equity, long-term relationships, smart investments" narrative into the existing 25-year history framing. p1 enriched with "locally owned and family operated since day one — based in Aurora, IL"; p2 enriched with the "we answer to our customers, not to outside ownership groups or private-equity quotas" line; p3 enriched with workmanship/fair-pricing/family-handoff language; new p4 carries the brand-values summary ("our goal isn't to sell projects — it's to help homeowners make smart investments"). No new sections on the About page; just the existing brand-story band grows by one paragraph.
+
+4. **`scripts/seed-faq-content-integration.mjs`** — idempotent Sanity seed script for 7 SEO-targeted FAQs. Modeled on `migrate-faq-to-divisions.mjs` (M.01e): same env loader, same `createClient` config, same `localized(en, es)` helper, deterministic `_id`s (`faq-seo-<slug>`), `createOrReplace` for idempotency, per-FAQ logging that distinguishes "created" from "replaced". `order: 100 + idx` keeps the SEO FAQs below the existing per-scope FAQs (which start at `order: 0`) so they sort to the end of each scope's rendered list. NOT auto-run — operator (Goran) runs `npx tsx scripts/seed-faq-content-integration.mjs` locally with `SANITY_API_WRITE_TOKEN` in `.env.local`.
+
+### 2. In-phase decisions (off-spec from the phase plan, surfaced during execution)
+
+1. **Filename `Phase-M-10b2-Completion.md`** (not `Phase-M-10b-Completion.md` as the spec asked). The repo already has a committed `Phase-M-10B-Completion.md` (capital B, commit `99adf80`) for the prior `/impeccable:audit` fix-pass. Git's `core.ignoreCase=true` on Windows + NTFS case-insensitive filesystem means `Phase-M-10b-Completion.md` (lowercase b) would have overwritten the existing audit-fix-pass report. Operator confirmed the rename to `Phase-M-10b2-Completion.md` via Chat before the file was created.
+
+2. **HomeWhySunset surface is cream — accepts one cream-cream adjacency.** The homepage chain after Hero (charcoal) is: AudienceEntries (white) → ServicesOverview (cream) → SocialProof (white) → About (cream) → Projects (white) → CTA (cream). The user's prompt specified insertion "after the existing projects/testimonials block, before the bottom CTA" — i.e., between Projects (white) and CTA (cream). Perfect 2-surface alternation at that insertion point is impossible without a third surface or modifying neighbors (both excluded by the prompt's "cream or white" constraint and the "don't modify other sections" implication). Choosing cream over white was the better break: white→cream Projects→Why preserves alternation, cream→cream Why→CTA pairs the brand-summary section with the closing CTA as a unified "summary + ask" closing block. Visual differentiation between the two cream sections is established by content type (cards-grid vs centered text), eyebrow color, and the icon discs in HomeWhySunset.
+
+3. **Q&A page refactor preserved `CATEGORY_ORDER` as the single display-order source.** The new i18n shape (`qa.categories.<key>.{title, eyebrow, questions[]}`) makes the category set itself extensible just by editing the JSON, but adding a category to en.json + es.json alone wouldn't surface it — it also has to land in `CATEGORY_ORDER` in `qa/page.tsx`. JSDoc on the page documents the contract so the next editor knows to update both.
+
+4. **Pre-existing `src/messages/es.json` trailing-junk fix folded into this phase.** The file ended with `\n  }\n}` after the valid JSON close (introduced in commit `47a74790` / Phase M.01f1) and failed `JSON.parse` strict-mode. Webpack/Next's JSON loader is lenient enough that it didn't break runtime, but the M.10b validation step ("`JSON.parse(...es.json)` must parse cleanly") would have failed on main. Removed the 3 trailing junk lines as part of the M.10b es.json rewrite, then re-verified JSON.parse passes on both files. Documented separately so it doesn't get lost in the M.10b content-integration narrative.
+
+5. **About brand-story grew from 3 paragraphs to 4** (the user's spec said "can grow to 2-3 paragraphs" but it was already 3). Interpreted "can grow" as "growth is permitted" — the existing 3 paragraphs already covered the chronology, so the 4th paragraph carries Marcin's brand-values summary cleanly without crowding the existing narrative. Alternative — folding everything into the existing p1/p2/p3 — would have made each paragraph feel overstuffed.
+
+6. **ES `whySunset.h2` uses "Le respondemos..."** (3rd-person address) instead of strict `tú` for the H2 line. Marketing-surface ES is `tú` per the M.01f1 register matrix, but "Le respondemos a nuestros clientes" reads more naturally than "Te respondemos a ti, nuestro cliente" — the 3rd-person "to our customers" version avoids the awkward direct-address while preserving the rhetorical punch. Card bodies use `tú` per the locked matrix. Flagged for Erick in M.03.
+
+7. **SEO FAQ ES translations use `usted`** per the M.01f1 informational-surface matrix (Sanity FAQ docs are informational, not marketing). Glossary picks per M.01f1: "Hardscape" stays in English; "estimado" (not "presupuesto"); "el municipio" for village/town government; "Contratista Autorizado Unilock" for the certification reference.
+
+8. **No deviations from the user's per-FAQ scope table.** All 7 FAQs use the exact scope tags the user specified (`service:hardscape:patios-walkways` × 5, `city:naperville` × 1, `service:hardscape:driveways` × 1). Scope-tag format matches the M.01e `migrate-faq-to-divisions.mjs` convention (`service:<division>:<slug>`).
+
+### 3. What this phase intentionally did NOT change
+
+- No new routes (`/qa/` already exists; HomeWhySunset is a section inside `/`, not a route).
+- No new Sanity schema (uses the existing `faq` type from Phase 2.05).
+- No homepage HomeCTA, HomeHero, or HomeProjects edits (the user excluded neighbor modifications).
+- No `validate:schema` / `validate:seo` / `validate:a11y` config changes (no new served routes; the existing `EXPECTED_PATHS` in `validate-seo.mjs` covers `/qa/` already).
+- No Sanity migration run (operator runs `npx tsx scripts/seed-faq-content-integration.mjs` after merge).
+- No M.10B audit-fix-pass file edits (preserved per the rename decision above).
+
+### 4. Branch and verification
+
+- **Branch:** `worktree-claude+m10b-content-integration` (harness sanitized the suggested `claude/m10b-content-integration` because the worktree name policy disallows the `/`).
+- **Verification:**
+  - `JSON.parse` clean on both `src/messages/en.json` and `src/messages/es.json` (es.json trailing-junk fix folded in — see decision #4 above).
+  - `npx tsc --noEmit` shows zero non-baseline errors (only the pre-existing worktree-only `@/assets/*` + `@upstash/redis` + `@googlemaps/js-api-loader` + `prettier/standalone` + `@react-email/render` + `google.maps` module-not-found errors that the Vercel build pipeline handles differently).
+  - `npm run lint` shows zero errors (10 pre-existing warnings, none in M.10b files).
+  - Browser preview verification SKIPPED — operator's existing dev server held port 3000 against the main repo; Next 16 refuses a second concurrent dev server; operator confirmed via Chat to skip and rely on Vercel Preview post-merge verification.
+  - Validation harnesses (`validate:schema|seo|a11y`) deferred to the operator per the same pattern from M.01d/e/e-pt2 — they require a running dev server and don't have new routes to test.
+
+**Decided by:** Chat (operator gave M.10b phase prompt); execution decisions surfaced + resolved by Code during the worktree run.

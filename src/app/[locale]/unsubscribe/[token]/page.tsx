@@ -1,6 +1,7 @@
 import type {Metadata} from 'next';
 import {getTranslations, setRequestLocale} from 'next-intl/server';
 import {getSubscriberByToken} from '@sanity-lib/queries';
+import {safeLogMeta} from '@/lib/logging/safeError';
 import UnsubscribeActions from './UnsubscribeActions';
 
 /**
@@ -56,7 +57,16 @@ export default async function UnsubscribePage({
   setRequestLocale(locale);
   const t = await getTranslations({locale, namespace: 'unsubscribe'});
 
-  const subscriber = await getSubscriberByToken(token);
+  let subscriber: Awaited<ReturnType<typeof getSubscriberByToken>>;
+  try {
+    subscriber = await getSubscriberByToken(token);
+  } catch (err) {
+    console.error(
+      '[unsubscribe/page] subscriber lookup failed',
+      safeLogMeta('/unsubscribe/[token]', err),
+    );
+    subscriber = null;
+  }
 
   const initialState: 'confirm' | 'alreadyUnsubscribed' | 'invalid' =
     subscriber === null

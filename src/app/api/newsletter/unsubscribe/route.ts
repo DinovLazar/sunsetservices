@@ -51,7 +51,16 @@ export async function POST(request: Request) {
 
   const {token, action} = parsed.data;
 
-  const subscriber = await getSubscriberByToken(token);
+  let subscriber: Awaited<ReturnType<typeof getSubscriberByToken>>;
+  try {
+    subscriber = await getSubscriberByToken(token);
+  } catch (err) {
+    console.error(
+      '[/api/newsletter/unsubscribe] lookup failed',
+      safeLogMeta('/api/newsletter/unsubscribe', err, {action}),
+    );
+    return NextResponse.json({status: 'lookup-failed'}, {status: 500});
+  }
   if (!subscriber) {
     return NextResponse.json({status: 'invalid-token'}, {status: 404});
   }

@@ -89,8 +89,8 @@ const LIGHTHOUSE_MIN_SCORE = 95;
 const URLS = [
   // ----- EN: 16-URL representative set -----
   {path: '/', label: 'home'},
-  {path: '/residential', label: 'audience-landing'},
-  {path: '/residential/lawn-care', label: 'service-detail'},
+  {path: '/landscape', label: 'division-landing'},
+  {path: '/landscape/lawn-care', label: 'service-detail'},
   {path: '/service-areas', label: 'service-areas-index'},
   {path: '/service-areas/aurora', label: 'city-page'},
   {path: '/projects', label: 'projects-index'},
@@ -107,7 +107,7 @@ const URLS = [
   {path: '/unsubscribe/SAMPLE_TOKEN_INVALID', label: 'unsubscribe-invalid'},
   // ----- ES parity spot-check (3 URLs) -----
   {path: '/es', label: 'es-home'},
-  {path: '/es/residential/lawn-care', label: 'es-service-detail'},
+  {path: '/es/landscape/lawn-care', label: 'es-service-detail'},
   {path: '/es/request-quote', label: 'es-quote-wizard'},
 ];
 

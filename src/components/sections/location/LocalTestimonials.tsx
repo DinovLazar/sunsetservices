@@ -11,11 +11,18 @@ type LocalTestimonialsProps = {
 /**
  * LocalTestimonials — Phase 1.14 §4.5.
  *
- * Renders the city's testimonial cards (locked `.card-testimonial`-style
- * pattern, 1.03 §6.2). 5 filled stars are decorative — no aggregate score
- * until Phase 2.15 wires real Google reviews. Quote prose is plain (NOT a
- * `<blockquote>` with hidden author — author + city are visible inside the
- * card per a11y §9).
+ * Renders the city's testimonial cards. The Phase 1.03 §6.2 lock specified
+ * a 4px green `border-left` side-stripe; Phase M.10B replaced that with a
+ * leading 4.5rem `"` (U+201C) quote glyph in green-500 at opacity 0.6,
+ * positioned top-left via an absolutely-placed `<span aria-hidden>`. The
+ * surrounding `<article>` is `position: relative` and the padding-top is
+ * bumped to `var(--spacing-10)` to make headroom for the glyph. Mirrors
+ * the `.card-testimonial` CSS class definition in `src/app/globals.css`.
+ *
+ * 5 filled stars are decorative — no aggregate score until Phase 2.15
+ * wires real Google reviews. Quote prose is plain (NOT a `<blockquote>`
+ * with hidden author — author + city are visible inside the card per
+ * a11y §9).
  *
  * Section-level `<AnimateIn>` only.
  *
@@ -56,12 +63,28 @@ export default async function LocalTestimonials({
                   className="relative"
                   style={{
                     background: 'var(--color-bg-cream)',
-                    borderLeft: '4px solid var(--color-sunset-green-500)',
                     borderRadius: 'var(--radius-xl)',
-                    padding: 'var(--spacing-8) var(--spacing-8) var(--spacing-6)',
+                    padding:
+                      'var(--spacing-10) var(--spacing-8) var(--spacing-6) var(--spacing-8)',
                     boxShadow: 'var(--shadow-on-cream, var(--shadow-soft))',
                   }}
                 >
+                  <span
+                    aria-hidden="true"
+                    style={{
+                      position: 'absolute',
+                      top: 'var(--spacing-2)',
+                      left: 'var(--spacing-4)',
+                      fontFamily: 'var(--font-heading), Manrope, sans-serif',
+                      fontSize: '4.5rem',
+                      lineHeight: 1,
+                      color: 'var(--color-sunset-green-500)',
+                      opacity: 0.6,
+                      pointerEvents: 'none',
+                    }}
+                  >
+                    {'“'}
+                  </span>
                   <div
                     className="flex items-center gap-1 mb-5"
                     role="img"

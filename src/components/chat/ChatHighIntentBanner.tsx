@@ -1,7 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import {X} from 'lucide-react';
+import {Sparkles, X} from 'lucide-react';
 import {useTranslations, useLocale} from 'next-intl';
 import {Link} from '@/i18n/navigation';
 import {CHAT_EVENTS, fireChatEvent} from '@/lib/chat/events';
@@ -32,7 +32,6 @@ export default function ChatHighIntentBanner({highIntent, onDismiss}: Props) {
       aria-live="polite"
       style={{
         background: 'var(--color-sunset-amber-50, #FDF7E8)',
-        borderLeft: '3px solid var(--color-sunset-amber-700)',
         padding: '12px 16px',
         display: 'flex',
         flexDirection: 'column',
@@ -66,9 +65,21 @@ export default function ChatHighIntentBanner({highIntent, onDismiss}: Props) {
           color: 'var(--color-text-primary)',
           paddingRight: 24,
           lineHeight: 1.4,
+          display: 'flex',
+          alignItems: 'flex-start',
+          gap: 8,
         }}
       >
-        {t('intro')}
+        <Sparkles
+          size={16}
+          aria-hidden="true"
+          style={{
+            color: 'var(--color-sunset-amber-700)',
+            flexShrink: 0,
+            marginTop: 1,
+          }}
+        />
+        <span>{t('intro')}</span>
       </p>
 
       <div style={{display: 'flex', gap: 8, flexWrap: 'wrap'}}>

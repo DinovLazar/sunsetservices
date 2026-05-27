@@ -62,10 +62,11 @@
   --color-sunset-amber-700: #B47821;
 
   /* ---------- Surfaces (locked) ---------- */
-  --color-bg:          #FFFFFF;
-  --color-bg-cream:    #FAF7F1;
-  --color-bg-stone:    #F2EDE3;
-  --color-bg-charcoal: #1A1A1A;
+  --color-bg:               #FFFFFF;
+  --color-bg-cream:         #FAF7F1;
+  --color-bg-stone:         #F2EDE3;
+  --color-bg-charcoal:      #1A1A1A;
+  --color-bg-deep-charcoal: #0E0E0E;
 
   /* ---------- Text (locked) ---------- */
   --color-text-primary:   #1A1A1A;
@@ -324,12 +325,13 @@
     transition-property: transform, background-color, border-color, color, box-shadow, opacity;
     transition-duration: var(--motion-base);
     transition-timing-function: var(--easing-standard);
-    will-change: transform;
     user-select: none;
     cursor: pointer;
     text-decoration: none;
     border: var(--border-1) solid transparent;
   }
+  :is(.btn):hover,
+  :is(.btn):focus-visible { will-change: transform; }
   .btn:focus-visible {
     outline: var(--border-2) solid var(--color-focus-ring);
     outline-offset: 2px;
@@ -485,8 +487,22 @@
   }
   .card-photo:hover img { transform: scale(1.03); }
   .card-testimonial {
-    border-left: var(--border-thick) solid var(--color-sunset-green-500);
+    position: relative;
     border-radius: var(--radius-xl);
+    padding-top: var(--spacing-10);
+    padding-left: var(--spacing-8);
+  }
+  .card-testimonial::before {
+    content: "\201C";
+    position: absolute;
+    top: var(--spacing-2);
+    left: var(--spacing-4);
+    font-family: var(--font-heading);
+    font-size: 4.5rem;
+    line-height: 1;
+    color: var(--color-sunset-green-500);
+    opacity: 0.6;
+    pointer-events: none;
   }
   /* D2 — Featured = white surface + 2px amber-500 decorative ring. */
   .card-featured {
@@ -948,8 +964,10 @@
     border-radius: var(--radius-lg);
     padding: var(--spacing-4) var(--spacing-5);
     box-shadow: var(--shadow-soft);
-    border-left-width: var(--border-thick);
-    border-left-style: solid;
+  }
+  .alert-icon {
+    flex-shrink: 0;
+    margin-top: 2px;
   }
   .alert-title {
     font-weight: 600;
@@ -964,22 +982,18 @@
   }
   .alert-info {
     background: var(--color-info-bg);
-    border-left-color: var(--color-info);
     color: var(--color-info-fg);
   }
   .alert-success {
     background: var(--color-success-bg);
-    border-left-color: var(--color-success);
     color: var(--color-success-fg);
   }
   .alert-warning {
     background: var(--color-warning-bg);
-    border-left-color: var(--color-warning);
     color: var(--color-warning-fg);
   }
   .alert-danger {
     background: var(--color-danger-bg);
-    border-left-color: var(--color-danger);
     color: var(--color-danger-fg);
   }
   .toast {

@@ -156,13 +156,14 @@ export default function WizardStep1Audience({value, onChange, error}: Props) {
                         height: 32,
                         borderRadius: '50%',
                         background: 'var(--color-sunset-green-500)',
+                        color: 'var(--color-text-on-green)',
                         display: 'inline-flex',
                         alignItems: 'center',
                         justifyContent: 'center',
                         boxShadow: 'var(--shadow-card)',
                       }}
                     >
-                      <Check size={18} color="#FFFFFF" strokeWidth={3} />
+                      <Check size={18} strokeWidth={3} />
                     </span>
                   ) : null}
                 </div>

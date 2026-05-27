@@ -87,7 +87,7 @@ export default function ChatComposer({onSend, onLeadCta, disabled = false}: Prop
           className="btn btn-primary"
           style={{
             width: 44,
-            height: 40,
+            height: 44,
             padding: 0,
             borderRadius: 10,
             flexShrink: 0,

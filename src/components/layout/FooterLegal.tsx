@@ -15,7 +15,7 @@ export default async function FooterLegal() {
   const localeSwitchKey = locale === 'en' ? 'localeSwitchToEs' : 'localeSwitchToEn';
 
   return (
-    <div className="bg-[#0E0E0E]">
+    <div className="bg-[var(--color-bg-deep-charcoal)]">
       <div className="mx-auto max-w-[var(--container-default)] px-4 sm:px-6 lg:px-8 xl:px-12 py-4 flex flex-col md:flex-row gap-3 md:items-center md:justify-between text-[13px]">
         <p className="text-[var(--color-sunset-green-200)] m-0">
           {t('copyright', {year})}

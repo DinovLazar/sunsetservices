@@ -49,7 +49,6 @@ function FaqRow({item}: {item: FaqAccordionItem}) {
     >
       <summary
         className="flex items-start justify-between gap-6 cursor-pointer list-none py-5 lg:py-6"
-        style={{outline: 'none'}}
       >
         <h3
           className="m-0 font-heading font-semibold"

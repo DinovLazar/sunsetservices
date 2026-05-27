@@ -62,9 +62,9 @@ export default function FilterChipStrip({
       className="-mx-4 sm:-mx-6 lg:-mx-8 xl:-mx-12 px-4 sm:px-6 lg:px-8 xl:px-12 overflow-x-auto"
       style={{
         WebkitMaskImage:
-          'linear-gradient(90deg, #000 0, #000 calc(100% - 24px), transparent 100%)',
+          'linear-gradient(90deg, var(--color-bg-charcoal) 0, var(--color-bg-charcoal) calc(100% - 24px), transparent 100%)',
         maskImage:
-          'linear-gradient(90deg, #000 0, #000 calc(100% - 24px), transparent 100%)',
+          'linear-gradient(90deg, var(--color-bg-charcoal) 0, var(--color-bg-charcoal) calc(100% - 24px), transparent 100%)',
         scrollSnapType: 'x proximity',
       }}
     >

@@ -77,9 +77,12 @@ export default function LanguageSwitcher({
     >
       {LOCALES.map((locale) => {
         const isActive = locale === activeLocale;
+        const visibleLabel = t(locale);
         const labelFull = t(locale === 'en' ? 'enFull' : 'esFull');
         const switchLabel = t(locale === 'en' ? 'switchToEn' : 'switchToEs');
-        const ariaLabel = isActive ? labelFull : switchLabel;
+        // Accessible name must START with the visible text ("EN"/"ES") to satisfy
+        // Lighthouse `label-content-name-mismatch` (Phase 2.08 audit).
+        const ariaLabel = `${visibleLabel} — ${isActive ? labelFull : switchLabel}`;
         return (
           <Link
             key={locale}
@@ -87,7 +90,7 @@ export default function LanguageSwitcher({
             locale={locale}
             hrefLang={locale}
             lang={locale}
-            aria-current={isActive ? 'true' : undefined}
+            aria-current={isActive ? 'page' : undefined}
             aria-label={ariaLabel}
             data-locale={locale}
             ref={(el) => {

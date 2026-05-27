@@ -48,6 +48,7 @@ export default function WizardSavedToast({onClose}: Props) {
           height: 24,
           borderRadius: '50%',
           background: 'var(--color-sunset-green-500)',
+          color: 'var(--color-text-on-green)',
           display: 'inline-flex',
           alignItems: 'center',
           justifyContent: 'center',
@@ -55,7 +56,7 @@ export default function WizardSavedToast({onClose}: Props) {
           marginTop: 2,
         }}
       >
-        <Check size={14} color="#FFFFFF" strokeWidth={3} />
+        <Check size={14} strokeWidth={3} />
       </span>
       <div style={{flex: 1, minWidth: 0}}>
         <p

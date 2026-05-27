@@ -183,6 +183,45 @@
       },
       "cta": "See all projects"
     },
+    "whySunset": {
+      "eyebrow": "Why Sunset",
+      "h2": "We answer to our customers — not outside investors.",
+      "dek": "Locally owned. Family operated. Built for long-term relationships in the communities we serve.",
+      "cards": [
+        {
+          "label": "Family-owned & locally operated",
+          "body": "Based in Aurora, IL — owned and run by the Valle family since 2000."
+        },
+        {
+          "label": "Not private-equity or investor owned",
+          "body": "No outside ownership group, no quarterly quota. Decisions stay with the people doing the work."
+        },
+        {
+          "label": "Fair & transparent pricing",
+          "body": "Itemized estimates within 48 hours. The price we sign is the price you pay."
+        },
+        {
+          "label": "Premium materials & installation standards",
+          "body": "Unilock products and base prep built for the Illinois freeze/thaw cycle — not the cheap-shortcut version."
+        },
+        {
+          "label": "HOA & permit experience",
+          "body": "We pull every required permit and handle architectural-review submissions for HOA communities across the western suburbs."
+        },
+        {
+          "label": "Professional design guidance",
+          "body": "Our team helps homeowners make smart investment decisions — not just sell projects."
+        },
+        {
+          "label": "Long-term customer relationships",
+          "body": "Many year-one customers from 2000 are still on the route today. Reputation is built one homeowner at a time."
+        },
+        {
+          "label": "Focused on value — not volume",
+          "body": "We schedule by quality, not by quota. Fewer rushed jobs; more attention to each project."
+        }
+      ]
+    },
     "cta": {
       "eyebrow": "Ready to start?",
       "h2": "Let's design your outdoor space.",
@@ -1172,9 +1211,10 @@
         "line1": "Started by Nick.",
         "line2": "Run today by Erick."
       },
-      "p1": "Nick Valle started the company in 2000 with one truck and a maintenance route across Aurora and Naperville. The first contract is still active, twenty-five years later.",
-      "p2": "In 2018, Erick — Nick's son — took over operations. Same crew, same 6:30 a.m. start, same standard for what a finished property looks like. No subcontracted surprises; the people who measure your project are the people who do it.",
-      "p3": "Marcin joined to lead the hardscape division — Unilock-Authorized installs, paver patios, retaining walls, fire features. The trucks share a yard; your job stays one phone call long.",
+      "p1": "Nick Valle started Sunset Services in 2000 with one truck and a maintenance route across Aurora and Naperville. The first contract is still active, twenty-five years later. We've stayed locally owned and family operated since day one — based in Aurora, IL.",
+      "p2": "In 2018, Erick — Nick's son — took over operations. Same crew, same 6:30 a.m. start, same standard for what a finished property looks like. We answer to our customers, not to outside ownership groups or private-equity quotas. No subcontracted surprises; the people who measure your project are the people who do it.",
+      "p3": "Marcin joined to lead the hardscape division — Unilock-Authorized installs, paver patios, retaining walls, fire features. The standard is exceptional workmanship, fair pricing, and a finished property you can hand off to the family with confidence. The trucks share a yard; your job stays one phone call long.",
+      "p4": "Our goal isn't to sell projects. It's to help homeowners make smart investments — outdoor spaces families can enjoy for years to come. Our reputation is built one homeowner, one neighborhood, one project at a time.",
       "alt": "Erick and Nick working on-site together at a DuPage County property, late afternoon light.",
       "cta": {
         "residential": "See residential services →",
@@ -2110,172 +2150,169 @@
   "qa": {
     "meta": {
       "title": "Common questions — Sunset Services",
-      "description": "Answers to the questions DuPage County homeowners ask most about landscaping, hardscaping, waterproofing, and snow removal."
+      "description": "Straight answers to the 28 questions Chicago-area homeowners ask most about landscape, hardscape, waterproofing, and snow removal."
     },
     "hero": {
       "eyebrow": "Q&A",
       "h1": "Common questions",
-      "dek": "The 25 questions DuPage County homeowners ask us most often — pricing, timeline, materials, service area, and the day-to-day logistics. Don't see yours? Call (630) 946-9321."
+      "dek": "28 questions Chicago-area homeowners ask us most often — planning, pricing, materials, drainage, outdoor living, maintenance, and credentials. Don't see yours? Call (630) 946-9321."
     },
     "categories": {
-      "pricing": "Pricing & estimates",
-      "process": "Process & timeline",
-      "materials": "Materials & quality",
-      "serviceArea": "Service area",
-      "logistics": "Logistics & payment"
-    },
-    "questions": [
-      {
-        "id": "q-01",
-        "category": "pricing",
-        "q": "How much does a paver patio cost in DuPage County?",
-        "a": "A new paver patio runs $18–32 per square foot installed, depending on the paver line and base prep. A typical 200 sq ft patio lands around $4,500–$6,500; a 400 sq ft patio with a fire feature runs $9,000–$13,500. We give an itemized estimate within 48 hours of the site walk so there are no surprises."
+      "projectPlanning": {
+        "title": "Project planning & process",
+        "eyebrow": "Planning",
+        "questions": [
+          {
+            "q": "How does the design and estimate process work?",
+            "a": "We begin with a site consultation to review your property, discuss goals, evaluate drainage and elevation concerns, and explore material options. We then prepare a detailed proposal and design recommendations tailored to your space and budget."
+          },
+          {
+            "q": "Do I need a plat of survey?",
+            "a": "In many cases, yes — especially for patios, retaining walls, pavilions, pergolas, driveways, and HOA submissions. A plat helps us verify layout, property lines, setbacks, and permit requirements."
+          },
+          {
+            "q": "Will Sunset Services help with HOA approvals?",
+            "a": "Yes. We regularly work with HOA communities throughout the western suburbs and can assist with architectural review submissions, material sheets, plats, and supporting documentation."
+          },
+          {
+            "q": "Do you handle permits?",
+            "a": "Yes. When required, we assist with permit applications and coordinate with local municipalities to help ensure the project is compliant."
+          },
+          {
+            "q": "How far out are you scheduling projects?",
+            "a": "Scheduling varies throughout the season. Spring and summer projects often book several weeks or months in advance, so early planning is recommended."
+          }
+        ]
       },
-      {
-        "id": "q-02",
-        "category": "pricing",
-        "q": "Do you offer free estimates?",
-        "a": "Yes — every estimate is free, itemized, and delivered within 48 hours of the site walk. We don't quote until we've walked the property; phone-only quotes for hardscape, landscape design, and waterproofing tend to be wrong. There's no obligation to sign."
+      "pricing": {
+        "title": "Pricing & investment",
+        "eyebrow": "Pricing",
+        "questions": [
+          {
+            "q": "Why are hardscape projects expensive?",
+            "a": "Quality hardscape installations require extensive excavation, proper base preparation, drainage planning, premium materials, skilled labor, equipment, disposal costs, and long-term structural considerations. Proper installation protects against settling, movement, and premature failure."
+          },
+          {
+            "q": "Why is Sunset Services not the cheapest contractor?",
+            "a": "We focus on long-term quality, communication, professionalism, and proper installation methods — not shortcuts. Our goal is to build projects that last and elevate your property value."
+          },
+          {
+            "q": "Do you offer financing?",
+            "a": "Yes. Financing options may be available for qualified customers through third-party financing partners."
+          },
+          {
+            "q": "What deposit is required?",
+            "a": "Most projects require a deposit to secure scheduling and material procurement. Final payment terms are outlined within each proposal."
+          }
+        ]
       },
-      {
-        "id": "q-03",
-        "category": "pricing",
-        "q": "What's the typical price range for landscape design?",
-        "a": "A full-yard landscape design package — site walk, two concept renderings, plant + materials list, and phased build plan — runs $2,500–$6,000 depending on lot size and complexity. The design fee is credited toward the build if you move forward with us within 12 months."
+      "materials": {
+        "title": "Materials & installation",
+        "eyebrow": "Materials",
+        "questions": [
+          {
+            "q": "What paver brands do you use?",
+            "a": "We primarily install premium products from Unilock and other high-quality manufacturers known for durability, aesthetics, and long-term performance."
+          },
+          {
+            "q": "What is the difference between concrete and pavers?",
+            "a": "Pavers offer superior flexibility, easier repairability, stronger visual appeal, and better long-term performance in freeze/thaw climates compared to standard poured concrete."
+          },
+          {
+            "q": "What is a permeable paver system?",
+            "a": "Permeable systems allow water to infiltrate through the joints into a specialized stone base below, helping with drainage, runoff reduction, and winter performance."
+          },
+          {
+            "q": "Do pavers settle or move over time?",
+            "a": "Any outdoor surface can shift if improperly installed. Proper excavation, base preparation, drainage management, and edge restraint systems are critical to long-term performance."
+          },
+          {
+            "q": "Do you use polymeric sand?",
+            "a": "Yes. Polymeric sand helps stabilize joints, reduce weed growth, and minimize insect intrusion while improving overall appearance."
+          }
+        ]
       },
-      {
-        "id": "q-04",
-        "category": "pricing",
-        "q": "Do you offer financing?",
-        "a": "Yes, we partner with a national home-improvement lender for projects $5,000 and up. Most homeowners qualify for 12- or 24-month deferred-interest plans. The application is online and takes about 10 minutes; approval is typically same-day."
+      "retainingWalls": {
+        "title": "Retaining walls & drainage",
+        "eyebrow": "Walls & drainage",
+        "questions": [
+          {
+            "q": "Why is drainage so important for retaining walls?",
+            "a": "Improper drainage creates hydrostatic pressure behind walls, which can eventually lead to movement or failure. We incorporate proper drainage practices to help protect the structure."
+          },
+          {
+            "q": "Can you solve water or drainage issues?",
+            "a": "Yes. We regularly design drainage solutions including downspout extensions, catch basins, dry creek beds, grading improvements, and French drain systems."
+          },
+          {
+            "q": "Do retaining walls require permits?",
+            "a": "Depending on wall height, location, and municipality, permits may be required. We help guide customers through that process."
+          }
+        ]
       },
-      {
-        "id": "q-05",
-        "category": "pricing",
-        "q": "Is the estimate price the final price?",
-        "a": "Yes — barring scope changes you sign off on, the estimate is the final price. If we discover something during the build that wasn't visible at the estimate (an old buried slab, a tree root, etc.), we stop work and bring the cost to you before we move on. No surprise charges at the end."
+      "outdoorLiving": {
+        "title": "Outdoor living features",
+        "eyebrow": "Outdoor living",
+        "questions": [
+          {
+            "q": "Do you build outdoor kitchens and entertainment spaces?",
+            "a": "Yes. We design and install outdoor kitchens, fire features, seating walls, lighting systems, pergolas, entertainment areas, and custom outdoor living environments."
+          },
+          {
+            "q": "Can lighting be added to existing patios or walls?",
+            "a": "In many cases, yes. We install landscape and hardscape lighting including under-coping lights, stair lighting, accent lighting, and roofline systems."
+          },
+          {
+            "q": "Do you install pergolas and pavilions?",
+            "a": "Yes. We install both attached and freestanding structures depending on the project layout and municipal requirements."
+          }
+        ]
       },
-      {
-        "id": "q-06",
-        "category": "process",
-        "q": "How long does a typical patio installation take?",
-        "a": "Most patios under 400 sq ft finish in 5–7 working days from break-ground to final clean. Larger projects with retaining walls, fire features, or outdoor kitchens run 2–4 weeks. We give you a real start + end date in the contract, not a vague window."
+      "maintenance": {
+        "title": "Maintenance & warranty",
+        "eyebrow": "Maintenance",
+        "questions": [
+          {
+            "q": "Do you provide a warranty?",
+            "a": "Yes. Sunset Services provides a workmanship warranty on qualifying installations. Warranty details are outlined within each proposal."
+          },
+          {
+            "q": "Should I seal my pavers?",
+            "a": "Not always. Some surfaces benefit from sealing while others may not require it. We recommend sealing based on the specific material, age, and condition of the installation."
+          },
+          {
+            "q": "What maintenance is required after installation?",
+            "a": "We recommend occasional cleaning, joint sand maintenance when necessary, and avoiding harsh deicing salts during the first winter on new concrete installations."
+          },
+          {
+            "q": "What happens if another contractor repairs or modifies the project?",
+            "a": "Work performed by others may void workmanship warranty coverage on affected areas."
+          }
+        ]
       },
-      {
-        "id": "q-07",
-        "category": "process",
-        "q": "What's the process from estimate to install?",
-        "a": "Site walk → itemized estimate within 48 hours → signed contract + deposit → permits and materials ordered → start date locked in (usually 3–6 weeks out for hardscape, sooner for lawn work). The same crew that walks your property is the crew that builds the project — no subcontractor handoffs."
-      },
-      {
-        "id": "q-08",
-        "category": "process",
-        "q": "Do I need permits for my project?",
-        "a": "Most patios under 30 inches off grade don't need permits in DuPage County. Retaining walls over 4 feet, decks, pergolas, and outdoor kitchens with gas runs almost always do. We pull every required permit, schedule the inspections, and include the cost in the estimate."
-      },
-      {
-        "id": "q-09",
-        "category": "process",
-        "q": "What happens if it rains during my project?",
-        "a": "We work in light rain on most jobs, but a real storm pushes the schedule a day. We text you the morning of each weather call so you're never wondering whether the crew is showing up. Rain-day extensions don't add to the cost — the contract price holds."
-      },
-      {
-        "id": "q-10",
-        "category": "process",
-        "q": "When's the best time to schedule landscape work?",
-        "a": "Hardscape and design work runs March through November in DuPage County; the sweet spot is May–September. Spring-planting work is best in April–May; fall planting in September–October. Snow contracts sign by October 15 for the season."
-      },
-      {
-        "id": "q-11",
-        "category": "materials",
-        "q": "Why Unilock pavers?",
-        "a": "Unilock is the premium paver in the Chicagoland market — they manufacture in the Midwest, they hold up to our freeze-thaw cycles, and they back their product with a transferable lifetime warranty. We've been a Unilock Authorized Contractor since 2003. We do work with other paver lines on request, but Unilock is our default."
-      },
-      {
-        "id": "q-12",
-        "category": "materials",
-        "q": "What kind of warranty do you offer?",
-        "a": "Hardscape gets a 5-year workmanship warranty in writing. Unilock paver products carry their own lifetime transferable manufacturer warranty. Plantings carry a 1-year replacement guarantee on year-one losses. Foundation and waterproofing fixes carry their own warranties (typically 5–25 years depending on the work)."
-      },
-      {
-        "id": "q-13",
-        "category": "materials",
-        "q": "What's the difference between pavers and stamped concrete?",
-        "a": "Pavers are individual stones set in a sand bed over a crushed-stone base — if one cracks or settles, you pull it and reset just that stone. Stamped concrete is a single slab that cracks predictably over 5–10 years in our freeze-thaw climate, and the repair is much harder to hide. We almost always recommend pavers for our climate."
-      },
-      {
-        "id": "q-14",
-        "category": "materials",
-        "q": "Do you only use professional-grade materials?",
-        "a": "Yes. Every base is woven geotextile + 6 inches of crushed stone, not the 3-inch shortcut some contractors use. Plants come from established Midwest growers, not big-box stock. Concrete is mixed and delivered, not bagged on-site. We can show you the supplier names on the estimate if you ask."
-      },
-      {
-        "id": "q-15",
-        "category": "materials",
-        "q": "How do you choose plants for the DuPage County climate?",
-        "a": "We plant species that survive zone 5b winters and DuPage clay-loam soil. That means natives and Midwest-adapted cultivars first, ornamentals second, and almost never the marketing-friendly plants you see at big-box garden centers. The 1-year replacement guarantee covers anything we plant that doesn't establish."
-      },
-      {
-        "id": "q-16",
-        "category": "serviceArea",
-        "q": "What towns do you service?",
-        "a": "Our weekly route covers Aurora, Naperville, Wheaton, Batavia, Lisle, Bolingbrook, Hinsdale, Oak Brook, Elmhurst, Clarendon Hills, Burr Ridge, Western Springs, Glen Ellyn, Downers Grove, Winfield, Lombard, St. Charles, Geneva, South Elgin, Elburn, North Aurora, Oswego, Yorkville, and Plainfield. Surrounding DuPage and Kane County towns on request."
-      },
-      {
-        "id": "q-17",
-        "category": "serviceArea",
-        "q": "Do you service Hinsdale?",
-        "a": "Yes — Hinsdale has been on our route since 2007. We have crews in Hinsdale most weeks of the growing season; basement waterproofing and foundation work have become a Hinsdale specialty for us given the older housing stock. Call (630) 946-9321 for a free walk-through."
-      },
-      {
-        "id": "q-18",
-        "category": "serviceArea",
-        "q": "Do you take projects outside DuPage County?",
-        "a": "We take adjacent-county projects (Kane, Will, Cook edges) on a case-by-case basis. The crews are based in Aurora, so anything more than 40 minutes out gets harder to schedule and a small travel line shows up on the estimate. Call and ask — we'll tell you straight whether we're the right fit."
-      },
-      {
-        "id": "q-19",
-        "category": "serviceArea",
-        "q": "How far do you travel for jobs?",
-        "a": "Our default service area is everything within a 30-minute drive of our Aurora yard, which covers most of DuPage and the eastern edge of Kane County. For hardscape projects $25,000 and up, we'll travel further on request — call to confirm."
-      },
-      {
-        "id": "q-20",
-        "category": "serviceArea",
-        "q": "Do you have a minimum project size?",
-        "a": "For new hardscape (patios, walls, driveways), the practical minimum is around $3,500 — below that, the mobilization cost dominates the price. For maintenance services (lawn care, seasonal cleanup, snow removal), there's no real minimum. Tree work and small repairs are quoted job-by-job."
-      },
-      {
-        "id": "q-21",
-        "category": "logistics",
-        "q": "Do I need to be home during the installation?",
-        "a": "No. Once the start date is locked in and the deposit is paid, the crew can work without you home. We text you a morning-of update every day, send photo progress at end-of-day, and walk you through the finished job whenever you're back. About 30% of our hardscape clients aren't home for most of the build."
-      },
-      {
-        "id": "q-22",
-        "category": "logistics",
-        "q": "What payment methods do you accept?",
-        "a": "Check, ACH transfer, and major credit cards (a 3% processing fee applies to cards on amounts over $2,500). Financed projects through our lending partner are billed directly to the lender. We don't accept cash for projects over $1,000 — paper trails protect both of us."
-      },
-      {
-        "id": "q-23",
-        "category": "logistics",
-        "q": "Do you require a deposit?",
-        "a": "Yes — typically 30% at contract signing, 30% at material delivery, 40% at job completion. For projects under $5,000 it's usually a 50/50 split. Maintenance contracts (lawn, snow) are billed monthly with no upfront deposit."
-      },
-      {
-        "id": "q-24",
-        "category": "logistics",
-        "q": "What happens if I'm not satisfied?",
-        "a": "We come back inside 24 hours and fix it — that's the standard. If something doesn't hold up over the season, the 5-year workmanship warranty covers the rework. We've been around 25 years because we treat punch-list items like real items, not like favors."
-      },
-      {
-        "id": "q-25",
-        "category": "logistics",
-        "q": "Do you handle clean-up?",
-        "a": "Yes — every job ends with the property cleaner than when we showed up. Driveways and walks blown clean, debris hauled off-site same day, no piles left behind. The final walkthrough doesn't happen until that's done."
+      "trust": {
+        "title": "Trust & credibility",
+        "eyebrow": "Trust",
+        "questions": [
+          {
+            "q": "Is Sunset Services insured?",
+            "a": "Yes. We are fully insured for residential and commercial work."
+          },
+          {
+            "q": "Are you a certified contractor?",
+            "a": "Yes. Sunset Services is proud to be a Unilock Authorized Contractor and holds additional hardscape-related certifications."
+          },
+          {
+            "q": "What areas do you service?",
+            "a": "We primarily serve the western suburbs of the Chicago area including Aurora, Naperville, St. Charles, Geneva, Batavia, Downers Grove, Elmhurst, Barrington, and surrounding communities."
+          },
+          {
+            "q": "Can I see examples of your work?",
+            "a": "Yes. Visit our gallery and our social pages to see completed projects, renderings, and ongoing installations."
+          }
+        ]
       }
-    ],
+    },
     "cta": {
       "h2": "Still have a question?",
       "sub": "Get a free estimate or give us a call — we'll talk through your project, no pressure.",

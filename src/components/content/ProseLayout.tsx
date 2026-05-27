@@ -3,6 +3,7 @@ import {getTranslations} from 'next-intl/server';
 import {Link} from '@/i18n/navigation';
 import {renderProse} from '@/lib/proseRenderer';
 import ServiceAreaStrip from '@/components/sections/ServiceAreaStrip';
+import {getService} from '@/data/services';
 import TOC from './TOC.client';
 
 type Locale = 'en' | 'es';
@@ -73,9 +74,12 @@ export default async function ProseLayout({
     crossLinkIdx = target.index + target.full.length;
   }
 
-  const crossLinkPath =
-    inlineServiceCrossLink &&
-    `/${inlineServiceCrossLink.audience}/${inlineServiceCrossLink.serviceSlug}/`;
+  const crossLinkService = inlineServiceCrossLink
+    ? getService(inlineServiceCrossLink.serviceSlug, inlineServiceCrossLink.audience)
+    : undefined;
+  const crossLinkPath = crossLinkService
+    ? `/${crossLinkService.division}/${crossLinkService.slug}/`
+    : null;
 
   // Build the assembled body in segments so we can intersperse JSX.
   const segments: React.ReactNode[] = [];

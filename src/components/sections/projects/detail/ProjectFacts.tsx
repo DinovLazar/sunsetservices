@@ -2,7 +2,7 @@ import * as React from 'react';
 import {getTranslations} from 'next-intl/server';
 import {Link} from '@/i18n/navigation';
 import AnimateIn from '@/components/global/motion/AnimateIn';
-import {SERVICES, getService} from '@/data/services';
+import {SERVICES, getService, type Division} from '@/data/services';
 import {getLocation} from '@/data/locations';
 import type {Project} from '@/data/projects';
 
@@ -32,9 +32,14 @@ export default async function ProjectFacts({project, locale}: ProjectFactsProps)
     .map((slug) => {
       // Prefer same-audience match; fall back to first occurrence.
       const svc = getService(slug, project.audience) ?? SERVICES.find((s) => s.slug === slug);
-      return svc ? {slug: svc.slug, name: svc.name[locale], audience: svc.audience} : null;
+      return svc ? {slug: svc.slug, name: svc.name[locale], division: svc.division} : null;
     })
-    .filter(Boolean) as {slug: string; name: string; audience: 'residential' | 'commercial' | 'hardscape'}[];
+    .filter(Boolean) as {slug: string; name: string; division: Division}[];
+  const audienceHref = resolvedServices[0]?.division
+    ? `/${resolvedServices[0].division}/`
+    : project.audience === 'hardscape'
+      ? '/hardscape/'
+      : '/landscape/';
 
   return (
     <section
@@ -129,7 +134,7 @@ export default async function ProjectFacts({project, locale}: ProjectFactsProps)
                 }}
               >
                 <Link
-                  href={`/${project.audience}/`}
+                  href={audienceHref}
                   className="link link-inline"
                   style={{color: 'var(--color-sunset-green-700)', fontWeight: 500}}
                 >
@@ -161,7 +166,7 @@ export default async function ProjectFacts({project, locale}: ProjectFactsProps)
                   <React.Fragment key={s.slug}>
                     {idx > 0 ? <span aria-hidden="true"> · </span> : null}
                     <Link
-                      href={`/${s.audience}/${s.slug}/`}
+                      href={`/${s.division}/${s.slug}/`}
                       className="link link-inline"
                       style={{color: 'var(--color-sunset-green-700)', fontWeight: 500}}
                     >

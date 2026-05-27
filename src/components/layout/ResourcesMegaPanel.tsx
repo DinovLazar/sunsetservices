@@ -109,6 +109,7 @@ export default function ResourcesMegaPanel() {
         role="menu"
         aria-label={t('chrome.nav.resources')}
         aria-hidden={!open}
+        inert={open ? undefined : true}
         onMouseEnter={openNow}
         onMouseLeave={scheduleClose}
         data-open={open || undefined}
@@ -117,8 +118,8 @@ export default function ResourcesMegaPanel() {
           'bg-[var(--color-bg)] border-t border-[var(--color-border)] shadow-[var(--shadow-card)]',
           'transition-[opacity,transform] duration-[var(--motion-base)] ease-[var(--easing-standard)]',
           open
-            ? 'opacity-100 translate-y-0 pointer-events-auto'
-            : 'opacity-0 -translate-y-1 pointer-events-none',
+            ? 'visible opacity-100 translate-y-0 pointer-events-auto'
+            : 'invisible opacity-0 -translate-y-1 pointer-events-none',
         ].join(' ')}
       >
         <div className="mx-auto max-w-[var(--container-wide)] px-4 sm:px-6 lg:px-8 xl:px-12 py-10">

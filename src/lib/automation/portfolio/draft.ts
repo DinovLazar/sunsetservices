@@ -217,6 +217,13 @@ function getResponseText(response: Anthropic.Message): string {
   return '';
 }
 
+/**
+ * 3 minute cap for structured bilingual portfolio JSON. The prompt is large
+ * and may legitimately run long, but an unbounded upstream call can pin a
+ * serverless function until platform timeout.
+ */
+const PORTFOLIO_DRAFT_TIMEOUT_MS = 180_000;
+
 async function callAnthropic(
   client: Anthropic,
   model: string,
@@ -229,6 +236,8 @@ async function callAnthropic(
     max_tokens: 4000,
     system: buildSystemPrompt(),
     messages: [{role: 'user', content: text}],
+  }, {
+    signal: AbortSignal.timeout(PORTFOLIO_DRAFT_TIMEOUT_MS),
   });
 }
 

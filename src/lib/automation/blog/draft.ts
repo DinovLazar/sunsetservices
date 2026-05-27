@@ -125,6 +125,13 @@ function getResponseText(response: Anthropic.Message): string {
   return '';
 }
 
+/**
+ * 3 minute cap for bilingual structured JSON generation. Sonnet can take 2+
+ * minutes on long drafts; beyond this, retrying later is safer than pinning a
+ * function instance indefinitely.
+ */
+const BLOG_DRAFT_TIMEOUT_MS = 180_000;
+
 async function callAnthropic(
   client: Anthropic,
   model: string,
@@ -137,6 +144,8 @@ async function callAnthropic(
     max_tokens: 8000,
     system: SYSTEM_PROMPT,
     messages: [{role: 'user', content: text}],
+  }, {
+    signal: AbortSignal.timeout(BLOG_DRAFT_TIMEOUT_MS),
   });
 }
 

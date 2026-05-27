@@ -41,6 +41,13 @@ export type SendBrandedEmailResult = {
 
 const OPAQUE_EMAIL_ERROR = 'email-send-failed';
 
+/**
+ * 15s cap for Resend. Email is best-effort after durable Sanity capture, so
+ * timing out should free the function quickly and surface only an opaque
+ * non-blocking failure to callers.
+ */
+const EMAIL_SEND_TIMEOUT_MS = 15_000;
+
 export async function sendBrandedEmail(
   args: SendBrandedEmailArgs,
 ): Promise<SendBrandedEmailResult> {
@@ -64,6 +71,9 @@ export async function sendBrandedEmail(
     : React.cloneElement(args.react, {intendedRecipient: intended});
 
   const resend = new Resend(apiKey);
+  const requestOptions = {
+    signal: AbortSignal.timeout(EMAIL_SEND_TIMEOUT_MS),
+  } as Parameters<typeof resend.emails.send>[1];
 
   try {
     const result = await resend.emails.send({
@@ -71,7 +81,7 @@ export async function sendBrandedEmail(
       to: [actualTo],
       subject,
       react: reactElement,
-    });
+    }, requestOptions);
     if (result.error) {
       console.error('[sendBrandedEmail] Resend returned error', {
         route: 'sendBrandedEmail',

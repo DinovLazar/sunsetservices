@@ -31,6 +31,12 @@ import {safeLogMeta} from '@/lib/logging/safeError';
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
+/**
+ * 60s ceiling for chat streaming. The model can stream for a while, but if
+ * Anthropic cannot keep the request alive inside a minute we free the function.
+ */
+const CHAT_STREAM_TIMEOUT_MS = 60_000;
+
 const ChatMessageSchema = z.object({
   role: z.enum(['user', 'assistant']),
   content: z.string().min(1).max(4000),
@@ -89,6 +95,8 @@ export async function POST(request: NextRequest) {
           system,
           tools: [FLAG_HIGH_INTENT_TOOL],
           messages: messages.map((m) => ({role: m.role, content: m.content})),
+        }, {
+          signal: AbortSignal.timeout(CHAT_STREAM_TIMEOUT_MS),
         });
 
         for await (const event of apiStream) {

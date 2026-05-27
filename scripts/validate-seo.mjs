@@ -163,18 +163,13 @@ const CITY_SLUGS = [
 ];
 
 const PROJECT_SLUGS = [
-  'naperville-hilltop-terrace',
-  'naperville-fire-court',
-  'aurora-hoa-curb-refresh',
-  'aurora-driveway-apron',
-  'wheaton-lawn-reset',
-  'wheaton-bank-frontage',
-  'lisle-retaining-wall',
-  'lisle-backyard-refresh',
-  'batavia-garden-reset',
-  'batavia-front-walk',
-  'bolingbrook-office-court',
-  'bolingbrook-paver-plaza',
+  '1008-homerton-north-aurora',
+  '1227-colchester-lane-aurora',
+  '6135-belmont-downers-grove',
+  '807-edgewater-drive',
+  '811-edgewater-drive',
+  'aurora-area-patio',
+  'scott-and-sarahs',
 ];
 
 const BLOG_SLUGS = [

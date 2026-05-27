@@ -137,6 +137,19 @@ export default async function ServiceAreaMap() {
             title={`${loc.name}, ${loc.state} — view location page`}
             aria-label={`${loc.name}, ${loc.state}`}
           >
+            {/* Invisible hit area — WCAG 2.2 SC 2.5.8 (Target Size, Minimum)
+                requires standalone interactive targets to be ≥ 24×24 CSS px.
+                The visible pin renders ~17px wide, so we add a transparent
+                circle (r=16 → 32 user-units ≈ 27px at the map's render scale)
+                to enlarge the clickable/measured target without changing the
+                visible dot. `fill="transparent"` is still painted, so it
+                receives pointer events and counts toward the link's box. */}
+            <circle
+              cx={loc.pin.x}
+              cy={loc.pin.y}
+              r={16}
+              fill="transparent"
+            />
             <circle
               cx={loc.pin.x}
               cy={loc.pin.y}

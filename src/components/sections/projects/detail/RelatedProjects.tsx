@@ -63,7 +63,7 @@ export default async function RelatedProjects({current, locale, all}: RelatedPro
                 <li key={p.slug}>
                   <ProjectCard
                     href={`/projects/${p.slug}/`}
-                    photo={PROJECT_LEAD[p.slug]}
+                    photo={p.leadImageUrl ?? PROJECT_LEAD[p.slug]}
                     alt={p.leadAlt[locale]}
                     title={p.title[locale]}
                     meta={`${cityName} · ${p.year}`}

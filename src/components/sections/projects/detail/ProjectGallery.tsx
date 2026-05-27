@@ -17,6 +17,20 @@ type ProjectGalleryProps = {
 };
 
 /**
+ * next/image requires explicit width/height for remote string sources
+ * (StaticImageData carries its own intrinsic size). Sanity asset URLs encode
+ * the source dimensions in the filename, e.g. `…-4000x2252.jpg`. Parse those
+ * so the lightbox <Image> (which renders at natural/contained size, not
+ * `fill`) has the dimensions it needs. Falls back to a 4:3 default if the URL
+ * doesn't carry dimensions.
+ */
+function sanityImageDimensions(src: string): {width: number; height: number} {
+  const m = src.match(/-(\d+)x(\d+)\.\w+/);
+  if (m) return {width: Number(m[1]), height: Number(m[2])};
+  return {width: 1600, height: 1200};
+}
+
+/**
  * Project gallery + lightbox — Phase 1.15 §4.4 / D7.B + D8.
  *
  * 4:3 uniform grid (3 cols desktop / 2 cols tablet+mobile). Each photo is
@@ -94,6 +108,12 @@ export default function ProjectGallery({photos}: ProjectGalleryProps) {
 
   const total = photos.length;
   const current = photos[currentIndex];
+  // Remote (Sanity) string sources need explicit width/height; StaticImageData
+  // sources infer their own, so only compute dimensions for strings.
+  const lightboxDims =
+    typeof current.asset === 'string'
+      ? sanityImageDimensions(current.asset)
+      : null;
 
   return (
     <section
@@ -179,6 +199,9 @@ export default function ProjectGallery({photos}: ProjectGalleryProps) {
               alt={current.alt}
               priority
               sizes="92vw"
+              {...(lightboxDims
+                ? {width: lightboxDims.width, height: lightboxDims.height}
+                : {})}
               style={{
                 width: 'auto',
                 height: 'auto',

@@ -170,6 +170,14 @@ export default async function LocationHero({location, locale}: LocationHeroProps
                   fetchPriority="high"
                   placeholder="blur"
                   sizes="(max-width: 1023px) 100vw, 40vw"
+                  // Phase M.02 — quality 70 on the hero photo. Default 75
+                  // serves a WebP measurably larger with no perceptible
+                  // difference at hero-card scale; Lighthouse mobile flagged
+                  // 89 KiB of image-delivery savings against /service-areas/
+                  // aurora/. The card aspect-ratio (4/3) means the image
+                  // surface area is smaller than full-bleed heroes, so the
+                  // quality drop is harder to spot.
+                  quality={70}
                   style={{objectFit: 'cover'}}
                 />
               ) : null}

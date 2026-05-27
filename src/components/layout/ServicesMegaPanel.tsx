@@ -122,13 +122,22 @@ export default function ServicesMegaPanel() {
         onMouseEnter={openNow}
         onMouseLeave={scheduleClose}
         data-open={open || undefined}
+        // visibility: per-property timing — flips visible immediately on open,
+        // hidden after the 240ms fade-out on close. Required by WCAG SC 2.4.11
+        // focus-not-obscured: a `position:fixed` element with `visibility:visible`
+        // (even at `opacity:0`) is in the obscurity calculation; flipping to
+        // hidden when closed removes the panel from that calculation. (Phase
+        // M.02 — pre-existing regression from the navbar CSS-fade rework at
+        // commit 17a8a55 that made the panel always-mounted in the DOM.)
+        style={{
+          transition: `opacity var(--motion-base) var(--easing-standard), transform var(--motion-base) var(--easing-standard), visibility 0s ${open ? '0s' : 'var(--motion-base)'}`,
+        }}
         className={[
           'fixed left-0 right-0 top-[72px] z-[var(--z-dropdown)]',
           'bg-[var(--color-bg)] border-t border-[var(--color-border)] shadow-[var(--shadow-card)]',
-          'transition-[opacity,transform] duration-[var(--motion-base)] ease-[var(--easing-standard)]',
           open
-            ? 'opacity-100 translate-y-0 pointer-events-auto'
-            : 'opacity-0 -translate-y-1 pointer-events-none',
+            ? 'opacity-100 translate-y-0 pointer-events-auto visible'
+            : 'opacity-0 -translate-y-1 pointer-events-none invisible',
         ].join(' ')}
       >
         <div className="mx-auto max-w-[var(--container-wide)] px-4 sm:px-6 lg:px-8 xl:px-12 py-10">

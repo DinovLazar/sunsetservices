@@ -305,6 +305,11 @@ export default async function BlogPostPage({
               sizes="(max-width: 1023px) 100vw, 1280px"
               priority
               fetchPriority="high"
+              // Phase M.02 — quality 70 on blog hero photo. The blog post LCP
+              // measured 7.4s on mobile at baseline; cutting the served WebP
+              // is one of the few in-scope levers here (the source is from
+              // public/images/blog/, not a static import that Next can blur).
+              quality={70}
               style={{objectFit: 'cover'}}
             />
           </div>

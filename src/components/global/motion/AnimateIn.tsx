@@ -1,74 +1,48 @@
 'use client';
 
 /**
- * AnimateIn — Motion variant-host shell. Does NOT play an entrance animation on mount.
+ * AnimateIn — pass-through shell. Does NOT play an entrance animation on mount.
  *
- * Despite the name, `initial={false}` is intentional: the element renders at its
- * `animate` state on first paint. There is no SSR → hydration `opacity: 0` flash and
- * no scroll-triggered fade. This is the Phase M.10 walkthrough fix — Goran's
- * "once visible, stay visible" requirement (see `_project-state/Phase-M-10-Completion.md`
- * §1 and the 2026-05-26 entry in `Sunset-Services-Decisions.md`).
+ * Phase M.10 made this component a no-op via `initial={false}` on the motion
+ * variant graph (Goran's "once visible, stay visible" requirement, see
+ * `_project-state/Phase-M-10-Completion.md` §1). Phase M.10B documented the
+ * trade-off and kept the `motion` wrapper "for a future consumer to opt back
+ * into a real entrance by passing `initial="initial"` explicitly". But no
+ * consumer does that today, and every page that includes AnimateIn pulled the
+ * `motion/react` runtime into the always-loaded chunk for zero observable
+ * benefit.
  *
- * The component still wires `variants` through `motion`, so the variant `animate` state
- * (opacity 1, y 0, etc. defined in `./variants.ts`) IS what renders. Variant `initial`
- * states are kept on the records so a future consumer can opt back into a real entrance
- * by passing `initial="initial"` explicitly, or so `whileHover` / `whileTap` triggers
- * can compose against the same variant graph if added later.
+ * Phase M.02 collapses this to a plain element render. The API stays the same
+ * (`variant`, `delay`, `as`, `className`, `children`) so consumers don't need
+ * to change. `variant` and `delay` become inert. If anyone later wants the
+ * scroll-triggered fade back, fork into a new `ScrollReveal` primitive that
+ * imports `motion/react` itself (and accept the bundle cost there).
  *
- * Reduced-motion is handled globally by `<MotionRoot reducedMotion="user">`.
- *
- * If you need a real scroll-triggered fade (and accept the hydration flicker risk),
- * fork this into a `ScrollReveal` primitive with `whileInView="animate"` +
- * `viewport={{ once: true, margin: '-10%' }}`. Do not change this component's default
- * behavior — too many consumers depend on the no-flicker contract.
+ * Reduced-motion: no animation = no reduced-motion concern.
  */
 
 import * as React from 'react';
-import {motion, type Variants} from 'motion/react';
-import {animateInVariants, type AnimateInVariant} from './variants';
+import type {AnimateInVariant} from './variants';
 
 type AnimateInProps = {
+  /** Kept for API compatibility; inert since M.02 — the component renders
+   *  at its previous `animate` state with no transition. */
   variant?: AnimateInVariant;
+  /** Inert since M.02. */
   delay?: number;
   as?: keyof React.JSX.IntrinsicElements;
   children: React.ReactNode;
   className?: string;
 };
 
-function withDelay(variant: AnimateInVariant, delay: number): Variants {
-  const base = animateInVariants[variant];
-  if (delay === 0) return base;
-  const animate = (base.animate ?? {}) as Record<string, unknown> & {
-    transition?: Record<string, unknown>;
-  };
-  return {
-    ...base,
-    animate: {
-      ...animate,
-      transition: {
-        ...(animate.transition ?? {}),
-        delay,
-      },
-    },
-  };
-}
-
 export default function AnimateIn({
-  variant = 'fade-up',
-  delay = 0,
   as = 'div',
   children,
   className,
 }: AnimateInProps) {
-  const Component = motion[as as 'div'];
-  return (
-    <Component
-      initial={false}
-      animate="animate"
-      variants={withDelay(variant, delay)}
-      className={className}
-    >
-      {children}
-    </Component>
+  return React.createElement(
+    as as string,
+    className ? {className} : null,
+    children,
   );
 }

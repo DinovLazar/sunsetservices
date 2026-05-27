@@ -169,6 +169,11 @@ const PROJECT_SLUGS = [
   '807-edgewater-drive',
   '811-edgewater-drive',
   'aurora-area-patio',
+  // Phase M.02 — added to absorb the sitemap drift surfaced by the SEO harness
+  // (`sitemap contains unexpected URL: /projects/aurora-driveway-apron`).
+  // The project doc was added to Sanity but the harness slug list wasn't
+  // updated; M.02 closes the drift as a regression-gate unblocker.
+  'aurora-driveway-apron',
   'scott-and-sarahs',
 ];
 

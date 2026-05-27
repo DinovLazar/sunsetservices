@@ -112,13 +112,21 @@ export default function ResourcesMegaPanel() {
         onMouseEnter={openNow}
         onMouseLeave={scheduleClose}
         data-open={open || undefined}
+        // visibility: same per-property timing pattern as ServicesMegaPanel —
+        // immediate visible on open, hidden after the fade-out on close. WCAG
+        // SC 2.4.11 requires `position:fixed` overlays be `visibility:hidden`
+        // when closed so focused elements behind them aren't reported as
+        // obscured. (Phase M.02 — pre-existing regression from navbar commit
+        // 17a8a55 that made panels always-mounted.)
+        style={{
+          transition: `opacity var(--motion-base) var(--easing-standard), transform var(--motion-base) var(--easing-standard), visibility 0s ${open ? '0s' : 'var(--motion-base)'}`,
+        }}
         className={[
           'fixed left-0 right-0 top-[72px] z-[var(--z-dropdown)]',
           'bg-[var(--color-bg)] border-t border-[var(--color-border)] shadow-[var(--shadow-card)]',
-          'transition-[opacity,transform] duration-[var(--motion-base)] ease-[var(--easing-standard)]',
           open
-            ? 'opacity-100 translate-y-0 pointer-events-auto'
-            : 'opacity-0 -translate-y-1 pointer-events-none',
+            ? 'opacity-100 translate-y-0 pointer-events-auto visible'
+            : 'opacity-0 -translate-y-1 pointer-events-none invisible',
         ].join(' ')}
       >
         <div className="mx-auto max-w-[var(--container-wide)] px-4 sm:px-6 lg:px-8 xl:px-12 py-10">

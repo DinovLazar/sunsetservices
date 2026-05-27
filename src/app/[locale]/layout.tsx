@@ -27,15 +27,21 @@ import {
 import {SITE_URL, hreflangAlternates} from '@/lib/seo/urls';
 import '../globals.css';
 
+// Phase M.02 — drop `latin-ext` subset. The site ships EN + ES Spanish only;
+// every glyph either alphabet needs (À-ÿ range incl. Ñ ñ á é í ó ú ü ¿ ¡) is
+// in the `latin` subset (U+0000-U+00FF). `latin-ext` adds Eastern-European
+// glyphs (Polish/Czech/Hungarian/Romanian/Turkish) we never render. Removing
+// the subset trims the woff2 payload Next emits in the per-request <link
+// rel="preload"> for each weight, cutting font bytes off the LCP path.
 const manrope = Manrope({
-  subsets: ['latin', 'latin-ext'],
+  subsets: ['latin'],
   weight: ['400', '500', '600', '700', '800'],
   display: 'swap',
   variable: '--font-heading',
 });
 
 const onest = Onest({
-  subsets: ['latin', 'latin-ext'],
+  subsets: ['latin'],
   weight: ['400', '500', '600', '700'],
   display: 'swap',
   variable: '--font-body',

@@ -75,19 +75,17 @@ const URLS = [
     label: 'home',
     mustHaveTypes: ['LocalBusiness', 'Organization', 'WebSite'],
   },
-  {
-    path: '/residential/',
-    label: 'audience-landing-residential',
-    mustHaveTypes: ['LocalBusiness', 'Organization', 'BreadcrumbList', 'ItemList'],
-  },
-  {
-    path: '/commercial/',
-    label: 'audience-landing-commercial',
-    mustHaveTypes: ['LocalBusiness', 'Organization', 'BreadcrumbList', 'ItemList'],
-  },
+  // Phase M.01e retired `/residential/` + `/commercial/` as standalone landing
+  // pages — both now redirect to `/` via next.config.ts. The harness's expected
+  // BreadcrumbList + ItemList no longer applies (homepage's schema is
+  // WebSite + sitewide). Removed in Phase M.02 as a regression-gate unblocker.
+  // The Hardscape landing kept its URL (no rename); it's the model for the
+  // four post-M.01e division landings (landscape / hardscape / waterproofing /
+  // snow-removal). A follow-up phase should expand this entry to cover all
+  // four; M.02 keeps the change minimal.
   {
     path: '/hardscape/',
-    label: 'audience-landing-hardscape',
+    label: 'division-landing-hardscape',
     mustHaveTypes: ['LocalBusiness', 'Organization', 'BreadcrumbList', 'ItemList'],
   },
   {

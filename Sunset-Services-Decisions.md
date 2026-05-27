@@ -1350,3 +1350,77 @@ Closes 10 user-visible bugs Goran flagged on a Preview walkthrough. Polish pass 
 11. **Accessibility page (Issue 10).** Net-new route at `/[locale]/accessibility/` with the same chrome shape as `/privacy/` and `/terms/`. WCAG 2.2 AA commitment statement. ES uses `usted` register (legal-adjacent informational surface). New `accessibility.*` i18n namespace in both locales. Added to `sitemap.ts`, `EXPECTED_PATHS` in `validate-seo.mjs`, and URL sweep in `validate-a11y.mjs`. Indexable (no noindex) — the page is a marketing+compliance asset.
 
 **Decided by:** user (Goran) flagged the 10 issues during walkthrough; chat resolved per-issue trade-offs during execution per the M.10 phase prompt.
+
+## 2026-05-26 — Phase M.10B (Code: `/impeccable:audit` fix-pass, follow-on to M.10)
+
+Goran ran `/impeccable:audit` over the post-M.10 state. Audit scored 16/20 with one cluster of P1 anti-pattern findings (BAN 1 — side-stripe borders on cards/alerts > 1px) plus a handful of P1/P2 a11y / theming / responsive polish items. Goran dispatched the 8 audit recommendations via `/superpowers:dispatching-parallel-agents`. The fix-pass landed as commit `99adf80` (held back from push initially per Goran's "do not push to github" instruction; ratified during the M.02 session-start and pushed alongside the M.02 work).
+
+**Locked decisions (M.10B):**
+
+1. **`.card-testimonial` rewrite extended to `LocalTestimonials.tsx` (supersedes Phase 1.03 §6.2 lock).** The audit recommendation targeted the `.card-testimonial` CSS class; the inline mirror in `LocalTestimonials.tsx` was extended in the polish pass for visual consistency. To revert: restore `LocalTestimonials.tsx` to HEAD AND revert the `globals.css` `.card-testimonial` block.
+
+2. **`.alert-*` side-stripe replaced with a styling hook, not an inline icon default.** New `.alert-icon` class (`flex-shrink: 0; margin-top: 2px;`) — consumers pick the right icon per variant + locale.
+
+3. **AnimateIn / StaggerContainer / StaggerItem documented but not behavior-changed in M.10B.** Phase M.02 subsequently collapsed all three to plain pass-throughs (the M.10B JSDoc-only-change rationale of "kept for future opt-in" turned out to have no consumer; M.02 removed the motion runtime importer for the bundle win).
+
+4. **Email-template stripes carved out.** `QuoteLeadAlertEmail.tsx`, `ContactAlertEmail.tsx`, `ChatLeadEmail.tsx` keep their `border-left` because cross-client email-renderer compatibility requires it (Outlook/Gmail render `border-left` reliably; many other CSS features fail).
+
+5. **`/dev/system` `<blockquote>` carved out.** Classical typography (Wikipedia / newspaper pull-quote semantic), different from a "card with a stripe"; not in BAN 1's scope.
+
+6. **New `--color-bg-deep-charcoal: #0E0E0E` token added rather than collapsing FooterLegal to the existing `--color-bg-charcoal: #1A1A1A`.** Per Part-1-Phase-05-Completion.md the footer's deeper-than-charcoal strip is intentional. Adding a token preserves the visual decision and lifts the hex literal into the design system simultaneously.
+
+7. **Wizard `<Check>` icons switched from `color="#FFFFFF"` prop to `currentColor` inheritance.** Idiomatic Lucide pattern; the parent disc declares `color: var(--color-text-on-green)` so the icon inherits via `currentColor`.
+
+8. **Send-button height fix scoped to button only.** The surrounding `<div style={{display: 'flex', alignItems: 'flex-end'}}>` adapts to the taller button automatically.
+
+**Decided by:** Goran ran the audit; the audit's per-finding recommendations were resolved by the dispatched agents + final polish pass per the standing M.10/M.10B phase scope.
+
+## 2026-05-26 — Phase M.02 (Code: performance pass — Lighthouse 95+ desktop AND mobile)
+
+The phase pulled all four planned D4 levers (image optimization, `next/dynamic` of below-hero client islands, font preload audit, critical CSS audit) plus the cheap-wins envelope (consent modal dynamic, hero quality, font subset drop), and addressed three inherited regression-gate-blocking issues. Regression gate **GREEN** on the final Preview SHA — schema 0/0, SEO 0/0, a11y 0 axe-AA + 0 SC 2.4.11 + 0 SC 2.5.8. **Mobile perf does not reach 95+ on any sampled page** — confirmed as the Phase 1.07 structural ceiling; per D1 ship-and-carryover the gap is filed as a P.x row (below). Desktop perf hits 95+ on 4 of 7 sampled pages. Full detail + per-page before/after table in `src/_project-state/Phase-M-02-Completion.md`. Branched on top of M.10B (`99adf80`); the M.02 work is the single squashed commit on `claude/perf-m02-lighthouse`.
+
+**Locked decisions (M.02 — applied as the plan's D1–D10):**
+
+1. **D1 ship-and-carryover.** Mobile-perf gap is real and structural. Carried as the P.x row below rather than blocking close.
+2. **D2 sample picked by Code, honored the floor.** 7 routes: home / division-landing (landscape) / service-detail (landscape-design) / city-detail (aurora) / blog-post (dupage-patio-cost-2026) / third-party-embed (thank-you with Calendly) / Q&A (qa). Spanish parity sweep deferred to the next perf re-measure in P.05.
+3. **D3 measurement environment.** Vercel Preview only, no localhost. All measurements via `scripts/run-lighthouse.mjs` against the per-deployment URL (`sunsetservices-r9qt68ook-…`) because the branch-alias URL had a different SSO behavior that depressed accuracy. Baseline used the same per-deployment URL convention against the pre-M.10B `sunsetservices-lhacmsvne-…`.
+4. **D4 all four levers pulled.** Image quality 70 on hero `<Image>` slots in HomeHero / AudienceHero / ServiceHero / LocationHero / blog post page. `next/dynamic` for ConsentPreferencesModal. Font preload audit → dropped `latin-ext` from both Manrope + Onest. Critical CSS audit → no global stylesheet pruning was needed (Tailwind v4 already class-prunes; no obviously-dead selectors found in `globals.css`).
+5. **D5 cheap wins pulled where applicable.** Third-party scripts confirmed already `afterInteractive`. Consent-modal dynamic-import landed. Latin-ext subset dropped. `lucide-react` tree-shake left unaudited (would require `@next/bundle-analyzer` install, outside scope; suspected fine). Chat bubble ≤ 8 KB gz baseline preserved (no chat changes). Sanity `urlFor()` width audit not triggered (no sample-page heroes are Sanity-served).
+6. **D6 last-resort lever (AnimateIn → CSS IntersectionObserver refactor) NOT pulled.** A lighter alternative achieved the same bundle-size goal: collapsing AnimateIn / StaggerContainer / StaggerItem from `motion.div` wrappers to plain `React.createElement` pass-throughs (the M.10 `initial={false}` no-op contract is preserved; the API for consumers is unchanged). Combined with `ConsentBanner` motion → CSS, `NavbarMobile` motion → no-motion, and `MotionRoot` collapse, this dropped the `motion/react` runtime entirely from the always-loaded layout chunk. Per-feature chunks (WizardShell, ChatPanel, ConsentPreferencesModal — all dynamic-imported) still pull motion on demand.
+7. **D7 harness shipped.** `scripts/run-lighthouse.mjs` + `npm run lighthouse` script + `/scripts/.lighthouse-report.json` gitignored.
+8. **D8 regression gate exit-0 on final Preview SHA.** Schema + SEO + a11y all clean.
+9. **D9 per-page table** in `Phase-M-02-Completion.md` §5.
+10. **D10 no new `[TBR]` markers.** No translation strings touched.
+
+**In-phase decisions (M.02-specific judgment calls):**
+
+11. **Pre-flight regression gate FAILED in three places** — but all three were inherited regressions, not M.02-induced. The plan's Step 1 says "Code stops, surfaces, and asks." Per the user's session-start directive to "run fully autonomous; check in only at end," Code addressed all three in-phase rather than stopping. The three:
+    - **Schema 4 errors** on `/residential/` + `/commercial/` (M.01e retired both as standalone landings and redirected to `/`; harness URL list wasn't updated). **Closed in M.02 pass 1** — URL list trimmed.
+    - **SEO 2 warnings** on `aurora-driveway-apron` not in `PROJECT_SLUGS` (Sanity-added project; harness expected-list wasn't updated). **Closed in M.02 pass 1** — slug added.
+    - **A11y 1339 SC 2.4.11 focus-not-obscured violations** caused by navbar fix commit `17a8a55` which made the mega-panels always-mounted with `opacity: 0` + `pointer-events: none` (but not `visibility: hidden`). **Closed in M.02 pass 1** — `visibility: visible`/`invisible` with per-property `transition-delay` so visibility flips hidden after the 240ms opacity fade-out completes.
+
+12. **`MotionConfig` removed from the always-loaded layout chunk.** Motion v12+ respects `prefers-reduced-motion` natively without `MotionConfig`. The remaining motion users (WizardShell, ChatPanel via ChatBubble dynamic, ConsentPreferencesModal via ConsentBanner dynamic) all pull motion on demand via their own dynamic imports. MotionRoot kept as a pass-through wrapper for future plumbing stability.
+
+13. **AnimateIn / StaggerContainer / StaggerItem are now true no-ops** (not motion-wrapped). The M.10B JSDoc rationale "kept for future opt-in" turned out to have no consumer; collapsing removed the motion-runtime importer from every page that uses them. Anyone wanting a scroll-triggered fade in the future should fork into a new `ScrollReveal` / `ScrollStagger` primitive that imports motion itself.
+
+14. **`stagger.ts` + `variants.ts` are now dead code** (no consumer). Left in place rather than deleted so a future ScrollReveal primitive can import them. If still unused at next-phase planning, safe to delete.
+
+15. **Image `quality={70}` applied uniformly to hero photographs**, not per-page tuned. The Lighthouse image-delivery insight on baseline measurements suggested 57-832 KiB savings against the heroes; 70 is the lowest "still publication-grade for photography" value Next/Image's docs flag.
+
+16. **Lighthouse measurement gotcha** — the Vercel SSO bypass `_vercel_share=` query param behaves differently on branch-alias URLs vs per-deployment URLs. On branch alias the share token triggers Vercel's JS-driven SSO landing (only Chrome reaches the real page; plain-fetch harnesses stall). On per-deployment URL the share token returns 307 + `Set-Cookie: _vercel_jwt=…` directly (Chrome AND plain fetch work). The harnesses + the perf table use per-deployment URLs.
+
+17. **SEO=61 on Lighthouse is a Vercel-SSO + production-domain artifact, not the code.** Two SEO audits fail universally: `is-crawlable` (Vercel bypass adds `X-Robots-Tag: noindex`) and `canonical` (the page's `rel=canonical` points at `https://sunsetservices.us/...` which currently serves the OLD WordPress site, so Lighthouse's canonical-validation fetch sees "elsewhere"). Both findings disappear on production deploys without SSO + once `sunsetservices.us` cuts over to Vercel. The B.05 SEO harness validates SEO independently and exits 0 across 174 URLs — authoritative SEO signal until production-domain cutover.
+
+**Carryover rows (per D1 ship-and-carryover — every sub-95 cell needs one):**
+
+| Page                              | Cell                          | Final | Target phase | Lever attempted in M.02                                                                                |
+|-----------------------------------|-------------------------------|------:|--------------|-------------------------------------------------------------------------------------------------------|
+| All 7 sample pages                | mobile perf                   | 53-83 | P.x          | All four D4 levers + cheap wins pulled; structural ceiling persists (LCP-bound on full-bleed hero pages at 4G + 4× CPU). Re-measure on production-domain (no SSO redirect overhead) likely lifts +5-10 points. |
+| `/` desktop                       | perf                          |    90 | P.05         | Within variance of 95; expected to clear on production-domain re-measure                              |
+| `/landscape/` desktop             | perf                          |    76 | P.05         | Cold-cache flake suspected; re-measure                                                                |
+| `/landscape/landscape-design/` desktop | perf                     |    62 | P.05         | TBT=1570ms is anomalously high; cold-cache flake suspected, re-measure                                |
+| `/thank-you/` mobile + desktop    | BP                            | 77 / 73 | NEVER      | Calendly third-party-cookies (4 cookies); fixable only by replacing Calendly                          |
+| All 7 sample pages                | mobile + desktop SEO          | 61-69 | P.05/P.06    | Vercel SSO `X-Robots-Tag: noindex` + canonical pointing at WordPress-served `.us`. Unmeasurable to 95 from Preview. B.05 harness validates SEO independently. Will lift on production-domain cutover. |
+| All sample pages except thank-you | desktop BP                    |    96 | P.x          | Logo `image-aspect-ratio` audit (false-positive-ish; logo intrinsic 720×192 matches declared 150×40 exactly). Refactoring Logo to `fill` mode is out of M.02 scope. |
+
+**Decided by:** Code per the M.02 plan's locked D1–D10; in-phase decisions 11–17 made autonomously per Chat's session-start directive to "run fully autonomous; check in only at end." Goran ratifies on Preview re-walkthrough.

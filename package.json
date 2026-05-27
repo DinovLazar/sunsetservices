@@ -20,7 +20,8 @@
     "test:wizard-autocomplete": "node scripts/test-wizard-autocomplete.mjs",
     "validate:schema": "node scripts/validate-schema.mjs",
     "validate:seo": "node scripts/validate-seo.mjs",
-    "validate:a11y": "node scripts/validate-a11y.mjs"
+    "validate:a11y": "node scripts/validate-a11y.mjs",
+    "lighthouse": "node scripts/run-lighthouse.mjs"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.92.0",

@@ -684,3 +684,90 @@ See `src/_project-state/Phase-M-01e-Completion.md` for the canonical file list �
 1. `npm run studio:deploy` — push the new `contactSubmission.category` option list to Sanity Studio.
 2. Re-run `npm run validate:{schema,seo,a11y}` against a running dev server or Vercel Preview (all 3 configs updated).
 3. Share post-deploy Vercel Preview URL with Goran for re-walkthrough.
+
+## Phase M.10B — `/impeccable:audit` fix-pass (added 2026-05-26)
+
+**Modified (design system — BAN 1 side-stripe removal):**
+- `src/app/globals.css` — `.card-testimonial` lost the `border-left: 4px` side-stripe + gained a `::before` U+201C glyph at 4.5rem green-500/0.6 opacity. `.alert` base + `.alert-{info,success,warning,danger}` lost the `border-left-*` block; new `.alert-icon` styling hook for consumers to drop in a Lucide leading icon. `.btn { will-change: transform }` scoped to `:hover, :focus-visible` (was permanent). New `--color-bg-deep-charcoal: #0E0E0E` token.
+- `src/components/sections/location/LocalTestimonials.tsx` — inline mirror of `.card-testimonial` gets the same leading-quote treatment (supersedes the Phase 1.03 §6.2 side-stripe lock).
+- `src/components/chat/ChatHighIntentBanner.tsx` — inline `border-left` replaced with leading `<Sparkles>` icon.
+
+**Modified (a11y polish):**
+- `src/components/ui/FaqAccordion.tsx` — `outline: none` removed from `<summary>`; focus-visible ring restored.
+- `src/components/layout/LanguageSwitcher.tsx` — `aria-current` switched from `"true"` to `"page"`; aria-label prefixed with visible text.
+- `src/components/chat/ChatComposer.tsx` — Send button 40px → 44px touch target.
+
+**Modified (theming polish):**
+- `src/components/layout/FooterLegal.tsx` — `bg-[#0E0E0E]` → `bg-[var(--color-bg-deep-charcoal)]`.
+- `src/components/wizard/WizardStep1Audience.tsx` — `<Check>` icon `color="#FFFFFF"` prop dropped; parent disc gains `color: var(--color-text-on-green)` for currentColor inheritance.
+- `src/components/wizard/WizardSavedToast.tsx` — same pattern.
+- `src/components/content/FilterChipStrip.client.tsx` — fade-mask gradient `#000` → `var(--color-bg-charcoal)` (invisible color; codebase consistency).
+
+**Modified (JSDoc only):**
+- `src/components/global/motion/AnimateIn.tsx` — JSDoc explaining `initial={false}` is intentional (subsequently collapsed to pass-through in M.02; the JSDoc is preserved as historical context).
+- `src/components/global/motion/StaggerContainer.tsx` — parallel JSDoc (same M.02 collapse note applies).
+- `src/components/global/motion/StaggerItem.tsx` — parallel JSDoc.
+
+**NEW:**
+- `src/_project-state/Phase-M-10B-Completion.md` — completion report.
+
+**NOT TOUCHED (carve-outs):**
+- `src/lib/email/templates/{QuoteLeadAlertEmail,ContactAlertEmail,ChatLeadEmail}.tsx` — React Email cross-client compatibility requires `border-left` on the alert stripes; left intact.
+- `src/app/[locale]/dev/system/page.tsx` — `<blockquote>` `border-left: 4px` is classical typography (Wikipedia / newspaper pull-quote semantic), not in BAN 1's scope; left intact.
+
+**Modified (state):**
+- `src/_project-state/current-state.md` — last-completed bumped to M.10B (later re-bumped to M.02 in this commit); "What works (Phase M.10B additions)" sub-block added.
+- `Sunset-Services-Decisions.md` — 2026-05-26 M.10B entry.
+
+## Phase M.02 — Performance pass: Lighthouse 95+ desktop AND mobile (added 2026-05-26)
+
+**NEW:**
+- `scripts/run-lighthouse.mjs` — Lighthouse harness mirroring the B.04/B.05/B.06 env-var contract; loops the 7-page D2 floor sample × 2 form factors × 4 categories with a 180s per-measurement wall-clock timeout; emits a console table + JSON sidecar at `scripts/.lighthouse-report.json`. CLI flags: `--only=<path>` `--form-factor={mobile,desktop}` `--categories=<csv>` `--min-score=<N>`. Reuses chrome-launcher + lighthouse from B.06's devDeps (no new packages).
+- `src/_project-state/Phase-M-02-Completion.md` — phase completion report (D9 before/after table + carryover rows + decisions).
+
+**Modified (harness + scripts):**
+- `package.json` — `"lighthouse": "node scripts/run-lighthouse.mjs"` added to `scripts`.
+- `.gitignore` — `/scripts/.lighthouse-report.json` added under the existing B.04/B.05/B.06 harness-artifact block.
+- `scripts/validate-schema.mjs` — removed `/residential/` + `/commercial/` from the URL list (M.01e retired both as standalone landings and redirected to `/`); `/hardscape/` relabeled "division-landing" (was "audience-landing"). Schema regression gate exits 0 across 20 URLs.
+- `scripts/validate-seo.mjs` — `aurora-driveway-apron` added to `PROJECT_SLUGS` (absorbs the sitemap drift the harness flagged). SEO regression gate exits 0 across 174 URLs.
+
+**Modified (runtime — perf levers):**
+- `src/app/[locale]/layout.tsx` — `Manrope` + `Onest` `subsets` dropped `'latin-ext'` (EN + ES Spanish glyphs are entirely in `'latin'` U+0000-U+00FF).
+- `src/components/analytics/ConsentBanner.tsx` — `ConsentPreferencesModal` import switched from static to `next/dynamic` (`ssr:false`, `loading:()=>null`); `motion.div` slide-up replaced with CSS `transition: cubic-bezier(0.16, 1, 0.3, 1) 360ms` driven by `transform` + `opacity` inline styles; `motion-reduce:transition-none` honors `prefers-reduced-motion`. Dropped the `motion/react` import.
+- `src/components/global/motion/AnimateIn.tsx` — collapsed from `motion.div` wrapper to plain `React.createElement` pass-through. API preserved (`variant`/`delay`/`as`/`className`/`children`); `variant` + `delay` become inert. Dropped the `motion/react` import.
+- `src/components/global/motion/StaggerContainer.tsx` — same pattern.
+- `src/components/global/motion/StaggerItem.tsx` — same pattern.
+- `src/components/global/motion/MotionRoot.tsx` — `<MotionConfig reducedMotion="user">` collapsed to plain `<>{children}</>`. Kept as a wrapper component for future plumbing stability.
+- `src/components/layout/NavbarMobile.tsx` — drawer `motion.ul`/`motion.li` cascade removed (the `drawerStaggerContainer` const + `staggerItem` import); items render in place when the drawer mounts. Dropped the `motion/react` import.
+- `src/components/sections/home/HomeHero.tsx` — hero `<Image>` gains `quality={70}`.
+- `src/components/sections/audience/AudienceHero.tsx` — same.
+- `src/components/sections/service/ServiceHero.tsx` — same.
+- `src/components/sections/location/LocationHero.tsx` — same.
+- `src/app/[locale]/blog/[slug]/page.tsx` — blog hero `<Image>` gains `quality={70}`.
+
+**Modified (runtime — a11y regression-gate unblocker):**
+- `src/components/layout/ServicesMegaPanel.tsx` — closed panel gains `invisible` Tailwind class + per-property `transition-delay` inline style so `visibility` flips hidden after the 240ms opacity fade-out completes. Removes the closed `position:fixed` panel from the WCAG SC 2.4.11 focus-not-obscured calculation; the B.06 a11y harness drops from 1339 SC 2.4.11 findings (pre-flight) to 0.
+- `src/components/layout/ResourcesMegaPanel.tsx` — same pattern.
+
+**Dead code left in place (for a future ScrollReveal primitive):**
+- `src/components/global/motion/stagger.ts` — no longer has any importer.
+- `src/components/global/motion/variants.ts` — only the `AnimateInVariant` type is still imported.
+  If neither is wanted at next-phase planning, they're safe to delete.
+
+**Modified (state):**
+- `src/_project-state/current-state.md` — last-completed bumped to M.02 + M.10B added as new prior 1 + M.10 demoted to prior 2 + "What works (Phase M.02 additions)" and "(Phase M.10B additions)" sub-blocks added + the Phase 1.07 "Lighthouse mobile Performance gap" line rewritten as the post-M.02 carryover statement.
+- `src/_project-state/file-map.md` — these two new sections.
+- `Sunset-Services-Decisions.md` — 2026-05-26 M.02 entry.
+
+**NOT TOUCHED (per plan envelope):**
+- Any translation string in `src/messages/{en,es}.json` or `src/data/*.ts`.
+- Any Sanity schema (`sanity/schemas/**`).
+- Any cron route or webhook handler.
+- The chat / wizard / consent flag-gates (production state preserved verbatim).
+- The Phase B.03d Termly iframe path or the consent banner DOM / a11y wiring beyond the dynamic-import + CSS-transition rewrite (which preserve every existing aria-* attribute).
+- The B.10 Places autocomplete wiring on the wizard Step 4.
+- `package-lock.json` beyond what `npm install` produces from existing `package.json` (no new deps).
+
+**Operator actions:**
+1. Re-run `npm run lighthouse` against the post-merge production deploy (no SSO bypass overhead) to validate the actual SEO score (Lighthouse against Preview is depressed to ~61 by Vercel SSO's `X-Robots-Tag: noindex` + the canonical pointing at the WordPress-served `sunsetservices.us`). The B.05 SEO harness exit 0 is the authoritative SEO signal until then.
+2. Decide M.10B + M.02 merge order. Two commits exist on `claude/perf-m02-lighthouse` branch: `99adf80` (M.10B) and the single squashed M.02 commit. Merge in chronological order (M.10B first, M.02 second) or land both at once.

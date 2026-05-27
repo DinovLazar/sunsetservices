@@ -34,6 +34,12 @@ export default async function HomeHero() {
           fetchPriority="high"
           placeholder="blur"
           sizes="100vw"
+          // Phase M.02 — quality 70 on full-bleed hero photography. The 529KB
+          // source benefits the most: Lighthouse mobile flagged 277 KiB of
+          // image-delivery savings on this exact slot. Default 75 is invisible
+          // at hero scale on phones; trimming the WebP off the LCP path is a
+          // measurable mobile-perf win.
+          quality={70}
           style={{objectFit: 'cover', objectPosition: 'center 65%'}}
         />
         {/* Mobile gradient (< sm). Stronger top opacity so the navbar reads

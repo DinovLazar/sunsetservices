@@ -1,11 +1,23 @@
 'use client';
 
 import * as React from 'react';
-import {motion} from 'motion/react';
+import dynamic from 'next/dynamic';
 import {useTranslations} from 'next-intl';
 import {Link, usePathname} from '@/i18n/navigation';
 import {useConsent} from '@/hooks/useConsent';
-import ConsentPreferencesModal from './ConsentPreferencesModal';
+
+// Phase M.02 — dynamic-import the preferences modal. The modal is 413 LOC
+// + @base-ui/react/switch + its own Dialog primitive, and only opens when
+// the visitor clicks "Manage preferences". Pulling it out of the always-
+// loaded chunk drops it off the sitewide bundle and keeps the banner shell
+// itself small. `ssr: false` because the modal is open-state-driven and
+// rendering it server-side just emits closed-state markup that ships JS
+// for nothing. `loading: () => null` keeps the placeholder invisible
+// (the modal opens lazily anyway).
+const ConsentPreferencesModal = dynamic(
+  () => import('./ConsentPreferencesModal'),
+  {ssr: false, loading: () => null},
+);
 
 /**
  * Cookie consent banner — Phase B.03.
@@ -117,16 +129,22 @@ export default function ConsentBanner() {
 
   return (
     <>
-      <motion.div
+      {/* Phase M.02 — slide-up converted from motion.div to CSS transition.
+          Drops the motion/react import that was carrying the runtime into the
+          always-loaded layout chunk for one tiny animation. Spring physics
+          (stiffness 260, damping 28) is approximated with cubic-bezier
+          (0.16, 1, 0.3, 1) — an "ease-out-expo" curve that mimics a spring's
+          tail. Reduced-motion honored via the `motion-reduce:` Tailwind variant,
+          which sets `transition-property: none` when the user prefers no
+          motion (the banner appears at rest with no slide). */}
+      <div
         ref={containerRef}
         role="dialog"
         aria-modal="false"
         aria-labelledby="sunset-consent-heading"
         aria-describedby="sunset-consent-body"
         aria-label={t('ariaLabel')}
-        initial={{y: '100%', opacity: 0}}
-        animate={visible ? {y: 0, opacity: 1} : {y: '100%', opacity: 0}}
-        transition={{type: 'spring', stiffness: 260, damping: 28, mass: 0.9}}
+        className="motion-safe:transition-[transform,opacity] motion-safe:duration-[360ms] motion-safe:ease-[cubic-bezier(0.16,1,0.3,1)] motion-reduce:transition-none"
         style={{
           position: 'fixed',
           bottom: 0,
@@ -141,6 +159,8 @@ export default function ConsentBanner() {
             'max(var(--spacing-4), env(safe-area-inset-bottom))',
           paddingLeft: 'var(--spacing-4)',
           paddingRight: 'var(--spacing-4)',
+          transform: visible ? 'translateY(0)' : 'translateY(100%)',
+          opacity: visible ? 1 : 0,
         }}
       >
         <div
@@ -211,7 +231,7 @@ export default function ConsentBanner() {
             </button>
           </div>
         </div>
-      </motion.div>
+      </div>
 
       <ConsentPreferencesModal
         open={modalOpen}

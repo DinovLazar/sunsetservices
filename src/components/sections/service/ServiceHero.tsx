@@ -46,7 +46,7 @@ export default function ServiceHero({
   return (
     <section
       aria-labelledby="service-hero-h1"
-      className="relative isolate overflow-hidden flex flex-col h-[max(44vh,320px)] sm:h-[max(48vh,380px)] md:h-[max(50vh,400px)] lg:h-[max(52vh,420px)] 2xl:max-h-[600px] text-[var(--color-text-on-dark)]"
+      className="relative isolate overflow-hidden flex flex-col h-[max(62vh,560px)] sm:h-[max(66vh,600px)] md:h-[max(70vh,640px)] lg:h-[max(74vh,680px)] 2xl:max-h-[820px] text-[var(--color-text-on-dark)]"
       // bg-charcoal fallback — keeps cream copy AA-readable while the hero
       // photo loads (or if it fails to load entirely). Lighthouse on mobile
       // form-factor was computing contrast against #ffffff because the photo

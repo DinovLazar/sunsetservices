@@ -8,13 +8,13 @@ import {SERVICES_PANEL} from '@/lib/constants/navigation';
 import {durations, easings} from '@/components/global/motion/easings';
 import MegaPanelTrigger from './MegaPanelTrigger';
 
-const HOVER_OPEN_DELAY = 80;
-const HOVER_CLOSE_DELAY = 150;
-
 /**
  * Desktop "Services" mega-panel. Three audience columns (Residential,
- * Commercial, Hardscape) + a fourth photo column at xl+. Hover-intent
- * (§3.6) plus full keyboard support per §10.4.
+ * Commercial, Hardscape) + a fourth photo column at xl+. Phase M.10
+ * post-walkthrough revision (2026-05-26): reverted to click-only — no
+ * hover-to-open. Click toggles `open`; keyboard (Enter / Space / Esc /
+ * ArrowDown), `aria-expanded`, focus trap, and click-outside-to-close
+ * unchanged.
  */
 export default function ServicesMegaPanel() {
   const t = useTranslations();
@@ -22,8 +22,6 @@ export default function ServicesMegaPanel() {
   const [open, setOpen] = React.useState(false);
   const triggerRef = React.useRef<HTMLButtonElement>(null);
   const panelRef = React.useRef<HTMLDivElement>(null);
-  const openTimer = React.useRef<number | null>(null);
-  const closeTimer = React.useRef<number | null>(null);
 
   const isActive = SERVICES_PANEL.some(
     (col) =>
@@ -31,46 +29,10 @@ export default function ServicesMegaPanel() {
       col.children.some((child) => pathname === child.href || pathname.startsWith(child.href)),
   );
 
-  const clearTimers = React.useCallback(() => {
-    if (openTimer.current !== null) {
-      window.clearTimeout(openTimer.current);
-      openTimer.current = null;
-    }
-    if (closeTimer.current !== null) {
-      window.clearTimeout(closeTimer.current);
-      closeTimer.current = null;
-    }
-  }, []);
-
-  const scheduleOpen = React.useCallback(() => {
-    if (closeTimer.current !== null) {
-      window.clearTimeout(closeTimer.current);
-      closeTimer.current = null;
-    }
-    if (open || openTimer.current !== null) return;
-    openTimer.current = window.setTimeout(() => {
-      setOpen(true);
-      openTimer.current = null;
-    }, HOVER_OPEN_DELAY);
-  }, [open]);
-
-  const scheduleClose = React.useCallback(() => {
-    if (openTimer.current !== null) {
-      window.clearTimeout(openTimer.current);
-      openTimer.current = null;
-    }
-    if (!open || closeTimer.current !== null) return;
-    closeTimer.current = window.setTimeout(() => {
-      setOpen(false);
-      closeTimer.current = null;
-    }, HOVER_CLOSE_DELAY);
-  }, [open]);
-
   const closeAndFocusTrigger = React.useCallback(() => {
-    clearTimers();
     setOpen(false);
     triggerRef.current?.focus();
-  }, [clearTimers]);
+  }, []);
 
   React.useEffect(() => {
     if (!open) return;
@@ -95,8 +57,6 @@ export default function ServicesMegaPanel() {
     };
   }, [open, closeAndFocusTrigger]);
 
-  React.useEffect(() => () => clearTimers(), [clearTimers]);
-
   const handleTriggerKeyDown = (e: React.KeyboardEvent<HTMLButtonElement>) => {
     if (e.key === 'ArrowDown') {
       e.preventDefault();
@@ -115,8 +75,6 @@ export default function ServicesMegaPanel() {
         controls="services-mega-panel"
         active={isActive}
         onClick={() => setOpen((o) => !o)}
-        onMouseEnter={scheduleOpen}
-        onMouseLeave={scheduleClose}
         onKeyDown={handleTriggerKeyDown}
       >
         {t('chrome.nav.services')}
@@ -128,8 +86,6 @@ export default function ServicesMegaPanel() {
             id="services-mega-panel"
             role="menu"
             aria-label={t('chrome.nav.services')}
-            onMouseEnter={scheduleOpen}
-            onMouseLeave={scheduleClose}
             initial={{opacity: 0, y: -4}}
             animate={{opacity: 1, y: 0}}
             exit={{opacity: 0, y: -4}}

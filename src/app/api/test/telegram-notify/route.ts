@@ -1,4 +1,5 @@
 import {NextResponse} from 'next/server';
+import {verifyCronAuth} from '@/lib/automation/cronAuth';
 import {notifyOperator} from '@/lib/telegram/notify';
 
 /**
@@ -29,6 +30,13 @@ export async function POST(request: Request) {
   if (process.env.TELEGRAM_TEST_ROUTES_ENABLED !== 'true') {
     return NextResponse.json({status: 'forbidden'}, {status: 404});
   }
+
+  const auth = request.headers.get('authorization');
+  const expected = process.env.TEST_ROUTES_SECRET ?? '';
+  if (!verifyCronAuth(auth, expected)) {
+    return NextResponse.json({status: 'error', reason: 'invalid-auth'}, {status: 401});
+  }
+
   const body = (await request.json().catch(() => ({}))) as {
     text?: string;
     parseMode?: 'MarkdownV2' | 'HTML';

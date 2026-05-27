@@ -1,4 +1,5 @@
 import {NextResponse} from 'next/server';
+import {verifyCronAuth} from '@/lib/automation/cronAuth';
 import {publishBlogDraft, rejectBlogDraft} from '@/lib/automation/blog/publish';
 
 /**
@@ -25,6 +26,12 @@ export const dynamic = 'force-dynamic';
 export async function POST(request: Request) {
   if (process.env.BLOG_AUTOMATION_TEST_ROUTES_ENABLED !== 'true') {
     return NextResponse.json({status: 'forbidden'}, {status: 404});
+  }
+
+  const auth = request.headers.get('authorization');
+  const expected = process.env.TEST_ROUTES_SECRET ?? '';
+  if (!verifyCronAuth(auth, expected)) {
+    return NextResponse.json({status: 'error', reason: 'invalid-auth'}, {status: 401});
   }
 
   let body: {pendingDocId?: unknown; decision?: unknown};

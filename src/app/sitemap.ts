@@ -6,7 +6,7 @@ import {
 } from '@sanity-lib/queries';
 import {SERVICES} from '@/data/services';
 import {DIVISIONS} from '@/data/divisions';
-import {ALL_LOCATION_SLUGS} from '@/data/locations';
+import {SURFACED_LOCATION_SLUGS} from '@/data/locations';
 import {canonicalUrl, hreflangAlternates, type Locale} from '@/lib/seo/urls';
 
 /**
@@ -64,10 +64,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // ---------- Location detail routes (22) — from typed seed ----------
   // Phase M.01e — all 22 surfaced cities (24 total minus the 2 retired:
   // Lisle + Bolingbrook, which 301-redirect to the service-areas index).
-  const RETIRED_CITY_SLUGS = new Set<string>(['lisle', 'bolingbrook']);
-  const locationPaths: string[] = ALL_LOCATION_SLUGS.filter(
-    (slug) => !RETIRED_CITY_SLUGS.has(slug),
-  ).map((slug) => `/service-areas/${slug}`);
+  const locationPaths: string[] = SURFACED_LOCATION_SLUGS.map(
+    (slug) => `/service-areas/${slug}`,
+  );
 
   // ---------- Sanity-driven dynamic routes ----------
   // _updatedAt is the per-document lastmod. Fetched in parallel.

@@ -168,6 +168,7 @@ const PROJECT_SLUGS = [
   '6135-belmont-downers-grove',
   '807-edgewater-drive',
   '811-edgewater-drive',
+  'aurora-driveway-apron',
   'aurora-area-patio',
   'scott-and-sarahs',
 ];

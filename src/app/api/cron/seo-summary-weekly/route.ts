@@ -3,6 +3,7 @@ import {verifyCronAuth} from '@/lib/automation/cronAuth';
 import {fetchWeeklySeoSummary} from '@/lib/automation/gsc/fetch';
 import {formatSeoSummaryMessage} from '@/lib/automation/gsc/summarize';
 import {notifyOperator} from '@/lib/telegram/notify';
+import {safeErrorCode} from '@/lib/logging/safeError';
 
 /**
  * POST /api/cron/seo-summary-weekly — Vercel Cron entry point (Phase 2.16).
@@ -62,7 +63,7 @@ export async function POST(request: Request) {
       {status: 200},
     );
   } catch (err) {
-    const message = err instanceof Error ? err.message : 'unknown-error';
+    const message = safeErrorCode(err);
     console.error('[cron seo-summary-weekly] failed:', message);
     await notifyOperator({
       text: `⚠️ Weekly SEO cron failed: ${message}`,

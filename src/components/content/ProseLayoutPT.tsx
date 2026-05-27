@@ -3,6 +3,7 @@ import {getTranslations} from 'next-intl/server';
 import type {PortableTextBlock} from '@portabletext/react';
 import {Link} from '@/i18n/navigation';
 import ServiceAreaStrip from '@/components/sections/ServiceAreaStrip';
+import {getService} from '@/data/services';
 import TOC from './TOC.client';
 import {
   PortableText,
@@ -60,9 +61,12 @@ export default async function ProseLayoutPT({
     crossLinkAfterIndex = targetH2;
   }
 
-  const crossLinkPath =
-    inlineServiceCrossLink &&
-    `/${inlineServiceCrossLink.audience}/${inlineServiceCrossLink.serviceSlug}/`;
+  const crossLinkService = inlineServiceCrossLink
+    ? getService(inlineServiceCrossLink.serviceSlug, inlineServiceCrossLink.audience)
+    : undefined;
+  const crossLinkPath = crossLinkService
+    ? `/${crossLinkService.division}/${crossLinkService.slug}/`
+    : null;
 
   // Build segments. We render the blocks via PortableText but break into
   // pre/post arrays at the splice point.

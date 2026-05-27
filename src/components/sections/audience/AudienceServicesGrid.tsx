@@ -74,7 +74,7 @@ export default function AudienceServicesGrid({
             return (
               <StaggerItem key={s.slug}>
                 <Link
-                  href={`/${audience}/${s.slug}/`}
+                  href={`/${s.division}/${s.slug}/`}
                   className="card card-photo block relative h-full"
                   style={{background: 'var(--color-sunset-green-700)'}}
                 >

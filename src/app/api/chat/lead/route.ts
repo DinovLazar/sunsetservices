@@ -4,6 +4,7 @@ import {writeClient} from '@sanity-lib/write-client';
 import {sendBrandedEmail} from '@/lib/email/send';
 import ChatLeadEmail from '@/lib/email/templates/ChatLeadEmail';
 import {pushChatLeadToMautic} from '@/lib/chat/mauticStub';
+import {safeLogMeta} from '@/lib/logging/safeError';
 
 /**
  * POST /api/chat/lead — capture a lead from the AI chat panel (Phase 2.09).
@@ -93,7 +94,7 @@ export async function POST(request: NextRequest) {
     });
     sanityDocId = doc._id;
   } catch (err) {
-    console.error('[/api/chat/lead] Sanity write failed:', err);
+    console.error('[/api/chat/lead] Sanity write failed', safeLogMeta('/api/chat/lead', err));
     return Response.json({status: 'error'}, {status: 500});
   }
 
@@ -115,7 +116,11 @@ export async function POST(request: NextRequest) {
     intendedRecipient,
   });
   if (!emailResult.ok) {
-    console.error('[/api/chat/lead] Email send failed (non-blocking):', emailResult.error);
+    console.error('[/api/chat/lead] Email send failed (non-blocking)', {
+      route: '/api/chat/lead',
+      errorCode: emailResult.error ?? 'email-send-failed',
+      sanityDocId,
+    });
   }
 
   await pushChatLeadToMautic({
@@ -125,7 +130,12 @@ export async function POST(request: NextRequest) {
     sessionId: parsed.sessionId,
     sanityDocId,
     triggerReason: parsed.triggerReason,
-  }).catch((err) => console.error('[/api/chat/lead] Mautic stub error', err));
+  }).catch((err) =>
+    console.error(
+      '[/api/chat/lead] Mautic stub error',
+      safeLogMeta('/api/chat/lead', err, {sanityDocId}),
+    ),
+  );
 
   return Response.json({status: 'ok', sanityDocId}, {status: 200});
 }

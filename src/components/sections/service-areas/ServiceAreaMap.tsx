@@ -1,6 +1,6 @@
 import {getTranslations} from 'next-intl/server';
 import {Link} from '@/i18n/navigation';
-import {LOCATIONS} from '@/data/locations';
+import {getVisibleLocations} from '@/data/locations';
 
 /**
  * Phase M.01e — show all 22 surfaced cities (24 total minus the 2 retired:
@@ -8,8 +8,6 @@ import {LOCATIONS} from '@/data/locations';
  * projection (see `projectGeo.ts`) and committed into `locations.ts` so the
  * SVG renders deterministically without runtime computation.
  */
-const RETIRED_CITY_SLUGS = new Set(['lisle', 'bolingbrook']);
-
 /**
  * Phase M.01e-pt2 — static label allowlist.
  *
@@ -127,7 +125,7 @@ export default async function ServiceAreaMap() {
           Only the 8 cities in STATIC_LABEL_SLUGS render a static <text> label;
           the other 14 have their city name on the link's aria-label so AT
           still announces it and touch-tap still navigates correctly. */}
-      {LOCATIONS.filter((loc) => !RETIRED_CITY_SLUGS.has(loc.slug)).map((loc) => {
+      {getVisibleLocations().map((loc) => {
         const showStaticLabel = STATIC_LABEL_SLUGS.has(loc.slug);
         return (
           <Link

@@ -1,7 +1,9 @@
+import crypto from 'node:crypto';
 import {z} from 'zod';
 import {NextResponse} from 'next/server';
 import {writeClient} from '@sanity-lib/write-client';
 import {getSubscriberByToken} from '@sanity-lib/queries';
+import {safeLogMeta} from '@/lib/logging/safeError';
 
 /**
  * POST /api/newsletter/unsubscribe — token-gated unsubscribe + resubscribe.
@@ -49,7 +51,16 @@ export async function POST(request: Request) {
 
   const {token, action} = parsed.data;
 
-  const subscriber = await getSubscriberByToken(token);
+  let subscriber: Awaited<ReturnType<typeof getSubscriberByToken>>;
+  try {
+    subscriber = await getSubscriberByToken(token);
+  } catch (err) {
+    console.error(
+      '[/api/newsletter/unsubscribe] lookup failed',
+      safeLogMeta('/api/newsletter/unsubscribe', err, {action}),
+    );
+    return NextResponse.json({status: 'lookup-failed'}, {status: 500});
+  }
   if (!subscriber) {
     return NextResponse.json({status: 'invalid-token'}, {status: 404});
   }
@@ -71,16 +82,19 @@ export async function POST(request: Request) {
     } else {
       await writeClient
         .patch(subscriber._id)
-        .set({unsubscribed: false, subscribedAt: new Date().toISOString()})
+        .set({
+          unsubscribed: false,
+          subscribedAt: new Date().toISOString(),
+          unsubscribeToken: crypto.randomUUID(),
+        })
         .unset(['unsubscribedAt'])
         .commit();
     }
   } catch (err) {
-    console.error('[/api/newsletter/unsubscribe] patch failed', {
-      action,
-      docId: subscriber._id,
-      err,
-    });
+    console.error(
+      '[/api/newsletter/unsubscribe] patch failed',
+      safeLogMeta('/api/newsletter/unsubscribe', err, {action, docId: subscriber._id}),
+    );
     return NextResponse.json({status: 'persist-failed'}, {status: 500});
   }
 

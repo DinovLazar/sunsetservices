@@ -229,12 +229,15 @@ async function createSyntheticPending(sanity, {topicId, slug}) {
 
 async function preRunCleanup(sanity) {
   // Phase 2.16: no real pending drafts exist in Sanity (cron not yet live).
-  // Sweep all blogDraftPending + cron-created blogPost + auto-faq docs so
+  // Sweep all blogDraftPending + blogDraftLock + cron-created blogPost + auto-faq docs so
   // the time-based idempotency check sees fresh state. If the harness is
   // ever run after the monthly cron starts generating real drafts, the
   // operator should pause the cron flag first.
   const pendingIds = await sanity.fetch('*[_type == "blogDraftPending"]._id');
   for (const id of pendingIds) await sanity.delete(id).catch(() => {});
+
+  const lockIds = await sanity.fetch('*[_type == "blogDraftLock" && _id match "blogDraftLock-*"]._id');
+  for (const id of lockIds) await sanity.delete(id).catch(() => {});
 
   const autoPostIds = await sanity.fetch('*[_type == "blogPost" && defined(automatedTopicId)]._id');
   for (const id of autoPostIds) await sanity.delete(id).catch(() => {});
@@ -242,9 +245,9 @@ async function preRunCleanup(sanity) {
   const autoFaqIds = await sanity.fetch('*[_type == "faq" && scope match "blog:*"]._id');
   for (const id of autoFaqIds) await sanity.delete(id).catch(() => {});
 
-  if (pendingIds.length + autoPostIds.length + autoFaqIds.length > 0) {
+  if (pendingIds.length + lockIds.length + autoPostIds.length + autoFaqIds.length > 0) {
     console.log(
-      `[harness] pre-run cleanup: deleted ${pendingIds.length} pending(s), ${autoPostIds.length} auto-blogPost(s), ${autoFaqIds.length} auto-faq(s)`,
+      `[harness] pre-run cleanup: deleted ${pendingIds.length} pending(s), ${lockIds.length} lock(s), ${autoPostIds.length} auto-blogPost(s), ${autoFaqIds.length} auto-faq(s)`,
     );
   }
 }
@@ -416,10 +419,39 @@ async function run() {
       );
 
       // ─────────────── Test 5 — Approve handler ───────────────
+      resetCaptures();
+      const [raceA, raceB] = await Promise.all([
+        fetch(`${APP_BASE}/api/test/blog-draft-run`, {
+          method: 'POST',
+          headers: {authorization: `Bearer ${TEST_ROUTES_SECRET}`},
+        }),
+        fetch(`${APP_BASE}/api/test/blog-draft-run`, {
+          method: 'POST',
+          headers: {authorization: `Bearer ${TEST_ROUTES_SECRET}`},
+        }),
+      ]);
+      const [raceJsonA, raceJsonB] = await Promise.all([raceA.json(), raceB.json()]);
+      const raceBodies = [raceJsonA, raceJsonB];
+      record(
+        'Test 4b — Parallel replay: deterministic noop, no extra Anthropic/Sanity/Telegram side effects',
+        raceA.status === 200 &&
+          raceB.status === 200 &&
+          raceBodies.every(
+            (body) =>
+              body.status === 'noop' &&
+              ['pending-draft-exists', 'monthly-lock-exists'].includes(body.reason),
+          ) &&
+          captured.sendMessage.length === 0,
+        `a=${JSON.stringify(raceJsonA)} b=${JSON.stringify(raceJsonB)} captures=${captured.sendMessage.length}`,
+      );
+
       if (docFromTest3) {
         const r5 = await fetch(`${APP_BASE}/api/test/blog-draft-decision`, {
           method: 'POST',
-          headers: {'content-type': 'application/json'},
+          headers: {
+            'content-type': 'application/json',
+            authorization: `Bearer ${TEST_ROUTES_SECRET}`,
+          },
           body: JSON.stringify({pendingDocId: docFromTest3, decision: 'approve'}),
         });
         const j5 = await r5.json();
@@ -460,7 +492,10 @@ async function run() {
       trackedDocIds.add(synthetic6);
       const r6 = await fetch(`${APP_BASE}/api/test/blog-draft-decision`, {
         method: 'POST',
-        headers: {'content-type': 'application/json'},
+        headers: {
+          'content-type': 'application/json',
+          authorization: `Bearer ${TEST_ROUTES_SECRET}`,
+        },
         body: JSON.stringify({pendingDocId: synthetic6, decision: 'reject'}),
       });
       const j6 = await r6.json();
@@ -487,7 +522,10 @@ async function run() {
       trackedDocIds.add(synthetic7);
       const r7 = await fetch(`${APP_BASE}/api/test/blog-draft-decision`, {
         method: 'POST',
-        headers: {'content-type': 'application/json'},
+        headers: {
+          'content-type': 'application/json',
+          authorization: `Bearer ${TEST_ROUTES_SECRET}`,
+        },
         body: JSON.stringify({pendingDocId: synthetic7, decision: 'approve'}),
       });
       const j7 = await r7.json();

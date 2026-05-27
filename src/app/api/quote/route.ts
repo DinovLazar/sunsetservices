@@ -4,6 +4,7 @@ import {QuoteSubmitSchema, type QuoteSubmitInput} from '@/lib/quote/validation';
 import {sendQuoteLeadAlertEmail, sendQuoteVisitorConfirmationEmail} from '@/lib/quote/resend';
 import {pushFullLeadToMautic} from '@/lib/quote/mautic';
 import {getServiceOptionsForDivision} from '@/data/wizard';
+import {safeLogMeta} from '@/lib/logging/safeError';
 
 /**
  * POST /api/quote — full Step-5 wizard submission.
@@ -63,12 +64,13 @@ export async function POST(request: Request) {
 
   const parsed = QuoteSubmitSchema.safeParse(payload);
   if (!parsed.success) {
+    console.info('[/api/quote] validation failed', {
+      route: '/api/quote',
+      errorCode: 'invalid-payload',
+      fields: Object.keys(parsed.error.flatten().fieldErrors),
+    });
     return NextResponse.json(
-      {
-        status: 'error',
-        code: 'validation_failed',
-        issues: parsed.error.flatten(),
-      },
+      {status: 'error', reason: 'invalid-payload'},
       {status: 400},
     );
   }
@@ -109,7 +111,7 @@ export async function POST(request: Request) {
         // Never block on partial linkage.
       });
   } catch (err) {
-    console.error('[/api/quote] Sanity write failed', err);
+    console.error('[/api/quote] Sanity write failed', safeLogMeta('/api/quote', err));
   }
 
   const primaryServiceDisplayName = resolvePrimaryServiceDisplayName(input);
@@ -121,19 +123,27 @@ export async function POST(request: Request) {
     sanityDocId ?? '(no Sanity ID — write failed)',
   );
   if (!alertResult.ok) {
-    console.error('[/api/quote] lead-alert send failed', alertResult.error);
+    console.error('[/api/quote] lead-alert send failed', {
+      route: '/api/quote',
+      errorCode: alertResult.error ?? 'email-send-failed',
+      sanityDocId,
+    });
   }
 
   // Branded visitor confirmation. In sandbox mode this reroutes to the dev
   // inbox; in production it goes to the visitor's real email.
   const confirmResult = await sendQuoteVisitorConfirmationEmail(input, primaryServiceDisplayName);
   if (!confirmResult.ok) {
-    console.error('[/api/quote] visitor-confirmation send failed', confirmResult.error);
+    console.error('[/api/quote] visitor-confirmation send failed', {
+      route: '/api/quote',
+      errorCode: confirmResult.error ?? 'email-send-failed',
+      sanityDocId,
+    });
   }
 
   // Push to Mautic (no-op while MAUTIC_ENABLED=false).
   await pushFullLeadToMautic(input).catch((err) =>
-    console.error('[/api/quote] Mautic stub error', err),
+    console.error('[/api/quote] Mautic stub error', safeLogMeta('/api/quote', err, {sanityDocId})),
   );
 
   const anySucceeded = sanityDocId !== null || alertResult.ok;

@@ -1,5 +1,6 @@
 import * as React from 'react';
 import {Resend} from 'resend';
+import {safeErrorCode} from '@/lib/logging/safeError';
 
 /**
  * Shared branded-email utility (Phase 2.08).
@@ -38,6 +39,15 @@ export type SendBrandedEmailResult = {
   error?: string;
 };
 
+const OPAQUE_EMAIL_ERROR = 'email-send-failed';
+
+/**
+ * 15s cap for Resend. Email is best-effort after durable Sanity capture, so
+ * timing out should free the function quickly and surface only an opaque
+ * non-blocking failure to callers.
+ */
+const EMAIL_SEND_TIMEOUT_MS = 15_000;
+
 export async function sendBrandedEmail(
   args: SendBrandedEmailArgs,
 ): Promise<SendBrandedEmailResult> {
@@ -61,6 +71,9 @@ export async function sendBrandedEmail(
     : React.cloneElement(args.react, {intendedRecipient: intended});
 
   const resend = new Resend(apiKey);
+  const requestOptions = {
+    signal: AbortSignal.timeout(EMAIL_SEND_TIMEOUT_MS),
+  } as Parameters<typeof resend.emails.send>[1];
 
   try {
     const result = await resend.emails.send({
@@ -68,19 +81,20 @@ export async function sendBrandedEmail(
       to: [actualTo],
       subject,
       react: reactElement,
-    });
+    }, requestOptions);
     if (result.error) {
       console.error('[sendBrandedEmail] Resend returned error', {
-        intended,
-        subject,
-        message: result.error.message,
+        route: 'sendBrandedEmail',
+        errorCode: safeErrorCode(result.error),
       });
-      return {ok: false, error: result.error.message};
+      return {ok: false, error: OPAQUE_EMAIL_ERROR};
     }
     return {ok: true, messageId: result.data?.id};
   } catch (err) {
-    const message = err instanceof Error ? err.message : String(err);
-    console.error('[sendBrandedEmail] exception', {intended, subject, message});
-    return {ok: false, error: message};
+    console.error('[sendBrandedEmail] exception', {
+      route: 'sendBrandedEmail',
+      errorCode: safeErrorCode(err),
+    });
+    return {ok: false, error: OPAQUE_EMAIL_ERROR};
   }
 }

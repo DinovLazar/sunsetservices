@@ -76,28 +76,28 @@ const URLS = [
     mustHaveTypes: ['LocalBusiness', 'Organization', 'WebSite'],
   },
   {
-    path: '/residential/',
-    label: 'audience-landing-residential',
+    path: '/landscape/',
+    label: 'division-landing-landscape',
     mustHaveTypes: ['LocalBusiness', 'Organization', 'BreadcrumbList', 'ItemList'],
   },
   {
-    path: '/commercial/',
-    label: 'audience-landing-commercial',
+    path: '/snow-removal/',
+    label: 'division-landing-snow-removal',
     mustHaveTypes: ['LocalBusiness', 'Organization', 'BreadcrumbList', 'ItemList'],
   },
   {
     path: '/hardscape/',
-    label: 'audience-landing-hardscape',
+    label: 'division-landing-hardscape',
     mustHaveTypes: ['LocalBusiness', 'Organization', 'BreadcrumbList', 'ItemList'],
   },
   {
-    path: '/residential/lawn-care/',
-    label: 'service-detail-residential-lawn-care',
+    path: '/landscape/lawn-care/',
+    label: 'service-detail-landscape-lawn-care',
     mustHaveTypes: ['LocalBusiness', 'Organization', 'BreadcrumbList', 'Service'],
   },
   {
-    path: '/commercial/snow-removal/',
-    label: 'service-detail-commercial-snow-removal',
+    path: '/snow-removal/commercial-snow-plowing/',
+    label: 'service-detail-snow-removal-commercial-snow-plowing',
     mustHaveTypes: ['LocalBusiness', 'Organization', 'BreadcrumbList', 'Service'],
   },
   {
@@ -186,8 +186,8 @@ const URLS = [
     mustHaveTypes: ['LocalBusiness', 'Organization', 'WebSite'],
   },
   {
-    path: '/es/residential/lawn-care/',
-    label: 'es-service-detail-residential-lawn-care',
+    path: '/es/landscape/lawn-care/',
+    label: 'es-service-detail-landscape-lawn-care',
     mustHaveTypes: ['LocalBusiness', 'Organization', 'BreadcrumbList', 'Service'],
   },
   {

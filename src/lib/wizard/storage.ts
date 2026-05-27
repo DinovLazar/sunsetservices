@@ -93,7 +93,11 @@ export function loadStep1to3(): WizardAutosavePayload | null {
       legacyAudience === 'hardscape' ? 'hardscape' : '';
     const migrated: WizardAutosavePayload = {
       step1: {division: VALID_DIVISIONS.has(inferredDivision) ? inferredDivision : ''},
-      step2: legacy.step2 ?? {selectedSlugs: [], primarySlug: '', otherText: ''},
+      step2: {
+        selectedSlugs: [],
+        primarySlug: '',
+        otherText: typeof legacy.step2?.otherText === 'string' ? legacy.step2.otherText : '',
+      },
       step3: legacy.step3 ?? {},
       savedAt: legacy.savedAt,
     };

@@ -59,7 +59,7 @@ export default function ServiceRelated({locale, eyebrow, h2, tiles}: ServiceRela
           {tiles.map(({service, teaser}) => (
             <StaggerItem key={service.slug}>
               <Link
-                href={`/${service.audience}/${service.slug}/`}
+                href={`/${service.division}/${service.slug}/`}
                 className="card card-cream block relative h-full"
               >
                 <h3

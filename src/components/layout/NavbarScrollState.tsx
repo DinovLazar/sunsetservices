@@ -27,15 +27,15 @@ type NavbarScrollStateProps = {
  * locale layout's `<main>` element. Same observable behavior, cleaner
  * boundaries. (Surface noted in Phase 1.09 completion report.)
  */
-const AUDIENCE_SLUGS = new Set(['residential', 'commercial', 'hardscape']);
+const DIVISION_SLUGS = new Set(['landscape', 'hardscape', 'waterproofing', 'snow-removal']);
 
 function pathHasOverHero(pathname: string): boolean {
   if (pathname === '/') return true;
   const segments = pathname.split('/').filter(Boolean);
-  // /residential/ or /residential/lawn-care/ etc.
+  // /landscape/ or /landscape/lawn-care/ etc.
   if (
     (segments.length === 1 || segments.length === 2) &&
-    AUDIENCE_SLUGS.has(segments[0])
+    DIVISION_SLUGS.has(segments[0])
   ) {
     return true;
   }

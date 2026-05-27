@@ -4,6 +4,7 @@ import {
   publishPortfolioDraft,
   rejectPortfolioDraft,
 } from '@/lib/automation/portfolio/publish';
+import {safeLogMeta} from '@/lib/logging/safeError';
 
 /**
  * TEST INFRASTRUCTURE — Phase 2.17 verification harness.
@@ -79,9 +80,12 @@ export async function POST(request: Request) {
     await rejectPortfolioDraft(pendingDocId);
     return NextResponse.json({status: 'ok', decision: 'reject'}, {status: 200});
   } catch (err) {
-    const message = err instanceof Error ? err.message : 'unknown-error';
+    console.error(
+      '[api/test/portfolio-decision] handler failed',
+      safeLogMeta('/api/test/portfolio-decision', err),
+    );
     return NextResponse.json(
-      {status: 'error', reason: 'handler-failed', message},
+      {status: 'error', reason: 'handler-failed'},
       {status: 500},
     );
   }

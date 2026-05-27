@@ -85,9 +85,9 @@ async function main() {
     try {
       await client.patch(d._id).set({unsubscribeToken: token}).commit();
       patched += 1;
-      console.log(`  ✔ ${d._id} (${d.email}) — token set`);
+      console.log(`  ✔ ${d._id} — token set`);
     } catch (err) {
-      console.error(`  ✖ ${d._id} (${d.email}) — patch failed: ${err.message}`);
+      console.error(`  ✖ ${d._id} — patch failed: ${err.name || 'Error'}`);
     }
   }
 

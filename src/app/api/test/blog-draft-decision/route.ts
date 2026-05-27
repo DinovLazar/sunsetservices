@@ -1,5 +1,7 @@
 import {NextResponse} from 'next/server';
+import {verifyCronAuth} from '@/lib/automation/cronAuth';
 import {publishBlogDraft, rejectBlogDraft} from '@/lib/automation/blog/publish';
+import {safeLogMeta} from '@/lib/logging/safeError';
 
 /**
  * TEST INFRASTRUCTURE — Phase 2.16 verification harness.
@@ -27,6 +29,12 @@ export async function POST(request: Request) {
     return NextResponse.json({status: 'forbidden'}, {status: 404});
   }
 
+  const auth = request.headers.get('authorization');
+  const expected = process.env.TEST_ROUTES_SECRET ?? '';
+  if (!verifyCronAuth(auth, expected)) {
+    return NextResponse.json({status: 'error', reason: 'invalid-auth'}, {status: 401});
+  }
+
   let body: {pendingDocId?: unknown; decision?: unknown};
   try {
     body = await request.json();
@@ -51,9 +59,12 @@ export async function POST(request: Request) {
     await rejectBlogDraft(pendingDocId);
     return NextResponse.json({status: 'ok', decision: 'reject'}, {status: 200});
   } catch (err) {
-    const message = err instanceof Error ? err.message : 'unknown-error';
+    console.error(
+      '[api/test/blog-draft-decision] handler failed',
+      safeLogMeta('/api/test/blog-draft-decision', err),
+    );
     return NextResponse.json(
-      {status: 'error', reason: 'handler-failed', message},
+      {status: 'error', reason: 'handler-failed'},
       {status: 500},
     );
   }

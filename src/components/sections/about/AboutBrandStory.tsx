@@ -106,7 +106,7 @@ export default async function AboutBrandStory() {
             </p>
             <div className="mt-6 flex flex-wrap gap-x-6 gap-y-3">
               <Link
-                href="/residential/"
+                href="/landscape/"
                 className="link link-inline inline-flex items-center font-semibold"
                 style={{
                   fontSize: 'var(--text-body)',

@@ -2,6 +2,7 @@ import {NextResponse} from 'next/server';
 import {writeClient} from '@sanity-lib/write-client';
 import {QuotePartialSchema} from '@/lib/quote/validation';
 import {pushPartialLeadToMautic} from '@/lib/quote/mautic';
+import {safeLogMeta} from '@/lib/logging/safeError';
 
 /**
  * POST /api/quote/partial — Step 1–3 abandoner breadcrumb (Phase 2.06).
@@ -39,12 +40,13 @@ export async function POST(request: Request) {
 
   const parsed = QuotePartialSchema.safeParse(payload);
   if (!parsed.success) {
+    console.info('[/api/quote/partial] validation failed', {
+      route: '/api/quote/partial',
+      errorCode: 'invalid-payload',
+      fields: Object.keys(parsed.error.flatten().fieldErrors),
+    });
     return NextResponse.json(
-      {
-        status: 'error',
-        code: 'validation_failed',
-        issues: parsed.error.flatten(),
-      },
+      {status: 'error', reason: 'invalid-payload'},
       {status: 400},
     );
   }
@@ -85,7 +87,10 @@ export async function POST(request: Request) {
       });
     }
   } catch (err) {
-    console.error('[/api/quote/partial] Sanity write failed', err);
+    console.error(
+      '[/api/quote/partial] Sanity write failed',
+      safeLogMeta('/api/quote/partial', err, {docId}),
+    );
     return NextResponse.json(
       {status: 'error', code: 'sanity_write_failed'},
       {status: 500},
@@ -93,7 +98,10 @@ export async function POST(request: Request) {
   }
 
   await pushPartialLeadToMautic(input).catch((err) =>
-    console.error('[/api/quote/partial] Mautic stub error', err),
+    console.error(
+      '[/api/quote/partial] Mautic stub error',
+      safeLogMeta('/api/quote/partial', err, {docId}),
+    ),
   );
 
   return NextResponse.json({status: 'ok'}, {status: 200});

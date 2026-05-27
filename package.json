@@ -14,6 +14,7 @@
     "sanity:backfill-unsubscribe-tokens": "node scripts/backfill-newsletter-tokens.mjs",
     "telegram:setup": "node scripts/setup-telegram-webhook.mjs",
     "telegram:info": "node scripts/get-telegram-webhook-info.mjs",
+    "check:scripts": "node scripts/check-scripts.mjs",
     "test:consent": "node scripts/test-consent-mode-v2.mjs",
     "test:revalidate": "node scripts/test-revalidate-webhook.mjs",
     "test:rate-limit": "node scripts/test-rate-limit.mjs",

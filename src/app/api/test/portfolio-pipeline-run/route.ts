@@ -2,6 +2,7 @@ import {NextResponse} from 'next/server';
 import {verifyCronAuth} from '@/lib/automation/cronAuth';
 import {runPortfolioDraftPipeline} from '@/lib/automation/portfolio/runPipeline';
 import {extractJobMetadata} from '@/lib/automation/portfolio/extractJobMetadata';
+import {safeLogMeta} from '@/lib/logging/safeError';
 
 /**
  * TEST INFRASTRUCTURE — Phase 2.17 verification harness.
@@ -69,9 +70,12 @@ export async function POST(request: Request) {
     const result = await runPortfolioDraftPipeline(eventDocId);
     return NextResponse.json(result, {status: 200});
   } catch (err) {
-    const message = err instanceof Error ? err.message : 'unknown-error';
+    console.error(
+      '[api/test/portfolio-pipeline-run] pipeline failed',
+      safeLogMeta('/api/test/portfolio-pipeline-run', err),
+    );
     return NextResponse.json(
-      {status: 'error', reason: 'pipeline-failed', message},
+      {status: 'error', reason: 'pipeline-failed'},
       {status: 500},
     );
   }

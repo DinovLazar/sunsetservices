@@ -20,8 +20,8 @@ const CITIES = [
   {key: 'naperville', slug: 'naperville'},
   {key: 'batavia', slug: 'batavia'},
   {key: 'wheaton', slug: 'wheaton'},
-  {key: 'lisle', slug: 'lisle'},
-  {key: 'bolingbrook', slug: 'bolingbrook'},
+  {key: 'oakBrook', slug: 'oak-brook'},
+  {key: 'hinsdale', slug: 'hinsdale'},
 ] as const;
 
 type ServiceAreaStripProps = {

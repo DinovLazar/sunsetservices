@@ -382,5 +382,3 @@ main().catch((err) => {
   console.error('[migrate-faq] FATAL', err);
   process.exit(1);
 });
-);
-});

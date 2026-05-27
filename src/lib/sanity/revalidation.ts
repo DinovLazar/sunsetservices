@@ -22,8 +22,9 @@
  */
 
 import {revalidatePath, revalidateTag} from 'next/cache';
-import {LOCATION_SLUGS} from '@/data/locations';
-import {SERVICES, AUDIENCES} from '@/data/services';
+import {DIVISIONS} from '@/data/divisions';
+import {SURFACED_LOCATION_SLUGS} from '@/data/locations';
+import {SERVICES} from '@/data/services';
 
 export type SanityRevalidationPayload = {
   _type: string;
@@ -49,14 +50,14 @@ type DocTypeMapping = {
 const MAPPINGS: Record<string, DocTypeMapping> = {
   service: {
     tags: ['service', 'faq'],
-    paths: ['/[audience]/[service]', '/[audience]', '/service-areas/[city]'],
+    paths: ['/[division]/[service]', '/[division]', '/service-areas/[city]'],
   },
   project: {
     tags: ['project'],
     paths: [
       '/projects',
       '/projects/[slug]',
-      '/[audience]',
+      '/[division]',
       '/service-areas/[city]',
       '/',
       '/about',
@@ -109,7 +110,7 @@ function withLocales(paths: string[]): string[] {
  * Resolve a path pattern to concrete EN-only paths. `withLocales` layers
  * the ES variants on top.
  *
- * Patterns that name a collection (e.g. `/[audience]/[service]`) expand
+ * Patterns that name a collection (e.g. `/[division]/[service]`) expand
  * to the cross-product of the static-param sources (the same sources
  * `generateStaticParams` already uses). Patterns that name a single
  * slug-driven detail page (e.g. `/blog/[slug]`) expand to the concrete
@@ -119,23 +120,19 @@ function withLocales(paths: string[]): string[] {
  */
 function expandPattern(pattern: string, doc: SanityRevalidationPayload): string[] {
   switch (pattern) {
-    case '/[audience]/[service]':
-      // Service-detail pages. The projection doesn't carry audience so a
-      // service publish bulk-invalidates all 16 (audience, slug) combos.
-      // Phase M.01d: filter out new-division services with no audience —
-      // they don't have an /[audience]/[service] URL yet.
-      return SERVICES.filter((s) => s.audience !== undefined).map(
-        (s) => `/${s.audience}/${s.slug}`,
-      );
-    case '/[audience]':
-      return AUDIENCES.map((a) => `/${a}`);
+    case '/[division]/[service]':
+      // Service-detail pages. The projection doesn't carry division, so a
+      // service publish bulk-invalidates every live division/service URL.
+      return SERVICES.map((s) => `/${s.division}/${s.slug}`);
+    case '/[division]':
+      return DIVISIONS.map((division) => `/${division}`);
     case '/service-areas/[city]':
       // Location publishes know the city via slug; everything else
-      // (service / project / review) bulk-invalidates all 6.
+      // (service / project / review) bulk-invalidates all surfaced cities.
       if (doc._type === 'location' && doc.slug) {
         return [`/service-areas/${doc.slug}`];
       }
-      return LOCATION_SLUGS.map((slug) => `/service-areas/${slug}`);
+      return SURFACED_LOCATION_SLUGS.map((slug) => `/service-areas/${slug}`);
     case '/projects/[slug]':
       return doc.slug ? [`/projects/${doc.slug}`] : [];
     case '/blog/[slug]':

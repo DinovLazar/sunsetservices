@@ -12,6 +12,7 @@ import {
 } from '@/lib/automation/portfolio/publish';
 import {notifyOperator} from '@/lib/telegram/notify';
 import {escapeMarkdownV2} from '@/lib/telegram/markdownV2';
+import {safeErrorCode, safeLogMeta} from '@/lib/logging/safeError';
 
 /**
  * POST /api/webhooks/telegram — Telegram callback_query receiver (Phase 2.15).
@@ -175,7 +176,10 @@ export async function POST(request: Request) {
       {mid: cq.message.message_id},
     );
   } catch (err) {
-    console.error('[telegram-webhook] log lookup failed', err);
+    console.error(
+      '[telegram-webhook] log lookup failed',
+      safeLogMeta('/api/webhooks/telegram', err),
+    );
     return NextResponse.json(
       {status: 'error', reason: 'persist-failed'},
       {status: 500},
@@ -288,7 +292,10 @@ export async function POST(request: Request) {
         {status: 200},
       );
     } catch (err) {
-      console.error('[telegram-webhook] blog_draft routing failed', err);
+      console.error(
+        '[telegram-webhook] blog_draft routing failed',
+        safeLogMeta('/api/webhooks/telegram', err, {kind: decoded.kind}),
+      );
       return NextResponse.json(
         {status: 'error', reason: 'persist-failed'},
         {status: 500},
@@ -403,8 +410,11 @@ export async function POST(request: Request) {
         {status: 200},
       );
     } catch (err) {
-      console.error('[telegram-webhook] servicem8_portfolio routing failed', err);
-      const message = err instanceof Error ? err.message : 'unknown-error';
+      console.error(
+        '[telegram-webhook] servicem8_portfolio routing failed',
+        safeLogMeta('/api/webhooks/telegram', err, {kind: decoded.kind}),
+      );
+      const message = safeErrorCode(err);
       await notifyOperator({
         text: `⚠️ Portfolio approval decision failed: ${message}`,
       }).catch(() => {
@@ -417,10 +427,7 @@ export async function POST(request: Request) {
       }).catch(() => {});
       // Return 200 (NOT 500) so Telegram does NOT retry — the operator
       // already saw the alert and a replay would just spam them.
-      return NextResponse.json(
-        {status: 'error', reason: 'handler-failed', message},
-        {status: 200},
-      );
+      return NextResponse.json({status: 'error', reason: 'handler-failed'}, {status: 200});
     }
   }
 

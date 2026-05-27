@@ -6,6 +6,7 @@ import HomeServicesOverview from '@/components/sections/home/HomeServicesOvervie
 import HomeSocialProof from '@/components/sections/home/HomeSocialProof';
 import HomeAbout from '@/components/sections/home/HomeAbout';
 import HomeProjects from '@/components/sections/home/HomeProjects';
+import HomeWhySunset from '@/components/sections/home/HomeWhySunset';
 import HomeCTA from '@/components/sections/home/HomeCTA';
 import {BUSINESS_URL} from '@/lib/constants/business';
 import {canonicalUrl, hreflangAlternates, type Locale} from '@/lib/seo/urls';
@@ -72,6 +73,7 @@ export default async function HomePage({
       <HomeSocialProof />
       <HomeAbout />
       <HomeProjects />
+      <HomeWhySunset />
       <HomeCTA />
     </>
   );

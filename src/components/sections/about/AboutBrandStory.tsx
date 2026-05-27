@@ -104,6 +104,17 @@ export default async function AboutBrandStory() {
             >
               {t('p3')}
             </p>
+            <p
+              className="m-0 mt-4"
+              style={{
+                fontSize: 'var(--text-body-lg)',
+                color: 'var(--color-text-secondary)',
+                lineHeight: 'var(--leading-relaxed)',
+                maxWidth: '60ch',
+              }}
+            >
+              {t('p4')}
+            </p>
             <div className="mt-6 flex flex-wrap gap-x-6 gap-y-3">
               <Link
                 href="/landscape/"

@@ -17,9 +17,9 @@
 //   5. Webhook — blogPost with slug → 200 + tags include ['blogPost','faq'] +
 //      paths include /blog, /es/blog, /blog/<slug>, /es/blog/<slug>
 //   6. Webhook — service with slug → 200 + tags include ['service','faq'] +
-//      paths fan out across audience-service + audience + city (× 2 locales)
+//      paths fan out across division-service + division + city (× 2 locales)
 //   7. Webhook — project with NO slug → 200 + tags ['project'] +
-//      paths include /projects + cross-page reads (audience, city, /, /about)
+//      paths include /projects + cross-page reads (division, city, /, /about)
 //      and exclude /projects/[slug] (slug-less path drops)
 //   8. Webhook — faq → 200 + tags=['faq'] + paths=[]
 //   9. Webhook — team → 200 + paths include /about + /es/about
@@ -292,19 +292,21 @@ async function runFlagOnTests() {
     const paths = r.body?.revalidatedPaths ?? [];
     const pathsOk =
       arrayIncludesAll(paths, [
-        '/residential/lawn-care',
-        '/commercial/snow-removal',
+        '/landscape/lawn-care',
+        '/snow-removal/commercial-snow-plowing',
         '/hardscape/patios-walkways',
-        '/residential',
-        '/es/residential',
+        '/landscape',
+        '/es/landscape',
+        '/waterproofing',
         '/service-areas/aurora',
+        '/service-areas/hinsdale',
         '/es/service-areas/aurora',
       ]) &&
-      // 16 (audience, slug) pairs from SERVICES + 3 audience landings + 6
-      // city pages = 25 EN paths × 2 locales = 50 total.
-      paths.length === 50;
+      // 28 division/service pairs + 4 division landings + 22 live city pages
+      // = 54 EN paths × 2 locales = 108 total.
+      paths.length === 108;
     record(
-      'T6 webhook service(slug) → tags + 50 fanned-out paths (32 svc-detail + 6 audience + 12 city)',
+      'T6 webhook service(slug) → tags + 108 fanned-out paths (56 service + 8 division + 44 city)',
       tagsOk && pathsOk,
       tagsOk && pathsOk
         ? `total paths=${paths.length}`

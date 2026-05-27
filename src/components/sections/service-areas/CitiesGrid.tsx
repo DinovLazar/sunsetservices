@@ -1,7 +1,7 @@
 import {getTranslations} from 'next-intl/server';
 import AnimateIn from '@/components/global/motion/AnimateIn';
 import LocationCard from '@/components/ui/LocationCard';
-import {LOCATIONS} from '@/data/locations';
+import {getVisibleLocations} from '@/data/locations';
 import {LOCATION_CARD} from '@/data/imageMap';
 
 /**
@@ -9,8 +9,6 @@ import {LOCATION_CARD} from '@/data/imageMap';
  * Lisle + Bolingbrook). The retired cities are surfaced as a static prose
  * note below the grid (see OutsideAreaBand → `serviceAreas.extendedArea.*`).
  */
-const RETIRED_CITY_SLUGS = new Set(['lisle', 'bolingbrook']);
-
 /**
  * CitiesGrid — Phase 1.14 §3.3.
  *
@@ -68,7 +66,7 @@ export default async function CitiesGrid() {
             </p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
-            {LOCATIONS.filter((loc) => !RETIRED_CITY_SLUGS.has(loc.slug)).map((loc) => (
+            {getVisibleLocations().map((loc) => (
               <LocationCard
                 key={loc.slug}
                 href={`/service-areas/${loc.slug}/`}

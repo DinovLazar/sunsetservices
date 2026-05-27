@@ -23,7 +23,7 @@
 
 import {revalidatePath, revalidateTag} from 'next/cache';
 import {DIVISIONS} from '@/data/divisions';
-import {ALL_LOCATION_SLUGS} from '@/data/locations';
+import {SURFACED_LOCATION_SLUGS} from '@/data/locations';
 import {SERVICES} from '@/data/services';
 
 export type SanityRevalidationPayload = {
@@ -132,9 +132,7 @@ function expandPattern(pattern: string, doc: SanityRevalidationPayload): string[
       if (doc._type === 'location' && doc.slug) {
         return [`/service-areas/${doc.slug}`];
       }
-      return ALL_LOCATION_SLUGS.filter(
-        (slug) => slug !== 'lisle' && slug !== 'bolingbrook',
-      ).map((slug) => `/service-areas/${slug}`);
+      return SURFACED_LOCATION_SLUGS.map((slug) => `/service-areas/${slug}`);
     case '/projects/[slug]':
       return doc.slug ? [`/projects/${doc.slug}`] : [];
     case '/blog/[slug]':

@@ -1489,11 +1489,12 @@ export function getLocation(slug: string): LocationCity | undefined {
  */
 const RETIRED_CITY_SLUGS = new Set<string>(['lisle', 'bolingbrook']);
 
+export const SURFACED_LOCATION_SLUGS: readonly LocationCitySlug[] = ALL_LOCATION_SLUGS.filter(
+  (slug) => !RETIRED_CITY_SLUGS.has(slug),
+);
+
 export function isLocationSlug(slug: string): slug is LocationCitySlug {
-  return (
-    !RETIRED_CITY_SLUGS.has(slug) &&
-    (ALL_LOCATION_SLUGS as readonly string[]).includes(slug)
-  );
+  return (SURFACED_LOCATION_SLUGS as readonly string[]).includes(slug);
 }
 
 /**
@@ -1502,6 +1503,6 @@ export function isLocationSlug(slug: string): slug is LocationCitySlug {
  * are wired and the index is redrawn.
  */
 export function getVisibleLocations(): LocationCity[] {
-  const visibleSet = new Set<string>(LOCATION_SLUGS);
+  const visibleSet = new Set<string>(SURFACED_LOCATION_SLUGS);
   return LOCATIONS.filter((l) => visibleSet.has(l.slug));
 }

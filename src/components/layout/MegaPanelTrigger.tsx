@@ -9,24 +9,26 @@ type MegaPanelTriggerProps = {
   active?: boolean;
   children: React.ReactNode;
   onClick: () => void;
+  onMouseEnter?: () => void;
+  onMouseLeave?: () => void;
   onFocus?: () => void;
   onKeyDown?: (e: React.KeyboardEvent<HTMLButtonElement>) => void;
 };
 
 /**
  * Shared trigger button for the desktop mega-panels (Services / Resources).
- * ARIA per §3.6: aria-haspopup="menu", aria-expanded. `aria-controls` is only
- * set while `open=true` — the panel is mounted lazily via `AnimatePresence`,
- * so the referenced ID does not exist in the DOM while closed. Setting
- * `aria-controls` to a missing ID is a WCAG SC 4.1.2 violation
- * (`aria-valid-attr-value`). Caret rotates 180° when open. Active page
- * emphasis (weight + underline) is delegated to the parent via the `active`
- * prop. Phase M.10 post-walkthrough (2026-05-26): click-only — the
- * hover-to-open mouse handlers were dropped per user feedback.
+ * ARIA per §3.6: aria-haspopup="menu", aria-expanded. Phase M.10 follow-up:
+ * the panel is now ALWAYS in the DOM (CSS transition replaced the
+ * Motion-driven `AnimatePresence` exit, which silently snapped instead of
+ * fading). `aria-controls` therefore points to a real element at all
+ * times — safe for AT consumers. Caret rotates 180° when open. Active
+ * page emphasis (weight + underline) is delegated to the parent via the
+ * `active` prop. Hover-intent (mouse-only) uses `onMouseEnter` /
+ * `onMouseLeave` — touch devices fall through to `onClick`.
  */
 const MegaPanelTrigger = React.forwardRef<HTMLButtonElement, MegaPanelTriggerProps>(
   function MegaPanelTrigger(
-    {open, controls, active = false, children, onClick, onFocus, onKeyDown},
+    {open, controls, active = false, children, onClick, onMouseEnter, onMouseLeave, onFocus, onKeyDown},
     ref,
   ) {
     return (
@@ -35,10 +37,12 @@ const MegaPanelTrigger = React.forwardRef<HTMLButtonElement, MegaPanelTriggerPro
         type="button"
         aria-haspopup="menu"
         aria-expanded={open}
-        aria-controls={open ? controls : undefined}
+        aria-controls={controls}
         data-active={active || undefined}
         data-open={open || undefined}
         onClick={onClick}
+        onMouseEnter={onMouseEnter}
+        onMouseLeave={onMouseLeave}
         onFocus={onFocus}
         onKeyDown={onKeyDown}
         className={[

@@ -5,6 +5,7 @@ import {NextResponse} from 'next/server';
 import {writeClient} from '@sanity-lib/write-client';
 import {sendBrandedEmail} from '@/lib/email/send';
 import {NewsletterWelcomeEmail} from '@/lib/email/templates/NewsletterWelcomeEmail';
+import {safeLogMeta} from '@/lib/logging/safeError';
 import {canonicalUrl} from '@/lib/seo/urls';
 
 /**
@@ -89,7 +90,7 @@ export async function POST(request: Request) {
       {email: normalizedEmail},
     );
   } catch (err) {
-    console.error('[/api/newsletter] existing-lookup failed', err);
+    console.error('[/api/newsletter] existing-lookup failed', safeLogMeta('/api/newsletter', err));
   }
 
   let sanityDocId: string | null = null;
@@ -118,7 +119,10 @@ export async function POST(request: Request) {
       sanityDocId = doc._id;
       shouldSendWelcome = true;
     } catch (err) {
-      console.error('[/api/newsletter] resubscribe patch failed', err);
+      console.error(
+        '[/api/newsletter] resubscribe patch failed',
+        safeLogMeta('/api/newsletter', err, {sanityDocId: existing._id}),
+      );
     }
   } else {
     // Fresh subscriber.
@@ -136,7 +140,7 @@ export async function POST(request: Request) {
       sanityDocId = doc._id;
       shouldSendWelcome = true;
     } catch (err) {
-      console.error('[/api/newsletter] create failed', err);
+      console.error('[/api/newsletter] create failed', safeLogMeta('/api/newsletter', err));
     }
   }
 
@@ -157,17 +161,27 @@ export async function POST(request: Request) {
       }),
     });
     if (!sendResult.ok) {
-      console.error('[/api/newsletter] welcome send failed', sendResult.error);
+      console.error('[/api/newsletter] welcome send failed', {
+        route: '/api/newsletter',
+        errorCode: sendResult.error ?? 'email-send-failed',
+        sanityDocId,
+      });
     }
   }
 
   // Mautic stub (no-op while disabled).
   if (MAUTIC_ENABLED) {
     // TODO Phase 2.x — Mautic newsletter sync.
-    console.log('[Mautic stub] newsletter — would push', {email: normalizedEmail, locale});
+    console.log('[Mautic stub] newsletter — would push', {
+      route: '/api/newsletter',
+      locale,
+      sanityDocId,
+    });
   } else {
     console.log('[Mautic stub] newsletter — Mautic disabled, no-op', {
-      email: normalizedEmail,
+      route: '/api/newsletter',
+      locale,
+      sanityDocId,
     });
   }
 

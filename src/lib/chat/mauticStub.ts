@@ -24,8 +24,8 @@ const ENABLED = process.env.MAUTIC_ENABLED === 'true';
 export async function pushChatLeadToMautic(input: ChatLeadMauticInput): Promise<MauticPushResult> {
   if (!ENABLED) {
     console.log('[Mautic stub] chat lead — Mautic disabled, no-op', {
-      email: input.email,
       sessionId: input.sessionId,
+      hasEmail: input.email.length > 0,
       sanityDocId: input.sanityDocId,
     });
     return {synced: false};

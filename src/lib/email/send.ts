@@ -1,5 +1,6 @@
 import * as React from 'react';
 import {Resend} from 'resend';
+import {safeErrorCode} from '@/lib/logging/safeError';
 
 /**
  * Shared branded-email utility (Phase 2.08).
@@ -38,6 +39,8 @@ export type SendBrandedEmailResult = {
   error?: string;
 };
 
+const OPAQUE_EMAIL_ERROR = 'email-send-failed';
+
 export async function sendBrandedEmail(
   args: SendBrandedEmailArgs,
 ): Promise<SendBrandedEmailResult> {
@@ -71,16 +74,17 @@ export async function sendBrandedEmail(
     });
     if (result.error) {
       console.error('[sendBrandedEmail] Resend returned error', {
-        intended,
-        subject,
-        message: result.error.message,
+        route: 'sendBrandedEmail',
+        errorCode: safeErrorCode(result.error),
       });
-      return {ok: false, error: result.error.message};
+      return {ok: false, error: OPAQUE_EMAIL_ERROR};
     }
     return {ok: true, messageId: result.data?.id};
   } catch (err) {
-    const message = err instanceof Error ? err.message : String(err);
-    console.error('[sendBrandedEmail] exception', {intended, subject, message});
-    return {ok: false, error: message};
+    console.error('[sendBrandedEmail] exception', {
+      route: 'sendBrandedEmail',
+      errorCode: safeErrorCode(err),
+    });
+    return {ok: false, error: OPAQUE_EMAIL_ERROR};
   }
 }

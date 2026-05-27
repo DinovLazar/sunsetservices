@@ -6,6 +6,7 @@ import {pushContactToMautic} from '@/lib/contact/mauticStub';
 import {sendBrandedEmail} from '@/lib/email/send';
 import {ContactAlertEmail} from '@/lib/email/templates/ContactAlertEmail';
 import {ContactConfirmationEmail} from '@/lib/email/templates/ContactConfirmationEmail';
+import {safeLogMeta} from '@/lib/logging/safeError';
 
 /**
  * POST /api/contact — /contact/ form submission (Phase 2.08).
@@ -96,7 +97,7 @@ export async function POST(request: Request) {
     });
     sanityDocId = doc._id;
   } catch (err) {
-    console.error('[/api/contact] Sanity write failed', err);
+    console.error('[/api/contact] Sanity write failed', safeLogMeta('/api/contact', err));
   }
 
   // Branded alert to Erick.
@@ -119,7 +120,11 @@ export async function POST(request: Request) {
     }),
   });
   if (!alertResult.ok) {
-    console.error('[/api/contact] alert send failed', alertResult.error);
+    console.error('[/api/contact] alert send failed', {
+      route: '/api/contact',
+      errorCode: alertResult.error ?? 'email-send-failed',
+      sanityDocId,
+    });
   }
 
   // Branded visitor confirmation — only when we have an email to send to.
@@ -138,13 +143,17 @@ export async function POST(request: Request) {
       }),
     });
     if (!confirmResult.ok) {
-      console.error('[/api/contact] confirmation send failed', confirmResult.error);
+      console.error('[/api/contact] confirmation send failed', {
+        route: '/api/contact',
+        errorCode: confirmResult.error ?? 'email-send-failed',
+        sanityDocId,
+      });
     }
   }
 
   // Mautic (no-op while MAUTIC_ENABLED=false).
   await pushContactToMautic(input).catch((err) =>
-    console.error('[/api/contact] Mautic stub error', err),
+    console.error('[/api/contact] Mautic stub error', safeLogMeta('/api/contact', err, {sanityDocId})),
   );
 
   const anySucceeded = sanityDocId !== null || alertResult.ok;

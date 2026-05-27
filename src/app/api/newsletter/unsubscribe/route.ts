@@ -2,6 +2,7 @@ import {z} from 'zod';
 import {NextResponse} from 'next/server';
 import {writeClient} from '@sanity-lib/write-client';
 import {getSubscriberByToken} from '@sanity-lib/queries';
+import {safeLogMeta} from '@/lib/logging/safeError';
 
 /**
  * POST /api/newsletter/unsubscribe — token-gated unsubscribe + resubscribe.
@@ -76,11 +77,10 @@ export async function POST(request: Request) {
         .commit();
     }
   } catch (err) {
-    console.error('[/api/newsletter/unsubscribe] patch failed', {
-      action,
-      docId: subscriber._id,
-      err,
-    });
+    console.error(
+      '[/api/newsletter/unsubscribe] patch failed',
+      safeLogMeta('/api/newsletter/unsubscribe', err, {action, docId: subscriber._id}),
+    );
     return NextResponse.json({status: 'persist-failed'}, {status: 500});
   }
 

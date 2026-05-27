@@ -40,12 +40,13 @@ export async function POST(request: Request) {
 
   const parsed = QuotePartialSchema.safeParse(payload);
   if (!parsed.success) {
+    console.info('[/api/quote/partial] validation failed', {
+      route: '/api/quote/partial',
+      errorCode: 'invalid-payload',
+      fields: Object.keys(parsed.error.flatten().fieldErrors),
+    });
     return NextResponse.json(
-      {
-        status: 'error',
-        code: 'validation_failed',
-        issues: parsed.error.flatten(),
-      },
+      {status: 'error', reason: 'invalid-payload'},
       {status: 400},
     );
   }

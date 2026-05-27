@@ -64,12 +64,13 @@ export async function POST(request: Request) {
 
   const parsed = QuoteSubmitSchema.safeParse(payload);
   if (!parsed.success) {
+    console.info('[/api/quote] validation failed', {
+      route: '/api/quote',
+      errorCode: 'invalid-payload',
+      fields: Object.keys(parsed.error.flatten().fieldErrors),
+    });
     return NextResponse.json(
-      {
-        status: 'error',
-        code: 'validation_failed',
-        issues: parsed.error.flatten(),
-      },
+      {status: 'error', reason: 'invalid-payload'},
       {status: 400},
     );
   }

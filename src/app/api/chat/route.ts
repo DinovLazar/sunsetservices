@@ -5,6 +5,7 @@ import {checkRateLimit} from '@/lib/chat/rateLimit';
 import {getClientIp} from '@/lib/chat/getIp';
 import {buildKnowledgeDigest} from '@/lib/chat/knowledgeBase';
 import {buildSystemPrompt, FLAG_HIGH_INTENT_TOOL} from '@/lib/chat/systemPrompt';
+import {safeLogMeta} from '@/lib/logging/safeError';
 
 /**
  * POST /api/chat — SSE-streamed Claude chat backend (Phase 2.09).
@@ -112,9 +113,8 @@ export async function POST(request: NextRequest) {
         });
         controller.close();
       } catch (err) {
-        const message = err instanceof Error ? err.message : 'Unknown error';
-        console.error('[/api/chat] stream failed', message);
-        send({type: 'error', message});
+        console.error('[/api/chat] stream failed', safeLogMeta('/api/chat', err));
+        send({type: 'error', reason: 'upstream-failed'});
         controller.close();
       }
     },

@@ -417,10 +417,7 @@ export async function POST(request: Request) {
       }).catch(() => {});
       // Return 200 (NOT 500) so Telegram does NOT retry — the operator
       // already saw the alert and a replay would just spam them.
-      return NextResponse.json(
-        {status: 'error', reason: 'handler-failed', message},
-        {status: 200},
-      );
+      return NextResponse.json({status: 'error', reason: 'handler-failed'}, {status: 200});
     }
   }
 

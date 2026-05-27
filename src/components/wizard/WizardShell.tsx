@@ -119,8 +119,7 @@ export default function WizardShell() {
       // skip the toast to avoid a misleading "Welcome back".
       const meaningful =
         Boolean(saved?.step1?.division) ||
-        Boolean(saved?.step2?.selectedSlugs && saved.step2.selectedSlugs.length > 0) ||
-        Boolean(saved?.step2?.otherText && saved.step2.otherText.length > 0);
+        Boolean(saved?.step2?.otherText && saved.step2.otherText.trim().length > 0);
       if (saved && meaningful) {
         setShowResume(true);
         fireWizardEvent(WIZARD_EVENTS.RESUME_OFFERED, {locale, lastStep: 3});
@@ -174,13 +173,24 @@ export default function WizardShell() {
     const saved = loadStep1to3();
     if (saved) {
       const div = saved.step1.division;
-      setStep1({division: (div && isDivision(div) ? div : '') as WizardDivision | ''});
-      setStep2(saved.step2);
+      const validDivision = div && isDivision(div) ? div : '';
+      const safeStep2 = {
+        selectedSlugs: Array.isArray(saved.step2.selectedSlugs) ? saved.step2.selectedSlugs : [],
+        primarySlug: typeof saved.step2.primarySlug === 'string' ? saved.step2.primarySlug : '',
+        otherText: typeof saved.step2.otherText === 'string' ? saved.step2.otherText : '',
+      };
+      const hasStep2Selection =
+        safeStep2.selectedSlugs.length > 0 || safeStep2.otherText.trim().length > 0;
+      setStep1({division: validDivision as WizardDivision | ''});
+      setStep2(safeStep2);
       setStep3(saved.step3);
-      setCompleted([1, 2]);
+      setCompleted(validDivision ? (hasStep2Selection ? [1, 2] : [1]) : []);
+      setShowResume(false);
+      goToStep(validDivision ? (hasStep2Selection ? 3 : 2) : 1);
+      return;
     }
     setShowResume(false);
-    goToStep(3);
+    goToStep(1);
   }
 
   function handleStartFresh() {

@@ -2189,7 +2189,7 @@ export const SERVICES: Service[] = [
         },
       },
       {
-        headline: {en: 'Itemized estimate', es: 'Presupuesto detallado'},
+        headline: {en: 'Itemized estimate', es: 'Estimado detallado'},
         description: {
           en: 'Within 48 hours. We tell you what you need, not what we want to sell.',
           es: 'En 48 horas. Te decimos lo que necesitas, no lo que queremos vender.',
@@ -2326,7 +2326,7 @@ export const SERVICES: Service[] = [
         },
       },
       {
-        headline: {en: 'Engineered estimate', es: 'Presupuesto con ingeniería'},
+        headline: {en: 'Engineered estimate', es: 'Estimado con ingeniería'},
         description: {
           en: 'For load-bearing fixes, a licensed structural engineer signs off.',
           es: 'Para reparaciones estructurales, un ingeniero con licencia firma el plan.',
@@ -2455,7 +2455,7 @@ export const SERVICES: Service[] = [
         },
       },
       {
-        headline: {en: 'Estimate', es: 'Presupuesto'},
+        headline: {en: 'Estimate', es: 'Estimado'},
         description: {
           en: 'Itemized within 48 hours; emergency replacements quoted same day.',
           es: 'Detallado en 48 horas; reemplazos de emergencia el mismo día.',
@@ -2737,7 +2737,7 @@ export const SERVICES: Service[] = [
         },
       },
       {
-        headline: {en: 'Estimate', es: 'Presupuesto'},
+        headline: {en: 'Estimate', es: 'Estimado'},
         description: {
           en: 'Itemized within 48 hours. Color samples for fascia match.',
           es: 'Detallado en 48 horas. Muestras de color para hacer juego con la fascia.',
@@ -2874,7 +2874,7 @@ export const SERVICES: Service[] = [
         },
       },
       {
-        headline: {en: 'Estimate', es: 'Presupuesto'},
+        headline: {en: 'Estimate', es: 'Estimado'},
         description: {
           en: 'Itemized within 48 hours. Egress permits priced separately.',
           es: 'Detallado en 48 horas. Permisos de escape cotizados aparte.',
@@ -2947,12 +2947,12 @@ export const SERVICES: Service[] = [
     slug: 'crawl-spaces',
     division: 'waterproofing',
     icon: 'Home',
-    name: {en: 'Crawl Spaces', es: 'Sótanos de Acceso'},
+    name: {en: 'Crawl Spaces', es: 'Espacios Bajo el Piso'},
     imageKey: 'retaining-walls',
     hero: {
       h1: {
         en: 'Crawl Space Encapsulation in DuPage.',
-        es: 'Encapsulación de Sótanos de Acceso en DuPage.',
+        es: 'Encapsulación de espacios bajo el piso en DuPage.',
       },
       subhead: {
         en: 'Encapsulation, insulation, vapor barriers, and dehumidification. We turn a damp crawl into conditioned storage that doesn\'t feed mold to the rooms above it.',
@@ -3011,7 +3011,7 @@ export const SERVICES: Service[] = [
         },
       },
       {
-        headline: {en: 'Plan + estimate', es: 'Plan y presupuesto'},
+        headline: {en: 'Plan + estimate', es: 'Plan y estimado'},
         description: {
           en: 'Itemized in 48 hours: liner, insulation, dehu, mold treatment as needed.',
           es: 'Detallado en 48 horas: liner, aislamiento, deshu, tratamiento si aplica.',
@@ -3084,12 +3084,12 @@ export const SERVICES: Service[] = [
     slug: 'concrete-raising',
     division: 'waterproofing',
     icon: 'ArrowUp',
-    name: {en: 'Concrete Raising', es: 'Levantamiento de Concreto'},
+    name: {en: 'Concrete Raising', es: 'Nivelación de Concreto'},
     imageKey: 'driveways',
     hero: {
       h1: {
         en: 'Concrete Raising in DuPage County.',
-        es: 'Levantamiento de Concreto en DuPage County.',
+        es: 'Nivelación de Concreto en DuPage County.',
       },
       subhead: {
         en: 'Mudjacking, polyurethane foam lifting, sealing, and leveling. We lift sunken slabs back into place for a fraction of replacement cost.',
@@ -3605,12 +3605,12 @@ export const SERVICES: Service[] = [
     slug: 'sidewalk-shoveling',
     division: 'snow-removal',
     icon: 'Footprints',
-    name: {en: 'Sidewalk Shoveling', es: 'Pala de Senderos'},
+    name: {en: 'Sidewalk Shoveling', es: 'Limpieza de Aceras'},
     imageKey: 'snow-removal',
     hero: {
       h1: {
         en: 'Sidewalk Shoveling in DuPage County.',
-        es: 'Pala de Senderos en DuPage County.',
+        es: 'Limpieza de Aceras en DuPage County.',
       },
       subhead: {
         en: 'Manual sidewalk + walkway clearing for residential homes and HOAs. We get there before the morning commute — no exceptions, no missed visits.',
@@ -3863,7 +3863,7 @@ export const SERVICES: Service[] = [
     slug: 'commercial-snow-plowing',
     division: 'snow-removal',
     icon: 'Building2',
-    name: {en: 'Commercial Snow Plowing', es: 'Arado Comercial de Nieve'},
+    name: {en: 'Commercial Snow Plowing', es: 'Remoción Comercial de Nieve'},
     /**
      * Phase M.01e — inherits the retired `commercial-snow-removal` photo asset
      * key so existing imageMap entries (commercial-snow-removal hero + tile)
@@ -3873,7 +3873,7 @@ export const SERVICES: Service[] = [
     hero: {
       h1: {
         en: 'Commercial Snow Plowing in DuPage.',
-        es: 'Arado Comercial de Nieve en DuPage.',
+        es: 'Remoción Comercial de Nieve en DuPage.',
       },
       subhead: {
         en: 'Multi-property lots, HOA roadways, and property-management contracts. 24/7 storm response, ADA-compliant ice management, per-event documentation.',

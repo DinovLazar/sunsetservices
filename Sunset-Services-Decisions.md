@@ -1291,3 +1291,30 @@ The 2 retired cities (Lisle, Bolingbrook) keep their existing featuredServices a
 - **Resume toast suppressed when v1→v2 migration produces an empty set.** The locked spec calls for the toast to fire when v2 state is present and to skip when migration discarded everything. The implementation checks for at least one of `division`, `selectedSlugs.length`, or `otherText.length` before offering Resume. If a legacy v1 state had `audience: 'residential'` + no other fields filled, migration produces an empty v2 state and the toast doesn't fire — avoiding a "Welcome back" that wouldn't pre-fill anything.
 
 **Decided by:** Chat ratified all locked decisions before execution per the M.01e-pt2 phase prompt. The five in-phase code decisions were surfaced and resolved during execution.
+
+---
+
+## 2026-05-26 — Phase M.01f1 (Cowork): Spanish first-pass polish + glossary lock
+
+**Scope reviewed:** all Spanish first-passed by Code in M.01d / M.01e / M.01e-pt2 — 4 divisions, 14 new services (Waterproofing + Snow Removal), 18 new cities, `qa.*`, new wizard fields, lead-email labels, and the 32 new Sanity FAQ docs (ES source in `scripts/migrate-faq-to-divisions.mjs`). This is what M.03 (Erick, native) reviews.
+
+**Locked (full detail in `Sunset-Services-TRANSLATION_NOTES.md` §M.01f1):**
+- Variety: LatAm Spanish, Mexico-leaning.
+- Register matrix: marketing surfaces (home.divisions, division landings, service detail, nav/footer, city whyLocal) = `tú`; informational/form surfaces (qa, Step 4 propertyType, extendedArea, Sanity FAQ) = `usted`.
+- Division names, 28 service names, 14 common terms, brand/proper nouns — all locked.
+
+**Edits applied (string values only; no EN, no code logic):**
+- `services.ts`: 4 service-name fixes (Espacios Bajo el Piso / Nivelación de Concreto / Limpieza de Aceras / Remoción Comercial de Nieve) + 6 "Presupuesto"->"Estimado".
+- `es.json`: 4 nav labels realigned to the renamed services.
+- `migrate-faq-to-divisions.mjs`: 1 register fix + 2 "el pueblo"->"el municipio".
+- `.gitattributes` added; working-tree line endings normalized to LF (271 CRLF-churn files); `es.json` NUL corruption repaired.
+
+**In-phase decisions (conform-to-existing per boundary rule; all flagged for Erick in M.03):**
+1. driveway -> "entradas" (not the locked "cocheras") to match the established site.
+2. free-estimate CTA -> established "Presupuesto" left untouched; new content uses "estimado". Sitewide reconciliation deferred to Erick.
+3. "Hardscape" kept in English on division/nav/footer (established voice), not "Pavimentos y construcción exterior".
+4. Wizard register left mixed by design (tú UI + usted Step 4 contact/propertyType).
+
+**Operator follow-up:** re-run `npx tsx scripts/migrate-faq-to-divisions.mjs` to publish the FAQ Spanish polish to Sanity (idempotent).
+
+**Untouched (per operator):** 3 unrelated uncommitted files — `ProjectGallery.tsx`, `RelatedProjects.tsx`, `ServiceAreaMap.tsx`.

@@ -284,4 +284,148 @@ These join the existing M.03 priority list. Code is least confident about (a) th
 - **"Cookies" vs "Galletas" vs "Cookies (galletas)"** — `Cookies` (English loanword) is now standard in LATAM Spanish digital contexts. Code did NOT translate the word. Confirm.
 - **"Estrictamente necesarias" vs "Estrictamente necesarios"** — Code used the feminine plural (because `cookies` is treated as feminine in modal context: `las cookies`). Confirm gender choice.
 
+-
 
+---
+
+## Phase M.01f1 — Spanish first-pass polish for M.01d/e/e-pt2 content (added 2026-05-26)
+
+### Purpose, owner, related phases
+
+This section is the **canonical Spanish glossary + register matrix** for the project, locked during Phase M.01f1 (Cowork). It consolidates the Spanish strings first-passed by Code while shipping the new 4-division IA (M.01d), the visible flip + 22 cities + Q&A (M.01e), and the wizard/property-type migration (M.01e-pt2). Goal: when Erick reviews the Spanish surface natively in M.03, he reads one coherent body of text with one glossary, not three independent first drafts.
+
+- **Owner:** Cowork (this pass) -> Erick Valle (native review, M.03).
+- **Scope:** the 4 division definitions, 14 new services (10 Waterproofing + 4 Snow Removal), 18 new city pages, the `qa.*` namespace (25 Q&A), the new wizard fields (division tiles + property type), the new lead-email row labels, and the 32 new Sanity FAQ docs (whose ES source lives in `scripts/migrate-faq-to-divisions.mjs`).
+- **Out of scope:** all pre-M.01d content (16 existing services, 6 original cities, the Phase 2.11/B.03 glossary above). Where the pre-M.01d voice disagrees with an M.01f1 lock, the conflict is flagged below and the **existing voice is left untouched** — Erick reconciles in M.03.
+- **Quality bar:** first-pass polish, good enough for Erick's review. Explicitly NOT native-quality. No `[TBR]` markers (post-B.01 convention).
+
+### 1. Variety — locked
+
+**LatAm Spanish, Mexico-leaning.** Rationale: Aurora's customer base is overwhelmingly Mexican-origin homeowners. No Castilian forms (no `vosotros`, no `coger` in the Iberian sense, no `ordenador`). When two valid LatAm forms exist, the Mexican one wins (e.g., `aguas residuales` over `aguas servidas`). Matches and extends the Phase 2.11 dialect lock above.
+
+### 2. Register decision matrix — locked (surface-by-surface)
+
+| Surface | Register | Notes |
+|---|---|---|
+| Homepage division block (`home.divisions.*`) | tú | Marketing |
+| 4 division landings (`division.<slug>.*` + `divisions.ts` hero copy) | tú | Marketing |
+| 14 new service detail pages (`services.ts` new entries) | tú | Marketing |
+| Navbar mega-panel copy (`chrome.nav.servicesPanel.*`) | tú | Marketing chrome |
+| Footer division links (`chrome.footer.links.*`) | tú | Marketing chrome |
+| City `whyLocal` body copy (`locations.ts` 18 new cities) | tú | Marketing |
+| Per-division related headline (`servicePage.related.h2.<division>`) | tú | Marketing |
+| `qa.*` namespace (the `/qa/` page) | usted | Informational, not marketing |
+| Wizard NEW strings (Step 4 propertyType label/options/error) | usted | Locked decision #4; matches B.10 contact-block usted |
+| Extended service-area note (`serviceAreas.extendedArea.*`) | usted | Informational |
+| Lead-email rows (`División` / `Tipo de propiedad` labels) | neutral nouns | No register; surrounding text usted |
+| Sanity FAQ docs (14 service + 18 city) | usted | Informational surface |
+
+**Boundary rule applied:** the established wizard UI (Step 1 title, Step 2 titles, the shared error strings like "Por favor completa este campo", "Intenta de nuevo") uses **tú** imperatives — pre-M.01d established voice. Locked decision #2 nominally puts the whole wizard in usted, but the established surface is tú except the Step 4 contact/PII block (usted, from B.10). Per the boundary rule, new wizard strings were ALIGNED to the existing surface register (Step 1/2 stay tú; Step 4 propertyType stays usted per the lock). The mid-wizard tú->usted shift at Step 4 is deliberate and matches the documented Phase 2.11 "CTA flips to usted once the wizard opens" boundary. Flagged for Erick.
+
+### 3. Brand & proper nouns — never translated
+
+Sunset Services, Erick Valle, Nick Valle, Marcin, Unilock, Aurora, Naperville, Wheaton, Batavia, Hinsdale, Oak Brook, Elmhurst, Clarendon Hills, Burr Ridge, Western Springs, Glen Ellyn, Downers Grove, Winfield, Lombard, St. Charles, Geneva, South Elgin, Elburn, North Aurora, Oswego, Yorkville, Plainfield, Lisle, Bolingbrook, Illinois (or IL), Google, Calendly, Resend, Sanity.
+
+**Place name with translated wrapper:** "DuPage County" -> **"el Condado de DuPage"** (keep the proper noun, translate the wrapper).
+
+### 4. Division name lock (sitewide, verbatim)
+
+| English | Spanish (locked) |
+|---|---|
+| Landscape | **Paisajismo** |
+| Hardscape | **Pavimentos y construcción exterior** |
+| Waterproofing | **Impermeabilización** |
+| Snow Removal | **Remoción de nieve** |
+
+> CONFLICT with established voice: the live site (home.divisions, nav, footer, division landings) keeps **"Hardscape"** in English (Phase 2.11 decision). M.01f1 conformed the new division surfaces to the established **"Hardscape"** to avoid mid-site inconsistency, and did NOT impose "Pavimentos y construcción exterior." Erick decides the sitewide division-name treatment in M.03.
+
+### 5. Service name lock (all 28; the 14 new ones use these verbatim)
+
+The 16 existing services are reference-only (live strings out of scope). The 14 NEW services use the locked Spanish verbatim — these were APPLIED to `services.ts` + the nav mega-panel labels this phase.
+
+| Slug / English | Spanish (locked) | Note |
+|---|---|---|
+| lawn-care | cuidado del césped | existing |
+| landscape-design | diseño de paisajes | existing site uses "diseño de jardines"/"Diseño de Paisajismo" — conflict, see §9 |
+| tree-services | servicios de árboles | existing nav uses "Servicios de Árboles" (matches) |
+| sprinkler-systems | sistemas de riego | existing |
+| seasonal-cleanup | limpieza de temporada | existing |
+| landscape-maintenance | mantenimiento de jardines | existing nav "Mantenimiento de Paisajismo" — conflict |
+| property-enhancement | mejoramiento de propiedades | existing nav "Mejora de Propiedades" — conflict |
+| turf-management | manejo del césped | existing nav "Manejo de Césped" — close |
+| patios-walkways | patios y senderos | existing |
+| retaining-walls | muros de contención | existing |
+| fire-pits-features | fogatas y características de fuego | existing nav "Fogatas y Elementos" — conflict |
+| pergolas-pavilions | pérgolas y pabellones | existing |
+| driveways | cocheras (locked) — but existing site uses "Entradas de Auto" | CONFORMED to "entradas" sitewide, see §8 |
+| outdoor-kitchens | cocinas al aire libre | existing nav "Cocinas Exteriores" — conflict |
+| **basement-waterproofing** | impermeabilización de sótanos | APPLIED (matched) |
+| **foundation-repair** | reparación de cimientos | APPLIED (matched) |
+| **sump-pumps** | bombas de sumidero | APPLIED (matched) |
+| **yard-drainage** | drenaje del jardín | APPLIED (matched) |
+| **gutter-services** | servicios de canaletas | APPLIED (matched) |
+| **window-wells** | pozos de ventana | APPLIED (matched). "patios ingleses" rejected as less recognized |
+| **crawl-spaces** | espacios bajo el piso | **FIXED** — was "Sótanos de Acceso" (services.ts name+h1 + nav label) |
+| **concrete-raising** | nivelación de concreto | **FIXED** — was "Levantamiento de Concreto" (services.ts name+h1 + nav label) |
+| **humidity-control** | control de humedad | APPLIED (matched) |
+| **radon-mitigation** | mitigación de radón | APPLIED (matched) |
+| **de-icing** | deshielo | APPLIED (matched) |
+| **sidewalk-shoveling** | limpieza de aceras | **FIXED** — was "Pala de Senderos" (services.ts name+h1 + nav label) |
+| **driveway-snow-removal** | remoción de nieve en cocheras (locked) | KEPT "Remoción de Nieve en Entradas" to match established "entradas" — see §8 |
+| **commercial-snow-plowing** | remoción comercial de nieve | **FIXED** — was "Arado Comercial de Nieve" (services.ts name+h1 + nav label) |
+
+### 6. Common terms — locked
+
+| English | Spanish (locked) | Notes |
+|---|---|---|
+| Free estimate | estimado gratis | Mexican usage. CONFLICT: live es.json CTAs use "Presupuesto Gratis" sitewide — see §8 |
+| Property type | tipo de propiedad | applied (wizard.step5 label + email row) |
+| Residential | residencial | — |
+| Commercial | comercial | — |
+| Homeowner | propietario | — |
+| Property manager | administrador de propiedades | — |
+| HOA | asociación de propietarios (HOA) | — |
+| Quote | cotización | "presupuesto" also valid |
+| Estimate (the document) | estimado | applied to new services.ts process/pricing |
+| Project | proyecto | — |
+| Process | proceso | — |
+| Warranty | garantía | — |
+| Permit | permiso | — |
+| Patio (structure) | patio | loanword |
+
+### 7. Tone guidance — locked
+
+- Plain-spoken Spanish, the way a real person talks to a homeowner. No "elevar su estilo de vida," no "santuario exterior vibrante anidado entre," no marketing-translator throat-clearing.
+- Numbers stay numeric ("25 años", not "veinticinco años"). Phone `(630) 946-9321` identical in both locales.
+- Currency: USD stays `$`-prefixed ("$5,000"), no locale reformatting.
+- Dates: long form in body ("el 15 de marzo de 2026"); short form when numeric context is clear.
+- "No pressure," "free of charge," "we'll talk through your project" -> plain Spanish, never robotic back-translations.
+
+**Good vs. marketing-translator-bad (from the M.01d/e content reviewed):**
+
+| Marketing-translator (avoid) | Plain-spoken (locked voice) |
+|---|---|
+| "Eleve la protección de su hogar a un nuevo nivel" | "Mantenga su sótano seco, todo el año" |
+| "Soluciones integrales de impermeabilización premium" | "Arreglamos la filtración y le damos garantía por escrito" |
+| "Nuestro equipo de expertos certificados" | "Nuestro equipo" / "la cuadrilla de Erick" |
+| "Transforme su espacio exterior en un oasis" | "Construimos el patio que quiere usar todo el verano" |
+| "evento de precipitación de nieve" | "tormenta de nieve" |
+
+### 8. Boundary-case decisions (this phase)
+
+- **driveway = "entradas", NOT "cocheras":** the lock term is "cocheras", but the established site pervasively uses "entradas"/"Entradas de Auto" (the existing `driveways` service name, many body refs, the nav label). Per the boundary rule, new content (driveway-snow-removal name, snow/gutter body refs) CONFORMED to "entradas" to avoid mid-site inconsistency. Flagged for Erick (open Q #1).
+- **estimate CTA = "Presupuesto", NOT "estimado":** the live es.json uses "Solicita un Presupuesto Gratis" / "Solicitar Presupuesto Gratis" sitewide (home, audience, service CTAs, wizard eyebrow). The lock prefers "estimado". For the in-scope NEW content, "estimado" was used (services.ts process/pricing steps; locations.ts meta already used "estimados gratis") so all NEW content is internally consistent on "estimado". The established CTA buttons ("Presupuesto") were NOT changed (pre-M.01d). This is a SITEWIDE reconciliation for Erick (open Q below).
+- **"el municipio" over "el pueblo"** for village/town government in FAQ answers (permits, de-icing). "El pueblo" can read as "the people/town"; "el municipio" is the clearer governmental sense. Applied in `migrate-faq-to-divisions.mjs`. (Note: "pueblo" meaning *town* — e.g. "Downers Grove es un pueblo en capas" — is fine and was left.)
+- **FAQ register usted:** fixed one tú leak ("si quieres" -> "si desea" in the city "neighborhood" FAQ). Questions phrased in the homeowner's own first person ("¿Cómo sé si tengo…?") stay first person — that is the customer asking, not us addressing them.
+- **"Hardscape" kept in English** on division/nav/footer surfaces — see §4 conflict.
+
+### 9. Open questions for Erick (M.03)
+
+1. **"cocheras" vs "entradas"** for driveway — confirm the sitewide term (affects the existing `driveways` service copy AND the new driveway-snow-removal name; M.01f1 used "entradas" for consistency).
+2. **"Presupuesto" vs "estimado"** for the free-estimate CTA — the live site says "Presupuesto Gratis" everywhere; new content uses "estimado". Pick one sitewide.
+3. **Division name "Pavimentos y construcción exterior" vs keeping "Hardscape"** in English (M.01f1 kept "Hardscape" for consistency).
+4. **"espacios bajo el piso" vs keeping "crawl space"** — confirm what Aurora homeowners recognize.
+5. **"pozos de ventana" vs "patios ingleses"** for window wells — we picked the literal.
+6. **Existing landscape/hardscape nav labels** ("Diseño de Paisajismo", "Mantenimiento de Paisajismo", "Mejora de Propiedades", "Fogatas y Elementos", "Cocinas Exteriores") differ from the new locks — confirm whether to migrate existing service strings to the locks later.
+7. **"arado / arar" for snow plowing** — the snow service body uses "arado de entrada/estacionamientos" (a calque); "arar" for snow is unusual in Mexican Spanish. Service NAMES were de-calqued (e.g. "Remoción Comercial de Nieve"); confirm whether to de-calque the body too.
+8. **"el municipio" vs "el pueblo" vs "la ciudad"** for village government — confirm the term Aurora homeowners use.

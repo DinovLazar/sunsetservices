@@ -1,0 +1,31 @@
+# Normalize line endings across the repo.
+# Text files are stored with LF in git and checked out with LF on every
+# platform (prevents the CRLF churn that polluted the working tree pre-M.01f1).
+* text=auto eol=lf
+
+# Explicit text types (belt-and-suspenders for the common source files)
+*.ts    text eol=lf
+*.tsx   text eol=lf
+*.js    text eol=lf
+*.mjs   text eol=lf
+*.json  text eol=lf
+*.css   text eol=lf
+*.md    text eol=lf
+*.html  text eol=lf
+*.txt   text eol=lf
+*.yml   text eol=lf
+*.yaml  text eol=lf
+
+# Binary assets git must never touch
+*.png   binary
+*.jpg   binary
+*.jpeg  binary
+*.gif   binary
+*.webp  binary
+*.svg   text eol=lf
+*.ico   binary
+*.pdf   binary
+*.woff  binary
+*.woff2 binary
+*.ttf   binary
+*.eot   binary

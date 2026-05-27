@@ -593,3 +593,26 @@ See `src/_project-state/Phase-M-01e-Completion.md` for the canonical file list �
 
 - `dist/` — **gitignored** Sanity Studio production build output (~7.9MB, written by `npm run studio:build`).
 - `.sanity/` — **gitignored** Sanity dev-server runtime cache (`runtime/` subdirectory).
+
+## Phase M.01f1 — Spanish first-pass polish + glossary lock (2026-05-26, Cowork)
+
+**Modified (Spanish string values only):**
+- `src/data/services.ts` — 4 new-service name glossary fixes + 6 "Presupuesto"->"Estimado".
+- `src/messages/es.json` — 4 nav mega-panel labels realigned to the renamed services.
+- `scripts/migrate-faq-to-divisions.mjs` — 3 FAQ register/glossary fixes (usted + "el municipio").
+
+**Modified (docs):**
+- `Sunset-Services-TRANSLATION_NOTES.md` — appended canonical M.01f1 glossary + register matrix (§M.01f1, 10 sections).
+- `Sunset-Services-Decisions.md` — 2026-05-26 M.01f1 entry.
+- `src/_project-state/current-state.md` — last-completed bumped to M.01f1 + "What works (M.01f1 additions)".
+- `src/_project-state/file-map.md` — this section.
+
+**New:**
+- `src/_project-state/Phase-M-01f1-Completion.md` — completion report.
+- `.gitattributes` (repo root) — `* text=auto eol=lf` line-ending normalization.
+
+**Reviewed, no edits needed:** `src/data/divisions.ts` (no ES strings), `src/data/locations.ts` (18 cities clean), `src/lib/email/templates/QuoteLeadAlertEmail.tsx` (EN-only by convention).
+
+**Operator action:** re-run `npx tsx scripts/migrate-faq-to-divisions.mjs` to publish FAQ polish to Sanity.
+
+**Untouched (unrelated uncommitted edits, per operator):** `ProjectGallery.tsx`, `RelatedProjects.tsx`, `ServiceAreaMap.tsx`.

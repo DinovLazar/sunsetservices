@@ -920,16 +920,16 @@
           "yardDrainage": "Drenaje del Jardín",
           "gutterServices": "Servicios de Canaletas",
           "windowWells": "Pozos de Ventana",
-          "crawlSpaces": "Sótanos de Acceso",
-          "concreteRaising": "Levantamiento de Concreto",
+          "crawlSpaces": "Espacios Bajo el Piso",
+          "concreteRaising": "Nivelación de Concreto",
           "humidityControl": "Control de Humedad",
           "radonMitigation": "Mitigación de Radón"
         },
         "snowRemoval": {
           "driveway": "Remoción de Nieve en Entradas",
-          "sidewalk": "Pala de Senderos",
+          "sidewalk": "Limpieza de Aceras",
           "deIcing": "Deshielo",
-          "commercial": "Arado Comercial de Nieve"
+          "commercial": "Remoción Comercial de Nieve"
         },
         "serviceAreas": {
           "oakBrook": "Oak Brook",
@@ -2232,5 +2232,8 @@
       "primaryCta": "Solicitar un estimado gratuito",
       "secondaryCta": "Llamar al (630) 946-9321"
     }
+  }
+}
+
   }
 }

@@ -233,7 +233,7 @@ const SNOW_COMMON = [
     },
     a: {
       en: 'Yes — de-icing is a standalone service. Pet-safe melt on residential, calibrated salt or eco-melt on commercial per the contract spec. Useful for properties where the village plows the drive but the walks need treatment.',
-      es: 'Sí — el deshielo es un servicio independiente. Sal pet-safe en residencial, sal calibrada o eco-melt en comercial según el contrato. Útil para propiedades donde el pueblo ara la entrada pero los senderos necesitan tratamiento.',
+      es: 'Sí — el deshielo es un servicio independiente. Sal pet-safe en residencial, sal calibrada o eco-melt en comercial según el contrato. Útil para propiedades donde el municipio limpia la entrada pero los senderos necesitan tratamiento.',
     },
   },
 ];
@@ -316,7 +316,7 @@ const CITY_COMMON_FAQS = [
     },
     a: {
       en: 'Yes — we pull every required permit through the village/town, schedule the inspections, and include the cost in the estimate. Retaining walls over 4 feet, outdoor kitchens with gas, and most hardscape with structural elements need permits in this area.',
-      es: 'Sí — tramitamos cada permiso requerido por el pueblo, agendamos las inspecciones e incluimos el costo en el estimado. Los muros de contención de más de 4 pies, las cocinas exteriores con gas y la mayoría del hardscape con elementos estructurales requieren permisos en esta zona.',
+      es: 'Sí — tramitamos cada permiso requerido por el municipio, agendamos las inspecciones e incluimos el costo en el estimado. Los muros de contención de más de 4 pies, las cocinas exteriores con gas y la mayoría del hardscape con elementos estructurales requieren permisos en esta zona.',
     },
   },
   {
@@ -336,7 +336,7 @@ const CITY_COMMON_FAQS = [
     },
     a: {
       en: 'Yes — we have ongoing residential and commercial work in this area, with crews here most weeks during the growing season. We can share a recent project nearby if you want a reference walk-by.',
-      es: 'Sí — tenemos trabajo residencial y comercial continuo en esta zona, con equipos aquí la mayoría de las semanas durante la temporada. Podemos compartir un proyecto reciente cercano si quieres un recorrido de referencia.',
+      es: 'Sí — tenemos trabajo residencial y comercial continuo en esta zona, con equipos aquí la mayoría de las semanas durante la temporada. Podemos compartir un proyecto reciente cercano si desea un recorrido de referencia.',
     },
   },
 ];
@@ -381,4 +381,6 @@ async function main() {
 main().catch((err) => {
   console.error('[migrate-faq] FATAL', err);
   process.exit(1);
+});
+);
 });

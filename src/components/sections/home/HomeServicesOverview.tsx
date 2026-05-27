@@ -25,21 +25,19 @@ type Service = {
 };
 
 /**
- * Curation per handover §5.4: 4 hardscape (highest-margin) + 4 residential
- * (broadest audience) + 1 commercial (Snow Removal — the commercial signature).
- * The detail routes (`/residential/lawn-care/` etc.) do not exist in Part 1
- * and 404 by design until Phase 1.08+.
+ * Curation per handover §5.4: 4 hardscape (highest-margin) + 4 landscape
+ * services + 1 snow-removal commercial signature.
  */
 const SERVICES: Service[] = [
-  {key: 'lawnCare', audience: 'residential', href: '/residential/lawn-care/', photo: lawnCareSrc},
+  {key: 'lawnCare', audience: 'residential', href: '/landscape/lawn-care/', photo: lawnCareSrc},
   {key: 'patios', audience: 'hardscape', href: '/hardscape/patios-walkways/', photo: patiosSrc},
   {key: 'walls', audience: 'hardscape', href: '/hardscape/retaining-walls/', photo: wallsSrc},
-  {key: 'design', audience: 'residential', href: '/residential/landscape-design/', photo: designSrc},
-  {key: 'trees', audience: 'residential', href: '/residential/tree-services/', photo: treesSrc},
-  {key: 'sprinklers', audience: 'residential', href: '/residential/sprinkler-systems/', photo: sprinklersSrc},
-  {key: 'snow', audience: 'commercial', href: '/commercial/snow-removal/', photo: snowSrc},
+  {key: 'design', audience: 'residential', href: '/landscape/landscape-design/', photo: designSrc},
+  {key: 'trees', audience: 'residential', href: '/landscape/tree-services/', photo: treesSrc},
+  {key: 'sprinklers', audience: 'residential', href: '/landscape/sprinkler-systems/', photo: sprinklersSrc},
+  {key: 'snow', audience: 'commercial', href: '/snow-removal/commercial-snow-plowing/', photo: snowSrc},
   {key: 'kitchens', audience: 'hardscape', href: '/hardscape/outdoor-kitchens/', photo: kitchensSrc},
-  {key: 'fire', audience: 'hardscape', href: '/hardscape/fire-pits/', photo: fireSrc},
+  {key: 'fire', audience: 'hardscape', href: '/hardscape/fire-pits-features/', photo: fireSrc},
 ];
 
 /** Audience-color dot per handover §5.4. */
@@ -50,8 +48,8 @@ const DOT_COLOR: Record<Audience, string> = {
 };
 
 const AUDIENCE_CTAS: Array<{key: Audience; href: string}> = [
-  {key: 'residential', href: '/residential/'},
-  {key: 'commercial', href: '/commercial/'},
+  {key: 'residential', href: '/landscape/'},
+  {key: 'commercial', href: '/snow-removal/'},
   {key: 'hardscape', href: '/hardscape/'},
 ];
 

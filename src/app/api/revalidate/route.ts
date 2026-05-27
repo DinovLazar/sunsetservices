@@ -32,6 +32,7 @@ import type {NextRequest} from 'next/server';
 import {NextResponse} from 'next/server';
 import {parseBody} from 'next-sanity/webhook';
 import {revalidateForDocument, type SanityRevalidationPayload} from '@/lib/sanity/revalidation';
+import {safeLogMeta} from '@/lib/logging/safeError';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -57,7 +58,10 @@ export async function POST(request: NextRequest) {
   try {
     ({isValidSignature, body} = await parseBody<SanityWebhookBody>(request, secret));
   } catch (err) {
-    console.error('[api/revalidate] parseBody threw', err);
+    console.error(
+      '[api/revalidate] parseBody threw',
+      safeLogMeta('/api/revalidate', err),
+    );
     return NextResponse.json(
       {status: 'error', reason: 'revalidate-failed'},
       {status: 500},
@@ -96,7 +100,10 @@ export async function POST(request: NextRequest) {
     const result = await revalidateForDocument(payload);
     return NextResponse.json({status: 'ok', ...result});
   } catch (err) {
-    console.error('[api/revalidate] revalidateForDocument threw', err);
+    console.error(
+      '[api/revalidate] revalidateForDocument threw',
+      safeLogMeta('/api/revalidate', err),
+    );
     return NextResponse.json(
       {status: 'error', reason: 'revalidate-failed'},
       {status: 500},

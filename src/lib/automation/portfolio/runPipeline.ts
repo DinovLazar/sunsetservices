@@ -1,6 +1,7 @@
 import {writeClient} from '@sanity-lib/write-client';
 import {notifyOperator, requestApproval} from '@/lib/telegram/notify';
 import {escapeMarkdownV2} from '@/lib/telegram/markdownV2';
+import {safeErrorCode, safeLogMeta} from '@/lib/logging/safeError';
 import {ensurePlaceholderAsset} from '@/lib/automation/blog/placeholderAsset';
 import {extractJobMetadata} from './extractJobMetadata';
 import {uploadJobPhotos} from './uploadPhotos';
@@ -195,7 +196,7 @@ export async function runPortfolioDraftPipeline(
       } catch (patchErr) {
         console.warn(
           `[portfolio-pipeline] telegramMessageId patch failed for ${pendingDocId}`,
-          patchErr,
+          safeLogMeta('portfolio-pipeline', patchErr, {pendingDocId}),
         );
       }
     } else {
@@ -213,13 +214,13 @@ export async function runPortfolioDraftPipeline(
     } catch (patchErr) {
       console.warn(
         `[portfolio-pipeline] source event state patch failed for ${eventDocId}`,
-        patchErr,
+        safeLogMeta('portfolio-pipeline', patchErr, {eventDocId}),
       );
     }
 
     return {status: 'ok', pendingDocId, telegramMessageId, photoStats};
   } catch (err) {
-    const message = err instanceof Error ? err.message : 'unknown-error';
+    const message = safeErrorCode(err);
     console.error('[portfolio-pipeline] failed:', message);
     await notifyOperator({
       text: `⚠️ Portfolio draft pipeline failed: ${message}`,

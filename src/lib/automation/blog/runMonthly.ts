@@ -4,6 +4,7 @@ import {generateBlogDraft} from '@/lib/automation/blog/draft';
 import {persistBlogDraftPending} from '@/lib/automation/blog/persistDraft';
 import {notifyOperator, requestApproval} from '@/lib/telegram/notify';
 import {escapeMarkdownV2} from '@/lib/telegram/markdownV2';
+import {safeErrorCode, safeLogMeta} from '@/lib/logging/safeError';
 
 /**
  * Shared executor for the monthly blog draft cron path (Phase 2.16).
@@ -195,14 +196,14 @@ export async function executeMonthlyBlogDraftRun(): Promise<MonthlyRunResult> {
     } catch (patchErr) {
       console.warn(
         `[blog-draft-run] telegramMessageId patch failed for docId=${docId}`,
-        patchErr,
+        safeLogMeta('blog-draft-run', patchErr, {docId}),
       );
     }
 
     await markMonthlyLock(lockId, 'completed', {draftDocId: docId});
     return {status: 'ok', docId, messageId: approval.messageId};
   } catch (err) {
-    const message = err instanceof Error ? err.message : 'unknown-error';
+    const message = safeErrorCode(err);
     console.error('[blog-draft-run] failed:', message);
     await markMonthlyLock(lockId, 'failed', {errorCode: 'cron-failed'}).catch(() => {
       // Preserve the original cron failure response.

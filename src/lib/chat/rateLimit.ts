@@ -17,6 +17,7 @@
 // "2026-05-18 — Phase B.09 (Code) — Plan-of-record" for the full D1–D6.
 
 import {Redis} from '@upstash/redis';
+import {safeLogMeta} from '@/lib/logging/safeError';
 
 const STORE = process.env.CHAT_RATELIMIT_STORE ?? 'memory';
 const DAILY_LIMIT = Number(process.env.CHAT_DAILY_LIMIT_PER_IP ?? 50);
@@ -118,7 +119,7 @@ async function checkRateLimitKv(ip: string): Promise<RateLimitResult> {
   } catch (err) {
     // Fail-open: a transient Redis blip must not wedge the chat for every
     // visitor. The error is logged so Vercel function logs can surface it.
-    console.error('[ratelimit] kv check failed', err);
+    console.error('[ratelimit] kv check failed', safeLogMeta('chat-rate-limit', err));
     return {allowed: true};
   }
 }

@@ -22,6 +22,7 @@ import {NextResponse} from 'next/server';
 import {z} from 'zod';
 import {verifyCronAuth} from '@/lib/automation/cronAuth';
 import {revalidateForDocument, type SanityRevalidationPayload} from '@/lib/sanity/revalidation';
+import {safeLogMeta} from '@/lib/logging/safeError';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -72,7 +73,10 @@ export async function POST(request: Request) {
     const result = await revalidateForDocument(payload);
     return NextResponse.json({status: 'ok', ...result});
   } catch (err) {
-    console.error('[api/test/revalidate] revalidateForDocument threw', err);
+    console.error(
+      '[api/test/revalidate] revalidateForDocument threw',
+      safeLogMeta('/api/test/revalidate', err),
+    );
     return NextResponse.json(
       {status: 'error', reason: 'revalidate-failed'},
       {status: 500},

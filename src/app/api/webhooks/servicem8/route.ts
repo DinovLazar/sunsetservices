@@ -3,6 +3,7 @@ import {serviceM8WebhookSchema} from '@/lib/servicem8/schema';
 import {verifyServiceM8Signature} from '@/lib/servicem8/verifySignature';
 import {persistServiceM8Event} from '@/lib/servicem8/persistEvent';
 import {runPortfolioDraftPipeline} from '@/lib/automation/portfolio/runPipeline';
+import {safeLogMeta} from '@/lib/logging/safeError';
 
 /**
  * POST /api/webhooks/servicem8 — ServiceM8 job-event ingestion (Phase 2.13).
@@ -111,7 +112,7 @@ export async function POST(request: Request) {
       } catch (err) {
         console.error(
           '[servicem8-webhook] post-response portfolio pipeline failed:',
-          err,
+          safeLogMeta('/api/webhooks/servicem8', err),
         );
         // notifyOperator already called from inside the pipeline; nothing
         // else to do here — the response was already sent to ServiceM8.
@@ -123,7 +124,10 @@ export async function POST(request: Request) {
       {status: 200},
     );
   } catch (err) {
-    console.error('[servicem8] persist failed', err);
+    console.error(
+      '[servicem8] persist failed',
+      safeLogMeta('/api/webhooks/servicem8', err),
+    );
     return NextResponse.json(
       {status: 'error', reason: 'persist-failed'},
       {status: 500},

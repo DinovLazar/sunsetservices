@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "prebuild": "npm run validate:related-links",
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
@@ -21,7 +22,8 @@
     "test:wizard-autocomplete": "node scripts/test-wizard-autocomplete.mjs",
     "validate:schema": "node scripts/validate-schema.mjs",
     "validate:seo": "node scripts/validate-seo.mjs",
-    "validate:a11y": "node scripts/validate-a11y.mjs"
+    "validate:a11y": "node scripts/validate-a11y.mjs",
+    "validate:related-links": "node scripts/validate-related-links.mjs"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.92.0",

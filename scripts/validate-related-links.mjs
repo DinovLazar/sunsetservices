@@ -44,8 +44,8 @@ for (const svc of SERVICES) {
       });
       continue;
     }
-    // Mirror the buggy ServiceRelated.tsx formula exactly.
-    const rendered = `/${related.audience}/${related.slug}/`;
+    // Mirror the fixed ServiceRelated.tsx formula (Phase M.01e).
+    const rendered = `/${related.division}/${related.slug}/`;
     if (!canonical.has(rendered)) {
       broken.push({
         from: `${svc.division}/${svc.slug}`,

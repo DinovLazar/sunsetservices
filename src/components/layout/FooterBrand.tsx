@@ -36,16 +36,17 @@ export default async function FooterBrand() {
           {BUSINESS_EMAIL}
         </a>
       </address>
-      {/* Unilock Authorized Contractor — real badge on a white chip for legibility on the dark footer. */}
-      <div className="inline-flex items-center justify-center bg-white rounded p-2 w-fit">
-        <Image
-          src={unilockBadge}
-          alt="Unilock Authorized Contractor"
-          width={110}
-          height={70}
-          style={{height: 'auto', width: '110px'}}
-        />
-      </div>
+      {/* Unilock Authorized Contractor — real badge. Phase M.10 Issue 9 Part B
+          dropped the bg-white chip wrapper Goran flagged as a "stray white box"
+          in the dark footer. The badge PNG is RGBA with its own design; it
+          reads cleanly on charcoal without a chip. */}
+      <Image
+        src={unilockBadge}
+        alt="Unilock Authorized Contractor"
+        width={110}
+        height={70}
+        style={{height: 'auto', width: '110px'}}
+      />
     </div>
   );
 }

@@ -8,9 +8,10 @@ import {defineField, defineType} from 'sanity';
  * Resend + Mautic).
  *
  * Field shape matches the live ContactForm component (Phase 1.11): single
- * `name` field (NOT split first/last), `category` (audience-like selector
- * with residential/commercial/hardscape/other), email + phone are optional
- * but at least one must be present (form-side D14 lock; the API mirrors).
+ * `name` field (NOT split first/last), `category` (4-division selector —
+ * landscape / hardscape / waterproofing / snow-removal / other, post-M.10
+ * Issue 7), email + phone are optional but at least one must be present
+ * (form-side D14 lock; the API mirrors).
  */
 export const contactSubmission = defineType({
   name: 'contactSubmission',
@@ -135,14 +136,15 @@ export const contactSubmission = defineType({
       group: 'contact',
       options: {
         list: [
-          {title: 'Residential', value: 'residential'},
-          {title: 'Commercial', value: 'commercial'},
+          {title: 'Landscape', value: 'landscape'},
           {title: 'Hardscape', value: 'hardscape'},
+          {title: 'Waterproofing', value: 'waterproofing'},
+          {title: 'Snow Removal', value: 'snow-removal'},
           {title: 'Other', value: 'other'},
         ],
         layout: 'radio',
       },
-      description: 'Optional audience-like selector from the contact form.',
+      description: 'Optional 4-division selector from the contact form. Legacy values residential/commercial reject post-Phase M.10.',
     }),
 
     // ─────────────────────── Message ───────────────────────

@@ -46,12 +46,12 @@ export default function ServiceHero({
   return (
     <section
       aria-labelledby="service-hero-h1"
-      className="relative isolate overflow-hidden flex flex-col h-[max(44vh,320px)] sm:h-[max(48vh,380px)] lg:h-[max(52vh,420px)] text-[var(--color-text-on-dark)]"
+      className="relative isolate overflow-hidden flex flex-col h-[max(44vh,320px)] sm:h-[max(48vh,380px)] md:h-[max(50vh,400px)] lg:h-[max(52vh,420px)] 2xl:max-h-[600px] text-[var(--color-text-on-dark)]"
       // bg-charcoal fallback — keeps cream copy AA-readable while the hero
       // photo loads (or if it fails to load entirely). Lighthouse on mobile
       // form-factor was computing contrast against #ffffff because the photo
       // hadn't finished decoding by audit time.
-      style={{maxHeight: '600px', backgroundColor: 'var(--color-bg-charcoal)'}}
+      style={{backgroundColor: 'var(--color-bg-charcoal)'}}
     >
       <div className="absolute inset-0">
         <Image
@@ -69,7 +69,7 @@ export default function ServiceHero({
           className="absolute inset-0 pointer-events-none sm:hidden"
           style={{
             background:
-              'linear-gradient(180deg, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.12) 30%, rgba(0,0,0,0.60) 100%)',
+              'linear-gradient(180deg, color-mix(in srgb, var(--color-sunset-green-900) 12%, transparent) 0%, color-mix(in srgb, var(--color-sunset-green-900) 68%, transparent) 100%)',
           }}
         />
         <div
@@ -77,13 +77,13 @@ export default function ServiceHero({
           className="absolute inset-0 pointer-events-none hidden sm:block"
           style={{
             background:
-              'linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.12) 50%, rgba(0,0,0,0.57) 100%)',
+              'linear-gradient(180deg, color-mix(in srgb, var(--color-sunset-green-900) 12%, transparent) 0%, color-mix(in srgb, var(--color-sunset-green-900) 68%, transparent) 100%)',
           }}
         />
       </div>
 
       <div className="relative flex-1 flex flex-col justify-end">
-        <div className="mx-auto w-full max-w-[var(--container-default)] px-6 sm:px-8 lg:px-12 xl:px-16 pt-28 pb-8 sm:pt-32 sm:pb-10 lg:pt-36 lg:pb-12 flex flex-col gap-3 sm:gap-4 lg:gap-5">
+        <div className="mx-auto w-full max-w-[var(--container-default)] px-6 sm:px-8 lg:px-12 xl:px-16 pt-28 pb-10 sm:pt-32 sm:pb-14 lg:pt-36 lg:pb-16 xl:pb-20 flex flex-col gap-3 sm:gap-4 lg:gap-5">
           <Breadcrumb
             variant="on-dark"
             items={[

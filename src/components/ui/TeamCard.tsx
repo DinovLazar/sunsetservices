@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import type {StaticImageData} from 'next/image';
+import InitialsAvatar from './InitialsAvatar';
 
 type TeamCardProps = {
   /** Member name. NOT localized (names are names). */
@@ -8,11 +9,17 @@ type TeamCardProps = {
   role: string;
   /** Localized 1–2 sentence bio. */
   bio: string;
-  /** 4:5 portrait photo. */
-  photo: StaticImageData;
+  /**
+   * 4:5 portrait photo. Optional in Phase M.10: when omitted, the card
+   * renders an `<InitialsAvatar>` derived from `name` in the photo slot.
+   * Pass a real `StaticImageData` to swap in the portrait with no other
+   * change.
+   */
+  photo?: StaticImageData;
   /**
    * Image alt text. Per Phase 1.11 handover §9.2 the name IS the meaningful
-   * alt — "portrait of" padding is anti-pattern.
+   * alt — "portrait of" padding is anti-pattern. Ignored when `photo` is
+   * omitted (the avatar carries its own `aria-label`).
    */
   alt: string;
   /**
@@ -36,18 +43,22 @@ export default function TeamCard({name, role, bio, photo, alt, priority}: TeamCa
         boxShadow: 'var(--shadow-soft)',
       }}
     >
-      <div className="relative w-full" style={{aspectRatio: '4 / 5'}}>
-        <Image
-          src={photo}
-          alt={alt}
-          fill
-          placeholder="blur"
-          loading={priority ? 'eager' : 'lazy'}
-          priority={priority ?? false}
-          sizes="(max-width: 767px) 100vw, (max-width: 1023px) 50vw, 33vw"
-          style={{objectFit: 'cover'}}
-        />
-      </div>
+      {photo ? (
+        <div className="relative w-full" style={{aspectRatio: '4 / 5'}}>
+          <Image
+            src={photo}
+            alt={alt}
+            fill
+            placeholder="blur"
+            loading={priority ? 'eager' : 'lazy'}
+            priority={priority ?? false}
+            sizes="(max-width: 767px) 100vw, (max-width: 1023px) 50vw, 33vw"
+            style={{objectFit: 'cover'}}
+          />
+        </div>
+      ) : (
+        <InitialsAvatar name={name} aspectRatio="4 / 5" />
+      )}
       <div className="p-6 lg:p-7">
         <span
           className="inline-flex items-center font-heading font-semibold uppercase"

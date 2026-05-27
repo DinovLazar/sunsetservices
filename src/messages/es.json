@@ -1000,8 +1000,9 @@
         "naperville": "Naperville",
         "batavia": "Batavia",
         "wheaton": "Wheaton",
-        "lisle": "Lisle",
-        "bolingbrook": "Bolingbrook"
+        "oakBrook": "Oak Brook",
+        "hinsdale": "Hinsdale",
+        "seeAll": "Ver las 22 ciudades →"
       },
       "newsletter": {
         "heading": "No te pierdas la temporada.",
@@ -1098,6 +1099,52 @@
         "eyebrow": "Legal",
         "h1": "Términos del servicio",
         "lastUpdated": "Última actualización: abril de 2026"
+      }
+    }
+  },
+  "accessibility": {
+    "meta": {
+      "title": "Declaración de accesibilidad · Sunset Services",
+      "description": "El compromiso de Sunset Services con un sitio web accesible para todos, con WCAG 2.2 AA como estándar."
+    },
+    "breadcrumb": {
+      "home": "Inicio",
+      "accessibility": "Accesibilidad"
+    },
+    "hero": {
+      "eyebrow": "Accesibilidad",
+      "h1": "Declaración de accesibilidad",
+      "lastUpdated": "Última revisión: abril de 2026"
+    },
+    "body": {
+      "commitment": {
+        "h2": "Nuestro compromiso",
+        "p": "Sunset Services se compromete a que nuestro sitio web sea utilizable para todos, incluidos los visitantes que navegan con tecnología de asistencia. Tomamos las Pautas de Accesibilidad para el Contenido Web (WCAG) 2.2 Nivel AA como nuestro piso, no como nuestro techo — la accesibilidad es un oficio que afinamos en cada versión."
+      },
+      "doneSoFar": {
+        "h2": "Lo que hemos hecho",
+        "intro": "Diseñamos y construimos pensando en la accesibilidad desde el primer borrador:",
+        "item1": "HTML semántico y etiquetas ARIA para navegación por puntos de referencia",
+        "item2": "Navegación completa por teclado en todas las páginas; indicadores de foco visibles en cada elemento interactivo",
+        "item3": "Pruebas con lectores de pantalla en rutas representativas",
+        "item4": "Razones de contraste de color verificadas contra el estándar WCAG 2.2 AA en nuestra auditoría de la Fase B.06 (cero violaciones AA, Lighthouse a11y = 100)",
+        "item5": "El contenido animado respeta su configuración de prefers-reduced-motion",
+        "item6": "Etiquetas de formulario, mensajes de error e instrucciones probados con tecnología de asistencia"
+      },
+      "knownLimitations": {
+        "h2": "Limitaciones conocidas",
+        "intro": "Algunos elementos integrados de terceros tienen sus propias implementaciones de accesibilidad que monitoreamos pero no controlamos directamente:",
+        "item1": "El iframe de la política de privacidad alojado por Termly",
+        "item2": "El widget de reservas de Calendly",
+        "outro": "Si encuentra una barrera en alguno de estos elementos, por favor repórtela y la escalaremos al proveedor."
+      },
+      "feedback": {
+        "h2": "Comentarios",
+        "p": "Si algo en este sitio no le funciona — una trampa de teclado, una etiqueta faltante, un problema de contraste, un flujo confuso — por favor avísenos. Envíe un correo a <emailLink>info@sunsetservices.us</emailLink> o llame al <phoneLink>(630) 946-9321</phoneLink> y responderemos en un plazo de dos días hábiles."
+      },
+      "lastReviewed": {
+        "h2": "Última revisión",
+        "p": "Esta declaración se revisó por última vez en abril de 2026 y se actualiza cuando se publica un cambio notable."
       }
     }
   },
@@ -1240,9 +1287,10 @@
       "category": {
         "label": "Categoría de servicio",
         "placeholder": "Elige una…",
-        "residential": "Residencial",
-        "commercial": "Comercial",
+        "landscape": "Paisajismo",
         "hardscape": "Hardscape",
+        "waterproofing": "Impermeabilización",
+        "snow-removal": "Remoción de Nieve",
         "other": "Otra"
       },
       "message": {

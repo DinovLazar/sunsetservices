@@ -230,11 +230,19 @@ export type ServiceAreaCity = {
   readonly href: string;
 };
 
+/**
+ * Footer curated cities — mirrors the navbar mega-panel's service-areas
+ * column so the chrome's two service-area surfaces are visually
+ * consistent. Phase M.10 Issue 9 Part A replaced the M.01d 6-city list
+ * (which still carried the retired Lisle + Bolingbrook). The "See all"
+ * row routes to the full /service-areas/ index that lists all 22.
+ */
 export const SERVICE_AREAS_CITIES: readonly ServiceAreaCity[] = [
   {id: 'aurora', labelKey: 'chrome.footer.cities.aurora', href: '/service-areas/aurora/'},
   {id: 'naperville', labelKey: 'chrome.footer.cities.naperville', href: '/service-areas/naperville/'},
-  {id: 'batavia', labelKey: 'chrome.footer.cities.batavia', href: '/service-areas/batavia/'},
   {id: 'wheaton', labelKey: 'chrome.footer.cities.wheaton', href: '/service-areas/wheaton/'},
-  {id: 'lisle', labelKey: 'chrome.footer.cities.lisle', href: '/service-areas/lisle/'},
-  {id: 'bolingbrook', labelKey: 'chrome.footer.cities.bolingbrook', href: '/service-areas/bolingbrook/'},
+  {id: 'batavia', labelKey: 'chrome.footer.cities.batavia', href: '/service-areas/batavia/'},
+  {id: 'oak-brook', labelKey: 'chrome.footer.cities.oakBrook', href: '/service-areas/oak-brook/'},
+  {id: 'hinsdale', labelKey: 'chrome.footer.cities.hinsdale', href: '/service-areas/hinsdale/'},
+  {id: 'see-all', labelKey: 'chrome.footer.cities.seeAll', href: '/service-areas/'},
 ] as const;

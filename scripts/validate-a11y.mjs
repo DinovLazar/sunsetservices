@@ -103,6 +103,7 @@ const URLS = [
   {path: '/contact', label: 'contact-calendly'},
   {path: '/request-quote', label: 'quote-wizard'},
   {path: '/privacy', label: 'legal-termly'},
+  {path: '/accessibility', label: 'accessibility-statement'},
   {path: '/unsubscribe/SAMPLE_TOKEN_INVALID', label: 'unsubscribe-invalid'},
   // ----- ES parity spot-check (3 URLs) -----
   {path: '/es', label: 'es-home'},

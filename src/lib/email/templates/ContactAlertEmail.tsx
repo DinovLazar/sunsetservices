@@ -68,7 +68,9 @@ export function ContactAlertEmail({
           }
         />
       ) : null}
-      {submission.category ? <KeyValue label="Category" value={submission.category} /> : null}
+      {submission.category ? (
+        <KeyValue label="Category" value={formatCategory(submission.category)} />
+      ) : null}
 
       {submission.message ? (
         <>
@@ -99,6 +101,27 @@ export function ContactAlertEmail({
       </Text>
     </EmailLayout>
   );
+}
+
+/**
+ * Maps a raw `submission.category` enum value to the human-readable
+ * label rendered in the alert email. Phase M.10 Issue 7 flipped this
+ * from the 3-audience model (residential / commercial / hardscape /
+ * other) to the 4-division model (landscape / hardscape /
+ * waterproofing / snow-removal / other). The legacy values are kept
+ * as fall-through labels so historic Sanity docs render readably.
+ */
+function formatCategory(category: string): string {
+  const labels: Record<string, string> = {
+    landscape: 'Landscape',
+    hardscape: 'Hardscape',
+    waterproofing: 'Waterproofing',
+    'snow-removal': 'Snow Removal',
+    other: 'Other',
+    residential: 'Residential (legacy)',
+    commercial: 'Commercial (legacy)',
+  };
+  return labels[category] ?? category;
 }
 
 function SectionHeader({children}: {children: React.ReactNode}) {

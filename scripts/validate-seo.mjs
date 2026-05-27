@@ -210,6 +210,7 @@ function buildEnPaths() {
   for (const b of BLOG_SLUGS) out.push(`/blog/${b}`);
   out.push('/privacy');
   out.push('/terms');
+  out.push('/accessibility');
   out.push('/request-quote');
   return out;
 }

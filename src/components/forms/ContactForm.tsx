@@ -352,9 +352,10 @@ export default function ContactForm({action, locale}: ContactFormProps) {
           <option value="" disabled>
             {t('category.placeholder')}
           </option>
-          <option value="residential">{t('category.residential')}</option>
-          <option value="commercial">{t('category.commercial')}</option>
+          <option value="landscape">{t('category.landscape')}</option>
           <option value="hardscape">{t('category.hardscape')}</option>
+          <option value="waterproofing">{t('category.waterproofing')}</option>
+          <option value="snow-removal">{t('category.snow-removal')}</option>
           <option value="other">{t('category.other')}</option>
         </select>
       </div>

@@ -55,7 +55,7 @@ export default async function AboutTeam() {
                 name={m.name}
                 role={t(`role.${m.roleKey}`)}
                 bio={t(`${m.bioKey}.bio`)}
-                photo={m.photo.src}
+                photo={m.photo?.src}
                 alt={m.name}
               />
             </StaggerItem>

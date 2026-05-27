@@ -18,9 +18,8 @@ export default function StaggerContainer({
   const Component = motion[as as 'div'];
   return (
     <Component
-      initial="initial"
-      whileInView="animate"
-      viewport={{once: true, margin: '-10% 0px'}}
+      initial={false}
+      animate="animate"
       variants={staggerContainer}
       className={className}
     >

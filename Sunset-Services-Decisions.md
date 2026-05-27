@@ -1318,3 +1318,35 @@ The 2 retired cities (Lisle, Bolingbrook) keep their existing featuredServices a
 **Operator follow-up:** re-run `npx tsx scripts/migrate-faq-to-divisions.mjs` to publish the FAQ Spanish polish to Sanity (idempotent).
 
 **Untouched (per operator):** 3 unrelated uncommitted files — `ProjectGallery.tsx`, `RelatedProjects.tsx`, `ServiceAreaMap.tsx`.
+
+---
+
+## 2026-05-26 — Phase M.10 — User walkthrough fixes
+
+Closes 10 user-visible bugs Goran flagged on a Preview walkthrough. Polish pass before M.11 (Codex review) and M.12 (Erick handover).
+
+**In-phase decisions (logged as work progresses):**
+
+1. **Animation flicker fix (Issue 1).** Replaced `whileInView` + `initial="initial"` pattern with `initial={false}` across `AnimateIn.tsx`, `StaggerContainer.tsx`, `StaggerItem.tsx`. Trade-off: loses the scroll-triggered entrance animations on `AnimateIn`/stagger primitives. The flicker — SSR renders visible → hydration applies `opacity: 0` → `whileInView` re-animates to visible — disappears completely because the element renders at the `animate` state on first paint and stays there. Goran's "once visible, stay visible" requirement is met. If entrance animations are wanted back later, a per-element `useInView` + manual `animate` prop pattern is the path (SSR-safe IntersectionObserver).
+
+2. **Navbar hover-to-open (Issue 2).** Added pointer-aware hover-to-open on the Services + Resources mega-panel triggers. Implementation: `pointer:fine` media query gates the hover behavior so touch devices retain tap-to-open. A ~150ms grace delay on `mouseleave` lets the cursor traverse the gap between trigger and panel without snapping shut. Click, keyboard (Enter / Space / Escape), `aria-expanded`, focus trap, and click-outside-to-close all preserved from Phase B.06.
+
+3. **City hero image variety (Issue 3).** Each of the 22 surfaced cities now points at a distinct image. Per-city assignments documented in the completion report; Erick supplies city-specific photography during M.03 to swap the "good-enough generic" picks.
+
+4. **Service hero CTA bottom spacing (Issue 4).** `ServiceHero.tsx` template adds `pb-` tokens that scale up at larger viewports so the CTA buttons never crowd the hero/section boundary. One template fix covers 28 services × 2 locales = 56 routes.
+
+5. **Team initials avatars (Issue 5).** New primitive `InitialsAvatar.tsx` derives initials from each whitespace-separated word in the name (first letter, up to 2). Replaces the gradient rectangles on `/about/` Erick / Nick / Marcin cards. Stays compatible with the existing Sanity `image` field — when Erick uploads real portraits, they override the placeholder with zero code change.
+
+6. **Real images on Resources + Blog (Issue 6).** Each of the 5 resource articles + 5 blog posts now resolves to a topically-matched real photo from the existing imageMap.
+
+7. **Contact form division options (Issue 7).** Replaced the pre-M.01d 3-audience contact form dropdown with the canonical 4-division model: Landscape / Hardscape / Waterproofing / Snow Removal / Other. Touched the dropdown component, EN/ES i18n strings, API Zod enum, Sanity schema enum, and the alert email label. ES uses the locked M.01f1 glossary ("Hardscape" stays in English). Sanity Studio re-deploy required.
+
+8. **Navbar reversal on wizard (Issue 8).** Reverses the Phase 1.20 D2 decision that hid the orange CTA on `/request-quote/`. Per Goran's M.10 walkthrough feedback: visual consistency wins over conversion-surface dedup. Clicking the CTA from inside the wizard scrolls/no-ops to the same page; that's acceptable.
+
+9. **Footer service-areas update (Issue 9 Part A).** Footer now reflects the M.01e 22-city shape — picked the curated subset + "See all" link variant since the navbar mega-panel already uses that pattern (visual + IA consistency wins). Lisle + Bolingbrook removed from the footer.
+
+10. **Footer stray white box (Issue 9 Part B).** Source documented in the completion report.
+
+11. **Accessibility page (Issue 10).** Net-new route at `/[locale]/accessibility/` with the same chrome shape as `/privacy/` and `/terms/`. WCAG 2.2 AA commitment statement. ES uses `usted` register (legal-adjacent informational surface). New `accessibility.*` i18n namespace in both locales. Added to `sitemap.ts`, `EXPECTED_PATHS` in `validate-seo.mjs`, and URL sweep in `validate-a11y.mjs`. Indexable (no noindex) — the page is a marketing+compliance asset.
+
+**Decided by:** user (Goran) flagged the 10 issues during walkthrough; chat resolved per-issue trade-offs during execution per the M.10 phase prompt.

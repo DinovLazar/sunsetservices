@@ -9,8 +9,8 @@ type MegaPanelTriggerProps = {
   active?: boolean;
   children: React.ReactNode;
   onClick: () => void;
-  onPointerEnter: () => void;
-  onPointerLeave: () => void;
+  onMouseEnter: () => void;
+  onMouseLeave: () => void;
   onFocus?: () => void;
   onKeyDown?: (e: React.KeyboardEvent<HTMLButtonElement>) => void;
 };
@@ -23,11 +23,13 @@ type MegaPanelTriggerProps = {
  * `aria-controls` to a missing ID is a WCAG SC 4.1.2 violation
  * (`aria-valid-attr-value`). Caret rotates 180° when open. Active page
  * emphasis (weight + underline) is delegated to the parent via the `active`
- * prop.
+ * prop. Hover-intent uses `onMouseEnter` / `onMouseLeave` (mouse-only) so
+ * touch devices fall back to tap-to-open via `onClick` without firing the
+ * hover open/close timers (Phase M.10 Issue 2).
  */
 const MegaPanelTrigger = React.forwardRef<HTMLButtonElement, MegaPanelTriggerProps>(
   function MegaPanelTrigger(
-    {open, controls, active = false, children, onClick, onPointerEnter, onPointerLeave, onFocus, onKeyDown},
+    {open, controls, active = false, children, onClick, onMouseEnter, onMouseLeave, onFocus, onKeyDown},
     ref,
   ) {
     return (
@@ -40,8 +42,8 @@ const MegaPanelTrigger = React.forwardRef<HTMLButtonElement, MegaPanelTriggerPro
         data-active={active || undefined}
         data-open={open || undefined}
         onClick={onClick}
-        onPointerEnter={onPointerEnter}
-        onPointerLeave={onPointerLeave}
+        onMouseEnter={onMouseEnter}
+        onMouseLeave={onMouseLeave}
         onFocus={onFocus}
         onKeyDown={onKeyDown}
         className={[

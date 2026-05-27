@@ -1000,8 +1000,9 @@
         "naperville": "Naperville",
         "batavia": "Batavia",
         "wheaton": "Wheaton",
-        "lisle": "Lisle",
-        "bolingbrook": "Bolingbrook"
+        "oakBrook": "Oak Brook",
+        "hinsdale": "Hinsdale",
+        "seeAll": "See all 22 cities →"
       },
       "newsletter": {
         "heading": "Stay in the loop.",
@@ -1098,6 +1099,52 @@
         "eyebrow": "Legal",
         "h1": "Terms of service",
         "lastUpdated": "Last updated: April 2026"
+      }
+    }
+  },
+  "accessibility": {
+    "meta": {
+      "title": "Accessibility statement · Sunset Services",
+      "description": "Sunset Services' commitment to making our website accessible to everyone, with WCAG 2.2 AA as our standard."
+    },
+    "breadcrumb": {
+      "home": "Home",
+      "accessibility": "Accessibility"
+    },
+    "hero": {
+      "eyebrow": "Accessibility",
+      "h1": "Accessibility statement",
+      "lastUpdated": "Last reviewed: April 2026"
+    },
+    "body": {
+      "commitment": {
+        "h2": "Our commitment",
+        "p": "Sunset Services is committed to making our website usable by everyone, including visitors who navigate with assistive technology. We treat the Web Content Accessibility Guidelines (WCAG) 2.2 Level AA as our floor, not our ceiling — accessibility is a craft we tune every release."
+      },
+      "doneSoFar": {
+        "h2": "What we've done",
+        "intro": "We design and build with accessibility from the first wireframe:",
+        "item1": "Semantic HTML and ARIA labels for landmark navigation",
+        "item2": "Full keyboard navigation across every page; visible focus indicators on every interactive element",
+        "item3": "Screen reader testing on representative routes",
+        "item4": "Color contrast ratios verified against the WCAG 2.2 AA standard in our Phase B.06 audit (zero AA violations, Lighthouse a11y = 100)",
+        "item5": "Animated content respects your prefers-reduced-motion setting",
+        "item6": "Form labels, error messages, and instructions tested with assistive technology"
+      },
+      "knownLimitations": {
+        "h2": "Known limitations",
+        "intro": "A handful of third-party embeds carry their own accessibility implementations that we monitor but do not directly control:",
+        "item1": "The Termly-hosted privacy policy iframe",
+        "item2": "The Calendly booking widget",
+        "outro": "If you encounter a barrier in one of these embeds, please report it and we'll escalate to the vendor."
+      },
+      "feedback": {
+        "h2": "Feedback",
+        "p": "If anything on this site isn't working for you — a keyboard trap, a missing label, a contrast issue, a confusing flow — please tell us. Email <emailLink>info@sunsetservices.us</emailLink> or call <phoneLink>(630) 946-9321</phoneLink> and we'll respond within two business days."
+      },
+      "lastReviewed": {
+        "h2": "Last reviewed",
+        "p": "This statement was last reviewed in April 2026 and is updated whenever a notable change ships."
       }
     }
   },
@@ -1240,9 +1287,10 @@
       "category": {
         "label": "Service category",
         "placeholder": "Select one…",
-        "residential": "Residential",
-        "commercial": "Commercial",
+        "landscape": "Landscape",
         "hardscape": "Hardscape",
+        "waterproofing": "Waterproofing",
+        "snow-removal": "Snow Removal",
         "other": "Other"
       },
       "message": {

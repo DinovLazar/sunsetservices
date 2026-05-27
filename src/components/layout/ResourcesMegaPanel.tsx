@@ -8,8 +8,8 @@ import {RESOURCES_PANEL} from '@/lib/constants/navigation';
 import {durations, easings} from '@/components/global/motion/easings';
 import MegaPanelTrigger from './MegaPanelTrigger';
 
-const HOVER_OPEN_DELAY = 150;
-const HOVER_CLOSE_DELAY = 250;
+const HOVER_OPEN_DELAY = 80;
+const HOVER_CLOSE_DELAY = 150;
 
 /**
  * Desktop "Resources" mega-panel — two columns (Resources / Blog).
@@ -114,8 +114,8 @@ export default function ResourcesMegaPanel() {
         controls="resources-mega-panel"
         active={isActive}
         onClick={() => setOpen((o) => !o)}
-        onPointerEnter={scheduleOpen}
-        onPointerLeave={scheduleClose}
+        onMouseEnter={scheduleOpen}
+        onMouseLeave={scheduleClose}
         onKeyDown={handleTriggerKeyDown}
       >
         {t('chrome.nav.resources')}
@@ -127,8 +127,8 @@ export default function ResourcesMegaPanel() {
             id="resources-mega-panel"
             role="menu"
             aria-label={t('chrome.nav.resources')}
-            onPointerEnter={scheduleOpen}
-            onPointerLeave={scheduleClose}
+            onMouseEnter={scheduleOpen}
+            onMouseLeave={scheduleClose}
             initial={{opacity: 0, y: -4}}
             animate={{opacity: 1, y: 0}}
             exit={{opacity: 0, y: -4}}

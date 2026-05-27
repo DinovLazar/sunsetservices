@@ -17,7 +17,12 @@ export default function StaggerItem({
 }: StaggerItemProps) {
   const Component = motion[as as 'div'];
   return (
-    <Component variants={staggerItem} className={className}>
+    <Component
+      initial={false}
+      animate="animate"
+      variants={staggerItem}
+      className={className}
+    >
       {children}
     </Component>
   );

@@ -1,7 +1,5 @@
-'use client';
-
 import * as React from 'react';
-import {Link, usePathname} from '@/i18n/navigation';
+import {Link} from '@/i18n/navigation';
 
 type Props = {
   label: string;
@@ -12,23 +10,18 @@ type Props = {
 };
 
 /**
- * Amber "Get a Quote" CTA — Phase 1.05 chrome carve-out + Phase 1.19 §2 D2.
+ * Amber "Get a Quote" CTA — Phase 1.05 chrome carve-out.
  *
- * Hides itself on `/request-quote/` (and the locale-prefixed variant) so the
- * wizard route's only amber element is its own Step 5 Submit. Brand + nav +
- * lang switcher remain on the wizard route; only this CTA disappears.
+ * Phase M.10 (Issue 8): reverted the Phase 1.19 §2 D2 carve-out that hid
+ * this CTA on `/request-quote/`. Per Goran's M.10 walkthrough feedback
+ * the navbar must be visually consistent across every route — visual
+ * consistency wins over conversion-surface dedup. Clicking the CTA from
+ * inside the wizard scrolls/no-ops to the same page; acceptable.
  *
- * Client component with `usePathname()` so the parent navbar can stay a
- * server component.
+ * No client-side `usePathname()` needed anymore — the CTA renders on
+ * every route unconditionally, so this stays a server component.
  */
 export default function NavbarGetQuoteCTA({label, className, style, onClick, trackingId}: Props) {
-  const pathname = usePathname();
-  // `usePathname` from `@/i18n/navigation` strips the locale prefix, so a check
-  // against `/request-quote` matches both EN (`/request-quote`) and ES
-  // (`/es/request-quote`) routes.
-  if (pathname === '/request-quote' || pathname === '/request-quote/') {
-    return null;
-  }
   return (
     <Link
       href="/request-quote/"

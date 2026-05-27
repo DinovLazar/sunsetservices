@@ -153,30 +153,70 @@ export const SERVICE_TILE: Record<string, StaticImageData> = {
 };
 
 /**
- * Phase 1.14 — location-page hero photos. Each city aliases to an existing
- * audience hero placeholder for Part 1; Phase 2.04 swaps to real city
- * photography sourced from Erick's Drive (per Phase 1.13 §7 brief).
+ * Phase M.10 — per-city hero photos. Every one of the 22 surfaced cities
+ * (plus the 2 retired) now resolves to a DISTINCT real Sunset Services
+ * photo so no two cities share an image. Picks were varied across the
+ * existing photo corpus to give each city a visual identity; Erick's
+ * M.03 city-specific photography will swap in over these placeholders by
+ * editing this map only (no consumer changes needed).
  */
 export const LOCATION_HERO: Record<string, StaticImageData> = {
-  aurora: heroResidential,
-  naperville: heroHardscape,
-  batavia: heroResidential,
-  wheaton: heroResidential,
+  aurora: heroHardscape,
+  naperville: heroResidential,
+  batavia: svcHeroLandscapeDesign,
+  wheaton: svcHeroLawnCare,
   lisle: heroCommercial,
-  bolingbrook: heroCommercial,
+  bolingbrook: svcHeroCommercialSnow,
+  hinsdale: svcHeroPergolas,
+  'oak-brook': svcHeroKitchens,
+  elmhurst: svcHeroPatios,
+  'clarendon-hills': svcHeroFire,
+  'burr-ridge': svcHeroDriveways,
+  'western-springs': svcHeroLandscapeMaintenance,
+  'glen-ellyn': svcHeroTreeServices,
+  'downers-grove': svcHeroPropertyEnh,
+  winfield: svcHeroTurf,
+  lombard: svcHeroWalls,
+  'st-charles': svcHeroSnow,
+  geneva: svcHeroCleanup,
+  'south-elgin': svcHeroSprinklers,
+  elburn: svcTileLawnCare,
+  'north-aurora': svcTileLandscapeDesign,
+  oswego: svcTilePatios,
+  yorkville: svcTileFire,
+  plainfield: svcTileWalls,
 };
 
 /**
- * Phase 1.14 — cities-grid card photos on the Service Areas index. Aliases
- * to the same audience heroes; Phase 2.04 swaps to per-city assets.
+ * Phase M.10 — cities-grid card photos. Mirrors `LOCATION_HERO` so each
+ * city's identity is consistent across the index card and the detail
+ * page hero.
  */
 export const LOCATION_CARD: Record<string, StaticImageData> = {
-  aurora: heroResidential,
-  naperville: heroHardscape,
-  batavia: heroResidential,
-  wheaton: heroResidential,
+  aurora: heroHardscape,
+  naperville: heroResidential,
+  batavia: svcHeroLandscapeDesign,
+  wheaton: svcHeroLawnCare,
   lisle: heroCommercial,
-  bolingbrook: heroCommercial,
+  bolingbrook: svcHeroCommercialSnow,
+  hinsdale: svcHeroPergolas,
+  'oak-brook': svcHeroKitchens,
+  elmhurst: svcHeroPatios,
+  'clarendon-hills': svcHeroFire,
+  'burr-ridge': svcHeroDriveways,
+  'western-springs': svcHeroLandscapeMaintenance,
+  'glen-ellyn': svcHeroTreeServices,
+  'downers-grove': svcHeroPropertyEnh,
+  winfield: svcHeroTurf,
+  lombard: svcHeroWalls,
+  'st-charles': svcHeroSnow,
+  geneva: svcHeroCleanup,
+  'south-elgin': svcHeroSprinklers,
+  elburn: svcTileLawnCare,
+  'north-aurora': svcTileLandscapeDesign,
+  oswego: svcTilePatios,
+  yorkville: svcTileFire,
+  plainfield: svcTileWalls,
 };
 
 /**

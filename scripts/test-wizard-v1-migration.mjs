@@ -21,8 +21,11 @@ async function waitForServer(url, timeoutMs = 45_000) {
 }
 
 async function startLocalServer() {
-  const npmBin = process.platform === 'win32' ? 'npm.cmd' : 'npm';
-  const child = spawn(npmBin, ['run', 'start', '--', '-p', String(PORT)], {
+  const {createRequire} = await import('node:module');
+  const requireFromCwd = createRequire(`${process.cwd()}/package.json`);
+  const nextPkgPath = requireFromCwd.resolve('next/package.json');
+  const nextBin = nextPkgPath.replace(/package\.json$/, 'dist/bin/next');
+  const child = spawn('node', [nextBin, 'start', '-p', String(PORT)], {
     cwd: process.cwd(),
     env: {...process.env, PORT: String(PORT)},
     stdio: ['ignore', 'pipe', 'pipe'],
@@ -98,7 +101,10 @@ async function main() {
     );
     assert(state.v2?.step2?.primarySlug === '', 'legacy primarySlug should be dropped');
     assert(state.resumeVisible === false, 'empty migrated state should not show Resume toast');
-    assert(state.path.endsWith('/request-quote/'), 'visitor should remain on request-quote');
+    assert(
+      state.path === '/request-quote' || state.path.endsWith('/request-quote/'),
+      `visitor should remain on request-quote (got ${state.path})`,
+    );
     assert(!/[?&]step=[2-5]\b/.test(state.search), 'visitor should remain on Step 1');
 
     console.log('PASS v1 residential selectedSlugs migrate to empty v2 state with no Resume toast');

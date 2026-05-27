@@ -1,3 +1,4 @@
+import crypto from 'node:crypto';
 import {z} from 'zod';
 import {NextResponse} from 'next/server';
 import {writeClient} from '@sanity-lib/write-client';
@@ -72,7 +73,11 @@ export async function POST(request: Request) {
     } else {
       await writeClient
         .patch(subscriber._id)
-        .set({unsubscribed: false, subscribedAt: new Date().toISOString()})
+        .set({
+          unsubscribed: false,
+          subscribedAt: new Date().toISOString(),
+          unsubscribeToken: crypto.randomUUID(),
+        })
         .unset(['unsubscribedAt'])
         .commit();
     }

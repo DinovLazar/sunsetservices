@@ -20,6 +20,7 @@
     "test:revalidate": "node scripts/test-revalidate-webhook.mjs",
     "test:rate-limit": "node scripts/test-rate-limit.mjs",
     "test:wizard-autocomplete": "node scripts/test-wizard-autocomplete.mjs",
+    "test:photo-upload": "node scripts/test-quote-photo-upload.mjs",
     "validate:schema": "node scripts/validate-schema.mjs",
     "validate:seo": "node scripts/validate-seo.mjs",
     "validate:a11y": "node scripts/validate-a11y.mjs",

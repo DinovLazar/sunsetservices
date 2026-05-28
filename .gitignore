@@ -72,3 +72,7 @@ next-env.d.ts
 /test-results/
 /playwright-report/
 /.playwright/
+
+# Phase B.11 — photo-upload harness temp artifact (committed summary
+# lives at src/_project-state/Phase-B-11-Completion.md)
+/scripts/.photo-upload-validation-report.json

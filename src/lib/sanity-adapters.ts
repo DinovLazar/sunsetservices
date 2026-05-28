@@ -50,7 +50,10 @@ export function sanityProjectSummaryToTs(p: ProjectSummary): Project {
   return {
     slug: p.slug,
     audience: p.audience as ProjectAudience,
-    serviceSlugs: [],
+    // Phase M.10c addendum — the summary projection now includes the
+    // first-class service slugs so the projects index can derive each
+    // project's division via getProjectDivision().
+    serviceSlugs: p.serviceSlugs ?? [],
     citySlug: p.citySlug ?? '',
     year: p.year ?? 0,
     durationWeeks: 0,

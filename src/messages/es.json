@@ -103,15 +103,11 @@
         "kitchens": "Una cocina exterior con encimera de piedra, parrilla y luminarias colgantes.",
         "fire": "Una chimenea circular de adoquines con leña encendida y muros de asiento alrededor."
       },
-      "audience": {
-        "residential": "Residencial",
-        "commercial": "Comercial",
-        "hardscape": "Hardscape"
-      },
       "cta": {
-        "residential": "Todos los Servicios Residenciales",
-        "commercial": "Todos los Servicios Comerciales",
-        "hardscape": "Todos los Servicios de Hardscape"
+        "landscape": "Todos los Servicios de Paisajismo",
+        "hardscape": "Todos los Servicios de Hardscape",
+        "waterproofing": "Todos los Servicios de Impermeabilización",
+        "snow-removal": "Todos los Servicios de Remoción de Nieve"
       }
     },
     "social": {

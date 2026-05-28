@@ -429,3 +429,64 @@ The 16 existing services are reference-only (live strings out of scope). The 14 
 6. **Existing landscape/hardscape nav labels** ("Diseño de Paisajismo", "Mantenimiento de Paisajismo", "Mejora de Propiedades", "Fogatas y Elementos", "Cocinas Exteriores") differ from the new locks — confirm whether to migrate existing service strings to the locks later.
 7. **"arado / arar" for snow plowing** — the snow service body uses "arado de entrada/estacionamientos" (a calque); "arar" for snow is unusual in Mexican Spanish. Service NAMES were de-calqued (e.g. "Remoción Comercial de Nieve"); confirm whether to de-calque the body too.
 8. **"el municipio" vs "el pueblo" vs "la ciudad"** for village government — confirm the term Aurora homeowners use.
+
+---
+
+## Phase M.10c additions (2026-05-27) — Brand identity quick wins + /projects index addendum
+
+### Scope
+
+EN + ES strings added or modified across the homepage badge/CTA migration and the `/projects` index filter chip strip + project detail Facts row. All ES strings ship as straight LatAm-MX Spanish first-pass (no `[TBR]` markers — post-B.01 convention).
+
+### EN + ES strings added
+
+| Key | EN | ES | Surface |
+| --- | --- | --- | --- |
+| `home.services.cta.landscape` | All Landscape Services | Todos los Servicios de Paisajismo | Homepage bottom 4-button CTA row (D4) |
+| `home.services.cta.hardscape` | All Hardscape Services | Todos los Servicios de Hardscape | Homepage bottom 4-button CTA row (D4) |
+| `home.services.cta.waterproofing` | All Waterproofing Services | Todos los Servicios de Impermeabilización | Homepage bottom 4-button CTA row (D4) |
+| `home.services.cta.snow-removal` | All Snow Removal Services | Todos los Servicios de Remoción de Nieve | Homepage bottom 4-button CTA row (D4) |
+| `home.projects.tag.landscape` | LANDSCAPE | PAISAJISMO | (Kept consistent; HomeProjects.tsx now reads `home.divisions.<slug>.tag` instead) |
+| `home.projects.tag.waterproofing` | WATERPROOFING | IMPERMEABILIZACIÓN | (Kept consistent) |
+| `home.projects.tag.snow-removal` | SNOW REMOVAL | REMOCIÓN DE NIEVE | (Kept consistent) |
+| `projects.tag.landscape` | LANDSCAPE | PAISAJISMO | `/projects` index + project detail hero badge + RelatedProjects |
+| `projects.tag.waterproofing` | WATERPROOFING | IMPERMEABILIZACIÓN | `/projects` index + project detail hero badge + RelatedProjects |
+| `projects.tag.snow-removal` | SNOW REMOVAL | REMOCIÓN DE NIEVE | `/projects` index + project detail hero badge + RelatedProjects |
+| `projects.filter.landscape` | Landscape · {count} | Paisajismo · {count} | `/projects` filter chip |
+| `projects.filter.waterproofing` | Waterproofing · {count} | Impermeabilización · {count} | `/projects` filter chip |
+| `projects.filter.snow-removal` | Snow Removal · {count} | Remoción de Nieve · {count} | `/projects` filter chip |
+| `project.facts.division` | Division | División | Project detail Facts row dt label |
+
+### EN + ES strings modified (text change only, no key rename)
+
+| Key | EN before → after | ES before → after |
+| --- | --- | --- |
+| `projects.filter.label` | "Filter by audience" → "Filter by division" | "Filtrar por audiencia" → "Filtrar por división" |
+| `projects.hero.dek` | "...Filter by audience, or scroll..." → "...Filter by division, or scroll..." | "...Filtra por audiencia o desplázate..." → "...Filtra por división o desplázate..." |
+
+### EN + ES strings deleted (orphans)
+
+| Key | Reason |
+| --- | --- |
+| `home.services.audience.{residential,commercial,hardscape}` (3 keys × 2 locales) | Badge text now reads from `home.divisions.<slug>.tag` (existing M.01e strings). The `home.services.audience.*` block is no longer referenced. |
+| `home.services.cta.{residential,commercial,hardscape}` (3 keys × 2 locales) | Replaced by 4 division CTAs. |
+| `home.projects.tag.{residential,commercial}` (2 keys × 2 locales) | Replaced by 4 division keys (landscape/waterproofing/snow-removal added; hardscape preserved). |
+| `projects.tag.{residential,commercial}` (2 keys × 2 locales) | Same. |
+| `projects.filter.{residential,commercial}` (2 keys × 2 locales) | Same. |
+| `project.facts.audience` (1 key × 2 locales) | Renamed to `project.facts.division`. |
+
+### Glossary alignment + divergence note
+
+The addendum's i18n note (D13 area) suggested ES chip labels: `landscape` = "Landscape" / `hardscape` = "Hardscape" / `waterproofing` = "Impermeabilización" / `snow-removal` = "Remoción de Nieve" — i.e. English source for Landscape + Hardscape, Spanish translation for the other two.
+
+**M.10c diverges on `landscape` only.** The locked M.01f1 glossary (§9.M.01f1 above) and `home.divisions.landscape.tag` (Phase M.01e) use **"Paisajismo"** in ES. For site-wide consistency — the chip strip, the homepage badge, the homepage CTA, the division-landing page eyebrow, the wizard division tile, the project detail Facts row — all use **"Paisajismo"** in ES. Future translators should prefer "Paisajismo" over "Landscape" for any new strings; reconciliation with Erick in M.03 if needed.
+
+"Hardscape" stays in English everywhere (industry term, brand-facing — per §B.03 / M.01f1 §4 / Goran's M.01f1 lock).
+
+### Surfaces NOT migrated this phase (out of scope)
+
+The following components still render `audience`-based labels and were deliberately left for a future phase:
+
+- `src/components/sections/audience/AudienceServicesGrid.tsx` and the rest of `sections/audience/*` — the entire `/audience/` route family (Residential / Commercial / Hardscape pages from Phase 1.09) was de-prioritized in favor of M.01e's `/division/` routes; the components still exist but aren't surfaced via the homepage navbar. Pending a separate phase to retire or rewire them.
+
+The verification checklist scopes M.10c to `src/components/sections/home/` + `src/components/ui/` + (addendum) `src/components/sections/projects/`. All in-scope surfaces are migrated.

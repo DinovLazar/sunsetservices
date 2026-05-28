@@ -747,26 +747,86 @@ See `src/_project-state/Phase-M-01e-Completion.md` for the canonical file list �
 2. Re-run `npm run validate:{schema,seo,a11y}` against a running dev server or Vercel Preview. No new served routes; should pass unchanged.
 3. Vercel Preview walk-through: confirm `/qa/` shows 7 categories, homepage shows the new Why Sunset band between Projects and CTA, About shows the new p4 paragraph.
 
-## Phase M.03 — Codex-driven Spanish review pass (added 2026-05-27)
+---
+
+## Phase M.10c additions (2026-05-27) — Brand identity quick wins + /projects index addendum
+
+**Replaced (asset):**
+- `src/assets/brand/logo-horizontal-fullcolor.png` — chroma-keyed version of the operator-supplied `public/sunset_logo_white_bg.png`. Sharp threshold `R/G/B ≥ 240 → alpha = 0`. New dimensions: 2000 × 537 (was 720 × 192). Aspect 3.724:1 vs old 3.75:1 (~0.7 % diff; well within the Logo component's `height: 40px; width: auto` constraint, no prop changes needed).
+
+**New (component / lib code):**
+- `src/components/sections/home/HomeHeroCarousel.tsx` — client island. 4-image rotating carousel (5000 ms interval, 800 ms crossfade). First image stays as LCP with `priority` + `fetchPriority="high"`. `useReducedMotion()` honoured (no interval scheduled, only image 0 visible — WCAG 2.2 SC 2.3.3). Wrapper `aria-hidden=true` (decorative).
+- `src/lib/projects/getProjectDivision.ts` — pure helper that maps a project (audience + serviceSlugs) to its Division per Phase M.10c locked rule D3. Accepts a partial Project-like shape so it works against both `serviceSlugs: string[]` (TS seed) and Sanity's `services: [{slug, _id}]` projection.
+- `src/lib/projects/stripStreetNumber.ts` — extracted from the inline definition in `src/app/[locale]/projects/[slug]/page.tsx` (Phase M.01d). The optional addendum item (operator-included) reuses it on `/projects` index tile titles + project detail hero `<h1>`. Detail page now imports from this util; inline definition removed.
+- `src/_project-state/Phase-M-10c-Completion.md` — phase completion report (this phase).
+
+**Modified (component code):**
+- `src/components/sections/home/HomeServicesOverview.tsx` — `audience` field renamed to `division` on the 9 curated services. Per-tile dot color uses `Record<Division, string>` map mirroring `globals.css` `[data-division=<slug>]` accent tokens. Badge label uses a second `getTranslations('home.divisions')` call to reuse existing strings. Bottom CTA row swapped from 3 audience buttons to 4 division buttons in a `grid-cols-1 sm:grid-cols-2 lg:grid-cols-4` layout (reuses `.btn-secondary btn-md`).
+- `src/components/sections/home/HomeProjects.tsx` — inline `tag` field dropped from `PROJECTS` array. Now looks up the canonical Project from `src/data/projects.ts` via the inline tile's `slug` and applies `getProjectDivision(project, SERVICES)` for the badge label.
+- `src/components/sections/home/HomeHero.tsx` — wired the new carousel. 3 additional image imports + 2 additional `getTranslations` calls for re-used alt strings. Gradient overlays + content stack preserved verbatim.
+- `src/components/sections/projects/FilterChipStrip.tsx` — single-select division filter wired to `?division=`. All 4 division chips always render (D9). `activeAudience` prop renamed to `activeDivision`. URL param `audience` → `division`.
+- `src/components/sections/projects/ProjectsGrid.tsx` — accepts `divisionBySlug: Map<string, Division>` from the server route, renders `tTag(division)` for the badge (was `tTag(p.audience)`). Tile title passes through `stripStreetNumber()`.
+- `src/components/sections/projects/Pagination.tsx` — `audience` prop renamed to `division`; URL builder writes `?division=`.
+- `src/components/sections/projects/detail/RelatedProjects.tsx` — division-derived badge + `stripStreetNumber()` on title.
+- `src/components/sections/projects/detail/ProjectHero.tsx` — division-derived badge in hero (was `tTag(project.audience)`); H1 passes through `stripStreetNumber()`.
+- `src/components/sections/projects/detail/ProjectFacts.tsx` — Facts row dt label + value migrated: `t('audience')` → `t('division')`; value computed via `getProjectDivision()`; deep link uses `/{division}/` (was conditional on resolvedServices[0].division || audience === 'hardscape').
+- `src/app/[locale]/projects/page.tsx` — searchParams reader `audience` → `division`. Per-project division precomputed once on the server and passed as a `Map<string, Division>` to ProjectsGrid + used to compute the 4 chip counts. Defensive sanitize via `isDivision()` from `src/data/divisions.ts`.
+- `src/app/[locale]/projects/[slug]/page.tsx` — imports `stripStreetNumber` from `@/lib/projects/stripStreetNumber` (inline definition removed); metadata title label now division-derived via `getProjectDivision()`.
+
+**Modified (data / Sanity layer):**
+- `sanity/lib/queries.ts` — `PROJECT_SUMMARY_PROJECTION` adds `"serviceSlugs": services[]->slug.current`. Required so `getProjectDivision()` can compute correct counts on the /projects index (without this, every project fell through to the `'landscape'` fallback).
+- `sanity/lib/types.ts` — `ProjectSummary.serviceSlugs: string[]` added; `ProjectDetail.serviceSlugs` removed (now inherited from Summary).
+- `src/lib/sanity-adapters.ts` — `sanityProjectSummaryToTs` reads `p.serviceSlugs ?? []` instead of hardcoding `[]`.
+
+**Modified (i18n):**
+- `src/messages/en.json`:
+  - `home.services.audience.*` block REMOVED (3 keys; unused after the badge swap, which now reuses `home.divisions.<slug>.tag`).
+  - `home.services.cta.*` — REPLACED the 3 audience CTA strings (`residential/commercial/hardscape`) with 4 division CTA strings (`landscape/hardscape/waterproofing/snow-removal`).
+  - `home.projects.tag.*` — flipped 3-audience to 4-division (kept consistent even though `HomeProjects.tsx` no longer reads this directly — it now uses `home.divisions.<slug>.tag` via a second `getTranslations` call).
+  - `projects.tag.*` — flipped 3-audience to 4-division (uppercase strings: "LANDSCAPE" / "HARDSCAPE" / "WATERPROOFING" / "SNOW REMOVAL").
+  - `projects.filter.*` — `label` swapped to "Filter by division"; 4 chip count strings (`landscape/hardscape/waterproofing/snow-removal`) replace the 3 audience strings.
+  - `projects.hero.dek` — "Filter by audience, or scroll" → "Filter by division, or scroll".
+  - `project.facts.audience` → `project.facts.division` ("Audience" → "Division").
+- `src/messages/es.json` — parallel changes. ES division labels use locked M.01f1 glossary: `Paisajismo` / `Hardscape` / `Impermeabilización` / `Remoción de Nieve`. Filter heading "Filtrar por audiencia" → "Filtrar por división". Dek "Filtra por audiencia o desplázate" → "Filtra por división o desplázate". `project.facts.division` = "División".
+
+**Modified (state + decisions docs):**
+- `src/_project-state/current-state.md` — Last-completed phase bumped to M.10c with full summary; prior phases shifted down by 1.
+- `src/_project-state/file-map.md` — this section.
+- `Sunset-Services-Decisions.md` — 2026-05-27 M.10c entry: 13 Chat-locked decisions (D1–D13) + 10 in-phase off-spec resolutions Code surfaced.
+- `Sunset-Services-TRANSLATION_NOTES.md` — Phase M.10c additions section: new EN/ES strings + the "Paisajismo" glossary alignment.
+
+**Operator's pre-step file (not deleted):**
+- `public/sunset_logo_white_bg.png` — operator dropped it directly under `public/` (not under the plan's transient `public/incoming/` folder). The phase does not delete it; recommend manual deletion before launch to avoid shipping the white-bg source on a public URL.
+
+**Operator actions:**
+1. Vercel Preview verification: visual review on the Preview URL for navbar logo (no white box over hero); hero carousel cycles 4 images at ~5 s intervals; `prefers-reduced-motion: reduce` freezes carousel at image 1; `/projects` shows 4 division chips; `/es/` + `/es/projects/` mirror EN.
+2. Re-run `BASE_URL=<preview-url> npm run validate:{schema,seo,a11y}` against the Vercel Preview. Expect the same 4 pre-existing `/aurora-driveway-apron` errors.
+3. Resolve `/aurora-driveway-apron` 404 (re-seed in Sanity OR remove from harness configs).
+4. Decide D7 brand-palette + Montserrat divergence (update BG-01 OR schedule a future palette-conformance phase).
+5. Optional: delete `public/sunset_logo_white_bg.png`.
+
+---
+
+## Phase M.03 - Codex-driven Spanish review pass (added 2026-05-27)
 
 **Modified (source Spanish fixes):**
-- `src/messages/es.json` — grammar/glossary/calque fixes across home/division/audience/snow/waterproofing surfaces; placeholder parity preserved.
-- `src/data/services.ts` — crawl-space glossary fixes and snow-removal calque cleanup in ES service copy.
-- `src/data/locations.ts` — location-copy grammar and glossary fixes for Lisle/Bolingbrook/Winfield/North Aurora ES text.
-- `src/data/blog.ts` — spot-check fixes in ES blog title/dek/body/FAQ copy for patio-cost and commercial-snow posts.
-- `src/data/resources.ts` — spot-check fixes in ES resource copy for landscaper-selection and snow-service-levels articles.
-- `src/lib/chat/systemPrompt.ts` — `PERSONA_ES` calque cleanup while preserving `tú` persona register.
-- `src/lib/chat/knowledgeBase.ts` — ES digest wording cleanup; `hardscape` glossary preserved.
-- `src/lib/email/templates/NewsletterWelcomeEmail.tsx` — locale-aware recipient line and gender-neutral Spanish welcome wording.
-- `scripts/migrate-faq-to-divisions.mjs` — source-of-truth FAQ snow-removal wording aligned with the M.03 Sanity fixes.
-- `scripts/seed-faq-content-integration.mjs` — removed one non-rendered historical review-marker mention so active `[TBR]` scans are clean outside historical scripts/docs.
+- `src/messages/es.json` - grammar/glossary/calque fixes across home/division/audience/snow/waterproofing surfaces; placeholder parity preserved.
+- `src/data/services.ts` - crawl-space glossary fixes and snow-removal calque cleanup in ES service copy.
+- `src/data/locations.ts` - location-copy grammar and glossary fixes for Lisle/Bolingbrook/Winfield/North Aurora ES text.
+- `src/data/blog.ts` - spot-check fixes in ES blog title/dek/body/FAQ copy for patio-cost and commercial-snow posts.
+- `src/data/resources.ts` - spot-check fixes in ES resource copy for landscaper-selection and snow-service-levels articles.
+- `src/lib/chat/systemPrompt.ts` - `PERSONA_ES` calque cleanup while preserving `tú` persona register.
+- `src/lib/chat/knowledgeBase.ts` - ES digest wording cleanup; `hardscape` glossary preserved.
+- `src/lib/email/templates/NewsletterWelcomeEmail.tsx` - locale-aware recipient line and gender-neutral Spanish welcome wording.
+- `scripts/migrate-faq-to-divisions.mjs` - source-of-truth FAQ snow-removal wording aligned with the M.03 Sanity fixes.
+- `scripts/seed-faq-content-integration.mjs` - removed one non-rendered historical review-marker mention so active `[TBR]` scans are clean outside historical scripts/docs.
 
 **New:**
-- `scripts/m03-spanish-fixes.mjs` — idempotent Sanity patch script for M.03 `.es` fixes; first run patched 37 docs, subsequent run reports 0 changes.
-- `src/_project-state/Phase-M-03-Completion.md` — completion report.
+- `scripts/m03-spanish-fixes.mjs` - idempotent Sanity patch script for M.03 `.es` fixes; first run patched 37 docs, subsequent run reports 0 changes.
+- `src/_project-state/Phase-M-03-Completion.md` - completion report.
 
 **Modified (docs/state):**
-- `Sunset-Services-Decisions.md` — first-commit M.03 scope-shift entry documenting LLM review vs. deferred human native review.
-- `Sunset-Services-Phase-Plan-Continuation.md` — Bucket M row marks M.03 complete as Codex-driven review; no post-launch native-review row added.
-- `src/_project-state/current-state.md` — last-completed phase bumped to M.03 and native-review caveat updated.
-- `src/_project-state/file-map.md` — this section.
+- `Sunset-Services-Decisions.md` - first-commit M.03 scope-shift entry documenting LLM review vs. deferred human native review.
+- `Sunset-Services-Phase-Plan-Continuation.md` - Bucket M row marks M.03 complete as Codex-driven review; no post-launch native-review row added.
+- `src/_project-state/current-state.md` - last-completed phase bumped to M.03 and native-review caveat updated while preserving B.11 and M.10c as prior completed phases.
+- `src/_project-state/file-map.md` - this section.

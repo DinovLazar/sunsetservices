@@ -4,6 +4,9 @@ import AnimateIn from '@/components/global/motion/AnimateIn';
 import StaggerContainer from '@/components/global/motion/StaggerContainer';
 import StaggerItem from '@/components/global/motion/StaggerItem';
 import ProjectCard from '@/components/ui/ProjectCard';
+import {getProjectDivision} from '@/lib/projects/getProjectDivision';
+import {PROJECTS as ALL_PROJECTS} from '@/data/projects';
+import {SERVICES} from '@/data/services';
 import projectOneSrc from '@/assets/home/project-1-naperville-patio.jpg';
 import projectTwoSrc from '@/assets/home/project-2-wheaton-lawn.jpg';
 import projectThreeSrc from '@/assets/home/project-3-aurora-hoa.jpg';
@@ -12,33 +15,31 @@ import projectFiveSrc from '@/assets/home/project-5-lisle-wall.jpg';
 import projectSixSrc from '@/assets/home/project-6-warrenville-garden.jpg';
 import type {StaticImageData} from 'next/image';
 
-type ProjectTag = 'hardscape' | 'residential' | 'commercial';
-
-type Project = {
+type HomeProject = {
   /** i18n key used for tile title + alt. Phase 1.07 era. */
   key: string;
-  tag: ProjectTag;
   /**
-   * Detail-page slug from `src/data/projects.ts`. Phase 1.16 remapped these
-   * from earlier placeholder slugs (`naperville-patio`, etc.) to the real
-   * 12-row seed; the home tile titles still use the original placeholder
-   * names for now — Erick polishes copy in Part 2.
+   * Detail-page slug from `src/data/projects.ts`. Phase M.10c uses the slug
+   * to look up the real Project + apply `getProjectDivision` so the displayed
+   * label is the project's division (4-division IA), not the retired 3-audience
+   * tag.
    */
   slug: string;
   photo: StaticImageData;
 };
 
-const PROJECTS: Project[] = [
-  {key: 'napervillePatio', tag: 'hardscape', slug: 'naperville-hilltop-terrace', photo: projectOneSrc},
-  {key: 'wheatonLawn', tag: 'residential', slug: 'wheaton-lawn-reset', photo: projectTwoSrc},
-  {key: 'auroraHoa', tag: 'commercial', slug: 'aurora-hoa-curb-refresh', photo: projectThreeSrc},
-  {key: 'glenEllynFire', tag: 'hardscape', slug: 'naperville-fire-court', photo: projectFourSrc},
-  {key: 'lisleWall', tag: 'hardscape', slug: 'lisle-retaining-wall', photo: projectFiveSrc},
-  {key: 'warrenvilleGarden', tag: 'residential', slug: 'batavia-garden-reset', photo: projectSixSrc},
+const PROJECTS: HomeProject[] = [
+  {key: 'napervillePatio', slug: 'naperville-hilltop-terrace', photo: projectOneSrc},
+  {key: 'wheatonLawn', slug: 'wheaton-lawn-reset', photo: projectTwoSrc},
+  {key: 'auroraHoa', slug: 'aurora-hoa-curb-refresh', photo: projectThreeSrc},
+  {key: 'glenEllynFire', slug: 'naperville-fire-court', photo: projectFourSrc},
+  {key: 'lisleWall', slug: 'lisle-retaining-wall', photo: projectFiveSrc},
+  {key: 'warrenvilleGarden', slug: 'batavia-garden-reset', photo: projectSixSrc},
 ];
 
 export default async function HomeProjects() {
   const t = await getTranslations('home.projects');
+  const tDivisions = await getTranslations('home.divisions');
 
   return (
     <section
@@ -63,17 +64,23 @@ export default async function HomeProjects() {
         </AnimateIn>
 
         <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {PROJECTS.map((p) => (
-            <StaggerItem key={p.key}>
-              <ProjectCard
-                href={`/projects/${p.slug}/`}
-                photo={p.photo}
-                alt={t(`alt.${p.key}`)}
-                title={t(`tile.${p.key}`)}
-                audienceLabel={t(`tag.${p.tag}`)}
-              />
-            </StaggerItem>
-          ))}
+          {PROJECTS.map((p) => {
+            const realProject = ALL_PROJECTS.find((rp) => rp.slug === p.slug);
+            const division = realProject
+              ? getProjectDivision(realProject, SERVICES)
+              : 'landscape';
+            return (
+              <StaggerItem key={p.key}>
+                <ProjectCard
+                  href={`/projects/${p.slug}/`}
+                  photo={p.photo}
+                  alt={t(`alt.${p.key}`)}
+                  title={t(`tile.${p.key}`)}
+                  audienceLabel={tDivisions(`${division}.tag`)}
+                />
+              </StaggerItem>
+            );
+          })}
         </StaggerContainer>
 
         <AnimateIn variant="fade-up" className="mt-10 lg:mt-14 flex justify-center">

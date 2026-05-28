@@ -43,6 +43,13 @@ export type ProjectSummary = {
   year: number | null;
   leadImage: SanityImageAsset;
   leadAlt: Localized;
+  /**
+   * Phase M.10c addendum (2026-05-27) — added to the summary projection so
+   * the projects index page can compute each project's division via
+   * `getProjectDivision()` (which needs the first service slug to look up
+   * the corresponding service's `division`).
+   */
+  serviceSlugs: string[];
 };
 
 export type ProjectDetail = ProjectSummary & {
@@ -56,7 +63,6 @@ export type ProjectDetail = ProjectSummary & {
   afterImage: SanityImageAsset;
   afterAlt: Localized;
   gallery: {image: SanityImageAsset; alt: Localized}[];
-  serviceSlugs: string[];
   serviceAudiences: Audience[];
 };
 

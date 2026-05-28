@@ -55,6 +55,18 @@ export async function POST(request: Request) {
   const now = new Date().toISOString();
   const docId = `quoteLeadPartial-${input.sessionId}`;
 
+  // Phase B.11 — build the Sanity image-reference array from the validated
+  // photo asset IDs (D2: partials carry photos too so abandoners' uploads
+  // surface in Studio).
+  const photosField =
+    input.photoAssetIds && input.photoAssetIds.length > 0
+      ? input.photoAssetIds.map((id) => ({
+          _key: globalThis.crypto.randomUUID(),
+          _type: 'image',
+          asset: {_type: 'reference', _ref: id},
+        }))
+      : undefined;
+
   // Patch if exists (preserve firstSeenAt), create if missing.
   const patchFields = {
     lastUpdatedAt: now,
@@ -64,6 +76,7 @@ export async function POST(request: Request) {
     primaryService: input.primaryService,
     otherText: input.otherText,
     details: input.details,
+    photos: photosField,
     userAgent: input.userAgent,
     referrer: input.referrer,
   };

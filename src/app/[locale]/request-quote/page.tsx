@@ -4,6 +4,15 @@ import {getTranslations, setRequestLocale} from 'next-intl/server';
 import WizardShell from '@/components/wizard/WizardShell';
 import {canonicalUrl, hreflangAlternates, type Locale} from '@/lib/seo/urls';
 
+/**
+ * Phase B.11 — page is `force-dynamic` so `WIZARD_PHOTO_UPLOAD_ENABLED`
+ * is read at request time. Lets Cowork flip the photo-upload kill-switch
+ * via Vercel env vars without a code change. Trade-off: page is no longer
+ * SSG (was ●-SSG, now ƒ-Dynamic). The wizard chrome below the eyebrow is
+ * a client component anyway, so the SSG payload was already tiny.
+ */
+export const dynamic = 'force-dynamic';
+
 export async function generateMetadata({
   params,
 }: {
@@ -85,7 +94,9 @@ export default async function RequestQuotePage({
 
         <div className="mt-10 lg:mt-14">
           <Suspense fallback={null}>
-            <WizardShell />
+            <WizardShell
+              photoUploadEnabled={process.env.WIZARD_PHOTO_UPLOAD_ENABLED === 'true'}
+            />
           </Suspense>
         </div>
       </div>

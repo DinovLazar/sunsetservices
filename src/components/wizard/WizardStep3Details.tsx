@@ -4,6 +4,8 @@ import * as React from 'react';
 import {useTranslations} from 'next-intl';
 import {WIZARD_STEP_3_FIELDS, type WizardStep3Group} from '@/data/wizard';
 import WizardField from './WizardField';
+import PhotoUploadField from './PhotoUploadField';
+import {type WizardPhoto} from '@/lib/wizard/photo';
 
 type Props = {
   /**
@@ -15,6 +17,11 @@ type Props = {
   onChange: (next: Record<string, string | string[]>) => void;
   errors: Record<string, string>;
   onFieldBlur: (id: string) => void;
+  /** Phase B.11 — sibling photo state passed down from WizardShell. */
+  photos: WizardPhoto[];
+  onPhotosChange: (next: WizardPhoto[]) => void;
+  sessionId: string;
+  photoUploadEnabled: boolean;
 };
 
 /**
@@ -22,9 +29,10 @@ type Props = {
  * Phase M.01e-pt2 — keyed by Step 3 group (residential / commercial /
  * hardscape) rather than audience.
  *
- * Field map per group comes from `WIZARD_STEP_3_FIELDS`. A
- * `data-photo-upload-slot` placeholder is rendered (D11=B) for Part 2 to
- * swap; no real file input.
+ * Phase B.11 — the dormant `data-photo-upload-slot` placeholder has been
+ * replaced with the real `PhotoUploadField` (D5: universal across all
+ * three groups). Mount goes AFTER the group-conditional fields and
+ * BEFORE the Step 3 Next button (which lives in WizardStickyNav).
  */
 export default function WizardStep3Details({
   group,
@@ -32,6 +40,10 @@ export default function WizardStep3Details({
   onChange,
   errors,
   onFieldBlur,
+  photos,
+  onPhotosChange,
+  sessionId,
+  photoUploadEnabled,
 }: Props) {
   const t = useTranslations();
   const fields = WIZARD_STEP_3_FIELDS[group];
@@ -79,12 +91,14 @@ export default function WizardStep3Details({
         })}
       </div>
 
-      {/* Photo-upload placeholder slot — Part 2 (D11 = B). */}
-      <div
-        data-photo-upload-slot="true"
-        hidden
-        aria-hidden="true"
-      />
+      <div className="mt-8">
+        <PhotoUploadField
+          photos={photos}
+          onChange={onPhotosChange}
+          sessionId={sessionId}
+          disabled={!photoUploadEnabled}
+        />
+      </div>
     </div>
   );
 }

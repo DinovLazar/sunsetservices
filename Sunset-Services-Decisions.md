@@ -1353,6 +1353,39 @@ Closes 10 user-visible bugs Goran flagged on a Preview walkthrough. Polish pass 
 
 ---
 
+## 2026-05-27 — Phase M.10d (Cowork): START — source & organize photos for projects + blog
+
+**Scope:** Discovery-first photo phase. Cowork (hands only — no code) will look at the Google Drive folder Goran points us to, inventory the real job photos there, pick 2–5 projects (with at least 2 Landscape) plus one featured image for each of 3 new blog posts (`why-is-my-lawn-yellow`, `backyard-drainage-aurora`, `hoa-landscape-budget-2026`), copy the chosen photos to a local folder outside the repo at `C:\sunset-photos\m10d-drive\`, and write a `m10d-manifest.json` describing them. The Code phase will read the manifest and upload to Sanity via a script Goran runs — Cowork does not touch Sanity or website code in this phase.
+
+**Discovery-first rule (re-affirmed):** look first, inventory what's actually there, then act. Never fabricate a project, a location, or a "before/after" pair the photos don't actually show. If 2 clear Landscape jobs are not present in the Drive folder, deliver fewer Landscape projects and flag the shortfall in the completion report — do not invent.
+
+**Awaiting from Goran:** the specific Google Drive folder path (same backup/marketing Drive used in earlier photo phases).
+
+**Decided by:** Phase M.10d prompt (Goran, 2026-05-27).
+
+---
+
+## 2026-05-27 — Phase M.10d (Code): START — four content-polish deliverables
+
+**Scope:** Builder phase that follows the Cowork photo-sourcing entry above. Four deliverables, each landing in its own commit so any one can be reverted independently:
+
+- **A. Hero carousel glitch fix.** Repair the mid-fade brightness "dip" in `HomeHeroCarousel.tsx` (M.10c). Root-cause hypothesis to verify: a symmetric opacity cross-dissolve lets the dark hero background bleed through at the 50/50 mid-point because the M.10c B.06-era charcoal `bg-charcoal` sits behind the carousel. Locked technique: stack all 4 images absolutely, never mount/unmount per tick, fade the incoming layer in **on top** of a still-fully-opaque outgoing layer (never two layers at ~50% over the background simultaneously), preload/decode all 4 so no "flash of undecoded image", keep reduced-motion behavior unchanged.
+- **B. Open Graph / Twitter preview cards.** `metadataBase` is already set in `src/app/[locale]/layout.tsx` (Phase B.05). Audit `generateMetadata` on home, the 4 division landings, one representative service, projects index+detail, blog index+detail, resources, about, contact, service-areas; each must emit complete `openGraph` + `twitter` blocks (title, description, absolute `url`, `siteName`, `type`, `locale`, 1200×630 `images` with alt). Polish `/og/fallback` in the **live-site palette** (green-primary + amber-accent + Manrope) — NOT the BG-01 orange brand-guide palette. The BG-01-vs-live-palette reconciliation is a separate deferred decision; the OG card must match what people see when they click.
+- **C. Three new blog posts.** `why-is-my-lawn-yellow`, `backyard-drainage-aurora`, `hoa-landscape-budget-2026`. Source MD lives in `content/incoming-blog/`. Both EN + ES baked into the upload script (LatAm-MX Spanish, **`tú`** register per M.01f1, no `[TBR]` markers — content-surface convention is to translate fully during the session). Categories mapped to the **existing 5-value taxonomy** (`how-to`/`cost-guide`/`seasonal`/`industry-news`/`audience`); the prompt's table values "residential / residential / commercial" are intent, not schema. Mapping decided during this phase: posts 1+2 → `how-to`, post 3 → `cost-guide`. FAQs are referenced docs (3 per post) per the live `blogPost.faqs` array-of-references shape, NOT inline.
+- **D. 2–5 real projects (≥2 Landscape).** Driven by the Cowork manifest at `C:\sunset-photos\m10d-drive\m10d-manifest.json`. **Will not start until D is unblocked by user.**
+
+**Upload script:** `scripts/upload-m10d-content.mjs` — dry-run by default, `--commit` to write, `--clean-placeholders` to additionally remove the 12 seed placeholder projects (opt-in but recommended). Idempotent (`createOrReplace` + deterministic ids). Goran runs it locally with `SANITY_API_WRITE_TOKEN`; sandbox cannot reach Sanity.
+
+**OG SSO-preview caveat:** the Vercel Preview deployment is password/SSO-protected, so external scrapers (Facebook, LinkedIn, X, iMessage) cannot fetch it — they hit the login wall. Real shareable previews only render once the site is publicly reachable (production-domain launch, or Preview Protection temporarily off). Code correctness can be asserted by fetching each page's HTML + the `og:image` URL; the social-card render cannot be validated externally until launch.
+
+**HOA post dating:** `2025-08-15` is intentional — the post was written for the 2025 planning season and reads consistently that way. It's evergreen-adjacent; Goran can refresh next planning cycle.
+
+**Branch:** `phase/m10d-content-polish` (one commit per deliverable).
+
+**Decided by:** Phase M.10d Code prompt (Goran, 2026-05-27); category mapping + carousel-fix technique + OG-palette choice (live, not BG-01) reaffirmed during execution.
+
+---
+
 ## 2026-05-27 — Phase M.10b — Content integration: Marcin's brand story + Goran's Q&A library + 7 SEO FAQs
 
 Closes a content-only phase: drops in real brand copy from Marcin (Hardscape Lead) and Goran's 28-question Q&A library, plus a 7-FAQ Sanity seed targeting high-volume Chicago-area searches that the existing per-service / per-city FAQ corpus doesn't cover cleanly. No new routes; no schema changes; existing chrome unchanged.

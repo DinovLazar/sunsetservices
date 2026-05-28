@@ -13,6 +13,7 @@ import {WIZARD_EVENTS, fireWizardEvent} from '@/lib/wizard/events';
 import {isWizardSubmitEnabled} from '@/lib/chat/flags';
 import {clearStep1to3} from '@/lib/wizard/storage';
 import {getOrCreateSessionId, clearSessionId} from '@/lib/quote/session';
+import {type WizardPhoto} from '@/lib/wizard/photo';
 import type {Step4Values} from './WizardStep4Contact';
 
 type Props = {
@@ -22,6 +23,12 @@ type Props = {
   otherText: string;
   step3Group: WizardStep3Group;
   step3: Record<string, string | string[]>;
+  /**
+   * Phase B.11 — sibling photo state from WizardShell. Step 5 surfaces a
+   * thumbnail strip and ships the ready-photos' asset IDs in the submit
+   * payload. D25 — no Edit link on the photos row; Edit is the Step 3 chip.
+   */
+  step3Photos: WizardPhoto[];
   step4: Step4Values;
   onEdit: (step: 1 | 2 | 3 | 4) => void;
 };
@@ -42,6 +49,7 @@ export default function WizardStep5Review({
   otherText,
   step3Group,
   step3,
+  step3Photos,
   step4,
   onEdit,
 }: Props) {
@@ -136,6 +144,9 @@ export default function WizardStep5Review({
       primaryService: primarySlug || undefined,
       otherText: otherText.trim() || undefined,
       details: extractDetails(step3),
+      photoAssetIds: step3Photos
+        .filter((p): p is Extract<WizardPhoto, {status: 'ready'}> => p.status === 'ready')
+        .map((p) => p.assetId),
       firstName: step4.firstName.trim(),
       lastName: step4.lastName.trim(),
       email: step4.email.trim(),
@@ -234,6 +245,13 @@ export default function WizardStep5Review({
   );
 
   const notesText = typeof step3.notes === 'string' ? step3.notes.trim() : '';
+  const readyPhotos = React.useMemo(
+    () =>
+      step3Photos.filter(
+        (p): p is Extract<WizardPhoto, {status: 'ready'}> => p.status === 'ready',
+      ),
+    [step3Photos],
+  );
   const propertyTypeLabel = step4.propertyType
     ? t(`wizard.propertyType.${step4.propertyType}`)
     : '';
@@ -307,6 +325,32 @@ export default function WizardStep5Review({
             >
               &ldquo;{notesText}&rdquo;
             </p>
+          ) : null}
+          {readyPhotos.length > 0 ? (
+            <div
+              className="mt-3 flex gap-2 overflow-x-auto"
+              data-photo-strip="true"
+              aria-label={t('wizard.step3.photos.regionLabel')}
+            >
+              {readyPhotos.map((p, i) => (
+                /* eslint-disable-next-line @next/next/no-img-element */
+                <img
+                  key={p.assetId}
+                  src={`${p.url}?w=160&h=160&fit=crop&q=80`}
+                  alt={t('wizard.step3.photos.thumbnailAlt', {n: i + 1})}
+                  width={72}
+                  height={72}
+                  style={{
+                    width: 72,
+                    height: 72,
+                    flexShrink: 0,
+                    borderRadius: 6,
+                    objectFit: 'cover',
+                    border: '1px solid var(--color-border)',
+                  }}
+                />
+              ))}
+            </div>
           ) : null}
           {hr}
 

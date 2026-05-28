@@ -38,10 +38,12 @@ type DailyRecord = {count: number; resetAt: number};
 const burstMap = new Map<string, BurstRecord>();
 const dailyMap = new Map<string, DailyRecord>();
 
-function checkRateLimitMemory(ip: string): RateLimitResult {
+function checkRateLimitMemory(ip: string, scope: string): RateLimitResult {
   const now = Date.now();
+  const burstKey = `${scope}:burst:${ip}`;
+  const dailyKey = `${scope}:daily:${ip}`;
 
-  const burst = burstMap.get(ip);
+  const burst = burstMap.get(burstKey);
   if (burst && now - burst.lastRequestMs < BURST_INTERVAL_MS) {
     return {
       allowed: false,
@@ -50,10 +52,10 @@ function checkRateLimitMemory(ip: string): RateLimitResult {
     };
   }
 
-  let daily = dailyMap.get(ip);
+  let daily = dailyMap.get(dailyKey);
   if (!daily || now >= daily.resetAt) {
     daily = {count: 0, resetAt: now + DAILY_WINDOW_MS};
-    dailyMap.set(ip, daily);
+    dailyMap.set(dailyKey, daily);
   }
   if (daily.count >= DAILY_LIMIT) {
     return {
@@ -63,7 +65,7 @@ function checkRateLimitMemory(ip: string): RateLimitResult {
     };
   }
 
-  burstMap.set(ip, {lastRequestMs: now});
+  burstMap.set(burstKey, {lastRequestMs: now});
   daily.count += 1;
 
   return {allowed: true};
@@ -88,11 +90,11 @@ function getKvClient(): Redis {
   return kvClient;
 }
 
-async function checkRateLimitKv(ip: string): Promise<RateLimitResult> {
+async function checkRateLimitKv(ip: string, scope: string): Promise<RateLimitResult> {
   try {
     const redis = getKvClient();
-    const burstKey = `chat:burst:${ip}`;
-    const dailyKey = `chat:daily:${ip}`;
+    const burstKey = `${scope}:burst:${ip}`;
+    const dailyKey = `${scope}:daily:${ip}`;
 
     // Burst: SET key 1 NX EX <ttl>. Returns 'OK' on first request in window
     // (allowed) or null when the key already exists (blocked).
@@ -126,9 +128,19 @@ async function checkRateLimitKv(ip: string): Promise<RateLimitResult> {
 
 // ---------- Public surface ----------
 
-export async function checkRateLimit(ip: string): Promise<RateLimitResult> {
+/**
+ * Check whether `ip` is allowed to make a request within `scope`. `scope`
+ * is the key-prefix namespace — `'chat'` is the default (Phase 2.09/B.09
+ * behavior preserved bit-for-bit). Phase B.11 added `'photo-upload'` for
+ * the wizard photo upload route; both backends partition counters by
+ * scope so per-route limits don't leak across surfaces.
+ */
+export async function checkRateLimit(
+  ip: string,
+  scope: string = 'chat',
+): Promise<RateLimitResult> {
   if (STORE === 'kv') {
-    return checkRateLimitKv(ip);
+    return checkRateLimitKv(ip, scope);
   }
   if (STORE !== 'memory') {
     if (!unsetFlagWarned) {
@@ -139,5 +151,5 @@ export async function checkRateLimit(ip: string): Promise<RateLimitResult> {
       unsetFlagWarned = true;
     }
   }
-  return Promise.resolve(checkRateLimitMemory(ip));
+  return Promise.resolve(checkRateLimitMemory(ip, scope));
 }

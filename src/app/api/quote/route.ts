@@ -77,6 +77,18 @@ export async function POST(request: Request) {
 
   const input = parsed.data;
 
+  // Phase B.11 — build the Sanity image-reference array from the validated
+  // photo asset IDs. Each entry's asset._ref points at a sanity.imageAsset
+  // that was uploaded earlier through /api/quote/photo-upload.
+  const photosField =
+    input.photoAssetIds && input.photoAssetIds.length > 0
+      ? input.photoAssetIds.map((id) => ({
+          _key: globalThis.crypto.randomUUID(),
+          _type: 'image',
+          asset: {_type: 'reference', _ref: id},
+        }))
+      : undefined;
+
   // Write to Sanity FIRST so the lead is never lost.
   let sanityDocId: string | null = null;
   try {
@@ -98,6 +110,7 @@ export async function POST(request: Request) {
       primaryService: input.primaryService || undefined,
       otherText: input.otherText || undefined,
       details: input.details,
+      photos: photosField,
       contactPreferences: input.contactPreferences,
     });
     sanityDocId = doc._id;

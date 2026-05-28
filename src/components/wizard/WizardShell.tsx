@@ -31,6 +31,11 @@ import {
   clearStep1to3,
 } from '@/lib/wizard/storage';
 import {
+  narrowStep3PhotosForPersist,
+  widenPersistedPhotos,
+  type WizardPhoto,
+} from '@/lib/wizard/photo';
+import {
   validateRequired,
   validateEmail,
   validatePhoneUS,
@@ -61,7 +66,18 @@ function clampStep(n: number): Step {
  * holds form data. Autosave persists Steps 1–3 only; Step 4 PII never leaves
  * React state.
  */
-export default function WizardShell() {
+type WizardShellProps = {
+  /**
+   * Phase B.11 — server-read kill switch for the Step 3 photo upload
+   * widget. Sourced from `WIZARD_PHOTO_UPLOAD_ENABLED` at request time on
+   * the `/request-quote/` page (force-dynamic). When false, the dropzone
+   * renders a disabled "temporarily unavailable" message and uploads are
+   * blocked at the route as well (defense in depth).
+   */
+  photoUploadEnabled?: boolean;
+};
+
+export default function WizardShell({photoUploadEnabled = false}: WizardShellProps = {}) {
   const t = useTranslations();
   const locale = useLocale() as 'en' | 'es';
   const router = useRouter();
@@ -83,6 +99,12 @@ export default function WizardShell() {
     otherText: WIZARD_DEFAULT_STATE.step2.otherText,
   }));
   const [step3, setStep3] = React.useState<Record<string, string | string[]>>({});
+  // Phase B.11 — sibling photos state (D11 union; see Decisions log
+  // 2026-05-27 off-spec note for the sibling-vs-nested fork resolution).
+  const [step3Photos, setStep3Photos] = React.useState<WizardPhoto[]>([]);
+  // Phase B.11 — stable client sessionId for the photo-upload route.
+  // Computed once after hydration to dodge SSR localStorage absence.
+  const [sessionId, setSessionId] = React.useState('');
   const [step4, setStep4] = React.useState<Step4Values>(() => ({...WIZARD_DEFAULT_STATE.step4}));
   const [errors, setErrors] = React.useState<Record<string, string>>({});
   const [showResume, setShowResume] = React.useState(false);
@@ -134,6 +156,11 @@ export default function WizardShell() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // ----- Phase B.11 — compute stable sessionId once after hydration -----
+  React.useEffect(() => {
+    setSessionId(getOrCreateSessionId());
+  }, []);
+
   // ----- Fire step_viewed event on URL change -----
   React.useEffect(() => {
     fireWizardEvent(WIZARD_EVENTS.STEP_VIEWED(urlStep), {locale, step: urlStep});
@@ -151,6 +178,7 @@ export default function WizardShell() {
           step1: {division: step1.division as string},
           step2,
           step3,
+          step3Photos: narrowStep3PhotosForPersist(step3Photos),
         });
       }
     }, 1500);
@@ -160,7 +188,7 @@ export default function WizardShell() {
         autosaveTimer.current = null;
       }
     };
-  }, [hydrated, step1, step2, step3]);
+  }, [hydrated, step1, step2, step3, step3Photos]);
 
   // ----- Step navigation helpers -----
   function goToStep(target: Step) {
@@ -184,6 +212,7 @@ export default function WizardShell() {
       setStep1({division: validDivision as WizardDivision | ''});
       setStep2(safeStep2);
       setStep3(saved.step3);
+      setStep3Photos(widenPersistedPhotos(saved.step3Photos));
       setCompleted(validDivision ? (hasStep2Selection ? [1, 2] : [1]) : []);
       setShowResume(false);
       goToStep(validDivision ? (hasStep2Selection ? 3 : 2) : 1);
@@ -205,6 +234,7 @@ export default function WizardShell() {
         step1: {division: step1.division as string},
         step2,
         step3,
+        step3Photos: narrowStep3PhotosForPersist(step3Photos),
       });
     }
     setShowSaved(true);
@@ -332,6 +362,9 @@ export default function WizardShell() {
   function pushPartial(currentStep: 1 | 2 | 3): void {
     if (typeof window === 'undefined') return;
     try {
+      const readyAssetIds = step3Photos
+        .filter((p): p is Extract<WizardPhoto, {status: 'ready'}> => p.status === 'ready')
+        .map((p) => p.assetId);
       const payload = {
         sessionId: getOrCreateSessionId(),
         lastStepReached: currentStep,
@@ -341,6 +374,7 @@ export default function WizardShell() {
         primaryService: step2.primarySlug || undefined,
         otherText: step2.otherText.trim() || undefined,
         details: extractPartialDetails(step3),
+        photoAssetIds: readyAssetIds.length > 0 ? readyAssetIds : undefined,
         userAgent: window.navigator.userAgent.slice(0, 500),
         referrer: document.referrer.slice(0, 2000),
       };
@@ -475,6 +509,10 @@ export default function WizardShell() {
                   onChange={setStep3}
                   errors={errors}
                   onFieldBlur={handleFieldBlur}
+                  photos={step3Photos}
+                  onPhotosChange={setStep3Photos}
+                  sessionId={sessionId}
+                  photoUploadEnabled={photoUploadEnabled}
                 />
               ) : null}
               {effectiveStep === 4 ? (
@@ -493,6 +531,7 @@ export default function WizardShell() {
                   otherText={step2.otherText}
                   step3Group={step3Group}
                   step3={step3}
+                  step3Photos={step3Photos}
                   step4={step4}
                   onEdit={(n) => goToStep(n)}
                 />

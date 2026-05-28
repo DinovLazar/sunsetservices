@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {Heading, Text, Section, Link, Hr} from '@react-email/components';
+import {Heading, Text, Section, Link, Hr, Img, Row, Column} from '@react-email/components';
 import {EmailLayout, EmailButton} from '../components/EmailLayout';
 import {emailTokens as T} from '../tokens';
 import type {QuoteSubmitInput} from '@/lib/quote/validation';
@@ -8,6 +8,8 @@ import type {QuoteSubmitInput} from '@/lib/quote/validation';
  * QuoteLeadAlertEmail — to Erick when a wizard submission lands (Phase 2.08).
  * Phase M.01e-pt2 — renders "Division" + "Property type" rows in place of the
  * old "Audience" row.
+ * Phase B.11 — optional `photos` prop renders a 3-col 120×120 thumbnail
+ * grid linking back to the full-size Sanity CDN URLs (D7).
  *
  * Replaces the Phase 2.06 plaintext lead alert. Visitors never see this; it
  * goes to RESEND_TO_EMAIL only.
@@ -18,6 +20,12 @@ export type QuoteLeadAlertEmailProps = {
   sanityDocId: string;
   locale: 'en' | 'es';
   intendedRecipient?: string;
+  /**
+   * Phase B.11 — photo URLs resolved at send time by `sendQuoteLeadAlertEmail`
+   * via a Sanity GROQ lookup over the `photoAssetIds` array. Renders the
+   * thumbnail grid section when present and non-empty.
+   */
+  photos?: Array<{url: string; alt: string}>;
 };
 
 const DIVISION_LABEL: Record<QuoteSubmitInput['division'], string> = {
@@ -38,6 +46,7 @@ export function QuoteLeadAlertEmail({
   sanityDocId,
   locale,
   intendedRecipient,
+  photos,
 }: QuoteLeadAlertEmailProps) {
   const fullName = `${lead.firstName} ${lead.lastName}`.trim();
   const addressLine1 = [lead.address.street, lead.address.unit].filter(Boolean).join(' ');
@@ -146,6 +155,53 @@ export function QuoteLeadAlertEmail({
         </>
       ) : null}
 
+      {/* Photos (Phase B.11) — 3-col grid, each thumbnail links to the
+          full-size Sanity CDN URL. Sanity's `?w=240` is 2× the rendered
+          120 px for HiDPI sharpness. */}
+      {photos && photos.length > 0 ? (
+        <>
+          <SectionHeader>Photos</SectionHeader>
+          <Section style={{margin: '8px 0 12px'}}>
+            {chunkPhotos(photos, 3).map((chunk, rowIdx) => (
+              <Row key={`photo-row-${rowIdx}`} style={{marginBottom: 8}}>
+                {chunk.map((p, colIdx) => (
+                  <Column
+                    key={`photo-${rowIdx}-${colIdx}`}
+                    style={{
+                      width: '33.333%',
+                      paddingRight: colIdx < chunk.length - 1 ? 8 : 0,
+                      verticalAlign: 'top',
+                    }}
+                  >
+                    <Link href={p.url} style={{textDecoration: 'none'}}>
+                      <Img
+                        src={`${p.url}?w=240&h=240&fit=crop&q=80`}
+                        alt={p.alt}
+                        width={120}
+                        height={120}
+                        style={photoThumbStyle}
+                      />
+                    </Link>
+                  </Column>
+                ))}
+                {/* Pad empty cells in the last row so columns align. */}
+                {chunk.length < 3
+                  ? Array.from({length: 3 - chunk.length}).map((_, i) => (
+                      <Column
+                        key={`pad-${rowIdx}-${i}`}
+                        style={{width: '33.333%'}}
+                      />
+                    ))
+                  : null}
+              </Row>
+            ))}
+          </Section>
+          <Text style={metaStyle}>
+            {photos.length} photo{photos.length === 1 ? '' : 's'} attached. Click any to open the full size.
+          </Text>
+        </>
+      ) : null}
+
       {/* CTAs */}
       <Section style={{paddingTop: 8}}>
         <EmailButton
@@ -192,6 +248,14 @@ function DivisionBadge({label}: {label: string}) {
       <span style={divisionBadgeStyle}>{label}</span>
     </Text>
   );
+}
+
+function chunkPhotos<T>(arr: T[], size: number): T[][] {
+  const out: T[][] = [];
+  for (let i = 0; i < arr.length; i += size) {
+    out.push(arr.slice(i, i + size));
+  }
+  return out;
 }
 
 // ─────────────────────── styles ───────────────────────
@@ -279,6 +343,15 @@ const metaStyle: React.CSSProperties = {
 const metaLinkStyle: React.CSSProperties = {
   color: T.color.green700,
   textDecoration: 'underline',
+};
+
+const photoThumbStyle: React.CSSProperties = {
+  width: '100%',
+  maxWidth: 120,
+  height: 'auto',
+  display: 'block',
+  borderRadius: 6,
+  border: `1px solid ${T.color.border}`,
 };
 
 export default QuoteLeadAlertEmail;

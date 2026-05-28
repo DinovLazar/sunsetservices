@@ -21,7 +21,7 @@
  * Run: `node scripts/build-favicons.mjs`
  */
 
-import {readFile, writeFile} from 'node:fs/promises';
+import {writeFile} from 'node:fs/promises';
 import {dirname, resolve} from 'node:path';
 import {fileURLToPath} from 'node:url';
 import sharp from 'sharp';
@@ -72,7 +72,7 @@ async function buildSquareSource() {
       .trim({background: {r: 0, g: 0, b: 0, alpha: 0}, threshold: 1})
       .png()
       .toBuffer();
-  } catch (e) {
+  } catch {
     // If nothing to trim (no transparent border) sharp throws; fall back
     // to the un-trimmed strip — the mark already fills the source.
     trimmed = markStrip;

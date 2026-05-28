@@ -217,7 +217,7 @@ const ES: LocaleLabels = {
   identityLine1:
     'Sunset Services es una empresa familiar de paisajismo y espacios al aire libre, fundada en el año 2001 con sede en Aurora, IL.',
   identityLine2:
-    'Atendemos a clientes residenciales y comerciales en todo el condado de DuPage con mantenimiento de jardines, diseño-construcción e instalación de hardscape.',
+    'Atendemos a clientes residenciales y comerciales en todo el condado de DuPage con mantenimiento de jardines, diseño y construcción, e instalación de hardscape.',
   phoneLabel: 'Teléfono',
   emailLabel: 'Correo',
   addressLabel: 'Dirección',

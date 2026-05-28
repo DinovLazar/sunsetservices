@@ -1386,6 +1386,63 @@ Closes 10 user-visible bugs Goran flagged on a Preview walkthrough. Polish pass 
 
 ---
 
+## 2026-05-27 — Phase M.10d (Code): A + B + C landed; D paused per Goran
+
+Builder phase complete for A, B, C. D paused mid-script (the project-handling code is written and gracefully no-ops when the manifest is absent; it picks up automatically when the manifest lands).
+
+### A — Carousel mid-fade glitch fix
+- **Root cause confirmed:** symmetric opacity crossfade let the dark-charcoal `--color-bg-charcoal` background bleed through at the 50/50 instant, showing up as a brightness "dip" between photos.
+- **Fix shipped:** `prev` + `active` index tracking so the incoming layer (z-index 3) fades 0→1 **on top of** the previous active (z-index 2, opacity 1, no animation). The bare background is never exposed.
+- **Implementation surprise:** the first attempt used `motion.div` with `initial={false} animate={{opacity}}` — mirroring the original code's pattern. Empirically that did NOT animate opacity across per-tick re-renders (z-index updated correctly, opacity stayed pinned to the initial value). Switched to a plain CSS `transition: opacity` on the wrapper div; works correctly. The `motion/react` import is still used for `useReducedMotion()`.
+- Reduced-motion preserved: interval never starts; only the first image is visible.
+- Production verification on the Vercel Preview still recommended (localhost can hide the decode-timing flavor of the glitch).
+
+### B — Open Graph / Twitter cards
+- **`metadataBase` was already set sitewide** in Phase B.05; this phase did not touch that.
+- **New helper** `src/lib/seo/openGraph.ts` spread into every public page's `generateMetadata`. 13 pages updated. Every page now emits a complete `openGraph` (title, description, absolute `url`, `siteName: 'Sunset Services'`, `type`, `locale` `en_US`/`es_ES`, `images: [{url, alt, 1200×630}]`) + `twitter` (`summary_large_image`, title, description, images) block.
+- **`/og/fallback` polished** with the M.10c horizontal-white logo, **live-site palette** (deep-charcoal background, cream text, amber accent — NOT the BG-01 orange brand-guide palette), and 4-division IA headline. `runtime = 'nodejs'` so the logo can be loaded via `fs.readFileSync`.
+- **Manrope deferred.** `next/og` can't reuse `next/font`'s Google-Font loaders, and a runtime fetch of the woff2 is a build-time cost paid on every OG render. system-ui matches the existing per-content OG routes (`/og/blog/[slug]`, `/og/resource/[slug]`) and looks fine at thumbnail size. Revisit when we batch-process fonts for `next/og` site-wide (M.11+).
+- **SSO-Preview caveat (Goran's chats won't show a card on Preview URLs).** The Vercel Preview deployment is password/SSO-gated, so external scrapers (Facebook, LinkedIn, X, iMessage, WhatsApp, Slack) hit the login wall and never see the og:image. Real shareable previews only render once the site is publicly reachable. Code correctness verified via HTML inspection + curling the og:image URL (200 + image/png + 1200×630). Goran can validate with platform sharing-debuggers once the site is public.
+
+### C — 3 new blog posts + idempotent upload script
+- **Category mapping decided** against the live `blogPost.category` taxonomy (`how-to` / `cost-guide` / `seasonal` / `industry-news` / `audience`): posts 1+2 → `how-to`, post 3 → `cost-guide`. Captured in `CATEGORY_MAPPING` table inside the script.
+- **HOA post intentionally dated 2025-08-15** (the post was written for the 2025 planning season; reads consistently that way; evergreen-adjacent).
+- **Spanish translations** are LatAm-MX, **`tú`** register, no `[TBR]` markers (post-B.01 convention).
+- **`featuredImage`** left unset on Sanity docs; the blog detail page renders the static `/public/images/blog/<slug>.jpg` path unconditionally (Phase 1.18 placeholder convention), so the 3 hero photos are sourced from existing service heroes (`hero-lawn-care.jpg`, `hero-landscape-maintenance.jpg`, `hero-commercial-snow-removal.jpg`) until Cowork's manifest delivers real photography via `manifest.blogImages[slug]`.
+- **Script is dry-run by default.** `--commit` writes; `--clean-placeholders` (opt-in but recommended) additionally removes the 12 Phase 1.16 placeholder projects. Reads `SANITY_API_WRITE_TOKEN` from `.env.local` and never prints it. Re-running is safe (createOrReplace + deterministic ids throughout).
+- **D-handling code is already in the script and gates on the manifest's presence.** When the manifest lands, the script picks it up automatically. No code change needed to unblock D.
+
+### Goran's commands (also at the top of the script)
+
+```
+# Dry run (safe, writes nothing):
+node scripts/upload-m10d-content.mjs
+
+# Commit and clean up placeholders (D will run too when its manifest lands):
+node scripts/upload-m10d-content.mjs --commit --clean-placeholders
+```
+
+### Verification
+- `npm run validate:schema` — 0 errors / 0 warnings across 22 URLs.
+- `npm run validate:seo` — 4 errors, all on the pre-existing `aurora-driveway-apron` 404 (called out in the plan as not-from-this-phase). All other 174 URLs pass.
+- `npm run validate:a11y` — 1 error, same `aurora-driveway-apron` 404. axe AA violations: 0. Lighthouse a11y ≥ 95 across all audited routes. WCAG 2.2 SC 2.4.11 + 2.5.8: 0. prefers-reduced-motion emulated: OK.
+- Carousel: inline-style + z-index sampling confirms the active-on-top + prev-fully-opaque pattern holds throughout a crossfade.
+- Upload script dry run: 3 posts, 9 FAQs, EN/ES block parity (85/85, 51/51, 54/54), D gracefully skipped.
+
+### Branch & commits
+
+Branch `phase/m10d-content-polish`:
+1. `725b400` chore(decisions): Phase M.10d (Code) — log scope, locked choices, OG SSO caveat
+2. `53694b2` fix(home): Phase M.10d §A — eliminate hero carousel mid-fade brightness dip
+3. `80a1594` feat(seo): Phase M.10d §B — Open Graph / Twitter cards across the site
+4. `ba9724a` feat(content,scripts): Phase M.10d §C — 3 blog posts + idempotent upload script
+
+(D will land as a 5th commit when unblocked.)
+
+**Decided by:** chat (Goran's instruction to stop at D + on-implementation discovery that `motion.div animate` wasn't firing for the carousel + on-implementation choice to skip Manrope in `/og/fallback`).
+
+---
+
 ## 2026-05-27 — Phase M.10b — Content integration: Marcin's brand story + Goran's Q&A library + 7 SEO FAQs
 
 Closes a content-only phase: drops in real brand copy from Marcin (Hardscape Lead) and Goran's 28-question Q&A library, plus a 7-FAQ Sanity seed targeting high-volume Chicago-area searches that the existing per-service / per-city FAQ corpus doesn't cover cleanly. No new routes; no schema changes; existing chrome unchanged.

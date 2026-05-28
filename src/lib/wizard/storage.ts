@@ -19,8 +19,20 @@
  *     because propertyType lives in Step 4 state which doesn't touch
  *     storage. The shell consumes that mapping at hydration time if needed.
  *
+ * Phase B.11 — sibling `step3Photos` field. Per the 2026-05-27 execution-
+ * time off-spec note (Decisions log), photo state lives in a SIBLING
+ * field next to `step3`, not nested under it (the live `step3` is a
+ * string-keyed `Record` with no slot for an object array). Only `ready`
+ * rows persist per D14; callers MUST narrow via
+ * `narrowStep3PhotosForPersist` before passing to `saveStep1to3`. Defaults
+ * to `[]` for any pre-B.11 v2 doc that doesn't carry the field. No v3
+ * bump — the field is additive and the absence-default keeps old docs
+ * readable.
+ *
  * 30-day expiry. On stale load → null + clear.
  */
+
+import {parsePersistedPhotos, type PersistedWizardPhoto} from './photo';
 
 const STORAGE_KEY = 'sunset_wizard_progress_v2';
 const LEGACY_KEY = 'sunset_wizard_progress_v1';
@@ -30,6 +42,7 @@ export type WizardAutosavePayload = {
   step1: {division: string};
   step2: {selectedSlugs: string[]; primarySlug: string; otherText: string};
   step3: Record<string, string | string[]>;
+  step3Photos: PersistedWizardPhoto[];
   savedAt: number;
 };
 
@@ -64,7 +77,7 @@ export function loadStep1to3(): WizardAutosavePayload | null {
     // 1) v2 — current format
     const v2raw = window.localStorage.getItem(STORAGE_KEY);
     if (v2raw) {
-      const parsed = JSON.parse(v2raw) as WizardAutosavePayload;
+      const parsed = JSON.parse(v2raw) as Partial<WizardAutosavePayload>;
       if (typeof parsed?.savedAt !== 'number') {
         clearStep1to3();
         return null;
@@ -73,7 +86,16 @@ export function loadStep1to3(): WizardAutosavePayload | null {
         clearStep1to3();
         return null;
       }
-      return parsed;
+      // Phase B.11 — defensively widen `step3Photos`. Pre-B.11 docs
+      // don't carry the field; new docs may carry tampered data. The
+      // parser drops invalid rows silently.
+      return {
+        step1: parsed.step1 ?? {division: ''},
+        step2: parsed.step2 ?? {selectedSlugs: [], primarySlug: '', otherText: ''},
+        step3: parsed.step3 ?? {},
+        step3Photos: parsePersistedPhotos(parsed.step3Photos),
+        savedAt: parsed.savedAt,
+      };
     }
 
     // 2) v1 — migrate once, then write v2 + clear v1
@@ -99,6 +121,7 @@ export function loadStep1to3(): WizardAutosavePayload | null {
         otherText: typeof legacy.step2?.otherText === 'string' ? legacy.step2.otherText : '',
       },
       step3: legacy.step3 ?? {},
+      step3Photos: [],
       savedAt: legacy.savedAt,
     };
     try {

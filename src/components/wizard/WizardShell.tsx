@@ -31,6 +31,11 @@ import {
   clearStep1to3,
 } from '@/lib/wizard/storage';
 import {
+  narrowStep3PhotosForPersist,
+  widenPersistedPhotos,
+  type WizardPhoto,
+} from '@/lib/wizard/photo';
+import {
   validateRequired,
   validateEmail,
   validatePhoneUS,
@@ -83,6 +88,9 @@ export default function WizardShell() {
     otherText: WIZARD_DEFAULT_STATE.step2.otherText,
   }));
   const [step3, setStep3] = React.useState<Record<string, string | string[]>>({});
+  // Phase B.11 — sibling photos state (D11 union; see Decisions log
+  // 2026-05-27 off-spec note for the sibling-vs-nested fork resolution).
+  const [step3Photos, setStep3Photos] = React.useState<WizardPhoto[]>([]);
   const [step4, setStep4] = React.useState<Step4Values>(() => ({...WIZARD_DEFAULT_STATE.step4}));
   const [errors, setErrors] = React.useState<Record<string, string>>({});
   const [showResume, setShowResume] = React.useState(false);
@@ -151,6 +159,7 @@ export default function WizardShell() {
           step1: {division: step1.division as string},
           step2,
           step3,
+          step3Photos: narrowStep3PhotosForPersist(step3Photos),
         });
       }
     }, 1500);
@@ -160,7 +169,7 @@ export default function WizardShell() {
         autosaveTimer.current = null;
       }
     };
-  }, [hydrated, step1, step2, step3]);
+  }, [hydrated, step1, step2, step3, step3Photos]);
 
   // ----- Step navigation helpers -----
   function goToStep(target: Step) {
@@ -184,6 +193,7 @@ export default function WizardShell() {
       setStep1({division: validDivision as WizardDivision | ''});
       setStep2(safeStep2);
       setStep3(saved.step3);
+      setStep3Photos(widenPersistedPhotos(saved.step3Photos));
       setCompleted(validDivision ? (hasStep2Selection ? [1, 2] : [1]) : []);
       setShowResume(false);
       goToStep(validDivision ? (hasStep2Selection ? 3 : 2) : 1);
@@ -205,6 +215,7 @@ export default function WizardShell() {
         step1: {division: step1.division as string},
         step2,
         step3,
+        step3Photos: narrowStep3PhotosForPersist(step3Photos),
       });
     }
     setShowSaved(true);

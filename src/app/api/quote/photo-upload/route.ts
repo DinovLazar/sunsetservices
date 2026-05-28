@@ -4,7 +4,6 @@ import {checkRateLimit} from '@/lib/chat/rateLimit';
 import {getClientIp} from '@/lib/chat/getIp';
 import {
   PHOTO_ALLOWED_MIME,
-  PHOTO_MAX_BYTES,
   PHOTO_MAX_COUNT,
   mimeToExtension,
   sniffPhotoMime,

@@ -11,6 +11,10 @@ export const ANALYTICS_EVENTS = {
   // Wizard Step 4 — Phase B.10 address autocomplete. Informational, NOT a
   // conversion. Payload {step: 4, source: 'autocomplete'} — zero PII.
   WIZARD_ADDRESS_AUTOCOMPLETED: 'wizard_address_autocompleted',
+  // Wizard Step 3 — Phase B.11 photo upload. Informational, NOT a
+  // conversion. Fires ONCE per batch (NOT per file) with payload
+  // {step: 3, count} — zero PII.
+  WIZARD_PHOTOS_UPLOADED: 'wizard_photos_uploaded',
   // Wizard — Phase M.01e-pt2 division migration.
   WIZARD_DIVISION_SELECTED: 'wizard_division_selected',
   WIZARD_PROPERTY_TYPE_SELECTED: 'wizard_property_type_selected',

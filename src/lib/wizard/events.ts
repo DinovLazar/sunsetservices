@@ -41,6 +41,14 @@ export const WIZARD_EVENTS = {
    * Mirrors `ANALYTICS_EVENTS.WIZARD_ADDRESS_AUTOCOMPLETED`.
    */
   ADDRESS_AUTOCOMPLETED: 'wizard_address_autocompleted',
+  /**
+   * Phase B.11 — fires ONCE per batch of photo uploads after the last
+   * file in a multi-file pick resolves (D9). Payload `{step: 3, count}`
+   * where `count` is the number of successful uploads in the batch.
+   * Informational, NOT a conversion. Zero PII (no file names, MIMEs,
+   * or sizes). Mirrors `ANALYTICS_EVENTS.WIZARD_PHOTOS_UPLOADED`.
+   */
+  PHOTOS_UPLOADED: 'wizard_photos_uploaded',
   FIELD_ERROR: (field: string) => `wizard_field_error_${field}`,
   RESUME_OFFERED: 'wizard_resume_offered',
   RESUME_ACCEPTED: 'wizard_resume_accepted',

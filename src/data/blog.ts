@@ -184,7 +184,7 @@ Multiply by your square footage. That's the number to compare bids against. Anyo
 ## Get a real bid
 
 We do free 30-minute site walks across DuPage County. We measure the lot, sketch the patio shape, list the spec line-by-line, and email a one-page bid within 48 hours. [Request a free estimate](/request-quote/?from=blog&slug=dupage-patio-cost-2026) and we'll come look at the property.`,
-      es: `Si estás en la etapa de recolección de cotizaciones de un patio de DuPage en 2026, tres números llegarán a tu correo: uno bajo casi sospechosamente barato, uno medio que cuadra con lo que te dijo tu vecino, y uno alto que te shockea. Usualmente son los tres cotizaciones reales — solo que para tres patios distintos que te están pidiendo imaginar como el mismo.
+      es: `Si estás en la etapa de recolección de cotizaciones de un patio de DuPage en 2026, tres números llegarán a tu correo: uno bajo casi sospechosamente barato, uno medio que cuadra con lo que te dijo tu vecino, y uno alto que te sorprende. Usualmente son las tres cotizaciones reales — solo que para tres patios distintos que te están pidiendo imaginar como el mismo.
 
 Esto es lo que hemos cotizado en las seis ciudades de DuPage donde trabajamos esta primavera, y qué compra realmente cada precio.
 
@@ -252,7 +252,7 @@ Si estás dimensionando un patio en 2026:
 
 ## Obtén una cotización real
 
-Hacemos recorridos de sitio gratis de 30 minutos. [Solicita una estimación gratis](/es/request-quote/?from=blog&slug=dupage-patio-cost-2026).`,
+Hacemos recorridos de sitio gratis de 30 minutos. [Solicita un estimado gratis](/es/request-quote/?from=blog&slug=dupage-patio-cost-2026).`,
     },
     faq: [
       {
@@ -614,15 +614,15 @@ Cada cotización de Sunset Services lista la marca, el SKU, y la resistencia a h
     byline: 'Erick Sotomayor',
     title: {
       en: 'Snow Removal for Commercial Properties: What Property Managers Need to Know',
-      es: 'Remoción de Nieve para Propiedades Comerciales: Lo que los Property Managers Deben Saber',
+      es: 'Remoción de Nieve para Propiedades Comerciales: Lo que los Administradores de Propiedades Deben Saber',
     },
     dek: {
       en: 'A 15-year vendor on the seven things that separate the snow contract that protects your property from the one that empties your reserves.',
-      es: 'Un vendor de 15 años sobre las siete cosas que separan el contrato que protege tu propiedad del que vacía tus reservas.',
+      es: 'Un proveedor de 15 años sobre las siete cosas que separan el contrato que protege tu propiedad del que vacía tus reservas.',
     },
     seoDescription: {
       en: 'Commercial snow removal in DuPage — what PMs should look for in a vendor contract. Trigger depths, response windows, slip-and-fall protection.',
-      es: 'Remoción comercial en DuPage — qué buscar en contrato de vendor. Disparadores, ventanas, protección.',
+      es: 'Remoción comercial en DuPage — qué buscar en el contrato de un proveedor. Disparadores, ventanas, protección.',
     },
     publishedAt: '2026-03-08',
     featuredImage: {
@@ -630,7 +630,7 @@ Cada cotización de Sunset Services lista la marca, el SKU, y la resistencia a h
       srcMobile: '/images/blog/snow-for-commercial-properties-mobile.jpg',
       alt: {
         en: 'A commercial parking lot during an active snow event, with two plows working in formation and salt being spread.',
-        es: 'Un estacionamiento comercial durante un evento de nieve, con dos arados trabajando en formación.',
+        es: 'Un estacionamiento comercial durante un evento de nieve, con dos quitanieves trabajando en formación.',
       },
       width: 1280,
       height: 720,
@@ -694,7 +694,7 @@ If your current snow contract is a year-to-year auto-renewal, October is the tim
 We do free contract audits for DuPage commercial properties — a 30-minute call with the PM, a 1-page report on what's protected and what's not, and a sample contract you can use to RFP whoever you'd like (including us).
 
 If you want our crew on the lot, [request a free site walk](/request-quote/?from=blog&slug=snow-for-commercial-properties) and we'll measure the lot, sketch the priority paths, and propose a seasonal contract before October 15.`,
-      es: `Si manejas propiedad comercial en DuPage, tu vendor de nieve es una de las tres líneas que deciden si el año termina bien. Mal vendor en febrero te cuesta una reclamación de resbalón, una defección de inquilino, y un sobrecosto. Buen vendor cuesta 8–15% más por adelantado y es invisible el resto del año.
+      es: `Si manejas propiedad comercial en DuPage, tu proveedor de nieve es una de las tres líneas que deciden si el año termina bien. Un mal proveedor en febrero te cuesta una reclamación de resbalón, una defección de inquilino, y un sobrecosto. Un buen proveedor cuesta 8–15% más por adelantado y es invisible el resto del año.
 
 Estas son las siete cosas que buscamos al auditar contratos vigentes para nuevos clientes.
 
@@ -708,7 +708,7 @@ Diferencia de costo: cerca de 8% en el precio por evento. Diferencia de riesgo: 
 
 La profundidad disparadora en el contrato — 1 pulgada, 2, lo que sea — tiene que medirse en la propiedad, no en la oficina de despacho o estación NWS regional. Aurora puede estar en 0.7 pulgadas cuando Naperville está en 1.3.
 
-> [!warning] Si tu contrato dice "disparador a 1 pulgada" sin nombrar dónde se mide, el vendor controla el disparador.
+> [!warning] Si tu contrato dice "disparador a 1 pulgada" sin nombrar dónde se mide, el proveedor controla el disparador.
 
 ## Pre-tratan para eventos pronosticados
 
@@ -726,11 +726,11 @@ Las reclamaciones de resbalones aparecen 7–21 días después de la tormenta. L
 
 ## Incluyen respuesta a resbalones por escrito
 
-La cláusula más importante: "Al notificar incidente de resbalón, vendor regresa a la propiedad en 24 horas".
+La cláusula más importante: "Al notificar incidente de resbalón, el proveedor regresa a la propiedad en 24 horas".
 
 ## Limitan el costo de temporada o definen ilimitado explícitamente
 
-El precio por evento te protege en inviernos ligeros y te expone en pesados. Un contrato por evento con tope a 28 eventos transfiere parte del riesgo de invierno pesado al vendor.
+El precio por evento te protege en inviernos ligeros y te expone en pesados. Un contrato por evento con tope a 28 eventos transfiere parte del riesgo de invierno pesado al proveedor.
 
 ## Qué hacer este octubre
 
@@ -742,11 +742,11 @@ Si tu contrato actual es renovación automática año a año, octubre es el mome
       {
         q: {
           en: "Can I get out of my current snow contract mid-season if the vendor isn't performing?",
-          es: '¿Puedo salir de mi contrato actual a mitad de temporada si el vendor no rinde?',
+          es: '¿Puedo salir de mi contrato actual a mitad de temporada si el proveedor no rinde?',
         },
         a: {
           en: 'Most contracts have a cure period: you document the failures, send written notice, the vendor has 7–14 days to fix. If they don\'t, the contract terminates. The trigger is documentation; without it, the cure clause is unenforceable.',
-          es: 'La mayoría de contratos tiene un período de cura: documentas las fallas, envías aviso por escrito, el vendor tiene 7–14 días para arreglar. Si no lo hace, el contrato termina.',
+          es: 'La mayoría de contratos tiene un período de cura: documentas las fallas, envías aviso por escrito, el proveedor tiene 7–14 días para arreglar. Si no lo hace, el contrato termina.',
         },
       },
       {

@@ -45,8 +45,8 @@
       },
       "snow-removal": {
         "tag": "Remoción de Nieve",
-        "h3": "Arado al amanecer.",
-        "desc": "Entradas, senderos, deshielo y arado comercial. Despacho 24/7, respuesta en 2 horas tras activación.",
+        "h3": "Nieve limpia al amanecer.",
+        "desc": "Entradas, senderos, deshielo y remoción comercial de nieve. Despacho 24/7, respuesta en 2 horas tras activación.",
         "cta": "Explorar Remoción de Nieve",
         "alt": "Una entrada recién arada al amanecer con la nieve apilada limpiamente a un lado."
       }
@@ -307,7 +307,7 @@
         "items": {
           "one": {"q": "¿Ofrecen visitas únicas o solo contratos?", "a": "Ambas. La mayoría de clientes de césped prefieren un contrato de temporada por consistencia, pero hacemos limpiezas únicas, consultas de diseño y proyectos sin compromiso recurrente."},
           "two": {"q": "¿Qué tan rápido pueden empezar?", "a": "El cuidado de césped y la limpieza de temporada normalmente empiezan en dos semanas. Diseño y hardscape dependen del alcance — la mayoría agendan en cuatro a seis semanas tras aprobar el presupuesto."},
-          "three": {"q": "¿Los presupuestos son gratis?", "a": "Sí — visita, mediciones y presupuesto detallado son gratis. Los cotizaciones llegan a tu correo en 48 horas tras la visita."},
+          "three": {"q": "¿Los presupuestos son gratis?", "a": "Sí — visita, mediciones y presupuesto detallado son gratis. Las cotizaciones llegan a tu correo en 48 horas tras la visita."},
           "four": {"q": "¿Atienden a HOAs?", "a": "Sí — trabajamos con propietarios individuales dentro de HOAs y con juntas de HOA directamente. Manejamos documentación de cumplimiento, RFPs y facturación estandarizada."},
           "five": {"q": "¿Están asegurados?", "a": "Sí — $2M de responsabilidad general y compensación laboral completa. Certificados de seguro disponibles a pedido antes de la primera visita."}
         }
@@ -336,7 +336,7 @@
         "secondary": "Ver Proyectos Comerciales"
       },
       "qualifier": {
-        "eyebrow": "PARA PROPERTY MANAGERS DE DUPAGE",
+        "eyebrow": "PARA ADMINISTRADORES DE PROPIEDADES DE DUPAGE",
         "h2": "Para quién es esto.",
         "body": "Si manejas oficinas, HOAs o propiedades comerciales en DuPage y quieres un solo equipo con un solo property manager — equipos uniformados, COI en archivo, sin carreras fuera de horario — esta página es para ti.",
         "pills": {
@@ -363,7 +363,7 @@
       },
       "whySunset": {
         "eyebrow": "POR QUÉ SUNSET",
-        "h2": "Construido para property managers.",
+        "h2": "Construido para administradores de propiedades.",
         "props": {
           "one": {"headline": "COI antes del primer día", "description": "Certificado de seguro enviado durante la integración.", "icon": "ShieldCheck"},
           "two": {"headline": "Equipos uniformados con vehículos de marca", "description": "Responsabilidad visible en cada sitio.", "icon": "Truck"},
@@ -372,7 +372,7 @@
         }
       },
       "socialProof": {
-        "eyebrow": "DE PROPERTY MANAGERS",
+        "eyebrow": "DE ADMINISTRADORES DE PROPIEDADES",
         "h2": "Reseñado por managers comerciales.",
         "reviews": {
           "one": {"quote": "Mismo property manager por cuatro años seguidos. Conocen nuestros edificios y nuestros ciclos de presupuesto.", "name": "Lisa R.", "city": "Parque de oficinas en Naperville"},
@@ -688,7 +688,7 @@
       "label": "Impermeabilización",
       "meta": {
         "title": "Impermeabilización y Cimientos en DuPage County — Sunset Services",
-        "description": "Impermeabilización de sótanos, reparación de cimientos, bombas de sumidero, drenaje del jardín, canaletas, pozos de ventana, sótanos de acceso, levantamiento de concreto, control de humedad y mitigación de radón."
+        "description": "Impermeabilización de sótanos, reparación de cimientos, bombas de sumidero, drenaje del jardín, canaletas, pozos de ventana, espacios bajo el piso, nivelación de concreto, control de humedad y mitigación de radón."
       },
       "hero": {
         "kicker": "DIVISIÓN IMPERMEABILIZACIÓN",
@@ -701,7 +701,7 @@
       "qualifier": {
         "eyebrow": "PARA PROPIETARIOS DE DUPAGE",
         "h2": "Para quién es esta página.",
-        "body": "Si tu sótano se filtra cada primavera, tu cimiento tiene grietas finas, tu jardín se encharca tras la lluvia o tu sótano de acceso huele a humedad — esta página es para ti. Diagnosticamos la fuente antes de venderte una solución.",
+        "body": "Si tu sótano se filtra cada primavera, tu cimiento tiene grietas finas, tu jardín se encharca tras la lluvia o tu espacio bajo el piso huele a humedad — esta página es para ti. Diagnosticamos la fuente antes de venderte una solución.",
         "pills": {
           "one": "Diagnóstico primero",
           "two": "10 servicios en una división",
@@ -772,11 +772,11 @@
       "label": "Remoción de Nieve",
       "meta": {
         "title": "Remoción de Nieve en DuPage County — Sunset Services",
-        "description": "Arado de entradas, pala de senderos, deshielo y arado comercial para hogares, HOAs y oficinas en DuPage. Despacho 24/7, respuesta en 2 horas tras activación."
+        "description": "Limpieza de entradas, limpieza de aceras, deshielo y remoción comercial de nieve para hogares, HOAs y oficinas en DuPage. Despacho 24/7, respuesta en 2 horas tras activación."
       },
       "hero": {
         "kicker": "DIVISIÓN REMOCIÓN DE NIEVE",
-        "h1": "Arado antes de que te levantes.",
+        "h1": "Entrada limpia antes de que te levantes.",
         "subhead": "Entradas, senderos, deshielo, lotes comerciales — cuatro servicios cubriendo todo escenario de nieve en DuPage County. Despacho 24/7, respuesta en 2 horas tras activación.",
         "alt": "Una entrada recién arada con nieve apilada limpiamente a un lado al amanecer tras una tormenta nocturna.",
         "primary": "Obtén un Estimado Gratis",
@@ -814,8 +814,8 @@
         "props": {
           "one": {"headline": "Respuesta en 2 horas", "description": "Te atienden antes de que la mayoría se levante.", "icon": "Clock"},
           "two": {"headline": "Despacho 24/7", "description": "¿Tormenta a las 2am? Ya vamos en camino.", "icon": "PhoneCall"},
-          "three": {"headline": "Flotilla asegurada", "description": "Cobertura por daños en cada vehículo de arado.", "icon": "ShieldCheck"},
-          "four": {"headline": "Pasada de borde incluida", "description": "Segunda pasada tras el arado del pueblo.", "icon": "Repeat"}
+          "three": {"headline": "Flotilla asegurada", "description": "Cobertura por daños en cada vehículo de remoción de nieve.", "icon": "ShieldCheck"},
+          "four": {"headline": "Pasada de borde incluida", "description": "Segunda pasada después de que pasa el quitanieves municipal.", "icon": "Repeat"}
         }
       },
       "socialProof": {
@@ -840,7 +840,7 @@
           "two": {"q": "¿Cuál es la activación?", "a": "2 pulgadas por defecto. Por debajo de 2 pulgadas no atendemos residencial. Los contratos comerciales pueden especificar activación menor (1 pulgada o manejo de hielo sin activación) por un cargo adicional."},
           "three": {"q": "¿Cuál es su tiempo de respuesta?", "a": "2 horas desde la activación en residencial. 2 horas por SLA contratado en comercial. Despachamos en olas — las rutas residenciales corren después de las cuentas comerciales."},
           "four": {"q": "¿Hacen solo deshielo?", "a": "Sí — el deshielo es un servicio independiente. Sal pet-safe en residencial, sal calibrada o eco-melt en comercial según el contrato."},
-          "five": {"q": "¿Qué pasa si cancelo a mitad de temporada?", "a": "Los contratos de temporada no se cancelan a mitad; el precio asume el trabajo de la temporada completa. El servicio por evento es pague-según-use y puedes parar cuando quieras."}
+          "five": {"q": "¿Qué pasa si cancelo a mitad de temporada?", "a": "Los contratos de temporada no se cancelan a mitad; el precio asume el trabajo de la temporada completa. El servicio por evento es de pago por uso y puedes parar cuando quieras."}
         }
       },
       "cta": {
@@ -1773,7 +1773,7 @@
       },
       "snow-removal": {
         "title": "Remoción de nieve",
-        "dek": "Entradas, banquetas, deshielo, arado comercial 24/7.",
+        "dek": "Entradas, banquetas, deshielo, remoción comercial 24/7.",
         "alt": "Una entrada recién despejada al amanecer con la nieve apilada limpiamente a un lado."
       }
     },

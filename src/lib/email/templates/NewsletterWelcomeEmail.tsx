@@ -34,8 +34,8 @@ const COPY = {
   es: {
     // Native Spanish review folds into Phase M.03. Tone: usted
     // (visitor-facing transactional).
-    preheader: 'Bienvenido al boletín de Sunset Services',
-    h1: 'Bienvenido a Sunset Services',
+    preheader: 'Le damos la bienvenida al boletín de Sunset Services',
+    h1: 'Le damos la bienvenida a Sunset Services',
     body:
       'Ya está suscrito. Una vez al mes compartimos consejos de temporada, proyectos destacados y alguna oferta puntual. Sin spam, sin envíos diarios.',
     quickHeading: 'Vale la pena ver',
@@ -53,6 +53,7 @@ export function NewsletterWelcomeEmail({
   unsubscribeUrl,
 }: NewsletterWelcomeEmailProps) {
   const c = COPY[locale];
+  const recipientLine = locale === 'es' ? `Enviado a ${email}.` : `Sent to ${email}.`;
   return (
     <EmailLayout
       locale={locale}
@@ -72,7 +73,7 @@ export function NewsletterWelcomeEmail({
         <EmailButton variant="primary" href={`${T.business.website}/request-quote`} text={c.quote} />
       </Section>
 
-      <Text style={recipientLineStyle}>Sent to {email}.</Text>
+      <Text style={recipientLineStyle}>{recipientLine}</Text>
       <Text style={signoffStyle}>{c.signoff}</Text>
     </EmailLayout>
   );

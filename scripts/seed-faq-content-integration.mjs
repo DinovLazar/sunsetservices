@@ -18,7 +18,7 @@
  * to re-run; second run is a no-op replace with the same payload. Voice
  * matches the existing FAQ corpus (direct, 2-4 sentences, no marketing
  * puffery). ES is first-pass per Sunset-Services-TRANSLATION_NOTES.md
- * §M.01f1 — `usted` register (informational surface), no [TBR] markers.
+ * §M.01f1 — `usted` register (informational surface), no review markers.
  *
  * Run via:
  *   npx tsx scripts/seed-faq-content-integration.mjs

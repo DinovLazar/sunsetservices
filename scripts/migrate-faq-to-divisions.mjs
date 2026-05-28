@@ -223,13 +223,13 @@ const SNOW_COMMON = [
     },
     a: {
       en: 'Yes — $2M general liability plus full property-damage coverage on every plow on the road. COI sent during onboarding before the first storm. Slip-and-fall coverage on commercial accounts in case of incident at a serviced lot.',
-      es: 'Sí — $2M de responsabilidad general más cobertura completa por daños en cada vehículo de arado. COI enviado durante la integración antes de la primera tormenta. Cobertura por resbalones en cuentas comerciales en caso de incidente en un lote atendido.',
+      es: 'Sí — $2M de responsabilidad general más cobertura completa por daños en cada vehículo de remoción de nieve. COI enviado durante la integración antes de la primera tormenta. Cobertura por resbalones en cuentas comerciales en caso de incidente en un lote atendido.',
     },
   },
   {
     q: {
       en: 'Do you do de-icing only, without plowing?',
-      es: '¿Hacen solo deshielo sin arado?',
+      es: '¿Hacen solo deshielo sin remoción de nieve?',
     },
     a: {
       en: 'Yes — de-icing is a standalone service. Pet-safe melt on residential, calibrated salt or eco-melt on commercial per the contract spec. Useful for properties where the village plows the drive but the walks need treatment.',

@@ -1553,3 +1553,38 @@ Closes three visible loose ends on the homepage (cluttered old logo, stale 3-aud
 - **Vercel Preview verification:** carryover — operator runs harnesses against the Preview URL post-merge.
 
 **Decided by:** Chat (operator gave M.10c plan + addendum); execution decisions surfaced + resolved by Code during the worktree run.
+
+---
+
+## 2026-05-27 - Phase M.03 scope shift: Codex-driven LLM Spanish review
+
+The original M.03 design assumed Erick Valle, or a native Spanish-speaking designate, would read the Spanish site and Cowork would apply corrections. Goran decided in Chat that no native reviewer is queued for the launch window. Instead, Codex executes M.03 as the highest-quality LLM-driven Spanish review pass possible against the locked `Sunset-Services-TRANSLATION_NOTES.md` section M.01f1 glossary and register matrix.
+
+This means launch ships with first-pass Spanish that has not been read by a human native speaker. The launch acceptance criterion in `Sunset-Services-Plan.md` section 14 ("native Spanish review complete") is therefore technically unmet at launch. Goran accepted this trade-off explicitly, and M.03 closes anyway as an LLM review, not as a substitute for native judgment.
+
+What Codex's M.03 review can validate:
+
+- Grammar correctness: conjugation, gender and number agreement, accents, inverted punctuation, and common mechanical errors.
+- Glossary consistency against section M.01f1, including the 4 division names, 28 service names, common terms, and brand/proper nouns.
+- Register consistency: `tú` on locked marketing/persona surfaces and `usted` on legal, forms, transactional, informational, and visitor-facing email surfaces.
+- Common LLM-Spanish tells: false cognates, English word order, dropped accent marks, gender mismatches, awkward direct-translation idioms, and over-marketed phrasing.
+- ICU placeholder and React/i18n interpolation integrity: placeholders, variables, tags, and PortableText structure remain intact.
+- Brand/proper-noun consistency: "Sunset Services", "Unilock", division names, city names, and service slugs stay spelled consistently.
+
+What Codex's M.03 review cannot validate:
+
+- Whether the Spanish sounds like Erick would actually say it.
+- Whether it reads fully natural to a Hispanic homeowner in Aurora specifically.
+- Whether subtle regional preferences matter for the Mexico-leaning LatAm audience.
+- Whether any surface needs a rewrite for warmth, persuasion, or local tone beyond translation correctness.
+
+Those judgments require a human native speaker. Post-launch native review remains a deferred task. Per Goran's direction, do not add a phase row to `Sunset-Services-Phase-Plan-Continuation.md` for that future review; this decision entry is the only place it is logged until the team is ready to commission the work as a new phase.
+
+The 4 boundary-case decisions flagged by M.01f1 stay flagged. Codex does not resolve them unilaterally in M.03:
+
+1. "driveway" -> `entradas` currently used vs `cocheras` in the locked glossary.
+2. "free estimate" CTA -> established `Presupuesto` vs M.01f1 preference for `estimado` in new content.
+3. "Hardscape" -> kept in English in the established site voice.
+4. Wizard register -> mixed `tú` UI plus `usted` Step 4 PII boundary.
+
+Native review after launch decides those four items.

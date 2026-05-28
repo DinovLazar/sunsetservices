@@ -99,6 +99,15 @@ export const quoteLeadPartial = defineType({
       ],
     }),
     defineField({
+      name: 'photos',
+      type: 'array',
+      title: 'Photos',
+      of: [{type: 'image', options: {hotspot: false}}],
+      validation: (r) => r.max(10),
+      description:
+        'Up to 10 photos uploaded by the visitor while filling Steps 1–3 (Phase B.11). Persisted on partial-lead writes so abandoners\' photos surface in Sanity Studio even if the visitor never finishes Step 5.',
+    }),
+    defineField({
       name: 'converted',
       type: 'boolean',
       title: 'Converted to full lead?',

@@ -1,11 +1,11 @@
 import {getTranslations} from 'next-intl/server';
 import {Link} from '@/i18n/navigation';
-import type {ProjectAudience} from '@/data/projects';
+import type {Division} from '@/data/services';
 
 type PaginationProps = {
   currentPage: number;
   totalPages: number;
-  audience: ProjectAudience | undefined;
+  division: Division | undefined;
 };
 
 /**
@@ -15,15 +15,16 @@ type PaginationProps = {
  *
  * URL contract:
  *   - `?page=1` is omitted (canonical is `/projects/` or
- *     `/projects/?audience=…`).
- *   - Combines with audience filter.
+ *     `/projects/?division=…`).
+ *   - Combines with the division filter (Phase M.10c addendum D8 — was
+ *     `?audience=` pre-M.10c).
  *
  * Renders nothing when `totalPages <= 1`.
  */
 export default async function Pagination({
   currentPage,
   totalPages,
-  audience,
+  division,
 }: PaginationProps) {
   const t = await getTranslations('projects.pagination');
 
@@ -31,7 +32,7 @@ export default async function Pagination({
 
   function pageHref(n: number): string {
     const params = new URLSearchParams();
-    if (audience) params.set('audience', audience);
+    if (division) params.set('division', division);
     if (n > 1) params.set('page', String(n));
     const qs = params.toString();
     return qs ? `/projects/?${qs}` : '/projects/';

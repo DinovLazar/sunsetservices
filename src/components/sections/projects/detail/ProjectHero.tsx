@@ -2,6 +2,9 @@ import Image from 'next/image';
 import Breadcrumb from '@/components/ui/Breadcrumb';
 import {getLocation} from '@/data/locations';
 import type {Project} from '@/data/projects';
+import {SERVICES} from '@/data/services';
+import {getProjectDivision} from '@/lib/projects/getProjectDivision';
+import {stripStreetNumber} from '@/lib/projects/stripStreetNumber';
 import {PROJECT_LEAD} from '@/data/imageMap';
 import {getTranslations} from 'next-intl/server';
 
@@ -32,6 +35,9 @@ export default async function ProjectHero({project, locale, breadcrumbItems}: Pr
   const city = getLocation(project.citySlug);
   const cityName = city?.name ?? project.citySlug;
   const photo = project.leadImageUrl ?? PROJECT_LEAD[project.slug];
+  // Phase M.10c addendum — division-derived badge (was project.audience).
+  const division = getProjectDivision(project, SERVICES);
+  const displayTitle = stripStreetNumber(project.title[locale]);
 
   return (
     <section
@@ -66,7 +72,7 @@ export default async function ProjectHero({project, locale, breadcrumbItems}: Pr
                 color: 'var(--color-sunset-green-700)',
               }}
             >
-              {tTag(project.audience)}
+              {tTag(division)}
             </span>
             <h1
               id="project-hero-h1"
@@ -79,7 +85,7 @@ export default async function ProjectHero({project, locale, breadcrumbItems}: Pr
                 maxWidth: '18ch',
               }}
             >
-              {project.title[locale]}
+              {displayTitle}
             </h1>
             <p
               className="m-0 mt-6 max-w-[56ch]"

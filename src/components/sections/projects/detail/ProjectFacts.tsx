@@ -5,6 +5,7 @@ import AnimateIn from '@/components/global/motion/AnimateIn';
 import {SERVICES, getService, type Division} from '@/data/services';
 import {getLocation} from '@/data/locations';
 import type {Project} from '@/data/projects';
+import {getProjectDivision} from '@/lib/projects/getProjectDivision';
 
 type Locale = 'en' | 'es';
 
@@ -26,7 +27,9 @@ export default async function ProjectFacts({project, locale}: ProjectFactsProps)
 
   const city = getLocation(project.citySlug);
   const cityName = city?.name ?? project.citySlug;
-  const audienceLabel = tTag(project.audience);
+  // Phase M.10c addendum — division-derived label + href (was audience).
+  const division = getProjectDivision(project, SERVICES);
+  const divisionLabel = tTag(division);
 
   const resolvedServices = project.serviceSlugs
     .map((slug) => {
@@ -35,11 +38,7 @@ export default async function ProjectFacts({project, locale}: ProjectFactsProps)
       return svc ? {slug: svc.slug, name: svc.name[locale], division: svc.division} : null;
     })
     .filter(Boolean) as {slug: string; name: string; division: Division}[];
-  const audienceHref = resolvedServices[0]?.division
-    ? `/${resolvedServices[0].division}/`
-    : project.audience === 'hardscape'
-      ? '/hardscape/'
-      : '/landscape/';
+  const divisionHref = `/${division}/`;
 
   return (
     <section
@@ -113,7 +112,7 @@ export default async function ProjectFacts({project, locale}: ProjectFactsProps)
                 </Link>
               </dd>
             </div>
-            {/* Audience */}
+            {/* Division (Phase M.10c addendum — was Audience) */}
             <div className="border-b border-[var(--color-border)] pb-4">
               <dt
                 className="font-heading uppercase m-0"
@@ -124,7 +123,7 @@ export default async function ProjectFacts({project, locale}: ProjectFactsProps)
                   fontWeight: 600,
                 }}
               >
-                {t('audience')}
+                {t('division')}
               </dt>
               <dd
                 className="m-0 mt-1"
@@ -134,11 +133,11 @@ export default async function ProjectFacts({project, locale}: ProjectFactsProps)
                 }}
               >
                 <Link
-                  href={audienceHref}
+                  href={divisionHref}
                   className="link link-inline"
                   style={{color: 'var(--color-sunset-green-700)', fontWeight: 500}}
                 >
-                  {audienceLabel}
+                  {divisionLabel}
                 </Link>
               </dd>
             </div>

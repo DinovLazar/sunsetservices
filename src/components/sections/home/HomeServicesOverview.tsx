@@ -5,6 +5,7 @@ import {Link} from '@/i18n/navigation';
 import AnimateIn from '@/components/global/motion/AnimateIn';
 import StaggerContainer from '@/components/global/motion/StaggerContainer';
 import StaggerItem from '@/components/global/motion/StaggerItem';
+import type {Division} from '@/data/services';
 import lawnCareSrc from '@/assets/home/service-lawn-care.jpg';
 import patiosSrc from '@/assets/home/service-patios.jpg';
 import wallsSrc from '@/assets/home/service-walls.jpg';
@@ -15,46 +16,58 @@ import snowSrc from '@/assets/home/service-snow.jpg';
 import kitchensSrc from '@/assets/home/service-kitchens.jpg';
 import fireSrc from '@/assets/home/service-fire.jpg';
 
-type Audience = 'residential' | 'commercial' | 'hardscape';
-
 type Service = {
   key: string;
-  audience: Audience;
+  division: Division;
   href: string;
   photo: StaticImageData;
 };
 
 /**
  * Curation per handover §5.4: 4 hardscape (highest-margin) + 4 landscape
- * services + 1 snow-removal commercial signature.
+ * services + 1 snow-removal commercial signature. Phase M.10c flipped the
+ * per-tile badge from the retired 3-audience scheme to the 4-division IA
+ * (locked decision D2). No waterproofing tile is in the curated 9.
  */
 const SERVICES: Service[] = [
-  {key: 'lawnCare', audience: 'residential', href: '/landscape/lawn-care/', photo: lawnCareSrc},
-  {key: 'patios', audience: 'hardscape', href: '/hardscape/patios-walkways/', photo: patiosSrc},
-  {key: 'walls', audience: 'hardscape', href: '/hardscape/retaining-walls/', photo: wallsSrc},
-  {key: 'design', audience: 'residential', href: '/landscape/landscape-design/', photo: designSrc},
-  {key: 'trees', audience: 'residential', href: '/landscape/tree-services/', photo: treesSrc},
-  {key: 'sprinklers', audience: 'residential', href: '/landscape/sprinkler-systems/', photo: sprinklersSrc},
-  {key: 'snow', audience: 'commercial', href: '/snow-removal/commercial-snow-plowing/', photo: snowSrc},
-  {key: 'kitchens', audience: 'hardscape', href: '/hardscape/outdoor-kitchens/', photo: kitchensSrc},
-  {key: 'fire', audience: 'hardscape', href: '/hardscape/fire-pits-features/', photo: fireSrc},
+  {key: 'lawnCare', division: 'landscape', href: '/landscape/lawn-care/', photo: lawnCareSrc},
+  {key: 'patios', division: 'hardscape', href: '/hardscape/patios-walkways/', photo: patiosSrc},
+  {key: 'walls', division: 'hardscape', href: '/hardscape/retaining-walls/', photo: wallsSrc},
+  {key: 'design', division: 'landscape', href: '/landscape/landscape-design/', photo: designSrc},
+  {key: 'trees', division: 'landscape', href: '/landscape/tree-services/', photo: treesSrc},
+  {key: 'sprinklers', division: 'landscape', href: '/landscape/sprinkler-systems/', photo: sprinklersSrc},
+  {key: 'snow', division: 'snow-removal', href: '/snow-removal/commercial-snow-plowing/', photo: snowSrc},
+  {key: 'kitchens', division: 'hardscape', href: '/hardscape/outdoor-kitchens/', photo: kitchensSrc},
+  {key: 'fire', division: 'hardscape', href: '/hardscape/fire-pits-features/', photo: fireSrc},
 ];
 
-/** Audience-color dot per handover §5.4. */
-const DOT_COLOR: Record<Audience, string> = {
-  residential: 'var(--color-sunset-green-500)',
-  commercial: 'var(--color-bg-charcoal)',
+/**
+ * Per-division dot color. Mirrors the `[data-division='<slug>']` accent
+ * tokens in `globals.css` so the dot color matches the rest of the site's
+ * division-accent rendering. Waterproofing is defined for completeness;
+ * no waterproofing tile is in the curated 9 today.
+ */
+const DOT_COLOR: Record<Division, string> = {
+  landscape: 'var(--color-sunset-green-700)',
   hardscape: 'var(--color-sunset-amber-700)',
+  waterproofing: 'var(--color-sunset-green-900)',
+  'snow-removal': 'var(--color-text-primary)',
 };
 
-const AUDIENCE_CTAS: Array<{key: Audience; href: string}> = [
-  {key: 'residential', href: '/landscape/'},
-  {key: 'commercial', href: '/snow-removal/'},
+/**
+ * Phase M.10c — bottom CTA row now ships 4 division entries (was 3
+ * audiences). Locked decision D4. Layout: 1-col xs, 2-col sm/md, 4-col lg+.
+ */
+const DIVISION_CTAS: Array<{key: Division; href: string}> = [
+  {key: 'landscape', href: '/landscape/'},
   {key: 'hardscape', href: '/hardscape/'},
+  {key: 'waterproofing', href: '/waterproofing/'},
+  {key: 'snow-removal', href: '/snow-removal/'},
 ];
 
 export default async function HomeServicesOverview() {
   const t = await getTranslations('home.services');
+  const tDivisions = await getTranslations('home.divisions');
 
   return (
     <section
@@ -133,11 +146,11 @@ export default async function HomeServicesOverview() {
                         width: '8px',
                         height: '8px',
                         borderRadius: '9999px',
-                        background: DOT_COLOR[s.audience],
+                        background: DOT_COLOR[s.division],
                         flexShrink: 0,
                       }}
                     />
-                    {t(`audience.${s.audience}`)}
+                    {tDivisions(`${s.division}.tag`)}
                   </p>
                 </div>
               </Link>
@@ -145,11 +158,11 @@ export default async function HomeServicesOverview() {
           ))}
         </StaggerContainer>
 
-        {/* D3 ratified — three audience-landing buttons, side-by-side
-            desktop / full-width stacked mobile. */}
+        {/* Phase M.10c D4 — four division-landing buttons. 4-col lg+,
+            2-col sm/md, stacked xs. Reuses the existing .btn-secondary class. */}
         <AnimateIn variant="fade-up" className="mt-10 lg:mt-14">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 lg:gap-4">
-            {AUDIENCE_CTAS.map((cta) => (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-4">
+            {DIVISION_CTAS.map((cta) => (
               <Link
                 key={cta.key}
                 href={cta.href}

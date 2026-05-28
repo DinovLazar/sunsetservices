@@ -401,7 +401,7 @@ Todo contratista legítimo carga responsabilidad general y compensación a traba
 
 ## Confirma que han hecho tu trabajo específico
 
-Jardín, hardscape y manejo de nieve son tres negocios distintos. Una cuadrilla que corta 800 jardines por semana no es la cuadrilla correcta para un patio de adoquines de 600 pies², y una cuadrilla de hardscape no se va a presentar confiable para nieve a las 4 a.m. Pregunta: "¿Cuándo fue la última vez que hicieron este trabajo exacto? ¿Pueden darme tres direcciones locales por donde pueda pasar?" Si dudan, tienes tu respuesta.
+Jardín, hardscape y manejo de nieve son tres negocios distintos. Una cuadrilla que corta 800 jardines por semana no es la cuadrilla correcta para un patio de adoquines de 600 pies², y una cuadrilla de hardscape no necesariamente va a presentarse de forma confiable para nieve a las 4 a.m. Pregunta: "¿Cuándo fue la última vez que hicieron este trabajo exacto? ¿Pueden darme tres direcciones locales por donde pueda pasar?" Si dudan, tienes tu respuesta.
 
 ## Obtén un alcance escrito, línea por línea
 
@@ -441,7 +441,7 @@ Illinois tiene un derecho de rescisión de tres días en contratos firmados en c
 
 Le damos a cada cliente prospecto una cotización de una página que lista cada especificación por línea. Nombramos al capataz. Adjuntamos el certificado de seguro y la política de permiso. Listamos la garantía, por escrito, con duración. No siempre ganamos la cotización — a veces gana la barata porque el propietario no sabe que debe preguntar. Esperamos que esta guía cambie eso.
 
-Cuando estés listo para comparar cotizaciones en un proyecto real, [solicita una estimación gratis](/es/request-quote/) y te enviaremos la misma página. La puedes comparar lado a lado con las otras dos y ver qué les falta.`,
+Cuando estés listo para comparar cotizaciones en un proyecto real, [solicita un estimado gratis](/es/request-quote/) y te enviaremos la misma página. La puedes comparar lado a lado con las otras dos y ver qué les falta.`,
     },
   },
 
@@ -723,7 +723,7 @@ Si tres de los cuatro faltan, la cotización te está vendiendo "cuidado de jard
     byline: 'Erick Sotomayor',
     title: {
       en: 'Snow Removal Service Levels Explained for Property Managers',
-      es: 'Niveles de Servicio de Remoción de Nieve para Property Managers',
+      es: 'Niveles de Servicio de Remoción de Nieve para Administradores de Propiedades',
     },
     dek: {
       en: 'Three commercial snow service levels — what each one promises, what it costs, and how to write the contract that holds the vendor to it.',
@@ -738,7 +738,7 @@ Si tres de los cuatro faltan, la cotización te está vendiendo "cuidado de jard
       src: '/images/resources/snow-service-levels-for-pms.jpg',
       alt: {
         en: 'A commercial parking lot at sunrise, freshly plowed with snow piles at the perimeter and salt across the surface.',
-        es: 'Un estacionamiento comercial al amanecer, recién arado con pilas de nieve y sal en la superficie.',
+        es: 'Un estacionamiento comercial al amanecer, recién limpiado con pilas de nieve y sal en la superficie.',
       },
       width: 1280,
       height: 720,
@@ -848,11 +848,11 @@ If the bid carries fewer than six of the eight, you're looking at a vendor that 
 ## What we ship in our PM contracts
 
 Every Sunset Services PM contract includes the eight items above as standard language. We're happy to send a sample contract — most PMs find it useful to compare against the contract they have. Email us, or [request a free site walk](/request-quote/?from=resources) and we'll come measure the lot in person.`,
-      es: `Los property managers que operan sitios comerciales multi-inquilino en DuPage conocen las llamadas de nieve. La queja del inquilino a las 6 a.m. de que el lote no estaba arado a las 7. El correo del consejo HOA preguntando por qué la sal está en pilas en vez de esparcida. La reclamación de resbalón que aparece tres semanas después.
+      es: `Los administradores de propiedades que operan sitios comerciales multi-inquilino en DuPage conocen las llamadas de nieve. La queja del inquilino a las 6 a.m. de que el lote no estaba limpio a las 7. El correo del consejo HOA preguntando por qué la sal está en pilas en vez de esparcida. La reclamación de resbalón que aparece tres semanas después.
 
-Esta guía es el contrato que ojalá tu último vendor hubiera firmado. Tres niveles de servicio, qué significa cada uno en la práctica, y el lenguaje que mantiene a la cuadrilla cumpliendo.
+Esta guía es el contrato que ojalá tu último proveedor hubiera firmado. Tres niveles de servicio, qué significa cada uno en la práctica, y el lenguaje que mantiene a la cuadrilla cumpliendo.
 
-## Nivel 1: Arado Estándar
+## Nivel 1: Limpieza Estándar
 
 El nivel predeterminado. Activado a 2 pulgadas de acumulación. La cuadrilla llega en 4 horas. Ara una vez, sala el perímetro del lote, y se va.
 
@@ -862,16 +862,16 @@ La mayoría de los sitios comerciales de DuPage compra esto y se queja el resto 
 |---|---|
 | Disparador | 2 pulgadas |
 | Ventana de respuesta | 4 horas |
-| Pases de arado | 1 (post-tormenta) |
+| Pases de limpieza | 1 (post-tormenta) |
 | Sal | Solo perímetro |
 | Costo por evento | $180–$320 para 0.5 acre |
 | Mejor para | Retail mono-inquilino, sitios pequeños |
 
 ### Donde falla el Nivel 1
 
-Una oficina médica multi-inquilino recibe tráfico a las 6 a.m., 7, 8, y todo el día. A las 7 a.m. el lote está medio-arado y medio-pisado. El Nivel 1 está construido alrededor de la tormenta, no alrededor del horario de llegada de tus inquilinos.
+Una oficina médica multi-inquilino recibe tráfico a las 6 a.m., 7, 8, y todo el día. A las 7 a.m. el lote está medio limpio y medio pisoteado. El Nivel 1 está construido alrededor de la tormenta, no alrededor del horario de llegada de tus inquilinos.
 
-## Nivel 2: Arado Multi-Pase + Caminos
+## Nivel 2: Limpieza Multipase + Aceras
 
 Activado a 1 pulgada. La cuadrilla llega en 2 horas. Ara hasta tres veces durante la tormenta, sala perímetro y pasillos principales, y limpia caminos.
 
@@ -881,7 +881,7 @@ Este es el nivel correcto para la mayoría de sitios comerciales con tráfico an
 |---|---|
 | Disparador | 1 pulgada |
 | Ventana de respuesta | 2 horas |
-| Pases de arado | Hasta 3 durante + 1 limpieza post |
+| Pases de limpieza | Hasta 3 durante + 1 limpieza post |
 | Sal | Lote + caminos; reaplicación completa post |
 | Caminos | Entradas, rampas ADA, puertas |
 | Costo por evento | $420–$780 para 0.5 acre |
@@ -893,15 +893,15 @@ El Nivel 2 no incluye descongelado si la temperatura se mantiene sobre 0°C (sin
 
 ## Nivel 3: Premium Servicio Completo
 
-Activado en cualquier evento (nieve, aguanieve, lluvia helada, mixto). La cuadrilla está en sitio al disparador y permanece la duración de la tormenta.
+Activado en cualquier evento (nieve, aguanieve, lluvia helada, mixto). La cuadrilla está en sitio al alcanzarse el umbral y permanece durante la tormenta.
 
 Este es el nivel correcto para campus médicos, hospitalidad (hoteles), y cualquier propiedad donde una reclamación de resbalón cuesta más que una temporada de servicio premium. Hemos atendido dos sitios médicos en Naperville en este nivel por 15 años y no hemos registrado ninguna reclamación contra ninguna propiedad.
 
 | Especificación | Dónde debería estar |
 |---|---|
 | Disparador | Cualquier evento |
-| Respuesta | En sitio al disparador; permanece toda la tormenta |
-| Pases de arado | Continuo — ciclo mínimo de 60 minutos |
+| Respuesta | En sitio al alcanzarse el umbral; permanece toda la tormenta |
+| Pases de limpieza | Continuo — ciclo mínimo de 60 minutos |
 | Sal | Lote + caminos; pre-tratamiento para pronóstico |
 | Caminos | Cada 60 minutos durante nieve activa |
 | Costo por evento | $1,200–$2,400 para 0.5 acre |
@@ -911,19 +911,19 @@ Este es el nivel correcto para campus médicos, hospitalidad (hoteles), y cualqu
 
 ## Lenguaje contractual que te protege
 
-Cualquier nivel que compres, el contrato debe especificar cinco cosas. Hemos visto vendors escabullirse de cada una con lenguaje vago.
+Cualquier nivel que compres, el contrato debe especificar cinco cosas. Hemos visto proveedores escabullirse de cada una con lenguaje vago.
 
 ### Profundidad del disparador en pulgadas, medida en el sitio
 
-"Arar a acumulación de 2 pulgadas medida en [dirección]" — no "arar según necesidad". Los vendors que controlan el disparador controlan la cuenta.
+"Remover nieve a una acumulación de 2 pulgadas medida en [dirección]" — no "según necesidad". Los proveedores que controlan el disparador controlan la cuenta.
 
 ### Ventana de respuesta en horas, con definición de inicio del reloj
 
-"Cuadrilla en sitio en 2 horas del disparador; el reloj empieza al alcanzar la profundidad en el sitio".
+"Cuadrilla en sitio dentro de 2 horas de alcanzarse el umbral; el reloj empieza al alcanzar la profundidad en el sitio".
 
 ### Volumen de sal, en libras por acre, por aplicación
 
-"100 lb/acre por pase; reaplicación completa post-tormenta". La sal es la línea que los vendors inflan. Libras-por-acre pone un número.
+"100 lb/acre por pase; reaplicación completa post-tormenta". La sal es la línea que los proveedores inflan. Libras por acre pone un número.
 
 ### Documentación: fotos con marca de tiempo, cada pase
 
@@ -931,7 +931,7 @@ Cualquier nivel que compres, el contrato debe especificar cinco cosas. Hemos vis
 
 ### Respuesta a resbalones en 24 horas
 
-"Al notificar incidente de resbalón, cuadrilla regresa en 24 horas a inspeccionar, fotografiar y re-tratar". Las primeras 24 horas son la ventana donde la respuesta del vendor apoya tu defensa de seguro o no.
+"Al notificar incidente de resbalón, la cuadrilla regresa en 24 horas a inspeccionar, fotografiar y volver a tratar". Las primeras 24 horas son la ventana donde la respuesta del proveedor apoya tu defensa de seguro o no.
 
 ## Cómo calificar una cotización
 
@@ -946,7 +946,7 @@ Pasa la cotización por esta lista:
 7.  Costo por evento — no por pulgada.
 8.  Cláusula de cancelación por eventos perdidos (3 strikes estándar).
 
-Si la cotización tiene menos de seis de ocho, estás viendo un vendor que quiere flexibilidad que lamentarás en febrero.`,
+Si la cotización tiene menos de seis de ocho, estás viendo un proveedor que quiere flexibilidad que lamentarás en febrero.`,
     },
     faq: [
       {

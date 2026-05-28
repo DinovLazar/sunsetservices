@@ -2956,7 +2956,7 @@ export const SERVICES: Service[] = [
       },
       subhead: {
         en: 'Encapsulation, insulation, vapor barriers, and dehumidification. We turn a damp crawl into conditioned storage that doesn\'t feed mold to the rooms above it.',
-        es: 'Encapsulación, aislamiento, barreras de vapor y deshumidificación. Convertimos un sótano húmedo en almacenamiento acondicionado que no alimenta moho hacia los cuartos de arriba.',
+        es: 'Encapsulación, aislamiento, barreras de vapor y deshumidificación. Convertimos un espacio bajo el piso húmedo en almacenamiento acondicionado que no alimenta moho hacia los cuartos de arriba.',
       },
       photoSlot: 'service.crawl-spaces.16x9',
     },
@@ -3007,14 +3007,14 @@ export const SERVICES: Service[] = [
         headline: {en: 'Inspection', es: 'Inspección'},
         description: {
           en: 'Crawl entry, moisture readings, mold check, structural look.',
-          es: 'Entrada al sótano, lecturas de humedad, revisión de moho y estructura.',
+          es: 'Entrada al espacio bajo el piso, lecturas de humedad, revisión de moho y estructura.',
         },
       },
       {
         headline: {en: 'Plan + estimate', es: 'Plan y estimado'},
         description: {
           en: 'Itemized in 48 hours: liner, insulation, dehu, mold treatment as needed.',
-          es: 'Detallado en 48 horas: liner, aislamiento, deshu, tratamiento si aplica.',
+          es: 'Detallado en 48 horas: liner, aislamiento, deshumidificador, tratamiento si aplica.',
         },
       },
       {
@@ -3053,7 +3053,7 @@ export const SERVICES: Service[] = [
         headline: {en: 'Annual check included', es: 'Revisión anual incluida'},
         description: {
           en: "We come back yearly to confirm the dehu is doing its job.",
-          es: 'Volvemos cada año para confirmar que el deshu hace su trabajo.',
+          es: 'Volvemos cada año para confirmar que el deshumidificador hace su trabajo.',
         },
         icon: 'Repeat',
       },
@@ -3071,7 +3071,7 @@ export const SERVICES: Service[] = [
         imageKey: 'landscape-maintenance-1',
       },
       {
-        title: {en: 'Naperville dehu retrofit', es: 'Retrofit de deshu en Naperville'},
+        title: {en: 'Naperville dehu retrofit', es: 'Actualización de deshumidificador en Naperville'},
         meta: {en: 'Naperville · 2024', es: 'Naperville · 2024'},
         imageKey: 'property-enhancement-2',
       },
@@ -3743,13 +3743,13 @@ export const SERVICES: Service[] = [
       },
       subhead: {
         en: 'Single-family driveway plowing — seasonal contracts and per-event service. 2-inch trigger, 24/7 dispatch, 2-hour response after the trigger fires.',
-        es: 'Arado de entradas residenciales — contratos de temporada y servicio por evento. Activación a 2 pulgadas, despacho 24/7, respuesta en 2 horas tras activación.',
+        es: 'Limpieza de entradas residenciales — contratos de temporada y servicio por evento. Activación a 2 pulgadas, despacho 24/7, respuesta en 2 horas tras activación.',
       },
       photoSlot: 'service.driveway-snow-removal.16x9',
     },
     whatsIncluded: [
       {
-        headline: {en: 'Driveway plow', es: 'Arado de entrada'},
+        headline: {en: 'Driveway plow', es: 'Limpieza de entrada'},
         description: {
           en: 'Cleared to pavement, snow piled away from doors and walks.',
           es: 'Limpiado al pavimento, nieve apilada lejos de puertas y senderos.',
@@ -3760,7 +3760,7 @@ export const SERVICES: Service[] = [
         headline: {en: 'Apron + curb cut', es: 'Acera y borde'},
         description: {
           en: 'Second pass after the village plow has come through.',
-          es: 'Segunda pasada tras el arado del pueblo.',
+          es: 'Segunda pasada después de que pasa el quitanieves municipal.',
         },
         icon: 'Truck',
       },
@@ -3800,14 +3800,14 @@ export const SERVICES: Service[] = [
         headline: {en: 'Service', es: 'Servicio'},
         description: {
           en: 'Plow + clean-up pass inside 2 hours of the trigger.',
-          es: 'Arado y limpieza dentro de 2 horas tras la activación.',
+          es: 'Limpieza y pasada final dentro de 2 horas tras la activación.',
         },
       },
       {
         headline: {en: 'Apron return pass', es: 'Pasada de borde'},
         description: {
           en: 'Return pass after the village plow comes through.',
-          es: 'Pasada de regreso tras el arado del pueblo.',
+          es: 'Pasada de regreso después de que pasa el quitanieves municipal.',
         },
       },
     ],
@@ -3824,7 +3824,7 @@ export const SERVICES: Service[] = [
         headline: {en: 'Apron return pass included', es: 'Pasada de borde incluida'},
         description: {
           en: 'Most contractors stop at one pass. We come back for the village pile.',
-          es: 'La mayoría de contratistas para en una pasada. Volvemos por la pila del pueblo.',
+          es: 'La mayoría de contratistas se detiene en una pasada. Volvemos por la pila que deja el municipio.',
         },
         icon: 'Repeat',
       },
@@ -3832,7 +3832,7 @@ export const SERVICES: Service[] = [
         headline: {en: 'Insured fleet', es: 'Flotilla asegurada'},
         description: {
           en: 'Property-damage coverage on every plow on the road.',
-          es: 'Cobertura por daños en cada vehículo de arado.',
+          es: 'Cobertura por daños en cada vehículo de remoción de nieve.',
         },
         icon: 'ShieldCheck',
       },
@@ -3883,10 +3883,10 @@ export const SERVICES: Service[] = [
     },
     whatsIncluded: [
       {
-        headline: {en: 'Parking lot plowing', es: 'Arado de estacionamientos'},
+        headline: {en: 'Parking lot plowing', es: 'Limpieza de estacionamientos'},
         description: {
           en: 'Multi-truck dispatch sized to the lot — big lots get tandem plows.',
-          es: 'Despacho de varios camiones según el lote — los grandes con arados en tándem.',
+          es: 'Despacho de varios camiones según el lote — los grandes con quitanieves en tándem.',
         },
         icon: 'Truck',
       },
@@ -3942,7 +3942,7 @@ export const SERVICES: Service[] = [
         headline: {en: 'Service', es: 'Servicio'},
         description: {
           en: 'Plow + treat per the contracted SLA — usually 2 hours after trigger.',
-          es: 'Arado y tratamiento según el SLA contratado — usualmente 2 horas tras activación.',
+          es: 'Limpieza y tratamiento según el SLA contratado — usualmente 2 horas tras activación.',
         },
       },
       {

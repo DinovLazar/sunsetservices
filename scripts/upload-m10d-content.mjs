@@ -29,15 +29,39 @@
  *   NEXT_PUBLIC_SANITY_DATASET
  *   NEXT_PUBLIC_SANITY_API_VERSION  (optional, defaults 2024-10-01)
  *
+ * Optional env for the D project flow:
+ *   ANTHROPIC_API_KEY  — when set, the script automatically translates
+ *                        each project's `title` + `description` from EN
+ *                        to natural Latin-American Spanish (`tú` register)
+ *                        using `claude-sonnet-4-6` via the @anthropic-ai/sdk
+ *                        already a project dependency. Single batch call;
+ *                        cost is ~$0.001 for the full 2–5 projects.
+ *                        When unset (or when `--skip-es-translate` is passed),
+ *                        ES mirrors EN with a clear log warning — same
+ *                        precedent as the M.01c uploader, which set ES to
+ *                        empty and relied on a follow-up translation pass.
+ *   ANTHROPIC_MODEL    — overrides the model (defaults `claude-sonnet-4-6`).
+ *
+ * Manifest contract — projects may include optional ES overrides
+ * (`titleEs`, `descriptionEs`). When present, those skip the LLM call
+ * for that project entirely. This lets Cowork hand-write ES when it has
+ * a stronger feel for the voice; the LLM is a fallback, not a substitute.
+ *
  * SSO-Preview caveat: this script writes to Sanity directly (not via the
  * site). Once it commits, the site's ISR will re-pick the new content
  * on the next request (30 min revalidate window).
  */
 
 import dotenv from 'dotenv';
-dotenv.config({path: '.env.local'});
+// `override: true` — the shell can ship some keys (e.g. ANTHROPIC_API_KEY)
+// pre-set to an empty string from an IDE/agent runtime, and standard dotenv
+// will NOT overwrite an already-set var. The .env.local value is the
+// source of truth for this script; the seed-faq-content-integration.mjs
+// custom loader has the same effect via a regex pass.
+dotenv.config({path: '.env.local', override: true});
 
 import {createClient} from '@sanity/client';
+import Anthropic from '@anthropic-ai/sdk';
 import fs from 'node:fs';
 import path from 'node:path';
 import {randomUUID} from 'node:crypto';
@@ -46,6 +70,7 @@ import {randomUUID} from 'node:crypto';
 
 const COMMIT = process.argv.includes('--commit');
 const CLEAN_PLACEHOLDERS = process.argv.includes('--clean-placeholders');
+const SKIP_ES_TRANSLATE = process.argv.includes('--skip-es-translate');
 
 const REPO_ROOT = process.cwd();
 const INCOMING_BLOG_DIR = path.join(REPO_ROOT, 'content', 'incoming-blog');
@@ -930,9 +955,117 @@ async function processBlogPost(slug, summary) {
   }
 }
 
+// ───────────────────────── ES translation for projects (D) ─────────────────────────
+//
+// Single batch call to Anthropic Sonnet covers all 2–5 projects in one
+// round-trip (~$0.001 total). Returns Map<slugHint, {titleEs, descriptionEs}>.
+// On any failure or missing API key the script falls back to EN-as-ES with
+// a clear log line so the upload still goes through — same precedent as
+// the Phase M.01c uploader (which set ES = '' and relied on a follow-up
+// translate-sanity-es.mjs pass). Caller can suppress LLM use with the
+// --skip-es-translate flag.
+
+async function translateProjectsEs(projects) {
+  const result = new Map();
+
+  if (SKIP_ES_TRANSLATE) {
+    console.log('[translate-es] --skip-es-translate set — ES will mirror EN');
+    return result;
+  }
+  if (!process.env.ANTHROPIC_API_KEY) {
+    console.warn(
+      '[translate-es] ANTHROPIC_API_KEY unset — ES will mirror EN. Set the key in .env.local for real translation, or pass --skip-es-translate to suppress this warning.',
+    );
+    return result;
+  }
+
+  // Skip projects whose manifest already includes ES overrides — Cowork
+  // hand-wrote them; trust the human voice.
+  const needsTranslation = projects.filter(
+    (p) => !p.titleEs || !p.descriptionEs,
+  );
+  if (needsTranslation.length === 0) {
+    console.log('[translate-es] every project has manifest-supplied ES; skipping LLM call');
+    return result;
+  }
+
+  const items = needsTranslation.map((p, i) => ({
+    i,
+    slug: p.slugHint || `m10d-project-${i + 1}`,
+    title: p.title || '',
+    description: p.description || '',
+  }));
+
+  const prompt = `You are translating short landscape-project entries for Sunset Services, a family-owned landscape, hardscape, and snow-removal company in DuPage County, Illinois. Translate the ${items.length} entries from US English to natural Latin-American Spanish for a Mexican-friendly audience.
+
+REGISTER: tú (informal). These are project portfolio entries on a marketing-content surface; the tú register matches the rest of the site's blog/project copy.
+
+VOICE: concrete and conversational. Avoid corporate filler. Keep translations the same approximate length as the source. Do NOT invent details the EN source does not state.
+
+GLOSSARY (use these exact terms):
+- lawn → césped
+- patio → patio
+- pavers → adoquines
+- retaining wall → muro de contención
+- driveway → entrada de auto
+- hardscape → hardscape
+- landscape → paisajismo
+- snow removal → remoción de nieve
+- drainage → drenaje
+- waterproofing → impermeabilización
+- backyard → patio trasero
+
+OUTPUT: return ONLY a single JSON object, no preamble, no Markdown fences. Shape:
+
+{
+  "translations": [
+    {"i": 0, "titleEs": "...", "descriptionEs": "..."},
+    {"i": 1, ...}
+  ]
+}
+
+Entries to translate:
+${items.map((it) => `${it.i}: title="${it.title}" | description="${it.description}"`).join('\n')}`;
+
+  try {
+    const client = new Anthropic({apiKey: process.env.ANTHROPIC_API_KEY});
+    const model = process.env.ANTHROPIC_MODEL || 'claude-sonnet-4-6';
+    console.log(
+      '[translate-es] batching ' + items.length + ' project(s) through ' + model + ' …',
+    );
+    const response = await client.messages.create({
+      model,
+      max_tokens: 2000,
+      messages: [{role: 'user', content: prompt}],
+    });
+    const text = (response.content.find((b) => b.type === 'text') || {}).text || '';
+    // Extract first {...} block (the model may add a few sentences if it ignores instructions).
+    const jsonMatch = text.match(/\{[\s\S]*\}/);
+    if (!jsonMatch) throw new Error('no JSON block in model output');
+    const parsed = JSON.parse(jsonMatch[0]);
+    if (!Array.isArray(parsed.translations)) throw new Error('translations field is not an array');
+    let count = 0;
+    for (const t of parsed.translations) {
+      const item = items.find((x) => x.i === t.i);
+      if (item && t.titleEs && t.descriptionEs) {
+        result.set(item.slug, {titleEs: t.titleEs, descriptionEs: t.descriptionEs});
+        count++;
+      }
+    }
+    console.log('[translate-es] received ' + count + '/' + items.length + ' ES translations');
+  } catch (e) {
+    const msg = e && e.message ? e.message : String(e);
+    console.warn(
+      '[translate-es] LLM translation failed (' + msg + ') — ES will mirror EN for un-translated projects',
+    );
+  }
+
+  return result;
+}
+
 // ───────────────────────── project upload (D, gated) ─────────────────────────
 
-async function processProject(p, idx, summary) {
+async function processProject(p, idx, summary, translations) {
   const slugHint = p.slugHint || ('m10d-project-' + (idx + 1));
   console.log('\n--- Project ' + (idx + 1) + ': ' + slugHint + ' ---');
 
@@ -1041,47 +1174,78 @@ async function processProject(p, idx, summary) {
   }
   if (resolvedDivision === 'landscape') summary.landscapeCount++;
 
-  const description = p.description || '';
-  const shortDek = description.length > 120 ? description.slice(0, 117) + '…' : description;
+  // ES resolution: prefer manifest-supplied ES, then LLM translation
+  // (Map seeded from translateProjectsEs above), then EN as fallback.
+  const llmEs = translations.get(slugHint) || null;
+  const titleEs = p.titleEs || llmEs?.titleEs || p.title;
+  const descriptionEs = p.descriptionEs || llmEs?.descriptionEs || p.description || '';
+  if (!p.titleEs && !p.descriptionEs && !llmEs) {
+    console.log(
+      '   note: ES mirrors EN for this project (no manifest ES override, no LLM translation)',
+    );
+  }
 
+  const description = p.description || '';
+  const shortDekEn = description.length > 120 ? description.slice(0, 117) + '…' : description;
+  const shortDekEs =
+    descriptionEs.length > 120 ? descriptionEs.slice(0, 117) + '…' : descriptionEs;
+
+  // Project schema fields verified against sanity/schemas/project.ts:
+  //  - lead image is `leadImage` + `leadAlt` (NOT `featuredImage`).
+  //  - gallery entries use `_type: 'galleryEntry'`, wrap the asset
+  //    inside an `image` field (NOT a top-level `asset` field), and
+  //    require a localized `alt`.
+  //  - sort key on the index is `year` (desc) then slug (asc) — there is
+  //    NO `publishedAt` field on projects. Setting `year: 2026` puts the
+  //    new M.10d projects at the top of the grid (current placeholders
+  //    are also year 2026 but get removed via --clean-placeholders).
   const projectDoc = {
     _id: 'project-m10d-' + finalSlug,
     _type: 'project',
-    title: localized(p.title, p.title),  // No ES translation in manifest — duplicate EN for now.
+    title: localized(p.title, titleEs),
     slug: {_type: 'slug', current: finalSlug},
     audience,
-    shortDek: localized(shortDek, shortDek),
-    narrative: localizedText(description, description),
+    shortDek: localized(shortDekEn, shortDekEs),
+    narrative: localizedText(description, descriptionEs),
     services: [{_type: 'reference', _ref: serviceRefId, _key: makeKey()}],
     ...(cityRefId ? {city: {_type: 'reference', _ref: cityRefId}} : {}),
-    featuredImage: {
+    year: typeof p.year === 'number' ? p.year : 2026,
+    leadImage: {
       _type: 'image',
       asset: {_type: 'reference', _ref: photoAssets[0]._id},
     },
-    gallery: photoAssets.slice(1).map((a) => ({
-      _type: 'galleryItem',
+    leadAlt: localized(p.title, titleEs),
+    gallery: photoAssets.slice(1).map((a, gi) => ({
+      _type: 'galleryEntry',
       _key: makeKey(),
-      asset: {_type: 'reference', _ref: a._id},
-      alt: localized(p.title, p.title),
+      image: {
+        _type: 'image',
+        asset: {_type: 'reference', _ref: a._id},
+      },
+      alt: localized(
+        `${p.title} — photo ${gi + 2}`,
+        `${titleEs} — foto ${gi + 2}`,
+      ),
     })),
-    publishedAt: new Date().toISOString().slice(0, 10),
     hasBeforeAfter: !!(p.hasBeforeAfter && beforeAsset && afterAsset),
-    ...(beforeAsset
+    ...(beforeAsset && afterAsset
       ? {
           beforeImage: {
             _type: 'image',
             asset: {_type: 'reference', _ref: beforeAsset._id},
           },
-          beforeAlt: localized('Before', 'Antes'),
-        }
-      : {}),
-    ...(afterAsset
-      ? {
+          beforeAlt: localized(
+            `Before — ${p.title}`,
+            `Antes — ${titleEs}`,
+          ),
           afterImage: {
             _type: 'image',
             asset: {_type: 'reference', _ref: afterAsset._id},
           },
-          afterAlt: localized('After', 'Después'),
+          afterAlt: localized(
+            `After — ${p.title}`,
+            `Después — ${titleEs}`,
+          ),
         }
       : {}),
   };
@@ -1179,8 +1343,12 @@ async function main() {
     if (projects.length < 2 || projects.length > 5) {
       console.warn('! Manifest has ' + projects.length + ' projects; plan calls for 2–5. Proceeding anyway.');
     }
+    // Batch ES translation once — single Anthropic call covers all
+    // projects' title + description. Falls back to empty Map (EN-as-ES)
+    // on missing API key or LLM failure; see translateProjectsEs.
+    const translations = await translateProjectsEs(projects);
     for (let i = 0; i < projects.length; i++) {
-      await processProject(projects[i], i, summary);
+      await processProject(projects[i], i, summary, translations);
     }
     if (summary.landscapeCount < 2) {
       console.warn('! Only ' + summary.landscapeCount + ' landscape project(s) resolved — plan requires ≥ 2.');

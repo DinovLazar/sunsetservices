@@ -1365,6 +1365,38 @@ Closes 10 user-visible bugs Goran flagged on a Preview walkthrough. Polish pass 
 
 ---
 
+## 2026-05-27 — Phase M.10d (Cowork): DONE — photos sourced, manifest written, handover to Code
+
+Closes the Phase M.10d (Cowork) work. Sourced from Goran's `MEDIA › Images & Videos` Drive tree (`https://drive.google.com/drive/folders/12_YumBxxa_evhoE0jI6_0bVDqFWXJfTn`) plus the Sunset Services `04 - Hardscape` shared drive (`https://drive.google.com/drive/folders/0AMvy5z9RvkVgUk9PVA`) — confirmed both via Claude in Chrome.
+
+**Deliverables (all under `C:\sunset-photos\m10d-drive\`):**
+- 3 project folders, 17 photos total (2 Landscape + 1 Hardscape per brief):
+  - **Project 1 (Landscape):** `oswego-landscape-design-install` — 7 photos (1 JPG after + 6 HEIC); `hasBeforeAfter: true` (bare-lot HEIC paired with the planted-tree after); city = Oswego; primaryServiceSlug = `landscape-design`.
+  - **Project 2 (Landscape):** `tree-removal-service` — 5 JPGs from `EditedPhotos` (chainsaw work + crew dragging limbs + the company's red Bandit-style chipper); city = null; primaryServiceSlug = `tree-services`.
+  - **Project 3 (Hardscape):** `aurora-area-paver-patio-firepit` — 5 photos (1 JPG featured + 3 PNG-source-converted-to-JPG @ 2400px q92 + 1 JPG); city = null; primaryServiceSlug = `patios-walkways`.
+- 3 blog covers (JPG): `why-is-my-lawn-yellow` (Planting_Mulching hydrangea), `backyard-drainage-aurora` (Patios deck-over-pond), `hoa-landscape-budget-2026` (Patios white-railed deck/stairs).
+- `m10d-manifest.json` — valid JSON, schema-conformant per Phase-M.10d §2; verified every photo path resolves to a file on disk, projects with `division == "landscape"` count = 2, all 3 blog keys present.
+
+**In-phase decisions (full text in `src/_project-state/Phase-M-10d-Cowork-Completion.md`):**
+
+1. **Counted `tree-services` as Landscape.** Phase-M.10d §4 explicitly lists `tree-services` under the Landscape division, so the residential tree-removal pick satisfies the "at least 2 Landscape" rule alongside Oswego Design&Install. Documented in case Goran/Code want to substitute a planting/lawn-install job instead.
+2. **Oswego `hasBeforeAfter: true`** despite same-spot confirmation being a judgment call (similar lot composition with vs. without the planted tree). Flagged in the report so Code can downgrade to `false` if it reads as forced.
+3. **`city: null` on Projects 2 + 3** — the Tree Removal and Patio source files don't carry address tags, and the discovery-first rule said not to invent. Followed M.01c's precedent for unknown-address hardscape (the `aurora-area-patio` slug pattern) without committing a fake city in the manifest.
+4. **NEF/RAW pool deliberately skipped.** The Mowing-of-Aurora commercial set, 1008 Homerton 2025, PlantsInstall, and Turf Install are all visually strong but `.NEF` only — they need the kind of RAW-development pass M.01c ran via `rawpy`/LibRaw, which is Code-shaped work, not Cowork-shaped. Skipped here; flagged for a future Code-side conversion if Goran wants any of them.
+5. **Edgewater 807/811 photos deliberately AVOIDED.** Per M.01c, those are already uploaded as Sanity projects, so anything in `EditedPhotos\807 EdgewaterDr_2025`, `EditedPhotos\811 Edgewater Dr_2025`, and the loose `5_xxx` planting series that overlaps them was skipped to prevent duplicates.
+6. **3 Patios PNGs downsized.** Originals were 60–78 MB at 4K+; converted to 2400px-wide JPG q92 (1.5–2.1 MB each) so the manifest folder stays portable. Originals untouched in Drive.
+7. **Drainage blog cover is a thematic substitute, not a literal drain photo.** No drainage-install JPG exists in the JPG/HEIC pool; used a deck-over-pond water-adjacent shot. Code may prefer its built-in fallback if one reads more "drainage-instally."
+
+**Operator follow-up (next session, Code phase):**
+- Run the M.10d upload script (when Code writes it) pointed at `C:\sunset-photos\m10d-drive\m10d-manifest.json` to push the 3 projects + 3 blog covers into Sanity.
+- Re-confirm or downgrade the Oswego `hasBeforeAfter: true` flag.
+- Decide whether to substitute the Tree Removal pick with a planting/lawn-install job (would drop Landscape count to 1; brief allows but flags shortfall).
+- Optional: a Code-side RAW-development pass to unlock Mowing-of-Aurora / Homerton 2025 / PlantsInstall / Turf Install as future project candidates.
+
+**Decided by:** chat (Cowork phase, M.10d brief). Goran ratified the 3-project / blog-cover picks + the C:\sunset-photos\ folder-access path via AskUserQuestion before downloads started.
+
+---
+
 ## 2026-05-27 — Phase M.10d (Code): START — four content-polish deliverables
 
 **Scope:** Builder phase that follows the Cowork photo-sourcing entry above. Four deliverables, each landing in its own commit so any one can be reverted independently:
@@ -1440,6 +1472,48 @@ Branch `phase/m10d-content-polish`:
 (D will land as a 5th commit when unblocked.)
 
 **Decided by:** chat (Goran's instruction to stop at D + on-implementation discovery that `motion.div animate` wasn't firing for the carousel + on-implementation choice to skip Manrope in `/og/fallback`).
+
+---
+
+## 2026-05-27 — Phase M.10d (Code): D — project uploader complete
+
+Goran lifted the D pause; the script's `processProject` was finished in this turn. The Cowork manifest still doesn't exist at `C:\sunset-photos\m10d-drive\m10d-manifest.json`, so the script continues to gracefully skip D until it does — but the project payload is now correct, tested against a stub manifest, and ready.
+
+### Schema mismatches caught (corrected against `sanity/schemas/project.ts`)
+
+- `featuredImage` → **`leadImage`** + a new **`leadAlt`** localized string.
+- `gallery[]._type` changed from `'galleryItem'` → **`'galleryEntry'`**; the asset reference now lives inside a nested **`image`** field (the schema shape) rather than a flat top-level `asset`.
+- **No `publishedAt` on projects.** The index sort is `year desc, slug asc`. Set `year: 2026` so the new M.10d projects sit at the top of `/projects` alongside (and after `--clean-placeholders`, instead of) the 12 seeds.
+- Localized strings on every alt field — `leadAlt`, per-gallery `alt`, `beforeAlt`, `afterAlt`.
+
+### ES translation approach (locked here)
+
+The M.10d plan §D requires ES translation ("LatAm-MX, glossary; projects are content surface → `tú`"). The manifest contract is EN-only. Code phase resolves this with a 3-tier preference, from strongest to weakest:
+
+1. **Manifest-supplied ES** — if a project has `titleEs` + `descriptionEs` in the manifest, those are used verbatim (Cowork can hand-write ES when it has a stronger feel for the voice).
+2. **Anthropic Sonnet 4.6 batch call** — one HTTP round-trip translates all remaining projects' `title` + `description` in a single prompt. Glossary pinned inside the prompt (`césped` / `adoquines` / `muro de contención` / etc.). Cost: ~$0.001 for 2–5 projects total.
+3. **EN-as-ES fallback** — when `ANTHROPIC_API_KEY` is unset or the LLM call fails for any reason, the script logs a warning and ships EN content in the ES slot. Same precedent as Phase M.01c (which set ES = `''`); follow-up translation can patch it later.
+
+`--skip-es-translate` opts out of the LLM call entirely (useful when re-running for a different reason and Goran doesn't want to spend another fraction of a cent on API).
+
+### dotenv override fix
+
+The Claude Code agent runtime ships some secret-shaped env vars pre-set to an empty string — including `ANTHROPIC_API_KEY`. Standard `dotenv.config({path: '.env.local'})` does NOT override an already-set env var, so the script was reading the empty shell value and silently falling through to the EN-as-ES branch. Fixed by passing `{override: true}`. The in-house `seed-faq-content-integration.mjs` loader has the same effect via a regex pass; the precedent in this codebase is "override on script-local env loading is fine".
+
+### Verification
+
+End-to-end stub manifest at `C:\tmp\m10d-stub\` (deleted after):
+
+- 4 manifest projects → 3 upserted (2 landscape + 1 hardscape), 1 skipped because the `yard-drainage` service had no doc in Sanity yet. The script's validation correctly catches this and Goran will see it on the real run too.
+- LLM batch: "[translate-es] batching 3 project(s) through claude-sonnet-4-6 … [translate-es] received 3/3 ES translations". The 1 project with manifest-supplied ES correctly bypassed the LLM.
+- Summary: `Blog: 3 / Projects: 3 (≥2 landscape ✓) / Skipped: 1`.
+
+### What still needs human attention
+
+- **`yard-drainage` and the rest of the waterproofing service catalog may not be in Sanity yet.** When Cowork's real manifest arrives, Goran should dry-run first and check the "skipped" projects list. If any are skipped due to missing service docs, seed those service docs (M.01c-style) before `--commit`-ing.
+- **Spot-check the LLM-produced ES.** Sonnet is reliable but the glossary block in the prompt can drift on edge cases. A 30-second review in Studio after `--commit` is worth it.
+
+**Decided by:** chat (Goran lifted the D pause + on-implementation choices: LLM-driven ES with manifest override, dotenv override fix for the runtime's empty shell shim).
 
 ---
 

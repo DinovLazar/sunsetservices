@@ -103,15 +103,11 @@
         "kitchens": "An outdoor kitchen with a stone counter, grill, and pendant lighting.",
         "fire": "A circular paver fire pit with a wood fire and surrounding seating walls."
       },
-      "audience": {
-        "residential": "Residential",
-        "commercial": "Commercial",
-        "hardscape": "Hardscape"
-      },
       "cta": {
-        "residential": "All Residential Services",
-        "commercial": "All Commercial Services",
-        "hardscape": "All Hardscape Services"
+        "landscape": "All Landscape Services",
+        "hardscape": "All Hardscape Services",
+        "waterproofing": "All Waterproofing Services",
+        "snow-removal": "All Snow Removal Services"
       }
     },
     "social": {
@@ -161,9 +157,10 @@
       "eyebrow": "Recent work",
       "h2": "Built last season, aging into the property.",
       "tag": {
+        "landscape": "LANDSCAPE",
         "hardscape": "HARDSCAPE",
-        "residential": "RESIDENTIAL",
-        "commercial": "COMMERCIAL"
+        "waterproofing": "WATERPROOFING",
+        "snow-removal": "SNOW REMOVAL"
       },
       "tile": {
         "napervillePatio": "Naperville Patio",
@@ -1512,20 +1509,22 @@
     "hero": {
       "eyebrow": "Portfolio · Our Work",
       "h1": "Built last season, aging into the property.",
-      "dek": "Patios, walls, lawns, and entire properties from across DuPage County. Filter by audience, or scroll to see everything we've built.",
+      "dek": "Patios, walls, lawns, and entire properties from across DuPage County. Filter by division, or scroll to see everything we've built.",
       "count": "{count} projects · {cities} cities · {minYear}–{maxYear}"
     },
     "tag": {
-      "residential": "RESIDENTIAL",
-      "commercial": "COMMERCIAL",
-      "hardscape": "HARDSCAPE"
+      "landscape": "LANDSCAPE",
+      "hardscape": "HARDSCAPE",
+      "waterproofing": "WATERPROOFING",
+      "snow-removal": "SNOW REMOVAL"
     },
     "filter": {
-      "label": "Filter by audience",
+      "label": "Filter by division",
       "all": "All · {count}",
-      "residential": "Residential · {count}",
-      "commercial": "Commercial · {count}",
-      "hardscape": "Hardscape · {count}"
+      "landscape": "Landscape · {count}",
+      "hardscape": "Hardscape · {count}",
+      "waterproofing": "Waterproofing · {count}",
+      "snow-removal": "Snow Removal · {count}"
     },
     "pagination": {
       "prev": "Previous page",
@@ -1571,7 +1570,7 @@
       "h2": "Facts",
       "year": "Year",
       "city": "City",
-      "audience": "Audience",
+      "division": "Division",
       "services": "Services",
       "materials": "Materials",
       "duration": "Duration",

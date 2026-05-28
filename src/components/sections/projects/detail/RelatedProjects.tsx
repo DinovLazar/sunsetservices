@@ -6,6 +6,9 @@ import {getLocation} from '@/data/locations';
 import {PROJECT_LEAD} from '@/data/imageMap';
 import type {Project} from '@/data/projects';
 import {selectRelatedProjects} from '@/data/projects';
+import {SERVICES} from '@/data/services';
+import {getProjectDivision} from '@/lib/projects/getProjectDivision';
+import {stripStreetNumber} from '@/lib/projects/stripStreetNumber';
 
 type Locale = 'en' | 'es';
 
@@ -59,15 +62,16 @@ export default async function RelatedProjects({current, locale, all}: RelatedPro
             {related.map((p) => {
               const city = getLocation(p.citySlug);
               const cityName = city?.name ?? p.citySlug;
+              const division = getProjectDivision(p, SERVICES);
               return (
                 <li key={p.slug}>
                   <ProjectCard
                     href={`/projects/${p.slug}/`}
                     photo={p.leadImageUrl ?? PROJECT_LEAD[p.slug]}
                     alt={p.leadAlt[locale]}
-                    title={p.title[locale]}
+                    title={stripStreetNumber(p.title[locale])}
                     meta={`${cityName} · ${p.year}`}
-                    audienceLabel={tTag(p.audience)}
+                    audienceLabel={tTag(division)}
                     loading="lazy"
                     sizes="(max-width: 767px) 100vw, (max-width: 1023px) 50vw, 33vw"
                   />

@@ -4,6 +4,8 @@ import ProjectCard from '@/components/ui/ProjectCard';
 import {getLocation} from '@/data/locations';
 import {PROJECT_LEAD} from '@/data/imageMap';
 import type {Project} from '@/data/projects';
+import type {Division} from '@/data/services';
+import {stripStreetNumber} from '@/lib/projects/stripStreetNumber';
 
 type Locale = 'en' | 'es';
 
@@ -11,6 +13,12 @@ type ProjectsGridProps = {
   /** Already-filtered + already-paginated slice the grid renders. */
   projects: Project[];
   locale: Locale;
+  /**
+   * Per-project division resolution, computed once on the server in the
+   * page route and shared with the chip-strip so labels stay in sync
+   * (Phase M.10c addendum D10).
+   */
+  divisionBySlug: Map<string, Division>;
 };
 
 /**
@@ -23,8 +31,13 @@ type ProjectsGridProps = {
  *
  * Receives the filtered+paginated slice from the server route — does not
  * read `searchParams` itself.
+ *
+ * Phase M.10c addendum (2026-05-27): tile badges now show the project's
+ * division (via the shared `divisionBySlug` map), not the retired
+ * 3-audience tag. Tile titles get the `stripStreetNumber()` render-time
+ * strip per brand identity guide BG-01 §9.2 (operator-included optional).
  */
-export default async function ProjectsGrid({projects, locale}: ProjectsGridProps) {
+export default async function ProjectsGrid({projects, locale, divisionBySlug}: ProjectsGridProps) {
   const tTag = await getTranslations('projects.tag');
 
   return (
@@ -64,15 +77,16 @@ export default async function ProjectsGrid({projects, locale}: ProjectsGridProps
               // lazy-load via IntersectionObserver to free up mobile bandwidth
               // for the first paint. Phase 1.07 mobile-LH lesson.
               const eager = isLcpCandidate;
+              const division = divisionBySlug.get(p.slug) ?? 'landscape';
               return (
                 <li key={p.slug}>
                   <ProjectCard
                     href={`/projects/${p.slug}/`}
                     photo={photo}
                     alt={p.leadAlt[locale]}
-                    title={p.title[locale]}
+                    title={stripStreetNumber(p.title[locale])}
                     meta={`${cityName} · ${p.year}`}
-                    audienceLabel={tTag(p.audience)}
+                    audienceLabel={tTag(division)}
                     priority={isLcpCandidate}
                     loading={eager ? 'eager' : 'lazy'}
                     sizes="(max-width: 767px) 100vw, (max-width: 1023px) 50vw, 33vw"

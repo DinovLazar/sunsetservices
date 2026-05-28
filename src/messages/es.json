@@ -103,15 +103,11 @@
         "kitchens": "Una cocina exterior con encimera de piedra, parrilla y luminarias colgantes.",
         "fire": "Una chimenea circular de adoquines con leña encendida y muros de asiento alrededor."
       },
-      "audience": {
-        "residential": "Residencial",
-        "commercial": "Comercial",
-        "hardscape": "Hardscape"
-      },
       "cta": {
-        "residential": "Todos los Servicios Residenciales",
-        "commercial": "Todos los Servicios Comerciales",
-        "hardscape": "Todos los Servicios de Hardscape"
+        "landscape": "Todos los Servicios de Paisajismo",
+        "hardscape": "Todos los Servicios de Hardscape",
+        "waterproofing": "Todos los Servicios de Impermeabilización",
+        "snow-removal": "Todos los Servicios de Remoción de Nieve"
       }
     },
     "social": {
@@ -1512,20 +1508,22 @@
     "hero": {
       "eyebrow": "Portafolio · Nuestro trabajo",
       "h1": "Construido la temporada pasada, asentándose en la propiedad.",
-      "dek": "Patios, muros, jardines y propiedades enteras en todo el Condado de DuPage. Filtra por audiencia o desplázate para verlo todo.",
+      "dek": "Patios, muros, jardines y propiedades enteras en todo el Condado de DuPage. Filtra por división o desplázate para verlo todo.",
       "count": "{count} proyectos · {cities} ciudades · {minYear}–{maxYear}"
     },
     "tag": {
-      "residential": "RESIDENCIAL",
-      "commercial": "COMERCIAL",
-      "hardscape": "HARDSCAPE"
+      "landscape": "PAISAJISMO",
+      "hardscape": "HARDSCAPE",
+      "waterproofing": "IMPERMEABILIZACIÓN",
+      "snow-removal": "REMOCIÓN DE NIEVE"
     },
     "filter": {
-      "label": "Filtrar por audiencia",
+      "label": "Filtrar por división",
       "all": "Todos · {count}",
-      "residential": "Residencial · {count}",
-      "commercial": "Comercial · {count}",
-      "hardscape": "Hardscape · {count}"
+      "landscape": "Paisajismo · {count}",
+      "hardscape": "Hardscape · {count}",
+      "waterproofing": "Impermeabilización · {count}",
+      "snow-removal": "Remoción de Nieve · {count}"
     },
     "pagination": {
       "prev": "Página anterior",
@@ -1571,7 +1569,7 @@
       "h2": "Datos",
       "year": "Año",
       "city": "Ciudad",
-      "audience": "Audiencia",
+      "division": "División",
       "services": "Servicios",
       "materials": "Materiales",
       "duration": "Duración",

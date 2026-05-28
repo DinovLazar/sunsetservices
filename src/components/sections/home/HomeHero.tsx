@@ -1,21 +1,41 @@
-import Image from 'next/image';
 import {getTranslations} from 'next-intl/server';
 import {Link} from '@/i18n/navigation';
+import HomeHeroCarousel, {type HeroImage} from './HomeHeroCarousel';
 import heroSrc from '@/assets/home/hero.jpg';
+import heroLandscapeSrc from '@/assets/service/hero-landscape-design.jpg';
+import heroSnowSrc from '@/assets/service/hero-snow-removal.jpg';
+import heroKitchensSrc from '@/assets/service/hero-outdoor-kitchens.jpg';
 
 /**
  * HomeHero — Layout A (full-bleed photo with text overlay) per Phase 1.06
- * handover §3. The hero photo IS the LCP element, so it ships eager with
- * `priority` + `fetchPriority="high"` + `next/image` blur placeholder.
+ * handover §3, evolved by Phase M.10c to a 4-image rotating carousel
+ * (locked decision D5). The first image — the existing patio hero — stays
+ * as the LCP element: it ships with `priority` + `fetchPriority="high"`
+ * inside `<HomeHeroCarousel/>` and is the only frame at `opacity: 1` on
+ * first paint, so Lighthouse Performance stays ≥ 95.
  *
- * No entrance animation by design (handover §3.8): the LCP element renders
- * on first paint to keep Lighthouse Performance ≥ 95.
+ * The other 3 images represent the remaining divisions (Landscape,
+ * Snow Removal, and a second Hardscape angle — Outdoor Kitchens). No
+ * dedicated Waterproofing photo exists in the asset corpus today, so
+ * the rotation deliberately stays on hardscape variety per plan §10.
+ *
+ * Reduced-motion: the carousel skips its interval and renders the first
+ * frame statically — see `HomeHeroCarousel.tsx`.
  *
  * Navbar State B (translucent + backdrop blur) is active here because
  * NavbarScrollState already toggles `data-over-hero` on `pathname === '/'`.
  */
 export default async function HomeHero() {
   const t = await getTranslations('home.hero');
+  const tDivisions = await getTranslations('home.divisions');
+  const tServices = await getTranslations('home.services');
+
+  const heroImages: ReadonlyArray<HeroImage> = [
+    {src: heroSrc, alt: t('alt')},
+    {src: heroLandscapeSrc, alt: tDivisions('landscape.alt')},
+    {src: heroSnowSrc, alt: tDivisions('snow-removal.alt')},
+    {src: heroKitchensSrc, alt: tServices('alt.kitchens')},
+  ];
 
   return (
     <section
@@ -23,19 +43,12 @@ export default async function HomeHero() {
       className="relative isolate overflow-hidden flex flex-col h-[max(75vh,560px)] lg:h-[max(85vh,600px)] text-[var(--color-text-on-dark)]"
       style={{backgroundColor: 'var(--color-bg-charcoal)'}}
     >
-      {/* Photo + gradient overlay layer. Sits behind the content via source
-          order; isolation:isolate (on the section) keeps z-stacking local. */}
+      {/* Photo carousel + gradient overlay layer. Sits behind the content
+          via source order; isolation:isolate (on the section) keeps z-stacking
+          local. The carousel wrapper carries aria-hidden=true (decorative
+          imagery; H1 + dek above carry the page's accessible name). */}
       <div className="absolute inset-0">
-        <Image
-          src={heroSrc}
-          alt={t('alt')}
-          fill
-          priority
-          fetchPriority="high"
-          placeholder="blur"
-          sizes="100vw"
-          style={{objectFit: 'cover', objectPosition: 'center 65%'}}
-        />
+        <HomeHeroCarousel images={heroImages} />
         {/* Mobile gradient (< sm). Stronger top opacity so the navbar reads
             against a busy crop. */}
         <div

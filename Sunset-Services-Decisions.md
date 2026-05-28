@@ -1492,3 +1492,64 @@ Use `page.addInitScript` to mock Sanity's response in T2 / T8 so the harness nev
 **OS1 — `step3Photos` lives in a sibling field, not nested under `step3` (resolves D14/D15).** The plan's D14/D15 wording said photos persist "under the `step3` branch" of the autosave payload and that the React state extends "the `Step3State` shape". The live shape doesn't have a `Step3State` concept — `step3` is `Record<string, string | string[]>` in both `WizardAutosavePayload` (`src/lib/wizard/storage.ts:33`) and the React layer (`WizardShell.tsx:90`), a string-keyed map dynamically populated by `WIZARD_STEP_3_FIELDS[group]`. There is no `WizardProgressV2` Zod schema; storage uses plain TypeScript types + try/catch in load/save. Chat-approved 2026-05-27 to put photos in a SIBLING `step3Photos` field at the top level of `WizardAutosavePayload` and a SIBLING `step3Photos` useState in `WizardShell`. Storage stays at the `_v2` key (no v3 bump needed — the new field is additive and old docs default to `step3Photos: []` on read). Submit + partial payloads still send photos as their own array exactly as D2/D23 describe. The persisted shape is narrowed via `narrowStep3PhotosForPersist(WizardPhoto[]) → PersistedWizardPhoto[]` (defined in new module `src/lib/wizard/photo.ts`) before every `localStorage.setItem`; symmetric `widenPersistedPhotos` rehydrates on resume.
 
 **OS2 — Cosmetic filename discrepancy.** D1/D16/D24 reference `sanity/lib/writeClient.ts`; the actual module is `sanity/lib/write-client.ts` (hyphenated, alias `@sanity-lib/write-client`). Same export, same Sanity write client. Used as-imported throughout the implementation.
+
+---
+
+## 2026-05-27 — Phase M.10c (Code): brand identity quick wins — logo + 4-division labels + rotating hero + /projects index addendum
+
+Closes three visible loose ends on the homepage (cluttered old logo, stale 3-audience badges, single-static hero) and brings the `/projects` index in line with the 4-division IA. Final UI polish pass before M.11 (Codex review) and M.12 (Erick handover doc).
+
+### Chat-locked decisions (input contract)
+
+1. **D1 — Logo swap.** Replace `src/assets/brand/logo-horizontal-fullcolor.png` with the operator-supplied clean logo. Footer reversed/white logo unchanged (no clean reversed variant supplied this phase).
+2. **D2 — Division labels replace audience labels** everywhere they render as a visible badge on the homepage (service-card and project-card badges). Sanity data is NOT mutated — render-time mapping only.
+3. **D3 — Project badge mapping rule.** `audience === 'hardscape'` → `'hardscape'`; otherwise look up first service slug → use that service's division; fallback for residential/commercial without resolvable services → `'landscape'`. Helper lives at `src/lib/projects/getProjectDivision.ts`.
+4. **D4 — Bottom Services-Overview button row.** 3 audience buttons → 4 division buttons (Landscape / Hardscape / Waterproofing / Snow Removal). Layout: 4-col `lg+`, 2-col `sm/md`, stacked `xs`. Reuse existing `.btn-secondary btn-md` (Phase 1.07 class).
+5. **D5 — Rotating hero on `/` and `/es/`.** 4 distinct images cycling every 5 000 ms with 800 ms crossfade. First image stays as LCP candidate (`priority` + `fetchPriority="high"`). Other 3 picked from existing service/audience photo library to represent the other divisions.
+6. **D6 — Reduced-motion compliance.** When `useReducedMotion()` returns `true`, the carousel must NOT mount its rotation interval — render only image index 0 as a static hero. WCAG 2.2 SC 2.3.3.
+7. **D7 — Brand palette + Montserrat typography DEFERRED.** Brand identity guide BG-01 mandates Sunset Orange `#F28C38` primary CTA, Forest Green `#2E4F4F` accents, Montserrat web font. Current site uses green-primary + amber-rare-accent + Manrope/Onest. Out of scope this phase. Document the divergence so a future phase has a starting point.
+
+### Addendum (same-session scope extension — `/projects` index)
+
+8. **D8 — URL state migrates `?audience=` → `?division=`.** Pre-launch site with zero public inbound traffic on `?audience=` URLs, so no back-compat alias needed. Same call as M.01e-pt2's wizard migration. Valid values: `landscape | hardscape | waterproofing | snow-removal`. Unknown values fall back to "All" (defensive sanitize via `isDivision()`).
+9. **D9 — All 4 division chips always render** — even if a division has 0 projects (e.g. `Waterproofing · 0` today). Matches existing UX pattern. Keeps chip strip visually stable and discoverable. "All · N" stays leading.
+10. **D10 — Project tile badges on `/projects`** use the same `getProjectDivision()` helper as homepage (M.10c step 7). Single source of truth — chip strip counts agree with visible tile badges.
+11. **D11 — Filter-chip count math** switches from audience-based to division-based. Each chip's `· N` count = number of projects matching that division via `getProjectDivision()`. `All · N` is total project count.
+12. **D12 — `/projects` index `<title>` and `<meta description>` unchanged** — the audience filter was invisible to search engines (canonical points at the unfiltered route per Phase 1.16). No SEO impact from the URL param rename.
+13. **D13 — "Filter by audience" → "Filter by division" label text** in both EN and ES. ES = LatAm-MX register per M.01f1.
+
+### In-phase off-spec resolutions (surfaced and resolved by Code during execution)
+
+1. **Logo source path differs from plan.** Plan said `public/incoming/sunset_logo_clean.png`; operator dropped at `public/sunset_logo_white_bg.png`. Code surfaced via AskUserQuestion; operator confirmed the new path.
+2. **Logo source is 100 % opaque white background, not transparent.** Inspection showed every pixel `alpha = 255`. On the homepage hero, the navbar uses `bg-white/[0.78] backdrop-blur-md` over the photo — a white-bg logo would render as a visible white rectangle on the hero. Code surfaced via AskUserQuestion with four options; operator chose **chroma-key auto-removal**. Code applied sharp threshold `R/G/B ≥ 240` → `alpha = 0`. Result: 74.1 % transparent, all corners cleanly transparent. No visible internal-white loss (verified by inspection).
+3. **Carousel image alts re-use existing i18n strings** instead of adding new keys. Trade-off: alts are slightly less hero-specific. Justification: the carousel wrapper is `aria-hidden="true"` (decorative imagery; H1 + dek above carry the page's accessible name); alt strings only affect SEO/image indexing where existing alts are still accurate.
+4. **ES landscape chip label diverges from addendum suggestion.** Addendum's i18n note said "ES: 'Landscape'" (English-source). The locked M.01f1 glossary and `home.divisions.landscape.tag` (Phase M.01e) use **"Paisajismo"**. For site-wide consistency, the chip label, badge text, and CTA button all use "Paisajismo" in ES. Hardscape stays English (industry term, per glossary §B.03). Waterproofing → Impermeabilización. Snow Removal → Remoción de Nieve.
+5. **Sanity SUMMARY projection extended with `serviceSlugs`.** `PROJECT_SUMMARY_PROJECTION` in `sanity/lib/queries.ts` did not include service slugs (only `PROJECT_DETAIL_PROJECTION` did). Without slugs, `getProjectDivision()` on the `/projects` index would fall through to the `'landscape'` fallback for every project. Code added `"serviceSlugs": services[]->slug.current` to the SUMMARY projection + moved the field on the TS `ProjectSummary` type. Required to make the addendum's chip counts correct.
+6. **`stripStreetNumber` extracted to `src/lib/projects/stripStreetNumber.ts`.** The helper was inline in `src/app/[locale]/projects/[slug]/page.tsx` (Phase M.01d). The optional addendum item (operator-included) needed it on `/projects` index tile titles too; extracting to a shared util cleaner than cross-importing from a route's page file. Detail page updated to import from the new path; inline definition removed.
+7. **`project.facts.audience` i18n key renamed to `project.facts.division`** so the dt label is consistent with the rendered division value on the project detail Facts row. Old EN/ES keys removed (orphans).
+8. **Pre-existing `/projects/aurora-driveway-apron` 404 surfaced.** `validate:seo` (4 errors) and `validate:a11y` (1 failure) both fail on this one URL. Harness's `EXPECTED_PATHS` lists the slug but no matching Sanity project exists. NOT caused by M.10c — harness config and Sanity data have drifted. Logged for a future small phase; either re-seed in Sanity or remove from harness configs.
+9. **`npm run lint` OOMs from worktree-scanning.** ESLint config doesn't ignore `.claude/worktrees/**`. Pre-existing config issue. Targeted lint on M.10c-touched files passes clean (0 errors, 1 pre-existing warning).
+10. **Next 16 dev-server "single-instance" check** blocks `next dev` in the worktree when the operator's main-repo dev is running on port 3000 (worktree path is detected as part of the main-repo tree). Verification used `next start -p 3076` against the production build instead. Equivalent for static-page testing.
+
+### Hero image selections (D5 §10)
+
+| # | Division represented | Asset path | Dimensions |
+| - | --- | --- | --- |
+| 1 | Hardscape (LCP — existing) | `src/assets/home/hero.jpg` | 1920 × 1080 |
+| 2 | Landscape | `src/assets/service/hero-landscape-design.jpg` | 1920 × 1080 |
+| 3 | Snow Removal | `src/assets/service/hero-snow-removal.jpg` | 1920 × 1080 |
+| 4 | Hardscape variety (no Waterproofing photo in corpus) | `src/assets/service/hero-outdoor-kitchens.jpg` | 1920 × 1080 |
+
+### Branch + verification
+
+- **Branch:** `worktree-claude+m10c-brand-identity` off `origin/main`.
+- **Verification (localhost:3076 / `npx next start`):**
+  - Build: ✓ 176 static pages, 0 errors, 15.8 s compile
+  - TypeScript: `npx tsc --noEmit` exit 0
+  - Lint (targeted): 0 errors, 1 pre-existing warning
+  - `validate:schema`: 22/22 PASS, 0 errors
+  - `validate:seo`: 170/174 PASS (4 pre-existing `/aurora-driveway-apron` 404 errors)
+  - `validate:a11y`: 19/20 PASS (axe AA 0, Lighthouse ≥ 97 on all passing routes, prefers-reduced-motion honoured; 1 failure same `/aurora-driveway-apron`)
+- **Vercel Preview verification:** carryover — operator runs harnesses against the Preview URL post-merge.
+
+**Decided by:** Chat (operator gave M.10c plan + addendum); execution decisions surfaced + resolved by Code during the worktree run.

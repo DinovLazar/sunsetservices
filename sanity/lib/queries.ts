@@ -76,7 +76,8 @@ const PROJECT_SUMMARY_PROJECTION = `{
   "cityName": city->name,
   year,
   leadImage,
-  ${biling('leadAlt')}
+  ${biling('leadAlt')},
+  "serviceSlugs": services[]->slug.current
 }`;
 
 const PROJECT_DETAIL_PROJECTION = `{

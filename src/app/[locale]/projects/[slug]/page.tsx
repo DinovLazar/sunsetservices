@@ -16,6 +16,9 @@ import {buildProjectCreativeWork} from '@/lib/schema/project';
 import {BUSINESS_URL} from '@/lib/constants/business';
 import {routing} from '@/i18n/routing';
 import {canonicalUrl, hreflangAlternates} from '@/lib/seo/urls';
+import {stripStreetNumber} from '@/lib/projects/stripStreetNumber';
+import {getProjectDivision} from '@/lib/projects/getProjectDivision';
+import {SERVICES} from '@/data/services';
 import {
   getAllProjects,
   getAllProjectSlugs,
@@ -31,24 +34,9 @@ type Locale = 'en' | 'es';
 // Phase 2.05 — ISR (30 min). Webhook-driven revalidation deferred.
 export const revalidate = 1800;
 
-/**
- * Phase M.01d (2026-05-26) — display-layer helper that strips a leading
- * street number from a project's address string. Sanity / `src/data/projects.ts`
- * keeps the full street address ("1227 Colchester Lane, Aurora"); the rendered
- * output reads "Colchester Lane, Aurora".
- *
- * Currently a no-op for every visible field — the 12 Phase 1.16 placeholder
- * projects don't carry street numbers in any rendered field. The helper is
- * in place defensively so it just works the moment the M.01c uploader lands
- * real project documents whose title / locality includes a leading number
- * (the M.01c photo corpus references addresses like "1227 Colchester Lane"
- * and "807/811 Edgewater"). M.01d intentionally does NOT modify
- * `src/data/projects.ts` or the Sanity project schema (per the phase plan):
- * the strip happens only at render-time output.
- */
-export function stripStreetNumber(address: string): string {
-  return address.replace(/^\d+(?:\/\d+)?\s+/, '');
-}
+// Phase M.10c (2026-05-27) — `stripStreetNumber` extracted to
+// `@/lib/projects/stripStreetNumber` so the /projects index tile titles
+// (addendum step A-extra) can reuse the same render-time strip.
 
 export async function generateStaticParams() {
   const slugs = await getAllProjectSlugs();
@@ -68,17 +56,29 @@ export async function generateMetadata({
 
   const city = getLocation(project.citySlug);
   const cityName = city?.name ?? project.citySlug;
-  const audienceLabel = {
-    residential: {en: 'residential', es: 'residencial'},
-    commercial: {en: 'commercial', es: 'comercial'},
-    hardscape: {en: 'hardscape', es: 'hardscape'},
-  }[project.audience][loc];
+  // Phase M.10c addendum — title label now division-derived (was audience).
+  const division = getProjectDivision(project, SERVICES);
+  const divisionLabel: Record<Locale, Record<typeof division, string>> = {
+    en: {
+      landscape: 'landscape',
+      hardscape: 'hardscape',
+      waterproofing: 'waterproofing',
+      'snow-removal': 'snow removal',
+    },
+    es: {
+      landscape: 'paisajismo',
+      hardscape: 'hardscape',
+      waterproofing: 'impermeabilización',
+      'snow-removal': 'remoción de nieve',
+    },
+  };
+  const labelForTitle = divisionLabel[loc][division];
 
   // Phase M.01d: address-bearing title strings (when M.01c uploader lands
   // real project content) get the leading street number stripped from the
   // rendered output — Sanity keeps the full address; visitors don't see it.
   const displayTitle = stripStreetNumber(project.title[loc]);
-  const title = `${displayTitle} — ${audienceLabel} project in ${cityName} · Sunset Services`;
+  const title = `${displayTitle} — ${labelForTitle} project in ${cityName} · Sunset Services`;
   const description = `${project.shortDek[loc]} ${cityName}, IL. By Sunset Services.`;
   const path = `/projects/${slug}`;
 

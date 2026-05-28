@@ -7,7 +7,10 @@ import ProjectsGrid from '@/components/sections/projects/ProjectsGrid';
 import Pagination from '@/components/sections/projects/Pagination';
 import EmptyState from '@/components/sections/projects/EmptyState';
 import CTA from '@/components/sections/CTA';
-import {isProjectAudience, type ProjectAudience, type Project} from '@/data/projects';
+import {type Project} from '@/data/projects';
+import {SERVICES, type Division} from '@/data/services';
+import {isDivision} from '@/data/divisions';
+import {getProjectDivision} from '@/lib/projects/getProjectDivision';
 import {PROJECT_LEAD} from '@/data/imageMap';
 import {buildBreadcrumbList} from '@/lib/schema/breadcrumb';
 import {buildProjectsItemList} from '@/lib/schema/project';
@@ -44,13 +47,20 @@ export async function generateMetadata({
 }
 
 /**
- * Projects index — Phase 1.16 templates, Phase 2.05 Sanity-driven content.
+ * Projects index — Phase 1.16 templates, Phase 2.05 Sanity-driven content,
+ * Phase M.10c addendum (2026-05-27) division filter migration.
  *
  * Sections: Hero → FilterChipStrip → ProjectsGrid|EmptyState (+ Pagination) → CTA.
- * Filter + page state read from `searchParams`; sanitization unchanged from 1.16.
+ * Filter + page state read from `searchParams`. The filter param is
+ * `?division=<slug>` (locked decision D8 — `?audience=` is gone, pre-launch
+ * site, no back-compat alias). Division resolution per project goes through
+ * `getProjectDivision()` so the chip-strip counts + the visible filter set
+ * agree with the homepage's division-derived labels (locked decisions
+ * D10 + D11).
+ *
  * Schema: `BreadcrumbList` + `ItemList` of `CreativeWork`, fed by the
  * Sanity-fetched (unfiltered) list so crawlers see the full portfolio
- * regardless of any filter the user applied.
+ * regardless of any filter the user applied (D12 — SEO unchanged).
  */
 export default async function ProjectsIndexPage({
   params,
@@ -71,11 +81,22 @@ export default async function ProjectsIndexPage({
   const ALL: Project[] = sanityProjects.map(sanityProjectSummaryToTs);
 
   const sp = await searchParams;
-  const audienceParam = typeof sp.audience === 'string' ? sp.audience : undefined;
-  const audience: ProjectAudience | undefined =
-    audienceParam && isProjectAudience(audienceParam) ? audienceParam : undefined;
+  // Phase M.10c addendum D8 — searchParams key renamed `audience` → `division`.
+  // Defensive sanitize: unknown values fall back to "All" (undefined).
+  const divisionParam = typeof sp.division === 'string' ? sp.division : undefined;
+  const division: Division | undefined =
+    divisionParam && isDivision(divisionParam) ? divisionParam : undefined;
 
-  const filtered = audience ? ALL.filter((p) => p.audience === audience) : ALL;
+  // Per-project division derivation — single source of truth shared with
+  // the homepage projects band + the index tile badges (D10).
+  const projectDivision = new Map<string, Division>();
+  for (const p of ALL) {
+    projectDivision.set(p.slug, getProjectDivision(p, SERVICES));
+  }
+
+  const filtered = division
+    ? ALL.filter((p) => projectDivision.get(p.slug) === division)
+    : ALL;
   const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
 
   const rawPage = typeof sp.page === 'string' ? Number.parseInt(sp.page, 10) : 1;
@@ -85,20 +106,25 @@ export default async function ProjectsIndexPage({
   const start = (page - 1) * PAGE_SIZE;
   const visible = filtered.slice(start, start + PAGE_SIZE);
 
-  // Audience counts for the chip strip (stable; based on the unfiltered seed).
+  // Phase M.10c addendum D9 — every division chip always renders, even at
+  // count 0 (e.g. Waterproofing today). The "All" chip stays leading.
   const counts = [
-    {audience: 'all' as const, count: ALL.length},
+    {division: 'all' as const, count: ALL.length},
     {
-      audience: 'residential' as const,
-      count: ALL.filter((p) => p.audience === 'residential').length,
+      division: 'landscape' as const,
+      count: ALL.filter((p) => projectDivision.get(p.slug) === 'landscape').length,
     },
     {
-      audience: 'commercial' as const,
-      count: ALL.filter((p) => p.audience === 'commercial').length,
+      division: 'hardscape' as const,
+      count: ALL.filter((p) => projectDivision.get(p.slug) === 'hardscape').length,
     },
     {
-      audience: 'hardscape' as const,
-      count: ALL.filter((p) => p.audience === 'hardscape').length,
+      division: 'waterproofing' as const,
+      count: ALL.filter((p) => projectDivision.get(p.slug) === 'waterproofing').length,
+    },
+    {
+      division: 'snow-removal' as const,
+      count: ALL.filter((p) => projectDivision.get(p.slug) === 'snow-removal').length,
     },
   ];
 
@@ -129,16 +155,20 @@ export default async function ProjectsIndexPage({
         dangerouslySetInnerHTML={{__html: JSON.stringify(itemListSchema)}}
       />
       <ProjectsHero />
-      <FilterChipStrip counts={counts} activeAudience={audience} />
+      <FilterChipStrip counts={counts} activeDivision={division} />
       {visible.length === 0 ? (
         <EmptyState />
       ) : (
         <>
-          <ProjectsGrid projects={visible} locale={loc} />
+          <ProjectsGrid
+            projects={visible}
+            locale={loc}
+            divisionBySlug={projectDivision}
+          />
           <Pagination
             currentPage={page}
             totalPages={totalPages}
-            audience={audience}
+            division={division}
           />
         </>
       )}

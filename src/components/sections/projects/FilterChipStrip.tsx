@@ -3,31 +3,34 @@
 import * as React from 'react';
 import {useRouter, useSearchParams, usePathname} from 'next/navigation';
 import {useTranslations} from 'next-intl';
-import type {ProjectAudience} from '@/data/projects';
+import type {Division} from '@/data/services';
 
-type AudienceCount = {
-  audience: ProjectAudience | 'all';
+type DivisionCount = {
+  division: Division | 'all';
   count: number;
 };
 
 type FilterChipStripProps = {
   /**
-   * Per-audience tile counts computed at request time on the server. Stable
+   * Per-division tile counts computed at request time on the server. Stable
    * across filter changes — chips show the count of projects in each
-   * audience, not the count after applying the current filter.
+   * division, not the count after applying the current filter.
    */
-  counts: AudienceCount[];
+  counts: DivisionCount[];
   /**
-   * The current `?audience` value parsed and sanitized server-side. The
+   * The current `?division` value parsed and sanitized server-side. The
    * chip strip mirrors this in `aria-pressed`. `undefined` => All active.
    */
-  activeAudience: ProjectAudience | undefined;
+  activeDivision: Division | undefined;
 };
 
 /**
- * Filter chip strip — Phase 1.15 §3.2 / D2.A. Single-select audience
- * filter (All / Residential / Commercial / Hardscape) wired to URL state
- * at `?audience={slug}`. "All" clears the param.
+ * Filter chip strip — Phase 1.15 §3.2 / D2.A, migrated by Phase M.10c
+ * addendum (2026-05-27) from the 3-audience scheme to the 4-division IA.
+ * Single-select division filter (All / Landscape / Hardscape / Waterproofing
+ * / Snow Removal) wired to URL state at `?division={slug}`. "All" clears
+ * the param. All 4 division chips always render — even at count 0 (locked
+ * decision D9).
  *
  * Element: `<button type="button">` with `aria-pressed`. Native button is
  * the right element — no `role="tab"` because there's no panel.
@@ -39,18 +42,18 @@ type FilterChipStripProps = {
  * to signal scroll affordance. Touch-target padding lifts the 36px chip
  * to a 44px hit area without changing the visual.
  */
-export default function FilterChipStrip({counts, activeAudience}: FilterChipStripProps) {
+export default function FilterChipStrip({counts, activeDivision}: FilterChipStripProps) {
   const t = useTranslations('projects.filter');
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  function setAudience(next: ProjectAudience | undefined) {
+  function setDivision(next: Division | undefined) {
     const params = new URLSearchParams(searchParams?.toString() ?? '');
     if (next) {
-      params.set('audience', next);
+      params.set('division', next);
     } else {
-      params.delete('audience');
+      params.delete('division');
     }
     // Filter changes always reset pagination.
     params.delete('page');
@@ -58,13 +61,6 @@ export default function FilterChipStrip({counts, activeAudience}: FilterChipStri
     const url = qs ? `${pathname}?${qs}` : pathname;
     router.replace(url, {scroll: false});
   }
-
-  const labelKey: Record<AudienceCount['audience'], string> = {
-    all: 'all',
-    residential: 'residential',
-    commercial: 'commercial',
-    hardscape: 'hardscape',
-  };
 
   return (
     <section
@@ -97,12 +93,12 @@ export default function FilterChipStrip({counts, activeAudience}: FilterChipStri
           }}
         >
           <ul className="m-0 p-0 list-none flex items-center gap-3 lg:gap-3 whitespace-nowrap">
-            {counts.map(({audience, count}) => {
+            {counts.map(({division, count}) => {
               const isActive =
-                audience === 'all' ? !activeAudience : activeAudience === audience;
+                division === 'all' ? !activeDivision : activeDivision === division;
               return (
                 <li
-                  key={audience}
+                  key={division}
                   className="inline-flex items-center"
                   style={{scrollSnapAlign: 'start'}}
                 >
@@ -110,7 +106,7 @@ export default function FilterChipStrip({counts, activeAudience}: FilterChipStri
                     type="button"
                     aria-pressed={isActive}
                     onClick={() =>
-                      setAudience(audience === 'all' ? undefined : (audience as ProjectAudience))
+                      setDivision(division === 'all' ? undefined : (division as Division))
                     }
                     className="inline-flex items-center justify-center font-heading font-semibold transition-colors"
                     style={{
@@ -150,7 +146,7 @@ export default function FilterChipStrip({counts, activeAudience}: FilterChipStri
                       }
                     }}
                   >
-                    {t(labelKey[audience], {count})}
+                    {t(division, {count})}
                   </button>
                 </li>
               );

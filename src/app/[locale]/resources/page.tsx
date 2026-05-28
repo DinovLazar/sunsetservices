@@ -15,6 +15,7 @@ import {buildBreadcrumbList} from '@/lib/schema/breadcrumb';
 import {buildContentItemList} from '@/lib/schema/article';
 import {routing} from '@/i18n/routing';
 import {canonicalUrl, hreflangAlternates} from '@/lib/seo/urls';
+import {buildSocialMetadata} from '@/lib/seo/openGraph';
 import {getAllResources} from '@sanity-lib/queries';
 
 type Locale = 'en' | 'es';
@@ -51,6 +52,12 @@ export async function generateMetadata({
   const t = await getTranslations({locale, namespace: 'resources.meta'});
   const loc: Locale = locale === 'es' ? 'es' : 'en';
   const path = '/resources';
+  const social = buildSocialMetadata({
+    title: t('title'),
+    description: t('description'),
+    url: canonicalUrl(path, loc),
+    locale: loc,
+  });
   return {
     title: t('title'),
     description: t('description'),
@@ -58,6 +65,7 @@ export async function generateMetadata({
       canonical: canonicalUrl(path, loc),
       languages: hreflangAlternates(path),
     },
+    ...social,
   };
 }
 

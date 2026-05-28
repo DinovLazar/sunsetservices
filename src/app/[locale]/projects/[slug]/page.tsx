@@ -16,6 +16,7 @@ import {buildProjectCreativeWork} from '@/lib/schema/project';
 import {BUSINESS_URL} from '@/lib/constants/business';
 import {routing} from '@/i18n/routing';
 import {canonicalUrl, hreflangAlternates} from '@/lib/seo/urls';
+import {buildSocialMetadata} from '@/lib/seo/openGraph';
 import {stripStreetNumber} from '@/lib/projects/stripStreetNumber';
 import {getProjectDivision} from '@/lib/projects/getProjectDivision';
 import {SERVICES} from '@/data/services';
@@ -81,6 +82,30 @@ export async function generateMetadata({
   const title = `${displayTitle} — ${labelForTitle} project in ${cityName} · Sunset Services`;
   const description = `${project.shortDek[loc]} ${cityName}, IL. By Sunset Services.`;
   const path = `/projects/${slug}`;
+  // Phase M.10d §B — prefer the project's lead photo on the OG card so the
+  // social preview shows the actual job. Falls back to /og/fallback when the
+  // Sanity asset isn't set yet (placeholder projects pre-M.01c).
+  const leadAsset = PROJECT_LEAD[project.slug];
+  const ogImageUrl =
+    project.leadImageUrl ??
+    (leadAsset ? `${BUSINESS_URL}${leadAsset.src}` : undefined);
+  const social = buildSocialMetadata({
+    title,
+    description,
+    url: canonicalUrl(path, loc),
+    locale: loc,
+    type: 'article',
+    images: ogImageUrl
+      ? [
+          {
+            url: ogImageUrl,
+            alt: `${displayTitle} — ${cityName}, IL`,
+            width: 1200,
+            height: 630,
+          },
+        ]
+      : undefined,
+  });
 
   return {
     title,
@@ -89,6 +114,7 @@ export async function generateMetadata({
       canonical: canonicalUrl(path, loc),
       languages: hreflangAlternates(path),
     },
+    ...social,
   };
 }
 

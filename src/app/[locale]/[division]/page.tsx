@@ -17,6 +17,7 @@ import {buildBreadcrumbList} from '@/lib/schema/breadcrumb';
 import {buildDivisionItemList, localePath} from '@/lib/schema/service';
 import {routing} from '@/i18n/routing';
 import {canonicalUrl, hreflangAlternates} from '@/lib/seo/urls';
+import {buildSocialMetadata} from '@/lib/seo/openGraph';
 
 type Locale = 'en' | 'es';
 
@@ -34,6 +35,12 @@ export async function generateMetadata({
   const t = await getTranslations({locale, namespace: `division.${division}.meta`});
   const loc: Locale = locale === 'es' ? 'es' : 'en';
   const path = `/${division}`;
+  const social = buildSocialMetadata({
+    title: t('title'),
+    description: t('description'),
+    url: canonicalUrl(path, loc),
+    locale: loc,
+  });
   return {
     title: t('title'),
     description: t('description'),
@@ -41,6 +48,7 @@ export async function generateMetadata({
       canonical: canonicalUrl(path, loc),
       languages: hreflangAlternates(path),
     },
+    ...social,
   };
 }
 

@@ -1353,6 +1353,170 @@ Closes 10 user-visible bugs Goran flagged on a Preview walkthrough. Polish pass 
 
 ---
 
+## 2026-05-27 — Phase M.10d (Cowork): START — source & organize photos for projects + blog
+
+**Scope:** Discovery-first photo phase. Cowork (hands only — no code) will look at the Google Drive folder Goran points us to, inventory the real job photos there, pick 2–5 projects (with at least 2 Landscape) plus one featured image for each of 3 new blog posts (`why-is-my-lawn-yellow`, `backyard-drainage-aurora`, `hoa-landscape-budget-2026`), copy the chosen photos to a local folder outside the repo at `C:\sunset-photos\m10d-drive\`, and write a `m10d-manifest.json` describing them. The Code phase will read the manifest and upload to Sanity via a script Goran runs — Cowork does not touch Sanity or website code in this phase.
+
+**Discovery-first rule (re-affirmed):** look first, inventory what's actually there, then act. Never fabricate a project, a location, or a "before/after" pair the photos don't actually show. If 2 clear Landscape jobs are not present in the Drive folder, deliver fewer Landscape projects and flag the shortfall in the completion report — do not invent.
+
+**Awaiting from Goran:** the specific Google Drive folder path (same backup/marketing Drive used in earlier photo phases).
+
+**Decided by:** Phase M.10d prompt (Goran, 2026-05-27).
+
+---
+
+## 2026-05-27 — Phase M.10d (Cowork): DONE — photos sourced, manifest written, handover to Code
+
+Closes the Phase M.10d (Cowork) work. Sourced from Goran's `MEDIA › Images & Videos` Drive tree (`https://drive.google.com/drive/folders/12_YumBxxa_evhoE0jI6_0bVDqFWXJfTn`) plus the Sunset Services `04 - Hardscape` shared drive (`https://drive.google.com/drive/folders/0AMvy5z9RvkVgUk9PVA`) — confirmed both via Claude in Chrome.
+
+**Deliverables (all under `C:\sunset-photos\m10d-drive\`):**
+- 3 project folders, 17 photos total (2 Landscape + 1 Hardscape per brief):
+  - **Project 1 (Landscape):** `oswego-landscape-design-install` — 7 photos (1 JPG after + 6 HEIC); `hasBeforeAfter: true` (bare-lot HEIC paired with the planted-tree after); city = Oswego; primaryServiceSlug = `landscape-design`.
+  - **Project 2 (Landscape):** `tree-removal-service` — 5 JPGs from `EditedPhotos` (chainsaw work + crew dragging limbs + the company's red Bandit-style chipper); city = null; primaryServiceSlug = `tree-services`.
+  - **Project 3 (Hardscape):** `aurora-area-paver-patio-firepit` — 5 photos (1 JPG featured + 3 PNG-source-converted-to-JPG @ 2400px q92 + 1 JPG); city = null; primaryServiceSlug = `patios-walkways`.
+- 3 blog covers (JPG): `why-is-my-lawn-yellow` (Planting_Mulching hydrangea), `backyard-drainage-aurora` (Patios deck-over-pond), `hoa-landscape-budget-2026` (Patios white-railed deck/stairs).
+- `m10d-manifest.json` — valid JSON, schema-conformant per Phase-M.10d §2; verified every photo path resolves to a file on disk, projects with `division == "landscape"` count = 2, all 3 blog keys present.
+
+**In-phase decisions (full text in `src/_project-state/Phase-M-10d-Cowork-Completion.md`):**
+
+1. **Counted `tree-services` as Landscape.** Phase-M.10d §4 explicitly lists `tree-services` under the Landscape division, so the residential tree-removal pick satisfies the "at least 2 Landscape" rule alongside Oswego Design&Install. Documented in case Goran/Code want to substitute a planting/lawn-install job instead.
+2. **Oswego `hasBeforeAfter: true`** despite same-spot confirmation being a judgment call (similar lot composition with vs. without the planted tree). Flagged in the report so Code can downgrade to `false` if it reads as forced.
+3. **`city: null` on Projects 2 + 3** — the Tree Removal and Patio source files don't carry address tags, and the discovery-first rule said not to invent. Followed M.01c's precedent for unknown-address hardscape (the `aurora-area-patio` slug pattern) without committing a fake city in the manifest.
+4. **NEF/RAW pool deliberately skipped.** The Mowing-of-Aurora commercial set, 1008 Homerton 2025, PlantsInstall, and Turf Install are all visually strong but `.NEF` only — they need the kind of RAW-development pass M.01c ran via `rawpy`/LibRaw, which is Code-shaped work, not Cowork-shaped. Skipped here; flagged for a future Code-side conversion if Goran wants any of them.
+5. **Edgewater 807/811 photos deliberately AVOIDED.** Per M.01c, those are already uploaded as Sanity projects, so anything in `EditedPhotos\807 EdgewaterDr_2025`, `EditedPhotos\811 Edgewater Dr_2025`, and the loose `5_xxx` planting series that overlaps them was skipped to prevent duplicates.
+6. **3 Patios PNGs downsized.** Originals were 60–78 MB at 4K+; converted to 2400px-wide JPG q92 (1.5–2.1 MB each) so the manifest folder stays portable. Originals untouched in Drive.
+7. **Drainage blog cover is a thematic substitute, not a literal drain photo.** No drainage-install JPG exists in the JPG/HEIC pool; used a deck-over-pond water-adjacent shot. Code may prefer its built-in fallback if one reads more "drainage-instally."
+
+**Operator follow-up (next session, Code phase):**
+- Run the M.10d upload script (when Code writes it) pointed at `C:\sunset-photos\m10d-drive\m10d-manifest.json` to push the 3 projects + 3 blog covers into Sanity.
+- Re-confirm or downgrade the Oswego `hasBeforeAfter: true` flag.
+- Decide whether to substitute the Tree Removal pick with a planting/lawn-install job (would drop Landscape count to 1; brief allows but flags shortfall).
+- Optional: a Code-side RAW-development pass to unlock Mowing-of-Aurora / Homerton 2025 / PlantsInstall / Turf Install as future project candidates.
+
+**Decided by:** chat (Cowork phase, M.10d brief). Goran ratified the 3-project / blog-cover picks + the C:\sunset-photos\ folder-access path via AskUserQuestion before downloads started.
+
+---
+
+## 2026-05-27 — Phase M.10d (Code): START — four content-polish deliverables
+
+**Scope:** Builder phase that follows the Cowork photo-sourcing entry above. Four deliverables, each landing in its own commit so any one can be reverted independently:
+
+- **A. Hero carousel glitch fix.** Repair the mid-fade brightness "dip" in `HomeHeroCarousel.tsx` (M.10c). Root-cause hypothesis to verify: a symmetric opacity cross-dissolve lets the dark hero background bleed through at the 50/50 mid-point because the M.10c B.06-era charcoal `bg-charcoal` sits behind the carousel. Locked technique: stack all 4 images absolutely, never mount/unmount per tick, fade the incoming layer in **on top** of a still-fully-opaque outgoing layer (never two layers at ~50% over the background simultaneously), preload/decode all 4 so no "flash of undecoded image", keep reduced-motion behavior unchanged.
+- **B. Open Graph / Twitter preview cards.** `metadataBase` is already set in `src/app/[locale]/layout.tsx` (Phase B.05). Audit `generateMetadata` on home, the 4 division landings, one representative service, projects index+detail, blog index+detail, resources, about, contact, service-areas; each must emit complete `openGraph` + `twitter` blocks (title, description, absolute `url`, `siteName`, `type`, `locale`, 1200×630 `images` with alt). Polish `/og/fallback` in the **live-site palette** (green-primary + amber-accent + Manrope) — NOT the BG-01 orange brand-guide palette. The BG-01-vs-live-palette reconciliation is a separate deferred decision; the OG card must match what people see when they click.
+- **C. Three new blog posts.** `why-is-my-lawn-yellow`, `backyard-drainage-aurora`, `hoa-landscape-budget-2026`. Source MD lives in `content/incoming-blog/`. Both EN + ES baked into the upload script (LatAm-MX Spanish, **`tú`** register per M.01f1, no `[TBR]` markers — content-surface convention is to translate fully during the session). Categories mapped to the **existing 5-value taxonomy** (`how-to`/`cost-guide`/`seasonal`/`industry-news`/`audience`); the prompt's table values "residential / residential / commercial" are intent, not schema. Mapping decided during this phase: posts 1+2 → `how-to`, post 3 → `cost-guide`. FAQs are referenced docs (3 per post) per the live `blogPost.faqs` array-of-references shape, NOT inline.
+- **D. 2–5 real projects (≥2 Landscape).** Driven by the Cowork manifest at `C:\sunset-photos\m10d-drive\m10d-manifest.json`. **Will not start until D is unblocked by user.**
+
+**Upload script:** `scripts/upload-m10d-content.mjs` — dry-run by default, `--commit` to write, `--clean-placeholders` to additionally remove the 12 seed placeholder projects (opt-in but recommended). Idempotent (`createOrReplace` + deterministic ids). Goran runs it locally with `SANITY_API_WRITE_TOKEN`; sandbox cannot reach Sanity.
+
+**OG SSO-preview caveat:** the Vercel Preview deployment is password/SSO-protected, so external scrapers (Facebook, LinkedIn, X, iMessage) cannot fetch it — they hit the login wall. Real shareable previews only render once the site is publicly reachable (production-domain launch, or Preview Protection temporarily off). Code correctness can be asserted by fetching each page's HTML + the `og:image` URL; the social-card render cannot be validated externally until launch.
+
+**HOA post dating:** `2025-08-15` is intentional — the post was written for the 2025 planning season and reads consistently that way. It's evergreen-adjacent; Goran can refresh next planning cycle.
+
+**Branch:** `phase/m10d-content-polish` (one commit per deliverable).
+
+**Decided by:** Phase M.10d Code prompt (Goran, 2026-05-27); category mapping + carousel-fix technique + OG-palette choice (live, not BG-01) reaffirmed during execution.
+
+---
+
+## 2026-05-27 — Phase M.10d (Code): A + B + C landed; D paused per Goran
+
+Builder phase complete for A, B, C. D paused mid-script (the project-handling code is written and gracefully no-ops when the manifest is absent; it picks up automatically when the manifest lands).
+
+### A — Carousel mid-fade glitch fix
+- **Root cause confirmed:** symmetric opacity crossfade let the dark-charcoal `--color-bg-charcoal` background bleed through at the 50/50 instant, showing up as a brightness "dip" between photos.
+- **Fix shipped:** `prev` + `active` index tracking so the incoming layer (z-index 3) fades 0→1 **on top of** the previous active (z-index 2, opacity 1, no animation). The bare background is never exposed.
+- **Implementation surprise:** the first attempt used `motion.div` with `initial={false} animate={{opacity}}` — mirroring the original code's pattern. Empirically that did NOT animate opacity across per-tick re-renders (z-index updated correctly, opacity stayed pinned to the initial value). Switched to a plain CSS `transition: opacity` on the wrapper div; works correctly. The `motion/react` import is still used for `useReducedMotion()`.
+- Reduced-motion preserved: interval never starts; only the first image is visible.
+- Production verification on the Vercel Preview still recommended (localhost can hide the decode-timing flavor of the glitch).
+
+### B — Open Graph / Twitter cards
+- **`metadataBase` was already set sitewide** in Phase B.05; this phase did not touch that.
+- **New helper** `src/lib/seo/openGraph.ts` spread into every public page's `generateMetadata`. 13 pages updated. Every page now emits a complete `openGraph` (title, description, absolute `url`, `siteName: 'Sunset Services'`, `type`, `locale` `en_US`/`es_ES`, `images: [{url, alt, 1200×630}]`) + `twitter` (`summary_large_image`, title, description, images) block.
+- **`/og/fallback` polished** with the M.10c horizontal-white logo, **live-site palette** (deep-charcoal background, cream text, amber accent — NOT the BG-01 orange brand-guide palette), and 4-division IA headline. `runtime = 'nodejs'` so the logo can be loaded via `fs.readFileSync`.
+- **Manrope deferred.** `next/og` can't reuse `next/font`'s Google-Font loaders, and a runtime fetch of the woff2 is a build-time cost paid on every OG render. system-ui matches the existing per-content OG routes (`/og/blog/[slug]`, `/og/resource/[slug]`) and looks fine at thumbnail size. Revisit when we batch-process fonts for `next/og` site-wide (M.11+).
+- **SSO-Preview caveat (Goran's chats won't show a card on Preview URLs).** The Vercel Preview deployment is password/SSO-gated, so external scrapers (Facebook, LinkedIn, X, iMessage, WhatsApp, Slack) hit the login wall and never see the og:image. Real shareable previews only render once the site is publicly reachable. Code correctness verified via HTML inspection + curling the og:image URL (200 + image/png + 1200×630). Goran can validate with platform sharing-debuggers once the site is public.
+
+### C — 3 new blog posts + idempotent upload script
+- **Category mapping decided** against the live `blogPost.category` taxonomy (`how-to` / `cost-guide` / `seasonal` / `industry-news` / `audience`): posts 1+2 → `how-to`, post 3 → `cost-guide`. Captured in `CATEGORY_MAPPING` table inside the script.
+- **HOA post intentionally dated 2025-08-15** (the post was written for the 2025 planning season; reads consistently that way; evergreen-adjacent).
+- **Spanish translations** are LatAm-MX, **`tú`** register, no `[TBR]` markers (post-B.01 convention).
+- **`featuredImage`** left unset on Sanity docs; the blog detail page renders the static `/public/images/blog/<slug>.jpg` path unconditionally (Phase 1.18 placeholder convention), so the 3 hero photos are sourced from existing service heroes (`hero-lawn-care.jpg`, `hero-landscape-maintenance.jpg`, `hero-commercial-snow-removal.jpg`) until Cowork's manifest delivers real photography via `manifest.blogImages[slug]`.
+- **Script is dry-run by default.** `--commit` writes; `--clean-placeholders` (opt-in but recommended) additionally removes the 12 Phase 1.16 placeholder projects. Reads `SANITY_API_WRITE_TOKEN` from `.env.local` and never prints it. Re-running is safe (createOrReplace + deterministic ids throughout).
+- **D-handling code is already in the script and gates on the manifest's presence.** When the manifest lands, the script picks it up automatically. No code change needed to unblock D.
+
+### Goran's commands (also at the top of the script)
+
+```
+# Dry run (safe, writes nothing):
+node scripts/upload-m10d-content.mjs
+
+# Commit and clean up placeholders (D will run too when its manifest lands):
+node scripts/upload-m10d-content.mjs --commit --clean-placeholders
+```
+
+### Verification
+- `npm run validate:schema` — 0 errors / 0 warnings across 22 URLs.
+- `npm run validate:seo` — 4 errors, all on the pre-existing `aurora-driveway-apron` 404 (called out in the plan as not-from-this-phase). All other 174 URLs pass.
+- `npm run validate:a11y` — 1 error, same `aurora-driveway-apron` 404. axe AA violations: 0. Lighthouse a11y ≥ 95 across all audited routes. WCAG 2.2 SC 2.4.11 + 2.5.8: 0. prefers-reduced-motion emulated: OK.
+- Carousel: inline-style + z-index sampling confirms the active-on-top + prev-fully-opaque pattern holds throughout a crossfade.
+- Upload script dry run: 3 posts, 9 FAQs, EN/ES block parity (85/85, 51/51, 54/54), D gracefully skipped.
+
+### Branch & commits
+
+Branch `phase/m10d-content-polish`:
+1. `725b400` chore(decisions): Phase M.10d (Code) — log scope, locked choices, OG SSO caveat
+2. `53694b2` fix(home): Phase M.10d §A — eliminate hero carousel mid-fade brightness dip
+3. `80a1594` feat(seo): Phase M.10d §B — Open Graph / Twitter cards across the site
+4. `ba9724a` feat(content,scripts): Phase M.10d §C — 3 blog posts + idempotent upload script
+
+(D will land as a 5th commit when unblocked.)
+
+**Decided by:** chat (Goran's instruction to stop at D + on-implementation discovery that `motion.div animate` wasn't firing for the carousel + on-implementation choice to skip Manrope in `/og/fallback`).
+
+---
+
+## 2026-05-27 — Phase M.10d (Code): D — project uploader complete
+
+Goran lifted the D pause; the script's `processProject` was finished in this turn. The Cowork manifest still doesn't exist at `C:\sunset-photos\m10d-drive\m10d-manifest.json`, so the script continues to gracefully skip D until it does — but the project payload is now correct, tested against a stub manifest, and ready.
+
+### Schema mismatches caught (corrected against `sanity/schemas/project.ts`)
+
+- `featuredImage` → **`leadImage`** + a new **`leadAlt`** localized string.
+- `gallery[]._type` changed from `'galleryItem'` → **`'galleryEntry'`**; the asset reference now lives inside a nested **`image`** field (the schema shape) rather than a flat top-level `asset`.
+- **No `publishedAt` on projects.** The index sort is `year desc, slug asc`. Set `year: 2026` so the new M.10d projects sit at the top of `/projects` alongside (and after `--clean-placeholders`, instead of) the 12 seeds.
+- Localized strings on every alt field — `leadAlt`, per-gallery `alt`, `beforeAlt`, `afterAlt`.
+
+### ES translation approach (locked here)
+
+The M.10d plan §D requires ES translation ("LatAm-MX, glossary; projects are content surface → `tú`"). The manifest contract is EN-only. Code phase resolves this with a 3-tier preference, from strongest to weakest:
+
+1. **Manifest-supplied ES** — if a project has `titleEs` + `descriptionEs` in the manifest, those are used verbatim (Cowork can hand-write ES when it has a stronger feel for the voice).
+2. **Anthropic Sonnet 4.6 batch call** — one HTTP round-trip translates all remaining projects' `title` + `description` in a single prompt. Glossary pinned inside the prompt (`césped` / `adoquines` / `muro de contención` / etc.). Cost: ~$0.001 for 2–5 projects total.
+3. **EN-as-ES fallback** — when `ANTHROPIC_API_KEY` is unset or the LLM call fails for any reason, the script logs a warning and ships EN content in the ES slot. Same precedent as Phase M.01c (which set ES = `''`); follow-up translation can patch it later.
+
+`--skip-es-translate` opts out of the LLM call entirely (useful when re-running for a different reason and Goran doesn't want to spend another fraction of a cent on API).
+
+### dotenv override fix
+
+The Claude Code agent runtime ships some secret-shaped env vars pre-set to an empty string — including `ANTHROPIC_API_KEY`. Standard `dotenv.config({path: '.env.local'})` does NOT override an already-set env var, so the script was reading the empty shell value and silently falling through to the EN-as-ES branch. Fixed by passing `{override: true}`. The in-house `seed-faq-content-integration.mjs` loader has the same effect via a regex pass; the precedent in this codebase is "override on script-local env loading is fine".
+
+### Verification
+
+End-to-end stub manifest at `C:\tmp\m10d-stub\` (deleted after):
+
+- 4 manifest projects → 3 upserted (2 landscape + 1 hardscape), 1 skipped because the `yard-drainage` service had no doc in Sanity yet. The script's validation correctly catches this and Goran will see it on the real run too.
+- LLM batch: "[translate-es] batching 3 project(s) through claude-sonnet-4-6 … [translate-es] received 3/3 ES translations". The 1 project with manifest-supplied ES correctly bypassed the LLM.
+- Summary: `Blog: 3 / Projects: 3 (≥2 landscape ✓) / Skipped: 1`.
+
+### What still needs human attention
+
+- **`yard-drainage` and the rest of the waterproofing service catalog may not be in Sanity yet.** When Cowork's real manifest arrives, Goran should dry-run first and check the "skipped" projects list. If any are skipped due to missing service docs, seed those service docs (M.01c-style) before `--commit`-ing.
+- **Spot-check the LLM-produced ES.** Sonnet is reliable but the glossary block in the prompt can drift on edge cases. A 30-second review in Studio after `--commit` is worth it.
+
+**Decided by:** chat (Goran lifted the D pause + on-implementation choices: LLM-driven ES with manifest override, dotenv override fix for the runtime's empty shell shim).
+
+---
+
 ## 2026-05-27 — Phase M.10b — Content integration: Marcin's brand story + Goran's Q&A library + 7 SEO FAQs
 
 Closes a content-only phase: drops in real brand copy from Marcin (Hardscape Lead) and Goran's 28-question Q&A library, plus a 7-FAQ Sanity seed targeting high-volume Chicago-area searches that the existing per-service / per-city FAQ corpus doesn't cover cleanly. No new routes; no schema changes; existing chrome unchanged.

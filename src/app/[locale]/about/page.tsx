@@ -10,6 +10,7 @@ import {team} from '@/data/team';
 import {buildPersonSchema} from '@/lib/schema/person';
 import {buildBreadcrumbList} from '@/lib/schema/breadcrumb';
 import {canonicalUrl, hreflangAlternates, type Locale} from '@/lib/seo/urls';
+import {buildSocialMetadata} from '@/lib/seo/openGraph';
 
 export async function generateMetadata({
   params,
@@ -20,6 +21,12 @@ export async function generateMetadata({
   const t = await getTranslations({locale, namespace: 'about.meta'});
   const loc: Locale = locale === 'es' ? 'es' : 'en';
   const path = '/about';
+  const social = buildSocialMetadata({
+    title: t('title'),
+    description: t('description'),
+    url: canonicalUrl(path, loc),
+    locale: loc,
+  });
   return {
     title: t('title'),
     description: t('description'),
@@ -27,6 +34,7 @@ export async function generateMetadata({
       canonical: canonicalUrl(path, loc),
       languages: hreflangAlternates(path),
     },
+    ...social,
   };
 }
 

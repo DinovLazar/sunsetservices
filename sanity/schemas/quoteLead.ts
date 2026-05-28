@@ -238,6 +238,16 @@ export const quoteLead = defineType({
       ],
     }),
     defineField({
+      name: 'photos',
+      type: 'array',
+      title: 'Photos',
+      group: 'project',
+      of: [{type: 'image', options: {hotspot: false}}],
+      validation: (r) => r.max(10),
+      description:
+        'Up to 10 photos uploaded by the visitor on Step 3 (Phase B.11). Each item is a strong image reference; the inner asset._ref makes the lead doc surface in the asset\'s "Used by..." panel. Sanity CDN URLs are queried at email-send time for the lead-alert thumbnail grid.',
+    }),
+    defineField({
       name: 'contactPreferences',
       type: 'object',
       title: 'Contact preferences',

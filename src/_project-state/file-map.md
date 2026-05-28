@@ -712,3 +712,27 @@ See `src/_project-state/Phase-M-01e-Completion.md` for the canonical file list �
 1. `npx tsx scripts/seed-faq-content-integration.mjs` — seed the 7 SEO FAQs (requires `SANITY_API_WRITE_TOKEN` in `.env.local`; idempotent).
 2. Re-run `npm run validate:{schema,seo,a11y}` against a running dev server or Vercel Preview. No new served routes; should pass unchanged.
 3. Vercel Preview walk-through: confirm `/qa/` shows 7 categories, homepage shows the new Why Sunset band between Projects and CTA, About shows the new p4 paragraph.
+
+## Phase M.03 — Codex-driven Spanish review pass (added 2026-05-27)
+
+**Modified (source Spanish fixes):**
+- `src/messages/es.json` — grammar/glossary/calque fixes across home/division/audience/snow/waterproofing surfaces; placeholder parity preserved.
+- `src/data/services.ts` — crawl-space glossary fixes and snow-removal calque cleanup in ES service copy.
+- `src/data/locations.ts` — location-copy grammar and glossary fixes for Lisle/Bolingbrook/Winfield/North Aurora ES text.
+- `src/data/blog.ts` — spot-check fixes in ES blog title/dek/body/FAQ copy for patio-cost and commercial-snow posts.
+- `src/data/resources.ts` — spot-check fixes in ES resource copy for landscaper-selection and snow-service-levels articles.
+- `src/lib/chat/systemPrompt.ts` — `PERSONA_ES` calque cleanup while preserving `tú` persona register.
+- `src/lib/chat/knowledgeBase.ts` — ES digest wording cleanup; `hardscape` glossary preserved.
+- `src/lib/email/templates/NewsletterWelcomeEmail.tsx` — locale-aware recipient line and gender-neutral Spanish welcome wording.
+- `scripts/migrate-faq-to-divisions.mjs` — source-of-truth FAQ snow-removal wording aligned with the M.03 Sanity fixes.
+- `scripts/seed-faq-content-integration.mjs` — removed one non-rendered historical review-marker mention so active `[TBR]` scans are clean outside historical scripts/docs.
+
+**New:**
+- `scripts/m03-spanish-fixes.mjs` — idempotent Sanity patch script for M.03 `.es` fixes; first run patched 37 docs, subsequent run reports 0 changes.
+- `src/_project-state/Phase-M-03-Completion.md` — completion report.
+
+**Modified (docs/state):**
+- `Sunset-Services-Decisions.md` — first-commit M.03 scope-shift entry documenting LLM review vs. deferred human native review.
+- `Sunset-Services-Phase-Plan-Continuation.md` — Bucket M row marks M.03 complete as Codex-driven review; no post-launch native-review row added.
+- `src/_project-state/current-state.md` — last-completed phase bumped to M.03 and native-review caveat updated.
+- `src/_project-state/file-map.md` — this section.

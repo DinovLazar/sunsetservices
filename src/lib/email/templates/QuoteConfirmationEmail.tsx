@@ -13,6 +13,12 @@ export type QuoteConfirmationEmailProps = {
   primaryServiceDisplayName: string;
   locale: 'en' | 'es';
   intendedRecipient?: string;
+  /**
+   * Phase B.11 — number of photos the visitor attached on Step 3. When
+   * > 0, the email renders a one-line acknowledgment (D8). Thumbnails are
+   * NOT included; the visitor already has the photos.
+   */
+  photoCount?: number;
 };
 
 const COPY = {
@@ -37,6 +43,8 @@ const COPY = {
     primaryCta: 'Book a 30-min consult',
     secondaryCta: 'Call us now',
     signoff: '— Erick & the Sunset Services team',
+    photoAck: (n: number) =>
+      `We received your ${n} photo${n === 1 ? '' : 's'}.`,
   },
   es: {
     // Native Spanish review folds into Phase M.03. Tone: usted
@@ -61,6 +69,8 @@ const COPY = {
     primaryCta: 'Reservar una llamada de 30 min',
     secondaryCta: 'Llámenos ahora',
     signoff: '— Erick y el equipo de Sunset Services',
+    photoAck: (n: number) =>
+      n === 1 ? `Recibimos su foto.` : `Recibimos sus ${n} fotos.`,
   },
 } as const;
 
@@ -69,6 +79,7 @@ export function QuoteConfirmationEmail({
   primaryServiceDisplayName,
   locale,
   intendedRecipient,
+  photoCount = 0,
 }: QuoteConfirmationEmailProps) {
   const c = COPY[locale];
   const bookHref = `${T.business.website}/thank-you/?firstName=${encodeURIComponent(firstName)}`;
@@ -83,6 +94,10 @@ export function QuoteConfirmationEmail({
         {c.h1(firstName)}
       </Heading>
       <Text style={leadStyle}>{c.lead(primaryServiceDisplayName)}</Text>
+
+      {photoCount > 0 ? (
+        <Text style={photoAckStyle}>{c.photoAck(photoCount)}</Text>
+      ) : null}
 
       <Text style={sectionHeadingStyle}>{c.nextHeading}</Text>
       <Step n={1} title={c.next1.title} body={c.next1.body} />
@@ -185,6 +200,16 @@ const signoffStyle: React.CSSProperties = {
   fontSize: 14,
   color: T.color.textSecondary,
   fontStyle: 'italic' as const,
+};
+
+const photoAckStyle: React.CSSProperties = {
+  margin: '0 0 20px',
+  padding: '10px 14px',
+  backgroundColor: T.color.bgCream,
+  borderLeft: `3px solid ${T.color.green500}`,
+  fontSize: 14,
+  color: T.color.textPrimary,
+  lineHeight: '1.5',
 };
 
 export default QuoteConfirmationEmail;

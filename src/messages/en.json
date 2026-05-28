@@ -1845,6 +1845,28 @@
           "kitchen": "Outdoor kitchen",
           "pergola": "Pergola"
         }
+      },
+      "photos": {
+        "label": "Photos (optional)",
+        "helperEmpty": "Add photos of the area, current condition, or inspiration shots. Helps Erick quote without an on-site visit.",
+        "helperPopulated": "{count, plural, one {# photo} other {# photos}} attached, {used} / {limit} used.",
+        "constraintHint": "PNG, JPG, HEIC, or WebP — up to 10 photos, 10 MB each.",
+        "chooseButton": "Choose photos",
+        "dropzoneInstruction": "Drag photos here, or",
+        "addMoreLink": "Add more",
+        "thumbnailAlt": "Project photo {n}",
+        "removeAria": "Remove photo {n}",
+        "uploadingAria": "Uploading photo {n}",
+        "errorAria": "Photo {n} failed to upload. Tap to retry.",
+        "regionLabel": "Photo upload",
+        "disabledMessage": "Photo upload is temporarily unavailable. You can still submit your request and Erick will follow up to collect photos.",
+        "errors": {
+          "tooLarge": "Photo must be 10 MB or smaller. Try a smaller file.",
+          "tooMany": "10-photo limit. Remove one to add another.",
+          "wrongType": "Photo must be JPEG, PNG, HEIC, or WebP.",
+          "uploadFailed": "Upload failed. Tap to retry.",
+          "networkError": "Lost connection. Tap to retry."
+        }
       }
     },
     "step4": {

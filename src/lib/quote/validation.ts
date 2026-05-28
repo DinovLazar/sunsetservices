@@ -1,4 +1,5 @@
 import {z} from 'zod';
+import {SANITY_ASSET_ID_REGEX} from '@/lib/sanity/assetId';
 
 /**
  * Server-side Zod schemas for /api/quote + /api/quote/partial (Phase 2.06).
@@ -70,6 +71,16 @@ const ContactPrefsSchema = z
   .strict();
 
 /**
+ * Phase B.11 — Sanity asset IDs referenced from the lead doc. Each must
+ * match the SANITY_ASSET_ID_REGEX (D23 hardening: a tampered client
+ * could otherwise attach an arbitrary `_ref` like a project doc). Up
+ * to 10 IDs per submit per D3.
+ */
+const PhotoAssetIdsSchema = z
+  .array(z.string().regex(SANITY_ASSET_ID_REGEX))
+  .max(10);
+
+/**
  * Full Step 5 submit — POST /api/quote body.
  *
  * The route handler checks `honeypot` BEFORE Zod runs and silently returns
@@ -88,6 +99,7 @@ export const QuoteSubmitSchema = z
     primaryService: z.string().min(1).max(100).optional(),
     otherText: z.string().max(500).optional(),
     details: DetailsSchema.optional(),
+    photoAssetIds: PhotoAssetIdsSchema.optional(),
     firstName: z.string().min(1).max(100),
     lastName: z.string().min(1).max(100),
     email: z.string().email().max(200),
@@ -112,6 +124,7 @@ export const QuotePartialSchema = z
     primaryService: z.string().max(100).optional(),
     otherText: z.string().max(500).optional(),
     details: DetailsSchema.optional(),
+    photoAssetIds: PhotoAssetIdsSchema.optional(),
     userAgent: z.string().max(500).optional(),
     referrer: z.string().max(2_000).optional(),
   })

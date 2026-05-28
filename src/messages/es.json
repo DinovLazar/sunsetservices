@@ -1847,6 +1847,28 @@
           "kitchen": "Cocina exterior",
           "pergola": "Pérgola"
         }
+      },
+      "photos": {
+        "label": "Fotos (opcional)",
+        "helperEmpty": "Agregue fotos del área, las condiciones actuales o referencias visuales. Ayuda a Erick a cotizar sin una visita al lugar.",
+        "helperPopulated": "{count, plural, one {# foto adjunta} other {# fotos adjuntas}}, {used} / {limit} usadas.",
+        "constraintHint": "PNG, JPG, HEIC o WebP — hasta 10 fotos, 10 MB cada una.",
+        "chooseButton": "Elegir fotos",
+        "dropzoneInstruction": "Arrastre las fotos aquí o",
+        "addMoreLink": "Agregar más",
+        "thumbnailAlt": "Foto del proyecto {n}",
+        "removeAria": "Quitar foto {n}",
+        "uploadingAria": "Subiendo foto {n}",
+        "errorAria": "La foto {n} falló al subir. Toque para reintentar.",
+        "regionLabel": "Subida de fotos",
+        "disabledMessage": "La subida de fotos no está disponible temporalmente. Aún puede enviar su solicitud y Erick le contactará para recopilar las fotos.",
+        "errors": {
+          "tooLarge": "La foto debe ser de 10 MB o menos. Seleccione una más pequeña.",
+          "tooMany": "Máximo 10 fotos. Quite una para agregar otra.",
+          "wrongType": "La foto debe ser JPEG, PNG, HEIC o WebP.",
+          "uploadFailed": "No se pudo subir. Toque para reintentar.",
+          "networkError": "Conexión perdida. Toque para reintentar."
+        }
       }
     },
     "step4": {

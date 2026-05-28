@@ -18,6 +18,7 @@ import {buildServiceSchema, localePath} from '@/lib/schema/service';
 import {buildContentFaqSchema} from '@/lib/schema/article';
 import {routing} from '@/i18n/routing';
 import {canonicalUrl, hreflangAlternates} from '@/lib/seo/urls';
+import {buildSocialMetadata} from '@/lib/seo/openGraph';
 import {getFaqsForService} from '@sanity-lib/queries';
 
 // Phase 2.05 — ISR (30 min) so Sanity FAQ edits propagate without a redeploy.
@@ -42,13 +43,22 @@ export async function generateMetadata({
   if (!svc || svc.division !== division) return {};
   const loc = (routing.locales.includes(locale as Locale) ? locale : 'en') as Locale;
   const path = `/${division}/${svc.slug}`;
+  const title = `${svc.hero.h1[loc]} — Sunset Services`;
+  const description = svc.hero.subhead[loc];
+  const social = buildSocialMetadata({
+    title,
+    description,
+    url: canonicalUrl(path, loc),
+    locale: loc,
+  });
   return {
-    title: `${svc.hero.h1[loc]} — Sunset Services`,
-    description: svc.hero.subhead[loc],
+    title,
+    description,
     alternates: {
       canonical: canonicalUrl(path, loc),
       languages: hreflangAlternates(path),
     },
+    ...social,
   };
 }
 

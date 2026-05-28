@@ -24,6 +24,7 @@ import {
 } from '@/lib/schema/article';
 import {routing} from '@/i18n/routing';
 import {canonicalUrl, hreflangAlternates, SITE_URL} from '@/lib/seo/urls';
+import {buildSocialMetadata} from '@/lib/seo/openGraph';
 import {
   getAllResources,
   getAllResourceSlugs,
@@ -67,6 +68,21 @@ export async function generateMetadata({
     entry.seo?.description[loc] || entry.dek[loc].slice(0, 160);
   const path = `/resources/${slug}`;
   const selfUrl = canonicalUrl(path, loc);
+  const social = buildSocialMetadata({
+    title: entry.title[loc],
+    description,
+    url: selfUrl,
+    locale: loc,
+    type: 'article',
+    images: [
+      {
+        url: `${SITE_URL}/og/resource/${slug}/?locale=${loc}`,
+        alt: entry.featuredImageAlt?.[loc] ?? entry.title[loc],
+        width: 1200,
+        height: 630,
+      },
+    ],
+  });
   return {
     title,
     description,
@@ -74,13 +90,7 @@ export async function generateMetadata({
       canonical: selfUrl,
       languages: hreflangAlternates(path),
     },
-    openGraph: {
-      title: entry.title[loc],
-      description,
-      url: selfUrl,
-      images: [`${SITE_URL}/og/resource/${slug}/?locale=${loc}`],
-      type: 'article',
-    },
+    ...social,
   };
 }
 

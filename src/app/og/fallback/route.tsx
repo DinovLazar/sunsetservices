@@ -100,8 +100,14 @@ export async function GET() {
                 src={logoDataUrl}
                 alt=""
                 width={320}
-                height={72}
-                style={{height: 64, width: 'auto'}}
+                height={86}
+                // Phase M.10e Fix 4 — Satori (next/og's renderer) does NOT
+                // resolve `width: 'auto'` from intrinsic image dimensions
+                // the way a browser does; it collapses to 0 and the image
+                // renders invisibly. Use explicit numeric dimensions
+                // matching the source logo's 3.75:1 aspect (720×192) at the
+                // intended display height of 86px → width 320px.
+                style={{width: 320, height: 86}}
               />
             ) : (
               <div

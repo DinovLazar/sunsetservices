@@ -77,7 +77,11 @@ export async function generateMetadata({
     images: [
       {
         url: `${SITE_URL}/og/resource/${slug}/?locale=${loc}`,
-        alt: entry.featuredImageAlt?.[loc] ?? entry.title[loc],
+        // M.10e Fix 4: `||` (not `??`). The Sanity GROQ coalesces a missing
+        // `featuredImageAlt` to "" rather than null, so `??` would leave
+        // the og:image:alt empty and Next.js would omit the tag. Fall
+        // through an empty string to the entry title.
+        alt: entry.featuredImageAlt?.[loc] || entry.title[loc],
         width: 1200,
         height: 630,
       },

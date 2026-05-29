@@ -1752,3 +1752,52 @@ The 4 boundary-case decisions flagged by M.01f1 stay flagged. Codex does not res
 4. Wizard register -> mixed `tú` UI plus `usted` Step 4 PII boundary.
 
 Native review after launch decides those four items.
+
+
+---
+
+## 2026-05-28 — Phase M.10e (Code) — Walkthrough bug-fix slice
+
+Closes four user-flagged Preview-walkthrough defects in four independent commits + one chore lint-cleanup commit. Branch `phase/m10e-walkthrough-fixes` off `origin/main` (M.10d merged). Each fix is revertible alone without touching the others.
+
+### Fixes shipped
+
+1. **Hero text restored over the carousel** — `HomeHero.tsx:50` carousel wrapper got `isolate` added. The M.10c `HomeHeroCarousel` paints its active crossfade frame at `z-index: 3` and prev frame at `z-index: 2` (the M.10d brightness-dip fix); without a stacking context on the wrapper, those per-frame z-indexes participated in the section's `isolate` stacking context and overpainted the `relative` (z-index auto) content stack. Single-class fix contains the per-frame z-indexes inside their own context; source-order painting now wins for the content stack. No JSX restructure, no impact on LCP priority or reduced-motion behavior.
+
+2. **Sunset-mark favicon set** — `src/app/{favicon.ico,icon.png,apple-icon.png}` replaced the default Next.js favicon. Generator `scripts/build-favicons.mjs` derives a square mark from `src/assets/brand/logo-horizontal-fullcolor.png` via a pixel-column scan that established the circular mark's right edge at x=485 (excluding the orange "S" wordmark). icon.png = 512×512 transparent; apple-icon.png = 180×180 cream-tinted opaque (iOS ignores alpha on apple-touch-icon); favicon.ico = multi-size 16/32/48 PNG-encoded ICO (manual ICONDIR/entry writer; avoids `png-to-ico` dev-dep). Next App Router file-convention is the single source of truth — no `metadata.icons` field anywhere.
+
+3. **About + homepage "Recent work" tiles → live Sanity** — `HomeProjects.tsx` rewired off Sanity (`getAllProjects()` → `sanityProjectSummaryToTs`, slice 6) so every tile points at a real `/projects/<slug>/`. About reuses `HomeProjects` verbatim per Phase 1.12 §3.6 — same fix covers both surfaces. The Phase 1.16 / M.10c hard-coded slug map (`naperville-hilltop-terrace`, `wheaton-lawn-reset`, ...) was 404ing after the M.01c / M.10d portfolio migration retired those seed rows.
+
+4. **OG/Twitter card audit + three closure items** — every audited page (14 surfaces: home, 4 division landings, representative service detail, /projects index + detail, /blog index + detail, /resources index + detail, /about, /contact) emits a complete absolute `openGraph` + `twitter` block with a 1200×630 image. Three closure items: (a) Satori-collapsed `width: 'auto'` on `/og/fallback` made the Sunset mark invisible — pinned to explicit `width: 320, height: 86`; (b) `public/og/logo-horizontal-white.png` was partially-transparent gray (mean RGB ≈ 86) — regenerated as crisp white-on-transparent; (c) Sanity GROQ coalesces `featuredImageAlt` to `""` (not `null`), so the blog + resource `??` nullish fallback didn't trigger — switched both to `||`.
+
+### Locked decisions
+
+- **M.10e-D1 — `isolate` on carousel wrapper over `z-index: 10` on content stack (Fix 1).** Two ways to contain the z-index leak. (a) `isolate` on the offending element with no impact on other surfaces. (b) explicit z-index on content. Chose (a) — single class on the cause, not a workaround on the symptom; nothing else in the design system relies on positive z-indexes on content.
+
+- **M.10e-D2 — pixel-scan-derived favicon crop (Fix 2).** Naive leftmost-square crop (537×537) included the leading "S" of the wordmark. A pre-extraction column scan established the circular mark's right edge at x=485 (largest transparent gap at x∈[486,508], first majority-orange column at x=523). The generator uses constant `MARK_RIGHT_EDGE = 486`; constants are commented so a future logo refresh can re-derive bounds.
+
+- **M.10e-D3 — cream-tinted apple-touch-icon, not transparent (Fix 2).** iOS deliberately ignores PNG alpha on `apple-touch-icon` and renders against its system color (black on dark mode). A transparent background renders unreadable. Cream backdrop matches `--color-bg` so the mark sits inside the rounded-tile shape iOS applies. The tradeoff is a non-translucent icon on Android Chrome (which honors alpha) — acceptable since the alternative is iOS unreadability.
+
+- **M.10e-D4 — drop tiles without photos rather than pad (Fix 3).** If a future Sanity project lacks both a `leadImage` asset and a `PROJECT_LEAD[slug]` placeholder, the tile is silently omitted. Section returns `null` if zero real projects. Better than rendering an empty 4:3 fallback box; this matches the plan's "never fabricate a placeholder" instruction. Today every Sanity project has a CDN lead image so the filter is defensive.
+
+- **M.10e-D5 — leave placeholder i18n strings as orphans (Fix 3).** `home.projects.tile.*` and `home.projects.alt.*` are now unused by `HomeProjects.tsx` but remain in `messages/{en,es}.json`. Removing them adds churn for 2 locales × 6 keys × 2 namespaces with zero behavioral payoff. A future copy-cleanup pass can sweep orphans across the whole app. No build impact (next-intl doesn't fail on unused keys).
+
+- **M.10e-D6 — `||` not `??` for Sanity-coalesced fallbacks (Fix 4).** Established on blog + resource detail OG image alt: `post.featuredImageAlt?.[loc] || post.title[loc]` (was `??`). The GROQ projection coalesces missing bilingual fields to `""` (not `null`) — `??` doesn't fall through empty strings and Next.js then omits the meta tag. **Pattern to remember for future call sites** against GROQ-coalesced bilingual fields: prefer `||` when the field is text-y (empty string is semantically "missing"); reserve `??` for truly nullable fields.
+
+### Stale-data note (pre-existing, surfaced for visibility)
+
+`src/_project-state/current-state.md` described M.10d as an "in-flight handover" and listed M.03 as "Last completed phase" even though M.10d (Code) had merged to `origin/main` (commit `4da013b`). This was a pre-M.10e state-doc lag. M.10e's `current-state.md` update bumps Last completed to M.10e and demotes M.03 to prior 1; M.10d Code remains documented only in `src/_project-state/Phase-M-10d-Code-Completion.md` (not added as a discrete prior entry in the renumber chain to avoid churning the prior labels of every earlier entry).
+
+The pre-existing duplicate "prior 13" / "prior 13" lines (now shifted to "prior 14" / "prior 14" after M.10e's renumber) was not corrected — unrelated to M.10e and would require breaking up Phase-history archaeology.
+
+### Carryover for the user (NOT a Code task)
+
+The reason link previews don't render when sharing `sunsetservices.vercel.app` is **Vercel Deployment Protection** on the `sunsetservices` project, not a code issue — external scrapers (Twitter, Facebook, LinkedIn) hit the SSO login wall before reading the OG card. To make shared Preview links render their card: **Vercel dashboard → Project `sunsetservices` → Settings → Deployment Protection → set Vercel Authentication to "Disabled"** (or specifically allow access on Production). Note that turning this off makes `sunsetservices.vercel.app` publicly viewable — intended for pre-launch sharing.
+
+This phase verified the **code half** is correct: every audited page emits a complete absolute `openGraph` + `twitter` block with a valid 1200×630 image. Once Deployment Protection is off, the cards will render with no further code change.
+
+### Verification
+
+`tsc --noEmit` exit 0. Targeted lint clean (0 errors, 0 warnings after the chore lint-cleanup commit on `scripts/build-favicons.mjs`). `npm run build` succeeds (after a one-time `npm install` to repair an incomplete `node_modules/prettier/` directory — unrelated environment issue, not introduced by M.10e). `validate:schema` 22/22 PASS 0 errors. `validate:seo` 170/174 PASS (4 pre-existing `/aurora-driveway-apron` errors, M.10c-noted). `validate:a11y` 19/20 PASS (0 axe AA, 0 SC 2.4.11, 0 SC 2.5.8, all Lighthouse a11y ≥ 97; same single `/aurora-driveway-apron` error). All 4 fixes verified at the rendered-HTML level on localhost. Vercel Preview re-verification pending push.
+
+Full detail in `src/_project-state/Phase-M-10e-Completion.md`.

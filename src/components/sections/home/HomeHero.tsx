@@ -44,10 +44,19 @@ export default async function HomeHero() {
       style={{backgroundColor: 'var(--color-bg-charcoal)'}}
     >
       {/* Photo carousel + gradient overlay layer. Sits behind the content
-          via source order; isolation:isolate (on the section) keeps z-stacking
-          local. The carousel wrapper carries aria-hidden=true (decorative
+          via source order. The `isolate` here (in addition to the section's
+          `isolate`) is load-bearing: `HomeHeroCarousel` paints its active
+          image at `z-index: 3` and previous image at `z-index: 2` on the
+          per-frame fade. Without a stacking context on this wrapper those
+          per-frame z-indexes participate in the SECTION's stacking context
+          and paint over the `relative` (z-index auto) content stack below
+          — which is exactly the M.10e Fix 1 regression: hero text vanished
+          behind the active carousel frame. `isolate` here contains those
+          per-frame z-indexes inside this wrapper; the wrapper itself stays
+          at z-index auto, so source order wins and the content paints on
+          top. The carousel wrapper carries aria-hidden=true (decorative
           imagery; H1 + dek above carry the page's accessible name). */}
-      <div className="absolute inset-0">
+      <div className="absolute inset-0 isolate">
         <HomeHeroCarousel images={heroImages} />
         {/* Mobile gradient (< sm). Stronger top opacity so the navbar reads
             against a busy crop. */}

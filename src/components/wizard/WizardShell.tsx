@@ -158,6 +158,9 @@ export default function WizardShell({photoUploadEnabled = false}: WizardShellPro
 
   // ----- Phase B.11 — compute stable sessionId once after hydration -----
   React.useEffect(() => {
+    // Client-only value (reads localStorage); deferring to an effect avoids a
+    // hydration mismatch. One-time set on mount, not a cascading update.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setSessionId(getOrCreateSessionId());
   }, []);
 
@@ -248,6 +251,12 @@ export default function WizardShell({photoUploadEnabled = false}: WizardShellPro
     // review + primary-service logic.
     if (step1.division !== division) {
       setStep2({selectedSlugs: [], primarySlug: '', otherText: step2.otherText});
+      // Phase M.11 — also clear Step 3's group-conditional answers. The Step 3
+      // field group is keyed off the division, so answers from the previous
+      // division's group would otherwise persist (hidden in the new group's UI)
+      // and leak into the lead payload. Photos are group-universal (D5) and are
+      // intentionally kept.
+      setStep3({});
     }
   }
 

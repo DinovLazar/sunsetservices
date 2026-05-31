@@ -106,7 +106,6 @@ export default function ResourcesMegaPanel() {
       <div
         ref={panelRef}
         id="resources-mega-panel"
-        role="menu"
         aria-label={t('chrome.nav.resources')}
         aria-hidden={!open}
         inert={open ? undefined : true}
@@ -128,7 +127,6 @@ export default function ResourcesMegaPanel() {
               <div key={col.id}>
                 <Link
                   href={col.headerHref}
-                  role="menuitem"
                   tabIndex={open ? 0 : -1}
                   className="block pb-2 mb-4 border-b border-[var(--color-border)] text-[var(--color-sunset-green-700)] font-heading font-bold text-[17px] no-underline hover:text-[var(--color-sunset-green-600)]"
                 >
@@ -139,7 +137,6 @@ export default function ResourcesMegaPanel() {
                     <li key={key}>
                       <Link
                         href={col.headerHref}
-                        role="menuitem"
                         tabIndex={open ? 0 : -1}
                         className="block text-[15px] font-medium text-[var(--color-text-secondary)] hover:text-[var(--color-sunset-green-700)] no-underline"
                       >

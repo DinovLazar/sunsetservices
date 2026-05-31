@@ -100,9 +100,12 @@ export default async function ServiceDetailPage({
   // (scripts/migrate-faq-to-divisions.mjs) patches old
   // `service:<audience>:<slug>` scopes to the new format.
   const faqs = await getFaqsForService(division, service);
-  const faqSchema = buildContentFaqSchema(
-    faqs.map((f) => ({q: f.question[loc], a: f.answer[loc]})),
-  );
+  const faqSchema =
+    faqs.length > 0
+      ? buildContentFaqSchema(
+          faqs.map((f) => ({q: f.question[loc], a: f.answer[loc]})),
+        )
+      : null;
 
   // ---- What's included ----
   const includedItems = svc.whatsIncluded.map((it) => ({
@@ -171,10 +174,12 @@ export default async function ServiceDetailPage({
         type="application/ld+json"
         dangerouslySetInnerHTML={{__html: JSON.stringify(serviceSchema)}}
       />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{__html: JSON.stringify(faqSchema)}}
-      />
+      {faqSchema ? (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{__html: JSON.stringify(faqSchema)}}
+        />
+      ) : null}
       <ServiceHero
         audience={division}
         audienceLabel={divisionLabel}

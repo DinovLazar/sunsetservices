@@ -49,7 +49,7 @@ export default function ChatHighIntentBanner({highIntent, onDismiss}: Props) {
           right: 6,
           background: 'transparent',
           border: 'none',
-          padding: 4,
+          padding: 8,
           cursor: 'pointer',
           color: 'var(--color-text-primary)',
         }}

@@ -171,7 +171,7 @@ const EN: LocaleLabels = {
   docTitle: 'Internal knowledge digest for the chat assistant',
   whoWeAre: 'Who we are',
   identityLine1:
-    'Sunset Services is a family-run landscaping and outdoor-living company founded in 2001 and headquartered in Aurora, IL.',
+    'Sunset Services is a family-run landscaping and outdoor-living company founded in 2000 and headquartered in Aurora, IL.',
   identityLine2:
     'We serve residential and commercial clients across DuPage County with grounds care, design-build, and hardscape installation.',
   phoneLabel: 'Phone',
@@ -203,7 +203,7 @@ const EN: LocaleLabels = {
   bios: {
     erick:
       'Took over operations from his father Nick in 2018; runs estimates, project oversight, and customer relationships.',
-    nick: 'Founded Sunset Services in 2001; still consults on tree work and complex grading.',
+    nick: 'Founded Sunset Services in 2000; still consults on tree work and complex grading.',
     marcin:
       'Leads the hardscape crew; Unilock-trained, specialises in paver patios, walls, and outdoor kitchens.',
   },
@@ -215,7 +215,7 @@ const ES: LocaleLabels = {
   docTitle: 'Resumen interno para el asistente de chat',
   whoWeAre: 'Quiénes somos',
   identityLine1:
-    'Sunset Services es una empresa familiar de paisajismo y espacios al aire libre, fundada en el año 2001 con sede en Aurora, IL.',
+    'Sunset Services es una empresa familiar de paisajismo y espacios al aire libre, fundada en el año 2000 con sede en Aurora, IL.',
   identityLine2:
     'Atendemos a clientes residenciales y comerciales en todo el condado de DuPage con mantenimiento de jardines, diseño y construcción, e instalación de hardscape.',
   phoneLabel: 'Teléfono',
@@ -248,7 +248,7 @@ const ES: LocaleLabels = {
     erick:
       'Asumió las operaciones de su padre Nick en 2018; lleva los estimados, la supervisión de los proyectos y la relación con los clientes.',
     nick:
-      'Fundó Sunset Services en el año 2001; sigue asesorando en trabajos de arboricultura y nivelación compleja.',
+      'Fundó Sunset Services en el año 2000; sigue asesorando en trabajos de arboricultura y nivelación compleja.',
     marcin:
       'Dirige el equipo de hardscape; capacitado por Unilock, especializado en patios de adoquines, muros de contención y cocinas al aire libre.',
   },

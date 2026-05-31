@@ -123,7 +123,6 @@ export default function ConsentBanner() {
         aria-modal="false"
         aria-labelledby="sunset-consent-heading"
         aria-describedby="sunset-consent-body"
-        aria-label={t('ariaLabel')}
         initial={{y: '100%', opacity: 0}}
         animate={visible ? {y: 0, opacity: 1} : {y: '100%', opacity: 0}}
         transition={{type: 'spring', stiffness: 260, damping: 28, mass: 0.9}}

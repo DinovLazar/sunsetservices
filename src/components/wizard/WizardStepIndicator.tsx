@@ -200,7 +200,7 @@ function dotButtonStyle(state: 'current' | 'completed' | 'upcoming'): React.CSSP
   if (state === 'current') {
     return {
       ...base,
-      background: 'var(--color-sunset-green-500)',
+      background: 'var(--color-sunset-green-600)',
       color: 'var(--color-text-on-green)',
       boxShadow: '0 0 0 6px var(--color-sunset-green-100)',
     };

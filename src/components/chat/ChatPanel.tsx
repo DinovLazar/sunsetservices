@@ -49,6 +49,7 @@ export default function ChatPanel({locale, onClose}: Props) {
   const tRoot = useTranslations();
 
   const dialogRef = React.useRef<HTMLDialogElement>(null);
+  const [isModal, setIsModal] = React.useState(false);
   const [messages, setMessages] = React.useState<ChatMessage[]>(() => loadHistory(locale));
   const [streaming, setStreaming] = React.useState(false);
   const [showLeadForm, setShowLeadForm] = React.useState(false);
@@ -68,16 +69,21 @@ export default function ChatPanel({locale, onClose}: Props) {
     fireChatEvent(CHAT_EVENTS.OPENED, {locale});
     const dlg = dialogRef.current;
     if (!dlg) return;
+    // Modal-ness depends on viewport width (client-only), so it can only be
+    // determined after mount. Compute once, then sync to state in a single call.
+    let modal = false;
     if (window.matchMedia('(max-width: 1023px)').matches) {
       // Mobile: modal dialog with focus trap.
       try {
         dlg.showModal();
+        modal = true;
       } catch {
         dlg.setAttribute('open', '');
       }
     } else {
       dlg.setAttribute('open', '');
     }
+    setIsModal(modal);
     return () => {
       try {
         dlg.close();
@@ -332,7 +338,7 @@ export default function ChatPanel({locale, onClose}: Props) {
       id="chat-panel"
       ref={dialogRef}
       className="chat-panel"
-      aria-modal="false"
+      aria-modal={isModal}
       aria-labelledby="chat-panel-header"
       style={{
         // Reset default <dialog> centering so our CSS positions take over.

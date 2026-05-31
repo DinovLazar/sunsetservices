@@ -75,7 +75,6 @@ export default function ChatComposer({onSend, onLeadCta, disabled = false}: Prop
             fontSize: 14,
             lineHeight: 'var(--leading-normal)',
             resize: 'none',
-            outline: 'none',
           }}
         />
         <button

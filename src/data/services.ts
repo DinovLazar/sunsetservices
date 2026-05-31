@@ -4004,6 +4004,21 @@ export const SERVICES: Service[] = [
 
 export const SERVICE_SLUGS = SERVICES.map((s) => s.slug);
 
+// Phase M.11 — build-time invariant: service slugs MUST be globally unique
+// (getService/getRelatedService resolve by slug via .find(); a duplicate would
+// silently mis-route to the first match). Mirrors the FK assertion in projects.ts.
+{
+  const _seenSlugs = new Set<string>();
+  for (const _s of SERVICES) {
+    if (_seenSlugs.has(_s.slug)) {
+      throw new Error(
+        `[services.ts] Duplicate service slug "${_s.slug}" — service slugs must be globally unique.`,
+      );
+    }
+    _seenSlugs.add(_s.slug);
+  }
+}
+
 export const AUDIENCES: Audience[] = ['residential', 'commercial', 'hardscape'];
 
 /**

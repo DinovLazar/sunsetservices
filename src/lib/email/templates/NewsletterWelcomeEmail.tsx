@@ -68,9 +68,9 @@ export function NewsletterWelcomeEmail({
 
       <Text style={sectionHeadingStyle}>{c.quickHeading}</Text>
       <Section style={{paddingTop: 4}}>
-        <EmailButton variant="ghost" href={`${T.business.website}/projects`} text={c.projects} />
-        <EmailButton variant="ghost" href={`${T.business.website}/blog`} text={c.blog} />
-        <EmailButton variant="primary" href={`${T.business.website}/request-quote`} text={c.quote} />
+        <EmailButton variant="ghost" href={`${T.business.website}${locale === 'es' ? '/es' : ''}/projects`} text={c.projects} />
+        <EmailButton variant="ghost" href={`${T.business.website}${locale === 'es' ? '/es' : ''}/blog`} text={c.blog} />
+        <EmailButton variant="primary" href={`${T.business.website}${locale === 'es' ? '/es' : ''}/request-quote`} text={c.quote} />
       </Section>
 
       <Text style={recipientLineStyle}>{recipientLine}</Text>

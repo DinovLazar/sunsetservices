@@ -86,7 +86,8 @@ export default function FilterChipStrip({
                 style={{
                   paddingTop: '4px',
                   paddingBottom: '4px',
-                  padding: '0 16px',
+                  paddingLeft: '16px',
+                  paddingRight: '16px',
                   height: '40px',
                   fontSize: '14px',
                   borderRadius: '20px',

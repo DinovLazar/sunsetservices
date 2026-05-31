@@ -1098,7 +1098,7 @@ Phase B.09 replaces the Phase 2.09 module-scoped `Map`-based limiter in `src/lib
 
 Phase B.10 wires Google Places Autocomplete to the `data-autocomplete-stub="address"` slot on quote wizard Step 4 (`src/components/wizard/WizardStep4Contact.tsx:137`). Typing a street prefills city + state + ZIP; manual entry stays fully functional as a fallback. This closes the last placeholder behavior in the wizard from Phase 1.20 and the mini-phase that the 2026-05-12 decision-log entry (`Phase 2.13.3`) carved out of Phase 2.07.
 
-**Dependency-satisfied note.** The Phase Plan Continuation marks B.10 as blocked on M.04 (Google Places API key). That dependency is satisfied today: `GOOGLE_PLACES_API_KEY=AIzaSyD_X-wk9ujNFtspFjED06gf7rMzg9w6qBQ` was populated in `.env.local` + Vercel by Goran in Phase 2.10 A.1b (per the 2026-05-13 "Phase 2.10 A.1b addendum: GCP credentials partially populated mid-session" entry). No M.04 / M.05 dependency to wait on; B.10 runs now.
+**Dependency-satisfied note.** The Phase Plan Continuation marks B.10 as blocked on M.04 (Google Places API key). That dependency is satisfied today: `GOOGLE_PLACES_API_KEY=<redacted in M.11 — real value lives only in .env.local + Vercel env; rotate + apply GCP HTTP-referrer restrictions>` was populated in `.env.local` + Vercel by Goran in Phase 2.10 A.1b (per the 2026-05-13 "Phase 2.10 A.1b addendum: GCP credentials partially populated mid-session" entry). No M.04 / M.05 dependency to wait on; B.10 runs now.
 
 **D1 — Geographic restriction.** Any US address. `componentRestrictions: { country: ['us'] }`. No IL bias. Out-of-area visitors still find their address; Erick declines manually if not serviceable. User decision, Chat 2026-05-18.
 
@@ -1801,3 +1801,52 @@ This phase verified the **code half** is correct: every audited page emits a com
 `tsc --noEmit` exit 0. Targeted lint clean (0 errors, 0 warnings after the chore lint-cleanup commit on `scripts/build-favicons.mjs`). `npm run build` succeeds (after a one-time `npm install` to repair an incomplete `node_modules/prettier/` directory — unrelated environment issue, not introduced by M.10e). `validate:schema` 22/22 PASS 0 errors. `validate:seo` 170/174 PASS (4 pre-existing `/aurora-driveway-apron` errors, M.10c-noted). `validate:a11y` 19/20 PASS (0 axe AA, 0 SC 2.4.11, 0 SC 2.5.8, all Lighthouse a11y ≥ 97; same single `/aurora-driveway-apron` error). All 4 fixes verified at the rendered-HTML level on localhost. Vercel Preview re-verification pending push.
 
 Full detail in `src/_project-state/Phase-M-10e-Completion.md`.
+
+---
+
+## 2026-05-31 — Phase M.11 (Code) — Plan-of-record: full multi-agent QA & fix sweep
+
+Phase M.11 is the final quality gate before the Erick handover — a top-to-bottom, multi-subagent audit-and-*fix* of the entire Sunset Services site (code correctness, page logic, cross-site consistency, and end-to-end "does everything work"). Every issue found is fixed in-phase (not just reported), every validation harness is re-run green, and the branch is left clean for the user to verify on Vercel Preview and merge. This entry is committed FIRST, before any code change, per the decision-first convention.
+
+### Locked decisions (input contract — not renegotiated mid-run)
+
+- **M.11-D1 — Fulfilled via Claude Code native multi-agent, not Codex.** The Phase Plan Continuation specced M.11 as a Codex review (User → Chat → Code). It is executed directly by Claude Code subagents instead (parallel read-only discovery → consolidated triage → coordinated fix waves → full re-verify). A separate Codex pass remains optional for the future and is not blocked by this reframing.
+- **M.11-D2 — Discover → fix → verify, all in this phase.** The deliverable is a *fixed* codebase on a branch plus a completion report — never a findings list that defers the fixes.
+- **M.11-D3 — Branch only; do NOT merge to `main`.** Work on `phase/m11-qa-sweep` (the native worktree harness sanitized the branch to `worktree-phase+m11-qa-sweep` — acceptable per §0). The user verifies on Vercel Preview, then merges.
+- **M.11-D4 — Fix everything found, including issues not enumerated in the brief.** The four mandated workstreams (code correctness, logic, consistency, functional verification) are the floor, not the ceiling — subject to the guardrails below.
+- **M.11-D5 — `/projects/aurora-driveway-apron` 404 drift resolved by removing the stale harness expectation** (no Sanity write — no real content exists for that slug, and inventing a fake project is forbidden). This is the source of the 4 pre-existing `validate:seo` errors + 1 `validate:a11y` error carried through M.10e (`validate:seo` 170/174, `validate:a11y` 19/20).
+- **M.11-D6 — Spanish: fix clear errors, do NOT resolve the 4 boundary cases.** Fix grammar, broken ICU/interpolation, English-leak, glossary/register drift vs `TRANSLATION_NOTES` §M.01f1, and EN/ES key parity. Leave the four flagged boundary items (`entradas` vs `cocheras`; `Presupuesto` vs `estimado`; "Hardscape" kept in English; the mixed wizard register) and the deferred human native review for post-launch.
+- **M.11-D7 — Performance ceiling acknowledged, not a blocker.** The documented mobile-Lighthouse LCP ceiling on full-bleed-hero pages (M.02 scope) does not block M.11. Cheap perf wins are fair game; the structural LCP ceiling is not.
+- **M.11-D8 — Autonomy.** Run with minimal/no user input; make conservative, reversible decisions and log each in the completion report (no silent ratifications). The only legitimate user handoff is Vercel Preview re-verification — and only if Preview cannot be reached via connected Vercel tooling (the Vercel MCP server is connected this session, so self-serve Preview re-verification is attempted first).
+
+### Guardrails reaffirmed (intentional — NOT changed)
+
+Blocked external integrations stay flag-off (`TELEGRAM_ENABLED` / `SERVICEM8_ENABLED` / `PORTFOLIO_DRAFT_ENABLED` / `GBP_PORTFOLIO_PUBLISH_ENABLED` / `GSC_ENABLED` / `MAUTIC_ENABLED` / `RESEND_DOMAIN_VERIFIED` + `CHAT_RATELIMIT_STORE=memory`). Calendly + chat-bubble consent gates stay default-true. 3 of 4 Termly legal routes stay fallback (free-plan single-doc cap). Placeholder featured images, EN-only Erick lead/alert emails, and per-city placeholder stats stay. BG-01 orange palette + Montserrat stay deferred (M.10c D7). `[TBR]`-flagged ES strings + the 4 boundary cases stay. No Sanity content deletion / destructive migration. `scripts/translate-sanity-es.mjs` + merged completion reports untouched. Phase-locked / ratified design patterns (`.card-testimonial` green `border-left` = Phase 1.03 §6.2; email-template `border-left` for Outlook/Gmail render reliability; the dev/system blockquote pull-quote) are confirmed intentional and left.
+
+### Execution model
+
+Phase A parallel read-only discovery (subagents partitioned by the four workstreams + cross-cutting a11y/SEO/schema/assets/security) → Phase B consolidated triage (each finding classified `fix-now` / `flag-and-log` / `intentional-leave`, partitioned by file ownership) → Phase C coordinated fix waves (disjoint file sets per wave; rebuild + re-run affected harness(es) after each wave; one `phase(M.11):` commit per coherent fix-group) → Phase D full re-verification (`tsc`, `lint`, `build`, `validate:schema/seo/a11y`, every `test:*`, full EN+ES route sweep with zero unintended 404s, console-clean sampled routes, forms/wizard/chat/Calendly/cookie-banner) + completion report (`Phase-M-11-Completion.md`) + closing Decisions entry.
+
+**Decided by:** Code (orchestrator), 2026-05-31, before any code change.
+
+---
+
+## 2026-05-31 — Phase M.11 (Code) — Execution: multi-agent QA & fix sweep CLOSED
+
+Discover → fix → verify completed on `worktree-phase+m11-qa-sweep` (NOT merged to `main`). ~46 findings triaged; every `fix-now` fixed + verified across 9 atomic `phase(M.11):` commits (`68b488e` plan-of-record → `72542ab`). Full detail + the verification matrix in `src/_project-state/Phase-M-11-Completion.md`.
+
+**In-phase execution decisions (off-spec calls surfaced for ratification):**
+
+- **M.11-E1 — `getStep3Group` landscape made deterministic (`residential`).** The Step-4 `propertyType` radio (M.01e-pt2) is collected *after* Step 3, so the landscape `propertyType==='commercial'` branch could never fire at Step-3 time and instead recomputed at the Step-5 review, surfacing empty commercial fields + leaking residential answers into a "commercial" payload. Resolved landscape to one stable group so Step 3 / Step 5 / payload agree. **Trade-off:** commercial-landscape leads now answer the residential question set (propertyType is still captured on Step 4). A future enhancement could restore commercial-landscape Step-3 questions by collecting `propertyType` before Step 3 — flagged for Chat.
+- **M.11-E2 — `aurora-driveway-apron` drift (M.11-D5) resolved by harness removal** (no Sanity write); the inert `projects.ts`/`imageMap.ts` seed rows were left (projects render from Sanity). **Inverse drift also found + reconciled:** the live Sanity sitemap carried 6 real slugs (3 projects + 3 blog, all 200) absent from the harness's hardcoded arrays — added them, so `validate:seo` went from 170/174+sitemap-warnings to **184 URLs · 0/0**.
+- **M.11-E3 — 2 pre-existing `react-hooks/set-state-in-effect` lint errors cleared.** ChatPanel: restructured the mount effect to a single `setIsModal` (the aria-modal fix); WizardShell:161 (B.11 client-only sessionId init): justified `eslint-disable` (the localStorage-deferred pattern is the standard client-only-init idiom).
+- **M.11-E4 — build-time service-slug-uniqueness assertion added** to `services.ts` (the invariant `getService`/`getRelatedService` rely on but never enforced — surfaced by the division-IA re-run).
+- **M.11-E5 — execution incident:** the first fix-subagent edited the **parent repo** working tree instead of the worktree; the edits were copied onto the branch and the parent reverted to clean `main`. No leak to `main`.
+
+**Flag-and-log handed to Chat (NOT fixed; recommended for a future small phase):** see `Phase-M-11-Completion.md` §5 — headlined by the **🔴 GCP Places API key rotation + referrer allowlist** (key redacted on-branch in `72542ab`, but rotation is an operator/Goran action git-history + the public bundle make mandatory), plus lead-route rate-limiting, the Sanity `audience`→`division` schema migration, the OG-route Sanity-source drift, assorted dead-code cleanups, and the two deferred-integration test harnesses (`test-telegram-bot` flag-off crash, `test-blog-automation` topic-pool exhaustion) — both pre-existing, neither an M.11 regression.
+
+**Intentional-leave confirmed:** all §9 guardrails (blocked-integration flags, consent gates, Termly fallbacks, placeholder content, BG-01 palette, `[TBR]` ES strings — 0 stripped, the 4 ES boundary cases, no Sanity deletion). `npx tsc --noEmit` 0 · `lint` 0 errors · `build` 190 pages · `validate:schema` 22/22 · `validate:seo` 184·0/0 · `validate:a11y` 20/20 · 5 npm `test:*` pass.
+
+**Vercel Preview re-verification — SELF-SERVED** via the connected Vercel MCP (branch pushed to `origin/phase/m11-qa-sweep`; build READY/green in ~77 s; `validate:seo` 0/0 across 184 URLs + `validate:schema` internal authoritative rules green against the live Preview — the external `validator.schema.org` layer's 4 pre-existing WARNING-level `UNKNOWN_FIELD` findings are non-authoritative per B.04 and flagged, not M.11-caused). **No blocking user step remains.** The user's remaining actions are the merge decision (verify on Preview → merge `phase/m11-qa-sweep` → `main`) and the **🔴 GCP Places API key rotation + referrer allowlist** (Goran/Cowork).
+
+**Decided by:** Code, 2026-05-31, at phase close.

@@ -1,6 +1,7 @@
 'use client';
 
 import * as React from 'react';
+import {useTranslations} from 'next-intl';
 import type {ChatMessage} from '@/lib/chat/storage';
 import ChatMessageBubble from './ChatMessageBubble';
 import ChatTypingIndicator from './ChatTypingIndicator';
@@ -23,6 +24,7 @@ type Props = {
  * 16px gap; same-sender consecutive bubbles get 8px (handled in CSS).
  */
 export default function ChatMessageLog({messages, isStreaming, afterTrail, welcome}: Props) {
+  const t = useTranslations('chat');
   const ref = React.useRef<HTMLDivElement>(null);
 
   React.useEffect(() => {
@@ -56,7 +58,7 @@ export default function ChatMessageLog({messages, isStreaming, afterTrail, welco
       {isStreaming ? (
         <div
           role="article"
-          aria-label="Sunny is typing"
+          aria-label={t('typing.ariaLabel')}
           style={{display: 'flex', gap: 8, alignItems: 'flex-start'}}
         >
           <span

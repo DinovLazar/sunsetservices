@@ -37,7 +37,7 @@ type TeamCardProps = {
 export default function TeamCard({name, role, bio, photo, alt, priority}: TeamCardProps) {
   return (
     <article
-      className="card card--cream block h-full overflow-hidden"
+      className="card card-cream block h-full overflow-hidden"
       style={{
         borderRadius: 'var(--radius-md)',
         boxShadow: 'var(--shadow-soft)',

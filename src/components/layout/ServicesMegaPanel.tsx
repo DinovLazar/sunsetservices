@@ -116,7 +116,6 @@ export default function ServicesMegaPanel() {
       <div
         ref={panelRef}
         id="services-mega-panel"
-        role="menu"
         aria-label={t('chrome.nav.services')}
         aria-hidden={!open}
         inert={open ? undefined : true}
@@ -139,7 +138,6 @@ export default function ServicesMegaPanel() {
               <div key={col.id}>
                 <Link
                   href={col.headerHref}
-                  role="menuitem"
                   tabIndex={open ? 0 : -1}
                   className="block pb-2 mb-4 border-b border-[var(--color-border)] text-[var(--color-sunset-green-700)] font-heading font-bold text-[16px] no-underline hover:text-[var(--color-sunset-green-600)]"
                 >
@@ -150,7 +148,6 @@ export default function ServicesMegaPanel() {
                     <li key={child.href}>
                       <Link
                         href={child.href}
-                        role="menuitem"
                         tabIndex={open ? 0 : -1}
                         className="block text-[14px] font-medium text-[var(--color-text-secondary)] hover:text-[var(--color-sunset-green-700)] no-underline"
                       >

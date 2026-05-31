@@ -26,7 +26,6 @@ type AudienceServicesGridProps = {
  * commercial. Cream surface; whole tile is the link target.
  */
 export default function AudienceServicesGrid({
-  audience,
   locale,
   eyebrow,
   h2,
@@ -34,7 +33,6 @@ export default function AudienceServicesGrid({
   services,
   tilePhotos,
 }: AudienceServicesGridProps) {
-  const isCommercial = audience === 'commercial';
   return (
     <section
       aria-labelledby="audience-services-grid-h2"
@@ -67,7 +65,7 @@ export default function AudienceServicesGrid({
         </AnimateIn>
 
         <StaggerContainer
-          className={`grid grid-cols-2 ${isCommercial ? 'lg:grid-cols-2' : 'lg:grid-cols-3'} gap-4 lg:gap-8`}
+          className="grid grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-8"
         >
           {services.map((s) => {
             const photo = tilePhotos[s.slug];
@@ -85,7 +83,7 @@ export default function AudienceServicesGrid({
                         alt=""
                         fill
                         loading="lazy"
-                        sizes={isCommercial ? '(max-width: 1023px) 50vw, 50vw' : '(max-width: 1023px) 50vw, 33vw'}
+                        sizes="(max-width: 1023px) 50vw, 33vw"
                         style={{objectFit: 'cover'}}
                       />
                     ) : null}

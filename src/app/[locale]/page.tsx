@@ -59,14 +59,6 @@ export default async function HomePage({
     name: 'Sunset Services',
     url: `${BUSINESS_URL}/`,
     inLanguage: ['en-US', 'es-US'],
-    potentialAction: {
-      '@type': 'SearchAction',
-      target: {
-        '@type': 'EntryPoint',
-        urlTemplate: `${BUSINESS_URL}/search?q={search_term_string}`,
-      },
-      'query-input': 'required name=search_term_string',
-    },
   };
 
   return (

@@ -66,7 +66,7 @@ export function ContactConfirmationEmail({
       <Text style={bodyStyle}>{c.inMeantimeBody}</Text>
 
       <Section style={{paddingTop: 12}}>
-        <EmailButton variant="primary" href={`${T.business.website}/projects`} text={c.primaryCta} />
+        <EmailButton variant="primary" href={`${T.business.website}${locale === 'es' ? '/es' : ''}/projects`} text={c.primaryCta} />
         <EmailButton
           variant="ghost"
           href={`tel:${T.business.phoneTel}`}

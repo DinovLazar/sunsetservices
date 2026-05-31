@@ -1850,3 +1850,24 @@ Discover → fix → verify completed on `worktree-phase+m11-qa-sweep` (NOT merg
 **Vercel Preview re-verification — SELF-SERVED** via the connected Vercel MCP (branch pushed to `origin/phase/m11-qa-sweep`; build READY/green in ~77 s; `validate:seo` 0/0 across 184 URLs + `validate:schema` internal authoritative rules green against the live Preview — the external `validator.schema.org` layer's 4 pre-existing WARNING-level `UNKNOWN_FIELD` findings are non-authoritative per B.04 and flagged, not M.11-caused). **No blocking user step remains.** The user's remaining actions are the merge decision (verify on Preview → merge `phase/m11-qa-sweep` → `main`) and the **🔴 GCP Places API key rotation + referrer allowlist** (Goran/Cowork).
 
 **Decided by:** Code, 2026-05-31, at phase close.
+
+---
+
+## 2026-05-31 — Phase M.10f (Code) — mobile homepage hero: viewport-fit + legibility
+
+Branch `phase/m10f-mobile-hero-fix` (off `main`; M.10e + M.11 already merged). Do NOT merge to `main` — user verifies on Vercel Preview, then merges. Full detail + measured matrix in `src/_project-state/Phase-M-10f-Completion.md`.
+
+**Root cause (measured @ 375x667):** fixed `h-[max(75vh,560px)]` + `overflow-hidden` clipped ~172px (EN) / ~193px (ES) of the bottom content (trust row + secondary CTA); `vh` ignores the mobile address bar; the upper/mid scrim was too weak for AA over the brightest frame.
+
+**Plan-of-record (locked by Chat):** outcome over technique; priority order (1) no clip, (2) "Get a Free Estimate" CTA visible without scrolling @375x667, (3) all hero text AA over every frame, (4) premium. Peek preferred but not forced if it crowds (visible-viewport is the floor). Keep the 4-image carousel. Desktop+tablet unchanged; reduced-motion + LCP preserved; EN+ES both fit.
+
+**In-phase decisions:**
+- **E1 — min-height + svh, not a capped fixed height.** Phone hero = `min-h-[max(30rem,82svh)]` (no fixed height → grows, clip impossible); `sm:min-h-0 sm:h-[max(75vh,560px)] lg:h-[max(85vh,600px)]` keep tablet+desktop byte-for-byte (verified desktop still 680px @1280, min-height:0).
+- **E2 — modest mobile spacing trim** (`pt-32→pt-24`, `pb-10→pb-8`, `gap-5→gap-4`); not a redesign (H1 size, copy, both CTAs, trust all kept).
+- **E3 — contrast = strengthened <sm gradient (→0.86) + mobile-only `.hero-text-legible` text-shadow** on eyebrow/H1/trust (not buttons). Per-pixel sampling: brightest frame is the patio `hero.jpg` (avg-lum 0.32), not snow (0.18). Gradient-only avg contrast: eyebrow ~7.4, H1 ~4.4, body ~4.0 (conservative linear estimate, understates true); text-shadow carries the brightest-pixel worst case + small text. Standard white-text-over-photo treatment (brief's "and/or text-shadow"; B.06 precedent).
+- **E4 — shortest-phone × longest-copy edge accepted per Decision 2.** EN+ES keep the primary CTA visible @375x667 with zero clip; only ES on the smallest address-bar viewport (~553–573) drops the secondary/trust below the initial fold (revealed as the bar auto-hides) — not forced, to avoid crowding.
+- **E5 — verification harness** (temporary headless Playwright `m10f-verify.mjs`) used then removed; `.claude/launch.json` (preview dev config) left untracked.
+
+**Verification:** build clean · tsc 0 · lint 0 · validate:schema 22/22 · validate:seo 184·0/0 · validate:a11y 20/20 (incl. `/`+`/es`) — M.11 baseline, no regressions. Carousel untouched → LCP + reduced-motion preserved.
+
+**Decided by:** Code, 2026-05-31 (plan-of-record + close recorded together after a tooling-churn incident dropped the earlier separate commits; the code fix itself was intact in the working tree and re-committed).

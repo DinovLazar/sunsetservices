@@ -168,9 +168,12 @@ const PROJECT_SLUGS = [
   '6135-belmont-downers-grove',
   '807-edgewater-drive',
   '811-edgewater-drive',
-  'aurora-driveway-apron',
   'aurora-area-patio',
   'scott-and-sarahs',
+  // Phase M.11 — reconcile harness with live Sanity portfolio (M.10b/M.10d additions)
+  'aurora-area-paver-patio-firepit',
+  'oswego-landscape-design-install',
+  'tree-removal-service',
 ];
 
 const BLOG_SLUGS = [
@@ -179,6 +182,10 @@ const BLOG_SLUGS = [
   'why-unilock-premium-pavers',
   'snow-for-commercial-properties',
   'sprinkler-tune-up-7-signs',
+  // Phase M.11 — reconcile harness with live Sanity blog (auto-published + M.10b posts)
+  'backyard-drainage-aurora',
+  'hoa-landscape-budget-2026',
+  'why-is-my-lawn-yellow',
 ];
 
 const RESOURCE_SLUGS = [

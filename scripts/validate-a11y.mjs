@@ -94,7 +94,7 @@ const URLS = [
   {path: '/service-areas', label: 'service-areas-index'},
   {path: '/service-areas/aurora', label: 'city-page'},
   {path: '/projects', label: 'projects-index'},
-  {path: '/projects/aurora-driveway-apron', label: 'project-detail'},
+  {path: '/projects/aurora-area-patio', label: 'project-detail'},
   {path: '/blog', label: 'blog-index'},
   {path: '/blog/dupage-patio-cost-2026', label: 'blog-detail'},
   {path: '/resources', label: 'resources-index'},

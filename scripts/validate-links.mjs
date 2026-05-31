@@ -103,7 +103,6 @@ const SKIP_REMOTE = process.env.SKIP_REMOTE === '1';
 const CRAWL_FOLLOW = process.env.CRAWL_FOLLOW !== '0';
 
 const STRICT = process.argv.includes('--strict');
-const ONLY = (process.argv.find((a) => a.startsWith('--only=')) || '').slice('--only='.length);
 const MAX_PAGES = Number(process.env.MAX_PAGES || 1500); // runaway backstop
 
 const REPORT_PATH = resolve('scripts/.links-validation-report.json');

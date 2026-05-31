@@ -1098,7 +1098,7 @@ Phase B.09 replaces the Phase 2.09 module-scoped `Map`-based limiter in `src/lib
 
 Phase B.10 wires Google Places Autocomplete to the `data-autocomplete-stub="address"` slot on quote wizard Step 4 (`src/components/wizard/WizardStep4Contact.tsx:137`). Typing a street prefills city + state + ZIP; manual entry stays fully functional as a fallback. This closes the last placeholder behavior in the wizard from Phase 1.20 and the mini-phase that the 2026-05-12 decision-log entry (`Phase 2.13.3`) carved out of Phase 2.07.
 
-**Dependency-satisfied note.** The Phase Plan Continuation marks B.10 as blocked on M.04 (Google Places API key). That dependency is satisfied today: `GOOGLE_PLACES_API_KEY=AIzaSyD_X-wk9ujNFtspFjED06gf7rMzg9w6qBQ` was populated in `.env.local` + Vercel by Goran in Phase 2.10 A.1b (per the 2026-05-13 "Phase 2.10 A.1b addendum: GCP credentials partially populated mid-session" entry). No M.04 / M.05 dependency to wait on; B.10 runs now.
+**Dependency-satisfied note.** The Phase Plan Continuation marks B.10 as blocked on M.04 (Google Places API key). That dependency is satisfied today: `GOOGLE_PLACES_API_KEY=<redacted in M.11 — real value lives only in .env.local + Vercel env; rotate + apply GCP HTTP-referrer restrictions>` was populated in `.env.local` + Vercel by Goran in Phase 2.10 A.1b (per the 2026-05-13 "Phase 2.10 A.1b addendum: GCP credentials partially populated mid-session" entry). No M.04 / M.05 dependency to wait on; B.10 runs now.
 
 **D1 — Geographic restriction.** Any US address. `componentRestrictions: { country: ['us'] }`. No IL bias. Out-of-area visitors still find their address; Erick declines manually if not serviceable. User decision, Chat 2026-05-18.
 

@@ -495,7 +495,7 @@ export default async function BlogPostPage({
             </p>
             <div className="mt-10 flex flex-col items-center gap-4">
               <a
-                href={`/${loc === 'en' ? '' : `${loc}/`}request-quote/?from=blog&slug=${slug}`}
+                href={`/${loc === 'en' ? '' : `${loc}/`}request-quote?from=blog&slug=${slug}`}
                 className="btn btn-amber btn-lg"
                 data-cr-tracking={`cta-blog-${slug}-amber`}
                 style={{minWidth: '280px'}}

@@ -103,13 +103,22 @@ export default async function ProjectFacts({project, locale}: ProjectFactsProps)
                   color: 'var(--color-text-primary)',
                 }}
               >
-                <Link
-                  href={`/service-areas/${project.citySlug}/`}
-                  className="link link-inline"
-                  style={{color: 'var(--color-sunset-green-700)', fontWeight: 500}}
-                >
-                  {cityName}, IL
-                </Link>
+                {city ? (
+                  <Link
+                    href={`/service-areas/${project.citySlug}`}
+                    className="link link-inline"
+                    style={{color: 'var(--color-sunset-green-700)', fontWeight: 500}}
+                  >
+                    {cityName}, IL
+                  </Link>
+                ) : (
+                  // Phase M.11b: guard projects whose Sanity `citySlug` is empty —
+                  // `/service-areas/${''}/` collapsed to a bare `/service-areas/`
+                  // (308 + wrong destination). Render plain text instead of a link.
+                  <span style={{color: 'var(--color-text-primary)'}}>
+                    {cityName ? `${cityName}, IL` : '—'}
+                  </span>
+                )}
               </dd>
             </div>
             {/* Division (Phase M.10c addendum — was Audience) */}

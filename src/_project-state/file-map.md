@@ -873,3 +873,8 @@ See `src/_project-state/Phase-M-01e-Completion.md` for the canonical file list â
 - i18n: `src/messages/{en,es}.json` (orphan blocks removed, ES `usted` register, parity 1352=1352, `chat.typing.ariaLabel` added)
 - wizard / data: `src/data/wizard.ts` (`getStep3Group` consistency), `src/components/wizard/WizardShell.tsx` (clear stale Step-3 + sessionId lint), `src/data/services.ts` (slug-uniqueness build guard), `src/data/imageMap.ts` (+18 city project-tile aliases)
 - docs: `Sunset-Services-Decisions.md` (plan-of-record + closing entry + GCP-key redaction), `src/_project-state/current-state.md`, `src/_project-state/file-map.md` (this section)
+
+## Phase M.10f (2026-05-31, branch `phase/m10f-mobile-hero-fix`, NOT merged)
+- `src/components/sections/home/HomeHero.tsx` - phone hero `min-h-[max(30rem,82svh)]` (no fixed height -> grows, no clip; `sm:`/`lg:` unchanged), mobile spacing `pt-24`/`pb-8`/`gap-4`, strengthened `<sm` gradient, `.hero-text-legible` class + updated JSDoc.
+- `src/app/globals.css` - mobile-only `.hero-text-legible` text-shadow rule (`@media (max-width:639.98px)`).
+- `src/_project-state/Phase-M-10f-Completion.md` - completion report (new).

@@ -116,7 +116,8 @@ export default function FilterChipStrip({counts, activeDivision}: FilterChipStri
                       // Visual chip via inner span inside; the button itself
                       // is the bigger hit area. Use a single button for
                       // simpler ARIA — and apply visual styles directly here.
-                      padding: '0 16px',
+                      paddingLeft: '16px',
+                      paddingRight: '16px',
                       height: '40px',
                       fontSize: '14px',
                       borderRadius: '20px',

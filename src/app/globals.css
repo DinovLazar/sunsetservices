@@ -216,6 +216,7 @@
        focus auto-scroll respects scroll-padding so a `Tab`-ed focused
        element doesn't end up underneath those persistent overlays —
        WCAG SC 2.4.11 (Focus Not Obscured Minimum). */
+    scroll-padding-top: 80px;
     scroll-padding-bottom: 120px;
   }
   body {
@@ -277,7 +278,7 @@
     .btn:hover,
     .btn:active,
     .card:hover,
-    .card--photo:hover img {
+    .card-photo:hover img {
       transform: none !important;
     }
   }
@@ -473,6 +474,10 @@
   .card:has(:focus-visible) {
     transform: translateY(-2px);
     box-shadow: var(--shadow-hover);
+  }
+  .card:has(:focus-visible) {
+    outline: 2px solid var(--color-focus-ring);
+    outline-offset: 2px;
   }
   .card-cream {
     background: var(--color-bg-cream);
@@ -1061,7 +1066,7 @@
     outline-offset: 2px;
   }
   .pagination-item[aria-current="page"] {
-    background: var(--color-sunset-green-500);
+    background: var(--color-sunset-green-600);
     color: var(--color-text-on-green);
   }
   .pagination-item:disabled,
@@ -1075,36 +1080,14 @@
     padding-inline: var(--spacing-3);
   }
 
-  /* ---------- Audience-accent custom properties (Phase 1.09 §3X.1) ----------
-   * Scoped per audience-landing / service-detail page wrapper. Components
-   * read --audience-accent + --audience-chip-bg via var(); avoids
-   * prop-drilling the audience down the tree. Buttons stay green/amber
-   * regardless of variant — only kicker text, eyebrow chips, icon-tile
-   * backgrounds, and section underlines pick up the audience accent.
-   *
-   * Hardscape uses --color-sunset-amber-700 (NOT 500 — 500 is reserved
-   * for amber CTAs).
-   */
-  [data-audience='residential'] {
-    --audience-accent: var(--color-sunset-green-700);
-    --audience-accent-strong: var(--color-sunset-green-700);
-    --audience-chip-bg: var(--color-sunset-green-100);
-  }
-  [data-audience='commercial'] {
-    --audience-accent: var(--color-text-primary);
-    --audience-accent-strong: var(--color-text-primary);
-    --audience-chip-bg: var(--color-bg-stone);
-  }
-  [data-audience='hardscape'] {
-    --audience-accent: var(--color-sunset-amber-700);
-    --audience-accent-strong: var(--color-sunset-amber-700);
-    --audience-chip-bg: var(--color-sunset-amber-50);
-  }
-
   /* ---------- Division accents (Phase M.01e) ----------
-   * Mirrors the `[data-audience]` block above so every component that reads
-   * `var(--audience-accent)` keeps rendering correctly under the new
-   * `[data-division]` wrapper. Landscape inherits residential's accent
+   * Scoped per service-detail page wrapper. Components read
+   * --audience-accent + --audience-chip-bg via var(); avoids
+   * prop-drilling the division down the tree. Buttons stay green/amber
+   * regardless of variant — only kicker text, eyebrow chips, icon-tile
+   * backgrounds, and section underlines pick up the accent.
+   *
+   * Landscape inherits residential's accent
    * (broadest, most homeowner-facing); Hardscape keeps the amber kept since
    * 1.09. Waterproofing leans into the deeper green-900 (foundation /
    * depth / serious-work feel). Snow Removal uses the neutral text-primary

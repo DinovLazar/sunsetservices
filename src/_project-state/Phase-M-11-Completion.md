@@ -90,6 +90,9 @@ Deliberately deferred (out-of-scope refactor, product decision, deferred-integra
 16. `_propertyType` (wizard.ts) + `_parentAudience` (services.ts) unused-param warnings — the project's `_`-prefix intentional-unused convention; the eslint config does not exempt `^_`. Left consistent with the existing `_parentAudience`.
 17. Visitor confirmation/newsletter emails now ES-locale-aware (fixed); the Erick-facing alert emails stay EN by design.
 
+**Schema (pre-existing, external-validator-only, WARNING-level — surfaced on the Preview run):**
+0. The external `validator.schema.org` layer (flaky/non-authoritative per B.04's DoD — CAPTCHA-gated, so it stays silent on localhost where `validate:schema` passes 22/22 on the internal authoritative rules) flags 4 pre-existing `UNKNOWN_FIELD` WARNINGs (`isSevere: false`): `areaServed` on the city `Place` node (×2) and `availableLanguage` on the `ContactPage` node (×2). Those properties live on slightly-wrong Schema.org types (`areaServed` belongs on `Service`/`Organization`; `availableLanguage` on `ContactPoint`). NOT M.11-caused (`src/lib/schema/location.ts` + `contactPage.ts` were untouched), WARNING-severity, and tolerated by Google's Rich Results Test. A future schema-polish phase can move them to their correct nesting.
+
 **Build/env (not defects):**
 18. `npm run build` warns "Next.js inferred your workspace root" — a worktree artifact (two lockfiles: parent + worktree). Absent on Vercel (single lockfile). Not fixed (pinning `turbopack.root` could mis-target the parent build).
 
@@ -129,16 +132,23 @@ The `aurora-driveway-apron` route now 404s by design (removed from the harness; 
 
 ---
 
-## 8. The single user handoff — Vercel Preview re-verification
+## 8. Vercel Preview re-verification — SELF-SERVED (no blocking user step)
 
-Per §6, localhost verification is complete and authoritative for code. The one item that needs the user is re-running the three validation harnesses against the **Vercel Preview** build, because Preview deploys are SSO-protected and the harnesses need the project's **bypass token** in their env (which only the operator has):
+Per §6, the Preview re-verification was **self-served** via the connected Vercel MCP (push → `get_access_to_vercel_url` → `VERCEL_SHARE_TOKEN`, the flow B.07 built into the harnesses). The branch was pushed to `origin/phase/m11-qa-sweep`; Vercel auto-built the preview (`dpl_2fxnwE…`, commit `f81dfb6`, alias `sunsetservices-git-phase-m11-qa-sweep-dinovlazars-projects.vercel.app`). Results:
+
+- **Vercel production build: READY (green)** — built in ~77 s. This is the §3-authoritative production-build signal: the branch builds + deploys cleanly on Vercel's pipeline.
+- **`validate:seo` against the live Preview: 0 errors / 0 warnings across 184 URLs + sitemap + robots** — the harness reconciliation + every EN/ES route confirmed on the real deploy.
+- **`validate:schema` against the live Preview: internal authoritative rules pass** (22/22 on localhost; same on Preview). The external `validator.schema.org` layer surfaced 4 pre-existing WARNING-level `UNKNOWN_FIELD` findings — see §5 (NOT M.11-caused, WARNING-severity, Google-RRT-tolerated, from the flaky/non-authoritative external layer per B.04).
+- **`validate:a11y`** was not re-run against Preview (Lighthouse-over-SSO is finicky per the B.06/B.07 notes); the localhost run (20/20, authoritative) + the green Vercel build cover it.
+
+**No blocking user step remains.** Optional: the operator can re-run `validate:a11y` against the Preview with the project's protection-bypass token if a Vercel-infra a11y reconfirmation is wanted:
 
 ```
-BASE_URL=https://sunsetservices-git-<branch>-dinovlazars-projects.vercel.app \
-  BYPASS_TOKEN=<vercel-protection-bypass> npm run validate:schema   (then :seo, :a11y)
+BASE_URL=https://sunsetservices-git-phase-m11-qa-sweep-dinovlazars-projects.vercel.app \
+  BYPASS_TOKEN=<vercel-protection-bypass> npm run validate:a11y
 ```
 
-Expect the same green results (the Preview build is the authoritative production build per the §3 note). See §9 below for the self-serve attempt status.
+The user's real remaining actions are the **merge decision** (verify on Preview, then merge `phase/m11-qa-sweep` → `main`) and the **🔴 GCP key rotation** (§5).
 
 ---
 

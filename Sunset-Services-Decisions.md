@@ -1847,6 +1847,6 @@ Discover → fix → verify completed on `worktree-phase+m11-qa-sweep` (NOT merg
 
 **Intentional-leave confirmed:** all §9 guardrails (blocked-integration flags, consent gates, Termly fallbacks, placeholder content, BG-01 palette, `[TBR]` ES strings — 0 stripped, the 4 ES boundary cases, no Sanity deletion). `npx tsc --noEmit` 0 · `lint` 0 errors · `build` 190 pages · `validate:schema` 22/22 · `validate:seo` 184·0/0 · `validate:a11y` 20/20 · 5 npm `test:*` pass.
 
-**Single user handoff:** re-run the 3 validation harnesses against the Vercel Preview (needs the project's protection-bypass token in the harness env) — localhost is otherwise authoritative.
+**Vercel Preview re-verification — SELF-SERVED** via the connected Vercel MCP (branch pushed to `origin/phase/m11-qa-sweep`; build READY/green in ~77 s; `validate:seo` 0/0 across 184 URLs + `validate:schema` internal authoritative rules green against the live Preview — the external `validator.schema.org` layer's 4 pre-existing WARNING-level `UNKNOWN_FIELD` findings are non-authoritative per B.04 and flagged, not M.11-caused). **No blocking user step remains.** The user's remaining actions are the merge decision (verify on Preview → merge `phase/m11-qa-sweep` → `main`) and the **🔴 GCP Places API key rotation + referrer allowlist** (Goran/Cowork).
 
 **Decided by:** Code, 2026-05-31, at phase close.

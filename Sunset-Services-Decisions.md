@@ -1801,3 +1801,30 @@ This phase verified the **code half** is correct: every audited page emits a com
 `tsc --noEmit` exit 0. Targeted lint clean (0 errors, 0 warnings after the chore lint-cleanup commit on `scripts/build-favicons.mjs`). `npm run build` succeeds (after a one-time `npm install` to repair an incomplete `node_modules/prettier/` directory — unrelated environment issue, not introduced by M.10e). `validate:schema` 22/22 PASS 0 errors. `validate:seo` 170/174 PASS (4 pre-existing `/aurora-driveway-apron` errors, M.10c-noted). `validate:a11y` 19/20 PASS (0 axe AA, 0 SC 2.4.11, 0 SC 2.5.8, all Lighthouse a11y ≥ 97; same single `/aurora-driveway-apron` error). All 4 fixes verified at the rendered-HTML level on localhost. Vercel Preview re-verification pending push.
 
 Full detail in `src/_project-state/Phase-M-10e-Completion.md`.
+
+---
+
+## 2026-05-31 — Phase M.11 (Code) — Plan-of-record: full multi-agent QA & fix sweep
+
+Phase M.11 is the final quality gate before the Erick handover — a top-to-bottom, multi-subagent audit-and-*fix* of the entire Sunset Services site (code correctness, page logic, cross-site consistency, and end-to-end "does everything work"). Every issue found is fixed in-phase (not just reported), every validation harness is re-run green, and the branch is left clean for the user to verify on Vercel Preview and merge. This entry is committed FIRST, before any code change, per the decision-first convention.
+
+### Locked decisions (input contract — not renegotiated mid-run)
+
+- **M.11-D1 — Fulfilled via Claude Code native multi-agent, not Codex.** The Phase Plan Continuation specced M.11 as a Codex review (User → Chat → Code). It is executed directly by Claude Code subagents instead (parallel read-only discovery → consolidated triage → coordinated fix waves → full re-verify). A separate Codex pass remains optional for the future and is not blocked by this reframing.
+- **M.11-D2 — Discover → fix → verify, all in this phase.** The deliverable is a *fixed* codebase on a branch plus a completion report — never a findings list that defers the fixes.
+- **M.11-D3 — Branch only; do NOT merge to `main`.** Work on `phase/m11-qa-sweep` (the native worktree harness sanitized the branch to `worktree-phase+m11-qa-sweep` — acceptable per §0). The user verifies on Vercel Preview, then merges.
+- **M.11-D4 — Fix everything found, including issues not enumerated in the brief.** The four mandated workstreams (code correctness, logic, consistency, functional verification) are the floor, not the ceiling — subject to the guardrails below.
+- **M.11-D5 — `/projects/aurora-driveway-apron` 404 drift resolved by removing the stale harness expectation** (no Sanity write — no real content exists for that slug, and inventing a fake project is forbidden). This is the source of the 4 pre-existing `validate:seo` errors + 1 `validate:a11y` error carried through M.10e (`validate:seo` 170/174, `validate:a11y` 19/20).
+- **M.11-D6 — Spanish: fix clear errors, do NOT resolve the 4 boundary cases.** Fix grammar, broken ICU/interpolation, English-leak, glossary/register drift vs `TRANSLATION_NOTES` §M.01f1, and EN/ES key parity. Leave the four flagged boundary items (`entradas` vs `cocheras`; `Presupuesto` vs `estimado`; "Hardscape" kept in English; the mixed wizard register) and the deferred human native review for post-launch.
+- **M.11-D7 — Performance ceiling acknowledged, not a blocker.** The documented mobile-Lighthouse LCP ceiling on full-bleed-hero pages (M.02 scope) does not block M.11. Cheap perf wins are fair game; the structural LCP ceiling is not.
+- **M.11-D8 — Autonomy.** Run with minimal/no user input; make conservative, reversible decisions and log each in the completion report (no silent ratifications). The only legitimate user handoff is Vercel Preview re-verification — and only if Preview cannot be reached via connected Vercel tooling (the Vercel MCP server is connected this session, so self-serve Preview re-verification is attempted first).
+
+### Guardrails reaffirmed (intentional — NOT changed)
+
+Blocked external integrations stay flag-off (`TELEGRAM_ENABLED` / `SERVICEM8_ENABLED` / `PORTFOLIO_DRAFT_ENABLED` / `GBP_PORTFOLIO_PUBLISH_ENABLED` / `GSC_ENABLED` / `MAUTIC_ENABLED` / `RESEND_DOMAIN_VERIFIED` + `CHAT_RATELIMIT_STORE=memory`). Calendly + chat-bubble consent gates stay default-true. 3 of 4 Termly legal routes stay fallback (free-plan single-doc cap). Placeholder featured images, EN-only Erick lead/alert emails, and per-city placeholder stats stay. BG-01 orange palette + Montserrat stay deferred (M.10c D7). `[TBR]`-flagged ES strings + the 4 boundary cases stay. No Sanity content deletion / destructive migration. `scripts/translate-sanity-es.mjs` + merged completion reports untouched. Phase-locked / ratified design patterns (`.card-testimonial` green `border-left` = Phase 1.03 §6.2; email-template `border-left` for Outlook/Gmail render reliability; the dev/system blockquote pull-quote) are confirmed intentional and left.
+
+### Execution model
+
+Phase A parallel read-only discovery (subagents partitioned by the four workstreams + cross-cutting a11y/SEO/schema/assets/security) → Phase B consolidated triage (each finding classified `fix-now` / `flag-and-log` / `intentional-leave`, partitioned by file ownership) → Phase C coordinated fix waves (disjoint file sets per wave; rebuild + re-run affected harness(es) after each wave; one `phase(M.11):` commit per coherent fix-group) → Phase D full re-verification (`tsc`, `lint`, `build`, `validate:schema/seo/a11y`, every `test:*`, full EN+ES route sweep with zero unintended 404s, console-clean sampled routes, forms/wizard/chat/Calendly/cookie-banner) + completion report (`Phase-M-11-Completion.md`) + closing Decisions entry.
+
+**Decided by:** Code (orchestrator), 2026-05-31, before any code change.

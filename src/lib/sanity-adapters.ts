@@ -55,6 +55,10 @@ export function sanityProjectSummaryToTs(p: ProjectSummary): Project {
     // project's division via getProjectDivision().
     serviceSlugs: p.serviceSlugs ?? [],
     citySlug: p.citySlug ?? '',
+    // Phase M.10g — carry the structured city name (city->name) so the
+    // projects index / homepage / related tiles label by the project's
+    // assigned city instead of re-deriving it from the static 24-city table.
+    cityName: p.cityName ?? undefined,
     year: p.year ?? 0,
     durationWeeks: 0,
     materials: ZERO_LOCALIZED,
@@ -76,6 +80,9 @@ export function sanityProjectDetailToTs(p: ProjectDetail): Project {
     audience: p.audience as ProjectAudience,
     serviceSlugs: p.serviceSlugs ?? [],
     citySlug: p.citySlug ?? '',
+    // Phase M.10g — carry the structured city name (city->name) through the
+    // detail adapter too; the related-projects strip reads it off this list.
+    cityName: p.cityName ?? undefined,
     year: p.year ?? 0,
     durationWeeks: p.durationWeeks ?? 0,
     // TS shape collapses to a single Localized; Sanity stores per-item array

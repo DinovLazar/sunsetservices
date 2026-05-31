@@ -33,8 +33,10 @@ type ProjectCardProps = {
   /** Tile title. Required. Locale-aware string. */
   title: string;
   /**
-   * Optional metadata line under the title — typically `City · Year`.
-   * Renders at 0.85 opacity per handover §3.3.
+   * Optional metadata line under the title — the project's city
+   * (Phase M.10g; was `City · Year`). Renders at 0.85 opacity per handover
+   * §3.3. Pass `undefined` for a location-less project — the slot then
+   * renders nothing (no empty-space artifact).
    */
   meta?: string;
   /**

@@ -2,12 +2,12 @@ import {getTranslations} from 'next-intl/server';
 import {Link} from '@/i18n/navigation';
 import AnimateIn from '@/components/global/motion/AnimateIn';
 import ProjectCard from '@/components/ui/ProjectCard';
-import {getLocation} from '@/data/locations';
 import {PROJECT_LEAD} from '@/data/imageMap';
 import type {Project} from '@/data/projects';
 import {selectRelatedProjects} from '@/data/projects';
 import {SERVICES} from '@/data/services';
 import {getProjectDivision} from '@/lib/projects/getProjectDivision';
+import {resolveProjectCity} from '@/lib/projects/resolveProjectCity';
 import {stripStreetNumber} from '@/lib/projects/stripStreetNumber';
 
 type Locale = 'en' | 'es';
@@ -60,8 +60,7 @@ export default async function RelatedProjects({current, locale, all}: RelatedPro
           </h2>
           <ul className="m-0 p-0 list-none grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
             {related.map((p) => {
-              const city = getLocation(p.citySlug);
-              const cityName = city?.name ?? p.citySlug;
+              const cityLabel = resolveProjectCity(p);
               const division = getProjectDivision(p, SERVICES);
               return (
                 <li key={p.slug}>
@@ -70,7 +69,7 @@ export default async function RelatedProjects({current, locale, all}: RelatedPro
                     photo={p.leadImageUrl ?? PROJECT_LEAD[p.slug]}
                     alt={p.leadAlt[locale]}
                     title={stripStreetNumber(p.title[locale])}
-                    meta={`${cityName} · ${p.year}`}
+                    meta={cityLabel}
                     audienceLabel={tTag(division)}
                     loading="lazy"
                     sizes="(max-width: 767px) 100vw, (max-width: 1023px) 50vw, 33vw"

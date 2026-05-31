@@ -42,6 +42,14 @@ export type Project = {
   serviceSlugs: string[];
   /** FK to locations.ts entries. */
   citySlug: string;
+  /**
+   * Phase M.10g — display city name, resolved from the project's structured
+   * Sanity `city` reference (`city->name`). Present on Sanity-adapted
+   * projects; absent on the legacy TS seed (which carries only `citySlug`).
+   * Tiles resolve the label via `resolveProjectCity()` — structured name
+   * first, static `locations.ts` table by slug as a fallback, never the slug.
+   */
+  cityName?: string;
   year: number;
   durationWeeks: number;
   materials: {en: string; es: string};

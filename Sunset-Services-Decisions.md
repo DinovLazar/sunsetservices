@@ -1907,3 +1907,31 @@ All M.11 §9 guardrails persist. For link work specifically: the 56 `next.config
 Wave A parallel read-only discovery (SA1–SA6) — the `validate:links` harness is authored + template-matched by Code immediately before Wave A so SA6 *runs* the durable artifact rather than a read-only agent writing it → Wave B consolidated triage (classify `fix-now-code` / `fix-now-content` / `flag-ambiguous` / `intentional-leave`; partition by file ownership) → Wave C coordinated disjoint fix waves (rebuild + re-run all five harnesses after each; one `phase(M.11b):` commit per coherent fix-group; reconcile parent-repo `git status` after each wave per the M.11-E5 stray-write lesson) → Wave D full re-verify on localhost AND self-served Vercel Preview + `Phase-M-11b-Completion.md` + closing Decisions entry + `current-state.md` / `file-map.md` updates.
 
 **Decided by:** Code (orchestrator), 2026-05-31, before any code change.
+
+---
+
+## 2026-05-31 — Phase M.10g (Code) — Plan-of-record: portfolio gallery grouped + labeled by city
+
+A stakeholder reviewing the Vercel Preview called the `/projects` gallery "scattered" and asked for it "per project per address." The portfolio is already one tile per job, but the tiles don't consistently show *where* a job is — the index + related-strip tiles resolve the city through the static 24-city `locations.ts` table (`getLocation`) and fall back to the raw city **slug** (or a broken `undefined · year`) for any job whose city isn't one of those city-*page* cities — and the grid order interleaves areas. M.10g makes every tile read its city from the project's structured Sanity `city` reference (already projected as `cityName`) and clusters same-city jobs together. Project **detail** pages, the lightbox, and the before/after toggle are untouched. This entry is committed FIRST, before any code change, per the decision-first convention.
+
+### Locked decisions (input contract — not renegotiated mid-run)
+
+- **M.10g-D1 — Surface = the `/projects` portfolio index only** (`/[locale]/projects/`). The label change lands on the shared `ProjectCard` primitive, so the same city label also appears wherever `ProjectCard` renders — the homepage / About "Recent work" row (`HomeProjects`) and the related-projects strip (`RelatedProjects`). That shared consistency is intended, not separate scope. Do NOT touch project detail pages, the lightbox, or the before/after toggle. Do NOT refactor tile components that do not already use `ProjectCard` (`AudienceFeaturedProjects`, `LocalProjectsStrip`).
+- **M.10g-D2 — Location label = the project's assigned city, from the structured Sanity `city` reference** (`city->name`, already returned by `PROJECT_SUMMARY_PROJECTION`/`PROJECT_DETAIL_PROJECTION` as `cityName`), rendered as one consistent line per tile. NOT parsed from the title. The `project` schema has **no** structured neighborhood field, so no neighborhood is appended (decision 2's "Naperville · Hobson West" form is a no-op here — city only).
+- **M.10g-D3 — City only — never street numbers or street names.** Per the brand-guide privacy rule, the label is the city; titles still pass through `stripStreetNumber()`. No street-identifying detail renders anywhere on the portfolio index or its tiles.
+- **M.10g-D4 — Sort:** city name A→Z; projects with **no** assigned city sort LAST; within a city, year descending (then slug A→Z as a deterministic final tiebreak). City order is pinned to `localeCompare(…, 'en')` so `/projects` and `/es/projects` cluster identically across locales. The division filter chips are unchanged; the sort + labels apply within the active filtered result set.
+- **M.10g-D5 — Location-less projects render NO location line** (no fabricated city) and sort last. They get real cities in a separate Sanity content pass (below) — out of scope here.
+- **M.10g-D6 — No new visual structure:** no city section headings, no tile redesign, no filter-UX change. Scope is exactly (a) a consistent city label on each tile and (b) the new sort order.
+- **M.10g-D7 — i18n:** the label is a city proper noun (no translation); no new UI strings are introduced, so no glossary / `[TBR]` work (`TRANSLATION_NOTES` §M.01f1 unaffected).
+
+### In-phase resolution (surfaced + ratified before code)
+
+- **M.10g-E1 — Tile location line is CITY-ONLY; the prior `City · Year` line drops the year from display.** The index + related tiles previously rendered `"${cityName} · ${p.year}"`; the homepage row rendered no meta line at all. D6 scopes the tile change to "exactly a consistent city label," and step 4 defines the line as "city (+ optional neighborhood)" — neither lists the year. Ratified with the user: **city-only**. The year is retained as the within-city **sort** key (D4); it is simply no longer shown on the tile. All three `ProjectCard` callers (`ProjectsGrid`, `HomeProjects`, `RelatedProjects`) now render the same city-only line, resolved as `cityName ?? getLocation(citySlug)?.name` (structured ref first, static-table fallback for the TS seed, never the raw slug).
+
+### Deferred content follow-up (owned by Goran/Erick in Sanity — NOT this phase)
+
+- Location-less projects need real `city` references assigned in Sanity (today they sort last with no label).
+- Projects whose **titles** still embed a street name (e.g. the `807/811 Edgewater` question) are a content/title decision, not a render change — `stripStreetNumber()` already strips a leading street *number* at render time, but a street *name* baked mid-title is a Sanity edit.
+- These are content tasks for a separate pass; M.10g changes only the render layer (projection plumbing → label → sort).
+
+**Decided by:** Code, 2026-05-31, before any code change.

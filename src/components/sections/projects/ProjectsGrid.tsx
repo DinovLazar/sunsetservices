@@ -1,10 +1,10 @@
 import {getTranslations} from 'next-intl/server';
 import AnimateIn from '@/components/global/motion/AnimateIn';
 import ProjectCard from '@/components/ui/ProjectCard';
-import {getLocation} from '@/data/locations';
 import {PROJECT_LEAD} from '@/data/imageMap';
 import type {Project} from '@/data/projects';
 import type {Division} from '@/data/services';
+import {resolveProjectCity} from '@/lib/projects/resolveProjectCity';
 import {stripStreetNumber} from '@/lib/projects/stripStreetNumber';
 
 type Locale = 'en' | 'es';
@@ -69,8 +69,7 @@ export default async function ProjectsGrid({projects, locale, divisionBySlug}: P
         <AnimateIn variant="fade-up">
           <ul className="m-0 p-0 list-none grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
             {projects.map((p, idx) => {
-              const city = getLocation(p.citySlug);
-              const cityName = city?.name ?? p.citySlug;
+              const cityLabel = resolveProjectCity(p);
               const photo = p.leadImageUrl ?? PROJECT_LEAD[p.slug];
               const isLcpCandidate = idx === 0;
               // Only the LCP tile is eager (via priority). All other tiles
@@ -85,7 +84,7 @@ export default async function ProjectsGrid({projects, locale, divisionBySlug}: P
                     photo={photo}
                     alt={p.leadAlt[locale]}
                     title={stripStreetNumber(p.title[locale])}
-                    meta={`${cityName} · ${p.year}`}
+                    meta={cityLabel}
                     audienceLabel={tTag(division)}
                     priority={isLcpCandidate}
                     loading={eager ? 'eager' : 'lazy'}

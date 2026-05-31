@@ -5,6 +5,7 @@ import StaggerContainer from '@/components/global/motion/StaggerContainer';
 import StaggerItem from '@/components/global/motion/StaggerItem';
 import ProjectCard from '@/components/ui/ProjectCard';
 import {getProjectDivision} from '@/lib/projects/getProjectDivision';
+import {resolveProjectCity} from '@/lib/projects/resolveProjectCity';
 import {stripStreetNumber} from '@/lib/projects/stripStreetNumber';
 import {SERVICES} from '@/data/services';
 import {PROJECT_LEAD} from '@/data/imageMap';
@@ -92,6 +93,7 @@ export default async function HomeProjects() {
         <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {projects.map((p) => {
             const division = getProjectDivision(p, SERVICES);
+            const cityLabel = resolveProjectCity(p);
             // Filter above guarantees one of these is defined.
             const photo = (p.leadImageUrl ?? PROJECT_LEAD[p.slug])!;
             return (
@@ -101,6 +103,7 @@ export default async function HomeProjects() {
                   photo={photo}
                   alt={p.leadAlt[locale]}
                   title={stripStreetNumber(p.title[locale])}
+                  meta={cityLabel}
                   audienceLabel={tDivisions(`${division}.tag`)}
                 />
               </StaggerItem>

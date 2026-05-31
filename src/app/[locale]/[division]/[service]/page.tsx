@@ -210,7 +210,7 @@ export default async function ServiceDetailPage({
         items={whyUsItems}
       />
       <ServicePricing
-        serviceSlug={svc.slug}
+        division={division}
         pricing={svc.pricing}
         explainerFactors={explainerFactors}
         priceIncludes={priceIncludes}
@@ -225,7 +225,7 @@ export default async function ServiceDetailPage({
         }}
       />
       <ServiceFeaturedProjects
-        serviceSlug={svc.slug}
+        division={division}
         eyebrow={tSvc('featuredProjects.eyebrow')}
         h2={tSvc('featuredProjects.h2Template', {service: serviceName})}
         viewAll={tSvc('featuredProjects.viewAllTemplate', {service: serviceName.toLowerCase()})}
@@ -244,6 +244,7 @@ export default async function ServiceDetailPage({
       />
       <ServiceCTA
         serviceSlug={svc.slug}
+        division={division}
         eyebrow={tSvc('cta.eyebrow')}
         h2={tSvc('cta.h2Template', {service: serviceName.toLowerCase()})}
         body={tSvc('cta.body')}

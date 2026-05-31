@@ -22,6 +22,7 @@ export default async function ContactCalendlyPlaceholder() {
 
   return (
     <section
+      id="calendly"
       aria-labelledby="contact-calendly-h2"
       className="bg-[var(--color-bg-cream)] py-14 lg:py-20"
     >

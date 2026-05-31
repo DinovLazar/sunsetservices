@@ -153,16 +153,20 @@ export default async function ProjectDetailPage({
   // from the project title before it's shown to the user (no-op for current
   // placeholder projects; activates the moment real M.01c content lands).
   const tBreadcrumb = await getTranslations({locale, namespace: 'project.breadcrumb'});
+  // Breadcrumb hrefs are LOCALE-LESS — the shared <Breadcrumb> renders them via
+  // next-intl <Link>, which prepends the locale. Passing `/${loc}/…` here
+  // double-prefixed to `/es/es` and 404'd (Phase M.11b fix). The JSON-LD schema
+  // items, which need locale-correct absolute paths, are derived separately.
   const breadcrumbItems = [
-    {name: tBreadcrumb('home'), href: loc === 'en' ? '/' : `/${loc}/`},
-    {name: tBreadcrumb('projects'), href: loc === 'en' ? '/projects/' : `/${loc}/projects/`},
+    {name: tBreadcrumb('home'), href: '/'},
+    {name: tBreadcrumb('projects'), href: '/projects'},
     {name: stripStreetNumber(project.title[loc])},
   ];
+  const localizeForSchema = (path: string) =>
+    loc === 'en' ? path : `/${loc}${path === '/' ? '' : path}`;
   const breadcrumbSchemaItems = breadcrumbItems.map((it) => ({
     name: it.name,
-    item:
-      it.href ??
-      (loc === 'en' ? `/projects/${slug}/` : `/${loc}/projects/${slug}/`),
+    item: localizeForSchema(it.href ?? `/projects/${slug}`),
   }));
 
   // Phase M.01c: prefer the real Sanity photo (g.imageUrl); fall back to the

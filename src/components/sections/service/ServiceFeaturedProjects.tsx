@@ -13,7 +13,7 @@ type ProjectTile = {
 };
 
 type ServiceFeaturedProjectsProps = {
-  serviceSlug: string;
+  division: string;
   eyebrow: string;
   h2: string;
   viewAll: string;
@@ -26,7 +26,7 @@ type ServiceFeaturedProjectsProps = {
  * (the service is implicit from page context).
  */
 export default function ServiceFeaturedProjects({
-  serviceSlug,
+  division,
   eyebrow,
   h2,
   viewAll,
@@ -57,7 +57,7 @@ export default function ServiceFeaturedProjects({
               </h2>
             </div>
             <Link
-              href={`/projects/?service=${serviceSlug}`}
+              href={`/projects/?division=${division}`}
               className="link link-cta self-start lg:self-end"
               style={{color: 'var(--color-sunset-green-700)'}}
             >
@@ -71,7 +71,7 @@ export default function ServiceFeaturedProjects({
           {tiles.map((t) => (
             <StaggerItem key={t.key}>
               <Link
-                href={`/projects/${t.key}/`}
+                href={`/projects/?division=${division}`}
                 className="card card-photo block relative h-full"
                 style={{background: 'var(--color-sunset-green-700)'}}
               >

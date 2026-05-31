@@ -76,7 +76,7 @@ export default function AudienceFeaturedProjects({
           {tiles.map((p) => (
             <StaggerItem key={p.key}>
               <Link
-                href={`/projects/${p.key}/`}
+                href={`/projects/?division=${audience}`}
                 className="card card-photo block relative h-full"
                 style={{background: 'var(--color-sunset-green-700)'}}
               >

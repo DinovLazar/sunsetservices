@@ -76,3 +76,8 @@ next-env.d.ts
 # Phase B.11 — photo-upload harness temp artifact (committed summary
 # lives at src/_project-state/Phase-B-11-Completion.md)
 /scripts/.photo-upload-validation-report.json
+
+# Phase M.11b — link-integrity validation harness temp artifacts (committed
+# summary lives at src/_project-state/Phase-M-11b-Completion.md)
+/scripts/.links-validation-report.json
+/scripts/.links-validation-cache.json

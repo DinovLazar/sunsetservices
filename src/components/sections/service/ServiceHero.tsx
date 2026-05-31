@@ -129,7 +129,7 @@ export default function ServiceHero({
           </p>
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mt-2">
             <Link
-              href={`/request-quote/?service=${serviceSlug}`}
+              href={`/request-quote/?division=${audience}`}
               className="btn btn-primary btn-lg"
               data-cr-tracking={`service-${serviceSlug}-hero-primary`}
             >

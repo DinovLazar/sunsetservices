@@ -222,20 +222,28 @@ export const WIZARD_STEP_3_FIELDS: Record<WizardStep3Group, WizardFieldDef[]> = 
 };
 
 /**
- * Map a (division, propertyType) pair to the Step 3 field group. Hardscape
- * always uses the hardscape group regardless of property type. Landscape's
- * commercial property type switches to the commercial questions. Waterproofing
- * is homeowner-voice by default. Snow-removal is commercial-voice.
+ * Map a division to its Step 3 field group. Hardscape uses the hardscape group;
+ * waterproofing and landscape use residential; snow-removal uses commercial.
+ *
+ * Phase M.11 — landscape now ALWAYS resolves to the residential group. The
+ * residential/commercial `propertyType` radio lives at the top of Step 4
+ * (M.01e-pt2), which runs AFTER Step 3, so `propertyType` is always undefined at
+ * Step-3 render/validate time. Branching on it here made the Step-3 group
+ * (`residential`) disagree with the recomputed Step-5 review group (`commercial`
+ * once the visitor picked commercial), which surfaced empty commercial fields in
+ * the review and leaked the residential answers into a "commercial" payload.
+ * Resolving landscape to one stable group keeps Step 3 / Step 5 / the payload
+ * consistent; `propertyType` is still captured on Step 4 for the lead. A future
+ * enhancement could restore commercial-specific landscape questions by
+ * collecting `propertyType` before Step 3. The second param is retained for
+ * signature stability (callers still pass it) but is intentionally unused.
  */
 export function getStep3Group(
   division: WizardDivision,
-  propertyType: WizardPropertyType | undefined,
+  _propertyType?: WizardPropertyType | undefined,
 ): WizardStep3Group {
   if (division === 'hardscape') return 'hardscape';
-  if (division === 'landscape') {
-    return propertyType === 'commercial' ? 'commercial' : 'residential';
-  }
-  if (division === 'waterproofing') return 'residential';
+  if (division === 'waterproofing' || division === 'landscape') return 'residential';
   return 'commercial'; // snow-removal
 }
 

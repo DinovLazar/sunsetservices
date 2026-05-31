@@ -122,7 +122,7 @@ export async function POST(request: NextRequest) {
         controller.close();
       } catch (err) {
         console.error('[/api/chat] stream failed', safeLogMeta('/api/chat', err));
-        send({type: 'error', reason: 'upstream-failed'});
+        send({type: 'error', message: 'upstream-failed'});
         controller.close();
       }
     },

@@ -18,7 +18,7 @@ import {safeLogMeta} from '@/lib/logging/safeError';
  *   - `file`: File   — the image (JPEG / PNG / HEIC / WebP, ≤ 10 MB)
  *   - `sessionId`: string (UUID v4) — links to the partial-lead breadcrumb
  *
- * Six-stage guard chain per D14/D16:
+ * Seven-stage guard chain per D14/D16:
  *   1. Feature flag (`WIZARD_PHOTO_UPLOAD_ENABLED`) — 503 + simulated when off
  *   2. Rate limit (chat KV piggyback, scope `'photo-upload'`) — 429 + Retry-After
  *   3. Multipart parse + presence check
@@ -92,12 +92,12 @@ export async function POST(request: Request) {
   }
   const sessionId = sessionIdRaw;
 
-  // ---------- 4. Size cap ----------
+  // ---------- 5. Size cap ----------
   if (!validatePhotoSize(file.size)) {
     return errorResponse(400, 'too-large');
   }
 
-  // ---------- 5. Magic-bytes MIME sniff ----------
+  // ---------- 6. Magic-bytes MIME sniff ----------
   let buffer: Buffer;
   try {
     buffer = Buffer.from(await file.arrayBuffer());
@@ -116,7 +116,7 @@ export async function POST(request: Request) {
     return errorResponse(400, 'wrong-type');
   }
 
-  // ---------- 6. Aggregate count cap ----------
+  // ---------- 7. Aggregate count cap ----------
   // Inspect the partial-lead doc for this session BEFORE accepting the
   // upload. If absent → count 0. If present → use its photos.length. D3
   // requires the SERVER-side cap (client mirror is purely UX).
@@ -138,7 +138,7 @@ export async function POST(request: Request) {
     // backstop, not the only line.
   }
 
-  // ---------- 7. Sanity asset upload ----------
+  // ---------- 8. Sanity asset upload ----------
   const ext = mimeToExtension(sniffed);
   const filename = `quote-photo-${globalThis.crypto.randomUUID()}.${ext}`;
   try {

@@ -22,6 +22,8 @@ export function buildPersonSchema(member: TeamMember) {
     name: member.name,
     jobTitle: ROLE_LABEL[member.roleKey],
     worksFor: {'@id': `${BUSINESS_URL}/#localbusiness`},
-    image: `${BUSINESS_URL}/images/team/${member.slug}.avif`,
+    ...(member.photo
+      ? {image: `${BUSINESS_URL}/images/team/${member.slug}.avif`}
+      : {}),
   };
 }

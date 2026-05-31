@@ -1828,3 +1828,25 @@ Blocked external integrations stay flag-off (`TELEGRAM_ENABLED` / `SERVICEM8_ENA
 Phase A parallel read-only discovery (subagents partitioned by the four workstreams + cross-cutting a11y/SEO/schema/assets/security) → Phase B consolidated triage (each finding classified `fix-now` / `flag-and-log` / `intentional-leave`, partitioned by file ownership) → Phase C coordinated fix waves (disjoint file sets per wave; rebuild + re-run affected harness(es) after each wave; one `phase(M.11):` commit per coherent fix-group) → Phase D full re-verification (`tsc`, `lint`, `build`, `validate:schema/seo/a11y`, every `test:*`, full EN+ES route sweep with zero unintended 404s, console-clean sampled routes, forms/wizard/chat/Calendly/cookie-banner) + completion report (`Phase-M-11-Completion.md`) + closing Decisions entry.
 
 **Decided by:** Code (orchestrator), 2026-05-31, before any code change.
+
+---
+
+## 2026-05-31 — Phase M.11 (Code) — Execution: multi-agent QA & fix sweep CLOSED
+
+Discover → fix → verify completed on `worktree-phase+m11-qa-sweep` (NOT merged to `main`). ~46 findings triaged; every `fix-now` fixed + verified across 9 atomic `phase(M.11):` commits (`68b488e` plan-of-record → `72542ab`). Full detail + the verification matrix in `src/_project-state/Phase-M-11-Completion.md`.
+
+**In-phase execution decisions (off-spec calls surfaced for ratification):**
+
+- **M.11-E1 — `getStep3Group` landscape made deterministic (`residential`).** The Step-4 `propertyType` radio (M.01e-pt2) is collected *after* Step 3, so the landscape `propertyType==='commercial'` branch could never fire at Step-3 time and instead recomputed at the Step-5 review, surfacing empty commercial fields + leaking residential answers into a "commercial" payload. Resolved landscape to one stable group so Step 3 / Step 5 / payload agree. **Trade-off:** commercial-landscape leads now answer the residential question set (propertyType is still captured on Step 4). A future enhancement could restore commercial-landscape Step-3 questions by collecting `propertyType` before Step 3 — flagged for Chat.
+- **M.11-E2 — `aurora-driveway-apron` drift (M.11-D5) resolved by harness removal** (no Sanity write); the inert `projects.ts`/`imageMap.ts` seed rows were left (projects render from Sanity). **Inverse drift also found + reconciled:** the live Sanity sitemap carried 6 real slugs (3 projects + 3 blog, all 200) absent from the harness's hardcoded arrays — added them, so `validate:seo` went from 170/174+sitemap-warnings to **184 URLs · 0/0**.
+- **M.11-E3 — 2 pre-existing `react-hooks/set-state-in-effect` lint errors cleared.** ChatPanel: restructured the mount effect to a single `setIsModal` (the aria-modal fix); WizardShell:161 (B.11 client-only sessionId init): justified `eslint-disable` (the localStorage-deferred pattern is the standard client-only-init idiom).
+- **M.11-E4 — build-time service-slug-uniqueness assertion added** to `services.ts` (the invariant `getService`/`getRelatedService` rely on but never enforced — surfaced by the division-IA re-run).
+- **M.11-E5 — execution incident:** the first fix-subagent edited the **parent repo** working tree instead of the worktree; the edits were copied onto the branch and the parent reverted to clean `main`. No leak to `main`.
+
+**Flag-and-log handed to Chat (NOT fixed; recommended for a future small phase):** see `Phase-M-11-Completion.md` §5 — headlined by the **🔴 GCP Places API key rotation + referrer allowlist** (key redacted on-branch in `72542ab`, but rotation is an operator/Goran action git-history + the public bundle make mandatory), plus lead-route rate-limiting, the Sanity `audience`→`division` schema migration, the OG-route Sanity-source drift, assorted dead-code cleanups, and the two deferred-integration test harnesses (`test-telegram-bot` flag-off crash, `test-blog-automation` topic-pool exhaustion) — both pre-existing, neither an M.11 regression.
+
+**Intentional-leave confirmed:** all §9 guardrails (blocked-integration flags, consent gates, Termly fallbacks, placeholder content, BG-01 palette, `[TBR]` ES strings — 0 stripped, the 4 ES boundary cases, no Sanity deletion). `npx tsc --noEmit` 0 · `lint` 0 errors · `build` 190 pages · `validate:schema` 22/22 · `validate:seo` 184·0/0 · `validate:a11y` 20/20 · 5 npm `test:*` pass.
+
+**Single user handoff:** re-run the 3 validation harnesses against the Vercel Preview (needs the project's protection-bypass token in the harness env) — localhost is otherwise authoritative.
+
+**Decided by:** Code, 2026-05-31, at phase close.

@@ -810,8 +810,8 @@ See `src/_project-state/Phase-M-01e-Completion.md` for the canonical file list �
 
 **Operator actions:**
 1. Vercel Preview verification: visual review on the Preview URL for navbar logo (no white box over hero); hero carousel cycles 4 images at ~5 s intervals; `prefers-reduced-motion: reduce` freezes carousel at image 1; `/projects` shows 4 division chips; `/es/` + `/es/projects/` mirror EN.
-2. Re-run `BASE_URL=<preview-url> npm run validate:{schema,seo,a11y}` against the Vercel Preview. Expect the same 4 pre-existing `/aurora-driveway-apron` errors.
-3. Resolve `/aurora-driveway-apron` 404 (re-seed in Sanity OR remove from harness configs).
+2. Re-run `BASE_URL=<preview-url> npm run validate:{schema,seo,a11y}` against the Vercel Preview. ✅ **RESOLVED in Phase M.11** — the `/aurora-driveway-apron` drift is reconciled out of both harness configs, so the harnesses are now fully green (seo 184 · 0/0, a11y 20/20 · 0/0).
+3. ~~Resolve `/aurora-driveway-apron` 404~~ — **done in M.11** (M.11-D5: removed from the harness configs since no Sanity doc exists; the inert `projects.ts`/`imageMap.ts` seed rows were left because projects render from Sanity).
 4. Decide D7 brand-palette + Montserrat divergence (update BG-01 OR schedule a future palette-conformance phase).
 5. Optional: delete `public/sunset_logo_white_bg.png`.
 
@@ -857,3 +857,19 @@ See `src/_project-state/Phase-M-01e-Completion.md` for the canonical file list �
 - `src/app/og/fallback/route.tsx` — branded card polish: M.10c horizontal-white logo, deep-charcoal `#0E0E0E` background, amber `#E8A33D` accent rail + dot, green-700 chip, 4-division headline. `runtime = 'nodejs'`. Manrope deliberately deferred (next/og can't reuse next/font; system-ui matches existing per-content OG routes).
 - `src/app/[locale]/page.tsx` + `[division]/page.tsx` + `[division]/[service]/page.tsx` + `about/page.tsx` + `contact/page.tsx` + `blog/page.tsx` + `blog/[slug]/page.tsx` + `projects/page.tsx` + `projects/[slug]/page.tsx` (lead-image override) + `resources/page.tsx` + `resources/[slug]/page.tsx` + `service-areas/page.tsx` + `service-areas/[city]/page.tsx` — all 13 add a `const social = buildSocialMetadata({...})` block and spread it into the return so every public page emits complete `openGraph` + `twitter` metadata.
 - `Sunset-Services-Decisions.md` — M.10d Code start entry (category mapping, OG palette = live not BG-01, HOA post dating, SSO-preview caveat, `--clean-placeholders` recommendation).
+
+---
+
+## Phase M.11 (Code) — multi-agent QA & fix sweep (branch `worktree-phase+m11-qa-sweep`, NOT merged)
+
+**New:**
+- `src/_project-state/Phase-M-11-Completion.md` — completion report: per-workstream findings, fixes by commit, flag-and-log handoffs, full verification matrix, the single user handoff (Preview re-verify). The only new application/doc file; everything else is an edit.
+
+**Modified (31 source files + 3 state docs, across 9 `phase(M.11):` commits `68b488e`…`72542ab`):**
+- harness configs: `scripts/validate-seo.mjs` (−`aurora-driveway-apron`, +6 live Sanity slugs), `scripts/validate-a11y.mjs` (sample → `aurora-area-patio`)
+- schema / SEO / API: `src/lib/schema/person.ts`, `src/app/[locale]/page.tsx`, `src/app/[locale]/[division]/[service]/page.tsx`, `src/app/api/chat/route.ts`, `src/app/api/quote/photo-upload/route.ts`
+- a11y: `src/components/chat/{ChatComposer,ChatPanel,ChatMessageLog,ChatHighIntentBanner}.tsx`, `src/components/analytics/ConsentBanner.tsx`, `src/components/layout/{Services,Resources}MegaPanel.tsx`, `src/components/sections/projects/FilterChipStrip.tsx`, `src/components/content/FilterChipStrip.client.tsx`, `src/app/globals.css`
+- consistency: `src/components/sections/audience/{AudienceHero,AudienceFeaturedProjects,AudienceServicesGrid}.tsx`, `src/components/ui/TeamCard.tsx`, `src/components/wizard/WizardStepIndicator.tsx`, `src/lib/email/templates/{Contact,Newsletter,Quote}*Email.tsx`, `src/lib/chat/knowledgeBase.ts`
+- i18n: `src/messages/{en,es}.json` (orphan blocks removed, ES `usted` register, parity 1352=1352, `chat.typing.ariaLabel` added)
+- wizard / data: `src/data/wizard.ts` (`getStep3Group` consistency), `src/components/wizard/WizardShell.tsx` (clear stale Step-3 + sessionId lint), `src/data/services.ts` (slug-uniqueness build guard), `src/data/imageMap.ts` (+18 city project-tile aliases)
+- docs: `Sunset-Services-Decisions.md` (plan-of-record + closing entry + GCP-key redaction), `src/_project-state/current-state.md`, `src/_project-state/file-map.md` (this section)

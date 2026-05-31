@@ -141,7 +141,7 @@ export default function AudienceHero({
               {primaryCta}
             </Link>
             <Link
-              href={`/projects/?audience=${audience}`}
+              href={`/projects/?division=${audience}`}
               className="btn btn-ghost btn-on-dark btn-lg"
               data-cr-tracking={`audience-${audience}-hero-secondary`}
             >

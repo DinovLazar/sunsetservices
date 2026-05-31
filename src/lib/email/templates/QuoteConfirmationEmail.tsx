@@ -82,7 +82,7 @@ export function QuoteConfirmationEmail({
   photoCount = 0,
 }: QuoteConfirmationEmailProps) {
   const c = COPY[locale];
-  const bookHref = `${T.business.website}/thank-you/?firstName=${encodeURIComponent(firstName)}`;
+  const bookHref = `${T.business.website}${locale === 'es' ? '/es' : ''}/thank-you/?firstName=${encodeURIComponent(firstName)}`;
 
   return (
     <EmailLayout

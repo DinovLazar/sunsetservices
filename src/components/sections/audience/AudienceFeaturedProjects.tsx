@@ -62,7 +62,7 @@ export default function AudienceFeaturedProjects({
               </h2>
             </div>
             <Link
-              href={`/projects/?audience=${audience}`}
+              href={`/projects/?division=${audience}`}
               className="link link-cta self-start lg:self-end"
               style={{color: 'var(--color-sunset-green-700)'}}
             >

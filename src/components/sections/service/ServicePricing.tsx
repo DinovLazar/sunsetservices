@@ -4,7 +4,7 @@ import AnimateIn from '@/components/global/motion/AnimateIn';
 import type {Pricing} from '@/data/services';
 
 type ServicePricingProps = {
-  serviceSlug: string;
+  division: string;
   pricing: Pricing;
   /** Localized factor name + body for State B. */
   explainerFactors: Array<{name: string; body: string}>;
@@ -35,7 +35,7 @@ type ServicePricingProps = {
  * the page's amber budget for the dedicated CTA section §4.9.
  */
 export default function ServicePricing({
-  serviceSlug,
+  division,
   pricing,
   explainerFactors,
   priceIncludes,
@@ -134,7 +134,7 @@ export default function ServicePricing({
               )}
 
               <Link
-                href={`/request-quote/?service=${serviceSlug}`}
+                href={`/request-quote/?division=${division}`}
                 className="link link-cta inline-flex items-center gap-2"
                 style={{color: 'var(--color-sunset-green-700)', fontWeight: 600}}
               >

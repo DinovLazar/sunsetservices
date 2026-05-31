@@ -87,7 +87,7 @@ export default function AudienceUnilockBand({
                 <dd className="m-0">{stat}</dd>
               </dl>
               <Link
-                href="/projects/?service=unilock"
+                href="/projects/?division=hardscape"
                 className="link link-cta inline-flex items-center gap-2"
                 style={{color: 'var(--color-text-on-dark)', fontWeight: 600}}
               >

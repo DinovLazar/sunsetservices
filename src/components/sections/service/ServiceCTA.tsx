@@ -5,6 +5,7 @@ import {BUSINESS_PHONE_TEL} from '@/lib/constants/business';
 
 type ServiceCTAProps = {
   serviceSlug: string;
+  division: string;
   eyebrow: string;
   h2: string;
   body: string;
@@ -20,6 +21,7 @@ type ServiceCTAProps = {
  */
 export default function ServiceCTA({
   serviceSlug,
+  division,
   eyebrow,
   h2,
   body,
@@ -68,7 +70,7 @@ export default function ServiceCTA({
           </p>
           <div className="flex flex-col items-center gap-4">
             <Link
-              href={`/request-quote/?service=${serviceSlug}`}
+              href={`/request-quote/?division=${division}`}
               className="btn btn-amber btn-lg"
               style={{minWidth: '280px'}}
               data-cr-tracking={`service-${serviceSlug}-cta-amber`}

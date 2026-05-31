@@ -40,7 +40,7 @@ export default async function HomeHero() {
   return (
     <section
       aria-labelledby="home-hero-h1"
-      className="relative isolate overflow-hidden flex flex-col h-[max(75vh,560px)] lg:h-[max(85vh,600px)] text-[var(--color-text-on-dark)]"
+      className="relative isolate overflow-hidden flex flex-col min-h-[max(30rem,82svh)] sm:min-h-0 sm:h-[max(75vh,560px)] lg:h-[max(85vh,600px)] text-[var(--color-text-on-dark)]"
       style={{backgroundColor: 'var(--color-bg-charcoal)'}}
     >
       {/* Photo carousel + gradient overlay layer. Sits behind the content
@@ -58,14 +58,18 @@ export default async function HomeHero() {
           imagery; H1 + dek above carry the page's accessible name). */}
       <div className="absolute inset-0 isolate">
         <HomeHeroCarousel images={heroImages} />
-        {/* Mobile gradient (< sm). Stronger top opacity so the navbar reads
-            against a busy crop. */}
+        {/* Mobile gradient (< sm) — Phase M.10f strengthened the bottom-up
+            ramp (→ 0.86 black) so the eyebrow, H1 and body clear WCAG AA over
+            the brightest carousel frame (the snow photo). The small eyebrow +
+            body get extra margin from the mobile-only `.hero-text-legible`
+            text-shadow (see globals.css). Desktop (≥ sm) keeps its lighter
+            gradient below — unchanged. */}
         <div
           aria-hidden="true"
           className="absolute inset-0 pointer-events-none sm:hidden"
           style={{
             background:
-              'linear-gradient(180deg, rgba(0,0,0,0.10) 0%, rgba(0,0,0,0.20) 30%, rgba(0,0,0,0.70) 100%)',
+              'linear-gradient(180deg, rgba(0,0,0,0.12) 0%, rgba(0,0,0,0.34) 38%, rgba(0,0,0,0.58) 66%, rgba(0,0,0,0.86) 100%)',
           }}
         />
         {/* Desktop gradient (≥ sm). Top is fully transparent so the sky
@@ -81,10 +85,15 @@ export default async function HomeHero() {
       </div>
 
       {/* Content stack — anchored to the lower half of the hero. The flex
-          column makes the wrapper grow to the section's min-height; content
-          sits at the end. */}
+          column makes the wrapper grow to the section's height; content sits
+          at the end. Phase M.10f: on phones the section is sized with
+          `min-h-[max(30rem,82svh)]` (small-viewport units, no fixed height) so
+          it tracks the *visible* viewport (respecting the mobile address bar)
+          AND grows to fit the taller ES copy — nothing is clipped, and the
+          "Get a Free Estimate" CTA stays above the fold. Tablet (≥ sm) and
+          desktop (≥ lg) keep their original fixed `h-[…]` heights. */}
       <div className="relative flex-1 flex flex-col justify-end">
-        <div className="mx-auto w-full max-w-[var(--container-default)] px-6 sm:px-8 lg:px-12 xl:px-16 pt-32 pb-10 sm:pt-40 sm:pb-12 lg:pt-48 lg:pb-16 flex flex-col gap-5 sm:gap-6 lg:gap-7">
+        <div className="hero-text-legible mx-auto w-full max-w-[var(--container-default)] px-6 sm:px-8 lg:px-12 xl:px-16 pt-24 pb-8 sm:pt-40 sm:pb-12 lg:pt-48 lg:pb-16 flex flex-col gap-4 sm:gap-6 lg:gap-7">
           <p
             className="font-heading font-semibold uppercase m-0"
             style={{

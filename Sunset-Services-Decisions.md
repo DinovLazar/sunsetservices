@@ -1850,3 +1850,39 @@ Discover → fix → verify completed on `worktree-phase+m11-qa-sweep` (NOT merg
 **Vercel Preview re-verification — SELF-SERVED** via the connected Vercel MCP (branch pushed to `origin/phase/m11-qa-sweep`; build READY/green in ~77 s; `validate:seo` 0/0 across 184 URLs + `validate:schema` internal authoritative rules green against the live Preview — the external `validator.schema.org` layer's 4 pre-existing WARNING-level `UNKNOWN_FIELD` findings are non-authoritative per B.04 and flagged, not M.11-caused). **No blocking user step remains.** The user's remaining actions are the merge decision (verify on Preview → merge `phase/m11-qa-sweep` → `main`) and the **🔴 GCP Places API key rotation + referrer allowlist** (Goran/Cowork).
 
 **Decided by:** Code, 2026-05-31, at phase close.
+
+---
+
+## 2026-05-31 — Phase M.11b (Code) — Plan-of-record: link integrity crawl & fix
+
+Phase M.11b is the last internal-link cleanup before the Erick handover (M.12) and launch. It does ONE exhaustive crawl of every EN + ES page and fixes every internal link that 404s, bounces through a *different-page* redirect, lands on the wrong destination, or points at a missing hash anchor; ships a permanent `npm run validate:links` regression gate; and reports (but never auto-fixes) dead external links. Committed FIRST, before any code change, per the decision-first convention.
+
+### Base branch (M.11b-D1 — self-determined)
+
+Resolved to **`origin/main`**. M.11 (branch-tip `72542ab`, plan-of-record `68b488e`) is merged into `main`: `origin/main` HEAD = `d587f17` ("Merge phase/m11-qa-sweep into main — Phase M.11"). Verified via `git branch -a --contains 72542ab` (→ M.11_IN_MAIN) + the full M.11 commit series in `git log origin/main`. Branch **`phase/m11b-link-integrity`** created off `origin/main@d587f17`, checked out in an **isolated git worktree** (`.claude/worktrees/phase+m11b-link-integrity`) to avoid colliding with the concurrent M.10f session that shares the main checkout (see the closing entry's incident note). **M.11-fixes guard PASSED:** (a) zero in-app `?audience=` link hrefs under `src/` — every hit is `_project-state/*.md` history or a code comment noting its removal; (b) the build-time service-slug-uniqueness assertion is present at `src/data/services.ts:4007`; (c) `validate:seo` — M.11 closed it at 184·0/0; full re-run deferred to Wave A (needs a running server). M.10f's uncommitted WIP (a `file-map.md` doc section + untracked `Phase-M-10f-Completion.md`) was parked in a labeled `git stash` on the `phase/m10f-mobile-hero-fix` branch — NOT carried into M.11b; recoverable with `git stash pop` on m10f.
+
+### Locked decisions (input contract — not renegotiated mid-run)
+
+- **M.11b-D1 — Base branch self-determined** (resolved above; documented in the completion report).
+- **M.11b-D2 — Exhaustive, no ceiling.** Every link on every page, both locales, no sampling; every wave run to completion (user's explicit instruction — no time/token budget).
+- **M.11b-D3 — Internal = FIX, external = REPORT.** Same-origin / relative / `/`-rooted links are fixed at source; external links (Unilock, Calendly, social, Google Maps, …) are crawled and reported but never auto-edited.
+- **M.11b-D4 — Redirect handling.** Hard-broken (404/410/5xx/network) → fix. *Different-page* redirect (an in-app internal link that 301/308s to a genuinely different path) → rewrite the link to the final destination (internal links must not depend on the redirect layer). *Trailing-slash-only* redirect → investigate the actual served behavior (`next.config.ts` `trailingSlash`, how `@/i18n/navigation` `Link` renders hrefs) and make ONE documented decision: mass-rewrite only if a clean low-risk win, else leave + log why.
+- **M.11b-D5 — Wrong-destination links.** Fix the unambiguous ones (correct target clear from text/aria-label + context + site IA); flag the genuinely ambiguous ones with a concrete recommendation — do not guess.
+- **M.11b-D6 — Code vs Sanity-content fixes.** Code-constructed hrefs → fix in code. Sanity-stored hrefs (CTA href fields, PortableText body links) cannot be reached from the sandbox: (a) flag each with doc type + `_id` + field + correct value; (b) if ≥1 exists, ship an idempotent `scripts/fix-content-links.mjs` (dry-run default, `--commit` to write, `SANITY_API_WRITE_TOKEN` from `.env.local`).
+- **M.11b-D7 — Hash-fragment links.** Verify the target element id exists on the destination page; fix unambiguous mismatches, flag the rest.
+- **M.11b-D8 — `tel:` / `mailto:`.** Light format + NAP-consistency check only (canonical phone `(630) 946-9321`, email `info@sunsetservices.us`); report-only, low priority.
+- **M.11b-D9 — Ship a re-runnable harness.** `scripts/validate-links.mjs` + `"validate:links"`, same env-var contract as the existing harnesses (`BASE_URL` default `http://localhost:3000`, optional `BYPASS_TOKEN`, optional `VERCEL_SHARE_TOKEN` taking precedence + priming `?_vercel_share=`, reserved `SKIP_REMOTE`), exit-0-only-when-clean, gitignored JSON sidecar `scripts/.links-validation-report.json`. Becomes the durable link-regression gate.
+- **M.11b-D10 — Preserve intentional behavior** (do NOT "fix"): the 56 IA redirect entries in `next.config.ts`; `/thank-you/` + `/es/thank-you/` noindex + sitemap-excluded; the 3-of-4 Termly "preparing" fallback routes (200, not 404); `/dev/system` dev-only/noindex; the `/projects/aurora-driveway-apron` slug stays reconciled-OUT (no in-app link may point at it); blocked-integration flags + consent gates. Only fix in-app links that point at OLD redirect URLs (repoint them to the new ones).
+- **M.11b-D11 — Verify on localhost AND Vercel Preview** (both green). Self-serve the Preview run via the connected Vercel MCP (push → wait READY → run the harness against the Preview URL + share token) — no blocking user step.
+- **M.11b-D12 — Subagent execution model** (parallel read-only discovery → consolidated triage → coordinated fix waves → full re-verify), partitioned SA1 global chrome / SA2 home+divisions+services / SA3 locations+map / SA4 content / SA5 conversion+utility+legal / SA6 runtime crawl. Mirrors M.11.
+- **M.11b-D13 — Branch only; do NOT merge to `main`.** The user verifies on Preview, then merges. (= M.11-D3.)
+
+### Guardrails reaffirmed (intentional — NOT changed)
+
+All M.11 §9 guardrails persist. For link work specifically: the 56 `next.config.ts` IA redirects, the noindex `/thank-you/` routes, the Termly fallback routes, `/dev/system`, the reconciled-out `aurora-driveway-apron` slug, blocked-integration flags, and consent gates are confirmed intentional and left as-is (M.11b-D10). A **fourth** existing harness — `scripts/validate-related-links.mjs` (`validate:related-links`) — already guards `services.ts` `related[]` cross-refs, so `validate:links` is designed to complement it, not duplicate it; all five harnesses run in the regression set after each fix wave.
+
+### Execution model (M.11b-D12)
+
+Wave A parallel read-only discovery (SA1–SA6) — the `validate:links` harness is authored + template-matched by Code immediately before Wave A so SA6 *runs* the durable artifact rather than a read-only agent writing it → Wave B consolidated triage (classify `fix-now-code` / `fix-now-content` / `flag-ambiguous` / `intentional-leave`; partition by file ownership) → Wave C coordinated disjoint fix waves (rebuild + re-run all five harnesses after each; one `phase(M.11b):` commit per coherent fix-group; reconcile parent-repo `git status` after each wave per the M.11-E5 stray-write lesson) → Wave D full re-verify on localhost AND self-served Vercel Preview + `Phase-M-11b-Completion.md` + closing Decisions entry + `current-state.md` / `file-map.md` updates.
+
+**Decided by:** Code (orchestrator), 2026-05-31, before any code change.

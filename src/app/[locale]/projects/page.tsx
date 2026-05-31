@@ -11,6 +11,7 @@ import {type Project} from '@/data/projects';
 import {SERVICES, type Division} from '@/data/services';
 import {isDivision} from '@/data/divisions';
 import {getProjectDivision} from '@/lib/projects/getProjectDivision';
+import {resolveProjectCity} from '@/lib/projects/resolveProjectCity';
 import {PROJECT_LEAD} from '@/data/imageMap';
 import {buildBreadcrumbList} from '@/lib/schema/breadcrumb';
 import {buildProjectsItemList} from '@/lib/schema/project';
@@ -27,6 +28,27 @@ const PAGE_SIZE = 12;
 
 // Phase 2.05 — ISR (30 min). Webhook-driven revalidation deferred.
 export const revalidate = 1800;
+
+/**
+ * Phase M.10g portfolio order (locked decision M.10g-D4): city name A→Z,
+ * projects with no assigned city last, year descending within a city, and
+ * slug A→Z as a stable final tiebreak. City order is pinned to the `'en'`
+ * collator so `/projects` and `/es/projects` cluster identically.
+ */
+function compareForPortfolio(a: Project, b: Project): number {
+  const cityA = resolveProjectCity(a);
+  const cityB = resolveProjectCity(b);
+  // Location-less projects sort last (D5).
+  if (cityA && !cityB) return -1;
+  if (!cityA && cityB) return 1;
+  if (cityA && cityB) {
+    const byCity = cityA.localeCompare(cityB, 'en');
+    if (byCity !== 0) return byCity;
+  }
+  // Within a city (and among the location-less tail): year desc, slug A→Z.
+  if (b.year !== a.year) return b.year - a.year;
+  return a.slug.localeCompare(b.slug, 'en');
+}
 
 export async function generateMetadata({
   params,
@@ -105,14 +127,18 @@ export default async function ProjectsIndexPage({
   const filtered = division
     ? ALL.filter((p) => projectDivision.get(p.slug) === division)
     : ALL;
-  const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
+  // Phase M.10g — portfolio order (D4): city A→Z, location-less last, year
+  // desc within a city. Sorted on a copy of the active filtered set so the
+  // unfiltered ALL (counts + ItemList schema, D12) keeps Sanity's order.
+  const sorted = [...filtered].sort(compareForPortfolio);
+  const totalPages = Math.max(1, Math.ceil(sorted.length / PAGE_SIZE));
 
   const rawPage = typeof sp.page === 'string' ? Number.parseInt(sp.page, 10) : 1;
   const page =
     Number.isFinite(rawPage) && rawPage >= 1 ? Math.min(rawPage, totalPages) : 1;
 
   const start = (page - 1) * PAGE_SIZE;
-  const visible = filtered.slice(start, start + PAGE_SIZE);
+  const visible = sorted.slice(start, start + PAGE_SIZE);
 
   // Phase M.10c addendum D9 — every division chip always renders, even at
   // count 0 (e.g. Waterproofing today). The "All" chip stays leading.

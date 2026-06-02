@@ -50,7 +50,10 @@ export default function AudienceHero({
   return (
     <section
       aria-labelledby="audience-hero-h1"
-      className="relative isolate overflow-hidden flex flex-col h-[max(50vh,360px)] sm:h-[max(50vh,420px)] lg:h-[max(60vh,480px)] text-[var(--color-text-on-dark)]"
+      // Phase M.11c — mirror M.10f E1: phone hero uses min-h + svh (grows for
+      // tall EN/ES copy → no clip; svh ignores the mobile URL bar). `sm:min-h-0`
+      // hands back to the fixed sm/lg heights so tablet + desktop are byte-identical.
+      className="relative isolate overflow-hidden flex flex-col min-h-[max(22rem,52svh)] sm:min-h-0 sm:h-[max(50vh,420px)] lg:h-[max(60vh,480px)] text-[var(--color-text-on-dark)]"
       // bg-charcoal fallback so cream copy clears AA contrast even before
       // the hero photo decodes (Phase B.06 — Lighthouse mobile audit
       // surfaced contrast failures when the photo hadn't loaded yet).

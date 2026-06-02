@@ -62,7 +62,7 @@ export default async function AboutCTA() {
               href="/request-quote/"
               className="btn btn-amber btn-lg"
               data-cr-tracking="about-cta-amber"
-              style={{minWidth: '280px'}}
+              style={{minWidth: 'min(280px, 100%)'}}
             >
               {t('primary')}
             </Link>

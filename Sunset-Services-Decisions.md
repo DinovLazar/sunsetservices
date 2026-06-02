@@ -2011,3 +2011,11 @@ Branch **`phase/b03e-legal-hardcode`** created off local `main@aed2ae8` (the M.1
 Both documents' Effective Date + Last Updated = **June 2, 2026** (the execution date).
 
 **Decided by:** operator (Goran) — explicit direction to replace Termly with hard-coded English legal pages. Logged by Code, 2026-06-02, before any code change.
+
+### Execution close (appended at landing — 2026-06-02)
+
+- **B.03e-E1 — Landed on `main` via fast-forward, non-destructively integrating a concurrent commit.** While this phase was in progress, another session merged `phase(M.11c): extend home-hero text-shadow to all viewports` (`f99dbdf`) into `main`, advancing it past the `aed2ae8` base this branch was cut from. Per the shared-worktree lesson, `f99dbdf` was **merged into** `phase/b03e-legal-hardcode` (merge `405ba05` — clean auto-merge of `globals.css`; the M.11c text-shadow rules and the new `.legal-doc` block are disjoint regions), the merged tree was re-built green, and `origin/main` was fast-forwarded `f99dbdf..405ba05`. The concurrent commit was preserved, not clobbered.
+- **B.03e-E2 — Production verified live.** The `main` push triggered production deploy `dpl_F6aQDThRyowNiUM5smVKSM3HQXbU` (commit `405ba05`), which went green. All four legal routes (`/privacy`, `/es/privacy`, `/terms`, `/es/terms`) were smoke-tested on the live production URL: HTTP 200, full hard-coded English text, **no `app.termly.io` request**, `lang="en"` wrapper, Effective/Last-Updated `June 2, 2026`, and the correctly-localized English-only note (EN/ES). The consent banner's `/privacy/` link is present on the production home page.
+- **B.03e-E3 — Vercel env-var removal deferred** (operator decision): the 5 `NEXT_PUBLIC_TERMLY_*` vars stay on Vercel for now — they are inert (no code reads them post-B.03e) and the local Vercel CLI token is expired (`403 invalidToken`). Remove later via the Vercel dashboard or a fresh token.
+
+**Executed by:** Code, 2026-06-02.

@@ -33,7 +33,9 @@ export default function WizardSavedToast({onClose}: Props) {
         right: 16,
         bottom: 16,
         zIndex: 'var(--z-toast)' as unknown as number,
-        maxWidth: 360,
+        // Phase M.11c — clamp to the viewport (right:16 anchored, no left bound)
+        // so a full-width toast can't overflow the left edge at ≤360px.
+        maxWidth: 'min(360px, calc(100vw - 32px))',
         padding: 16,
         boxShadow: 'var(--shadow-card)',
         display: 'flex',

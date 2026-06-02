@@ -87,7 +87,7 @@ export default async function CTA({
               prefetch={false}
               className="btn btn-amber btn-lg"
               data-cr-tracking={`cta-${ariaId}-amber`}
-              style={{minWidth: '280px'}}
+              style={{minWidth: 'min(280px, 100%)'}}
             >
               {t('button')}
             </Link>

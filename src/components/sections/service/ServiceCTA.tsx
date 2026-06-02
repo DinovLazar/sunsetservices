@@ -72,7 +72,7 @@ export default function ServiceCTA({
             <Link
               href={`/request-quote/?division=${division}`}
               className="btn btn-amber btn-lg"
-              style={{minWidth: '280px'}}
+              style={{minWidth: 'min(280px, 100%)'}}
               data-cr-tracking={`service-${serviceSlug}-cta-amber`}
             >
               {buttonLabel}

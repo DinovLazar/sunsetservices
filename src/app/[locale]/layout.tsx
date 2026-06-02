@@ -72,6 +72,12 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
+  // Phase M.11c — viewport-fit=cover so `env(safe-area-inset-*)` resolves to the
+  // real notch / home-indicator insets on modern phones. globals.css already uses
+  // these insets for the consent banner, wizard sticky bar, chat composer + chat
+  // bubble; without `cover` they all resolve to 0. (No `user-scalable`/`maximumScale`
+  // — pinch-zoom stays enabled for a11y. Desktop is unaffected: insets are 0 there.)
+  viewportFit: 'cover',
   interactiveWidget: 'resizes-content',
 };
 

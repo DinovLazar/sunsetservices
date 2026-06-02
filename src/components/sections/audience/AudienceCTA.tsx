@@ -80,7 +80,7 @@ export default function AudienceCTA({
             <Link
               href={`/request-quote/?division=${audience}`}
               className="btn btn-amber btn-lg"
-              style={{minWidth: '280px'}}
+              style={{minWidth: 'min(280px, 100%)'}}
               data-cr-tracking={`audience-${audience}-cta-amber`}
             >
               {buttonLabel}

@@ -217,7 +217,13 @@ export default function CalendlyEmbed({
         role="region"
         className="calendly-inline-widget mx-auto"
         data-url={url}
-        style={{minWidth: 320, height: `${minHeight}px`, width: '100%'}}
+        /* minWidth was a flat 320: with the container's 16px side padding it
+           forced the widget to 336px on a 320px viewport (margin:auto collapses
+           to 0 on an over-wide child) → +16px horizontal page scroll on
+           /contact + /thank-you (Phase M.11c). `min(320px,100%)` keeps Calendly's
+           recommended 320 floor where there's room and shrinks to fit the
+           smallest phones; desktop is unchanged. */
+        style={{minWidth: 'min(320px, 100%)', height: `${minHeight}px`, width: '100%'}}
         aria-label={t('iframeLabel')}
       />
       <noscript>
@@ -274,7 +280,7 @@ function FallbackCard({t, url, showUrlLink}: FallbackCardProps) {
         <a
           href={`tel:${BUSINESS_PHONE_TEL}`}
           className="btn btn-secondary btn-md"
-          style={{minWidth: 240}}
+          style={{minWidth: 'min(240px, 100%)'}}
           aria-label={t('fallbackCta', {phone: BUSINESS_PHONE})}
         >
           {t('fallbackCta', {phone: BUSINESS_PHONE})}
@@ -285,7 +291,7 @@ function FallbackCard({t, url, showUrlLink}: FallbackCardProps) {
             target="_blank"
             rel="noopener noreferrer"
             className="btn btn-ghost btn-md"
-            style={{minWidth: 200}}
+            style={{minWidth: 'min(200px, 100%)'}}
           >
             {t('fallbackLink')}
           </a>

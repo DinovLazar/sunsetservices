@@ -645,7 +645,9 @@
   .chat-bubble {
     position: fixed;
     right: 16px;
-    bottom: 16px;
+    /* Phase M.11c — clear the home indicator on notched phones (no-op until
+       viewport-fit=cover, which M.11c added; 0 on non-notched devices). */
+    bottom: max(16px, env(safe-area-inset-bottom));
     width: 56px;
     height: 56px;
     border-radius: 9999px;
@@ -662,7 +664,7 @@
     transition-duration: var(--motion-fast);
     transition-timing-function: var(--easing-standard);
   }
-  @media (min-width: 1024px) { .chat-bubble { right: 24px; bottom: 24px; } }
+  @media (min-width: 1024px) { .chat-bubble { right: 24px; bottom: max(24px, env(safe-area-inset-bottom)); } }
   .chat-bubble:hover { transform: scale(1.04); box-shadow: var(--shadow-hover); }
   .chat-bubble:active { transform: scale(0.96); transition-duration: var(--motion-fast); }
   .chat-bubble:focus-visible {
@@ -1159,4 +1161,36 @@
       0 1px 2px rgba(0, 0, 0, 0.62),
       0 2px 10px rgba(0, 0, 0, 0.45);
   }
+}
+
+/* ============================================================
+   PHASE M.11c — mobile containment for injected / third-party
+   widgets. Top-level (unlayered) so they reliably beat both the
+   @layer rules and the injected vendor inline styles. Each guard
+   is a no-op when there is ample width, so desktop is unaffected.
+   ============================================================ */
+
+/* Google Places autocomplete dropdown — injected on <body> by the Maps JS
+   API and sized to the input width with no max-width, so a long suggestion
+   row can push past a narrow phone viewport. Wizard Step 4 street field. */
+.pac-container {
+  max-width: calc(100vw - 24px);
+  box-sizing: border-box;
+}
+.pac-item {
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+/* Termly policy iframe wrapper (Path B). We can only constrain OUR wrapper —
+   the cross-origin iframe internals are off-limits. Without this the injected
+   iframe can exceed the viewport on /privacy at narrow widths. */
+.termly-embed-wrap {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+.termly-embed-wrap iframe {
+  max-width: 100% !important;
+  width: 100% !important;
+  border: 0;
 }

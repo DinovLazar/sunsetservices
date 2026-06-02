@@ -81,3 +81,9 @@ next-env.d.ts
 # summary lives at src/_project-state/Phase-M-11b-Completion.md)
 /scripts/.links-validation-report.json
 /scripts/.links-validation-cache.json
+
+# Phase M.11c — mobile validation harness temp artifacts (committed summary
+# lives at src/_project-state/Phase-M-11c-Completion.md)
+/scripts/.mobile-validation-report.json
+/scripts/.mobile-validation-cache.json
+/scripts/.mobile-screenshots/

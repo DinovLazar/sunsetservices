@@ -914,3 +914,27 @@ See `src/_project-state/Phase-M-01e-Completion.md` for the canonical file list �
 - `Sunset-Services-Decisions.md` — 2026-05-31 M.10g entry (D1–D7 + E1 + deferred content follow-up; committed first).
 - `src/_project-state/current-state.md` — last-completed bumped to M.10g + "What works (Phase M.10g additions)" sub-block; prior labels shifted +1.
 - `src/_project-state/file-map.md` — this section.
+
+## Phase M.11c — Mobile bug sweep (added 2026-06-02)
+
+Multi-subagent mobile-rendering bug sweep across phone viewports 320–414px (+ 667×375 landscape, 390×620 short-height, 768, 1280 desktop). Renamed from the handover's "M.11b" (that name was already taken by the merged link-integrity phase); branched off local `main@1b71540` and merged back to `main`. All fixes are mobile-first / responsive-prefixed — desktop untouched by construction.
+
+**New:**
+- `scripts/validate-mobile.mjs` — Playwright headless-Chromium mobile-rendering harness. Drives the full viewport matrix (320 / 360 / 375 / 390 / 414px + 667×375 landscape + 390×620 short-height + 768 + 1280 desktop) across the representative URL set + interaction surfaces, flags any horizontal scroll / element cutoff / overflow, captures per-viewport screenshots into a gitignored dir, and exits 0 only at zero errors. The 6th validation harness; run via `npm run validate:mobile`.
+- `src/_project-state/Phase-M-11c-Completion.md` — completion report (findings, fixes-by-commit, the renamed-phase note, verification matrix, the stale-Sanity-cache `validate:seo` misdiagnosis + revert).
+
+**Modified:**
+- `src/app/[locale]/layout.tsx` — added `viewportFit: 'cover'` to the viewport export so the `env(safe-area-inset-*)` already used by the consent banner / wizard sticky bar / chat composer / chat bubble resolves on notched phones.
+- `src/app/globals.css` — `.chat-bubble` bottom safe-area inset + new top-level `.pac-container` (Google Places dropdown) and `.termly-embed-wrap` (our wrapper only — never the cross-origin iframe) width-containment rules.
+- `src/styles/prose.css` — `overflow-wrap: anywhere` so long unbroken strings wrap instead of forcing horizontal scroll.
+- `src/components/calendly/CalendlyEmbed.tsx` — the real 320px page cutoff on /contact + /thank-you: the flat `minWidth: 320` (overflowed a 320px viewport by the side padding) → `min(320px, 100%)`.
+- `src/components/sections/service-areas/ServiceAreaMap.tsx` — enlarged the service-area map pins (16 → 22) for mobile tappability.
+- `src/components/sections/audience/AudienceHero.tsx` — migrated to `min-h` + `svh` (the one un-migrated hero; mirrors the M.10f hero fix) so it grows to fit content instead of clipping on short / mobile viewports; affects all 4 division landings.
+- `src/components/sections/home/HomeCTA.tsx`, `src/components/sections/audience/AudienceCTA.tsx`, `src/components/sections/about/AboutCTA.tsx`, `src/components/sections/service/ServiceCTA.tsx`, `src/components/sections/CTA.tsx` — 5 amber CTA min-widths clamped (`280px` → `min(280px, 100%)`) so they never overflow a 320px viewport.
+- `src/components/wizard/WizardResumeToast.tsx`, `src/components/wizard/WizardSavedToast.tsx` — 2 wizard toasts clamped to viewport width.
+- `package.json` — added the `validate:mobile` script.
+- `.gitignore` — mobile-harness artifacts (per-viewport screenshots + JSON sidecar).
+
+**State + decisions docs:**
+- `src/_project-state/current-state.md` — last-completed bumped to M.11c + "What works (Phase M.11c additions)" sub-block; prior labels shifted +1.
+- `src/_project-state/file-map.md` — this section.

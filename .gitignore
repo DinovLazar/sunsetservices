@@ -52,9 +52,6 @@ next-env.d.ts
 # lighthouse audit outputs (Phase 2.08 convention — committed scores live in completion reports)
 /lighthouse/
 
-# Termly document IDs (Phase B.03b — gitignored secrets file)
-.termly-ids.txt
-
 # Phase B.04 — validation harness temp artifacts (the committed copy of the
 # report lives at src/_project-state/Phase-B-04-Validation-Report.md)
 /scripts/.schema-validation-report.json

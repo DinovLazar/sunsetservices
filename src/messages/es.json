@@ -781,16 +781,11 @@
     }
   },
   "legal": {
+    "englishOnlyNote": "Este documento está disponible únicamente en inglés.",
     "breadcrumb": {
       "home": "Inicio",
       "privacy": "Privacidad",
       "terms": "Términos"
-    },
-    "embed": {
-      "preparingFallback": "El contenido legal se está preparando. Vuelva a consultar pronto, o escríbanos a info@sunsetservices.us para solicitar una copia.",
-      "regionLabelPrivacy": "Política de privacidad",
-      "regionLabelTerms": "Términos del servicio",
-      "loadingLabel": "Cargando contenido legal"
     },
     "privacy": {
       "meta": {
@@ -800,7 +795,7 @@
       "hero": {
         "eyebrow": "Legal",
         "h1": "Política de privacidad",
-        "lastUpdated": "Última actualización: abril de 2026"
+        "lastUpdated": "Última actualización: {date}"
       }
     },
     "terms": {
@@ -811,7 +806,7 @@
       "hero": {
         "eyebrow": "Legal",
         "h1": "Términos del servicio",
-        "lastUpdated": "Última actualización: abril de 2026"
+        "lastUpdated": "Última actualización: {date}"
       }
     }
   },
@@ -847,8 +842,7 @@
       "knownLimitations": {
         "h2": "Limitaciones conocidas",
         "intro": "Algunos elementos integrados de terceros tienen sus propias implementaciones de accesibilidad que monitoreamos pero no controlamos directamente:",
-        "item1": "El iframe de la política de privacidad alojado por Termly",
-        "item2": "El widget de reservas de Calendly",
+        "item1": "El widget de reservas de Calendly",
         "outro": "Si encuentra una barrera en alguno de estos elementos, por favor repórtela y la escalaremos al proveedor."
       },
       "feedback": {

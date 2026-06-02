@@ -938,3 +938,31 @@ Multi-subagent mobile-rendering bug sweep across phone viewports 320–414px (+ 
 **State + decisions docs:**
 - `src/_project-state/current-state.md` — last-completed bumped to M.11c + "What works (Phase M.11c additions)" sub-block; prior labels shifted +1.
 - `src/_project-state/file-map.md` — this section.
+
+## Phase B.03e — Hard-coded English legal pages; Termly removed (added 2026-06-02)
+
+**New:**
+- `src/content/legal/privacy.tsx` — hard-coded English Privacy Policy. Exports `title`, `effectiveDate`, `lastUpdated` (all `June 2, 2026`), and a `Body` server component returning the document as semantic `<h2>`/`<p>`/`<ul>`/`<li>`/`<strong>` (text runs as `{`…`}` string-expression children so straight quotes/apostrophes stay verbatim without tripping react/no-unescaped-entities). Attorney-review caveat in the JSDoc.
+- `src/content/legal/terms.tsx` — hard-coded English Terms of Service, same shape (17 sections; the §9 Warranties + §10 Limitation-of-Liability all-caps disclaimers render as normal paragraphs with the uppercase text preserved).
+
+**Deleted:**
+- `src/components/legal/TermlyPolicyEmbed.tsx` — the Termly iframe embed component (script load + "being prepared" fallback card + B.06 progressbar `MutationObserver` a11y workaround) — fully retired.
+- `.termly-ids.txt` (repo root, gitignored) + its `.gitignore` line.
+
+**Modified:**
+- `src/components/legal/LegalPageBody.tsx` — repurposed from wrapping `<TermlyPolicyEmbed>` to accepting `englishOnlyNote` + `children` (the document `Body`); renders a cream `.legal-doc` `<article>` (mirrors the M.10 accessibility card) with the localized note above a `<div lang="en">` content wrapper.
+- `src/components/legal/LegalPageHero.tsx` — added a required `lastUpdated` prop; the "Last updated" subtitle now renders `t('lastUpdated', {date})`.
+- `src/app/[locale]/privacy/page.tsx` + `src/app/[locale]/terms/page.tsx` — import the matching content module (`Body` + `lastUpdated`), pass `lastUpdated` to the hero + `legal.englishOnlyNote` to the body; removed the Termly import + fallback branch. Metadata + WebPage/BreadcrumbList JSON-LD unchanged (still indexable, still in the B.05 sitemap).
+- `src/app/[locale]/accessibility/page.tsx` — removed the now-obsolete "Termly-hosted privacy policy iframe" known-limitation `<li>` (Termly is gone).
+- `src/app/globals.css` — replaced the `.termly-embed-wrap` rules with a namespaced, token-driven `.legal-doc` prose block (h2/p/ul/li/strong/em + the localized `.legal-doc__note`; carries the M.11c `overflow-wrap` mobile hardening).
+- `src/messages/en.json` + `src/messages/es.json` — added `legal.englishOnlyNote`; removed the orphan `legal.embed.*` block (`preparingFallback`, `regionLabelPrivacy`, `regionLabelTerms`, `loadingLabel`); changed `legal.{privacy,terms}.hero.lastUpdated` to an ICU `{date}` template; dropped the stale Termly item from `accessibility.body.knownLimitations`.
+- `.env.local.example` — removed the 5 `NEXT_PUBLIC_TERMLY_*` placeholder vars + the Phase B.03 Termly comment block. (`.env.local` mirror also stripped — gitignored, not committed.)
+- `.gitignore` — removed the `.termly-ids.txt` entry.
+
+**State + decisions docs:**
+- `Sunset-Services-Decisions.md` — Phase B.03e entry (committed first, before any code change).
+- `src/_project-state/current-state.md` — last-completed bumped to B.03e + "What works (Phase B.03e additions)" sub-block; prior labels shifted +1; Termly carryover items retired in the "Where we are" + "Next phase" bullets.
+- `src/_project-state/Phase-B-03e-Completion.md` — field-by-field completion report.
+- `src/_project-state/file-map.md` — this section.
+
+**Vercel (pending — blocked on a valid token):** remove the 5 `NEXT_PUBLIC_TERMLY_*` env vars from Production + Preview. The local Vercel CLI token returns 403 `invalidToken`; the vars are inert post-B.03e (no code reads them), so the site is correct without them.

@@ -781,16 +781,11 @@
     }
   },
   "legal": {
+    "englishOnlyNote": "This document is provided in English only.",
     "breadcrumb": {
       "home": "Home",
       "privacy": "Privacy",
       "terms": "Terms"
-    },
-    "embed": {
-      "preparingFallback": "Legal content is being prepared. Please check back soon, or contact info@sunsetservices.us for a copy.",
-      "regionLabelPrivacy": "Privacy policy",
-      "regionLabelTerms": "Terms of service",
-      "loadingLabel": "Loading legal content"
     },
     "privacy": {
       "meta": {
@@ -800,7 +795,7 @@
       "hero": {
         "eyebrow": "Legal",
         "h1": "Privacy policy",
-        "lastUpdated": "Last updated: April 2026"
+        "lastUpdated": "Last updated: {date}"
       }
     },
     "terms": {
@@ -811,7 +806,7 @@
       "hero": {
         "eyebrow": "Legal",
         "h1": "Terms of service",
-        "lastUpdated": "Last updated: April 2026"
+        "lastUpdated": "Last updated: {date}"
       }
     }
   },
@@ -847,8 +842,7 @@
       "knownLimitations": {
         "h2": "Known limitations",
         "intro": "A handful of third-party embeds carry their own accessibility implementations that we monitor but do not directly control:",
-        "item1": "The Termly-hosted privacy policy iframe",
-        "item2": "The Calendly booking widget",
+        "item1": "The Calendly booking widget",
         "outro": "If you encounter a barrier in one of these embeds, please report it and we'll escalate to the vendor."
       },
       "feedback": {

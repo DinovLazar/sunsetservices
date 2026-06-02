@@ -4,6 +4,12 @@ import Breadcrumb from '@/components/ui/Breadcrumb';
 type Props = {
   type: 'privacy' | 'terms';
   locale: string;
+  /**
+   * The document's Last-Updated date (single source of truth in
+   * src/content/legal/*), interpolated into the `legal.<type>.hero.lastUpdated`
+   * ICU message so the hero subtitle and the document body never drift.
+   */
+  lastUpdated: string;
 };
 
 /**
@@ -18,7 +24,7 @@ type Props = {
  * structure follows the brief's text spec and the Phase 1.03
  * type/spacing scale.
  */
-export default async function LegalPageHero({type, locale}: Props) {
+export default async function LegalPageHero({type, locale, lastUpdated}: Props) {
   const t = await getTranslations({locale, namespace: `legal.${type}.hero`});
   const tCrumbs = await getTranslations({
     locale,
@@ -82,7 +88,7 @@ export default async function LegalPageHero({type, locale}: Props) {
               color: 'var(--color-text-secondary)',
             }}
           >
-            {t('lastUpdated')}
+            {t('lastUpdated', {date: lastUpdated})}
           </p>
         </div>
       </div>

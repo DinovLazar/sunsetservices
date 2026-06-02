@@ -1182,15 +1182,62 @@
   overflow-wrap: anywhere;
 }
 
-/* Termly policy iframe wrapper (Path B). We can only constrain OUR wrapper —
-   the cross-origin iframe internals are off-limits. Without this the injected
-   iframe can exceed the viewport on /privacy at narrow widths. */
-.termly-embed-wrap {
-  max-width: 100%;
-  overflow-x: hidden;
+/* =============================================================================
+ * Legal documents (Phase B.03e) — hard-coded Privacy + Terms prose.
+ *
+ * Self-contained typography for the legal route bodies (/privacy, /terms),
+ * which intentionally do NOT load the route-scoped prose.css. Token-driven
+ * (zero literal hex); mirrors the M.10 accessibility page's treatment. The
+ * outer cream card + max-width live inline on the <article> in LegalPageBody;
+ * these rules style the document's semantic children. Namespaced under
+ * .legal-doc so nothing else on the site is affected. The overflow-wrap guards
+ * carry the Phase M.11c mobile hardening (a long token never forces a page
+ * scroll on narrow viewports). Replaces the retired Termly iframe wrapper. */
+.legal-doc {
+  color: var(--color-text-primary);
+  font-size: var(--text-body);
+  line-height: var(--leading-relaxed);
 }
-.termly-embed-wrap iframe {
-  max-width: 100% !important;
-  width: 100% !important;
-  border: 0;
+.legal-doc__note {
+  margin: 0 0 var(--spacing-6);
+  padding-bottom: var(--spacing-4);
+  border-bottom: 1px solid var(--color-border);
+  font-size: var(--text-body-sm);
+  color: var(--color-text-secondary);
+}
+.legal-doc h2 {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: var(--text-h3);
+  line-height: var(--leading-snug);
+  letter-spacing: var(--tracking-snug);
+  color: var(--color-text-primary);
+  margin: var(--spacing-8) 0 var(--spacing-3);
+  text-wrap: balance;
+}
+.legal-doc p {
+  margin: 0 0 var(--spacing-4);
+  font-size: var(--text-body);
+  line-height: var(--leading-relaxed);
+  color: var(--color-text-primary);
+  overflow-wrap: anywhere;
+}
+.legal-doc ul {
+  margin: 0 0 var(--spacing-4);
+  padding-inline-start: var(--spacing-6);
+  list-style: disc;
+}
+.legal-doc li {
+  margin-bottom: var(--spacing-2);
+  line-height: var(--leading-relaxed);
+  overflow-wrap: anywhere;
+}
+.legal-doc li::marker {
+  color: var(--color-sunset-green-700);
+}
+.legal-doc strong {
+  font-weight: 700;
+}
+.legal-doc em {
+  font-style: italic;
 }

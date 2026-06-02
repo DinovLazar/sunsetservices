@@ -164,7 +164,6 @@ export default async function AccessibilityPage({
               <p style={paragraphStyle}>{tBody('knownLimitations.intro')}</p>
               <ul style={listStyle}>
                 <li style={listItemStyle}>{tBody('knownLimitations.item1')}</li>
-                <li style={listItemStyle}>{tBody('knownLimitations.item2')}</li>
               </ul>
               <p style={paragraphStyle}>{tBody('knownLimitations.outro')}</p>
             </Section>

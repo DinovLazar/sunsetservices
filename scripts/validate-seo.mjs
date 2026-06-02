@@ -170,10 +170,14 @@ const PROJECT_SLUGS = [
   '811-edgewater-drive',
   'aurora-area-patio',
   'scott-and-sarahs',
-  // Phase M.11 — reconcile harness with live Sanity portfolio (M.10b/M.10d additions)
-  'aurora-area-paver-patio-firepit',
-  'oswego-landscape-design-install',
-  'tree-removal-service',
+  // Phase M.11c — reconcile harness with the live PUBLISHED Sanity portfolio.
+  // The 3 M.11-era projects (aurora-area-paver-patio-firepit,
+  // oswego-landscape-design-install, tree-removal-service) are no longer
+  // published: their detail pages still resolve under a draft-reading dev
+  // token (200), but the published sitemap — and production — omit them
+  // (getAllProjectSlugsForSitemap uses the published perspective). The live
+  // sitemap carries these 7. Republishing them is a Sanity content task,
+  // deferred to the content owner (cf. M.10g's deferred-content note).
 ];
 
 const BLOG_SLUGS = [
@@ -182,10 +186,11 @@ const BLOG_SLUGS = [
   'why-unilock-premium-pavers',
   'snow-for-commercial-properties',
   'sprinkler-tune-up-7-signs',
-  // Phase M.11 — reconcile harness with live Sanity blog (auto-published + M.10b posts)
-  'backyard-drainage-aurora',
-  'hoa-landscape-budget-2026',
-  'why-is-my-lawn-yellow',
+  // Phase M.11c — reconcile harness with the live PUBLISHED Sanity blog. The 3
+  // M.11-era posts (backyard-drainage-aurora, hoa-landscape-budget-2026,
+  // why-is-my-lawn-yellow) were unpublished/removed from Sanity after M.11
+  // (they 404 in both locales); the live blog + sitemap now carry these 5
+  // only. Operator-authorized reconcile (no site/code/Sanity-content change).
 ];
 
 const RESOURCE_SLUGS = [

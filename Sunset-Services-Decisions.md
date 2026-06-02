@@ -1982,3 +1982,32 @@ Blocked-integration flags stay off; consent gates default-true; Termly Path B lo
 - **Flag-and-log** (non-mobile / out-of-scope, see `Phase-M-11c-Completion.md` §5): the shared `<Logo>` 40px tap-height; inline-nav sub-44 tap targets; intentional contained-scroll strips; AboutHero `40vh`; the dead `.wizard-sticky-bar` CSS; the eslint `.claude`/`.vercel` ignore gap (`npm run lint` OOM-crawls nested worktrees in the primary checkout); the GCP Places key rotation (operator task).
 
 **Executed by:** Code, 2026-06-02.
+
+---
+
+## 2026-06-02 — Phase B.03e (Code) — Hard-coded English legal pages; Termly removed
+
+Replaces the Termly-hosted legal embed (Privacy + Terms) with self-contained, hard-coded **English-only** documents rendered inside the existing brand chrome, and removes the Termly dependency entirely — the `TermlyPolicyEmbed` component, the `app.termly.io/embed-policy.min.js` script, the B.06 progressbar `MutationObserver` a11y workaround, the orphan `legal.embed.*` i18n keys, all 5 `NEXT_PUBLIC_TERMLY_*` env vars (`.env.local` + `.env.local.example` + Vercel Production/Preview), and the gitignored `.termly-ids.txt`. Committed FIRST, before any code change, per the decision-first convention.
+
+### Why
+
+Termly's free tier covers only one policy in one language, so only `/privacy/` (EN) rendered real text — `/es/privacy/` and both `/terms/` routes showed the "Legal content is being prepared" fallback card. Hard-coding both documents makes all four legal routes render real, brand-styled content, ends the recurring Termly dependency + cost, and puts the legal text fully under our own version control.
+
+### Locked decisions (input contract)
+
+- **B.03e-D1 — This REVERSES the B.03d "iframe path locked" decision**, per explicit operator direction (Termly → hard-coded English legal). B.03d's "Path B" (Termly iframe on EN `/privacy/`, brand fallback card on the other three routes) is retired.
+- **B.03e-D2 — English-only.** Both the EN routes (`/privacy/`, `/terms/`) AND the ES routes (`/es/privacy/`, `/es/terms/`) render the SAME English legal text. The legal body is wrapped in `lang="en"` for accessibility correctness, and carries one short localized note (`legal.englishOnlyNote`) stating the document is available in English only. The surrounding chrome (hero eyebrow, breadcrumb, footer) stays localized as it is today.
+- **B.03e-D3 — Routes `/privacy/` + `/terms/` are preserved** (NOT renamed to `/privacy-policy` etc.). The consent-banner link, footer legal links, `sitemap.ts`, and the B.04/B.05/B.06 validation harnesses all reference them. Pages stay indexable (no `noindex`); the B.05 sitemap is left unchanged.
+- **B.03e-D4 — The cookie-consent banner + Google Consent Mode v2 (from B.03) are untouched.** That banner is NOT Termly; it keeps firing its four Consent Mode v2 signals, keeps its consent-state logic + analytics gating, and keeps linking to `/privacy/` (which now serves hard-coded text).
+- **B.03e-D5 — Attorney-review caveat.** Each document closes with "provided for general information and does not constitute legal advice." These are NOT certified legal advice and warrant attorney review before launch.
+- **B.03e-D6 — Legal text lives in the repo** at `src/content/legal/{privacy,terms}.tsx`. Future edits are a code change + redeploy — intentional, because it creates a git audit trail and the right "changes warrant review" posture. The M.12 Erick-handover doc must state that legal-text edits go through the developer, not a CMS.
+
+### Base branch
+
+Branch **`phase/b03e-legal-hardcode`** created off local `main@aed2ae8` (the M.11c merge commit — the true latest; `main` itself is held by another worktree). Never edit `main` directly; merge at close after full green on localhost + the branch's Vercel Preview.
+
+### Execution date
+
+Both documents' Effective Date + Last Updated = **June 2, 2026** (the execution date).
+
+**Decided by:** operator (Goran) — explicit direction to replace Termly with hard-coded English legal pages. Logged by Code, 2026-06-02, before any code change.

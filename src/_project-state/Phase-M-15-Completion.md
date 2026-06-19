@@ -92,3 +92,15 @@
 **To unblock:** operator runs the M.01c pipeline on the Windows machine — build `sanity-upload-plan.json` from the extracted corpus, set a real `SANITY_API_WRITE_TOKEN`, then `node scripts/upload-m01c-photos.mjs --commit`. This sweep changed no image bindings.
 
 **Commit:** `M.15 Stream 3: photo upload no-op on this session; remaining placeholders documented`.
+
+---
+
+## Stream 4 — Re-deploy Sanity Studio → **DONE**
+
+**Done.** The operator is authenticated to the Sanity CLI (`sanity projects list` shows `i3fawnrl` Sunset Services) and `sanity.cli.ts` pins `studioHost: 'sunsetservices'`, so the deploy is non-interactive.
+- `npm run studio:build` → ✓ Build Sanity Studio (12.4 s), clean.
+- `npm run studio:deploy` → **✔ Deployed 1/1 schemas**; **"Success! Studio deployed to https://sunsetservices.sanity.studio/"**.
+
+The hosted Studio now reflects the latest schema (all four divisions + location/project/resource/blog/quoteLead/quoteLeadPartial/contactSubmission models). No repo change — `sanity deploy` builds + uploads the Studio app; it does not touch the `production` dataset content.
+
+**Commit:** (no source change — outward deploy only; recorded here + in `current-state.md`).

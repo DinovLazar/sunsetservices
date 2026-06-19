@@ -12,6 +12,9 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Sanity Studio build output (`npm run studio:build` / `studio:deploy`).
+    // Gitignored; its 500KB+ minified vendor chunks OOM eslint if scanned.
+    "dist/**",
   ]),
 ]);
 

@@ -2019,3 +2019,20 @@ Both documents' Effective Date + Last Updated = **June 2, 2026** (the execution 
 - **B.03e-E3 — Vercel env-var removal deferred** (operator decision): the 5 `NEXT_PUBLIC_TERMLY_*` vars stay on Vercel for now — they are inert (no code reads them post-B.03e) and the local Vercel CLI token is expired (`403 invalidToken`). Remove later via the Vercel dashboard or a fresh token.
 
 **Executed by:** Code, 2026-06-02.
+
+---
+
+## 2026-06-19 — Goran Pre-Launch QA report (B-09) adopted as the punch list (Phase M.14)
+
+**Decided by:** operator (Goran), via the B-09 Pre-Launch QA report. Logged by Code before any code change.
+
+1. **B-09 adopted as the pre-launch punch list.** Goran's QA found correctness bugs and content-integrity problems on the Vercel Preview (fake/templated testimonials, an inflated + inconsistent review rating/count, a wrong owner surname, conflicting credential dates, an unverifiable award, placeholder social links, a lawn-care pricing block on hardscape pages, a literal `###` in FAQ questions, nav items linking to the hub instead of articles, missing/empty alt text, an indexable preview). All are resolved before launch.
+
+2. **Fact-dependent items handled by removal now, not fabrication.** Where the correct value is unknown — real Google rating/count, exact Unilock/hardscape-division years, the award, real review quotes, real social-profile URLs, real project photos — the false / inflated / unverifiable version is REMOVED in M.14; the verified value is added in M.14b once Erick confirms it. Reason: nothing false or unverifiable may ship, and the executor must not invent facts. Layouts are kept intact (sections collapse/hide cleanly when emptied).
+
+3. **M.14b inputs pending Erick (do NOT guess):** official Calendly URL (env var only), real Google rating + count, real verbatim reviews (and later the live-reviews cron feed), confirmed Unilock-authorized year + hardscape-division year + install count, confirmed award (with proof) or permanent drop, real social profile URLs, real project photos for the mis-referenced images (residential-1/2/3, waterproofing hero + quote-wizard tile).
+
+4. **§5 quantified claims that can't be verified from repo/known facts are treated like Group B** (the specific claim is removed and listed for Erick): "380+ Unilock installs," "fifteen years and counting" (Unilock), "since 2010"/"since 2003" credential years, and "1,200+ properties served." Plainly safe generic claims ("25+ years," "since 2000," "five-minute drive") stay. The single verified company fact is: operating since 2000 (≈25 years).
+
+5. **A2 second-generation framing.** "Erick or his son picks up" (service-area template, all 22 cities) is reworded to "Erick picks up" — the company is run by Erick (the founder's son = second generation); the copy must not imply a third generation.
+

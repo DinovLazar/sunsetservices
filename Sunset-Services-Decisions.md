@@ -2073,3 +2073,17 @@ The brief carried several premises that the live repo contradicts; per AGENTS.md
 
 **Logged by:** Code, 2026-06-19, before any source change (Stream 0, first commit of the sweep).
 
+---
+
+## 2026-06-19 — M.15 Stream 2 deferral: two-city add (no authoritative +2 list)
+
+**Decided by:** Code, per Stream 2's own fallback rule ("if the target list is not pinned, do not invent cities — surface the gap").
+
+**Finding.** `src/data/locations.ts` holds **24 city records** (`ALL_LOCATION_SLUGS`): the original 6 (aurora, naperville, batavia, wheaton, lisle, bolingbrook) + 18 added in Phase M.01d (hinsdale, oak-brook, elmhurst, clarendon-hills, burr-ridge, western-springs, glen-ellyn, downers-grove, winfield, lombard, st-charles, geneva, south-elgin, elburn, north-aurora, oswego, yorkville, plainfield). Two are intentionally **retired** (`RETIRED_CITY_SLUGS = {lisle, bolingbrook}`), leaving **22 surfaced** (`SURFACED_LOCATION_SLUGS`). The brief's "22 now, add 2 → 24" maps onto a repo that already has 24 records / 22 surfaced.
+
+**Why deferred.** There is **no authoritative master town-list in the repo** that pins which *specific* two additional towns should exist, and which towns Sunset serves is a **business fact owned by Erick/Goran** (Stream §0.4). The repo's expansion to 24 was a locked phase-plan number, not a service-area source of truth. Adding invented cities — or silently un-retiring Lisle/Bolingbrook — would fabricate a service-area claim. Per Stream 2's fallback, the gap is surfaced instead.
+
+**To unblock (needs operator/Erick):** confirm either (a) the exact two town names to add (then Code adds them with full EN+ES parity, `Place` schema → sitewide `LocalBusiness @id`, hreflang, sitemap, breadcrumbs, internal links — matching the post-QA city pattern, with per-city stats left neutralized like the other 22), or (b) whether Lisle/Bolingbrook should be un-retired, or (c) that 22 surfaced is the intended final count and Stream 2 is closed as moot.
+
+**Logged by:** Code, 2026-06-19 (Stream 2).
+

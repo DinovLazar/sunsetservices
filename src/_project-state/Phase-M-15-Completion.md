@@ -104,3 +104,29 @@
 The hosted Studio now reflects the latest schema (all four divisions + location/project/resource/blog/quoteLead/quoteLeadPartial/contactSubmission models). No repo change — `sanity deploy` builds + uploads the Studio app; it does not touch the `production` dataset content.
 
 **Commit:** (no source change — outward deploy only; recorded here + in `current-state.md`).
+
+---
+
+## Stream 5 (B.09) — Chat rate-limiter → persistent store → **VERIFIED already shipped (no rewrite)**
+
+The persistent store the brief asks for is **already built** by Phase B.09 in `src/lib/chat/rateLimit.ts` (the brief's `src/lib/chat/rate-limit.ts` path was wrong — it's camelCase). Rewriting working, tested code would be reckless; this stream **verifies it against the brief's requirements**:
+
+| Brief requirement | Status in `rateLimit.ts` |
+|---|---|
+| Replace module-scoped `Map` with a persistent store | ✓ `CHAT_RATELIMIT_STORE`-switched `memory` \| `kv` backends; `kv` = Upstash Redis (`@upstash/redis@^1.38.0`, already a dependency) |
+| Preserve exact public API (single-file swap) | ✓ `checkRateLimit(ip, scope='chat'): Promise<RateLimitResult>` → `{allowed} | {allowed:false, reason:'burst'|'daily', retryAfter}`. Both call sites (`/api/chat`, `/api/quote/photo-upload`) already `await` it |
+| 1 message / 2 s per IP | ✓ `BURST_INTERVAL_MS=2000`; KV uses `SET key 1 NX EX 2` |
+| 50 messages / day per IP | ✓ `DAILY_LIMIT=50`; KV uses `INCR` + first-hit `EXPIRE 86400`, `retryAfter` from `TTL` |
+| Use existing env vars | ✓ reads `UPSTASH_REDIS_REST_URL/_TOKEN` **or** `KV_REST_API_URL/_TOKEN` |
+| Document vars in `.env.local.example` | ✓ already documented (`CHAT_RATELIMIT_STORE` block + the four Upstash/KV vars, commented) |
+| Guard so the route still functions if store absent | ✓ unknown flag → warn + fall back to memory; KV body is **fail-open** (transient Redis blip → `{allowed:true}`, logged) |
+| No real values committed | ✓ none |
+
+**Activation (operator, on Vercel — not doable from this session: no Upstash creds, no real env):**
+1. Install the Vercel Marketplace **Upstash Redis** integration (auto-injects `UPSTASH_REDIS_REST_URL` + `UPSTASH_REDIS_REST_TOKEN` on Production + Preview).
+2. Set `CHAT_RATELIMIT_STORE=kv` (Production + Preview).
+3. Verify with `npm run test:rate-limit` (its T5–T8 KV tests, incl. the cross-restart persistence test T7, run once creds are present; they skip cleanly today).
+
+This is the **P.06 pre-launch prerequisite** — required before the DNS cutover so the limit can't be bypassed across serverless instances. Code is launch-ready; only the env flip remains.
+
+**Commit:** (no source change — verification only; activation documented here + in `.env.local.example`).

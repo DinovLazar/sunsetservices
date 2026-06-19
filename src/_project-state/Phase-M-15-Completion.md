@@ -71,3 +71,24 @@
 **To unblock:** operator/Erick confirms the exact two town names (then Code adds them with full EN+ES parity, `Place` schema → sitewide `LocalBusiness @id`, hreflang, sitemap, breadcrumbs, internal links, per-city stats left neutralized like the other 22), **or** confirms 22 is the final count (Stream 2 closed moot), **or** that Lisle/Bolingbrook should be un-retired. Logged in `Sunset-Services-Decisions.md` (2026-06-19 Stream 2 entry).
 
 **Commit:** `M.15 Stream 2: two-city add deferred pending confirmed city list`.
+
+---
+
+## Stream 3 — Upload available real photos to Sanity → **NO-OP this session (documented)**
+
+**No-op per the brief's "no new real assets available" path.** Verified on this macOS session:
+- The real photo corpus is **not reachable** — the `upload-m01c-photos.mjs` default `PHOTOS_ROOT` (`C:\sunset-photos\processed`, a Windows path) and `~/sunset-photos` do not exist here. Per M.01a/M.01b, the ~150 GB Google-Takeout corpus (≈258–330 web-ready edited JPGs + RAW/HEIC/video) lives on the operator's Windows machine/external drive.
+- **No curation manifest** (`sanity-upload-plan.json`) exists in the repo — the upload script requires it.
+- `SANITY_API_WRITE_TOKEN` is a placeholder locally (2-char) — no write path to the `production` dataset.
+- The 127 images in `src/assets`/`public` are **generated placeholders / seed assets** (`gen-audience-service-placeholders.mjs`, Phase 1.20) and stock-style seeds, not real job photos.
+
+**Surfaces still on generic/placeholder imagery (what the Erick photo drop will unblock):**
+- All **24 city-page heroes** + the per-city **"Recent projects" tiles** (`LocalProjectsStrip` ships 3 placeholder tiles/city; the D7.A real-projects fallback is still un-wired — see TODO 1.16).
+- All **audience/division** imagery (residential/commercial/hardscape tiles, the four division heroes).
+- All **9 service** tile images + service hero images; home hero, home project tiles (`project-1..6`), about portrait.
+- Blog/resource featured images (placeholders).
+- The **three named Erick-pending spots** (unchanged, as required): Aurora "recent projects" tiles, Waterproofing division hero (`hero-residential.jpg`), Waterproofing quote-wizard tile.
+
+**To unblock:** operator runs the M.01c pipeline on the Windows machine — build `sanity-upload-plan.json` from the extracted corpus, set a real `SANITY_API_WRITE_TOKEN`, then `node scripts/upload-m01c-photos.mjs --commit`. This sweep changed no image bindings.
+
+**Commit:** `M.15 Stream 3: photo upload no-op on this session; remaining placeholders documented`.

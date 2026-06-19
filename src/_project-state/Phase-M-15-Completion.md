@@ -163,3 +163,15 @@ This is the **P.06 pre-launch prerequisite** — required before the DNS cutover
 **Carryover:** mobile-perf 95 remains a P.x target gated on (a) real photos (Stream 3) and (b) a possible image-hosting/content-strategy change (AVIF / text-first mobile hero) — exactly the M.02 §6.4 carryover. The perf work landed is real and correct; the 95 mobile bar is not met locally and is honestly reported as such.
 
 **Commit:** `3c0e1cf` (merge) + `b749fe2` (eslint ignore) + this results record.
+
+---
+
+## Stream 7 (M.06) — Telegram webhook wiring → **DEFERRED (condition not met)**
+
+The brief's condition (`TELEGRAM_BOT_TOKEN` **and** `TELEGRAM_OPERATOR_CHAT_ID` present) is **not met** on this session: `TELEGRAM_ENABLED=false` and both vars are empty/placeholder locally (per `current-state.md`, also empty on Vercel). Per the brief's skip-and-document path, the webhook was **not** registered and `TELEGRAM_ENABLED` stays `false`.
+
+**Ready and verified-present:** the webhook route `src/app/api/webhooks/telegram/route.ts` and the `npm run telegram:setup` / `npm run telegram:info` scripts exist.
+
+**To unblock (operator):** populate `TELEGRAM_BOT_TOKEN` + `TELEGRAM_OPERATOR_CHAT_ID` in Vercel (Production + Preview) → `npm run telegram:setup -- <preview-url>/api/webhooks/telegram` → set `TELEGRAM_ENABLED=true` → verify with `npm run telegram:info` (correct URL, no errors). The end-to-end approval round-trip then runs as Stream 9 #6. **This sweep points nothing at Erick** — any test uses only the operator's own chat ID (the swap to Erick is M.08). The `docs/m06-handover` Telegram MarkdownV2 caveat carries forward.
+
+**Commit:** `M.15 Stream 7 (M.06): Telegram wiring deferred pending bot-token + chat-id env vars`.

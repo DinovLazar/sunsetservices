@@ -2087,3 +2087,15 @@ The brief carried several premises that the live repo contradicts; per AGENTS.md
 
 **Logged by:** Code, 2026-06-19 (Stream 2).
 
+---
+
+## 2026-06-19 — M.15 Streams 3 & 7 deferrals (blocked on this session's environment)
+
+**Decided by:** Code, per the brief's explicit conditional paths (Stream 3 "no assets → no-op + report"; Stream 7 "creds absent → skip + document").
+
+- **Stream 3 (photo upload) — no-op this session.** The real photo corpus lives on a Windows machine (`C:\sunset-photos\…`) not reachable from this macOS session; there is no `sanity-upload-plan.json` manifest in the repo; and `SANITY_API_WRITE_TOKEN` is a placeholder locally. No image bindings were changed. The three Erick-pending spots (Aurora recent-projects tiles, Waterproofing hero, Waterproofing wizard tile) and all city/service/audience surfaces remain on generic placeholder imagery. Unblock: run `node scripts/upload-m01c-photos.mjs --commit` on the Windows machine with a real write token + curation manifest. (This also gates the biggest remaining mobile-perf lift — see Stream 6.)
+
+- **Stream 7 (Telegram webhook) — deferred.** Condition not met: `TELEGRAM_ENABLED=false` and both `TELEGRAM_BOT_TOKEN` + `TELEGRAM_OPERATOR_CHAT_ID` are empty/placeholder locally (and per `current-state.md` are also empty on Vercel). The webhook route (`/api/webhooks/telegram`) and the `telegram:setup` / `telegram:info` scripts exist and are ready. **This sweep points nothing at Erick (M.08):** even when enabled, testing uses only the operator's own chat ID, never Erick's. Unblock (operator): populate `TELEGRAM_BOT_TOKEN` + `TELEGRAM_OPERATOR_CHAT_ID` (Production + Preview), run `npm run telegram:setup -- <preview-url>/api/webhooks/telegram`, set `TELEGRAM_ENABLED=true`, verify with `npm run telegram:info`, then run the end-to-end approval round-trip. Note the prior `docs/m06-handover` Telegram MarkdownV2 caveat carries forward.
+
+**Logged by:** Code, 2026-06-19 (Streams 3 & 7).
+

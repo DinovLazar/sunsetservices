@@ -2036,3 +2036,40 @@ Both documents' Effective Date + Last Updated = **June 2, 2026** (the execution 
 
 5. **A2 second-generation framing.** "Erick or his son picks up" (service-area template, all 22 cities) is reworded to "Erick picks up" — the company is run by Erick (the founder's son = second generation); the copy must not imply a third generation.
 
+---
+
+## 2026-06-19 — Phase M.15 plan-of-record: the unblocked-work sweep (batched)
+
+**Decided by:** operator directive (do everything unblocked at once, in one Code session). Logged by Code before any source change, per the decision-first convention.
+
+### What M.15 batches, and why
+
+Phase M.15 deliberately batches into a single Code sweep all work the plan treats as several phases but which is executable **today without waiting on Erick, Goran, or Google**: M.14 close-out, B.09 (chat rate-limiter → persistent store), M.02 (performance/Lighthouse), M.06 code-side (Telegram webhook wiring), B.06 code-side (accessibility), M.09 (end-to-end smoke test), plus the two-city data task, the available-photo upload, and the Sanity Studio redeploy. **Traceability is preserved despite the batching:** one logical Stream = one git commit = one labeled subsection in `Phase-M-15-Completion.md`. Streams are not squashed together; `current-state.md` is updated after each.
+
+### Live-state reality vs. the M.15 brief (live code wins — verified before acting)
+
+The brief carried several premises that the live repo contradicts; per AGENTS.md / the operating rules, the live code is treated as truth and the divergences are logged here:
+
+- **Environment.** This sweep runs on **macOS** (`/Users/lazar/Projects/SunSet-V2`, zsh), not the Windows/PowerShell box the brief assumes. The photo corpus and the `upload-m01c-photos.mjs` default path (`C:\sunset-photos\…`) are on a Windows machine and are **not reachable from this session**.
+- **M.14 is already merged to `main`.** `git diff main..qa/b-09-corrections` is empty and neither log direction shows unique commits — the `phase(M.14)` commits are `main`'s tip. Stream 1's "verify-then-merge the QA branch" is therefore already satisfied; Stream 1 reduces to confirming the harness is green and reconciling the remaining branches. (`current-state.md` still described the QA work as a pending branch — a stale doc, corrected this sweep.)
+- **B.09 rate-limiter is already built.** `src/lib/chat/rateLimit.ts` already has a `CHAT_RATELIMIT_STORE`-switched Upstash KV backend (`@upstash/redis` installed; preserved `checkRateLimit(ip, scope?) → Promise<RateLimitResult>` API; 2 s burst + 50/day; fail-open). `.env.local.example` already documents the Upstash/KV var names. Stream 5 is therefore **verify + document activation**, not a rewrite of working, tested code.
+- **City set.** There are **24 city records, 22 surfaced** (Lisle + Bolingbrook retired); the 18 beyond the original 6 were added in M.01d. There is **no authoritative master town-list in the repo that pins a specific "+2."** Per Stream 2's own fallback, the two-city add is **deferred** (gap surfaced, cities not invented).
+- **Local credentials are placeholders.** `.env.local` holds empty/2-char values for `ANTHROPIC_API_KEY`, `RESEND_API_KEY`, `SANITY_API_WRITE_TOKEN`, `TELEGRAM_BOT_TOKEN`, `TELEGRAM_OPERATOR_CHAT_ID`, `SERVICEM8_WEBHOOK_SECRET`, `GOOGLE_PLACES_API_KEY`; `TELEGRAM_ENABLED=false`; no Upstash vars. So the credential/outward streams (3 Sanity upload, 4 Studio deploy, 7 Telegram, and the live-integration portion of 9) **cannot truly execute from this session** and follow the brief's own land-code-and-document-deferral path.
+- **Related-links branches are already in `main`.** `fix/related-service-404s`'s `validate-related-links.mjs` is byte-identical to main's, and `chore/wire-related-links-validator` is *older* than main (the prebuild wiring it adds is already present). Stream 1.11 is satisfied on main; these two branches are **not** re-merged (one is redundant, one would regress) — they are recommended for deletion. Only `perf-m02-lighthouse` carries genuine unmerged work (Stream 6).
+
+### Operator decisions taken at the start of this sweep
+
+- **M.15-D1 — Landing.** Once every stream is committed and the full harness is green locally, the sweep is **merged to `main` and pushed to origin** (operator chose full automation over leaving it on the branch). Backup tag `pre-m15-backup` was created on `main@85abef8` before any change. `main` is never force-pushed.
+- **M.15-D2 — Branch reconciliation.** The 3 unmerged feature branches are reconciled by **incorporating only the genuinely-unmerged perf work** (`perf-m02-lighthouse`); the two related-links branches are documented as already-in-main. The 17 already-merged remote branches are **recommended for deletion** in the completion report but are **not deleted by this sweep** (operator runs the deletions).
+- **M.15-D3 — Lighthouse evidence.** Stream 6 lands the perf branch's code **and** runs fresh local Lighthouse against the representative sample (Home + a division/service page + a blog post + a location page, mobile + desktop) to record real current numbers; the documented mobile structural ceiling is reported, not papered over.
+
+### Carried-forward flags (surfaced so they are discoverable, not buried)
+
+1. **M.08 swap to Erick is NOT done here.** It needs Erick's official Calendly URL + his Telegram chat ID; this sweep points **nothing** at Erick. Calendly stays on the env-driven personal `dinovlazar2011` URL (flagged), and Telegram (if ever enabled) uses only the operator's own chat ID.
+2. **Photos are partial.** Only assets already available in the repo/known asset location are uploaded; on this macOS session none are reachable, so Stream 3 is a no-op here. The three named mis-tagged spots (Aurora "recent projects" tiles, Waterproofing division hero, Waterproofing quote-wizard tile) remain pending Erick regardless.
+3. **Two-city add is conditional and is deferred** (see live-state note above): the repo does not pin which two cities, so Code surfaces the gap rather than inventing cities.
+4. **YouTube video upload is not a Code task** and is conditional on a Sunset channel existing (handled in the Cowork brief).
+5. **Launching with AI-reviewed Spanish** (M.03 Codex pass only; human native review deferred by prior decision) technically misses the "native review complete" acceptance bar — flagged for the operator.
+
+**Logged by:** Code, 2026-06-19, before any source change (Stream 0, first commit of the sweep).
+

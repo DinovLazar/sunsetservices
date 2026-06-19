@@ -136,12 +136,11 @@ export default async function DivisionLandingPage({
     icon: t(`whySunset.props.${key}.icon`),
   }));
 
-  // ---- Social proof reviews + credentials (4 chips, division-specific) ----
-  const reviews = (['one', 'two'] as const).map((key) => ({
-    quote: t(`socialProof.reviews.${key}.quote`),
-    name: t(`socialProof.reviews.${key}.name`),
-    city: t(`socialProof.reviews.${key}.city`),
-  }));
+  // ---- Social proof credentials (4 chips, division-specific) ----
+  // Phase M.14 (Goran QA B-09 B1): the templated testimonials were removed;
+  // real Google reviews return in M.14b. `AudienceSocialProof` hides the
+  // testimonial heading + grid cleanly while no reviews exist.
+  const reviews: {quote: string; name: string; city: string}[] = [];
   const credentials = (['one', 'two', 'three', 'four'] as const).map((key) => ({
     big: t(`socialProof.credentials.${key}.big`),
     sub: t(`socialProof.credentials.${key}.sub`),

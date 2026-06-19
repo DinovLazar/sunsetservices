@@ -16,6 +16,7 @@
 
 import {BUSINESS_URL} from '@/lib/constants/business';
 import {resolveAuthor} from './author';
+import {stripFaqHeadingMarker} from '@/lib/faqText';
 import type {HowToStep} from '@/lib/howToSteps';
 
 type Locale = 'en' | 'es';
@@ -124,7 +125,7 @@ export function buildContentFaqSchema(faq: Array<{q: string; a: string}>) {
     '@type': 'FAQPage',
     mainEntity: faq.map((row) => ({
       '@type': 'Question',
-      name: row.q,
+      name: stripFaqHeadingMarker(row.q),
       acceptedAnswer: {
         '@type': 'Answer',
         text: row.a,

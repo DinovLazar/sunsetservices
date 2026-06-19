@@ -125,22 +125,10 @@ export const LOCATIONS: LocationCity[] = [
       {slug: 'commercial-snow-plowing', division: 'snow-removal'},
     ],
     whyLocal: {
-      en: "Aurora is home. The yard our trucks pull out of every morning sits on Mountain Street, and a quarter of our jobs are within a ten-minute drive of it. We know which subdivisions on the east side have curb cuts that won't fit a skid steer, which streets the city plows last after a heavy storm, and which corner lots tend to flood at the back fence after a hard April rain. That's not searchable — it's twenty-five years of paying attention. When you call (630) 946-9321, Erick or his son picks up. The crew that walks your property is the crew that pours the base. No subcontracted hand-offs.",
-      es: 'Aurora es nuestra casa. El patio de donde salen nuestros camiones cada mañana queda en Mountain Street, y una cuarta parte de nuestros trabajos están a diez minutos en auto. Sabemos qué subdivisiones del lado este tienen entradas que no caben una mini-cargadora, qué calles la ciudad limpia al final tras una tormenta fuerte, y qué lotes en esquina tienden a inundarse en la cerca trasera después de una lluvia fuerte de abril. Eso no se busca en Google — son veinticinco años de prestar atención. Cuando llamas al (630) 946-9321, Erick o su hijo contestan. El equipo que camina tu propiedad es el equipo que coloca la base. Nada de entregar el proyecto a un subcontratista que apenas acabas de conocer.',
+      en: "Aurora is home. The yard our trucks pull out of every morning sits on Mountain Street, and a quarter of our jobs are within a ten-minute drive of it. We know which subdivisions on the east side have curb cuts that won't fit a skid steer, which streets the city plows last after a heavy storm, and which corner lots tend to flood at the back fence after a hard April rain. That's not searchable — it's twenty-five years of paying attention. When you call (630) 946-9321, Erick picks up. The crew that walks your property is the crew that pours the base. No subcontracted hand-offs.",
+      es: 'Aurora es nuestra casa. El patio de donde salen nuestros camiones cada mañana queda en Mountain Street, y una cuarta parte de nuestros trabajos están a diez minutos en auto. Sabemos qué subdivisiones del lado este tienen entradas que no caben una mini-cargadora, qué calles la ciudad limpia al final tras una tormenta fuerte, y qué lotes en esquina tienden a inundarse en la cerca trasera después de una lluvia fuerte de abril. Eso no se busca en Google — son veinticinco años de prestar atención. Cuando llamas al (630) 946-9321, Erick contesta. El equipo que camina tu propiedad es el equipo que coloca la base. Nada de entregar el proyecto a un subcontratista que apenas acabas de conocer.',
     },
-    testimonials: [
-      {
-        quote: {
-          en: "Erick's crew rebuilt our front walk in two days. Cleaner than the day we moved in — and they swept the street before they left.",
-          es: 'El equipo de Erick reconstruyó nuestra entrada en dos días. Más limpio que el día que nos mudamos — y barrieron la calle antes de irse.',
-        },
-        attribution: {
-          en: 'Patricia M., Pigeon Hill · Aurora',
-          es: 'Patricia M., Pigeon Hill · Aurora',
-        },
-        rating: 5,
-      },
-    ],
+    testimonials: [],
     meta: {
       title: {
         en: 'Aurora, IL Landscaping & Hardscape | Sunset Services',
@@ -179,22 +167,10 @@ export const LOCATIONS: LocationCity[] = [
       {slug: 'commercial-snow-plowing', division: 'snow-removal'},
     ],
     whyLocal: {
-      en: 'Our crews drive Naperville every day. We know which lots back up to forest preserve, which subdivisions have HOA approval forms that need three weeks, which slope grades drain into the sewer easement and which feed the neighbor\'s patio. That\'s not a search-engine fact — that\'s twenty-five years of going back when something settles wrong. When you call (630) 946-9321, Erick or his son picks up. The crew that walks your property is the crew that pours the base. You won\'t hand off to a subcontractor we just met. Naperville is a third of our hardscape book; we have a Unilock yard a short truck-ride from your driveway.',
-      es: 'Nuestros equipos recorren Naperville todos los días. Sabemos qué lotes dan a la reserva forestal, qué subdivisiones tienen formularios de aprobación de HOA que tardan tres semanas, qué pendientes drenan al desagüe pluvial y cuáles drenan al patio del vecino. Eso no se busca en Google — son veinticinco años de volver cuando algo se asienta mal. Cuando llamas al (630) 946-9321, Erick o su hijo contestan. El equipo que camina tu propiedad es el equipo que coloca la base. No te van a pasar con un subcontratista que apenas acabamos de conocer. Naperville es un tercio de nuestro libro de hardscape; tenemos un patio de Unilock a un viaje corto en camión de tu casa.',
+      en: 'Our crews drive Naperville every day. We know which lots back up to forest preserve, which subdivisions have HOA approval forms that need three weeks, which slope grades drain into the sewer easement and which feed the neighbor\'s patio. That\'s not a search-engine fact — that\'s twenty-five years of going back when something settles wrong. When you call (630) 946-9321, Erick picks up. The crew that walks your property is the crew that pours the base. You won\'t hand off to a subcontractor we just met. Naperville is a third of our hardscape book; we have a Unilock yard a short truck-ride from your driveway.',
+      es: 'Nuestros equipos recorren Naperville todos los días. Sabemos qué lotes dan a la reserva forestal, qué subdivisiones tienen formularios de aprobación de HOA que tardan tres semanas, qué pendientes drenan al desagüe pluvial y cuáles drenan al patio del vecino. Eso no se busca en Google — son veinticinco años de volver cuando algo se asienta mal. Cuando llamas al (630) 946-9321, Erick contesta. El equipo que camina tu propiedad es el equipo que coloca la base. No te van a pasar con un subcontratista que apenas acabamos de conocer. Naperville es un tercio de nuestro libro de hardscape; tenemos un patio de Unilock a un viaje corto en camión de tu casa.',
     },
-    testimonials: [
-      {
-        quote: {
-          en: 'They took a backyard slope no one in Naperville would touch and turned it into our favorite room of the house.',
-          es: 'Tomaron una pendiente trasera que nadie en Naperville quería tocar y la convirtieron en nuestra habitación favorita de la casa.',
-        },
-        attribution: {
-          en: 'Sarah K., West Highlands · Naperville',
-          es: 'Sarah K., West Highlands · Naperville',
-        },
-        rating: 5,
-      },
-    ],
+    testimonials: [],
     meta: {
       title: {
         en: 'Naperville, IL Landscaping & Hardscape | Sunset Services',
@@ -236,19 +212,7 @@ export const LOCATIONS: LocationCity[] = [
       en: "Batavia is the river town we've been mowing since 2003. The lots along the Fox River drain differently than the inland streets — what looks like a flat backyard often has a six-inch grade we can read off a hose-line in five minutes. That matters when you're putting in a patio or planting beds: get the grade wrong and the first big storm tells you. We've placed enough natural stone walls along the slope of the bluff to know where the city wants the drainage tile. When you call (630) 946-9321, the same crew you'd see at the estimate is the crew that does the work — no handoff to someone you've never met.",
       es: 'Batavia es el pueblo ribereño donde hemos estado cortando césped desde el año 2003. Los lotes a lo largo del Río Fox drenan distinto que las calles del interior — lo que parece un patio plano a menudo tiene seis pulgadas de pendiente que podemos leer con una manguera en cinco minutos. Eso importa cuando vas a colocar un patio o arriates: si te equivocas con la pendiente, la primera tormenta fuerte te lo dice. Hemos colocado suficientes muros de piedra natural a lo largo de la pendiente del barranco para saber dónde la ciudad quiere el tubo de drenaje. Cuando llamas al (630) 946-9321, el mismo equipo que ves en el estimado es el equipo que hace el trabajo — no hay relevos con alguien que nunca conociste.',
     },
-    testimonials: [
-      {
-        quote: {
-          en: "We had a drainage problem at the back of the lot for fifteen years. Sunset re-graded the whole back third and put in French drains. Two springs in, no more standing water.",
-          es: 'Tuvimos un problema de drenaje en la parte trasera del lote durante quince años. Sunset reniveló todo el tercio trasero e instaló desagües franceses. Dos primaveras después, no hay agua estancada.',
-        },
-        attribution: {
-          en: 'Mark T., Riverside · Batavia',
-          es: 'Mark T., Riverside · Batavia',
-        },
-        rating: 5,
-      },
-    ],
+    testimonials: [],
     meta: {
       title: {
         en: 'Batavia, IL Landscaping & Hardscape | Sunset Services',
@@ -287,22 +251,10 @@ export const LOCATIONS: LocationCity[] = [
       {slug: 'driveway-snow-removal', division: 'snow-removal'},
     ],
     whyLocal: {
-      en: "Wheaton is mature trees, brick driveways, and lawns that have looked the same since the Eighties — for good reason. The job there is usually less about reinventing a property and more about respecting it: matching the brick on a front walk that's been settling for forty years, planting under a hundred-year oak without rolling its root flare, getting a retaining wall to read like it's always been there. We've been working Wheaton since 2002. The same crew you meet at the estimate is the crew that builds the project. When you call (630) 946-9321, Erick or his son picks up; you don't get a sales rep. We're not the biggest crew in town, and we're not trying to be.",
-      es: 'Wheaton es árboles maduros, entradas de ladrillo y céspedes que se ven igual desde los años ochenta — por buenas razones. El trabajo allí suele ser menos sobre reinventar una propiedad y más sobre respetarla: hacer juego con el ladrillo de una entrada que se ha asentado durante cuarenta años, plantar bajo un roble centenario sin pisar su raíz, hacer que un muro de contención se vea como si siempre hubiera estado ahí. Trabajamos en Wheaton desde el año 2002. El mismo equipo que conoces en el estimado es el equipo que construye el proyecto. Cuando llamas al (630) 946-9321, Erick o su hijo contestan; no te pasan con un vendedor. No somos el equipo más grande de la ciudad, y tampoco queremos serlo.',
+      en: "Wheaton is mature trees, brick driveways, and lawns that have looked the same since the Eighties — for good reason. The job there is usually less about reinventing a property and more about respecting it: matching the brick on a front walk that's been settling for forty years, planting under a hundred-year oak without rolling its root flare, getting a retaining wall to read like it's always been there. We've been working Wheaton since 2002. The same crew you meet at the estimate is the crew that builds the project. When you call (630) 946-9321, Erick picks up; you don't get a sales rep. We're not the biggest crew in town, and we're not trying to be.",
+      es: 'Wheaton es árboles maduros, entradas de ladrillo y céspedes que se ven igual desde los años ochenta — por buenas razones. El trabajo allí suele ser menos sobre reinventar una propiedad y más sobre respetarla: hacer juego con el ladrillo de una entrada que se ha asentado durante cuarenta años, plantar bajo un roble centenario sin pisar su raíz, hacer que un muro de contención se vea como si siempre hubiera estado ahí. Trabajamos en Wheaton desde el año 2002. El mismo equipo que conoces en el estimado es el equipo que construye el proyecto. Cuando llamas al (630) 946-9321, Erick contesta; no te pasan con un vendedor. No somos el equipo más grande de la ciudad, y tampoco queremos serlo.',
     },
-    testimonials: [
-      {
-        quote: {
-          en: "They re-laid a brick walk that's been there since 1978. You can't tell where the old ends and the new begins.",
-          es: 'Reasentaron una entrada de ladrillo que estaba desde 1978. No puedes notar dónde termina lo viejo y empieza lo nuevo.',
-        },
-        attribution: {
-          en: 'James L., Briar Street · Wheaton',
-          es: 'James L., Briar Street · Wheaton',
-        },
-        rating: 5,
-      },
-    ],
+    testimonials: [],
     meta: {
       title: {
         en: 'Wheaton, IL Landscaping & Hardscape | Sunset Services',
@@ -344,19 +296,7 @@ export const LOCATIONS: LocationCity[] = [
       en: "Lisle is the corporate corridor — Warrenville Road and the I-88 frontage are why we put a second commercial truck on the road in 2014. We mow, edge, and snow-clear for property managers who get one chance per visit and a phone call from corporate when something looks off. Most of our Lisle work happens before 7 a.m. so it's done before tenants pull in. On the residential side, the established neighborhoods east of College Road have been on our maintenance routes for fifteen-plus years. When you call (630) 946-9321, the same Sunset Services number residential homeowners reach is the number Lisle property managers reach. One crew, one phone, one accountable family.",
       es: 'Lisle es el corredor corporativo — Warrenville Road y el frente de la I-88 son la razón por la que pusimos un segundo camión comercial en 2014. Cortamos, bordeamos y removemos nieve para administradores de propiedades que tienen una sola oportunidad por visita y una llamada de la corporativa cuando algo se ve mal. La mayoría de nuestro trabajo en Lisle se hace antes de las 7 a.m. para que esté listo antes de que lleguen los inquilinos. Del lado residencial, los vecindarios establecidos al este de College Road llevan más de quince años en nuestras rutas de mantenimiento. Cuando llamas al (630) 946-9321, el mismo número de Sunset Services que marcan los propietarios residenciales es el mismo que marcan los administradores de propiedades de Lisle. Un equipo, un teléfono, una familia que rinde cuentas.',
     },
-    testimonials: [
-      {
-        quote: {
-          en: "We manage three properties on Warrenville Road. Sunset is the only landscaper who's ever returned every email within four hours. That's the bar.",
-          es: 'Administramos tres propiedades en Warrenville Road. Sunset es el único paisajista que ha respondido cada correo dentro de cuatro horas. Ese es el estándar.',
-        },
-        attribution: {
-          en: 'Diane R., Property Manager · Lisle',
-          es: 'Diane R., Administradora de Propiedades · Lisle',
-        },
-        rating: 5,
-      },
-    ],
+    testimonials: [],
     meta: {
       title: {
         en: 'Lisle, IL Landscaping & Hardscape | Sunset Services',
@@ -398,19 +338,7 @@ export const LOCATIONS: LocationCity[] = [
       en: "Bolingbrook is a mix — newer subdivisions, an established commercial spine along Boughton Road, and a stretch of multifamily that needs reliable mowing every seven days from April through October. We've been running there since 2007. The crews know which retention ponds need quarterly weed control, which subdivision HOAs require Friday-only mowing, and which streets the village plows last in a heavy snow event. When you call (630) 946-9321, you get the same family-run team residential clients reach in Naperville and commercial property managers reach in Lisle. We're not a national chain with a Bolingbrook franchise; we're one crew based in Aurora that's been driving the I-355 corridor for nearly twenty years.",
       es: 'Bolingbrook es una mezcla — subdivisiones nuevas, una columna comercial establecida a lo largo de Boughton Road, y un tramo multifamiliar que necesita corte de césped confiable cada siete días de abril a octubre. Hemos estado trabajando allí desde el año 2007. Los equipos saben qué estanques de retención necesitan control de maleza trimestral, qué HOAs exigen corte solo los viernes, y qué calles limpia el municipio al final en un evento de nieve fuerte. Cuando llamas al (630) 946-9321, te atiende el mismo equipo familiar que atiende a los clientes residenciales de Naperville y a los administradores de propiedades de Lisle. No somos una cadena nacional con una franquicia en Bolingbrook; somos un equipo con sede en Aurora que lleva casi veinte años recorriendo el corredor de la I-355.',
     },
-    testimonials: [
-      {
-        quote: {
-          en: "We hired three different landscapers in five years before Sunset. Two seasons in, no complaints, no missed visits, and the property looks better than the day we bought it.",
-          es: 'Contratamos tres paisajistas distintos en cinco años antes de Sunset. Dos temporadas después, sin quejas, sin visitas perdidas, y la propiedad se ve mejor que el día que la compramos.',
-        },
-        attribution: {
-          en: 'HOA Board, Hidden Lakes · Bolingbrook',
-          es: 'Junta de HOA, Hidden Lakes · Bolingbrook',
-        },
-        rating: 5,
-      },
-    ],
+    testimonials: [],
     meta: {
       title: {
         en: 'Bolingbrook, IL Landscaping & Hardscape | Sunset Services',
@@ -460,22 +388,10 @@ export const LOCATIONS: LocationCity[] = [
       {slug: 'driveway-snow-removal', division: 'snow-removal'},
     ],
     whyLocal: {
-      en: "Hinsdale is brick driveways, century oaks, and additions on top of additions. The job here is almost always less about reinventing a property and more about respecting it — matching the masonry on a wall that's stood since the 1920s, planting under a tree whose root flare you can't disturb, getting a new patio to read like it was always there. Around the Robbins Park corridor, almost every lot has a basement that's been getting wetter every spring; foundation and waterproofing work has become a Hinsdale specialty for us. When you call (630) 946-9321, you don't get a sales rep — Erick or his son answers. The same crew that walks your property is the crew that pours the base.",
-      es: 'Hinsdale es entradas de ladrillo, robles centenarios y ampliaciones sobre ampliaciones. El trabajo aquí casi siempre es menos sobre reinventar una propiedad y más sobre respetarla — hacer juego con la mampostería de un muro que lleva en pie desde los años veinte, plantar bajo un árbol cuya raíz no puedes mover, hacer que un patio nuevo se lea como si siempre hubiera estado ahí. En el corredor del Robbins Park, casi cada lote tiene un sótano que se humedece más cada primavera; reparación de cimientos e impermeabilización se han vuelto una especialidad de Hinsdale para nosotros. Cuando llamas al (630) 946-9321, no te atiende un vendedor — Erick o su hijo contestan. El mismo equipo que camina tu propiedad es el equipo que coloca la base.',
+      en: "Hinsdale is brick driveways, century oaks, and additions on top of additions. The job here is almost always less about reinventing a property and more about respecting it — matching the masonry on a wall that's stood since the 1920s, planting under a tree whose root flare you can't disturb, getting a new patio to read like it was always there. Around the Robbins Park corridor, almost every lot has a basement that's been getting wetter every spring; foundation and waterproofing work has become a Hinsdale specialty for us. When you call (630) 946-9321, you don't get a sales rep — Erick answers. The same crew that walks your property is the crew that pours the base.",
+      es: 'Hinsdale es entradas de ladrillo, robles centenarios y ampliaciones sobre ampliaciones. El trabajo aquí casi siempre es menos sobre reinventar una propiedad y más sobre respetarla — hacer juego con la mampostería de un muro que lleva en pie desde los años veinte, plantar bajo un árbol cuya raíz no puedes mover, hacer que un patio nuevo se lea como si siempre hubiera estado ahí. En el corredor del Robbins Park, casi cada lote tiene un sótano que se humedece más cada primavera; reparación de cimientos e impermeabilización se han vuelto una especialidad de Hinsdale para nosotros. Cuando llamas al (630) 946-9321, no te atiende un vendedor — Erick contesta. El mismo equipo que camina tu propiedad es el equipo que coloca la base.',
     },
-    testimonials: [
-      {
-        quote: {
-          en: 'Local review coming soon — Sunset Services has worked in Hinsdale since 2007.',
-          es: 'Reseña local próximamente — Sunset Services trabaja en Hinsdale desde 2007.',
-        },
-        attribution: {
-          en: 'Pending — Hinsdale',
-          es: 'Pendiente — Hinsdale',
-        },
-        rating: 5,
-      },
-    ],
+    testimonials: [],
     meta: {
       title: {
         en: 'Hinsdale, IL Landscaping & Hardscape | Sunset Services',
@@ -518,19 +434,7 @@ export const LOCATIONS: LocationCity[] = [
       en: "Oak Brook is corporate headquarters along Spring Road and estates with frontage on Salt Creek. The commercial side of our book here is property managers who get one chance per visit; we mow the Oakbrook Center perimeter and a handful of office parks along 22nd Street before tenants pull in. On the residential side, the Briarwood and Forest Hill neighborhoods have lots that ask for thoughtful design work — mature plantings, hardscape that reads as estate, and irrigation that actually keeps up in August. When you call (630) 946-9321, the same number a residential homeowner reaches in Naperville is the number an Oak Brook property manager reaches. One crew, one phone, one accountable family.",
       es: 'Oak Brook es sedes corporativas a lo largo de Spring Road y propiedades con frente al arroyo Salt. El lado comercial de nuestro libro aquí son administradores que tienen una sola oportunidad por visita; cortamos el perímetro del Oakbrook Center y varios parques de oficinas en la 22nd Street antes de que lleguen los inquilinos. Del lado residencial, los vecindarios Briarwood y Forest Hill tienen lotes que piden trabajo de diseño cuidadoso — plantas maduras, hardscape de tipo finca y riego que aguante en agosto. Cuando llamas al (630) 946-9321, el mismo número que marca un propietario residencial en Naperville lo marca un administrador en Oak Brook. Un equipo, un teléfono, una familia que rinde cuentas.',
     },
-    testimonials: [
-      {
-        quote: {
-          en: 'Local review coming soon — Sunset Services has been on Oak Brook property-management routes since 2010.',
-          es: 'Reseña local próximamente — Sunset Services está en rutas de administración de Oak Brook desde 2010.',
-        },
-        attribution: {
-          en: 'Pending — Oak Brook',
-          es: 'Pendiente — Oak Brook',
-        },
-        rating: 5,
-      },
-    ],
+    testimonials: [],
     meta: {
       title: {
         en: 'Oak Brook, IL Landscaping & Snow | Sunset Services',
@@ -570,22 +474,10 @@ export const LOCATIONS: LocationCity[] = [
       {slug: 'driveway-snow-removal', division: 'snow-removal'},
     ],
     whyLocal: {
-      en: "Elmhurst is the kind of place where the house was built before the Eisenhower-era addition, and the addition is older than most contractors who knock on the door. Around the Wilder Park and the York-Vallette corridor, basement waterproofing has become as much of the conversation as patio design — the clay-loam under most of north Elmhurst holds water for weeks after a heavy spring rain. We've been on Elmhurst job sites since 2005. The same crew that walks your property at the estimate is the crew that pours the base. When you call (630) 946-9321, you get Erick or his son — no sales rep, no callback queue, no handoff to a subcontractor you've never met.",
-      es: 'Elmhurst es la clase de lugar donde la casa fue construida antes de la ampliación de la era Eisenhower, y la ampliación es más vieja que la mayoría de los contratistas que tocan la puerta. Alrededor del Wilder Park y el corredor York-Vallette, la impermeabilización de sótanos se ha vuelto tanto parte de la conversación como el diseño de patios — el suelo arcilloso del norte de Elmhurst retiene agua por semanas tras una lluvia fuerte de primavera. Estamos en obras de Elmhurst desde 2005. El mismo equipo que camina tu propiedad en el estimado es el equipo que coloca la base. Cuando llamas al (630) 946-9321, te atiende Erick o su hijo — sin vendedor, sin cola, sin entregar a un subcontratista que apenas acabas de conocer.',
+      en: "Elmhurst is the kind of place where the house was built before the Eisenhower-era addition, and the addition is older than most contractors who knock on the door. Around the Wilder Park and the York-Vallette corridor, basement waterproofing has become as much of the conversation as patio design — the clay-loam under most of north Elmhurst holds water for weeks after a heavy spring rain. We've been on Elmhurst job sites since 2005. The same crew that walks your property at the estimate is the crew that pours the base. When you call (630) 946-9321, you get Erick — no sales rep, no callback queue, no handoff to a subcontractor you've never met.",
+      es: 'Elmhurst es la clase de lugar donde la casa fue construida antes de la ampliación de la era Eisenhower, y la ampliación es más vieja que la mayoría de los contratistas que tocan la puerta. Alrededor del Wilder Park y el corredor York-Vallette, la impermeabilización de sótanos se ha vuelto tanto parte de la conversación como el diseño de patios — el suelo arcilloso del norte de Elmhurst retiene agua por semanas tras una lluvia fuerte de primavera. Estamos en obras de Elmhurst desde 2005. El mismo equipo que camina tu propiedad en el estimado es el equipo que coloca la base. Cuando llamas al (630) 946-9321, te atiende Erick — sin vendedor, sin cola, sin entregar a un subcontratista que apenas acabas de conocer.',
     },
-    testimonials: [
-      {
-        quote: {
-          en: 'Local review coming soon — Sunset Services has worked in Elmhurst since 2005.',
-          es: 'Reseña local próximamente — Sunset Services trabaja en Elmhurst desde 2005.',
-        },
-        attribution: {
-          en: 'Pending — Elmhurst',
-          es: 'Pendiente — Elmhurst',
-        },
-        rating: 5,
-      },
-    ],
+    testimonials: [],
     meta: {
       title: {
         en: 'Elmhurst, IL Landscaping & Hardscape | Sunset Services',
@@ -628,19 +520,7 @@ export const LOCATIONS: LocationCity[] = [
       en: "Clarendon Hills is one of those west-suburban pockets where the entire walk-to-Metra core has lots under a quarter acre, and the houses are 1920s bungalows that haven't been touched in twenty years. The job here is precision — getting a hardscape walkway to align with brick the masons set ninety years ago, threading a new sprinkler system through mature root systems without losing a tree. We know the streets around Prospect Park and the Clarendon-Norfolk corridor well; some of those subdivisions go back to 1900. When you call (630) 946-9321, you get the same family-run team Hinsdale and Elmhurst homeowners reach. One crew, one phone, twenty-five years of paying attention.",
       es: 'Clarendon Hills es uno de esos rincones del oeste donde todo el núcleo a pasos del Metra tiene lotes de menos de un cuarto de acre, y las casas son bungalows de los años veinte sin tocar en veinte años. El trabajo aquí es precisión — alinear una acera de hardscape con ladrillos que los albañiles colocaron hace noventa años, atravesar un nuevo sistema de riego entre raíces maduras sin perder un árbol. Conocemos bien las calles alrededor de Prospect Park y el corredor Clarendon-Norfolk; algunas de esas subdivisiones son de 1900. Cuando llamas al (630) 946-9321, te atiende el mismo equipo familiar que atiende a propietarios de Hinsdale y Elmhurst. Un equipo, un teléfono, veinticinco años de prestar atención.',
     },
-    testimonials: [
-      {
-        quote: {
-          en: 'Local review coming soon — Sunset Services has worked in Clarendon Hills since 2008.',
-          es: 'Reseña local próximamente — Sunset Services trabaja en Clarendon Hills desde 2008.',
-        },
-        attribution: {
-          en: 'Pending — Clarendon Hills',
-          es: 'Pendiente — Clarendon Hills',
-        },
-        rating: 5,
-      },
-    ],
+    testimonials: [],
     meta: {
       title: {
         en: 'Clarendon Hills, IL Landscaping & Hardscape | Sunset Services',
@@ -680,22 +560,10 @@ export const LOCATIONS: LocationCity[] = [
       {slug: 'driveway-snow-removal', division: 'snow-removal'},
     ],
     whyLocal: {
-      en: "Burr Ridge is the kind of community where most properties were built as custom builds and ask for landscape work that matches. Around the Carriage Way and County Line Road corridors, the lots run an acre-plus and the design conversations usually include a full-yard plan: paver patio that flows from the kitchen, a fire feature sized for the family, retaining walls that double as seating. That's the work we love. We've been on Burr Ridge job sites since 2009. When you call (630) 946-9321, Erick or his son picks up — no sales rep, no callback queue. The crew that walks your property at the estimate is the crew that builds the project, start to finish.",
-      es: 'Burr Ridge es la clase de comunidad donde la mayoría de las propiedades se construyeron como casas personalizadas y piden trabajo de paisajismo que les haga juego. Alrededor de los corredores Carriage Way y County Line Road, los lotes son de un acre o más y las conversaciones de diseño suelen incluir un plan completo: patio de adoquines que fluye desde la cocina, brasero dimensionado para la familia, muros de contención que funcionan como asientos. Ese es el trabajo que nos gusta. Estamos en obras de Burr Ridge desde 2009. Cuando llamas al (630) 946-9321, Erick o su hijo contestan — sin vendedor, sin cola. El equipo que camina tu propiedad en el estimado es el equipo que construye el proyecto de principio a fin.',
+      en: "Burr Ridge is the kind of community where most properties were built as custom builds and ask for landscape work that matches. Around the Carriage Way and County Line Road corridors, the lots run an acre-plus and the design conversations usually include a full-yard plan: paver patio that flows from the kitchen, a fire feature sized for the family, retaining walls that double as seating. That's the work we love. We've been on Burr Ridge job sites since 2009. When you call (630) 946-9321, Erick picks up — no sales rep, no callback queue. The crew that walks your property at the estimate is the crew that builds the project, start to finish.",
+      es: 'Burr Ridge es la clase de comunidad donde la mayoría de las propiedades se construyeron como casas personalizadas y piden trabajo de paisajismo que les haga juego. Alrededor de los corredores Carriage Way y County Line Road, los lotes son de un acre o más y las conversaciones de diseño suelen incluir un plan completo: patio de adoquines que fluye desde la cocina, brasero dimensionado para la familia, muros de contención que funcionan como asientos. Ese es el trabajo que nos gusta. Estamos en obras de Burr Ridge desde 2009. Cuando llamas al (630) 946-9321, Erick contesta — sin vendedor, sin cola. El equipo que camina tu propiedad en el estimado es el equipo que construye el proyecto de principio a fin.',
     },
-    testimonials: [
-      {
-        quote: {
-          en: 'Local review coming soon — Sunset Services has done full-yard plans in Burr Ridge since 2009.',
-          es: 'Reseña local próximamente — Sunset Services ha hecho planes completos en Burr Ridge desde 2009.',
-        },
-        attribution: {
-          en: 'Pending — Burr Ridge',
-          es: 'Pendiente — Burr Ridge',
-        },
-        rating: 5,
-      },
-    ],
+    testimonials: [],
     meta: {
       title: {
         en: 'Burr Ridge, IL Landscaping & Hardscape | Sunset Services',
@@ -735,22 +603,10 @@ export const LOCATIONS: LocationCity[] = [
       {slug: 'driveway-snow-removal', division: 'snow-removal'},
     ],
     whyLocal: {
-      en: "Western Springs is the walk-to-train neighborhoods around Spring Rock Park and the Western Springs station, and the houses go back to the early 1900s in the older blocks. The lots are tight, the trees are mature, and the work asks for crews that understand both — laying a paver walk that matches brick from 1910, planting under a sixty-foot maple without disturbing the root flare. We've been on Western Springs job sites since 2008. When you call (630) 946-9321, you don't get a sales rep — Erick or his son answers. The same crew that walks your property is the crew that pours the base. No subcontracted handoffs.",
-      es: 'Western Springs son los vecindarios a pasos del tren alrededor del Spring Rock Park y la estación de Western Springs, y las casas se remontan a principios de los 1900 en las cuadras antiguas. Los lotes son apretados, los árboles maduros, y el trabajo pide equipos que entiendan ambos — colocar una acera de adoquines que haga juego con ladrillo de 1910, plantar bajo un arce de sesenta pies sin tocar la raíz. Estamos en obras de Western Springs desde 2008. Cuando llamas al (630) 946-9321, no te atiende un vendedor — Erick o su hijo contestan. El mismo equipo que camina tu propiedad es el equipo que coloca la base. Sin subcontratistas.',
+      en: "Western Springs is the walk-to-train neighborhoods around Spring Rock Park and the Western Springs station, and the houses go back to the early 1900s in the older blocks. The lots are tight, the trees are mature, and the work asks for crews that understand both — laying a paver walk that matches brick from 1910, planting under a sixty-foot maple without disturbing the root flare. We've been on Western Springs job sites since 2008. When you call (630) 946-9321, you don't get a sales rep — Erick answers. The same crew that walks your property is the crew that pours the base. No subcontracted handoffs.",
+      es: 'Western Springs son los vecindarios a pasos del tren alrededor del Spring Rock Park y la estación de Western Springs, y las casas se remontan a principios de los 1900 en las cuadras antiguas. Los lotes son apretados, los árboles maduros, y el trabajo pide equipos que entiendan ambos — colocar una acera de adoquines que haga juego con ladrillo de 1910, plantar bajo un arce de sesenta pies sin tocar la raíz. Estamos en obras de Western Springs desde 2008. Cuando llamas al (630) 946-9321, no te atiende un vendedor — Erick contesta. El mismo equipo que camina tu propiedad es el equipo que coloca la base. Sin subcontratistas.',
     },
-    testimonials: [
-      {
-        quote: {
-          en: 'Local review coming soon — Sunset Services has worked in Western Springs since 2008.',
-          es: 'Reseña local próximamente — Sunset Services trabaja en Western Springs desde 2008.',
-        },
-        attribution: {
-          en: 'Pending — Western Springs',
-          es: 'Pendiente — Western Springs',
-        },
-        rating: 5,
-      },
-    ],
+    testimonials: [],
     meta: {
       title: {
         en: 'Western Springs, IL Landscaping & Hardscape | Sunset Services',
@@ -790,22 +646,10 @@ export const LOCATIONS: LocationCity[] = [
       {slug: 'driveway-snow-removal', division: 'snow-removal'},
     ],
     whyLocal: {
-      en: "Glen Ellyn is the Lake Ellyn neighborhoods, the old estate corridors around Crescent Boulevard, and the College of DuPage campus edge — three different design conversations on three different streets. We've been planting in Glen Ellyn since 2006. The lots around Lake Ellyn ask for plantings that can handle reflected light off the water; the streets near Newton Avenue need walls and walks that match house brick from the 1920s; the newer subdivisions south of Roosevelt Road want full-yard plans with patios and fire features. When you call (630) 946-9321, you get Erick or his son — no sales rep, no handoffs to a subcontractor you've never met. The crew you meet at the estimate is the crew that builds the project.",
-      es: 'Glen Ellyn son los vecindarios del Lago Ellyn, los corredores de propiedades antiguas alrededor de Crescent Boulevard, y el borde del campus del College of DuPage — tres conversaciones de diseño distintas en tres calles distintas. Hemos estado plantando en Glen Ellyn desde 2006. Los lotes alrededor del Lago Ellyn piden plantas que aguanten la luz reflejada del agua; las calles cerca de Newton Avenue necesitan muros y aceras que hagan juego con ladrillo de casas de los años veinte; las subdivisiones nuevas al sur de Roosevelt Road quieren planes completos con patios y braseros. Cuando llamas al (630) 946-9321, te atiende Erick o su hijo — sin vendedor, sin entregar a un subcontratista que apenas acabas de conocer. El equipo que conoces en el estimado es el equipo que construye el proyecto.',
+      en: "Glen Ellyn is the Lake Ellyn neighborhoods, the old estate corridors around Crescent Boulevard, and the College of DuPage campus edge — three different design conversations on three different streets. We've been planting in Glen Ellyn since 2006. The lots around Lake Ellyn ask for plantings that can handle reflected light off the water; the streets near Newton Avenue need walls and walks that match house brick from the 1920s; the newer subdivisions south of Roosevelt Road want full-yard plans with patios and fire features. When you call (630) 946-9321, you get Erick — no sales rep, no handoffs to a subcontractor you've never met. The crew you meet at the estimate is the crew that builds the project.",
+      es: 'Glen Ellyn son los vecindarios del Lago Ellyn, los corredores de propiedades antiguas alrededor de Crescent Boulevard, y el borde del campus del College of DuPage — tres conversaciones de diseño distintas en tres calles distintas. Hemos estado plantando en Glen Ellyn desde 2006. Los lotes alrededor del Lago Ellyn piden plantas que aguanten la luz reflejada del agua; las calles cerca de Newton Avenue necesitan muros y aceras que hagan juego con ladrillo de casas de los años veinte; las subdivisiones nuevas al sur de Roosevelt Road quieren planes completos con patios y braseros. Cuando llamas al (630) 946-9321, te atiende Erick — sin vendedor, sin entregar a un subcontratista que apenas acabas de conocer. El equipo que conoces en el estimado es el equipo que construye el proyecto.',
     },
-    testimonials: [
-      {
-        quote: {
-          en: 'Local review coming soon — Sunset Services has planted in Glen Ellyn since 2006.',
-          es: 'Reseña local próximamente — Sunset Services ha plantado en Glen Ellyn desde 2006.',
-        },
-        attribution: {
-          en: 'Pending — Glen Ellyn',
-          es: 'Pendiente — Glen Ellyn',
-        },
-        rating: 5,
-      },
-    ],
+    testimonials: [],
     meta: {
       title: {
         en: 'Glen Ellyn, IL Landscaping & Hardscape | Sunset Services',
@@ -845,22 +689,10 @@ export const LOCATIONS: LocationCity[] = [
       {slug: 'commercial-snow-plowing', division: 'snow-removal'},
     ],
     whyLocal: {
-      en: "Downers Grove is a layered town — the downtown-walk blocks around Burlington Avenue, the established residential streets near Maple Avenue, and the newer subdivisions south of Ogden. We've worked across all three since 2004. The Maple Avenue corridor has lots that ask for thoughtful design — mature trees, brick driveways, walks that have to match what's there. The newer south-side neighborhoods want patios and fire features. When you call (630) 946-9321, you don't get a sales rep — Erick or his son picks up. The same crew that walks your property is the crew that pours the base. No subcontracted handoffs. The Sunset trucks are on Downers Grove roads at least three days a week, year-round.",
-      es: 'Downers Grove es un pueblo en capas — las cuadras a pasos del centro alrededor de Burlington Avenue, las calles residenciales establecidas cerca de Maple Avenue, y las subdivisiones nuevas al sur de Ogden. Hemos trabajado en las tres desde 2004. El corredor Maple Avenue tiene lotes que piden diseño cuidadoso — árboles maduros, entradas de ladrillo, aceras que hacen juego con lo existente. Los vecindarios nuevos del sur quieren patios y braseros. Cuando llamas al (630) 946-9321, no te atiende un vendedor — Erick o su hijo contestan. El mismo equipo que camina tu propiedad es el equipo que coloca la base. Sin subcontratistas. Los camiones de Sunset están en calles de Downers Grove al menos tres días por semana, todo el año.',
+      en: "Downers Grove is a layered town — the downtown-walk blocks around Burlington Avenue, the established residential streets near Maple Avenue, and the newer subdivisions south of Ogden. We've worked across all three since 2004. The Maple Avenue corridor has lots that ask for thoughtful design — mature trees, brick driveways, walks that have to match what's there. The newer south-side neighborhoods want patios and fire features. When you call (630) 946-9321, you don't get a sales rep — Erick picks up. The same crew that walks your property is the crew that pours the base. No subcontracted handoffs. The Sunset trucks are on Downers Grove roads at least three days a week, year-round.",
+      es: 'Downers Grove es un pueblo en capas — las cuadras a pasos del centro alrededor de Burlington Avenue, las calles residenciales establecidas cerca de Maple Avenue, y las subdivisiones nuevas al sur de Ogden. Hemos trabajado en las tres desde 2004. El corredor Maple Avenue tiene lotes que piden diseño cuidadoso — árboles maduros, entradas de ladrillo, aceras que hacen juego con lo existente. Los vecindarios nuevos del sur quieren patios y braseros. Cuando llamas al (630) 946-9321, no te atiende un vendedor — Erick contesta. El mismo equipo que camina tu propiedad es el equipo que coloca la base. Sin subcontratistas. Los camiones de Sunset están en calles de Downers Grove al menos tres días por semana, todo el año.',
     },
-    testimonials: [
-      {
-        quote: {
-          en: 'Local review coming soon — Sunset Services has worked in Downers Grove since 2004.',
-          es: 'Reseña local próximamente — Sunset Services trabaja en Downers Grove desde 2004.',
-        },
-        attribution: {
-          en: 'Pending — Downers Grove',
-          es: 'Pendiente — Downers Grove',
-        },
-        rating: 5,
-      },
-    ],
+    testimonials: [],
     meta: {
       title: {
         en: 'Downers Grove, IL Landscaping & Hardscape | Sunset Services',
@@ -903,19 +735,7 @@ export const LOCATIONS: LocationCity[] = [
       en: "Winfield is mostly residential — the streets east of Geneva Road sit on acre-plus lots with mature trees and lawns that benefit from a real maintenance routine. We started working Winfield in 2010 alongside the existing Wheaton + Glen Ellyn routes. The properties around the Cantigny Park edge ask for landscape design that handles deer pressure and shade plantings under hundred-year oaks; the streets near Beecher Park need turf programs that hold up to kid use and dog use. When you call (630) 946-9321, you get the same family-run team Wheaton homeowners reach. One crew, one phone, and trucks already on the road in your area three days a week.",
       es: 'Winfield es mayormente residencial — las calles al este de Geneva Road están en lotes de un acre o más con árboles maduros y céspedes que se benefician de una rutina de mantenimiento real. Empezamos a trabajar en Winfield en 2010 junto con las rutas existentes de Wheaton y Glen Ellyn. Las propiedades al borde del Cantigny Park piden diseño que maneja la presión de ciervos y plantas de sombra bajo robles centenarios; las calles cerca de Beecher Park necesitan programas de césped que aguanten uso de niños y perros. Cuando llamas al (630) 946-9321, te atiende el mismo equipo familiar que atiende a propietarios de Wheaton. Un equipo, un teléfono, y camiones ya en la calle en tu área tres días por semana.',
     },
-    testimonials: [
-      {
-        quote: {
-          en: 'Local review coming soon — Sunset Services has worked in Winfield since 2010.',
-          es: 'Reseña local próximamente — Sunset Services trabaja en Winfield desde 2010.',
-        },
-        attribution: {
-          en: 'Pending — Winfield',
-          es: 'Pendiente — Winfield',
-        },
-        rating: 5,
-      },
-    ],
+    testimonials: [],
     meta: {
       title: {
         en: 'Winfield, IL Landscaping & Hardscape | Sunset Services',
@@ -958,19 +778,7 @@ export const LOCATIONS: LocationCity[] = [
       en: "Lombard is the Roosevelt Road commercial spine plus the residential streets that flank it on both sides. We've been in Lombard since 2005. The properties along the Yorktown corridor and the office parks near Highland Avenue have been on our commercial maintenance routes for fifteen-plus years; the residential streets around Lilacia Park ask for thoughtful design work and seasonal cleanup. When you call (630) 946-9321, the same number commercial property managers reach is the same number a residential homeowner reaches. One crew, one phone, one accountable family. We're on Lombard roads at least four days a week through the growing season.",
       es: 'Lombard es la columna comercial de Roosevelt Road más las calles residenciales que la flanquean a ambos lados. Estamos en Lombard desde 2005. Las propiedades a lo largo del corredor Yorktown y los parques de oficinas cerca de Highland Avenue llevan más de quince años en nuestras rutas de mantenimiento comercial; las calles residenciales alrededor del Lilacia Park piden trabajo de diseño cuidadoso y limpieza de temporada. Cuando llamas al (630) 946-9321, el mismo número que marcan los administradores comerciales lo marca un propietario residencial. Un equipo, un teléfono, una familia que rinde cuentas. Estamos en calles de Lombard al menos cuatro días por semana durante la temporada de crecimiento.',
     },
-    testimonials: [
-      {
-        quote: {
-          en: 'Local review coming soon — Sunset Services has worked in Lombard since 2005.',
-          es: 'Reseña local próximamente — Sunset Services trabaja en Lombard desde 2005.',
-        },
-        attribution: {
-          en: 'Pending — Lombard',
-          es: 'Pendiente — Lombard',
-        },
-        rating: 5,
-      },
-    ],
+    testimonials: [],
     meta: {
       title: {
         en: 'Lombard, IL Landscaping & Snow | Sunset Services',
@@ -1010,22 +818,10 @@ export const LOCATIONS: LocationCity[] = [
       {slug: 'driveway-snow-removal', division: 'snow-removal'},
     ],
     whyLocal: {
-      en: "St. Charles is the Fox River town with two distinct landscape stories — the historic streets around the Hotel Baker that ask for restoration-style work, and the newer subdivisions north of Highway 64 that want full-yard plans. We started working St. Charles in 2006 from the Batavia route, and a handful of our long-running clients are along the river bluff between 7th Avenue and Dean Street. The bluff lots drain differently than inland streets — what looks like a flat backyard often has six inches of grade we can read with a hose-line in five minutes. When you call (630) 946-9321, you get Erick or his son. The crew you meet at the estimate is the crew that builds the project.",
-      es: 'St. Charles es el pueblo a orillas del Río Fox con dos historias de paisaje distintas — las calles históricas alrededor del Hotel Baker que piden trabajo de tipo restauración, y las subdivisiones nuevas al norte de la Highway 64 que quieren planes completos. Empezamos a trabajar St. Charles en 2006 desde la ruta de Batavia, y varios de nuestros clientes de larga data están a lo largo del barranco del río entre 7th Avenue y Dean Street. Los lotes del barranco drenan distinto que las calles del interior — lo que parece un patio plano a menudo tiene seis pulgadas de pendiente que podemos leer con una manguera en cinco minutos. Cuando llamas al (630) 946-9321, te atiende Erick o su hijo. El equipo que conoces en el estimado es el equipo que construye el proyecto.',
+      en: "St. Charles is the Fox River town with two distinct landscape stories — the historic streets around the Hotel Baker that ask for restoration-style work, and the newer subdivisions north of Highway 64 that want full-yard plans. We started working St. Charles in 2006 from the Batavia route, and a handful of our long-running clients are along the river bluff between 7th Avenue and Dean Street. The bluff lots drain differently than inland streets — what looks like a flat backyard often has six inches of grade we can read with a hose-line in five minutes. When you call (630) 946-9321, you get Erick. The crew you meet at the estimate is the crew that builds the project.",
+      es: 'St. Charles es el pueblo a orillas del Río Fox con dos historias de paisaje distintas — las calles históricas alrededor del Hotel Baker que piden trabajo de tipo restauración, y las subdivisiones nuevas al norte de la Highway 64 que quieren planes completos. Empezamos a trabajar St. Charles en 2006 desde la ruta de Batavia, y varios de nuestros clientes de larga data están a lo largo del barranco del río entre 7th Avenue y Dean Street. Los lotes del barranco drenan distinto que las calles del interior — lo que parece un patio plano a menudo tiene seis pulgadas de pendiente que podemos leer con una manguera en cinco minutos. Cuando llamas al (630) 946-9321, te atiende Erick. El equipo que conoces en el estimado es el equipo que construye el proyecto.',
     },
-    testimonials: [
-      {
-        quote: {
-          en: 'Local review coming soon — Sunset Services has worked in St. Charles since 2006.',
-          es: 'Reseña local próximamente — Sunset Services trabaja en St. Charles desde 2006.',
-        },
-        attribution: {
-          en: 'Pending — St. Charles',
-          es: 'Pendiente — St. Charles',
-        },
-        rating: 5,
-      },
-    ],
+    testimonials: [],
     meta: {
       title: {
         en: 'St. Charles, IL Landscaping & Hardscape | Sunset Services',
@@ -1068,19 +864,7 @@ export const LOCATIONS: LocationCity[] = [
       en: "Geneva is the historic-downtown core around the Kane County courthouse and the Third Street shopping district, plus residential streets that climb up from the Fox River bluff. We've been on Geneva job sites since 2007, mostly out of our Batavia crew. The riverside lots ask for grading and drainage work that respects the natural slope; the streets around Island Park need walks and walls that match limestone foundations from the 1800s. When you call (630) 946-9321, you get the same family-run team Batavia and St. Charles homeowners reach. One crew, one phone, one accountable family. The crew you meet at the estimate is the crew that pours the base.",
       es: 'Geneva es el centro histórico alrededor del juzgado del condado de Kane y el distrito comercial de Third Street, además de calles residenciales que suben desde el barranco del Río Fox. Estamos en obras de Geneva desde 2007, principalmente desde el equipo de Batavia. Los lotes ribereños piden trabajo de nivelación y drenaje que respete la pendiente natural; las calles alrededor del Island Park necesitan aceras y muros que hagan juego con cimientos de piedra caliza de los 1800. Cuando llamas al (630) 946-9321, te atiende el mismo equipo familiar que atiende a propietarios de Batavia y St. Charles. Un equipo, un teléfono, una familia que rinde cuentas. El equipo que conoces en el estimado es el equipo que coloca la base.',
     },
-    testimonials: [
-      {
-        quote: {
-          en: 'Local review coming soon — Sunset Services has worked in Geneva since 2007.',
-          es: 'Reseña local próximamente — Sunset Services trabaja en Geneva desde 2007.',
-        },
-        attribution: {
-          en: 'Pending — Geneva',
-          es: 'Pendiente — Geneva',
-        },
-        rating: 5,
-      },
-    ],
+    testimonials: [],
     meta: {
       title: {
         en: 'Geneva, IL Landscaping & Hardscape | Sunset Services',
@@ -1123,19 +907,7 @@ export const LOCATIONS: LocationCity[] = [
       en: "South Elgin grew fast in the 1990s and 2000s, and the housing stock reflects it — mostly newer construction in subdivisions along Stearns Road and the IL-31 corridor. The work here is less about restoration and more about establishing the routines that didn't come with the builder: solid lawn care, mature-plant infill, sprinkler tune-ups every spring. We've been on South Elgin routes since 2011. When you call (630) 946-9321, you get the same family-run team St. Charles and Geneva homeowners reach. One crew, one phone, and trucks in the area at least two days a week from April through November.",
       es: 'South Elgin creció rápido en los años noventa y dos mil, y el inventario de casas lo refleja — mayormente construcción nueva en subdivisiones a lo largo de Stearns Road y el corredor IL-31. El trabajo aquí es menos sobre restauración y más sobre establecer las rutinas que no vinieron con el constructor: cuidado sólido del césped, relleno de plantas maduras, ajustes de riego cada primavera. Estamos en rutas de South Elgin desde 2011. Cuando llamas al (630) 946-9321, te atiende el mismo equipo familiar que atiende a propietarios de St. Charles y Geneva. Un equipo, un teléfono, y camiones en el área al menos dos días por semana de abril a noviembre.',
     },
-    testimonials: [
-      {
-        quote: {
-          en: 'Local review coming soon — Sunset Services has worked in South Elgin since 2011.',
-          es: 'Reseña local próximamente — Sunset Services trabaja en South Elgin desde 2011.',
-        },
-        attribution: {
-          en: 'Pending — South Elgin',
-          es: 'Pendiente — South Elgin',
-        },
-        rating: 5,
-      },
-    ],
+    testimonials: [],
     meta: {
       title: {
         en: 'South Elgin, IL Landscaping & Hardscape | Sunset Services',
@@ -1175,22 +947,10 @@ export const LOCATIONS: LocationCity[] = [
       {slug: 'driveway-snow-removal', division: 'snow-removal'},
     ],
     whyLocal: {
-      en: "Elburn sits at the western edge of Kane County, where the residential subdivisions give way to farmland inside a mile. The properties along Keslinger Road and the new neighborhoods south of Route 47 mostly run an acre-plus, and the work asks for crews that can handle the scale — proper irrigation, tree care that respects mature plantings, real maintenance routines. We've been on Elburn routes since 2014, usually from the Geneva crew. When you call (630) 946-9321, you don't get a sales rep — Erick or his son picks up. The same crew that walks your property is the crew that pours the base. No subcontracted handoffs.",
-      es: 'Elburn está al borde oeste del condado de Kane, donde las subdivisiones residenciales dan paso a tierras de cultivo dentro de una milla. Las propiedades a lo largo de Keslinger Road y los vecindarios nuevos al sur de la Ruta 47 son mayormente de un acre o más, y el trabajo pide equipos que manejen la escala — riego adecuado, cuidado de árboles que respeta plantas maduras, rutinas reales de mantenimiento. Estamos en rutas de Elburn desde 2014, usualmente desde el equipo de Geneva. Cuando llamas al (630) 946-9321, no te atiende un vendedor — Erick o su hijo contestan. El mismo equipo que camina tu propiedad es el equipo que coloca la base. Sin subcontratistas.',
+      en: "Elburn sits at the western edge of Kane County, where the residential subdivisions give way to farmland inside a mile. The properties along Keslinger Road and the new neighborhoods south of Route 47 mostly run an acre-plus, and the work asks for crews that can handle the scale — proper irrigation, tree care that respects mature plantings, real maintenance routines. We've been on Elburn routes since 2014, usually from the Geneva crew. When you call (630) 946-9321, you don't get a sales rep — Erick picks up. The same crew that walks your property is the crew that pours the base. No subcontracted handoffs.",
+      es: 'Elburn está al borde oeste del condado de Kane, donde las subdivisiones residenciales dan paso a tierras de cultivo dentro de una milla. Las propiedades a lo largo de Keslinger Road y los vecindarios nuevos al sur de la Ruta 47 son mayormente de un acre o más, y el trabajo pide equipos que manejen la escala — riego adecuado, cuidado de árboles que respeta plantas maduras, rutinas reales de mantenimiento. Estamos en rutas de Elburn desde 2014, usualmente desde el equipo de Geneva. Cuando llamas al (630) 946-9321, no te atiende un vendedor — Erick contesta. El mismo equipo que camina tu propiedad es el equipo que coloca la base. Sin subcontratistas.',
     },
-    testimonials: [
-      {
-        quote: {
-          en: 'Local review coming soon — Sunset Services has worked in Elburn since 2014.',
-          es: 'Reseña local próximamente — Sunset Services trabaja en Elburn desde 2014.',
-        },
-        attribution: {
-          en: 'Pending — Elburn',
-          es: 'Pendiente — Elburn',
-        },
-        rating: 5,
-      },
-    ],
+    testimonials: [],
     meta: {
       title: {
         en: 'Elburn, IL Landscaping & Hardscape | Sunset Services',
@@ -1233,19 +993,7 @@ export const LOCATIONS: LocationCity[] = [
       en: "North Aurora is literally up the street from our Mountain Street yard, and a meaningful chunk of our route — both residential and commercial — happens within the village boundary. We mow the Stoneridge subdivisions on Wednesdays, plow the office parks along Randall Road on every storm event, and have planted in the Riverwoods neighborhood every spring since 2002. The crews know which streets the village salts last in a storm; which subdivisions have HOA approval forms that need three weeks; which lots back up to the Fox River and ask for grading work. When you call (630) 946-9321, the same Sunset team that built our reputation in Aurora is the team that picks up. One crew, one phone, twenty-five years of paying attention.",
       es: 'North Aurora está literalmente calle arriba de nuestro patio en Mountain Street, y una parte significativa de nuestra ruta — tanto residencial como comercial — ocurre dentro de los límites del pueblo. Cortamos las subdivisiones de Stoneridge los miércoles, limpiamos los parques de oficinas a lo largo de Randall Road en cada tormenta, y hemos plantado en el vecindario Riverwoods cada primavera desde 2002. Los equipos saben qué calles limpia el municipio al final en una tormenta; qué subdivisiones tienen formularios de aprobación de HOA que tardan tres semanas; qué lotes dan al Río Fox y piden trabajo de nivelación. Cuando llamas al (630) 946-9321, el mismo equipo Sunset que construyó nuestra reputación en Aurora es el equipo que contesta. Un equipo, un teléfono, veinticinco años de prestar atención.',
     },
-    testimonials: [
-      {
-        quote: {
-          en: 'Local review coming soon — Sunset Services has planted in North Aurora since 2002.',
-          es: 'Reseña local próximamente — Sunset Services ha plantado en North Aurora desde 2002.',
-        },
-        attribution: {
-          en: 'Pending — North Aurora',
-          es: 'Pendiente — North Aurora',
-        },
-        rating: 5,
-      },
-    ],
+    testimonials: [],
     meta: {
       title: {
         en: 'North Aurora, IL Landscaping & Snow | Sunset Services',
@@ -1285,22 +1033,10 @@ export const LOCATIONS: LocationCity[] = [
       {slug: 'driveway-snow-removal', division: 'snow-removal'},
     ],
     whyLocal: {
-      en: "Oswego is mostly 2000s-and-newer construction along the Route 30 / Route 71 corridors south of the Fox River. The lots run an acre-plus on average and most properties want the kind of full-yard plan you build once and keep for twenty years — paver patio that flows from the kitchen, retaining wall that doubles as seating, a fire feature sized for actual family use. We've been on Oswego routes since 2011. When you call (630) 946-9321, you get Erick or his son. The same crew that walks your property at the estimate is the crew that builds the project. No subcontracted handoffs to someone you've never met.",
-      es: 'Oswego es mayormente construcción de los años dos mil y más nueva a lo largo de los corredores Ruta 30 / Ruta 71 al sur del Río Fox. Los lotes son en promedio de un acre o más y la mayoría de las propiedades quieren la clase de plan completo que construyes una vez y mantienes por veinte años — patio de adoquines que fluye desde la cocina, muro de contención que también es asiento, brasero dimensionado para uso real en familia. Estamos en rutas de Oswego desde 2011. Cuando llamas al (630) 946-9321, te atiende Erick o su hijo. El mismo equipo que camina tu propiedad en el estimado es el equipo que construye el proyecto. Sin entregar a un subcontratista que apenas acabas de conocer.',
+      en: "Oswego is mostly 2000s-and-newer construction along the Route 30 / Route 71 corridors south of the Fox River. The lots run an acre-plus on average and most properties want the kind of full-yard plan you build once and keep for twenty years — paver patio that flows from the kitchen, retaining wall that doubles as seating, a fire feature sized for actual family use. We've been on Oswego routes since 2011. When you call (630) 946-9321, you get Erick. The same crew that walks your property at the estimate is the crew that builds the project. No subcontracted handoffs to someone you've never met.",
+      es: 'Oswego es mayormente construcción de los años dos mil y más nueva a lo largo de los corredores Ruta 30 / Ruta 71 al sur del Río Fox. Los lotes son en promedio de un acre o más y la mayoría de las propiedades quieren la clase de plan completo que construyes una vez y mantienes por veinte años — patio de adoquines que fluye desde la cocina, muro de contención que también es asiento, brasero dimensionado para uso real en familia. Estamos en rutas de Oswego desde 2011. Cuando llamas al (630) 946-9321, te atiende Erick. El mismo equipo que camina tu propiedad en el estimado es el equipo que construye el proyecto. Sin entregar a un subcontratista que apenas acabas de conocer.',
     },
-    testimonials: [
-      {
-        quote: {
-          en: 'Local review coming soon — Sunset Services has worked in Oswego since 2011.',
-          es: 'Reseña local próximamente — Sunset Services trabaja en Oswego desde 2011.',
-        },
-        attribution: {
-          en: 'Pending — Oswego',
-          es: 'Pendiente — Oswego',
-        },
-        rating: 5,
-      },
-    ],
+    testimonials: [],
     meta: {
       title: {
         en: 'Oswego, IL Landscaping & Hardscape | Sunset Services',
@@ -1343,19 +1079,7 @@ export const LOCATIONS: LocationCity[] = [
       en: "Yorkville is the seat of Kendall County and sits at the edge of where the suburbs give way to farmland. The properties along Route 47 and the streets near Hoover Park run an acre-plus and ask for landscape work that respects the scale — proper grading, real irrigation, hardscape that holds up to two decades of weather without resetting. We've been on Yorkville routes since 2013, usually paired with the Oswego crew. When you call (630) 946-9321, the same family-run team Aurora and Oswego homeowners reach is the team that picks up. One crew, one phone, no subcontracted handoffs.",
       es: 'Yorkville es la sede del condado de Kendall y está al borde donde los suburbios dan paso a tierras de cultivo. Las propiedades a lo largo de la Ruta 47 y las calles cerca del Hoover Park son de un acre o más y piden trabajo de paisajismo que respeta la escala — nivelación adecuada, riego real, hardscape que aguante dos décadas de clima sin reasentar. Estamos en rutas de Yorkville desde 2013, usualmente emparejados con el equipo de Oswego. Cuando llamas al (630) 946-9321, el mismo equipo familiar que atiende a propietarios de Aurora y Oswego es el equipo que contesta. Un equipo, un teléfono, sin subcontratistas.',
     },
-    testimonials: [
-      {
-        quote: {
-          en: 'Local review coming soon — Sunset Services has worked in Yorkville since 2013.',
-          es: 'Reseña local próximamente — Sunset Services trabaja en Yorkville desde 2013.',
-        },
-        attribution: {
-          en: 'Pending — Yorkville',
-          es: 'Pendiente — Yorkville',
-        },
-        rating: 5,
-      },
-    ],
+    testimonials: [],
     meta: {
       title: {
         en: 'Yorkville, IL Landscaping & Hardscape | Sunset Services',
@@ -1398,19 +1122,7 @@ export const LOCATIONS: LocationCity[] = [
       en: "Plainfield is two towns in one — the historic downtown around Lockport Street with its 1800s storefronts, and the explosive newer growth along Route 59 and Route 30 with thousands of acres of subdivisions built in the last twenty years. The newer subdivisions ask for established maintenance routines and full-yard plans; the historic downtown core asks for restoration-style work that matches limestone foundations and mature trees. We've been on Plainfield routes since 2008. When you call (630) 946-9321, you get the same family-run team Naperville and Bolingbrook homeowners reach. One crew, one phone, twenty-five years of paying attention to the streets the GPS misses.",
       es: 'Plainfield es dos pueblos en uno — el centro histórico alrededor de Lockport Street con sus fachadas de los 1800, y el crecimiento explosivo nuevo a lo largo de la Ruta 59 y la Ruta 30 con miles de acres de subdivisiones construidas en los últimos veinte años. Las subdivisiones nuevas piden rutinas de mantenimiento establecidas y planes completos; el centro histórico pide trabajo de tipo restauración que haga juego con cimientos de piedra caliza y árboles maduros. Estamos en rutas de Plainfield desde 2008. Cuando llamas al (630) 946-9321, te atiende el mismo equipo familiar que atiende a propietarios de Naperville y Bolingbrook. Un equipo, un teléfono, veinticinco años de prestar atención a las calles que el GPS pierde.',
     },
-    testimonials: [
-      {
-        quote: {
-          en: 'Local review coming soon — Sunset Services has worked in Plainfield since 2008.',
-          es: 'Reseña local próximamente — Sunset Services trabaja en Plainfield desde 2008.',
-        },
-        attribution: {
-          en: 'Pending — Plainfield',
-          es: 'Pendiente — Plainfield',
-        },
-        rating: 5,
-      },
-    ],
+    testimonials: [],
     meta: {
       title: {
         en: 'Plainfield, IL Landscaping & Hardscape | Sunset Services',

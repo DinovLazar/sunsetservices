@@ -7,12 +7,12 @@
     "hero": {
       "kicker": "Aurora · Naperville · DuPage County",
       "h1": "Build your outdoor legacy",
-      "sub": "Premium hardscape, full-service landscaping, and snow management across DuPage County. Family-run, Unilock-authorized, since 2000.",
+      "sub": "Premium hardscape, full-service landscaping, and snow management across DuPage County. Family-run, serving DuPage since 2000.",
       "alt": "Paver patio with a stone fire feature at golden hour, surrounded by mature plantings.",
       "primary": "Get a Free Estimate",
       "secondary": "View Our Work",
       "trust": {
-        "rating": "★ 4.8 on Google · 200+ reviews",
+        "rating": "Family-run",
         "years": "25+ years",
         "unilock": "Unilock Authorized",
         "area": "Aurora · Naperville · DuPage"
@@ -32,7 +32,7 @@
       "hardscape": {
         "tag": "Hardscape",
         "h3": "Built to last.",
-        "desc": "Patios, walls, fire features, kitchens, pergolas, and driveways — Unilock-authorized since 2010.",
+        "desc": "Patios, walls, fire features, kitchens, pergolas, and driveways — Unilock-authorized installs.",
         "cta": "Explore Hardscape",
         "alt": "A Unilock paver patio with a seating wall and a stone fire feature at sunset."
       },
@@ -85,43 +85,22 @@
       }
     },
     "social": {
-      "eyebrow": "From the people who hire us",
-      "h2": "Reviewed by neighbors.",
-      "aggregate": "{rating} on Google · {count}+ reviews",
-      "aggregateBody": "on Google · {count}+ reviews",
-      "aggregateAria": "{rating} out of 5 stars on Google, {count} or more reviews",
-      "via": "via Google",
-      "reviews": {
-        "one": {
-          "quote": "They took a backyard slope no one would touch and turned it into our favorite room of the house.",
-          "name": "Sarah K.",
-          "city": "Wheaton"
-        },
-        "two": {
-          "quote": "Snow at 5am, every storm. Drive was clear before I had coffee. Worth every dollar.",
-          "name": "David R.",
-          "city": "Naperville"
-        },
-        "three": {
-          "quote": "Erick's crew rebuilt our front walk in two days. Cleaner than the day we moved in.",
-          "name": "Patricia M.",
-          "city": "Aurora"
-        }
-      },
+      "eyebrow": "Why homeowners trust us",
+      "h2": "Credentials you can verify.",
       "cred": {
         "unilockAlt": "Unilock Authorized Contractor",
         "unilockPlaceholder": "UNILOCK MARK",
         "yearsBig": "25+",
         "yearsLabelLine1": "years building",
         "yearsLabelLine2": "in DuPage County",
-        "top5": "Top 5 Landscaping",
-        "top5sub": "DuPage Tribune · 2024"
+        "bilingualBig": "EN · ES",
+        "bilingualLabel": "bilingual crews"
       }
     },
     "about": {
       "eyebrow": "Family-run, second-generation",
       "h2Line1": "Started in 2000 by Nick.",
-      "h2Line2": "Run today by his son, Erick.",
+      "h2Line2": "Run today by Erick, the second generation.",
       "body1": "Sunset Services has been mowing lawns, building patios, and clearing snow in DuPage County for 25+ years. Same family, same crew of long-tenure workers, same 6:30am start.",
       "body2": "Erick took the company over from Nick in 2018 and added the Unilock-authorized hardscape division. Everything else stayed.",
       "cta": "Read our story",
@@ -233,7 +212,7 @@
         "eyebrow": "WHY SUNSET",
         "h2": "Twenty-five years on DuPage lawns.",
         "props": {
-          "one": {"headline": "25+ years on DuPage", "description": "Erick founded Sunset Services in 2000. We've seen the seasons.", "icon": "Award"},
+          "one": {"headline": "25+ years on DuPage", "description": "Family-run since 2000. We've seen the seasons.", "icon": "Award"},
           "two": {"headline": "Same crew every visit", "description": "Your lead won't change. Quality stays consistent.", "icon": "Users"},
           "three": {"headline": "Bilingual team · EN · ES", "description": "Crew leads speak both. Quotes available in either.", "icon": "Languages"},
           "four": {"headline": "One contact across services", "description": "Lawn, design, snow — single phone number, single person.", "icon": "PhoneCall"}
@@ -242,14 +221,10 @@
       "socialProof": {
         "eyebrow": "FROM YOUR NEIGHBORS",
         "h2": "Reviewed by DuPage homeowners.",
-        "reviews": {
-          "one": {"quote": "Same crew, same quality, week after week. Five years in.", "name": "Marco D.", "city": "Aurora"},
-          "two": {"quote": "They re-designed the front beds and the lawn finally looks intentional.", "name": "Lisa K.", "city": "Naperville"}
-        },
         "credentials": {
-          "one": {"big": "★ 4.9", "sub": "Google · 287 reviews"},
+          "one": {"big": "Family-run", "sub": "since 2000"},
           "two": {"big": "25+", "sub": "years in DuPage County"},
-          "three": {"big": "1,200+", "sub": "properties served"},
+          "three": {"big": "Free", "sub": "48-hr estimates"},
           "four": {"big": "EN · ES", "sub": "bilingual crews"}
         }
       },
@@ -317,32 +292,28 @@
         "eyebrow": "WHY SUNSET",
         "h2": "Two decades on pavers.",
         "props": {
-          "one": {"headline": "Unilock Authorized Contractor", "description": "Awarded — not bought. Held for fifteen years and counting.", "icon": "Unilock"},
+          "one": {"headline": "Unilock Authorized Contractor", "description": "Awarded — not bought. Earned by proven install quality.", "icon": "Unilock"},
           "two": {"headline": "5-year installation warranty", "description": "Workmanship covered five years, no questions asked.", "icon": "BadgeCheck"},
           "three": {"headline": "In-house design", "description": "Designer, engineer, and crew lead under one roof.", "icon": "PencilRuler"},
-          "four": {"headline": "20+ years on hardscape", "description": "Marcin's team has been laying pavers since 2003.", "icon": "Hammer"}
+          "four": {"headline": "Seasoned paver crew", "description": "Marcin's team brings deep Unilock paver experience.", "icon": "Hammer"}
         }
       },
       "unilock": {
         "eyebrow": "UNILOCK AUTHORIZED CONTRACTOR",
         "h2": "The paver brand pros pick.",
-        "body": "Unilock Authorization is awarded — not bought — to contractors who can prove consistent installation quality. We've held it for fifteen years and counting.",
-        "stat": "FIFTEEN YEARS · 380+ INSTALLS · 5-YEAR INSTALLATION WARRANTY",
+        "body": "Unilock Authorization is awarded — not bought — to contractors who can prove consistent installation quality. We've held our authorization through years of proven work.",
+        "stat": "UNILOCK AUTHORIZED · 5-YEAR INSTALLATION WARRANTY",
         "viewProjects": "View Unilock projects",
         "badgeAlt": "Unilock Authorized Contractor"
       },
       "socialProof": {
         "eyebrow": "FROM HARDSCAPE CLIENTS",
         "h2": "Reviewed by hardscape clients.",
-        "reviews": {
-          "one": {"quote": "Erick's crew rebuilt our front walk in two days. Three winters in, the joint sand looks the same as day one.", "name": "Patricia M.", "city": "Aurora"},
-          "two": {"quote": "Our patio is the reason we stayed. Same crew sealed it the next spring without me asking.", "name": "James K.", "city": "Naperville"}
-        },
         "credentials": {
-          "one": {"big": "★ 4.9", "sub": "Google · 287 reviews"},
+          "one": {"big": "Family-run", "sub": "since 2000"},
           "two": {"big": "Unilock", "sub": "Authorized Contractor"},
           "three": {"big": "5-year", "sub": "installation warranty"},
-          "four": {"big": "380+", "sub": "Unilock installs"}
+          "four": {"big": "EN · ES", "sub": "bilingual crews"}
         }
       },
       "faq": {
@@ -352,7 +323,7 @@
           "one": {"q": "How long does a typical patio take?", "a": "A 400–600 sq ft residential paver patio runs 5–8 days from break-ground to walkthrough. Larger scopes or weather-impacted weeks can stretch to two weeks."},
           "two": {"q": "What warranty covers Unilock installs?", "a": "5-year workmanship warranty on the install. Unilock's manufacturer warranty on the pavers themselves runs separately and depends on the paver line."},
           "three": {"q": "Do you do design before construction?", "a": "Yes — most hardscape projects start with a concept conversation, scaled drawings, and a materials walkthrough. Design and build are separate engagements; you keep the plans either way."},
-          "four": {"q": "What materials do you typically use?", "a": "Unilock primarily — Authorized Contractor since 2010. We can also work with Belgard or other premium lines on request, though our crew is most efficient on Unilock systems."},
+          "four": {"q": "What materials do you typically use?", "a": "Unilock primarily — as a Unilock Authorized Contractor. We can also work with Belgard or other premium lines on request, though our crew is most efficient on Unilock systems."},
           "five": {"q": "How does your project schedule work?", "a": "Spring builds typically book by late February; summer/fall slots open through April. We confirm a start window inside the quote and lock the date once the deposit clears."}
         }
       },
@@ -418,12 +389,8 @@
       "socialProof": {
         "eyebrow": "FROM HOMEOWNERS",
         "h2": "Reviewed by DuPage owners.",
-        "reviews": {
-          "one": {"quote": "We had three quotes for the basement. Sunset was the only one who actually walked the perimeter and explained what was failing.", "name": "Caroline T.", "city": "Hinsdale"},
-          "two": {"quote": "The yard used to puddle every April. Two seasons in, the new drainage is invisible and the lawn is even.", "name": "Brian J.", "city": "Wheaton"}
-        },
         "credentials": {
-          "one": {"big": "★ 4.9", "sub": "Google · 287 reviews"},
+          "one": {"big": "Family-run", "sub": "since 2000"},
           "two": {"big": "25+", "sub": "years in DuPage County"},
           "three": {"big": "5–25 yr", "sub": "warranties per service"},
           "four": {"big": "EN · ES", "sub": "bilingual crews"}
@@ -502,12 +469,8 @@
       "socialProof": {
         "eyebrow": "FROM CONTRACT HOLDERS",
         "h2": "Reviewed by snow customers.",
-        "reviews": {
-          "one": {"quote": "Snow at 5am, every storm. Drive was clear before I had coffee. Worth every dollar.", "name": "David R.", "city": "Naperville"},
-          "two": {"quote": "Storm-event reports hit my inbox before I'm out of bed. Saved a tenant complaint last winter.", "name": "Mark T.", "city": "Aurora Retail"}
-        },
         "credentials": {
-          "one": {"big": "★ 4.9", "sub": "Google · 287 reviews"},
+          "one": {"big": "Family-run", "sub": "since 2000"},
           "two": {"big": "2 hr", "sub": "response after trigger"},
           "three": {"big": "24/7", "sub": "live dispatch"},
           "four": {"big": "$2M", "sub": "general liability"}
@@ -918,13 +881,13 @@
         "title": "25+ years in business",
         "caption": "Family-run since 2000"
       },
-      "tribune": {
-        "title": "Top 5 Landscaping",
-        "caption": "DuPage Tribune · 2024"
+      "bilingual": {
+        "title": "Bilingual crews",
+        "caption": "English & Spanish"
       },
-      "google": {
-        "title": "Google reviews",
-        "caption": "verified reviews"
+      "insured": {
+        "title": "Licensed & insured",
+        "caption": "General liability + workers' comp"
       }
     },
     "cta": {
@@ -1156,7 +1119,7 @@
     "whyLocal": {
       "h2": "Why hire a family business for your {city} property",
       "aboutLink": "Read more about Erick",
-      "portraitAlt": "Erick Solis on a DuPage County job site at golden hour."
+      "portraitAlt": "Erick Valle on a DuPage County job site at golden hour."
     },
     "neighbors": {
       "h2": "Other places we work"

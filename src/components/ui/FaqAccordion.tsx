@@ -2,6 +2,7 @@
 
 import * as React from 'react';
 import {ChevronDown} from 'lucide-react';
+import {stripFaqHeadingMarker} from '@/lib/faqText';
 
 export type FaqAccordionItem = {
   id: string;
@@ -59,7 +60,7 @@ function FaqRow({item}: {item: FaqAccordionItem}) {
             letterSpacing: 'var(--tracking-snug)',
           }}
         >
-          {item.question}
+          {stripFaqHeadingMarker(item.question)}
         </h3>
         <ChevronDown
           aria-hidden="true"

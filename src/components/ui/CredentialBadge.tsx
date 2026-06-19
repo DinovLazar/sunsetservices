@@ -1,7 +1,7 @@
 import * as React from 'react';
 import ServiceIcon from '@/components/ui/ServiceIcon';
 
-type BadgeKind = 'unilock' | 'years' | 'tribune' | 'google';
+type BadgeKind = 'unilock' | 'years' | 'bilingual' | 'insured';
 
 type CredentialBadgeProps = {
   kind: BadgeKind;
@@ -15,10 +15,14 @@ type CredentialBadgeProps = {
  * Server-rendered credential card. Phase 1.11 handover §3.4.
  *
  * Four kinds drive the visual head:
- *  - `unilock` → hand-rolled Unilock badge SVG (Phase 1.03 §8.3)
- *  - `years`   → "25+" big-numeric Fraunces in green
- *  - `tribune` → "Top 5" rank label
- *  - `google`  → "★ 4.8" amber star + numeric
+ *  - `unilock`   → hand-rolled Unilock badge SVG (Phase 1.03 §8.3)
+ *  - `years`     → "25+" big-numeric Fraunces in green
+ *  - `bilingual` → "EN · ES" label
+ *  - `insured`   → ShieldCheck icon
+ *
+ * Phase M.14 (Goran QA B-09): the `tribune` ("Top 5 — DuPage Tribune · 2024",
+ * unverifiable award, B3) and `google` ("★ 4.8", inflated rating, B2) kinds
+ * were removed and replaced with two verifiable, number-free credentials.
  *
  * Marked up as a `<dl>` per Phase 1.11 §9.2 — non-interactive informational
  * pairs read clean for SR users without role overrides.
@@ -86,7 +90,7 @@ function renderHead(kind: BadgeKind): React.ReactNode {
       </span>
     );
   }
-  if (kind === 'tribune') {
+  if (kind === 'bilingual') {
     return (
       <span
         className="font-heading"
@@ -98,24 +102,10 @@ function renderHead(kind: BadgeKind): React.ReactNode {
           lineHeight: 1,
         }}
       >
-        Top 5
+        EN · ES
       </span>
     );
   }
-  // google
-  return (
-    <span
-      className="font-heading inline-flex items-baseline gap-1"
-      style={{
-        fontSize: '40px',
-        fontWeight: 600,
-        letterSpacing: 'var(--tracking-snug)',
-        color: 'var(--color-sunset-amber-500, #E8A33D)',
-        lineHeight: 1,
-      }}
-    >
-      <span aria-hidden="true">★</span>
-      <span style={{color: 'var(--color-text-primary)'}}>4.8</span>
-    </span>
-  );
+  // insured
+  return <ServiceIcon name="ShieldCheck" size={56} />;
 }

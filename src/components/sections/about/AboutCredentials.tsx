@@ -6,8 +6,9 @@ import CredentialBadge from '@/components/ui/CredentialBadge';
  * About credentials row — Phase 1.11 handover §3.4.
  *
  * 4-column row on desktop, 2×2 on mobile (D5 lock). Surface: --color-bg-cream.
- * Items (locked, fixed): Unilock Authorized · 25+ years · Top 5 (Tribune) ·
- * Google reviews 4.8.
+ * Items: Unilock Authorized · 25+ years · Bilingual crews · Licensed &
+ * insured. Phase M.14 (Goran QA B-09): the Tribune award (B3) and Google
+ * rating (B2) badges were removed in favor of verifiable credentials.
  *
  * Animation: a SINGLE `<AnimateIn fade-up>` wraps the entire row (per
  * Phase 1.07 mobile-Performance lesson — do NOT stagger individual badges).
@@ -58,14 +59,14 @@ export default async function AboutCredentials() {
               caption={t('years.caption')}
             />
             <CredentialBadge
-              kind="tribune"
-              title={t('tribune.title')}
-              caption={t('tribune.caption')}
+              kind="bilingual"
+              title={t('bilingual.title')}
+              caption={t('bilingual.caption')}
             />
             <CredentialBadge
-              kind="google"
-              title={t('google.title')}
-              caption={t('google.caption')}
+              kind="insured"
+              title={t('insured.title')}
+              caption={t('insured.caption')}
             />
           </div>
         </AnimateIn>

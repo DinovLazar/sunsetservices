@@ -7,12 +7,12 @@
     "hero": {
       "kicker": "Aurora · Naperville · Condado de DuPage",
       "h1": "Construye tu legado al aire libre",
-      "sub": "Hardscape premium, paisajismo integral y manejo de nieve en el Condado de DuPage. Empresa familiar, autorizada Unilock, desde 2000.",
+      "sub": "Hardscape premium, paisajismo integral y manejo de nieve en el Condado de DuPage. Empresa familiar, sirviendo a DuPage desde 2000.",
       "alt": "Patio de adoquines con chimenea de piedra al atardecer, rodeado de plantaciones maduras.",
       "primary": "Solicita un Presupuesto Gratis",
       "secondary": "Ver Nuestro Trabajo",
       "trust": {
-        "rating": "★ 4.8 en Google · 200+ reseñas",
+        "rating": "Empresa familiar",
         "years": "25+ años",
         "unilock": "Autorizado Unilock",
         "area": "Aurora · Naperville · DuPage"
@@ -32,7 +32,7 @@
       "hardscape": {
         "tag": "Hardscape",
         "h3": "Construido para durar.",
-        "desc": "Patios, muros, fogatas, cocinas, pérgolas y entradas — Autorizados por Unilock desde 2010.",
+        "desc": "Patios, muros, fogatas, cocinas, pérgolas y entradas — instalaciones autorizadas por Unilock.",
         "cta": "Explorar Hardscape",
         "alt": "Un patio de adoquines Unilock con muro de asiento y fogata de piedra al atardecer."
       },
@@ -85,43 +85,22 @@
       }
     },
     "social": {
-      "eyebrow": "De la gente que nos contrata",
-      "h2": "Reseñados por vecinos.",
-      "aggregate": "{rating} en Google · {count}+ reseñas",
-      "aggregateBody": "en Google · {count}+ reseñas",
-      "aggregateAria": "{rating} de 5 estrellas en Google, {count} o más reseñas",
-      "via": "en Google",
-      "reviews": {
-        "one": {
-          "quote": "Tomaron una pendiente del jardín que nadie quería tocar y la convirtieron en nuestra habitación favorita de la casa.",
-          "name": "Sarah K.",
-          "city": "Wheaton"
-        },
-        "two": {
-          "quote": "Nieve a las 5am, en cada tormenta. La entrada estaba despejada antes del café. Vale cada dólar.",
-          "name": "David R.",
-          "city": "Naperville"
-        },
-        "three": {
-          "quote": "El equipo de Erick reconstruyó nuestra acera en dos días. Más limpio que el día que nos mudamos.",
-          "name": "Patricia M.",
-          "city": "Aurora"
-        }
-      },
+      "eyebrow": "Por qué los dueños confían en nosotros",
+      "h2": "Credenciales que puedes verificar.",
       "cred": {
         "unilockAlt": "Contratista autorizado Unilock",
         "unilockPlaceholder": "MARCA UNILOCK",
         "yearsBig": "25+",
         "yearsLabelLine1": "años construyendo",
         "yearsLabelLine2": "en el Condado de DuPage",
-        "top5": "Top 5 Paisajismo",
-        "top5sub": "DuPage Tribune · 2024"
+        "bilingualBig": "EN · ES",
+        "bilingualLabel": "equipos bilingües"
       }
     },
     "about": {
       "eyebrow": "Negocio familiar, segunda generación",
       "h2Line1": "Empezado en 2000 por Nick.",
-      "h2Line2": "Hoy lo dirige su hijo, Erick.",
+      "h2Line2": "Hoy lo dirige Erick, la segunda generación.",
       "body1": "Sunset Services ha cortado césped, construido patios y limpiado nieve en el Condado de DuPage durante 25+ años. Misma familia, mismo equipo de trabajadores con larga trayectoria, mismo arranque a las 6:30am.",
       "body2": "Erick tomó la empresa de Nick en 2018 y agregó la división de hardscape autorizada por Unilock. Todo lo demás se mantuvo.",
       "cta": "Lee nuestra historia",
@@ -233,7 +212,7 @@
         "eyebrow": "POR QUÉ SUNSET",
         "h2": "Veinticinco años en jardines de DuPage.",
         "props": {
-          "one": {"headline": "25+ años en DuPage", "description": "Erick fundó Sunset Services en el año 2000. Hemos visto todas las temporadas.", "icon": "Award"},
+          "one": {"headline": "25+ años en DuPage", "description": "Empresa familiar desde el año 2000. Hemos visto todas las temporadas.", "icon": "Award"},
           "two": {"headline": "Mismo equipo cada visita", "description": "Tu líder no cambia. La calidad se mantiene.", "icon": "Users"},
           "three": {"headline": "Equipo bilingüe · EN · ES", "description": "Los líderes hablan ambos. Estimados en cualquiera.", "icon": "Languages"},
           "four": {"headline": "Un solo contacto", "description": "Césped, diseño, nieve — un solo número, una sola persona.", "icon": "PhoneCall"}
@@ -242,14 +221,10 @@
       "socialProof": {
         "eyebrow": "DE TUS VECINOS",
         "h2": "Reseñado por propietarios de DuPage.",
-        "reviews": {
-          "one": {"quote": "Mismo equipo, misma calidad, semana tras semana. Cinco años así.", "name": "Marco D.", "city": "Aurora"},
-          "two": {"quote": "Rediseñaron los arriates del frente y el césped por fin se ve intencional.", "name": "Lisa K.", "city": "Naperville"}
-        },
         "credentials": {
-          "one": {"big": "★ 4.9", "sub": "Google · 287 reseñas"},
+          "one": {"big": "Familiar", "sub": "desde 2000"},
           "two": {"big": "25+", "sub": "años en DuPage County"},
-          "three": {"big": "1,200+", "sub": "propiedades atendidas"},
+          "three": {"big": "Gratis", "sub": "estimados en 48 h"},
           "four": {"big": "EN · ES", "sub": "equipos bilingües"}
         }
       },
@@ -317,32 +292,28 @@
         "eyebrow": "POR QUÉ SUNSET",
         "h2": "Dos décadas en adoquines.",
         "props": {
-          "one": {"headline": "Contratista Autorizado Unilock", "description": "Otorgada — no comprada. La hemos mantenido por quince años y los que vienen.", "icon": "Unilock"},
+          "one": {"headline": "Contratista Autorizado Unilock", "description": "Otorgada — no comprada. Ganada por calidad de instalación comprobada.", "icon": "Unilock"},
           "two": {"headline": "Garantía de instalación 5 años", "description": "Mano de obra cubierta cinco años, sin preguntas.", "icon": "BadgeCheck"},
           "three": {"headline": "Diseño en casa", "description": "Diseñador, ingeniero y líder de equipo bajo un mismo techo.", "icon": "PencilRuler"},
-          "four": {"headline": "20+ años en hardscape", "description": "El equipo de Marcin ha colocado adoquines desde 2003.", "icon": "Hammer"}
+          "four": {"headline": "Equipo experto en adoquines", "description": "El equipo de Marcin trae amplia experiencia en adoquines Unilock.", "icon": "Hammer"}
         }
       },
       "unilock": {
         "eyebrow": "CONTRATISTA AUTORIZADO UNILOCK",
         "h2": "La marca de adoquines que escogen los profesionales.",
-        "body": "La autorización Unilock se otorga — no se compra — a contratistas que demuestran consistencia en la calidad de instalación. La hemos mantenido por quince años y los que vienen.",
-        "stat": "QUINCE AÑOS · 380+ INSTALACIONES · GARANTÍA DE 5 AÑOS",
+        "body": "La autorización Unilock se otorga — no se compra — a contratistas que demuestran consistencia en la calidad de instalación. La hemos mantenido a lo largo de años de trabajo comprobado.",
+        "stat": "AUTORIZADO UNILOCK · GARANTÍA DE 5 AÑOS DE INSTALACIÓN",
         "viewProjects": "Ver proyectos Unilock",
         "badgeAlt": "Contratista Autorizado Unilock"
       },
       "socialProof": {
         "eyebrow": "DE CLIENTES DE HARDSCAPE",
         "h2": "Reseñado por clientes de hardscape.",
-        "reviews": {
-          "one": {"quote": "El equipo de Erick reconstruyó nuestra entrada en dos días. Tres inviernos después, la arena de las juntas se ve igual que el primer día.", "name": "Patricia M.", "city": "Aurora"},
-          "two": {"quote": "Nuestro patio es la razón por la que nos quedamos. El mismo equipo lo selló la primavera siguiente sin que pidiéramos.", "name": "James K.", "city": "Naperville"}
-        },
         "credentials": {
-          "one": {"big": "★ 4.9", "sub": "Google · 287 reseñas"},
+          "one": {"big": "Familiar", "sub": "desde 2000"},
           "two": {"big": "Unilock", "sub": "Contratista Autorizado"},
           "three": {"big": "5 años", "sub": "garantía de instalación"},
-          "four": {"big": "380+", "sub": "instalaciones Unilock"}
+          "four": {"big": "EN · ES", "sub": "equipos bilingües"}
         }
       },
       "faq": {
@@ -352,7 +323,7 @@
           "one": {"q": "¿Cuánto toma un patio típico?", "a": "Un patio residencial de adoquines de 400–600 pies cuadrados toma 5–8 días desde inicio hasta entrega. Alcances más grandes o semanas con clima pueden extenderse a dos semanas."},
           "two": {"q": "¿Qué garantía cubre la instalación Unilock?", "a": "Garantía de mano de obra de 5 años en la instalación. La garantía del fabricante Unilock sobre los adoquines mismos va por separado y depende de la línea de adoquín."},
           "three": {"q": "¿Hacen diseño antes de construir?", "a": "Sí — la mayoría de proyectos de hardscape empiezan con una conversación de concepto, planos a escala y un recorrido de materiales. Diseño y construcción son contratos separados; te quedas con los planos en cualquier caso."},
-          "four": {"q": "¿Qué materiales usan típicamente?", "a": "Principalmente Unilock — Contratista Autorizado desde 2010. También trabajamos con Belgard u otras líneas premium si lo pides, aunque nuestro equipo es más eficiente con sistemas Unilock."},
+          "four": {"q": "¿Qué materiales usan típicamente?", "a": "Principalmente Unilock — como Contratista Autorizado Unilock. También trabajamos con Belgard u otras líneas premium si lo pides, aunque nuestro equipo es más eficiente con sistemas Unilock."},
           "five": {"q": "¿Cómo funciona su programación?", "a": "Las construcciones de primavera usualmente se reservan para finales de febrero; los espacios de verano/otoño se abren hasta abril. Confirmamos una ventana de inicio en la cotización y bloqueamos la fecha cuando se aprueba el depósito."}
         }
       },
@@ -418,12 +389,8 @@
       "socialProof": {
         "eyebrow": "DE PROPIETARIOS",
         "h2": "Reseñado por dueños de DuPage.",
-        "reviews": {
-          "one": {"quote": "Tuvimos tres cotizaciones para el sótano. Sunset fue el único que de verdad recorrió el perímetro y explicó qué estaba fallando.", "name": "Caroline T.", "city": "Hinsdale"},
-          "two": {"quote": "El jardín se encharcaba cada abril. Dos temporadas después, el nuevo drenaje es invisible y el césped está parejo.", "name": "Brian J.", "city": "Wheaton"}
-        },
         "credentials": {
-          "one": {"big": "★ 4.9", "sub": "Google · 287 reseñas"},
+          "one": {"big": "Familiar", "sub": "desde 2000"},
           "two": {"big": "25+", "sub": "años en DuPage County"},
           "three": {"big": "5–25 años", "sub": "garantías por servicio"},
           "four": {"big": "EN · ES", "sub": "equipos bilingües"}
@@ -502,12 +469,8 @@
       "socialProof": {
         "eyebrow": "DE CLIENTES CON CONTRATO",
         "h2": "Reseñado por clientes de nieve.",
-        "reviews": {
-          "one": {"quote": "Nieve a las 5am, cada tormenta. La entrada estaba limpia antes de mi primer café. Vale cada dólar.", "name": "David R.", "city": "Naperville"},
-          "two": {"quote": "Los reportes por evento llegan a mi correo antes de que salga de la cama. Evitaron una queja de inquilino el invierno pasado.", "name": "Mark T.", "city": "Aurora Retail"}
-        },
         "credentials": {
-          "one": {"big": "★ 4.9", "sub": "Google · 287 reseñas"},
+          "one": {"big": "Familiar", "sub": "desde 2000"},
           "two": {"big": "2 hrs", "sub": "respuesta tras activación"},
           "three": {"big": "24/7", "sub": "despacho en vivo"},
           "four": {"big": "$2M", "sub": "responsabilidad general"}
@@ -918,13 +881,13 @@
         "title": "Más de 25 años en el negocio",
         "caption": "Empresa familiar desde 2000"
       },
-      "tribune": {
-        "title": "Top 5 Paisajismo",
-        "caption": "DuPage Tribune · 2024"
+      "bilingual": {
+        "title": "Equipos bilingües",
+        "caption": "Inglés y español"
       },
-      "google": {
-        "title": "Reseñas de Google",
-        "caption": "reseñas verificadas"
+      "insured": {
+        "title": "Con licencia y seguro",
+        "caption": "Responsabilidad general + compensación laboral"
       }
     },
     "cta": {

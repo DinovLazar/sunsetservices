@@ -968,3 +968,38 @@ Multi-subagent mobile-rendering bug sweep across phone viewports 320–414px (+ 
 - `src/_project-state/file-map.md` — this section.
 
 **Vercel (pending — blocked on a valid token):** remove the 5 `NEXT_PUBLIC_TERMLY_*` env vars from Production + Preview. The local Vercel CLI token returns 403 `invalidToken`; the vars are inert post-B.03e (no code reads them), so the site is correct without them.
+
+## Phase M.15 — Unblocked work sweep (added 2026-06-19, branch `phase/m15-sweep`)
+
+**New files:**
+- `src/_project-state/Phase-M-15-Completion.md` — **NEW** the M.15 completion report (one labeled subsection per Stream 0–9 + three closing lists: Still-waiting-on-Erick / Goran-Google / Cowork).
+- `src/_project-state/Phase-M-02-Completion.md` — **NEW** (came in via the perf-branch merge) the M.02 performance-pass report (lever detail + before/after Lighthouse table + carryovers).
+- `scripts/run-lighthouse.mjs` — **NEW** (perf merge) reusable Lighthouse harness; `npm run lighthouse` (7-route sample × mobile/desktop, exit 0 at all ≥95, `--only`/`--form-factor`/`--categories`/`--min-score` flags). Writes gitignored `scripts/.lighthouse-report.json`.
+- `docs/a11y/M15-manual-screenreader-checklist.md` — **NEW** manual NVDA/VoiceOver checklist for the Cowork human a11y pass (flows automation can't judge).
+
+**Modified (perf levers — M.02 via the merge, Stream 6):**
+- `src/components/global/motion/{AnimateIn,StaggerContainer,StaggerItem,MotionRoot}.tsx` — collapsed from `motion.div`/`MotionConfig` wrappers to plain pass-throughs; `motion/react` no longer loads on the always-loaded layout chunk. API preserved.
+- `src/components/analytics/ConsentBanner.tsx` — `ConsentPreferencesModal` dynamic-imported (`ssr:false`); `motion.div` slide-up → CSS transition with `motion-reduce:transition-none`; the redundant `aria-label` removed (main's a11y cleanup kept over the merge).
+- `src/components/layout/NavbarMobile.tsx` — drawer stagger cascade removed; `motion-reduce:` variants retained.
+- `src/app/[locale]/layout.tsx` — dropped the `latin-ext` font subset (EN+ES need only `latin`).
+- `src/components/sections/{home/HomeHeroCarousel,audience/AudienceHero,service/ServiceHero,location/LocationHero}.tsx` + `src/app/[locale]/blog/[slug]/page.tsx` — `quality={70}` on the LCP hero/blog `Image` (the carousel got the lever main's way, since main replaced the single hero with `HomeHeroCarousel`).
+- `package.json` — adds `"lighthouse": "node scripts/run-lighthouse.mjs"` (merged alongside main's validate scripts).
+- `.gitignore` — adds `/scripts/.lighthouse-report.json` (alongside main's harness artifacts).
+
+**Modified (a11y — Stream 8):**
+- `src/app/globals.css` — added `transition-duration: 0.01ms !important` to the global `@media (prefers-reduced-motion: reduce)` `*` block (previously only `animation-*` was flattened) so the M.02 `MotionConfig` removal can't regress reduced-motion; updated the stale "via MotionConfig" comment.
+
+**Modified (tooling — Stream 6):**
+- `eslint.config.mjs` — added `dist/**` to `globalIgnores` (Sanity Studio build output OOMs eslint when scanned).
+
+**Modified (Stream 1 — content-correctness completeness):**
+- `docs/design-handovers/Part-1-Phase-06-Design-Handover.md` — corrected two stale alt-text **specs** `Erick Solis` → `Erick Valle` (so `grep -ri solis` is zero outside the immutable `_project-state` logs).
+
+**State + decisions docs:**
+- `Sunset-Services-Decisions.md` — M.15 plan-of-record entry (Stream 0) + Stream 2 / Streams 3&7 deferral entries.
+- `src/_project-state/current-state.md` — M.15 in-progress→complete status block under "Where we are".
+- `src/_project-state/file-map.md` — this section.
+
+**Outward actions (no repo change):** Sanity Studio redeployed to `https://sunsetservices.sanity.studio/` (Stream 4).
+
+**NOT changed (deferred — see report):** city data (Stream 2, no pinned +2), Sanity photo assets (Stream 3, no reachable corpus), Telegram env/webhook (Stream 7, creds absent), `rateLimit.ts` (Stream 5, already shipped in B.09 — verified only).

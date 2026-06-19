@@ -195,3 +195,69 @@ The brief's condition (`TELEGRAM_BOT_TOKEN` **and** `TELEGRAM_OPERATOR_CHAT_ID` 
 **Deferred (with rationale):** the live screen-reader walkthrough itself is a human task (→ Cowork, the checklist). No code-addressable a11y issue was left unfixed.
 
 **Commit:** `M.15 Stream 8 (B.06): global reduced-motion guard + manual screen-reader checklist`.
+
+---
+
+## Stream 9 (M.09) — Programmatic end-to-end smoke test → **DONE (local subset) + blocked items flagged**
+
+Run against the production build on `localhost:3000` (`.env.local` → `VERCEL_ENV=production`). **Local creds are placeholders** (Anthropic / Resend / Sanity-write / Telegram / ServiceM8 / `CRON_SECRET` all empty), so true integration sends can't fire from this session — those are recorded as **BLOCKED (expected pre-launch sandbox state)**, not failures. Everything not needing a live external credential was exercised.
+
+| # | Check | Result | Evidence / note |
+|---|---|---|---|
+| 1 | Quote wizard → `/api/quote` → Resend + `quoteLead` | **BLOCKED** | Route present + `WIZARD_SUBMIT_ENABLED=true`; the email + Sanity write need real Resend/Sanity (placeholder). Step-4 PII no-persist + Steps-1–3 autosave are code-enforced. |
+| 2 | Contact form → `/api/contact` | **BLOCKED** | Route present + `CONTACT_SUBMIT_ENABLED=true`; send needs Resend. Mautic stub no-ops (`MAUTIC_ENABLED=false`). |
+| 3 | Newsletter + unsubscribe link | **PASS (route)** | `/unsubscribe/SAMPLE_TOKEN_INVALID` resolves **200** (not 404/`undefined`). Welcome-email send + real token need Resend. |
+| 4 | AI chat SSE + lead capture + rate-limit | **PARTIAL** | SSE streaming + lead push need Anthropic/Resend/Sanity (placeholder). Rate-limiter code present (memory locally; KV ready — Stream 5). |
+| 5 | Cookie-consent gating (Consent Mode v2) | **PASS** | `npm run test:consent` **23/23** — default all-denied, per-category gate, `pushDataLayer` gated on `signals.analytics` (no analytics event before consent). |
+| 6 | Telegram approval round-trip | **DEFERRED** | Stream 7 — creds absent; `TELEGRAM_ENABLED=false`. |
+| 7 | ServiceM8 webhook (flag-off) | **PASS** | `POST /api/webhooks/servicem8` → **200** `{status:'simulated',reason:'feature-flag'}` with `SERVICEM8_ENABLED=false` (no parse/verify/publish — safe flag-off path). |
+| 8 | Monthly blog cron | **BLOCKED** | Drafting needs Anthropic (placeholder); route is auth-gated and never auto-publishes (code-verified). |
+| 9 | Weekly SEO cron (flag-off) | **PASS (code) / BLOCKED (live)** | Code short-circuits to `{simulated, gsc-disabled}` when `GSC_ENABLED=false`; the live call returns **401** because `CRON_SECRET` is an empty placeholder (auth gate correctly rejects — flag-off branch unreachable locally without a real secret). |
+| 10 | Schema spot-check | **PASS** | `validate:schema` **0 errors / 0 warnings across 22 URLs** — `LocalBusiness`/`Organization`/`WebSite` sitewide, `Service`+`FAQPage` on division-service pages, `Article`/`BlogPosting` on blog, `Place` on location, `CreativeWork` on project. |
+
+**Full harness gate (also the §4 global checklist), all against localhost prod-mode:**
+
+| Harness | Result |
+|---|---|
+| `npm run build` | ✓ 190/190 static pages |
+| `npm run lint` | 0 errors (11 pre-existing warnings) |
+| `validate:related-links` (prebuild) | ✓ green |
+| `validate:a11y` | **0 axe AA / 0 SC 2.4.11 / 0 SC 2.5.8 / Lighthouse a11y 100 (97 /about) / reduced-motion-OK**, 20 URLs |
+| `validate:schema` | **0/0**, 22 URLs |
+| `validate:seo` | **0/0**, 184 URLs + sitemap + robots |
+| `validate:mobile` | **0 errors** (9 viewports × 31 URLs + interactions; 950 soft sub-44px warnings allowed) |
+| `validate:links` | all internal links **200 / redirect-OK**, 0 broken (full EN+ES crawl) |
+| `grep -ri solis` | zero (code/data/messages/docs) |
+| Preview noindex / canonical | `validate:seo` robots checks pass; `isProductionDeploy()` gates noindex off-prod (verified by code); canonicals → `https://sunsetservices.us` |
+
+**Commit:** `M.15 Stream 9 (M.09): end-to-end smoke test — results table`.
+
+---
+
+## Closing lists
+
+### Still waiting on Erick (business facts — do NOT guess)
+1. **Calendly** — official Sunset Services `NEXT_PUBLIC_CALENDLY_URL` (currently the personal `dinovlazar2011`, env-driven; M.08).
+2. **Google rating + review count** + **real verbatim reviews** (B1/B2 refill).
+3. **Unilock-authorized year**, **hardscape-division start year**, **install count** (B4 refill) — and reconcile the `blog.ts` "Unilock since 2003 / 23 years" body line + the Batavia "mowing since 2003" whyLocal line to the confirmed timeline.
+4. **Award** ("DuPage Tribune 2024") — proof, or it stays removed (B3).
+5. **Social profile URLs** (GBP / Facebook / Instagram / YouTube) → set `NEXT_PUBLIC_SOCIAL_*` (B5).
+6. **Real photos** — the M.01c corpus (Aurora "recent projects" tiles, Waterproofing hero, Waterproofing wizard tile, + all city/service/audience placeholders). **This is also the single biggest mobile-Lighthouse lift** (Stream 6).
+7. **Two service-area cities** — the specific +2 (or confirm 22 is final / un-retire Lisle+Bolingbrook) (Stream 2).
+8. **§5 quantified claims** to confirm or drop ($2M GL, 2-hr snow response, 5–25-yr warranties, hardscape-tenure phrasing).
+9. **Telegram operator chat ID** for the eventual M.08 swap to Erick (this sweep points nothing at Erick).
+
+### Still waiting on Goran / Google / infra
+1. **Upstash Redis** (Vercel Marketplace) + `CHAT_RATELIMIT_STORE=kv` flip — the P.06 launch prerequisite (rate-limiter code is ready, Stream 5).
+2. **Telegram** `TELEGRAM_BOT_TOKEN` + `TELEGRAM_OPERATOR_CHAT_ID` in Vercel, then register the webhook + `TELEGRAM_ENABLED=true` (Stream 7).
+3. **Resend** domain verification (`RESEND_DOMAIN_VERIFIED=false` → sandbox routing) before real lead emails send.
+4. **GBP / Google Places** live integration, **GSC** (`GSC_ENABLED`), **Mautic**, **ServiceM8** remain feature-flagged off (verified safe flag-off paths).
+5. **Production cutover** (Vercel Pro, DNS → Vercel, redirects, `sunsetservices.us` off WordPress) — Bucket P. Until then, Lighthouse SEO is localhost/Preview-capped and mobile-perf is measured pre-cutover.
+6. **Real Google reviews cron** feed (depends on Places API + GBP approval).
+
+### For the Cowork / human verification pass
+1. **Manual screen-reader walkthrough** — `docs/a11y/M15-manual-screenreader-checklist.md` (NVDA + VoiceOver, EN+ES): wizard focus/announcements, chat streaming live-region, mobile bottom-sheet focus trap, mega-menu keyboard, toast/consent announcements, real-OS reduced-motion.
+2. **Visual/content correctness** the harness can't judge: image-content correctness once real photos land, EN/ES copy reading naturally (the still-pending **native ES review** — M.03 was an AI/Codex pass only), embed rendering (Calendly/consent), mobile feel.
+3. **`/dev/system`** — decide whether to production-gate it (it's a reachable noindex dev sandbox still rendering demo testimonials) or accept it as a dev tool.
+4. **Live-integration smoke** once creds land: quote/contact/newsletter emails (Resend), chat SSE (Anthropic), Telegram approval round-trip, then re-run `validate:*` + Lighthouse against the Vercel **Preview** (the authoritative venue) and again post-cutover against production.
+5. **Launching with AI-reviewed Spanish** technically misses the "native review complete" acceptance bar — operator decision to proceed or wait.

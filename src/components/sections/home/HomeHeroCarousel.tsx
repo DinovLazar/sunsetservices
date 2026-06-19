@@ -130,6 +130,12 @@ export default function HomeHeroCarousel({images}: HomeHeroCarouselProps) {
               fetchPriority={isFirst ? 'high' : 'low'}
               loading={isFirst ? undefined : 'eager'}
               placeholder="blur"
+              // Phase M.02 — quality 70 on the full-bleed home-hero carousel
+              // frames (the LCP image is the first frame). Matches the
+              // home/audience/service/location hero quality lever; the perf
+              // branch targeted the pre-carousel single <Image>, so the same
+              // byte-trim is applied here to main's carousel implementation.
+              quality={70}
               style={{objectFit: 'cover', objectPosition: 'center 65%'}}
             />
           </div>

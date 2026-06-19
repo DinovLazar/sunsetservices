@@ -69,6 +69,13 @@ export default function AudienceHero({
           fetchPriority="high"
           placeholder="blur"
           sizes="100vw"
+          // Phase M.02 — quality 70 on full-bleed hero photography. Default 75
+          // delivers a WebP that's measurably larger than 70 with no
+          // perceptible difference at hero scale; Lighthouse's image-delivery
+          // insight on /landscape/ flagged 271 KiB of mobile and 832 KiB of
+          // desktop savings against this exact slot. Trimming the served
+          // WebP cuts LCP bytes from the critical path.
+          quality={70}
           style={{objectFit: 'cover', objectPosition: 'center 60%'}}
         />
         {/* Mobile gradient — stronger top opacity so navbar reads. */}

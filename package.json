@@ -26,7 +26,8 @@
     "validate:a11y": "node scripts/validate-a11y.mjs",
     "validate:related-links": "node scripts/validate-related-links.mjs",
     "validate:links": "node scripts/validate-links.mjs",
-    "validate:mobile": "node scripts/validate-mobile.mjs"
+    "validate:mobile": "node scripts/validate-mobile.mjs",
+    "lighthouse": "node scripts/run-lighthouse.mjs"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.92.0",

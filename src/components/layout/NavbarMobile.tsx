@@ -3,7 +3,6 @@
 import * as React from 'react';
 import {Dialog} from '@base-ui/react/dialog';
 import {Menu, X, ChevronDown, Phone} from 'lucide-react';
-import {motion} from 'motion/react';
 import {useTranslations} from 'next-intl';
 import {Link, usePathname} from '@/i18n/navigation';
 import {
@@ -14,7 +13,6 @@ import {
 } from '@/lib/constants/navigation';
 import {BUSINESS_PHONE, BUSINESS_PHONE_TEL} from '@/lib/constants/business';
 import {useBodyScrollLock} from '@/hooks/useBodyScrollLock';
-import {staggerItem} from '@/components/global/motion/stagger';
 import LanguageSwitcher from './LanguageSwitcher';
 
 type NavbarMobileProps = {
@@ -22,10 +20,12 @@ type NavbarMobileProps = {
   logo: React.ReactNode;
 };
 
-const drawerStaggerContainer = {
-  initial: {},
-  animate: {transition: {staggerChildren: 0.08, delayChildren: 0.24}},
-};
+// Phase M.02 — drawer stagger removed. Was a `motion.ul` + `motion.li`
+// cascade keyed off `drawerStaggerContainer` / `staggerItem`; the drawer now
+// renders items in place when it opens. Removing this importer drops the last
+// always-loaded reference to `motion/react` (after AnimateIn/Stagger*/
+// ConsentBanner were converted in the prior lever passes), letting the
+// runtime move out of the sitewide layout chunk.
 
 /**
  * Mobile navbar — 64px row with phone (left), centered logo, hamburger
@@ -139,14 +139,9 @@ export default function NavbarMobile({logo}: NavbarMobileProps) {
           {/* Scrollable middle */}
           <div className="flex-1 overflow-y-auto">
             <nav aria-label={t('chrome.nav.primaryAriaLabel')} className="py-2">
-              <motion.ul
-                initial="initial"
-                animate="animate"
-                variants={drawerStaggerContainer}
-                className="list-none m-0 p-0"
-              >
+              <ul className="list-none m-0 p-0">
                 {NAV_TOP_LEVEL.map((item) => (
-                  <motion.li key={item.id} variants={staggerItem}>
+                  <li key={item.id}>
                     {item.kind === 'mega-panel' ? (
                       <DrawerAccordion
                         item={item}
@@ -169,9 +164,9 @@ export default function NavbarMobile({logo}: NavbarMobileProps) {
                         {t(item.labelKey)}
                       </Link>
                     )}
-                  </motion.li>
+                  </li>
                 ))}
-              </motion.ul>
+              </ul>
             </nav>
 
             <hr className="border-t border-[var(--color-border)] mx-6 my-4" />

@@ -1,29 +1,20 @@
 'use client';
 
 /**
- * StaggerContainer — Motion variant-host shell for stagger groups.
+ * StaggerContainer — pass-through shell. Does NOT play an entrance cascade on mount.
  *
- * Does NOT play an entrance cascade on mount. `initial={false}` is intentional: the
- * container and its `<StaggerItem>` children render at the `animate` state on first
- * paint with no SSR → hydration `opacity: 0` flash. This is the Phase M.10 walkthrough
- * fix — Goran's "once visible, stay visible" requirement (see
- * `_project-state/Phase-M-10-Completion.md` §1).
+ * Phase M.10 made this a no-op (`initial={false}` on the motion variant graph);
+ * Phase M.10B documented the kept `motion` wrapper for hypothetical future
+ * `whileHover` / `whileTap` orchestration. Phase M.02 collapses to a plain
+ * element render — no consumer opts back in today and the motion runtime was
+ * paying a sitewide bundle cost for nothing. API preserved (`children`, `as`,
+ * `className`) so the 20+ consumer files don't need to change.
  *
- * The component still wires `staggerContainer` variants through `motion`, so child
- * `<StaggerItem>` orchestration via the variant graph remains available for any
- * explicit `whileHover` / `whileTap` / manual `animate` toggle a consumer might add.
- *
- * Reduced-motion is handled globally by `<MotionRoot reducedMotion="user">`.
- *
- * If you need the actual scroll-triggered stagger cascade back, fork into a new
- * `ScrollStagger` primitive with `whileInView="animate"` +
- * `viewport={{ once: true, margin: '-10%' }}`. Do not change this component's default
- * behavior — 20+ consumer files depend on the no-flicker contract.
+ * To re-enable the scroll-triggered cascade, fork into a new `ScrollStagger`
+ * primitive that imports `motion/react` itself; do NOT add it back here.
  */
 
 import * as React from 'react';
-import {motion} from 'motion/react';
-import {staggerContainer} from './stagger';
 
 type StaggerContainerProps = {
   children: React.ReactNode;
@@ -36,15 +27,9 @@ export default function StaggerContainer({
   as = 'div',
   className,
 }: StaggerContainerProps) {
-  const Component = motion[as as 'div'];
-  return (
-    <Component
-      initial={false}
-      animate="animate"
-      variants={staggerContainer}
-      className={className}
-    >
-      {children}
-    </Component>
+  return React.createElement(
+    as as string,
+    className ? {className} : null,
+    children,
   );
 }

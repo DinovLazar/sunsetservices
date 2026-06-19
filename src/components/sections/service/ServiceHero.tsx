@@ -62,6 +62,11 @@ export default function ServiceHero({
           fetchPriority="high"
           placeholder="blur"
           sizes="100vw"
+          // Phase M.02 — quality 70 matches the home + audience + location
+          // heroes. ServiceHero is taller (62-74vh post-M.10 navbar fix) so
+          // the served WebP is on the LCP critical path even more than the
+          // other heroes; quality drop has the highest absolute byte impact.
+          quality={70}
           style={{objectFit: 'cover', objectPosition: 'center 60%'}}
         />
         <div

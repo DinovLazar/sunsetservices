@@ -84,3 +84,7 @@ next-env.d.ts
 /scripts/.mobile-validation-report.json
 /scripts/.mobile-validation-cache.json
 /scripts/.mobile-screenshots/
+
+# Phase M.02 — Lighthouse harness temp artifact (committed snapshot of the
+# table lives at src/_project-state/Phase-M-02-Completion.md)
+/scripts/.lighthouse-report.json

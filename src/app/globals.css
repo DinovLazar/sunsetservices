@@ -267,12 +267,21 @@
     color: var(--color-selection-text);
   }
 
-  /* Reduced-motion: kill hover/active transforms and decorative scale.
-     Entrance animations become opacity-only via MotionConfig reducedMotion="user". */
+  /* Reduced-motion: flatten all animation + transition motion sitewide, and
+     kill hover/active transforms and decorative scale.
+     NOTE (M.15 Stream 8): Phase M.02 removed `<MotionConfig reducedMotion="user">`
+     from the layout to drop the motion/react runtime off the always-loaded
+     critical path. This global guard now carries the sitewide reduced-motion
+     guarantee — the `transition-duration` line below is the M.15 addition;
+     previously only `animation-*` was flattened, which left CSS transitions
+     (e.g. the consent-banner slide) un-guarded at the global level. Per-component
+     handling complements it (`useReducedMotion()` pauses the HomeHeroCarousel;
+     `motion-reduce:` variants on NavbarMobile + ConsentBanner). */
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after {
       animation-duration: 0.01ms !important;
       animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
       scroll-behavior: auto !important;
     }
     .btn:hover,

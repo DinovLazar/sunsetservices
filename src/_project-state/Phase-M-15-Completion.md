@@ -175,3 +175,23 @@ The brief's condition (`TELEGRAM_BOT_TOKEN` **and** `TELEGRAM_OPERATOR_CHAT_ID` 
 **To unblock (operator):** populate `TELEGRAM_BOT_TOKEN` + `TELEGRAM_OPERATOR_CHAT_ID` in Vercel (Production + Preview) → `npm run telegram:setup -- <preview-url>/api/webhooks/telegram` → set `TELEGRAM_ENABLED=true` → verify with `npm run telegram:info` (correct URL, no errors). The end-to-end approval round-trip then runs as Stream 9 #6. **This sweep points nothing at Erick** — any test uses only the operator's own chat ID (the swap to Erick is M.08). The `docs/m06-handover` Telegram MarkdownV2 caveat carries forward.
 
 **Commit:** `M.15 Stream 7 (M.06): Telegram wiring deferred pending bot-token + chat-id env vars`.
+
+---
+
+## Stream 8 (B.06) — Accessibility code-fixes + manual screen-reader checklist → **DONE**
+
+**Automated pass — `npm run validate:a11y` GREEN** (axe-core WCAG 2.0/2.1/2.2 A+AA + Lighthouse a11y + programmatic SC 2.4.11/2.5.8 + reduced-motion emulation) across **20 URLs (EN + ES)**:
+- **0 axe AA violations, 0 SC 2.4.11, 0 SC 2.5.8** on every URL.
+- Lighthouse a11y **100** on all (one **97** on `/about`) — meets the internal **≥97** bar.
+- **`prefers-reduced-motion: OK (matchMedia returns true under emulation)`** — the harness's reduced-motion emulation passes.
+- 31 axe `incomplete (manual)` items (need human judgment) → covered by the manual checklist below.
+
+**Code fix landed — global reduced-motion guard (the one real a11y change this sweep).** Stream 6 (M.02) removed `<MotionConfig reducedMotion="user">`; motion's default `reducedMotion` is `"never"`, so I added `transition-duration: 0.01ms !important` to the global `@media (prefers-reduced-motion: reduce)` `*` block in `globals.css` (it previously flattened only `animation-*`, leaving CSS transitions like the consent-banner slide un-guarded) and updated the now-stale "via MotionConfig" comment. Reduced-motion is therefore guaranteed three ways: this global CSS guard + `useReducedMotion()` (HomeHeroCarousel pauses auto-advance) + `motion-reduce:` variants (NavbarMobile drawer, ConsentBanner slide). Verified by the harness emulation above.
+
+**Prior B.06 code is intact** (verified present, not re-done): the `--color-sunset-green-600` AA contrast token, visible focus states, skip link, landmark/ARIA correctness, label/error associations, single-`<h1>` heading order, accessible names on icon-only buttons (chat bubble `aria-controls`, language switcher). The mega-panels kept main's superset (`inert` + `visible/invisible` + role cleanup) over the perf branch's parallel WCAG fix (see Stream 6).
+
+**Manual screen-reader checklist** written for the Cowork human pass: **`docs/a11y/M15-manual-screenreader-checklist.md`** — NVDA+Firefox / VoiceOver+Safari, EN+ES, covering the flows automation can't judge (wizard step-to-step focus + error announcement, chat streaming live-region, mobile bottom-sheet focus trap, mega-menu keyboard operation, toast/consent announcements, and a real-OS reduced-motion check).
+
+**Deferred (with rationale):** the live screen-reader walkthrough itself is a human task (→ Cowork, the checklist). No code-addressable a11y issue was left unfixed.
+
+**Commit:** `M.15 Stream 8 (B.06): global reduced-motion guard + manual screen-reader checklist`.

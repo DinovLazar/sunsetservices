@@ -948,7 +948,7 @@ A short, human moment. Family-run is a differentiator vs corporate competitors; 
 | Layout desktop | Two-column, image 40% / copy 60%. Gap `--spacing-16` (64px). |
 | Layout mobile | Stacked: image first, copy second. Gap `--spacing-8`. |
 | Image aspect | 4:5 desktop (portrait), 1:1 mobile (cropped square). `next/image` with `loading="lazy"`, `sizes="(max-width:1023px) 100vw, 40vw"`, explicit dimensions. |
-| Image alt | "Erick Solis, owner of Sunset Services, on a job site in Aurora." (Final alt drafted with photo selection in Phase 2.) |
+| Image alt | "Erick Valle, owner of Sunset Services, on a job site in Aurora." (Final alt drafted with photo selection in Phase 2.) |
 | Eyebrow | "FAMILY-RUN, SECOND-GENERATION" / "NEGOCIO FAMILIAR, SEGUNDA GENERACIÓN" |
 | H2 | "Started in 2000 by Nick. Run today by his son, Erick." / "Empezado en 2000 por Nick. Hoy lo dirige su hijo, Erick." Two lines on desktop, can flow on mobile. |
 | Body | 2 paragraphs. Para 1: history + crew tenure. Para 2: Erick's hardscape addition. Each ≤ 3 sentences. |
@@ -1279,7 +1279,7 @@ Consolidated brief Cowork can act on in Phase 2.04. Every slot marked `[Cowork t
 | **Audience tile 2 — Commercial** | 4:3 | 4:3 | Commercial property frontage — office or HOA aesthetic, clean turf, defined beds | Sharp, clean, mid-day | `[Cowork to source from Drive in Phase 2.04]` |
 | **Audience tile 3 — Hardscape** | 4:3 | 4:3 | Paver patio close-up, fire feature or wall in frame | Detail, materials-led, warm late-afternoon | Should differ from hero photo to avoid repetition. `[Cowork to source from Drive in Phase 2.04]` |
 | **Service tile × 9** | 1:1 | 1:1 | Per service (Lawn Care, Patios & Walkways, Retaining Walls, Landscape Design, Tree Services, Sprinkler Systems, Snow Removal, Outdoor Kitchens, Fire Pits & Features) | Varied subject, **consistent saturation and color temperature** (Lightroom preset to be defined in Phase 2.04) | `[Cowork to source from Drive in Phase 2.04]` |
-| **About teaser** | 4:5 | 1:1 | Erick portrait OR Erick + crew on a job site | Outdoors, working light, hands or tools visible OK | If portrait, alt-text shape: "Erick Solis, owner of Sunset Services, on a job site in [city]." `[Cowork to source from Drive in Phase 2.04]` |
+| **About teaser** | 4:5 | 1:1 | Erick portrait OR Erick + crew on a job site | Outdoors, working light, hands or tools visible OK | If portrait, alt-text shape: "Erick Valle, owner of Sunset Services, on a job site in [city]." `[Cowork to source from Drive in Phase 2.04]` |
 | **Projects teaser × 6** | 4:3 | 4:3 | Per project — variety across audiences (3 Hardscape, 2 Residential, 1 Commercial) | Variety in light + season; consistent style | Each tile photo ≤ 200KB AVIF. `[Cowork to source from Drive in Phase 2.04]` |
 
 Hero textual prompt for Cowork's curation pass: *"Late-afternoon golden hour, finished paver patio with a built-in fire feature; greenery (small ornamental tree or bordered bed) visible to one side; warm wood/stone tones; no people facing camera; the bottom 60% of the frame should be naturally darker than the top so a CSS gradient can carry the H1. Aspect crops cleanly at 16:9 desktop hero, 4:5 mobile, 1:1 social, 1200×630 OG. Avoid: night shots, overly saturated greens, anything that looks staged or stock-photo."*

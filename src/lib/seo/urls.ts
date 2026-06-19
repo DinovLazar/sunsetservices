@@ -33,6 +33,19 @@ export const SITE_URL: string = (
 ).replace(/\/+$/, '');
 
 /**
+ * True only on the production deployment (`sunsetservices.us`). Vercel sets
+ * `VERCEL_ENV` to `'production' | 'preview' | 'development'` automatically.
+ *
+ * Phase M.14 (Goran QA B-09 §3.12): preview / development deployments must
+ * NOT be indexable. Drives `robots.ts` (Disallow: /) and the root layout's
+ * `robots: noindex` meta so the staging URL never competes with production
+ * in search. Production stays fully crawlable.
+ */
+export function isProductionDeploy(): boolean {
+  return process.env.VERCEL_ENV === 'production';
+}
+
+/**
  * Normalize a locale-less pathname to a no-trailing-slash form.
  *
  *   '/' → ''           (caller appends host or `/es` for the root case)

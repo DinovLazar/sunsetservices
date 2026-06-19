@@ -78,7 +78,7 @@ export default function ServiceFeaturedProjects({
                 <div className="relative w-full" style={{aspectRatio: '4 / 3'}}>
                   <Image
                     src={t.photoSrc}
-                    alt=""
+                    alt={t.title}
                     fill
                     loading="lazy"
                     sizes="(max-width: 767px) 100vw, (max-width: 1023px) 50vw, 33vw"

@@ -4,28 +4,35 @@ import GoogleBusinessProfileIcon from './icons/GoogleBusinessProfileIcon';
 import InstagramIcon from './icons/InstagramIcon';
 import YoutubeIcon from './icons/YoutubeIcon';
 
+/**
+ * Social profile URLs are env/config-driven (Phase M.14, Goran QA B-09 B5).
+ * Each icon renders ONLY when its env var holds a real Sunset profile URL.
+ * The previous hardcoded links pointed at generic homepages
+ * (google.com/business, facebook.com, …), which Goran flagged as misleading;
+ * those are hidden until the real profile URLs are set in Vercel (M.14b).
+ */
 const SOCIAL_LINKS = [
   {
     id: 'gbp',
-    href: 'https://www.google.com/business/',
+    href: process.env.NEXT_PUBLIC_SOCIAL_GBP_URL,
     labelKey: 'chrome.footer.social.gbp',
     Icon: GoogleBusinessProfileIcon,
   },
   {
     id: 'facebook',
-    href: 'https://www.facebook.com/',
+    href: process.env.NEXT_PUBLIC_SOCIAL_FACEBOOK_URL,
     labelKey: 'chrome.footer.social.facebook',
     Icon: FacebookIcon,
   },
   {
     id: 'instagram',
-    href: 'https://www.instagram.com/',
+    href: process.env.NEXT_PUBLIC_SOCIAL_INSTAGRAM_URL,
     labelKey: 'chrome.footer.social.instagram',
     Icon: InstagramIcon,
   },
   {
     id: 'youtube',
-    href: 'https://www.youtube.com/',
+    href: process.env.NEXT_PUBLIC_SOCIAL_YOUTUBE_URL,
     labelKey: 'chrome.footer.social.youtube',
     Icon: YoutubeIcon,
   },
@@ -33,14 +40,19 @@ const SOCIAL_LINKS = [
 
 /**
  * Footer social row. Each link is 32×32 visually but the wrapping `<a>`
- * extends to a 44×44 hit area via padding (Phase 1.05 §10.5). Real URLs
- * land in Part 3 brand cleanup (Plan §3.08).
+ * extends to a 44×44 hit area via padding (Phase 1.05 §10.5).
  */
 export default async function SocialIcons() {
   const t = await getTranslations();
+  const links = SOCIAL_LINKS.filter(
+    (l): l is typeof l & {href: string} =>
+      typeof l.href === 'string' && l.href.trim().length > 0,
+  );
+  // No real profile URLs configured yet → render nothing (M.14b adds them).
+  if (links.length === 0) return null;
   return (
     <ul className="list-none m-0 p-0 flex items-center gap-2">
-      {SOCIAL_LINKS.map(({id, href, labelKey, Icon}) => (
+      {links.map(({id, href, labelKey, Icon}) => (
         <li key={id}>
           <a
             href={href}

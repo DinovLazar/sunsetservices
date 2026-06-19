@@ -56,7 +56,7 @@ export default function ServiceHero({
       <div className="absolute inset-0">
         <Image
           src={photo}
-          alt=""
+          alt={serviceName}
           fill
           priority
           fetchPriority="high"

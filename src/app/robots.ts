@@ -1,5 +1,5 @@
 import type {MetadataRoute} from 'next';
-import {SITE_URL} from '@/lib/seo/urls';
+import {SITE_URL, isProductionDeploy} from '@/lib/seo/urls';
 
 /**
  * Phase B.05 — robots.txt (Phase B.07 extension)
@@ -22,6 +22,16 @@ import {SITE_URL} from '@/lib/seo/urls';
  * are belt-and-suspenders for crawlers that don't follow meta robots.
  */
 export default function robots(): MetadataRoute.Robots {
+  // Phase M.14 (Goran QA B-09 §3.12): non-production deployments (Vercel
+  // preview / development) must not be indexable. Block everything there.
+  if (!isProductionDeploy()) {
+    return {
+      rules: {
+        userAgent: '*',
+        disallow: '/',
+      },
+    };
+  }
   return {
     rules: {
       userAgent: '*',

@@ -83,7 +83,7 @@ export default function AudienceFeaturedProjects({
                 <div className="relative w-full" style={{aspectRatio: '4 / 3'}}>
                   <Image
                     src={p.photoSrc}
-                    alt=""
+                    alt={p.title}
                     fill
                     loading="lazy"
                     sizes="(max-width: 767px) 100vw, (max-width: 1023px) 50vw, 33vw"

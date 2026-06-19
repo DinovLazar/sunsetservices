@@ -95,7 +95,7 @@ export default async function LocationServicesGrid({
                     {s.photo ? (
                       <Image
                         src={s.photo}
-                        alt=""
+                        alt={s.name}
                         fill
                         loading="lazy"
                         sizes="(max-width: 1023px) 50vw, 33vw"

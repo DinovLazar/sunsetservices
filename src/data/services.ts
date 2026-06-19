@@ -131,6 +131,38 @@ const GENERIC_FACTORS: PricingFactor[] = [
   },
 ];
 
+/**
+ * Pricing factors for hardscape services (Phase M.14, Goran QA B-09 §3.9).
+ * The hardscape service pages previously reused `GENERIC_FACTORS`, whose
+ * lawn-care language (service frequency, aeration, overseeding) was wrong
+ * for one-time hardscape builds. These factors describe how a hardscape
+ * project is actually priced: square footage, materials/base prep, and
+ * site access / structural add-ons.
+ */
+const HARDSCAPE_FACTORS: PricingFactor[] = [
+  {
+    name: {en: 'Square footage & layout', es: 'Metros cuadrados y trazado'},
+    body: {
+      en: 'Size of the patio, walk, or driveway and how complex the layout is.',
+      es: 'Tamaño del patio, sendero o entrada y qué tan complejo es el trazado.',
+    },
+  },
+  {
+    name: {en: 'Materials & base prep', es: 'Materiales y preparación de base'},
+    body: {
+      en: 'Paver line, stone, and the engineered base built for freeze/thaw.',
+      es: 'Línea de adoquín, piedra y la base de ingeniería para congelamiento/deshielo.',
+    },
+  },
+  {
+    name: {en: 'Site access & structures', es: 'Acceso al sitio y estructuras'},
+    body: {
+      en: 'Machine access, grading, and any walls, steps, or drainage in scope.',
+      es: 'Acceso de maquinaria, nivelación y muros, escalones o drenaje incluidos.',
+    },
+  },
+];
+
 export const SERVICES: Service[] = [
   // -------------------- RESIDENTIAL (6) --------------------
   {
@@ -1398,7 +1430,7 @@ export const SERVICES: Service[] = [
         icon: 'ShieldCheck',
       },
     ],
-    pricing: {mode: 'explainer', explainerFactors: GENERIC_FACTORS},
+    pricing: {mode: 'explainer', explainerFactors: HARDSCAPE_FACTORS},
     projects: [
       {
         title: {en: 'Naperville patio + fire feature', es: 'Patio y chimenea en Naperville'},
@@ -1542,7 +1574,7 @@ export const SERVICES: Service[] = [
         icon: 'Award',
       },
     ],
-    pricing: {mode: 'explainer', explainerFactors: GENERIC_FACTORS},
+    pricing: {mode: 'explainer', explainerFactors: HARDSCAPE_FACTORS},
     projects: [
       {
         title: {en: 'Lisle multi-tier wall', es: 'Muro multi-nivel en Lisle'},
@@ -1681,7 +1713,7 @@ export const SERVICES: Service[] = [
         icon: 'ShieldCheck',
       },
     ],
-    pricing: {mode: 'explainer', explainerFactors: GENERIC_FACTORS},
+    pricing: {mode: 'explainer', explainerFactors: HARDSCAPE_FACTORS},
     projects: [
       {
         title: {en: 'Glen Ellyn fire pit + seating', es: 'Chimenea con asientos en Glen Ellyn'},
@@ -1820,7 +1852,7 @@ export const SERVICES: Service[] = [
         icon: 'BadgeCheck',
       },
     ],
-    pricing: {mode: 'explainer', explainerFactors: GENERIC_FACTORS},
+    pricing: {mode: 'explainer', explainerFactors: HARDSCAPE_FACTORS},
     projects: [
       {
         title: {en: 'Naperville cedar pergola', es: 'Pérgola de cedro en Naperville'},
@@ -1959,7 +1991,7 @@ export const SERVICES: Service[] = [
         icon: 'BadgeCheck',
       },
     ],
-    pricing: {mode: 'explainer', explainerFactors: GENERIC_FACTORS},
+    pricing: {mode: 'explainer', explainerFactors: HARDSCAPE_FACTORS},
     projects: [
       {
         title: {en: 'Aurora paver driveway', es: 'Entrada de adoquines en Aurora'},
@@ -2098,7 +2130,7 @@ export const SERVICES: Service[] = [
         icon: 'ShieldCheck',
       },
     ],
-    pricing: {mode: 'explainer', explainerFactors: GENERIC_FACTORS},
+    pricing: {mode: 'explainer', explainerFactors: HARDSCAPE_FACTORS},
     projects: [
       {
         title: {en: 'Naperville L-shape kitchen', es: 'Cocina en L en Naperville'},

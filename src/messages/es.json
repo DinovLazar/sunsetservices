@@ -1110,7 +1110,8 @@
     "projects": {
       "h2": "Proyectos recientes en {city}",
       "allLink": "Ver todos los proyectos",
-      "placeholderCaption": "Proyecto local en {city}"
+      "placeholderCaption": "Proyecto local en {city}",
+      "tileAlt": "Un proyecto reciente de paisajismo y hardscape de Sunset Services en {city}"
     },
     "testimonials": {
       "h2": "Lo que dicen los clientes de {city}",

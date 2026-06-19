@@ -80,7 +80,7 @@ export default function AudienceServicesGrid({
                     {photo ? (
                       <Image
                         src={photo.src}
-                        alt=""
+                        alt={s.name[locale]}
                         fill
                         loading="lazy"
                         sizes="(max-width: 1023px) 50vw, 33vw"

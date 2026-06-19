@@ -45,7 +45,7 @@ export default function LocationCard({
         {photo ? (
           <Image
             src={photo}
-            alt=""
+            alt={`Landscaping and hardscape in ${cityName}, ${state}`}
             fill
             loading="lazy"
             sizes={sizes}

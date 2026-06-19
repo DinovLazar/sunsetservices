@@ -155,31 +155,27 @@ export type ResourcesColumn = {
 };
 
 /**
- * Resources panel children are static placeholder strings in Part 1; Phase 2.x
- * swaps to Sanity reads. Locking the structure now means the layout doesn't
- * change when Sanity wires up.
+ * Resources mega-panel columns.
+ *
+ * Phase M.14 (Goran QA B-09 §3.11): the panel previously listed invented
+ * article titles whose links ALL pointed at the hub (`/resources/`, `/blog/`)
+ * rather than at real articles — misleading. Those placeholder children were
+ * removed; the column headers still link to the real index pages, which list
+ * the actual published articles. M.14b (or a later content phase) can wire
+ * the children to real article titles + slugs from Sanity.
  */
 export const RESOURCES_PANEL: readonly ResourcesColumn[] = [
   {
     id: 'resources',
     headerKey: 'chrome.nav.resourcesPanel.resourcesTitle',
     headerHref: '/resources/',
-    placeholderKeys: [
-      'chrome.nav.resourcesPanel.resourcesPlaceholders.one',
-      'chrome.nav.resourcesPanel.resourcesPlaceholders.two',
-      'chrome.nav.resourcesPanel.resourcesPlaceholders.three',
-      'chrome.nav.resourcesPanel.resourcesPlaceholders.four',
-    ],
+    placeholderKeys: [],
   },
   {
     id: 'blog',
     headerKey: 'chrome.nav.resourcesPanel.blogTitle',
     headerHref: '/blog/',
-    placeholderKeys: [
-      'chrome.nav.resourcesPanel.blogPlaceholders.one',
-      'chrome.nav.resourcesPanel.blogPlaceholders.two',
-      'chrome.nav.resourcesPanel.blogPlaceholders.three',
-    ],
+    placeholderKeys: [],
   },
 ] as const;
 

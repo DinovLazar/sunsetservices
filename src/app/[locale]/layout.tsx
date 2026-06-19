@@ -24,7 +24,7 @@ import {
   BUSINESS_PHONE_TEL,
   BUSINESS_URL,
 } from '@/lib/constants/business';
-import {SITE_URL, hreflangAlternates} from '@/lib/seo/urls';
+import {SITE_URL, hreflangAlternates, isProductionDeploy} from '@/lib/seo/urls';
 import '../globals.css';
 
 const manrope = Manrope({
@@ -62,6 +62,10 @@ export const metadata: Metadata = {
     canonical: ROOT_HREFLANG.en,
     languages: ROOT_HREFLANG,
   },
+  // Phase M.14 (Goran QA B-09 §3.12): preview/development deployments emit
+  // a sitewide noindex; production has no robots field so pages stay
+  // indexable (per-page metadata may still set its own, e.g. /unsubscribe).
+  ...(isProductionDeploy() ? {} : {robots: {index: false, follow: false}}),
 };
 
 /**

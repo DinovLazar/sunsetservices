@@ -77,7 +77,7 @@ export default async function LocalProjectsStrip({
                       {photo ? (
                         <Image
                           src={photo}
-                          alt=""
+                          alt={t('tileAlt', {city: location.name})}
                           fill
                           loading="lazy"
                           sizes="(max-width: 1023px) 50vw, 33vw"

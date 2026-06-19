@@ -130,3 +130,36 @@ The persistent store the brief asks for is **already built** by Phase B.09 in `s
 This is the **P.06 pre-launch prerequisite** — required before the DNS cutover so the limit can't be bypassed across serverless instances. Code is launch-ready; only the env flip remains.
 
 **Commit:** (no source change — verification only; activation documented here + in `.env.local.example`).
+
+---
+
+## Stream 6 (M.02) — Performance pass + fresh Lighthouse → **DONE (integrated + measured)**
+
+**Integration** (commits `3c0e1cf` merge + `b749fe2` eslint): see the merge-resolution detail in the commit message. Net perf levers now on `main`: motion/react dropped from the always-loaded layout chunk (4 motion shells + NavbarMobile + ConsentBanner converted), `ConsentPreferencesModal` dynamic-imported, `latin-ext` font subset dropped, `quality={70}` on every hero `Image` (incl. the home `HomeHeroCarousel`) + the blog hero, and the reusable `scripts/run-lighthouse.mjs` harness (`npm run lighthouse`).
+
+**Fresh local Lighthouse** (operator chose "land branch + fresh runs"). Run: `BASE_URL=http://localhost:3000 npm run lighthouse` against the production build (`next start`; `.env.local` sets `VERCEL_ENV=production`, so the server behaves as prod — no Vercel-SSO redirect overhead, unlike the M.02 Preview numbers). Single run; Lighthouse simulated-throttling variance is ±5–15 pts/cell.
+
+| Page | perf (mob/desk) | a11y (mob/desk) | BP (mob/desk) | SEO (mob/desk) | mobile LCP |
+|---|---|---|---|---|---|
+| `/` | 82 / 83 | 100 / 100 | 96 / 96 | 92 / 92 | 4.6 s |
+| `/landscape/` | 85 / 86 | 100 / 100 | 96 / 96 | 92 / 92 | 4.1 s |
+| `/landscape/landscape-design/` | 93 / 99 | 97 / 100 | 96 / 96 | 92 / 92 | 3.2 s |
+| `/service-areas/aurora/` | 90 / 100 | 100 / 100 | 96 / 96 | 92 / 92 | 3.6 s |
+| `/blog/dupage-patio-cost-2026/` | 81 / 97 | 100 / 100 | 96 / 96 | 92 / 92 | 4.9 s |
+| `/thank-you/?firstName=Test` | 94 / 100 | 100 / 100 | 73 / 73 | 69 / 69 | 2.8 s |
+| `/qa/` | 95 / 100 | 100 / 100 | 96 / 96 | 92 / 92 | 2.9 s |
+
+**Honest read against the 95+ target (evidence before claims):**
+- **Accessibility ✅** — 97–100 (one 97 on landscape-design mobile; rest 100). Meets the internal **≥97** bar.
+- **Best Practices** — **96** everywhere except `/thank-you/` (**73**), which is Calendly's third-party cookies (documented M.02 §6.3; out of scope — would require dropping Calendly).
+- **SEO — 92** on every normal page, capped solely by the `canonical — Document does not have a valid rel=canonical` audit: canonicals correctly point to `https://sunsetservices.us/...`, which ≠ `localhost`, so Lighthouse flags it. **This is a localhost artifact** — in production the page is served at `sunsetservices.us`, the canonical self-matches, and `is-crawlable` already passes here (no SSO noindex). `validate:seo` authoritatively validates canonicals/hreflang/robots. Expected production SEO ≈ 100. (`/thank-you/` SEO 69 = its intentional `noindex`.)
+- **Performance** — **desktop 95+ on 5/7** (aurora 100, qa 100, thank-you 100, landscape-design 99, blog 97); `/` (83) and `/landscape/` (86) fall short. **Mobile 95+ on only `/qa/` (95)**; the rest are 81–94. **Not claiming 95 mobile — it wasn't produced.**
+
+**Why perf is short, and the expected lift:**
+1. **Full-bleed hero LCP structural ceiling** (Phase 1.07, reconfirmed) — mobile LCP 4.1–4.9 s on the photo-hero pages at simulated 4G + 4× CPU. The dominant factor.
+2. **Oversized placeholder imagery** — Lighthouse `image-delivery-insight` flags **394 KiB–1,048 KiB** of savings on the hero slots. These are the **generic placeholder assets** (Stream 3), not real optimized photos. **Real, right-sized photos from Erick (the Stream 3 drop) are the single biggest expected lift** on `/`, `/landscape/`, and `/blog/` perf.
+3. `unused-javascript` (~212 KiB framework JS) + `render-blocking` — diminishing-returns levers, out of the M.02 envelope.
+
+**Carryover:** mobile-perf 95 remains a P.x target gated on (a) real photos (Stream 3) and (b) a possible image-hosting/content-strategy change (AVIF / text-first mobile hero) — exactly the M.02 §6.4 carryover. The perf work landed is real and correct; the 95 mobile bar is not met locally and is honestly reported as such.
+
+**Commit:** `3c0e1cf` (merge) + `b749fe2` (eslint ignore) + this results record.

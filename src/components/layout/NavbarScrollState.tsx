@@ -1,7 +1,6 @@
 'use client';
 
 import * as React from 'react';
-import {usePathname} from '@/i18n/navigation';
 import {useScrollState} from '@/hooks/useScrollState';
 
 type NavbarScrollStateProps = {
@@ -9,62 +8,33 @@ type NavbarScrollStateProps = {
 };
 
 /**
- * Tiny client island that owns the desktop/mobile navbar's scroll state
- * and writes `data-scrolled` / `data-over-hero` attributes on its root
- * element. Children (server-rendered desktop + mobile bars) read these
- * via Tailwind `data-[scrolled]:` modifiers.
+ * Tiny client island that owns the navbar's scroll state and writes a
+ * `data-scrolled` attribute on its root element. Children (the server-rendered
+ * desktop + mobile bars) read it via a Tailwind `data-[scrolled]:` modifier.
  *
- * Per Phase 1.05 §3.2/§3.3 (extended in Phase 1.09):
- *   - state A: defaults (no attributes)
- *   - state B: data-over-hero=true → translucent over hero
- *   - state C: data-scrolled=true → solid + soft shadow
+ * Post-M.16 — the navbar is the **solid white dock on every page** (M.16
+ * handover §4: "#fff, 1px border, dark logo/links, orange pill — so it matches
+ * the other 80 pages"). The translucent over-hero state (Phase 1.05 state B,
+ * extended in 1.09 to the audience-landing + service-detail heroes) is retired
+ * site-wide; the dock simply gains a soft shadow once scrolled.
  *
- * Phase 1.09 §2.6 extends State B to audience-landing routes
- * (`/residential/`, `/commercial/`, `/hardscape/`) and service-detail
- * routes (`/{audience}/{service}/`). The handover specified the page
- * mutate `data-over-hero` on `<main>`; we instead detect the route by
- * pathname here so the page doesn't have to reach across into the
- * locale layout's `<main>` element. Same observable behavior, cleaner
- * boundaries. (Surface noted in Phase 1.09 completion report.)
+ *   - default:            solid white + 1px border  (the dock)
+ *   - data-scrolled=true: solid white + soft shadow + faded border
+ *
+ * The logo + links are always dark (`Logo skin="light"`) — independent of this
+ * island — so they read correctly on the white dock at every scroll position.
  */
-const DIVISION_SLUGS = new Set(['landscape', 'hardscape', 'waterproofing', 'snow-removal']);
-
-/**
- * Phase M.16 — the homepage `/` is intentionally NOT over-hero anymore: the
- * Concept A redesign renders the SOLID WHITE DOCK over its hero (matching the
- * other 80 pages). Audience-landing (`/landscape/`, …) + service-detail
- * (`/{division}/{service}/`) heroes keep the translucent over-hero state.
- */
-function pathHasOverHero(pathname: string): boolean {
-  const segments = pathname.split('/').filter(Boolean);
-  // /landscape/ or /landscape/lawn-care/ etc.
-  if (
-    (segments.length === 1 || segments.length === 2) &&
-    DIVISION_SLUGS.has(segments[0])
-  ) {
-    return true;
-  }
-  return false;
-}
-
 export default function NavbarScrollState({children}: NavbarScrollStateProps) {
   const scrolled = useScrollState(24);
-  const pathname = usePathname();
-  const overHero = pathHasOverHero(pathname) && !scrolled;
 
   return (
     <div
       data-scrolled={scrolled ? 'true' : undefined}
-      data-over-hero={overHero ? 'true' : undefined}
       className={[
         'transition-[background-color,border-color,box-shadow] duration-[var(--motion-base)] ease-[var(--easing-standard)]',
         'bg-[var(--color-bg)] border-b border-[var(--color-border)]',
         'data-[scrolled=true]:shadow-[var(--shadow-soft)]',
         'data-[scrolled=true]:border-[color-mix(in_srgb,var(--color-border)_60%,transparent)]',
-        'data-[over-hero=true]:bg-white/[0.78]',
-        'data-[over-hero=true]:backdrop-blur-md',
-        'data-[over-hero=true]:border-transparent',
-        'data-[over-hero=true]:shadow-none',
       ].join(' ')}
     >
       {children}

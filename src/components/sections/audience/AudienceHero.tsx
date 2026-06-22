@@ -28,9 +28,9 @@ type AudienceHeroProps = {
  * dark gradient + text overlay). 60vh desktop / 50vh mobile.
  *
  * No entrance animation — first-paint render to keep LCP discipline
- * (handover §2.5 + §3.1). Navbar State B (translucent + blur) is
- * triggered by NavbarScrollState's pathname-based detection extended in
- * Phase 1.09.
+ * (handover §2.5 + §3.1). The navbar above this hero is the solid white
+ * dock (the translucent over-hero state was retired site-wide post-M.16,
+ * per the M.16 handover §4).
  *
  * Audience-accent token applies only to the kicker; buttons stay
  * green/amber regardless of variant (handover §3X.1).

@@ -17,9 +17,9 @@ import heroSrc from '@/assets/home/hero.jpg';
  * modern format. Until M.01 uploads real photos AND an editor flags a hero
  * project, the placeholder renders — expected, not a bug.
  *
- * Navbar: the homepage now renders the solid white dock (NavbarScrollState no
- * longer treats `/` as over-hero), so this hero sits below the normal white
- * header — matching the other pages, per the Concept A handover §4.
+ * Navbar: the navbar is the solid white dock on every page (the translucent
+ * over-hero state was retired site-wide), so this hero sits below the white
+ * header — matching every page, per the Concept A handover §4.
  *
  * Reduced motion: the section is fully static (no carousel, no entrance
  * animation), so it is reduced-motion-safe by construction.

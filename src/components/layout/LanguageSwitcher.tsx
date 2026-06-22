@@ -17,9 +17,11 @@ const LOCALES = ['en', 'es'] as const;
 type SwitcherLocale = (typeof LOCALES)[number];
 
 /**
- * Segmented EN | ES locale toggle. Renders two `<Link>` elements that
- * preserve the current pathname under the other locale via next-intl's
- * `localePrefix: 'as-needed'`. ARIA per §6 of the handover.
+ * Bordered `EN · ES` locale toggle. Renders two `<Link>` elements separated
+ * by a middot inside a 1px-bordered pill — the active locale is bold dark
+ * text (no filled background), matching the sitewide white-dock navbar.
+ * Both links preserve the current pathname under the other locale via
+ * next-intl's `localePrefix: 'as-needed'`. ARIA per §6 of the handover.
  */
 export default function LanguageSwitcher({
   surface = 'light',
@@ -55,27 +57,26 @@ export default function LanguageSwitcher({
     segmentRefs.current[order[0]]?.focus();
   };
 
-  const containerBg =
-    surface === 'dark'
-      ? 'bg-[rgba(250,247,241,0.08)]'
-      : 'bg-[var(--color-bg-stone)]';
-
   const heightClass = size === 'md' ? 'h-9 text-[14px]' : 'h-7 text-[13px]';
+  const borderClass =
+    surface === 'dark'
+      ? 'border-[rgba(250,247,241,0.28)]'
+      : 'border-[var(--color-border-strong)]';
 
   return (
     <div
       role="group"
       aria-label={t('groupLabel')}
       className={[
-        'inline-flex items-center rounded-md p-0.5',
-        containerBg,
+        'inline-flex items-center rounded-md border',
+        borderClass,
         heightClass,
         className,
       ]
         .filter(Boolean)
         .join(' ')}
     >
-      {LOCALES.map((locale) => {
+      {LOCALES.map((locale, idx) => {
         const isActive = locale === activeLocale;
         const visibleLabel = t(locale);
         const labelFull = t(locale === 'en' ? 'enFull' : 'esFull');
@@ -84,32 +85,43 @@ export default function LanguageSwitcher({
         // Lighthouse `label-content-name-mismatch` (Phase 2.08 audit).
         const ariaLabel = `${visibleLabel} — ${isActive ? labelFull : switchLabel}`;
         return (
-          <Link
-            key={locale}
-            href={pathname}
-            locale={locale}
-            hrefLang={locale}
-            lang={locale}
-            aria-current={isActive ? 'page' : undefined}
-            aria-label={ariaLabel}
-            data-locale={locale}
-            ref={(el) => {
-              segmentRefs.current[locale] = el;
-            }}
-            onKeyDown={handleKeyDown}
-            className={[
-              'inline-flex items-center justify-center px-3 h-full rounded-[6px]',
-              'font-heading font-semibold no-underline tracking-wide',
-              'transition-colors duration-[var(--motion-fast)] ease-[var(--easing-standard)]',
-              isActive
-                ? 'bg-[var(--color-sunset-green-700)] text-[var(--color-text-on-green)]'
-                : surface === 'dark'
-                  ? 'text-[var(--color-sunset-green-200)] hover:text-[var(--color-text-on-dark)] hover:bg-[rgba(250,247,241,0.06)]'
-                  : 'text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] hover:bg-[var(--color-sunset-green-50)]',
-            ].join(' ')}
-          >
-            {t(locale)}
-          </Link>
+          <React.Fragment key={locale}>
+            {idx > 0 && (
+              <span
+                aria-hidden="true"
+                className="select-none leading-none text-[var(--color-text-muted)]"
+              >
+                ·
+              </span>
+            )}
+            <Link
+              href={pathname}
+              locale={locale}
+              hrefLang={locale}
+              lang={locale}
+              aria-current={isActive ? 'page' : undefined}
+              aria-label={ariaLabel}
+              data-locale={locale}
+              ref={(el) => {
+                segmentRefs.current[locale] = el;
+              }}
+              onKeyDown={handleKeyDown}
+              className={[
+                'inline-flex items-center justify-center px-2.5 h-full',
+                'font-heading no-underline tracking-wide',
+                'transition-colors duration-[var(--motion-fast)] ease-[var(--easing-standard)]',
+                isActive
+                  ? surface === 'dark'
+                    ? 'text-[var(--color-text-on-dark)] font-bold'
+                    : 'text-[var(--color-text-primary)] font-bold'
+                  : surface === 'dark'
+                    ? 'text-[var(--color-sunset-green-200)] hover:text-[var(--color-text-on-dark)] font-semibold'
+                    : 'text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] font-semibold',
+              ].join(' ')}
+            >
+              {t(locale)}
+            </Link>
+          </React.Fragment>
         );
       })}
     </div>

@@ -2049,3 +2049,46 @@ The brief carried premises the live repo contradicts; per AGENTS.md the live cod
 - **Stream 7 (Telegram webhook) — deferred.** Condition not met: `TELEGRAM_ENABLED=false` and both `TELEGRAM_BOT_TOKEN` + `TELEGRAM_OPERATOR_CHAT_ID` are empty/placeholder locally (and empty on Vercel per `current-state.md`). The webhook route (`/api/webhooks/telegram`) and the `telegram:setup` / `telegram:info` scripts exist and are ready. **This sweep points nothing at Erick (M.08):** even when enabled, testing uses only the operator's own chat ID, never Erick's. Unblock (operator): populate `TELEGRAM_BOT_TOKEN` + `TELEGRAM_OPERATOR_CHAT_ID` (Production + Preview), run `npm run telegram:setup -- <preview-url>/api/webhooks/telegram`, set `TELEGRAM_ENABLED=true`, verify with `npm run telegram:info`, then run the end-to-end approval round-trip. The prior `docs/m06-handover` Telegram MarkdownV2 caveat carries forward.
 
 **Logged by:** Code, 2026-06-19 (Streams 3 & 7).
+
+---
+
+## 2026-06-22 — Phase M.16 plan-of-record: homepage redesign + sitewide orange dock + Sanity-ready image slots
+
+**Decided by:** operator brief (Phase M.16 Code) + the approved design handover `docs/design-handovers/Phase-M-16-Handover.md` (Concept A). Logged by Code **before any source change**, per the decision-first convention. The decisions below are baked into the brief/handover; Code ratifies none of them silently — this entry is the audit record.
+
+### What M.16 ships
+
+A full visual + structural redesign of the **homepage only** (`/` EN + `/es`), the new orange CTA token layer, a **sitewide navbar dock CTA**, and **Sanity-asset-first image slots** on the homepage. Section order (per handover §4): Concept A hero → divisions block → trust/credentials band → before/after showcase → process → Why-Sunset → final CTA.
+
+### Locked design decisions (baked in — Code makes none of these)
+
+- **Hero = Concept A ("Establishing light").** A single wide golden-hour image **replaces the rotating hero carousel**. H1 = **"Craft Your Outdoor Legacy"**; credential line = **"UNILOCK-Certified · 25 Years Strong · Built for Chicagoland."** The single image (vs. carousel) is chosen to protect mobile LCP.
+- **Orange ramp + orange primary-button variant.** New `--color-sunset-orange-50/-100/-300/-500/-700` (`-500 #F28C38` = BG-01 Sunset Orange) added to `globals.css`, plus an orange primary-button variant. **AA-safe CTA rule (LOCKED):** primary CTA = `#F28C38` fill + **Charcoal `#1A1A1A` text** (≈7:1, passes AA). **Never white-on-orange** (≈2.4:1, fails AA); the only exception is `-700 #B45309` where white-on-orange is genuinely unavoidable (proves ≥4.5:1). Signature motif: a restrained golden-hour **horizon-edge** 4px orange gradient rule at the foot of the hero + top of the final-CTA band; static under reduced motion.
+- **Sitewide dock CTA.** The navbar primary CTA becomes the **orange "Get a Free Estimate" pill (charcoal text) on every page**, kept hidden on `/request-quote/` (existing D2 rule). On the **homepage only**, the navbar renders as the **solid white dock over the hero** (Concept A), replacing the translucent-over-hero state — **only on the homepage**; audience-landing + service-detail over-hero translucent navbars are unchanged.
+- **Body CTA copy.** Body CTAs use **"Get a Free Estimate — 48-Hour Response"** (documented fallback if Erick can't stand behind 48h: "Book a Free 3D Design Consultation" — a one-line swap; ship 48h now). Navbar CTA = "Get a Free Estimate". ES reuses the locked navbar string "Solicitar Presupuesto Gratis".
+- **Three BG-01 overrides hold (owner-ratified — do NOT correct toward BG-01):** keep the **light** photography-led UI (no dark base); keep **Manrope/Onest** (no Montserrat); keep the site's **`sunset-green` palette + warm neutrals** (orange is the only new color).
+
+### Fact slots + division IA
+
+- **D1 — Divisions = Landscape / Hardscape / Waterproofing / Snow Removal**, linking to `/landscape/`, `/hardscape/`, `/waterproofing/`, `/snow-removal/`. **This is the live IA and overrides the handover/older-doc "Residential / Commercial / Hardscape / Waterproofing" label set** (stale). ES labels: Paisajismo / Hardscape / Impermeabilización / Remoción de Nieve.
+- **D2 — Founding line** = "Family-run since 2000 · 25+ years" (year is a slot Code updates on Erick's word; BG-01 §2.1's 1998 not used).
+- **D3 — UNILOCK badge shown without a year** pending Erick.
+- **D4 — Division cards are uniform** (one consistent treatment), overriding the handover's "genuine visual differentiation" wording. Hardscape card carries the small ◆ UNILOCK chip. The grid must **degrade gracefully to 3 columns** if a division is later removed.
+
+### Sanity-ready image slots
+
+- **`featuredOnHome` boolean added to the project schema** (default off); Studio redeployed. Hero image = the lead image of the project flagged `featuredOnHome`; asset-wins, placeholder fallback when nothing is flagged.
+- **Division-card / before-after / recent-work** slots read **Sanity-asset-first with graceful placeholder fallback**, extending the existing layered pattern (`resolveProjectImage`: Sanity asset wins, else `imageMap.ts` placeholder). Net effect: the homepage is real-photo-ready; when M.01's upload lands real photos they appear with **no further code**. **Until then, placeholders render — that is expected.**
+- Credentials band stays verifiable-only (no fabricated testimonials/ratings/counts, no "DuPage Tribune" award) and includes a **real-Google-reviews slot** (renders real reviews when present, else credentials).
+
+### Explicitly out of scope (separate phases — NOT done here)
+
+1. **The body-CTA amber→orange propagation** on non-homepage pages is a **separate flagged phase**. Non-homepage body CTAs stay amber; only the shared navbar dock CTA changes sitewide. Homepage is specced in orange only.
+2. **The M.01 photo upload itself.** Code makes slots Sanity-ready; Code does **not** run `scripts/upload-m01c-photos.mjs`, adds no real photos, and touches no `SANITY_API_WRITE_TOKEN`. Real photos are M.01's job.
+3. No other page bodies, the AI chat widget, the footer, or the global design system (beyond the orange token + button variant) are touched. No removed content reintroduced.
+
+### Landing
+
+Work is done on branch **`phase/m16-homepage-redesign`** (pushed; **NOT** merged to `main` — Lazar verifies on Vercel Preview, then merges). Known documented ceiling: mobile Lighthouse Performance may sit <95 on placeholder image weight; the exact LCP gap is documented and closes when M.01's real photos land.
+
+**Logged by:** Code, 2026-06-22, before any source change (Task 1, first commit of the phase).

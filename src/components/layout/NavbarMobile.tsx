@@ -38,6 +38,9 @@ type NavbarMobileProps = {
 export default function NavbarMobile({logo}: NavbarMobileProps) {
   const t = useTranslations();
   const pathname = usePathname();
+  // usePathname (next-intl) strips the locale prefix — matches /es too.
+  const onWizardRoute =
+    pathname === '/request-quote' || pathname === '/request-quote/';
   const [open, setOpen] = React.useState(false);
   const [expanded, setExpanded] = React.useState<'services' | 'resources' | null>(null);
   useBodyScrollLock(open);
@@ -196,17 +199,20 @@ export default function NavbarMobile({logo}: NavbarMobileProps) {
             </div>
           </div>
 
-          {/* Sticky CTA — visible on every route (Phase M.10 Issue 8 reverts the
-              Phase 1.19 §2 D2 carve-out for visual consistency). */}
-          <div className="p-4 border-t border-[var(--color-border)] shrink-0">
-            <Link
-              href="/request-quote/"
-              onClick={handleNavigate}
-              className="btn btn-amber btn-md w-full"
-            >
-              {t('chrome.cta.getQuote')}
-            </Link>
-          </div>
+          {/* Sticky orange dock CTA (Phase M.16). Hidden on /request-quote/
+              (D2 conversion-surface rule, reinstated for M.16) so it never
+              competes with the wizard. */}
+          {onWizardRoute ? null : (
+            <div className="p-4 border-t border-[var(--color-border)] shrink-0">
+              <Link
+                href="/request-quote/"
+                onClick={handleNavigate}
+                className="btn btn-orange btn-md w-full"
+              >
+                {t('chrome.cta.getQuote')}
+              </Link>
+            </div>
+          )}
         </Dialog.Popup>
       </Dialog.Portal>
     </Dialog.Root>

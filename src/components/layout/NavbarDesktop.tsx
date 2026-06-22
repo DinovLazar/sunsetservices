@@ -35,7 +35,7 @@ export default async function NavbarDesktop() {
           <LanguageSwitcher surface="light" size="sm" />
           <NavbarGetQuoteCTA
             label={t('cta.getQuote')}
-            className="btn btn-amber btn-md"
+            className="btn btn-orange btn-md"
             style={{minWidth: '184px'}}
           />
         </div>

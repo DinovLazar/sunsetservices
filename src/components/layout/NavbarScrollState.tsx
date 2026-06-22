@@ -29,8 +29,13 @@ type NavbarScrollStateProps = {
  */
 const DIVISION_SLUGS = new Set(['landscape', 'hardscape', 'waterproofing', 'snow-removal']);
 
+/**
+ * Phase M.16 — the homepage `/` is intentionally NOT over-hero anymore: the
+ * Concept A redesign renders the SOLID WHITE DOCK over its hero (matching the
+ * other 80 pages). Audience-landing (`/landscape/`, …) + service-detail
+ * (`/{division}/{service}/`) heroes keep the translucent over-hero state.
+ */
 function pathHasOverHero(pathname: string): boolean {
-  if (pathname === '/') return true;
   const segments = pathname.split('/').filter(Boolean);
   // /landscape/ or /landscape/lawn-care/ etc.
   if (

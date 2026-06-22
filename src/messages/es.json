@@ -6,22 +6,23 @@
     },
     "hero": {
       "kicker": "Aurora · Naperville · Condado de DuPage",
-      "h1": "Construye tu legado al aire libre",
-      "sub": "Hardscape premium, paisajismo integral y manejo de nieve en el Condado de DuPage. Empresa familiar, sirviendo a DuPage desde 2000.",
-      "alt": "Patio de adoquines con chimenea de piedra al atardecer, rodeado de plantaciones maduras.",
-      "primary": "Solicita un Presupuesto Gratis",
+      "h1": "Crea tu legado al aire libre",
+      "credential": "Certificado UNILOCK · 25 años de trayectoria · Hecho para Chicagoland",
+      "alt": "Un patio de adoquines con chimenea de piedra al atardecer, rodeado de plantaciones maduras.",
+      "primary": "Solicita un Presupuesto Gratis — Respuesta en 48 h",
       "secondary": "Ver Nuestro Trabajo",
       "trust": {
-        "rating": "Empresa familiar",
+        "founding": "Empresa familiar desde 2000",
         "years": "25+ años",
-        "unilock": "Autorizado Unilock",
-        "area": "Aurora · Naperville · DuPage"
+        "unilock": "Contratista Autorizado UNILOCK",
+        "insured": "Con licencia y seguro"
       }
     },
     "divisions": {
       "eyebrow": "Lo que hacemos",
-      "h2": "Cuatro divisiones, un equipo familiar.",
+      "h2": "Cuatro divisiones. Un equipo responsable.",
       "sub": "Elige el trabajo que te queda — paisajismo, hardscape, impermeabilización, remoción de nieve. La misma responsabilidad de equipo en las cuatro.",
+      "unilockChip": "UNILOCK",
       "landscape": {
         "tag": "Paisajismo",
         "h3": "Jardines que aguantan.",
@@ -85,16 +86,24 @@
       }
     },
     "social": {
-      "eyebrow": "Por qué los dueños confían en nosotros",
+      "eyebrow": "Credenciales, no promesas",
       "h2": "Credenciales que puedes verificar.",
-      "cred": {
-        "unilockAlt": "Contratista autorizado Unilock",
-        "unilockPlaceholder": "MARCA UNILOCK",
-        "yearsBig": "25+",
-        "yearsLabelLine1": "años construyendo",
-        "yearsLabelLine2": "en el Condado de DuPage",
-        "bilingualBig": "EN · ES",
-        "bilingualLabel": "equipos bilingües"
+      "sub": "Sin calificaciones inventadas, sin premios prestados. Esto es lo real — y verificable.",
+      "chips": {
+        "founding": "Empresa familiar desde 2000",
+        "years": "25+ años en el Condado de DuPage",
+        "insured": "Con licencia y seguro",
+        "area": "Aurora · Naperville · Condado de DuPage",
+        "bilingual": "Equipos bilingües EN · ES"
+      },
+      "unilock": {
+        "title": "Contratista Autorizado UNILOCK",
+        "sub": "Instalador certificado de adoquines, muros y sistemas de vida al aire libre Unilock.",
+        "alt": "Insignia de Contratista Autorizado Unilock"
+      },
+      "reviews": {
+        "title": "Lo que dicen los propietarios",
+        "viewOnGoogle": "Leer en Google →"
       }
     },
     "about": {
@@ -111,10 +120,41 @@
       "h2": "Construido la temporada pasada, integrándose en la propiedad.",
       "cta": "Ver todos los proyectos"
     },
+    "beforeAfter": {
+      "eyebrow": "Antes y después",
+      "h2": "La transformación es el argumento.",
+      "sub": "Un proyecto, dos estados — trabajo real de Sunset Services en el Condado de DuPage.",
+      "beforeLabel": "Antes",
+      "afterLabel": "Después",
+      "caption": "Un patio trasero de DuPage, reimaginado — drenaje corregido, patio y plantaciones reconstruidos para durar.",
+      "recentTitle": "Transformaciones recientes",
+      "recentCta": "Ver más transformaciones",
+      "placeholderAlt": "Una transformación completa de hardscape y paisajismo de Sunset Services."
+    },
+    "process": {
+      "eyebrow": "Cómo trabajamos",
+      "h2": "Diseñar, construir, mantener — un solo equipo.",
+      "sub": "Sin traspasos a subcontratistas. El equipo que diseña tu proyecto lo construye — y lo mantiene impecable.",
+      "steps": [
+        {
+          "title": "Diseñar",
+          "body": "Medimos, dibujamos y cotizamos el trabajo — un plan claro y detallado en 48 horas."
+        },
+        {
+          "title": "Construir",
+          "body": "Nuestros propios equipos lo instalan según los estándares Unilock, hechos para el ciclo de congelamiento y deshielo de Illinois."
+        },
+        {
+          "title": "Mantener",
+          "body": "Cuidado de temporada, manejo de nieve y un equipo que sigue contestando el teléfono años después."
+        }
+      ]
+    },
     "whySunset": {
       "eyebrow": "Por qué Sunset",
       "h2": "Le respondemos a nuestros clientes — no a inversionistas externos.",
       "dek": "De propiedad local. Operada en familia. Construida para relaciones de largo plazo con las comunidades que atendemos.",
+      "cta": "Solicita un Presupuesto Gratis — Respuesta en 48 h",
       "cards": [
         {
           "label": "Empresa familiar y de operación local",
@@ -152,11 +192,10 @@
     },
     "cta": {
       "eyebrow": "¿Listo para empezar?",
-      "h2": "Diseñemos tu espacio exterior.",
+      "h2": "Creemos tu legado al aire libre.",
       "body": "Cuéntanos sobre la propiedad y vamos a medir, dibujar y cotizar. Gratis, sin compromiso, normalmente en una semana.",
-      "primary": "Solicita un Presupuesto Gratis",
-      "phonePrefix": "o llama al",
-      "phoneNumber": "(630) 946-9321"
+      "primary": "Solicita un Presupuesto Gratis — Respuesta en 48 h",
+      "call": "Llamar al (630) 946-9321"
     },
     "placeholder": {
       "headline": "Sunset Services",

@@ -2,10 +2,9 @@ import type {Metadata} from 'next';
 import {getTranslations, setRequestLocale} from 'next-intl/server';
 import HomeHero from '@/components/sections/home/HomeHero';
 import HomeAudienceEntries from '@/components/sections/home/HomeAudienceEntries';
-import HomeServicesOverview from '@/components/sections/home/HomeServicesOverview';
 import HomeSocialProof from '@/components/sections/home/HomeSocialProof';
-import HomeAbout from '@/components/sections/home/HomeAbout';
-import HomeProjects from '@/components/sections/home/HomeProjects';
+import HomeBeforeAfter from '@/components/sections/home/HomeBeforeAfter';
+import HomeProcess from '@/components/sections/home/HomeProcess';
 import HomeWhySunset from '@/components/sections/home/HomeWhySunset';
 import HomeCTA from '@/components/sections/home/HomeCTA';
 import {BUSINESS_URL} from '@/lib/constants/business';
@@ -38,8 +37,15 @@ export async function generateMetadata({
 }
 
 /**
- * Homepage — Phase 1.07. Seven sections per Phase 1.06 handover; chrome
- * (navbar, footer, skip-link, base shell) wraps via the locale layout.
+ * Homepage — Phase M.16 Concept A redesign. Seven sections per the M.16
+ * handover §4: hero → divisions → trust/credentials → before/after → process
+ * → why-Sunset → final CTA. Chrome (navbar, footer, skip-link, base shell)
+ * wraps via the locale layout.
+ *
+ * Below-hero deferral uses each section's `content-visibility:auto` +
+ * `contain-intrinsic-size` (not `next/dynamic`): these are async Server
+ * Components, and Next 16 disallows `next/dynamic` `ssr:false` in Server
+ * Components — `content-visibility` is the correct render-deferral lever here.
  *
  * `WebSite` JSON-LD ships from this page only; `Organization` and
  * `LocalBusiness` are sitewide from the locale layout (Phase 1.05 §3.7) —
@@ -69,10 +75,9 @@ export default async function HomePage({
       />
       <HomeHero />
       <HomeAudienceEntries />
-      <HomeServicesOverview />
       <HomeSocialProof />
-      <HomeAbout />
-      <HomeProjects />
+      <HomeBeforeAfter />
+      <HomeProcess />
       <HomeWhySunset />
       <HomeCTA />
     </>

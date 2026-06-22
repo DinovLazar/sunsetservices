@@ -6,22 +6,23 @@
     },
     "hero": {
       "kicker": "Aurora · Naperville · DuPage County",
-      "h1": "Build your outdoor legacy",
-      "sub": "Premium hardscape, full-service landscaping, and snow management across DuPage County. Family-run, serving DuPage since 2000.",
-      "alt": "Paver patio with a stone fire feature at golden hour, surrounded by mature plantings.",
-      "primary": "Get a Free Estimate",
+      "h1": "Craft Your Outdoor Legacy",
+      "credential": "UNILOCK-Certified · 25 Years Strong · Built for Chicagoland",
+      "alt": "A paver patio with a stone fire feature at golden hour, surrounded by mature plantings.",
+      "primary": "Get a Free Estimate — 48-Hour Response",
       "secondary": "View Our Work",
       "trust": {
-        "rating": "Family-run",
+        "founding": "Family-run since 2000",
         "years": "25+ years",
-        "unilock": "Unilock Authorized",
-        "area": "Aurora · Naperville · DuPage"
+        "unilock": "UNILOCK Authorized Contractor",
+        "insured": "Licensed & insured"
       }
     },
     "divisions": {
       "eyebrow": "What we do",
-      "h2": "Four divisions, one family team.",
+      "h2": "Four divisions. One accountable crew.",
       "sub": "Pick the work that fits — landscape, hardscape, waterproofing, snow removal. Same crew accountability across all four.",
+      "unilockChip": "UNILOCK",
       "landscape": {
         "tag": "Landscape",
         "h3": "Yards that hold up.",
@@ -85,16 +86,24 @@
       }
     },
     "social": {
-      "eyebrow": "Why homeowners trust us",
+      "eyebrow": "Credentials, not claims",
       "h2": "Credentials you can verify.",
-      "cred": {
-        "unilockAlt": "Unilock Authorized Contractor",
-        "unilockPlaceholder": "UNILOCK MARK",
-        "yearsBig": "25+",
-        "yearsLabelLine1": "years building",
-        "yearsLabelLine2": "in DuPage County",
-        "bilingualBig": "EN · ES",
-        "bilingualLabel": "bilingual crews"
+      "sub": "No invented ratings, no borrowed awards. Here's what's real — and checkable.",
+      "chips": {
+        "founding": "Family-run since 2000",
+        "years": "25+ years in DuPage County",
+        "insured": "Licensed & insured",
+        "area": "Aurora · Naperville · DuPage County",
+        "bilingual": "EN · ES bilingual crews"
+      },
+      "unilock": {
+        "title": "UNILOCK Authorized Contractor",
+        "sub": "A certified installer of Unilock pavers, walls, and outdoor-living systems.",
+        "alt": "Unilock Authorized Contractor badge"
+      },
+      "reviews": {
+        "title": "What homeowners say",
+        "viewOnGoogle": "Read on Google →"
       }
     },
     "about": {
@@ -111,10 +120,41 @@
       "h2": "Built last season, aging into the property.",
       "cta": "See all projects"
     },
+    "beforeAfter": {
+      "eyebrow": "Before & after",
+      "h2": "The transformation is the pitch.",
+      "sub": "One project, two states — real Sunset Services work across DuPage County.",
+      "beforeLabel": "Before",
+      "afterLabel": "After",
+      "caption": "A DuPage backyard, reimagined — drainage corrected, the patio and plantings rebuilt to last.",
+      "recentTitle": "Recent transformations",
+      "recentCta": "See more transformations",
+      "placeholderAlt": "A completed Sunset Services hardscape and landscape transformation."
+    },
+    "process": {
+      "eyebrow": "How we work",
+      "h2": "Design, build, maintain — one team.",
+      "sub": "No subcontractor handoffs. The crew that designs your project builds it — and keeps it looking right.",
+      "steps": [
+        {
+          "title": "Design",
+          "body": "We measure, sketch, and price the work — a clear, itemized plan within 48 hours."
+        },
+        {
+          "title": "Build",
+          "body": "Our own crews install it to Unilock standards, built for the Illinois freeze/thaw cycle."
+        },
+        {
+          "title": "Maintain",
+          "body": "Seasonal care, snow management, and a crew that still picks up the phone years later."
+        }
+      ]
+    },
     "whySunset": {
       "eyebrow": "Why Sunset",
       "h2": "We answer to our customers — not outside investors.",
       "dek": "Locally owned. Family operated. Built for long-term relationships in the communities we serve.",
+      "cta": "Get a Free Estimate — 48-Hour Response",
       "cards": [
         {
           "label": "Family-owned & locally operated",
@@ -152,11 +192,10 @@
     },
     "cta": {
       "eyebrow": "Ready to start?",
-      "h2": "Let's design your outdoor space.",
+      "h2": "Let's craft your outdoor legacy.",
       "body": "Tell us about the property and we'll come measure, sketch, and price it. Free, no obligation, usually within a week.",
-      "primary": "Get a Free Estimate",
-      "phonePrefix": "or call",
-      "phoneNumber": "(630) 946-9321"
+      "primary": "Get a Free Estimate — 48-Hour Response",
+      "call": "Call (630) 946-9321"
     },
     "placeholder": {
       "headline": "Sunset Services",

@@ -1,53 +1,68 @@
 import Image from 'next/image';
+import type {StaticImageData} from 'next/image';
 import {ArrowRight} from 'lucide-react';
 import {getTranslations} from 'next-intl/server';
 import {Link} from '@/i18n/navigation';
 import AnimateIn from '@/components/global/motion/AnimateIn';
-import StaggerContainer from '@/components/global/motion/StaggerContainer';
-import StaggerItem from '@/components/global/motion/StaggerItem';
+import {SERVICES, type Division} from '@/data/services';
+import {getProjectDivision} from '@/lib/projects/getProjectDivision';
+import {resolveProjectImage} from '@/lib/images/resolveProjectImage';
+import {getAllProjects} from '@sanity-lib/queries';
 import residentialSrc from '@/assets/home/audience-residential.jpg';
 import commercialSrc from '@/assets/home/audience-commercial.jpg';
 import hardscapeSrc from '@/assets/home/audience-hardscape.jpg';
 
 /**
- * Phase M.01e — homepage division entries (was 3-audience tile block).
+ * Homepage divisions block (Phase M.16 — "Four divisions. One accountable
+ * crew."). Four uniform division cards (D4); the Hardscape card carries the
+ * small ◆ UNILOCK chip. The grid degrades to 3 columns cleanly if a division
+ * is ever removed (D4).
  *
- * 4 division cards: landscape, hardscape, waterproofing, snow-removal.
- * Waterproofing + Snow-Removal photos alias to existing placeholder
- * assets (residential / commercial) until M.01f swaps in real
- * photography. Strings live under `home.divisions.<slug>.*` (added in
- * M.01e alongside the legacy `home.audience.*` block — kept for any
- * non-route consumers that still reference it; M.01e-pt2 cleanup).
+ * Card images are Sanity-asset-first: the newest project in each division
+ * (division derived from a project's services via `getProjectDivision` — the
+ * Sanity `audience` field is the legacy 3-audience tag, not the 4-division IA)
+ * with a lead-image asset wins; otherwise the bundled placeholder renders. When
+ * M.01 lands real photos, division cards update with no code change.
+ *
+ * Per handover §7 there is NO per-item scroll animation on this grid — only the
+ * heading block fades in once.
  */
-const ENTRIES = [
-  {
-    key: 'landscape' as const,
-    href: '/landscape/',
-    photo: residentialSrc,
-    tracking: 'home-division-landscape',
-  },
-  {
-    key: 'hardscape' as const,
-    href: '/hardscape/',
-    photo: hardscapeSrc,
-    tracking: 'home-division-hardscape',
-  },
-  {
-    key: 'waterproofing' as const,
-    href: '/waterproofing/',
-    photo: residentialSrc,
-    tracking: 'home-division-waterproofing',
-  },
-  {
-    key: 'snow-removal' as const,
-    href: '/snow-removal/',
-    photo: commercialSrc,
-    tracking: 'home-division-snow-removal',
-  },
+type Entry = {
+  key: Division;
+  href: string;
+  fallback: StaticImageData;
+  tracking: string;
+  unilock?: boolean;
+};
+
+const ENTRIES: Entry[] = [
+  {key: 'landscape', href: '/landscape/', fallback: residentialSrc, tracking: 'home-division-landscape'},
+  {key: 'hardscape', href: '/hardscape/', fallback: hardscapeSrc, tracking: 'home-division-hardscape', unilock: true},
+  {key: 'waterproofing', href: '/waterproofing/', fallback: residentialSrc, tracking: 'home-division-waterproofing'},
+  {key: 'snow-removal', href: '/snow-removal/', fallback: commercialSrc, tracking: 'home-division-snow-removal'},
 ];
 
 export default async function HomeAudienceEntries() {
   const t = await getTranslations('home.divisions');
+  const projects = await getAllProjects(); // ordered year desc, slug asc
+
+  const imageFor = (entry: Entry): {photo: StaticImageData; fromSanity: boolean} => {
+    const match = projects.find(
+      (p) => p.leadImage?.asset?._ref && getProjectDivision(p, SERVICES) === entry.key,
+    );
+    if (match) {
+      const img = resolveProjectImage(match.slug, 'lead', {
+        sanityAsset: match.leadImage,
+        targetWidth: 900,
+        targetHeight: 675,
+      });
+      if (img) return {photo: img, fromSanity: true};
+    }
+    return {photo: entry.fallback, fromSanity: false};
+  };
+
+  // D4 — the grid degrades to 3 columns cleanly if a division is removed.
+  const lgCols = ENTRIES.length >= 4 ? 'lg:grid-cols-4' : 'lg:grid-cols-3';
 
   return (
     <section
@@ -80,24 +95,44 @@ export default async function HomeAudienceEntries() {
           </p>
         </AnimateIn>
 
-        <StaggerContainer className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 lg:gap-6">
-          {ENTRIES.map((entry) => (
-            <StaggerItem key={entry.key}>
+        <div className={`grid grid-cols-1 sm:grid-cols-2 ${lgCols} gap-5 lg:gap-6`}>
+          {ENTRIES.map((entry) => {
+            const {photo, fromSanity} = imageFor(entry);
+            return (
               <Link
+                key={entry.key}
                 href={entry.href}
                 className="card card-photo block h-full"
                 data-cr-tracking={entry.tracking}
               >
                 <div className="relative w-full" style={{aspectRatio: '4 / 3'}}>
                   <Image
-                    src={entry.photo}
+                    src={photo}
                     alt={t(`${entry.key}.alt`)}
                     fill
-                    placeholder="blur"
-                    loading="eager"
                     sizes="(max-width: 639px) 100vw, (max-width: 1023px) 50vw, 25vw"
+                    placeholder={fromSanity ? 'empty' : 'blur'}
                     style={{objectFit: 'cover'}}
                   />
+                  {entry.unilock ? (
+                    <span
+                      className="absolute top-3 left-3 inline-flex items-center gap-1.5 font-heading font-semibold"
+                      style={{
+                        background: 'rgba(255,255,255,0.92)',
+                        color: 'var(--color-text-primary)',
+                        borderRadius: '9999px',
+                        padding: '4px 10px',
+                        fontSize: '11px',
+                        letterSpacing: '0.04em',
+                        boxShadow: 'var(--shadow-soft)',
+                      }}
+                    >
+                      <span aria-hidden="true" style={{color: 'var(--color-sunset-orange-500)'}}>
+                        ◆
+                      </span>
+                      {t('unilockChip')}
+                    </span>
+                  ) : null}
                 </div>
                 <div className="p-5 lg:p-6">
                   <p
@@ -132,9 +167,9 @@ export default async function HomeAudienceEntries() {
                   </span>
                 </div>
               </Link>
-            </StaggerItem>
-          ))}
-        </StaggerContainer>
+            );
+          })}
+        </div>
       </div>
     </section>
   );

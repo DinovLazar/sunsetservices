@@ -142,3 +142,12 @@ export type PublishedReviewEntry = {
   source: 'google' | 'manual';
   publishedAt: string;
 };
+
+/**
+ * Phase M.16 — shape returned by `getPublishedReviews` for the homepage trust
+ * band's real-Google-reviews slot. Extends the published-review shape with the
+ * optional source URL so a card can link out to the original review.
+ */
+export type HomeReviewEntry = PublishedReviewEntry & {
+  sourceUrl: string | null;
+};

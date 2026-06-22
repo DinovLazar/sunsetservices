@@ -27,6 +27,7 @@ import type {
   BlogPostDetail,
   BlogPostSummary,
   FaqEntry,
+  HomeReviewEntry,
   Localized,
   LocalizedBody,
   ProjectDetail,
@@ -108,6 +109,34 @@ const PROJECT_DETAIL_PROJECTION = `{
 export async function getAllProjects(): Promise<ProjectSummary[]> {
   return sanityClient.fetch(
     `*[_type == "project"] | order(year desc, slug asc) ${PROJECT_SUMMARY_PROJECTION}`,
+    {},
+    cachedTagged(TAG.project),
+  );
+}
+
+/**
+ * Phase M.16 — the homepage Concept A hero source. Returns the single
+ * `featuredOnHome == true` project (newest year, then slug) so the hero can
+ * render its lead image (Sanity-asset-first). Returns `null` when no project
+ * is flagged — the homepage then falls back to the placeholder hero.
+ */
+export async function getFeaturedHomeProject(): Promise<ProjectSummary | null> {
+  return sanityClient.fetch(
+    `*[_type == "project" && featuredOnHome == true] | order(year desc, slug asc)[0] ${PROJECT_SUMMARY_PROJECTION}`,
+    {},
+    cachedTagged(TAG.project),
+  );
+}
+
+/**
+ * Phase M.16 — the homepage Before/After showcase source. Returns the newest
+ * project flagged `hasBeforeAfter` (detail projection, so the before/after
+ * image assets come through). Returns `null` when none exists — the homepage
+ * then falls back to placeholder before/after imagery.
+ */
+export async function getFeaturedBeforeAfterProject(): Promise<ProjectDetail | null> {
+  return sanityClient.fetch(
+    `*[_type == "project" && hasBeforeAfter == true] | order(year desc, slug asc)[0] ${PROJECT_DETAIL_PROJECTION}`,
     {},
     cachedTagged(TAG.project),
   );
@@ -504,6 +533,32 @@ export async function getPublishedReviewsForCity(
       "publishedAt": coalesce(publishedAt, _createdAt)
     }`,
     {cityId: `location-${citySlug}`},
+    cachedTagged(TAG.review),
+  );
+}
+
+/**
+ * Phase M.16 — the homepage trust band's real-Google-reviews slot. Returns all
+ * non-placeholder reviews across every city (newest first, capped at `limit`),
+ * so the band renders real review cards when they exist and falls back to the
+ * verifiable-credentials view when the array is empty. Returns `[]` today — no
+ * real reviews exist yet (same source as `getPublishedReviewsForCity`); when
+ * the Phase 2.14/2.16 review cron lands, this starts returning real entries
+ * with no further code change.
+ */
+export async function getPublishedReviews(limit = 3): Promise<HomeReviewEntry[]> {
+  const cap = Number.isFinite(limit) && limit > 0 ? Math.floor(limit) : 3;
+  return sanityClient.fetch(
+    `*[_type == "review" && coalesce(placeholder, false) == false] | order(coalesce(publishedAt, _createdAt) desc)[0...${cap}] {
+      _id,
+      ${biling('quote')},
+      ${biling('attribution')},
+      rating,
+      "source": coalesce(source, "manual"),
+      "sourceUrl": coalesce(sourceUrl, null),
+      "publishedAt": coalesce(publishedAt, _createdAt)
+    }`,
+    {},
     cachedTagged(TAG.review),
   );
 }

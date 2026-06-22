@@ -47,6 +47,15 @@ export const project = defineType({
       validation: (r) => r.required(),
     }),
     defineField({
+      name: 'featuredOnHome',
+      type: 'boolean',
+      title: 'Feature on homepage hero',
+      group: 'taxonomy',
+      description:
+        "Phase M.16 — when ON, this project's lead image becomes the homepage Concept A hero (newest year wins if several are flagged). OFF by default; when nothing is flagged the homepage falls back to the placeholder hero.",
+      initialValue: false,
+    }),
+    defineField({
       name: 'services',
       type: 'array',
       title: 'Services delivered',

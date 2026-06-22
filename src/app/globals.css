@@ -61,6 +61,21 @@
   --color-sunset-amber-500: #E8A33D;
   --color-sunset-amber-700: #B47821;
 
+  /* ---------- Sunset Orange accent (Phase M.16 — BG-01) ----------
+     The single per-page accent + primary-CTA fill on the homepage, and the
+     sitewide navbar dock CTA. -500 #F28C38 is BG-01 Sunset Orange; pair it
+     ONLY with charcoal text (--color-text-on-orange, ≈7:1). White-on-orange
+     ≈2.4:1 FAILS AA — never use it. -700 #B45309 is the deepened step for
+     hover/active and the only place white-on-orange is allowed (≈5.9:1).
+     -300 #F7B97E is for accent text/eyebrows on dark surfaces; -50/-100 for
+     light fills. Amber is NOT retired site-wide — orange is homepage-only
+     here; the amber→orange body-CTA propagation is a separate phase. */
+  --color-sunset-orange-50:  #FEF4EA;
+  --color-sunset-orange-100: #FBE4CC;
+  --color-sunset-orange-300: #F7B97E;
+  --color-sunset-orange-500: #F28C38;
+  --color-sunset-orange-700: #B45309;
+
   /* ---------- Surfaces (locked) ---------- */
   --color-bg:               #FFFFFF;
   --color-bg-cream:         #FAF7F1;
@@ -76,6 +91,7 @@
   --color-text-on-dark:   #FAF7F1;
   --color-text-on-green:  #FFFFFF;
   --color-text-on-amber:  #1A1A1A;
+  --color-text-on-orange: #1A1A1A; /* Phase M.16 — charcoal on Sunset Orange (≈7:1, AA) */
 
   /* ---------- Lines (locked) ---------- */
   --color-border:        #E5E0D5;
@@ -445,6 +461,43 @@
   .btn-amber:active {
     transform: translateY(0);
     transition-duration: var(--motion-fast);
+  }
+
+  /* Sunset Orange (Phase M.16) — the homepage + navbar-dock primary CTA.
+     Label is charcoal (--color-text-on-orange, ≈7:1), NEVER white (≈2.4:1).
+     Hover deepens to orange-700 (#B45309), where white text clears AA
+     (≈5.9:1) — mirrors .btn-amber's hover pattern. The .btn base + the
+     reduced-motion guard (`.btn:hover { transform: none }`) already cover
+     this variant; no extra reduced-motion rule needed. */
+  .btn-orange {
+    background: var(--color-sunset-orange-500);
+    color: var(--color-text-on-orange);
+    box-shadow: var(--shadow-soft);
+  }
+  .btn-orange:hover {
+    background: var(--color-sunset-orange-700);
+    color: var(--color-text-on-dark);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-hover);
+  }
+  .btn-orange:active {
+    transform: translateY(0);
+    transition-duration: var(--motion-fast);
+  }
+
+  /* Signature motif (Phase M.16) — the golden-hour "horizon edge": one
+     restrained 4px orange gradient rule at the foot of the hero and the top
+     of the final-CTA band. Static by construction (no animation), so it is
+     reduced-motion-safe. Remove the element to toggle the motif off. */
+  .horizon-edge {
+    height: var(--border-thick); /* 4px */
+    width: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      var(--color-sunset-orange-500) 50%,
+      transparent
+    );
   }
 
   /* Danger (rare) */

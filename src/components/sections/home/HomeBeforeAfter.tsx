@@ -162,11 +162,14 @@ export default async function HomeBeforeAfter() {
 
         {projects.length > 0 ? (
           <div className="mt-12 lg:mt-16">
-            <AnimateIn variant="fade-up" className="mb-6 flex items-end justify-between gap-4">
+            <AnimateIn
+              variant="fade-up"
+              className="mb-6 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between sm:gap-4"
+            >
               <h3 className="m-0" style={{fontSize: 'var(--text-h4)'}}>
                 {t('recentTitle')}
               </h3>
-              <Link href="/projects/" className="link-cta" style={{color: 'var(--color-sunset-green-700)', whiteSpace: 'nowrap'}}>
+              <Link href="/projects/" className="link-cta" style={{color: 'var(--color-sunset-green-700)'}}>
                 {t('recentCta')}
                 <ArrowRight aria-hidden="true" size={16} />
               </Link>

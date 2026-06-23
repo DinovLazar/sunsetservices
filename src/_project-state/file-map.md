@@ -1008,3 +1008,23 @@ Multi-subagent mobile-rendering bug sweep across phone viewports 320–414px (+ 
 **Outward actions (no repo change):** Sanity Studio redeployed to `https://sunsetservices.sanity.studio/` (Stream 4).
 
 **NOT changed (deferred — see report):** city data (Stream 2, no pinned +2), Sanity photo assets (Stream 3, no reachable corpus), Telegram env/webhook (Stream 7, creds absent), `rateLimit.ts` (Stream 5, already shipped in B.09 — verified only).
+
+## Phase B.12 — Trenchless & Directional Boring (5th division) — file changes
+
+Canonical list in `src/_project-state/Phase-B-12-Completion.md`. Data-driven addition on the existing dynamic templates (no new page templates/components).
+
+**Data + tokens:**
+- `src/data/services.ts` — `Division` union += `'trenchless'`; new `TRENCHLESS_FACTORS` (3 explainer factors); 6 trenchless `Service` objects appended (SERVICES count 28 → 34). Each: `division: 'trenchless'`, `audience` omitted, `imageKey` aliased to an existing service asset, `pricing` → `TRENCHLESS_FACTORS`.
+- `src/data/divisions.ts` — `DIVISIONS` appends `'trenchless'`; `DIVISION_META.trenchless` (hero/tiles → `commercial` aliases).
+- `src/app/globals.css` — `[data-division='trenchless']` accent block (orange-700; chip-bg orange-50 for AA).
+- `src/components/ui/ServiceIcon.tsx` — registered trenchless icon set (Cable, Shovel, Drill, Box, Spline, Waypoints, Construction, Pickaxe, Route, Container, Gauge, MapPin, SearchCheck) — also un-breaks the existing Construction/Gauge/MapPin fallbacks.
+
+**i18n:** `src/messages/en.json` + `es.json` — `division.trenchless.*` landing block (mirrors waterproofing) + 19 cross-ref keys; homepage `divisions.h2/sub` + `services.sub` + `nav.photoSubcaption` counts updated (four→five, 28→34). EN/ES leaf parity **1335 = 1335**.
+
+**Cross-reference wiring:** `src/lib/constants/navigation.ts` (6th services column + footer link + comment), `src/components/layout/ServicesMegaPanel.tsx` (`lg:grid-cols-6`), `src/components/sections/home/HomeAudienceEntries.tsx` (5th card + `lg:grid-cols-5`), `HomeServicesOverview.tsx` (DOT_COLOR + DIVISION_CTAS + `lg:grid-cols-5`), `src/components/wizard/WizardStep1Audience.tsx` (TILE_ORDER), `src/data/wizard.ts` (`getStep3Group`→residential), `src/lib/quote/validation.ts` (Zod enum), `sanity/schemas/quoteLead.ts` + `quoteLeadPartial.ts` + `contactSubmission.ts` (option lists), `src/lib/email/templates/QuoteLeadAlertEmail.tsx` + `ContactAlertEmail.tsx` (labels), `src/components/forms/ContactForm.tsx` + `src/lib/contact/contactSchema.ts` (option + enum), `src/app/[locale]/projects/page.tsx` (counts) + `projects/[slug]/page.tsx` (label map), `src/lib/wizard/storage.ts` (VALID_DIVISIONS), `src/content/legal/terms.tsx` + `privacy.tsx` (service prose), `src/lib/automation/portfolio/extractJobMetadata.ts` (6 keyword rows).
+
+**Validators:** `scripts/validate-{seo,a11y,mobile,schema}.mjs` path lists extended (`validate-links.mjs` auto-imports `DIVISIONS`, no edit).
+
+**Docs:** `src/_project-state/Phase-B-12-Completion.md` (NEW), `current-state.md` (Where-we-are + What-works B.12), `Sunset-Services-Decisions.md` (2026-06-23/24 entry), `Sunset-Services-TRANSLATION_NOTES.md` (§M.01f1 division + 6 services).
+
+**Auto-derived, verified (no edit):** `src/app/sitemap.ts`, the schema builders, and both dynamic routes (`[locale]/[division]/page.tsx` + `[service]/page.tsx`) — all iterate `DIVISIONS`/`SERVICES`. **Left unchanged per locked decisions:** `src/data/locations.ts` + `LocationServicesGrid.tsx` (per-city featuredServices mix), `src/data/imageMap.ts` (trenchless reuses existing asset keys).

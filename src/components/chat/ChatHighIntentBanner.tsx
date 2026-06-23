@@ -16,8 +16,9 @@ type Props = {
  * High-intent escalation banner — Phase 2.09 rewrite of the Phase 1.20 slot.
  *
  * Renders inside the chat panel above the composer when Claude calls
- * `flag_high_intent`. Two CTAs: primary "Book a consult" → /contact#calendly,
- * secondary ghost "Get a quote" → /request-quote. Amber inside the chat panel
+ * `flag_high_intent`. Two CTAs: primary "Book a consult" → /contact (the
+ * contact form; Calendly booking was retired site-wide), secondary ghost
+ * "Get a quote" → /request-quote. Amber inside the chat panel
  * is allowed (D11 / D24 page-level rules do not apply to the panel chrome).
  */
 export default function ChatHighIntentBanner({highIntent, onDismiss}: Props) {
@@ -84,7 +85,7 @@ export default function ChatHighIntentBanner({highIntent, onDismiss}: Props) {
 
       <div style={{display: 'flex', gap: 8, flexWrap: 'wrap'}}>
         <Link
-          href="/contact#calendly"
+          href="/contact/"
           className="btn btn-primary btn-sm"
           data-analytics-event="chat_banner_book_clicked"
           onClick={() =>

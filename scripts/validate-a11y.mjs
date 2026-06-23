@@ -100,7 +100,7 @@ const URLS = [
   {path: '/resources', label: 'resources-index'},
   {path: '/resources/patio-materials-guide', label: 'resource-detail'},
   {path: '/about', label: 'about'},
-  {path: '/contact', label: 'contact-calendly'},
+  {path: '/contact', label: 'contact'},
   {path: '/request-quote', label: 'quote-wizard'},
   {path: '/privacy', label: 'legal-termly'},
   {path: '/accessibility', label: 'accessibility-statement'},

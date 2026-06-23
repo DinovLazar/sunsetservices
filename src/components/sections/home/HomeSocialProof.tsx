@@ -1,11 +1,9 @@
 import Image from 'next/image';
-import {getLocale, getTranslations} from 'next-intl/server';
+import {getTranslations} from 'next-intl/server';
 import {Check} from 'lucide-react';
 import AnimateIn from '@/components/global/motion/AnimateIn';
 import GoogleRating from '@/components/ui/GoogleRating';
 import unilockBadge from '@/assets/brand/unilock-authorized-contractor.png';
-import {getPublishedReviews} from '@sanity-lib/queries';
-import {REVIEW_SNAPSHOT} from '@/lib/constants/reviews';
 
 /**
  * Home trust / credentials band (Phase M.16). Dark `#23231D` surface,
@@ -14,9 +12,8 @@ import {REVIEW_SNAPSHOT} from '@/lib/constants/reviews';
  *
  * Left: "Credentials you can verify" + a row of verifiable chips. Right: a
  * prominent UNILOCK Authorized Contractor card (badge, shown WITHOUT a year per
- * D3) AND a real-Google-reviews slot — `getPublishedReviews()` renders real
- * review cards when they exist, and falls back to the credentials view (the
- * chips + UNILOCK card) when the array is empty (it is empty today).
+ * D3) + a five-star visual motif. (The numeric Google rating + review cards
+ * were removed per the operator's request — only the stars remain.)
  *
  * Per handover §7 there is no per-item scroll animation — only the two columns
  * fade in once.
@@ -24,13 +21,7 @@ import {REVIEW_SNAPSHOT} from '@/lib/constants/reviews';
 const CHIP_KEYS = ['founding', 'years', 'insured', 'area', 'bilingual'] as const;
 
 export default async function HomeSocialProof() {
-  const locale = (await getLocale()) === 'es' ? 'es' : 'en';
   const t = await getTranslations('home.social');
-  // Real Sanity reviews win; until the live GBP feed lands they're empty, so we
-  // fall back to the confirmed launch snapshot (Step 2 / Hand-off B). The live
-  // feed overrides this automatically with no code change.
-  const fetched = await getPublishedReviews(3);
-  const reviews = fetched.length > 0 ? fetched : REVIEW_SNAPSHOT;
 
   return (
     <section
@@ -117,56 +108,9 @@ export default async function HomeSocialProof() {
               </div>
             </div>
 
-            {reviews.length > 0 ? (
-              <div className="mt-6">
-                <h3
-                  className="m-0 mb-3 font-heading font-semibold"
-                  style={{fontSize: 'var(--text-h6)', color: 'rgba(250,247,241,0.86)'}}
-                >
-                  {t('reviews.title')}
-                </h3>
-                <div className="mb-4">
-                  <GoogleRating tone="dark" />
-                </div>
-                <ul className="flex flex-col gap-3 list-none p-0 m-0">
-                  {reviews.map((r) => (
-                    <li
-                      key={r._id}
-                      style={{
-                        background: 'rgba(250,247,241,0.06)',
-                        border: '1px solid rgba(250,247,241,0.12)',
-                        borderRadius: 'var(--radius-md)',
-                        padding: 'var(--spacing-4)',
-                      }}
-                    >
-                      <p
-                        className="m-0"
-                        style={{fontSize: 'var(--text-body-sm)', color: 'var(--color-text-on-dark)', lineHeight: 'var(--leading-relaxed)'}}
-                      >
-                        &ldquo;{r.quote[locale]}&rdquo;
-                      </p>
-                      <p
-                        className="m-0 mt-2 font-heading font-semibold"
-                        style={{fontSize: 'var(--text-body-sm)', color: 'rgba(250,247,241,0.72)'}}
-                      >
-                        — {r.attribution[locale]}
-                      </p>
-                      {r.sourceUrl ? (
-                        <a
-                          href={r.sourceUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex mt-2 font-heading font-semibold"
-                          style={{fontSize: 'var(--text-body-sm)', color: 'var(--color-sunset-orange-300)'}}
-                        >
-                          {t('reviews.viewOnGoogle')}
-                        </a>
-                      ) : null}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ) : null}
+            <div className="mt-6">
+              <GoogleRating />
+            </div>
           </AnimateIn>
         </div>
       </div>

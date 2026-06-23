@@ -113,7 +113,7 @@ export default async function LocalTrustBand({location, locale}: LocalTrustBandP
             </ul>
           </div>
           <div className="mt-8 flex justify-center">
-            <GoogleRating tone="light" />
+            <GoogleRating />
           </div>
         </AnimateIn>
       </div>

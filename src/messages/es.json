@@ -841,12 +841,6 @@
         "item5": "El contenido animado respeta su configuración de prefers-reduced-motion",
         "item6": "Etiquetas de formulario, mensajes de error e instrucciones probados con tecnología de asistencia"
       },
-      "knownLimitations": {
-        "h2": "Limitaciones conocidas",
-        "intro": "Algunos elementos integrados de terceros tienen sus propias implementaciones de accesibilidad que monitoreamos pero no controlamos directamente:",
-        "item1": "El widget de reservas de Calendly",
-        "outro": "Si encuentra una barrera en alguno de estos elementos, por favor repórtela y la escalaremos al proveedor."
-      },
       "feedback": {
         "h2": "Comentarios",
         "p": "Si algo en este sitio no le funciona — una trampa de teclado, una etiqueta faltante, un problema de contraste, un flujo confuso — por favor avísenos. Envíe un correo a <emailLink>info@sunsetservices.us</emailLink> o llame al <phoneLink>(630) 946-9321</phoneLink> y responderemos en un plazo de dos días hábiles."
@@ -1028,20 +1022,6 @@
       "aria": "Mapa que muestra 1630 Mountain St, Aurora, IL",
       "directions": "Cómo llegar ↗",
       "open_label": "Abrir"
-    },
-    "calendly": {
-      "eyebrow": "Reserva directamente",
-      "h2": "Elige un espacio de 30 minutos.",
-      "sub": "Elija un espacio de 30 minutos con Erick.",
-      "body": "Erick revisa cada reserva antes de confirmar.",
-      "coming_soon": "Próximamente",
-      "fallback": {
-        "body": "El sistema de reservas llega en la Fase 2.07. Mientras tanto —",
-        "cta": "Llame al {phone}"
-      },
-      "fallbackCta": "Llame al {phone}",
-      "fallbackLink": "Abrir Calendly directamente",
-      "iframeLabel": "Widget de reservas de Calendly"
     },
     "area": {
       "eyebrow": "Atendemos",
@@ -1694,17 +1674,6 @@
     "title": "Gracias, {firstName} — la recibimos.",
     "titleFallback": "Gracias — la recibimos.",
     "subtitle": "Erick le contactará en un día hábil.",
-    "calendly": {
-      "eyebrow": "SIN ESPERA",
-      "title": "¿Quieres reservar una consulta de 30 minutos?",
-      "cta": "Reservar consulta",
-      "comingSoon": "Próximamente",
-      "h2": "Reserve una consulta de 30 minutos con Erick",
-      "sub": "Elija una hora que le funcione. Sin compromiso.",
-      "fallbackCta": "Llame al {phone}",
-      "fallbackLink": "Abrir Calendly directamente",
-      "iframeLabel": "Widget de reservas de Calendly"
-    },
     "next": {
       "title": "Qué sigue",
       "1": {
@@ -2017,9 +1986,5 @@
       "primaryCta": "Solicitar un estimado gratuito",
       "secondaryCta": "Llamar al (630) 946-9321"
     }
-  },
-  "ratings": {
-    "summary": "{count} reseñas de Google",
-    "aria": "Calificado {value} de 5 estrellas con {count} reseñas de Google"
   }
 }

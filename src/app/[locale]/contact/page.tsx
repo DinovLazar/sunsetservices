@@ -3,7 +3,6 @@ import {getTranslations, setRequestLocale} from 'next-intl/server';
 import ContactHero from '@/components/sections/contact/ContactHero';
 import ContactInfoForm from '@/components/sections/contact/ContactInfoForm';
 import ContactMapPlaceholder from '@/components/sections/contact/ContactMapPlaceholder';
-import ContactCalendlyPlaceholder from '@/components/sections/contact/ContactCalendlyPlaceholder';
 import ServiceAreaStrip from '@/components/sections/ServiceAreaStrip';
 import {buildContactPageSchema} from '@/lib/schema/contactPage';
 import {buildBreadcrumbList} from '@/lib/schema/breadcrumb';
@@ -39,11 +38,9 @@ export async function generateMetadata({
 /**
  * Contact — Phase 1.12 (Code) implementing Phase 1.11 design handover.
  *
- * Five sections per handover §2.2: Hero → Info+Form → Map → Calendly →
- * Service-area strip. NO body amber CTA section (D11 lock — the page IS
- * the conversion surface).
- *
- * Surface alternation (§2.3): white / cream / white / cream / white.
+ * Sections: Hero → Info+Form → Map → Service-area strip. NO body amber CTA
+ * section (D11 lock — the page IS the conversion surface). The Calendly
+ * "book a 30-min slot" section was removed (booking retired site-wide).
  *
  * Schema: `ContactPage` + `BreadcrumbList`. Sitewide `LocalBusiness` ships
  * from the locale layout — `ContactPage.mainEntity` references it by `@id`.
@@ -78,7 +75,6 @@ export default async function ContactPage({
       <ContactHero />
       <ContactInfoForm locale={localeForForm} />
       <ContactMapPlaceholder />
-      <ContactCalendlyPlaceholder />
       <ServiceAreaStrip />
     </>
   );

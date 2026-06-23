@@ -110,7 +110,7 @@ export default function AudienceSocialProof({
           style={hasReviews ? {borderTop: '1px solid var(--color-border)'} : undefined}
         >
           <div className="mb-8 lg:mb-10">
-            <GoogleRating tone="light" />
+            <GoogleRating />
           </div>
           <dl className="m-0 grid grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
             {credentials.map((c, idx) => (

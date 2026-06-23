@@ -160,14 +160,6 @@ export default async function AccessibilityPage({
               </ul>
             </Section>
 
-            <Section heading={tBody('knownLimitations.h2')}>
-              <p style={paragraphStyle}>{tBody('knownLimitations.intro')}</p>
-              <ul style={listStyle}>
-                <li style={listItemStyle}>{tBody('knownLimitations.item1')}</li>
-              </ul>
-              <p style={paragraphStyle}>{tBody('knownLimitations.outro')}</p>
-            </Section>
-
             <Section heading={tBody('feedback.h2')}>
               <p style={paragraphStyle}>
                 {tBody.rich('feedback.p', {

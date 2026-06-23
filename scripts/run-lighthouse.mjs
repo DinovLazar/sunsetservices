@@ -38,7 +38,7 @@
  *   - /landscape/landscape-design/               (service detail)
  *   - /service-areas/aurora/                     (city detail; reused from B.06)
  *   - /blog/dupage-patio-cost-2026/              (blog post)
- *   - /thank-you/?firstName=Test                 (Calendly iframe — heavy third-party)
+ *   - /thank-you/?firstName=Test                 (post-conversion confirmation page)
  *   - /qa/                                       (Q&A page — new template per M.01e)
  */
 
@@ -83,7 +83,7 @@ const CATEGORIES = ARG_CATS
 //   service-detail   — landscape/landscape-design (representative)
 //   city             — service-areas/aurora (reused from B.06)
 //   blog             — known slug from B.06 a11y sample
-//   third-party      — /thank-you/ with Calendly iframe
+//   thank-you        — post-conversion confirmation page
 //   qa               — M.01e new template, never profiled
 //
 // Add more here only if a representative template shape isn't covered.
@@ -95,7 +95,7 @@ const URLS = [
   {path: '/landscape/landscape-design/', label: 'service-detail'},
   {path: '/service-areas/aurora/', label: 'city-detail'},
   {path: '/blog/dupage-patio-cost-2026/', label: 'blog-post'},
-  {path: '/thank-you/?firstName=Test', label: 'thank-you-calendly'},
+  {path: '/thank-you/?firstName=Test', label: 'thank-you'},
   {path: '/qa/', label: 'qa-page'},
 ];
 

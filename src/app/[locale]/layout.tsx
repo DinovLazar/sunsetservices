@@ -25,7 +25,6 @@ import {
   BUSINESS_PHONE_TEL,
   BUSINESS_URL,
 } from '@/lib/constants/business';
-import {BUSINESS_RATING, REVIEW_SNAPSHOT} from '@/lib/constants/reviews';
 import {SITE_URL, hreflangAlternates, isProductionDeploy} from '@/lib/seo/urls';
 import '../globals.css';
 
@@ -118,28 +117,6 @@ const sitewideJsonLd = {
       email: BUSINESS_EMAIL,
       url: BUSINESS_URL,
       areaServed: BUSINESS_AREA_SERVED,
-      // Step 2 / Hand-off B — confirmed real Google snapshot (4.8 / 37). The
-      // single source is `BUSINESS_RATING`; the live GBP feed will override it.
-      aggregateRating: {
-        '@type': 'AggregateRating',
-        ratingValue: BUSINESS_RATING.value,
-        reviewCount: BUSINESS_RATING.count,
-        bestRating: 5,
-        worstRating: 1,
-      },
-      // The three real Google reviews Erick approved (verbatim). datePublished
-      // is omitted — the exact dates were not supplied; we do not invent them.
-      review: REVIEW_SNAPSHOT.map((r) => ({
-        '@type': 'Review',
-        reviewBody: r.quote.en,
-        reviewRating: {
-          '@type': 'Rating',
-          ratingValue: r.rating,
-          bestRating: 5,
-          worstRating: 1,
-        },
-        author: {'@type': 'Person', name: r.attribution.en},
-      })),
     },
     {
       '@type': 'Organization',

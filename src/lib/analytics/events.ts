@@ -47,12 +47,6 @@ export const ANALYTICS_EVENTS = {
   CHAT_LEAD_SUBMIT_SUCCEEDED: 'lead_capture_submit_succeeded',
   CHAT_LEAD_SUBMIT_FAILED: 'lead_capture_submit_failed',
 
-  // Calendly (Phase 2.10 new)
-  CALENDLY_WIDGET_LOADED: 'calendly_widget_loaded',
-  CALENDLY_EVENT_TYPE_VIEWED: 'calendly_event_type_viewed',
-  CALENDLY_DATE_AND_TIME_SELECTED: 'calendly_date_and_time_selected',
-  CALENDLY_BOOKING_SCHEDULED: 'calendly_booking_scheduled', // ← CONVERSION
-
   // Consent (Phase 2.10 binary → Phase B.03 Consent Mode v2)
   CONSENT_ACCEPTED: 'consent_accepted',
   CONSENT_DECLINED: 'consent_declined',

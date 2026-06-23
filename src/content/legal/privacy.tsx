@@ -54,10 +54,6 @@ export function Body() {
           {` Our Site offers an AI chat assistant powered by Anthropic's Claude. If you choose to share them, the assistant can capture your name and email address, and we store the conversation transcript for that session to help us respond to you.`}
         </li>
         <li>
-          <strong>Booking.</strong>
-          {` We use Calendly to let you book consultations. When you book, Calendly collects your name, email, and scheduling details.`}
-        </li>
-        <li>
           <strong>Automatically collected information.</strong>
           {` With your consent (see Section 4), we and our analytics providers collect usage information such as your IP address, device and browser type, pages viewed, links clicked, and how you interact with the Site, including heatmaps and session recordings.`}
         </li>
@@ -82,10 +78,6 @@ export function Body() {
         <li>
           <strong>Resend</strong>
           {` — delivery of transactional emails (such as quote confirmations).`}
-        </li>
-        <li>
-          <strong>Calendly</strong>
-          {` — consultation booking.`}
         </li>
         <li>
           <strong>Anthropic</strong>

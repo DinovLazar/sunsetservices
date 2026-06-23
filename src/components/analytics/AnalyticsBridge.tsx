@@ -7,7 +7,7 @@ import {pushDataLayer} from '@/lib/analytics/dataLayer';
  * AnalyticsBridge — Phase 2.10.
  *
  * Mounts once at layout level. Subscribes to every `sunset:*-event`
- * CustomEvent (wizard / contact / newsletter / chat / Calendly) and
+ * CustomEvent (wizard / contact / newsletter / chat) and
  * forwards them to `window.dataLayer.push({event: name, ...payload})`.
  *
  * The dispatcher convention (established Phase 2.06 / 2.08 / 2.09) is to
@@ -27,7 +27,6 @@ const EVENT_SCOPES = [
   'sunset:contact-event',
   'sunset:newsletter-event',
   'sunset:chat-event',
-  'sunset:calendly-event',
 ] as const;
 
 export default function AnalyticsBridge() {

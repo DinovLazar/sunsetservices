@@ -13,7 +13,7 @@
  *
  * Event → signal mapping:
  *   - Analytics events (every existing dispatch as of B.03 — wizard,
- *     contact, newsletter, chat, calendly funnel, consent_*) gate on
+ *     contact, newsletter, chat, consent_*) gate on
  *     `signals.analytics`.
  *   - Marketing events (none today — placeholder for Google Ads
  *     conversion pixels) gate on `signals.marketing`.

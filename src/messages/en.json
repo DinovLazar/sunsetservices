@@ -841,12 +841,6 @@
         "item5": "Animated content respects your prefers-reduced-motion setting",
         "item6": "Form labels, error messages, and instructions tested with assistive technology"
       },
-      "knownLimitations": {
-        "h2": "Known limitations",
-        "intro": "A handful of third-party embeds carry their own accessibility implementations that we monitor but do not directly control:",
-        "item1": "The Calendly booking widget",
-        "outro": "If you encounter a barrier in one of these embeds, please report it and we'll escalate to the vendor."
-      },
       "feedback": {
         "h2": "Feedback",
         "p": "If anything on this site isn't working for you — a keyboard trap, a missing label, a contrast issue, a confusing flow — please tell us. Email <emailLink>info@sunsetservices.us</emailLink> or call <phoneLink>(630) 946-9321</phoneLink> and we'll respond within two business days."
@@ -1028,20 +1022,6 @@
       "aria": "Map showing 1630 Mountain St, Aurora, IL",
       "directions": "Get directions ↗",
       "open_label": "Open"
-    },
-    "calendly": {
-      "eyebrow": "Book directly",
-      "h2": "Pick a 30-min slot.",
-      "sub": "Pick a 30-minute slot with Erick.",
-      "body": "Erick reviews every booking before confirming.",
-      "coming_soon": "Coming soon",
-      "fallback": {
-        "body": "Booking widget loads in Phase 2.07. Until then —",
-        "cta": "Call {phone}"
-      },
-      "fallbackCta": "Call {phone}",
-      "fallbackLink": "Open Calendly directly",
-      "iframeLabel": "Calendly booking widget"
     },
     "area": {
       "eyebrow": "We serve",
@@ -1694,17 +1674,6 @@
     "title": "Thanks, {firstName} — we've got it.",
     "titleFallback": "Thanks — we've got it.",
     "subtitle": "Erick will be in touch within one business day.",
-    "calendly": {
-      "eyebrow": "SKIP THE WAIT",
-      "title": "Want to lock in a 30-minute consult?",
-      "cta": "Book a 30-min consult",
-      "comingSoon": "Coming soon",
-      "h2": "Book a 30-min consult with Erick",
-      "sub": "Pick a time that works for you. No commitment.",
-      "fallbackCta": "Call {phone}",
-      "fallbackLink": "Open Calendly directly",
-      "iframeLabel": "Calendly booking widget"
-    },
     "next": {
       "title": "What happens next",
       "1": {
@@ -2017,9 +1986,5 @@
       "primaryCta": "Get a free estimate",
       "secondaryCta": "Call (630) 946-9321"
     }
-  },
-  "ratings": {
-    "summary": "{count} Google reviews",
-    "aria": "Rated {value} out of 5 stars from {count} Google reviews"
   }
 }

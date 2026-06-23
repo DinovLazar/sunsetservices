@@ -75,7 +75,7 @@ export function Body() {
 
       <h2>{`8. Third-Party Links and Services`}</h2>
       <p>
-        {`The Site uses and links to third-party services (such as Calendly, Google Maps, and others). We are not responsible for the content, policies, or practices of third-party websites or services, and your use of them is at your own risk and subject to their terms.`}
+        {`The Site uses and links to third-party services (such as Google Maps and others). We are not responsible for the content, policies, or practices of third-party websites or services, and your use of them is at your own risk and subject to their terms.`}
       </p>
 
       <h2>{`9. Disclaimer of Warranties`}</h2>

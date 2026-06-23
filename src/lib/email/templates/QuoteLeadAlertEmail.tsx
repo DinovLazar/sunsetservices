@@ -33,6 +33,7 @@ const DIVISION_LABEL: Record<QuoteSubmitInput['division'], string> = {
   hardscape: 'Hardscape',
   waterproofing: 'Waterproofing',
   'snow-removal': 'Snow Removal',
+  trenchless: 'Trenchless & Directional Boring',
 };
 
 const PROPERTY_TYPE_LABEL: Record<QuoteSubmitInput['propertyType'], string> = {

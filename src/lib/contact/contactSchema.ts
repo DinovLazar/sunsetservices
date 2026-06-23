@@ -23,7 +23,7 @@ export const ContactSubmitSchema = z
     email: z.string().email().max(200).optional().or(z.literal('')),
     phone: z.string().max(40).optional().or(z.literal('')),
     category: z
-      .enum(['landscape', 'hardscape', 'waterproofing', 'snow-removal', 'other'])
+      .enum(['landscape', 'hardscape', 'waterproofing', 'snow-removal', 'trenchless', 'other'])
       .optional()
       .or(z.literal('')),
     message: z.string().max(5_000).optional().or(z.literal('')),

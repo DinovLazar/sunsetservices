@@ -91,12 +91,12 @@ const SITE_ORIGIN = 'https://sunsetservices.us';
 // homepage is `/` for EN and `/es` for ES.
 // ---------------------------------------------------------------------------
 
-// Phase M.01e — IA flipped from 3 audiences to 4 divisions. 28 services total
+// Phase M.01e — IA flipped from 3 audiences to 5 divisions. 34 services total
 // (was 16). URL shape is now /<division>/<slug>/.
-const DIVISIONS = ['landscape', 'hardscape', 'waterproofing', 'snow-removal'];
+const DIVISIONS = ['landscape', 'hardscape', 'waterproofing', 'snow-removal', 'trenchless'];
 
 const SERVICE_SLUGS = {
-  // Mirrors src/data/services.ts. Total: 28 services across 4 divisions.
+  // Mirrors src/data/services.ts. Total: 34 services across 5 divisions.
   landscape: [
     'lawn-care',
     'landscape-design',
@@ -132,6 +132,14 @@ const SERVICE_SLUGS = {
     'sidewalk-shoveling',
     'driveway-snow-removal',
     'commercial-snow-plowing',
+  ],
+  trenchless: [
+    'conduit-installation',
+    'trenching-excavation',
+    'sewer-line-replacement',
+    'missile-boring',
+    'handhole-pull-box',
+    'pipe-fusing',
   ],
 };
 

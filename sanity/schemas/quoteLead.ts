@@ -167,6 +167,7 @@ export const quoteLead = defineType({
           {title: 'Hardscape', value: 'hardscape'},
           {title: 'Waterproofing', value: 'waterproofing'},
           {title: 'Snow Removal', value: 'snow-removal'},
+          {title: 'Trenchless & Directional Boring', value: 'trenchless'},
         ],
         layout: 'radio',
       },

@@ -91,6 +91,8 @@ const URLS = [
   {path: '/', label: 'home'},
   {path: '/landscape', label: 'division-landing'},
   {path: '/landscape/lawn-care', label: 'service-detail'},
+  {path: '/trenchless', label: 'division-landing-trenchless'},
+  {path: '/trenchless/conduit-installation', label: 'service-detail-trenchless'},
   {path: '/service-areas', label: 'service-areas-index'},
   {path: '/service-areas/aurora', label: 'city-page'},
   {path: '/projects', label: 'projects-index'},

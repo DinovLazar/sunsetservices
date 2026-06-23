@@ -140,6 +140,7 @@ export const contactSubmission = defineType({
           {title: 'Hardscape', value: 'hardscape'},
           {title: 'Waterproofing', value: 'waterproofing'},
           {title: 'Snow Removal', value: 'snow-removal'},
+          {title: 'Trenchless & Directional Boring', value: 'trenchless'},
           {title: 'Other', value: 'other'},
         ],
         layout: 'radio',

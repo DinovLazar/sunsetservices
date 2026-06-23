@@ -101,6 +101,16 @@ const URLS = [
     mustHaveTypes: ['LocalBusiness', 'Organization', 'BreadcrumbList', 'Service'],
   },
   {
+    path: '/trenchless/',
+    label: 'division-landing-trenchless',
+    mustHaveTypes: ['LocalBusiness', 'Organization', 'BreadcrumbList', 'ItemList'],
+  },
+  {
+    path: '/trenchless/conduit-installation/',
+    label: 'service-detail-trenchless-conduit-installation',
+    mustHaveTypes: ['LocalBusiness', 'Organization', 'BreadcrumbList', 'Service'],
+  },
+  {
     path: '/service-areas/',
     label: 'service-areas-index',
     mustHaveTypes: ['LocalBusiness', 'Organization', 'BreadcrumbList', 'ItemList'],

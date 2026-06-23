@@ -58,9 +58,9 @@ export const NAV_TOP_LEVEL: readonly TopNavItem[] = [
 
 /**
  * Phase M.01e — navbar mega-panel rewired by division (was by audience).
- * 4 service columns + 1 service-areas column. Mobile menu mirrors the
- * same structure as a 4-section accordion under "Services" plus a
- * "Service areas" link.
+ * Phase B.12 — added the trenchless division: 5 service columns + 1
+ * service-areas column. Mobile menu mirrors the same structure as a
+ * 5-section accordion under "Services" plus a "Service areas" link.
  */
 export type ServicesColumn = {
   readonly id:
@@ -68,6 +68,7 @@ export type ServicesColumn = {
     | 'hardscape'
     | 'waterproofing'
     | 'snow-removal'
+    | 'trenchless'
     | 'service-areas';
   readonly headerKey: string;
   readonly headerHref: string;
@@ -129,6 +130,19 @@ export const SERVICES_PANEL: readonly ServicesColumn[] = [
       {labelKey: 'chrome.nav.servicesPanel.snowRemoval.sidewalk', href: '/snow-removal/sidewalk-shoveling/'},
       {labelKey: 'chrome.nav.servicesPanel.snowRemoval.deIcing', href: '/snow-removal/de-icing/'},
       {labelKey: 'chrome.nav.servicesPanel.snowRemoval.commercial', href: '/snow-removal/commercial-snow-plowing/'},
+    ],
+  },
+  {
+    id: 'trenchless',
+    headerKey: 'chrome.nav.servicesPanel.trenchlessTitle',
+    headerHref: '/trenchless/',
+    children: [
+      {labelKey: 'chrome.nav.servicesPanel.trenchless.conduitInstallation', href: '/trenchless/conduit-installation/'},
+      {labelKey: 'chrome.nav.servicesPanel.trenchless.trenchingExcavation', href: '/trenchless/trenching-excavation/'},
+      {labelKey: 'chrome.nav.servicesPanel.trenchless.sewerLineReplacement', href: '/trenchless/sewer-line-replacement/'},
+      {labelKey: 'chrome.nav.servicesPanel.trenchless.missileBoring', href: '/trenchless/missile-boring/'},
+      {labelKey: 'chrome.nav.servicesPanel.trenchless.handholePullBox', href: '/trenchless/handhole-pull-box/'},
+      {labelKey: 'chrome.nav.servicesPanel.trenchless.pipeFusing', href: '/trenchless/pipe-fusing/'},
     ],
   },
   {
@@ -194,6 +208,7 @@ export const FOOTER_LINKS: readonly FooterColumn[] = [
       {labelKey: 'chrome.footer.links.hardscape', href: '/hardscape/'},
       {labelKey: 'chrome.footer.links.waterproofing', href: '/waterproofing/'},
       {labelKey: 'chrome.footer.links.snowRemoval', href: '/snow-removal/'},
+      {labelKey: 'chrome.footer.links.trenchless', href: '/trenchless/'},
       {labelKey: 'chrome.footer.links.allServices', href: '/landscape/'},
     ],
   },

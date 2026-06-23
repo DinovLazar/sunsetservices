@@ -117,6 +117,7 @@ function formatCategory(category: string): string {
     hardscape: 'Hardscape',
     waterproofing: 'Waterproofing',
     'snow-removal': 'Snow Removal',
+    trenchless: 'Trenchless & Directional Boring',
     other: 'Other',
     residential: 'Residential (legacy)',
     commercial: 'Commercial (legacy)',

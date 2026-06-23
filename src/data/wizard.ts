@@ -244,6 +244,7 @@ export function getStep3Group(
 ): WizardStep3Group {
   if (division === 'hardscape') return 'hardscape';
   if (division === 'waterproofing' || division === 'landscape') return 'residential';
+  if (division === 'trenchless') return 'residential';
   return 'commercial'; // snow-removal
 }
 

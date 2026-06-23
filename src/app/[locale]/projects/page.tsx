@@ -160,6 +160,10 @@ export default async function ProjectsIndexPage({
       division: 'snow-removal' as const,
       count: ALL.filter((p) => projectDivision.get(p.slug) === 'snow-removal').length,
     },
+    {
+      division: 'trenchless' as const,
+      count: ALL.filter((p) => projectDivision.get(p.slug) === 'trenchless').length,
+    },
   ];
 
   const tBreadcrumb = await getTranslations({locale, namespace: 'project.breadcrumb'});

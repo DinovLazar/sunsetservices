@@ -19,7 +19,7 @@ import {SANITY_ASSET_ID_REGEX} from '@/lib/sanity/assetId';
  * job and is purely informational on the server side.
  */
 
-const Division = z.enum(['landscape', 'hardscape', 'waterproofing', 'snow-removal']);
+const Division = z.enum(['landscape', 'hardscape', 'waterproofing', 'snow-removal', 'trenchless']);
 const PropertyType = z.enum(['residential', 'commercial']);
 
 /**

@@ -132,8 +132,8 @@ export default function ServicesMegaPanel() {
         ].join(' ')}
       >
         <div className="mx-auto max-w-[var(--container-wide)] px-4 sm:px-6 lg:px-8 xl:px-12 py-10">
-          {/* Phase M.01e — 5-column layout: 4 division columns + 1 service-areas column. */}
-          <div className="grid gap-6 lg:gap-8 grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
+          {/* Phase B.12 — 6-column layout: 5 division columns + 1 service-areas column. */}
+          <div className="grid gap-6 lg:gap-8 grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
             {SERVICES_PANEL.map((col) => (
               <div key={col.id}>
                 <Link

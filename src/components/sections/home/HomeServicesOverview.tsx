@@ -64,6 +64,7 @@ const DIVISION_CTAS: Array<{key: Division; href: string}> = [
   {key: 'hardscape', href: '/hardscape/'},
   {key: 'waterproofing', href: '/waterproofing/'},
   {key: 'snow-removal', href: '/snow-removal/'},
+  {key: 'trenchless', href: '/trenchless/'},
 ];
 
 export default async function HomeServicesOverview() {
@@ -159,10 +160,10 @@ export default async function HomeServicesOverview() {
           ))}
         </StaggerContainer>
 
-        {/* Phase M.10c D4 — four division-landing buttons. 4-col lg+,
+        {/* Phase B.12 — five division-landing buttons. 5-col lg+,
             2-col sm/md, stacked xs. Reuses the existing .btn-secondary class. */}
         <AnimateIn variant="fade-up" className="mt-10 lg:mt-14">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 lg:gap-4">
             {DIVISION_CTAS.map((cta) => (
               <Link
                 key={cta.key}

@@ -57,6 +57,7 @@ export const quoteLeadPartial = defineType({
           {title: 'Hardscape', value: 'hardscape'},
           {title: 'Waterproofing', value: 'waterproofing'},
           {title: 'Snow Removal', value: 'snow-removal'},
+          {title: 'Trenchless & Directional Boring', value: 'trenchless'},
         ],
       },
       description: 'Phase M.01e-pt2 — renamed from `audience`.',

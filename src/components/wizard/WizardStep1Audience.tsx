@@ -28,6 +28,7 @@ const TILE_ORDER: readonly WizardDivision[] = [
   'hardscape',
   'waterproofing',
   'snow-removal',
+  'trenchless',
 ];
 
 type Props = {

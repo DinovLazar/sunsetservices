@@ -40,6 +40,7 @@ const ENTRIES: Entry[] = [
   {key: 'hardscape', href: '/hardscape/', fallback: hardscapeSrc, tracking: 'home-division-hardscape', unilock: true},
   {key: 'waterproofing', href: '/waterproofing/', fallback: residentialSrc, tracking: 'home-division-waterproofing'},
   {key: 'snow-removal', href: '/snow-removal/', fallback: commercialSrc, tracking: 'home-division-snow-removal'},
+  {key: 'trenchless', href: '/trenchless/', fallback: commercialSrc, tracking: 'home-division-trenchless'},
 ];
 
 export default async function HomeAudienceEntries() {
@@ -61,8 +62,10 @@ export default async function HomeAudienceEntries() {
     return {photo: entry.fallback, fromSanity: false};
   };
 
-  // D4 — the grid degrades to 3 columns cleanly if a division is removed.
-  const lgCols = ENTRIES.length >= 4 ? 'lg:grid-cols-4' : 'lg:grid-cols-3';
+  // D4 — the grid stays balanced as divisions are added/removed: 5 → one row
+  // of 5, 4 → one row of 4, ≤3 → 3 columns. (Phase B.12 added trenchless = 5.)
+  const lgCols =
+    ENTRIES.length >= 5 ? 'lg:grid-cols-5' : ENTRIES.length >= 4 ? 'lg:grid-cols-4' : 'lg:grid-cols-3';
 
   return (
     <section

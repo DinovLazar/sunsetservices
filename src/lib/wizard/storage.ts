@@ -53,7 +53,7 @@ type LegacyAutosavePayload = {
   savedAt: number;
 };
 
-const VALID_DIVISIONS = new Set(['landscape', 'hardscape', 'waterproofing', 'snow-removal']);
+const VALID_DIVISIONS = new Set(['landscape', 'hardscape', 'waterproofing', 'snow-removal', 'trenchless']);
 
 function isBrowser(): boolean {
   return typeof window !== 'undefined' && typeof window.localStorage !== 'undefined';

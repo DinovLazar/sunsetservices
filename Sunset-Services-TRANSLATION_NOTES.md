@@ -336,6 +336,7 @@ Sunset Services, Erick Valle, Nick Valle, Marcin, Unilock, Aurora, Naperville, W
 | Hardscape | **Pavimentos y construcción exterior** |
 | Waterproofing | **Impermeabilización** |
 | Snow Removal | **Remoción de nieve** |
+| Trenchless & Directional Boring | **Perforación Direccional y Sin Zanja** (Phase B.12; short chip form **Perforación**) |
 
 > CONFLICT with established voice: the live site (home.divisions, nav, footer, division landings) keeps **"Hardscape"** in English (Phase 2.11 decision). M.01f1 conformed the new division surfaces to the established **"Hardscape"** to avoid mid-site inconsistency, and did NOT impose "Pavimentos y construcción exterior." Erick decides the sitewide division-name treatment in M.03.
 
@@ -373,6 +374,14 @@ The 16 existing services are reference-only (live strings out of scope). The 14 
 | **sidewalk-shoveling** | limpieza de aceras | **FIXED** — was "Pala de Senderos" (services.ts name+h1 + nav label) |
 | **driveway-snow-removal** | remoción de nieve en cocheras (locked) | KEPT "Remoción de Nieve en Entradas" to match established "entradas" — see §8 |
 | **commercial-snow-plowing** | remoción comercial de nieve | **FIXED** — was "Arado Comercial de Nieve" (services.ts name+h1 + nav label) |
+| **conduit-installation** | Instalación de Conductos | B.12 — APPLIED (services.ts + nav) |
+| **trenching-excavation** | Zanjeo y Excavación | B.12 — APPLIED |
+| **sewer-line-replacement** | Reemplazo de Línea de Drenaje | B.12 — APPLIED. "drenaje" for sewer per glossary; "alcantarillado" rejected as less homeowner-friendly |
+| **missile-boring** | Perforación con Topo Neumático | B.12 — APPLIED. "topo neumático" = pneumatic mole/missile; **flag for native review** (regional term) |
+| **handhole-pull-box** | Cajas de Registro y de Tiro | B.12 — APPLIED |
+| **pipe-fusing** | Fusión de Tubería de Polietileno | B.12 — APPLIED. Body uses "termofusión a tope" (butt-fusion) + "electrofusión"; **flag for native review** |
+
+> **Phase B.12 native-review flags (Trenchless & Directional Boring).** First-pass ES, `tú` register on all 6 service pages + the `division.trenchless.*` landing (marketing, per §2). Deliberate ambiguities for Erick/native review: (1) "**topo neumático**" for *missile boring* — accurate but regional; (2) "**termofusión a tope / electrofusión**" for *butt-fusion / electrofusion* — trade-correct, confirm reads naturally; (3) "**sin zanja**" used as the umbrella for *trenchless* (chip = "Perforación", landing kicker = "Perforación Direccional y Sin Zanja"); (4) "**línea de drenaje**" for *sewer line* (conforms to the sitewide "drenaje" choice, not "alcantarillado"). EN meta `<title>` intentionally uses the fuller SEO name "Trenchless **Drilling** & Directional Boring" while every display surface uses "Trenchless & Directional Boring" (no ES "Drilling" equivalent added — ES title = the locked label).
 
 ### 6. Common terms — locked
 

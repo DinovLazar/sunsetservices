@@ -41,7 +41,7 @@ export function Body() {
 
       <h2>{`2. Description of Services`}</h2>
       <p>
-        {`Sunset Services provides residential and commercial landscaping, hardscaping (including Unilock-certified paver patios and retaining walls), waterproofing, and snow-removal services in Aurora, Naperville, and surrounding western Chicago suburbs. The Site provides information about our services and lets you contact us, request a quote, subscribe to our newsletter, chat with our AI assistant, and book consultations.`}
+        {`Sunset Services provides residential and commercial landscaping, hardscaping (including Unilock-certified paver patios and retaining walls), waterproofing, snow-removal, and trenchless drilling and directional boring services in Aurora, Naperville, and surrounding western Chicago suburbs. The Site provides information about our services and lets you contact us, request a quote, subscribe to our newsletter, chat with our AI assistant, and book consultations.`}
       </p>
 
       <h2>{`3. No Online Sales — Estimates Only`}</h2>

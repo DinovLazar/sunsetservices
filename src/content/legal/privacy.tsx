@@ -28,7 +28,7 @@ export function Body() {
       <p>
         {`This Privacy Policy explains how E VALLE INC, doing business as Sunset Services U.S. ("Sunset Services," "we," "us," or "our"), collects, uses, and shares information when you visit `}
         <strong>sunsetservices.us</strong>
-        {` (the "Site") or contact us for landscaping, hardscaping, waterproofing, or snow-removal services. We serve homeowners, HOA boards, and commercial property managers primarily in Aurora, Naperville, and the surrounding western Chicago suburbs of Illinois.`}
+        {` (the "Site") or contact us for landscaping, hardscaping, waterproofing, snow-removal, or trenchless and directional boring services. We serve homeowners, HOA boards, and commercial property managers primarily in Aurora, Naperville, and the surrounding western Chicago suburbs of Illinois.`}
       </p>
       <p>
         {`This Policy is provided for general informational purposes and is written in plain language so it is easy to understand. By using the Site, you agree to this Policy.`}

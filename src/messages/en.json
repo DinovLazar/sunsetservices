@@ -20,8 +20,8 @@
     },
     "divisions": {
       "eyebrow": "What we do",
-      "h2": "Four divisions. One accountable crew.",
-      "sub": "Pick the work that fits — landscape, hardscape, waterproofing, snow removal. Same crew accountability across all four.",
+      "h2": "Five divisions. One accountable crew.",
+      "sub": "Pick the work that fits — landscape, hardscape, waterproofing, snow removal, trenchless. Same crew accountability across all five.",
       "unilockChip": "UNILOCK",
       "landscape": {
         "tag": "Landscape",
@@ -50,12 +50,19 @@
         "desc": "Driveways, sidewalks, de-icing, and commercial plowing. 24/7 dispatch, 2-hour response after trigger.",
         "cta": "Explore Snow Removal",
         "alt": "A freshly plowed driveway at dawn with snow piled cleanly off to one side."
+      },
+      "trenchless": {
+        "tag": "Trenchless",
+        "h3": "Lines in, yard intact.",
+        "desc": "Conduit, sewer lines, trenching, boring, pull boxes, and HDPE fusing — six services for getting utilities in the ground.",
+        "cta": "Explore Trenchless",
+        "alt": "Underground utility installation on a DuPage County property at golden hour."
       }
     },
     "services": {
       "eyebrow": "What we do",
       "h2": "Built for the property, not the brochure.",
-      "sub": "Nine of our most-asked services. Twenty-eight total across our four divisions — explore them from the menu.",
+      "sub": "Nine of our most-asked services. Thirty-four total across our five divisions — explore them from the menu.",
       "tile": {
         "lawnCare": "Lawn Care",
         "patios": "Patios & Walkways",
@@ -82,7 +89,8 @@
         "landscape": "All Landscape Services",
         "hardscape": "All Hardscape Services",
         "waterproofing": "All Waterproofing Services",
-        "snow-removal": "All Snow Removal Services"
+        "snow-removal": "All Snow Removal Services",
+        "trenchless": "All Trenchless Services"
       }
     },
     "social": {
@@ -534,6 +542,86 @@
         "phonePrefix": "or call",
         "phoneNumber": "(630) 946-9321"
       }
+    },
+    "trenchless": {
+      "label": "Trenchless & Directional Boring",
+      "meta": {
+        "title": "Trenchless Drilling & Directional Boring in DuPage County — Sunset Services",
+        "description": "Conduit installation, trenching, sewer line replacement, missile boring, handhole and pull-box installation, and HDPE pipe fusing across DuPage County. We locate before we dig. Free 48-hour estimates."
+      },
+      "hero": {
+        "kicker": "TRENCHLESS & DIRECTIONAL BORING DIVISION",
+        "h1": "Lines in the ground. Yard intact.",
+        "subhead": "Conduit, sewer laterals, and utility crossings — installed by directional boring and open-cut trenching. Six services for getting lines in the ground across DuPage County. We locate before we dig, and restore what we touch.",
+        "alt": "Underground utility installation on a DuPage County property at golden hour.",
+        "primary": "Get a Free Estimate",
+        "secondary": "View Trenchless Projects"
+      },
+      "qualifier": {
+        "eyebrow": "FOR DUPAGE PROPERTIES",
+        "h2": "Who this is for.",
+        "body": "If you need power or data run to a detached structure, a failed sewer lateral replaced, or a utility line crossed under the driveway without tearing it up — this page is for you. We locate before we dig and put the surface back the way we found it.",
+        "pills": {
+          "one": "Locate before we dig (811)",
+          "two": "Trenchless or open-cut",
+          "three": "Free 48-hr estimate",
+          "four": "Bilingual EN · ES"
+        }
+      },
+      "servicesGrid": {
+        "eyebrow": "SIX TRENCHLESS SERVICES",
+        "h2": "Services in the trenchless division.",
+        "sub": "Pick a service to see what's included, our process, and recent jobs."
+      },
+      "featuredProjects": {
+        "eyebrow": "RECENT WORK",
+        "h2": "Featured trenchless projects.",
+        "viewAll": "View all trenchless",
+        "tiles": {
+          "one": {"title": "Naperville conduit run", "meta": "Naperville · 2024"},
+          "two": {"title": "Wheaton sewer replacement", "meta": "Wheaton · 2024"},
+          "three": {"title": "Glen Ellyn driveway bore", "meta": "Glen Ellyn · 2024"}
+        }
+      },
+      "whySunset": {
+        "eyebrow": "WHY SUNSET",
+        "h2": "Underground work, done right.",
+        "props": {
+          "one": {"headline": "Locate before we dig", "description": "811 every job — marked, verified, and hand-dug near the lines.", "icon": "SearchCheck"},
+          "two": {"headline": "Trenchless or open-cut", "description": "We pick the method that protects your driveway and landscaping.", "icon": "Route"},
+          "three": {"headline": "Same crew, one contact", "description": "One accountable lead from estimate to final walkthrough.", "icon": "Users"},
+          "four": {"headline": "Licensed, insured, bilingual", "description": "A DuPage family business since 2000. Crews speak EN · ES.", "icon": "ShieldCheck"}
+        }
+      },
+      "socialProof": {
+        "eyebrow": "FROM DUPAGE PROPERTY OWNERS",
+        "h2": "Credentials you can verify.",
+        "credentials": {
+          "one": {"big": "Family-run", "sub": "since 2000"},
+          "two": {"big": "811", "sub": "locate before we dig"},
+          "three": {"big": "Free", "sub": "48-hr estimates"},
+          "four": {"big": "EN · ES", "sub": "bilingual crews"}
+        }
+      },
+      "faq": {
+        "eyebrow": "QUESTIONS · ANSWERED",
+        "h2": "Common questions about trenchless work.",
+        "items": {
+          "one": {"q": "What's the difference between trenchless and open-cut?", "a": "Trenchless methods — directional boring, missile boring, pipe bursting — install lines underground from small pits, so we don't trench the whole run. Open-cut digs the full length. We pick whichever protects your property and fits the job, and tell you which during the estimate."},
+          "two": {"q": "Will you tear up my driveway or lawn?", "a": "Usually not. A bore crosses under driveways, walks, and landscaping from two small pits. Where open-cut is the right call, we restore the surface — soil, gravel, or sod — once the work is in."},
+          "three": {"q": "Do you call 811 before digging?", "a": "Every time. We file the 811 locate, wait for utilities to be marked, and hand-dig around marked lines. Locate-before-dig isn't optional on our jobs."},
+          "four": {"q": "Can you replace a sewer line without digging up the whole yard?", "a": "Often, yes. We camera the lateral first, then use trenchless pipe bursting where the run allows — pulling new pipe along the old path. Where it doesn't, we dig, replace, and restore after."},
+          "five": {"q": "Are estimates free?", "a": "Yes — site visit, utility-locate planning, and an itemized estimate are free, back to you within 48 hours. We don't quote underground work without seeing the site."}
+        }
+      },
+      "cta": {
+        "eyebrow": "READY WHEN YOU ARE",
+        "h2": "Tell us about the run.",
+        "body": "Free site visit and itemized estimate within 48 hours. We locate before we dig — and quote before we start.",
+        "button": "Get a Free Estimate",
+        "phonePrefix": "or call",
+        "phoneNumber": "(630) 946-9321"
+      }
     }
   },
   "servicePage": {
@@ -582,7 +670,8 @@
         "hardscape": "Often combined with this.",
         "landscape": "More from the Landscape division.",
         "waterproofing": "Often combined with waterproofing.",
-        "snow-removal": "More from the Snow Removal division."
+        "snow-removal": "More from the Snow Removal division.",
+        "trenchless": "More from the Trenchless division."
       }
     },
     "cta": {
@@ -610,6 +699,7 @@
         "hardscapeTitle": "Hardscape",
         "waterproofingTitle": "Waterproofing",
         "snowRemovalTitle": "Snow Removal",
+        "trenchlessTitle": "Trenchless & Directional Boring",
         "serviceAreasTitle": "Service Areas",
         "landscape": {
           "lawnCare": "Lawn Care",
@@ -647,13 +737,21 @@
           "deIcing": "De-Icing",
           "commercial": "Commercial Snow Plowing"
         },
+        "trenchless": {
+          "conduitInstallation": "Conduit Installation",
+          "trenchingExcavation": "Trenching & Excavation",
+          "sewerLineReplacement": "Sewer Line Replacement",
+          "missileBoring": "Missile Boring",
+          "handholePullBox": "Handhole / Pull Box",
+          "pipeFusing": "HDPE Pipe Fusing"
+        },
         "serviceAreas": {
           "oakBrook": "Oak Brook",
           "hinsdale": "Hinsdale",
           "seeAll": "See all 22 cities →"
         },
         "photoCaption": "See recent projects →",
-        "photoSubcaption": "30+ projects across 4 divisions"
+        "photoSubcaption": "30+ projects across 5 divisions"
       },
       "resourcesPanel": {
         "resourcesTitle": "Resources",
@@ -706,6 +804,7 @@
         "hardscape": "Hardscape",
         "waterproofing": "Waterproofing",
         "snowRemoval": "Snow Removal",
+        "trenchless": "Trenchless & Directional Boring",
         "allServices": "All services →",
         "blog": "Blog",
         "residential": "Residential",
@@ -995,6 +1094,7 @@
         "hardscape": "Hardscape",
         "waterproofing": "Waterproofing",
         "snow-removal": "Snow Removal",
+        "trenchless": "Trenchless & Directional Boring",
         "other": "Other"
       },
       "message": {
@@ -1170,7 +1270,8 @@
       "landscape": "LANDSCAPE",
       "hardscape": "HARDSCAPE",
       "waterproofing": "WATERPROOFING",
-      "snow-removal": "SNOW REMOVAL"
+      "snow-removal": "SNOW REMOVAL",
+      "trenchless": "TRENCHLESS"
     },
     "filter": {
       "label": "Filter by division",
@@ -1178,7 +1279,8 @@
       "landscape": "Landscape · {count}",
       "hardscape": "Hardscape · {count}",
       "waterproofing": "Waterproofing · {count}",
-      "snow-removal": "Snow Removal · {count}"
+      "snow-removal": "Snow Removal · {count}",
+      "trenchless": "Trenchless · {count}"
     },
     "pagination": {
       "prev": "Previous page",
@@ -1430,6 +1532,11 @@
         "title": "Snow Removal",
         "dek": "Driveways, sidewalks, de-icing, commercial plowing 24/7.",
         "alt": "A freshly plowed driveway at dawn with snow piled cleanly off to one side."
+      },
+      "trenchless": {
+        "title": "Trenchless & Directional Boring",
+        "dek": "Conduit, sewer lines, trenching, boring, pull boxes, and HDPE fusing.",
+        "alt": "Underground utility installation on a DuPage County property at golden hour."
       }
     },
     "step2": {
@@ -1437,7 +1544,8 @@
         "landscape": "Which landscape services?",
         "hardscape": "Which hardscape projects?",
         "waterproofing": "Which waterproofing services?",
-        "snow-removal": "Which snow removal services?"
+        "snow-removal": "Which snow removal services?",
+        "trenchless": "Which trenchless services?"
       },
       "helper": "Pick all that apply. Set a primary if more than one.",
       "primary": "PRIMARY SERVICE",

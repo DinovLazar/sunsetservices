@@ -20,8 +20,8 @@
     },
     "divisions": {
       "eyebrow": "Lo que hacemos",
-      "h2": "Cuatro divisiones. Un equipo responsable.",
-      "sub": "Elige el trabajo que te queda — paisajismo, hardscape, impermeabilización, remoción de nieve. La misma responsabilidad de equipo en las cuatro.",
+      "h2": "Cinco divisiones. Un equipo responsable.",
+      "sub": "Elige el trabajo que te queda — paisajismo, hardscape, impermeabilización, remoción de nieve, perforación. La misma responsabilidad de equipo en las cinco.",
       "unilockChip": "UNILOCK",
       "landscape": {
         "tag": "Paisajismo",
@@ -50,12 +50,19 @@
         "desc": "Entradas, senderos, deshielo y remoción comercial de nieve. Despacho 24/7, respuesta en 2 horas tras activación.",
         "cta": "Explorar Remoción de Nieve",
         "alt": "Una entrada recién arada al amanecer con la nieve apilada limpiamente a un lado."
+      },
+      "trenchless": {
+        "tag": "Perforación",
+        "h3": "Líneas bajo tierra, jardín intacto.",
+        "desc": "Conductos, líneas de drenaje, zanjeo, perforación, cajas de registro y fusión de polietileno — seis servicios para meter servicios bajo tierra.",
+        "cta": "Explorar Perforación",
+        "alt": "Instalación de servicios subterráneos en una propiedad de DuPage County a la hora dorada."
       }
     },
     "services": {
       "eyebrow": "Lo que hacemos",
       "h2": "Construido para la propiedad, no para el folleto.",
-      "sub": "Nueve de nuestros servicios más solicitados. Veintiocho en total en nuestras cuatro divisiones — explóralos desde el menú.",
+      "sub": "Nueve de nuestros servicios más solicitados. Treinta y cuatro en total en nuestras cinco divisiones — explóralos desde el menú.",
       "tile": {
         "lawnCare": "Cuidado de Césped",
         "patios": "Patios y Senderos",
@@ -82,7 +89,8 @@
         "landscape": "Todos los Servicios de Paisajismo",
         "hardscape": "Todos los Servicios de Hardscape",
         "waterproofing": "Todos los Servicios de Impermeabilización",
-        "snow-removal": "Todos los Servicios de Remoción de Nieve"
+        "snow-removal": "Todos los Servicios de Remoción de Nieve",
+        "trenchless": "Todos los Servicios de Perforación"
       }
     },
     "social": {
@@ -534,6 +542,86 @@
         "phonePrefix": "o llama al",
         "phoneNumber": "(630) 946-9321"
       }
+    },
+    "trenchless": {
+      "label": "Perforación Direccional y Sin Zanja",
+      "meta": {
+        "title": "Perforación Direccional y Sin Zanja en DuPage County — Sunset Services",
+        "description": "Instalación de conductos, zanjeo, reemplazo de líneas de drenaje, perforación con topo neumático, cajas de registro y de tiro, y fusión de tubería de polietileno en DuPage County. Localizamos antes de excavar. Estimados gratis en 48 horas."
+      },
+      "hero": {
+        "kicker": "DIVISIÓN DE PERFORACIÓN DIRECCIONAL Y SIN ZANJA",
+        "h1": "Líneas bajo tierra. Jardín intacto.",
+        "subhead": "Conductos, líneas de drenaje y cruces de servicios — instalados con perforación direccional y zanjeo a cielo abierto. Seis servicios para meter líneas bajo tierra en DuPage County. Localizamos antes de excavar y restauramos lo que tocamos.",
+        "alt": "Instalación de servicios subterráneos en una propiedad de DuPage County a la hora dorada.",
+        "primary": "Obtén un Estimado Gratis",
+        "secondary": "Ver Proyectos de Perforación"
+      },
+      "qualifier": {
+        "eyebrow": "PARA PROPIEDADES DE DUPAGE",
+        "h2": "Para quién es esto.",
+        "body": "Si necesitas llevar energía o datos a una estructura separada, reemplazar una línea de drenaje dañada, o cruzar una línea de servicios bajo la entrada sin destrozarla — esta página es para ti. Localizamos antes de excavar y dejamos la superficie como la encontramos.",
+        "pills": {
+          "one": "Localizamos antes de excavar (811)",
+          "two": "Sin zanja o a cielo abierto",
+          "three": "Estimado gratis en 48 h",
+          "four": "Bilingüe EN · ES"
+        }
+      },
+      "servicesGrid": {
+        "eyebrow": "SEIS SERVICIOS SIN ZANJA",
+        "h2": "Servicios en la división de perforación.",
+        "sub": "Elige un servicio para ver qué incluye, nuestro proceso y trabajos recientes."
+      },
+      "featuredProjects": {
+        "eyebrow": "TRABAJO RECIENTE",
+        "h2": "Proyectos de perforación destacados.",
+        "viewAll": "Ver todo de perforación",
+        "tiles": {
+          "one": {"title": "Conducto en Naperville", "meta": "Naperville · 2024"},
+          "two": {"title": "Reemplazo de drenaje en Wheaton", "meta": "Wheaton · 2024"},
+          "three": {"title": "Cruce bajo entrada en Glen Ellyn", "meta": "Glen Ellyn · 2024"}
+        }
+      },
+      "whySunset": {
+        "eyebrow": "POR QUÉ SUNSET",
+        "h2": "Trabajo subterráneo, bien hecho.",
+        "props": {
+          "one": {"headline": "Localizamos antes de excavar", "description": "811 en cada trabajo — marcado, verificado y excavado a mano cerca de las líneas.", "icon": "SearchCheck"},
+          "two": {"headline": "Sin zanja o a cielo abierto", "description": "Elegimos el método que protege tu entrada y tu jardinería.", "icon": "Route"},
+          "three": {"headline": "Mismo equipo, un contacto", "description": "Un líder responsable desde el estimado hasta el recorrido final.", "icon": "Users"},
+          "four": {"headline": "Con licencia, asegurados, bilingües", "description": "Un negocio familiar de DuPage desde 2000. Las cuadrillas hablan EN · ES.", "icon": "ShieldCheck"}
+        }
+      },
+      "socialProof": {
+        "eyebrow": "DE PROPIETARIOS DE DUPAGE",
+        "h2": "Credenciales que puedes verificar.",
+        "credentials": {
+          "one": {"big": "Familiar", "sub": "desde 2000"},
+          "two": {"big": "811", "sub": "localizamos antes de excavar"},
+          "three": {"big": "Gratis", "sub": "estimados en 48 h"},
+          "four": {"big": "EN · ES", "sub": "cuadrillas bilingües"}
+        }
+      },
+      "faq": {
+        "eyebrow": "PREGUNTAS · RESPONDIDAS",
+        "h2": "Preguntas comunes sobre el trabajo sin zanja.",
+        "items": {
+          "one": {"q": "¿Cuál es la diferencia entre sin zanja y a cielo abierto?", "a": "Los métodos sin zanja — perforación direccional, topo neumático, reventado de tubería — instalan líneas bajo tierra desde pozos pequeños, sin abrir todo el tramo. El método a cielo abierto excava toda la longitud. Elegimos el que protege tu propiedad y conviene al trabajo, y te decimos cuál durante el estimado."},
+          "two": {"q": "¿Van a destrozar mi entrada o mi césped?", "a": "Por lo general no. Un cruce pasa bajo entradas, aceras y jardinería desde dos pozos pequeños. Donde lo correcto es a cielo abierto, restauramos la superficie — tierra, grava o césped — cuando el trabajo queda listo."},
+          "three": {"q": "¿Llaman al 811 antes de excavar?", "a": "Siempre. Solicitamos la localización 811, esperamos a que marquen los servicios y excavamos a mano cerca de las líneas marcadas. Localizar antes de excavar no es opcional en nuestros trabajos."},
+          "four": {"q": "¿Pueden reemplazar una línea de drenaje sin excavar todo el jardín?", "a": "Muchas veces sí. Primero pasamos una cámara por la línea, luego usamos reventado sin zanja donde el tramo lo permite — jalando tubería nueva por la ruta vieja. Donde no, excavamos, reemplazamos y restauramos después."},
+          "five": {"q": "¿Los estimados son gratis?", "a": "Sí — la visita al sitio, la planeación de la localización y un estimado detallado son gratis, de vuelta contigo en 48 horas. No cotizamos trabajo subterráneo sin ver el sitio."}
+        }
+      },
+      "cta": {
+        "eyebrow": "CUANDO ESTÉS LISTO",
+        "h2": "Cuéntanos sobre el tramo.",
+        "body": "Visita al sitio y estimado detallado gratis en 48 horas. Localizamos antes de excavar — y cotizamos antes de empezar.",
+        "button": "Obtén un Estimado Gratis",
+        "phonePrefix": "o llama al",
+        "phoneNumber": "(630) 946-9321"
+      }
     }
   },
   "servicePage": {
@@ -582,7 +670,8 @@
         "hardscape": "Frecuentemente combinado con esto.",
         "landscape": "Más de la división de Paisajismo.",
         "waterproofing": "Frecuentemente combinado con impermeabilización.",
-        "snow-removal": "Más de la división de Remoción de Nieve."
+        "snow-removal": "Más de la división de Remoción de Nieve.",
+        "trenchless": "Más de la división de Perforación."
       }
     },
     "cta": {
@@ -610,6 +699,7 @@
         "hardscapeTitle": "Hardscape",
         "waterproofingTitle": "Impermeabilización",
         "snowRemovalTitle": "Remoción de Nieve",
+        "trenchlessTitle": "Perforación Direccional y Sin Zanja",
         "serviceAreasTitle": "Áreas de Servicio",
         "landscape": {
           "lawnCare": "Cuidado del Césped",
@@ -647,13 +737,21 @@
           "deIcing": "Deshielo",
           "commercial": "Remoción Comercial de Nieve"
         },
+        "trenchless": {
+          "conduitInstallation": "Instalación de Conductos",
+          "trenchingExcavation": "Zanjeo y Excavación",
+          "sewerLineReplacement": "Reemplazo de Línea de Drenaje",
+          "missileBoring": "Perforación con Topo Neumático",
+          "handholePullBox": "Cajas de Registro y de Tiro",
+          "pipeFusing": "Fusión de Tubería de Polietileno"
+        },
         "serviceAreas": {
           "oakBrook": "Oak Brook",
           "hinsdale": "Hinsdale",
           "seeAll": "Ver las 22 ciudades →"
         },
         "photoCaption": "Ver proyectos recientes →",
-        "photoSubcaption": "Más de 30 proyectos en 4 divisiones"
+        "photoSubcaption": "Más de 30 proyectos en 5 divisiones"
       },
       "resourcesPanel": {
         "resourcesTitle": "Recursos",
@@ -706,6 +804,7 @@
         "hardscape": "Hardscape",
         "waterproofing": "Impermeabilización",
         "snowRemoval": "Remoción de Nieve",
+        "trenchless": "Perforación Direccional y Sin Zanja",
         "allServices": "Todos los servicios →",
         "blog": "Blog",
         "residential": "Residencial",
@@ -995,6 +1094,7 @@
         "hardscape": "Hardscape",
         "waterproofing": "Impermeabilización",
         "snow-removal": "Remoción de Nieve",
+        "trenchless": "Perforación Direccional y Sin Zanja",
         "other": "Otra"
       },
       "message": {
@@ -1170,7 +1270,8 @@
       "landscape": "PAISAJISMO",
       "hardscape": "HARDSCAPE",
       "waterproofing": "IMPERMEABILIZACIÓN",
-      "snow-removal": "REMOCIÓN DE NIEVE"
+      "snow-removal": "REMOCIÓN DE NIEVE",
+      "trenchless": "PERFORACIÓN"
     },
     "filter": {
       "label": "Filtrar por división",
@@ -1178,7 +1279,8 @@
       "landscape": "Paisajismo · {count}",
       "hardscape": "Hardscape · {count}",
       "waterproofing": "Impermeabilización · {count}",
-      "snow-removal": "Remoción de Nieve · {count}"
+      "snow-removal": "Remoción de Nieve · {count}",
+      "trenchless": "Perforación · {count}"
     },
     "pagination": {
       "prev": "Página anterior",
@@ -1430,6 +1532,11 @@
         "title": "Remoción de nieve",
         "dek": "Entradas, banquetas, deshielo, remoción comercial 24/7.",
         "alt": "Una entrada recién despejada al amanecer con la nieve apilada limpiamente a un lado."
+      },
+      "trenchless": {
+        "title": "Perforación Direccional y Sin Zanja",
+        "dek": "Conductos, líneas de drenaje, zanjeo, perforación, cajas y fusión de polietileno.",
+        "alt": "Instalación de servicios subterráneos en una propiedad de DuPage County a la hora dorada."
       }
     },
     "step2": {
@@ -1437,7 +1544,8 @@
         "landscape": "¿Qué servicios de paisajismo?",
         "hardscape": "¿Qué proyectos de hardscape?",
         "waterproofing": "¿Qué servicios de impermeabilización?",
-        "snow-removal": "¿Qué servicios de remoción de nieve?"
+        "snow-removal": "¿Qué servicios de remoción de nieve?",
+        "trenchless": "¿Qué servicios de perforación?"
       },
       "helper": "Elige todos los que apliquen. Marca uno como principal si eliges más de uno.",
       "primary": "SERVICIO PRINCIPAL",

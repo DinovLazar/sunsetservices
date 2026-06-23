@@ -42,6 +42,7 @@ export const DIVISIONS: readonly Division[] = [
   'hardscape',
   'waterproofing',
   'snow-removal',
+  'trenchless',
 ] as const;
 
 export function isDivision(slug: string): slug is Division {
@@ -75,6 +76,9 @@ export type DivisionMeta = {
  *   hardscape       → existing hardscape assets (unchanged)
  *   waterproofing   → reuse residential hero (foundation/exterior context)
  *   snow-removal    → reuse commercial hero (plowing/commercial-property feel)
+ *   trenchless      → reuse commercial hero (utility / excavation / heavy-
+ *                     equipment feel; closest existing context). Phase B.12
+ *                     placeholder pending real trenchless photography.
  */
 export const DIVISION_META: Record<Division, DivisionMeta> = {
   landscape: {
@@ -94,6 +98,11 @@ export const DIVISION_META: Record<Division, DivisionMeta> = {
   },
   'snow-removal': {
     slug: 'snow-removal',
+    heroImageKey: 'commercial',
+    projectTilesKey: 'commercial',
+  },
+  trenchless: {
+    slug: 'trenchless',
     heroImageKey: 'commercial',
     projectTilesKey: 'commercial',
   },

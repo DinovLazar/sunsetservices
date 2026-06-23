@@ -65,12 +65,14 @@ export async function generateMetadata({
       hardscape: 'hardscape',
       waterproofing: 'waterproofing',
       'snow-removal': 'snow removal',
+      trenchless: 'trenchless',
     },
     es: {
       landscape: 'paisajismo',
       hardscape: 'hardscape',
       waterproofing: 'impermeabilización',
       'snow-removal': 'remoción de nieve',
+      trenchless: 'perforación',
     },
   };
   const labelForTitle = divisionLabel[loc][division];

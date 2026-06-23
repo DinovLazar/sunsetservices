@@ -52,6 +52,7 @@ const DOT_COLOR: Record<Division, string> = {
   hardscape: 'var(--color-sunset-amber-700)',
   waterproofing: 'var(--color-sunset-green-900)',
   'snow-removal': 'var(--color-text-primary)',
+  trenchless: 'var(--color-sunset-orange-700)',
 };
 
 /**

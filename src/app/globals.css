@@ -1177,6 +1177,15 @@
     --audience-accent-strong: var(--color-text-primary);
     --audience-chip-bg: var(--color-bg-stone);
   }
+  /* Phase B.12 — Trenchless & Directional Boring. Burnt-sienna orange-700
+     reads earthy/industrial (utility + excavation) and stays distinct from
+     the four existing division accents (green-700, amber-700, green-900,
+     charcoal). orange-700 clears AA for white-on-orange text. */
+  [data-division='trenchless'] {
+    --audience-accent: var(--color-sunset-orange-700);
+    --audience-accent-strong: var(--color-sunset-orange-700);
+    --audience-chip-bg: var(--color-sunset-orange-100);
+  }
 
   /* ---------- 6.12 Skip link ---------- */
   .skip-link {

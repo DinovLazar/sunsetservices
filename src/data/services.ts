@@ -23,7 +23,12 @@ export type Audience = 'residential' | 'commercial' | 'hardscape';
  * backwards-compat through M.01d; M.01e retires it when /residential/* and
  * /commercial/* landings are deleted and replaced with /landscape/* etc.
  */
-export type Division = 'landscape' | 'hardscape' | 'waterproofing' | 'snow-removal';
+export type Division =
+  | 'landscape'
+  | 'hardscape'
+  | 'waterproofing'
+  | 'snow-removal'
+  | 'trenchless';
 
 export type Localized = {en: string; es: string};
 
@@ -159,6 +164,41 @@ const HARDSCAPE_FACTORS: PricingFactor[] = [
     body: {
       en: 'Machine access, grading, and any walls, steps, or drainage in scope.',
       es: 'Acceso de maquinaria, nivelación y muros, escalones o drenaje incluidos.',
+    },
+  },
+];
+
+/**
+ * Pricing factors for trenchless / directional-boring services (Phase B.12).
+ * Trenchless work is NOT priced like lawn care — `GENERIC_FACTORS`' service
+ * frequency / aeration / overseeding language is wrong for a bore or utility
+ * run (the same B-09 §3.9 defect `HARDSCAPE_FACTORS` was created to fix).
+ * These factors describe how a bore/utility job is actually priced: run
+ * length + depth + ground conditions, pipe diameter & material, and site
+ * access + utility locating + surface restoration. Kept to three so the
+ * shared `servicePage.pricing.explainer.lead` ("depends on three things")
+ * copy stays accurate.
+ */
+const TRENCHLESS_FACTORS: PricingFactor[] = [
+  {
+    name: {en: 'Run length, depth & ground', es: 'Longitud, profundidad y terreno'},
+    body: {
+      en: 'Linear feet of the bore or trench, the required depth, and the soil, rock, and water-table conditions that decide which method fits.',
+      es: 'Metros lineales del bore o la zanja, la profundidad requerida y las condiciones de suelo, roca y nivel freático que deciden qué método aplica.',
+    },
+  },
+  {
+    name: {en: 'Pipe diameter & material', es: 'Diámetro y material de tubería'},
+    body: {
+      en: 'Conduit or pipe size, the material (PVC, HDPE, clay), how many runs go in, and whether joints are fused or coupled.',
+      es: 'Tamaño del conducto o tubería, el material (PVC, HDPE, arcilla), cuántos tramos se instalan y si las uniones son fusionadas o acopladas.',
+    },
+  },
+  {
+    name: {en: 'Site access, locating & restoration', es: 'Acceso, localización y restauración'},
+    body: {
+      en: 'Entry and exit pit access around driveways and landscaping, utility locating (811) and potholing before we dig, and surface restoration after.',
+      es: 'Acceso para los pozos de entrada y salida entre entradas y jardinería, localización de servicios (811) y sondeo antes de excavar, y restauración de la superficie al terminar.',
     },
   },
 ];
@@ -4031,6 +4071,798 @@ export const SERVICES: Service[] = [
     ],
     related: ['de-icing', 'driveway-snow-removal', 'sidewalk-shoveling'],
     projectsTag: 'commercial-snow-plowing',
+  },
+
+  {
+    slug: 'conduit-installation',
+    division: 'trenchless',
+    icon: 'Cable',
+    name: {en: 'Conduit Installation', es: 'Instalación de Conductos'},
+    imageKey: 'driveways',
+    hero: {
+      h1: {
+        en: 'Conduit Installation in DuPage County.',
+        es: 'Instalación de Conductos en DuPage County.',
+      },
+      subhead: {
+        en: 'Underground PVC and HDPE conduit for power, fiber, low-voltage, and EV-charger runs — trenchless or open-cut. We locate before we dig and hand you a recorded as-built so the next crew knows exactly where the line sits.',
+        es: 'Conducto subterráneo de PVC y HDPE para energía, fibra, bajo voltaje y cargadores EV — sin zanja o a cielo abierto. Localizamos antes de excavar y te entregamos un as-built registrado para que la próxima cuadrilla sepa exactamente dónde va la línea.',
+      },
+      photoSlot: 'service.conduit-installation.16x9',
+    },
+    whatsIncluded: [
+      {
+        headline: {en: 'PVC & HDPE conduit runs', es: 'Tramos de conducto PVC y HDPE'},
+        description: {
+          en: 'Schedule-40 PVC or fused HDPE sized to the run — trenchless bore or open-cut.',
+          es: 'PVC cédula 40 o HDPE fusionado dimensionado al tramo — bore sin zanja o a cielo abierto.',
+        },
+        icon: 'Spline',
+      },
+      {
+        headline: {en: 'Service to detached structures', es: 'Servicio a estructuras separadas'},
+        description: {
+          en: 'Power or data out to a detached garage, pool, shed, or new addition.',
+          es: 'Energía o datos hasta un garaje separado, alberca, cobertizo o ampliación nueva.',
+        },
+        icon: 'Home',
+      },
+      {
+        headline: {en: 'Low-voltage & data', es: 'Bajo voltaje y datos'},
+        description: {
+          en: 'Fiber, telecom, and landscape-lighting runs pulled clean in their own conduit.',
+          es: 'Fibra, telecom e iluminación de jardín jalados limpios en su propio conducto.',
+        },
+        icon: 'Route',
+      },
+      {
+        headline: {en: 'EV-charger circuits', es: 'Circuitos para cargador EV'},
+        description: {
+          en: 'Conduit sized for a Level 2 charger run from the panel to the parking spot.',
+          es: 'Conducto dimensionado para un cargador Nivel 2 desde el panel hasta el estacionamiento.',
+        },
+        icon: 'Zap',
+      },
+      {
+        headline: {en: 'Pull string, tape & as-built', es: 'Guía, cinta y as-built'},
+        description: {
+          en: 'Pull string and warning tape in every run, with depth recorded as-built.',
+          es: 'Guía de jalado y cinta de advertencia en cada tramo, con la profundidad registrada en el as-built.',
+        },
+        icon: 'FileText',
+      },
+    ],
+    process: [
+      {
+        headline: {en: 'Locate & plan', es: 'Localizamos y planeamos'},
+        description: {
+          en: 'We call 811, mark existing utilities, then map the cleanest path to the structure.',
+          es: 'Llamamos al 811, marcamos los servicios existentes y trazamos la ruta más limpia hasta la estructura.',
+        },
+      },
+      {
+        headline: {en: 'Itemized estimate', es: 'Estimado detallado'},
+        description: {
+          en: 'Free, within 48 hours. Conduit size, method, and restoration all spelled out.',
+          es: 'Gratis, en 48 horas. Tamaño de conducto, método y restauración, todo detallado.',
+        },
+      },
+      {
+        headline: {en: 'Install the conduit', es: 'Instalamos el conducto'},
+        description: {
+          en: 'Same crew bores or trenches the run, sets the conduit, and pulls a string through.',
+          es: 'La misma cuadrilla hace el bore o la zanja, coloca el conducto y pasa una guía.',
+        },
+      },
+      {
+        headline: {en: 'Restore & walkthrough', es: 'Restauramos y recorremos'},
+        description: {
+          en: 'We restore the surface, then walk it with you and hand over a photo log and as-built depth.',
+          es: 'Restauramos la superficie, recorremos contigo y entregamos un registro fotográfico y la profundidad as-built.',
+        },
+      },
+    ],
+    whyUs: [
+      {
+        headline: {en: 'Locate before we dig', es: 'Localizamos antes de excavar'},
+        description: {
+          en: '811 every time, marked and verified, before a single shovel goes in the ground.',
+          es: '811 siempre, marcado y verificado, antes de meter una sola pala a la tierra.',
+        },
+        icon: 'SearchCheck',
+      },
+      {
+        headline: {en: 'One crew, one contact', es: 'Una cuadrilla, un contacto'},
+        description: {
+          en: 'Same crew start to finish, with one person you call who actually answers.',
+          es: 'La misma cuadrilla de principio a fin, con una persona a la que llamas y de verdad contesta.',
+        },
+        icon: 'UserCheck',
+      },
+      {
+        headline: {en: 'Family-run since 2000', es: 'Familiar desde 2000'},
+        description: {
+          en: 'Licensed, insured, and bilingual EN·ES — a DuPage family business, not a call center.',
+          es: 'Con licencia, asegurados y bilingües EN·ES — un negocio familiar de DuPage, no un call center.',
+        },
+        icon: 'ShieldCheck',
+      },
+    ],
+    pricing: {mode: 'explainer', explainerFactors: TRENCHLESS_FACTORS},
+    projects: [
+      {
+        title: {en: 'Naperville detached-garage power', es: 'Energía a garaje separado en Naperville'},
+        meta: {en: 'Naperville · 2024', es: 'Naperville · 2024'},
+        imageKey: 'driveways-1',
+      },
+      {
+        title: {en: 'Wheaton EV-charger conduit', es: 'Conducto para cargador EV en Wheaton'},
+        meta: {en: 'Wheaton · 2024', es: 'Wheaton · 2024'},
+        imageKey: 'property-enhancement-1',
+      },
+    ],
+    related: ['trenching-excavation', 'handhole-pull-box', 'pipe-fusing'],
+    projectsTag: 'conduit-installation',
+  },
+
+  {
+    slug: 'trenching-excavation',
+    division: 'trenchless',
+    icon: 'Shovel',
+    name: {en: 'Trenching & Excavation', es: 'Zanjeo y Excavación'},
+    imageKey: 'retaining-walls',
+    hero: {
+      h1: {
+        en: 'Trenching & Excavation in DuPage County.',
+        es: 'Zanjeo y Excavación en DuPage County.',
+      },
+      subhead: {
+        en: 'Precise open-cut trenching for utilities, drainage, and footings — dug to the right depth and grade, then backfilled and restored. It\'s the open-cut complement to our trenchless work, and every dig starts with an 811 locate.',
+        es: 'Zanjeo abierto y preciso para servicios, drenaje y cimientos — excavado a la profundidad y pendiente correctas, luego rellenado y restaurado. Es el complemento de zanja abierta a nuestro trabajo sin zanja, y cada excavación empieza con una localización 811.',
+      },
+      photoSlot: 'service.trenching-excavation.16x9',
+    },
+    whatsIncluded: [
+      {
+        headline: {en: 'Utility trenches to code depth', es: 'Zanjas de servicios a profundidad de código'},
+        description: {
+          en: 'Open-cut runs for water, gas, electric, and conduit, dug to the depth your inspector requires.',
+          es: 'Tramos abiertos para agua, gas, electricidad y conducto, excavados a la profundidad que exige tu inspector.',
+        },
+        icon: 'Cable',
+      },
+      {
+        headline: {en: 'Drainage trenches cut to grade', es: 'Zanjas de drenaje cortadas a pendiente'},
+        description: {
+          en: 'Trenches sloped to carry water where it should go — French drains, downspout lines, and tie-ins.',
+          es: 'Zanjas con pendiente para llevar el agua donde debe ir — drenajes franceses, líneas de bajantes y conexiones.',
+        },
+        icon: 'Route',
+      },
+      {
+        headline: {en: 'Footing & foundation excavation', es: 'Excavación de zapatas y cimientos'},
+        description: {
+          en: 'Clean, square excavation for footings, piers, and foundation walls, held to plan dimensions.',
+          es: 'Excavación limpia y a escuadra para zapatas, pilares y muros de cimentación, según las dimensiones del plano.',
+        },
+        icon: 'Square',
+      },
+      {
+        headline: {en: 'Hand-dig near marked utilities', es: 'Excavación a mano cerca de servicios marcados'},
+        description: {
+          en: 'After the 811 locate, we hand-dig and pothole around marked lines so nothing gets nicked.',
+          es: 'Tras la localización 811, excavamos a mano y sondeamos alrededor de líneas marcadas para no dañar nada.',
+        },
+        icon: 'Pickaxe',
+      },
+      {
+        headline: {en: 'Backfill, compaction & restoration', es: 'Relleno, compactación y restauración'},
+        description: {
+          en: 'We backfill in lifts, compact each one, and restore the surface — soil, gravel, or sod.',
+          es: 'Rellenamos por capas, compactamos cada una y restauramos la superficie — tierra, grava o césped.',
+        },
+        icon: 'Layers',
+      },
+    ],
+    process: [
+      {
+        headline: {en: 'Locate & plan', es: 'Localizar y planear'},
+        description: {
+          en: 'We call in the 811 utility locate and map the run, depth, and grade before a shovel moves.',
+          es: 'Solicitamos la localización 811 y trazamos el tramo, la profundidad y la pendiente antes de mover una pala.',
+        },
+      },
+      {
+        headline: {en: 'Itemized estimate', es: 'Estimado detallado'},
+        description: {
+          en: 'Free, within 48 hours. You see the scope, the depth, and the restoration line by line.',
+          es: 'Gratis, en 48 horas. Ves el alcance, la profundidad y la restauración línea por línea.',
+        },
+      },
+      {
+        headline: {en: 'Trench & excavate to depth', es: 'Zanjear y excavar a profundidad'},
+        description: {
+          en: 'We cut the trench to depth and grade, hand-digging close to any marked lines.',
+          es: 'Cortamos la zanja a profundidad y pendiente, excavando a mano cerca de líneas marcadas.',
+        },
+      },
+      {
+        headline: {en: 'Backfill, compact & restore', es: 'Rellenar, compactar y restaurar'},
+        description: {
+          en: 'Backfill in compacted lifts, restore the surface, and a final walkthrough with a photo log.',
+          es: 'Rellenamos en capas compactadas, restauramos la superficie y hacemos un recorrido final con registro fotográfico.',
+        },
+      },
+    ],
+    whyUs: [
+      {
+        headline: {en: 'Locate before we dig', es: 'Localizamos antes de excavar'},
+        description: {
+          en: 'Every job starts with an 811 locate and careful hand-digging around marked lines.',
+          es: 'Cada trabajo empieza con una localización 811 y excavación a mano cuidadosa cerca de líneas marcadas.',
+        },
+        icon: 'SearchCheck',
+      },
+      {
+        headline: {en: 'Same crew, one contact', es: 'Mismo equipo, un contacto'},
+        description: {
+          en: 'The same crew runs your trench start to finish, with one person accountable for the job.',
+          es: 'El mismo equipo hace tu zanja de principio a fin, con una persona responsable del trabajo.',
+        },
+        icon: 'UserCheck',
+      },
+      {
+        headline: {en: 'Family-run, licensed & insured', es: 'Familiar, con licencia y seguro'},
+        description: {
+          en: 'Family-run since 2000, licensed and insured, and bilingual in English and Spanish.',
+          es: 'Familiar desde 2000, con licencia y seguro, y bilingüe en inglés y español.',
+        },
+        icon: 'BadgeCheck',
+      },
+    ],
+    pricing: {mode: 'explainer', explainerFactors: TRENCHLESS_FACTORS},
+    projects: [
+      {
+        title: {en: 'Glen Ellyn drainage trench', es: 'Zanja de drenaje en Glen Ellyn'},
+        meta: {en: 'Glen Ellyn · 2024', es: 'Glen Ellyn · 2024'},
+        imageKey: 'retaining-walls-1',
+      },
+      {
+        title: {en: 'Lombard utility trench', es: 'Zanja de servicios en Lombard'},
+        meta: {en: 'Lombard · 2024', es: 'Lombard · 2024'},
+        imageKey: 'property-enhancement-2',
+      },
+    ],
+    related: ['conduit-installation', 'sewer-line-replacement', 'yard-drainage'],
+    projectsTag: 'trenching-excavation',
+  },
+
+  {
+    slug: 'sewer-line-replacement',
+    division: 'trenchless',
+    icon: 'Waypoints',
+    name: {en: 'Sewer Line Replacement', es: 'Reemplazo de Línea de Drenaje'},
+    imageKey: 'property-enhancement',
+    hero: {
+      h1: {
+        en: 'Sewer Line Replacement in DuPage County.',
+        es: 'Reemplazo de Línea de Drenaje en DuPage County.',
+      },
+      subhead: {
+        en: 'Root-intruded, bellied, or collapsed sewer laterals replaced house-to-main. We camera the line and locate the problem before we quote — across DuPage County, no guesswork, no upsell.',
+        es: 'Líneas de drenaje invadidas por raíces, hundidas o colapsadas, reemplazadas de la casa al colector. Inspeccionamos con cámara y localizamos el problema antes de cotizar — en todo DuPage County, sin adivinar, sin presionar.',
+      },
+      photoSlot: 'service.sewer-line-replacement.16x9',
+    },
+    whatsIncluded: [
+      {
+        headline: {en: 'Camera inspection & locate', es: 'Inspección con cámara y localización'},
+        description: {
+          en: 'We run a sewer camera the full lateral, then mark depth and location before any dig.',
+          es: 'Pasamos una cámara por toda la línea, luego marcamos profundidad y ubicación antes de excavar.',
+        },
+        icon: 'SearchCheck',
+      },
+      {
+        headline: {en: 'Full lateral replacement', es: 'Reemplazo de línea completa'},
+        description: {
+          en: 'New pipe from the house connection out to the city main — no patched-together segments.',
+          es: 'Tubería nueva desde la conexión de la casa hasta el colector municipal — sin tramos parchados.',
+        },
+        icon: 'Route',
+      },
+      {
+        headline: {en: 'Trenchless pipe bursting', es: 'Reventado de tubería sin zanja'},
+        description: {
+          en: 'Where the run allows, we pull new pipe through the old path — no full-length trench.',
+          es: 'Donde el tramo lo permite, jalamos tubería nueva por la ruta vieja — sin zanja de extremo a extremo.',
+        },
+        icon: 'Spline',
+      },
+      {
+        headline: {en: 'Root & bellied-pipe repair', es: 'Reparación de raíces y hundimientos'},
+        description: {
+          en: 'We clear root intrusion and correct bellied sections so the line drains at proper slope.',
+          es: 'Eliminamos la invasión de raíces y corregimos los tramos hundidos para que drene con la pendiente correcta.',
+        },
+        icon: 'Wrench',
+      },
+      {
+        headline: {en: 'Cleanout & permit coordination', es: 'Registro y coordinación de permisos'},
+        description: {
+          en: 'We add an accessible cleanout and handle the permit and inspection scheduling for you.',
+          es: 'Instalamos un registro accesible y gestionamos el permiso y la inspección por ti.',
+        },
+        icon: 'ClipboardCheck',
+      },
+    ],
+    process: [
+      {
+        headline: {en: 'Camera inspection & locate', es: 'Inspección con cámara y localización'},
+        description: {
+          en: 'We scope the lateral on camera to confirm the failure, then locate and mark its depth.',
+          es: 'Inspeccionamos la línea con cámara para confirmar la falla, luego localizamos y marcamos su profundidad.',
+        },
+      },
+      {
+        headline: {en: 'Itemized estimate', es: 'Estimado detallado'},
+        description: {
+          en: 'Free, within 48 hours. You see the camera findings and exactly what the fix involves.',
+          es: 'Gratis, en 48 horas. Ves los hallazgos de la cámara y exactamente qué incluye la reparación.',
+        },
+      },
+      {
+        headline: {en: 'Replace the lateral', es: 'Reemplazamos la línea'},
+        description: {
+          en: 'Trenchless pipe bursting where the run allows; dig-and-replace where it doesn\'t.',
+          es: 'Reventado sin zanja donde el tramo lo permite; excavación y reemplazo donde no.',
+        },
+      },
+      {
+        headline: {en: 'Backfill, restore & walkthrough', es: 'Relleno, restauración y recorrido'},
+        description: {
+          en: 'We backfill, restore the surface, then walk the finished job with you and a photo log.',
+          es: 'Rellenamos, restauramos la superficie, luego recorremos el trabajo terminado contigo y un registro fotográfico.',
+        },
+      },
+    ],
+    whyUs: [
+      {
+        headline: {en: 'Camera-diagnose before we quote', es: 'Diagnóstico con cámara antes de cotizar'},
+        description: {
+          en: 'We see the problem and locate it before we dig — you pay for the fix you actually need.',
+          es: 'Vemos el problema y lo localizamos antes de excavar — pagas por la reparación que de verdad necesitas.',
+        },
+        icon: 'SearchCheck',
+      },
+      {
+        headline: {en: 'One crew, one contact', es: 'Un equipo, un contacto'},
+        description: {
+          en: 'The same crew runs the job start to finish, with one accountable person on your call.',
+          es: 'El mismo equipo hace el trabajo de principio a fin, con una persona responsable atendiéndote.',
+        },
+        icon: 'UserCheck',
+      },
+      {
+        headline: {en: 'Licensed, insured, family-run', es: 'Licenciados, asegurados y familiares'},
+        description: {
+          en: 'Licensed and insured, bilingual EN·ES, and family-run in DuPage County since 2000.',
+          es: 'Licenciados y asegurados, bilingües EN·ES, y un negocio familiar en DuPage County desde 2000.',
+        },
+        icon: 'BadgeCheck',
+      },
+    ],
+    pricing: {mode: 'explainer', explainerFactors: TRENCHLESS_FACTORS},
+    projects: [
+      {
+        title: {en: 'Naperville lateral replacement', es: 'Reemplazo de línea en Naperville'},
+        meta: {en: 'Naperville · 2024', es: 'Naperville · 2024'},
+        imageKey: 'property-enhancement-1',
+      },
+      {
+        title: {en: 'Wheaton pipe bursting', es: 'Reventado de tubería en Wheaton'},
+        meta: {en: 'Wheaton · 2024', es: 'Wheaton · 2024'},
+        imageKey: 'driveways-2',
+      },
+    ],
+    related: ['trenching-excavation', 'missile-boring', 'yard-drainage'],
+    projectsTag: 'sewer-line-replacement',
+  },
+
+  {
+    slug: 'missile-boring',
+    division: 'trenchless',
+    icon: 'Drill',
+    name: {en: 'Missile Boring', es: 'Perforación con Topo Neumático'},
+    imageKey: 'driveways',
+    hero: {
+      h1: {
+        en: 'Missile Boring in DuPage County.',
+        es: 'Perforación con Topo Neumático en DuPage County.',
+      },
+      subhead: {
+        en: 'A pneumatic piercing tool drives a small bore under your driveway, walk, or patio so a short utility run crosses without trenching the whole length. You keep the slab and the lawn — we work from two small pits, not an open cut.',
+        es: 'Una herramienta de percusión neumática perfora un túnel pequeño bajo tu entrada, acera o patio para que un cruce de servicios corto pase sin abrir toda la zanja. Conservas la losa y el césped — trabajamos desde dos pozos pequeños, no desde un corte abierto.',
+      },
+      photoSlot: 'service.missile-boring.16x9',
+    },
+    whatsIncluded: [
+      {
+        headline: {en: 'Bores under driveways & walks', es: 'Cruces bajo entradas y aceras'},
+        description: {
+          en: 'The mole crosses under concrete and asphalt — no saw-cut, no patch seam.',
+          es: 'El topo cruza bajo concreto y asfalto — sin corte de sierra, sin junta de parche.',
+        },
+        icon: 'Footprints',
+      },
+      {
+        headline: {en: 'Under mature landscaping', es: 'Bajo jardinería establecida'},
+        description: {
+          en: 'Pass beneath established lawns and beds so the planting stays intact.',
+          es: 'Pasamos bajo céspedes y arriates establecidos para que la siembra quede intacta.',
+        },
+        icon: 'Sparkles',
+      },
+      {
+        headline: {en: 'Short utility crossings', es: 'Cruces de servicios cortos'},
+        description: {
+          en: 'Conduit, water lines, and gas sleeves pulled through on a single short run.',
+          es: 'Conducto, líneas de agua y fundas de gas que jalamos en un solo tramo corto.',
+        },
+        icon: 'Cable',
+      },
+      {
+        headline: {en: 'Launch + receiving pits only', es: 'Solo pozos de lanzamiento y recepción'},
+        description: {
+          en: 'We dig one small entry pit and one exit pit — the run between stays buried.',
+          es: 'Excavamos un pozo de entrada y uno de salida — el tramo entre ellos queda enterrado.',
+        },
+        icon: 'Square',
+      },
+      {
+        headline: {en: 'Line-and-grade check', es: 'Verificación de línea y nivel'},
+        description: {
+          en: 'We confirm direction and depth on every bore before we pull the line through.',
+          es: 'Confirmamos dirección y profundidad en cada cruce antes de jalar la línea.',
+        },
+        icon: 'Ruler',
+      },
+    ],
+    process: [
+      {
+        headline: {en: 'Locate & plan the bore', es: 'Localizamos y planeamos el cruce'},
+        description: {
+          en: '811 utility locate first, then we set the bore path, line, and grade.',
+          es: 'Primero localización de servicios 811, luego fijamos la ruta, línea y nivel.',
+        },
+      },
+      {
+        headline: {en: 'Itemized estimate', es: 'Estimado detallado'},
+        description: {
+          en: 'Free, within 48 hours. You see the run, the pits, and the restoration.',
+          es: 'Gratis, en 48 horas. Ves el tramo, los pozos y la restauración.',
+        },
+      },
+      {
+        headline: {en: 'Drive the bore', es: 'Perforamos el cruce'},
+        description: {
+          en: 'The mole drives across; we pull the line or sleeve through behind it.',
+          es: 'El topo avanza y jalamos la línea o funda detrás de él.',
+        },
+      },
+      {
+        headline: {en: 'Restore + walkthrough', es: 'Restauración y recorrido'},
+        description: {
+          en: 'We backfill the launch and receiving pits, then walk it with a photo log.',
+          es: 'Rellenamos los pozos de lanzamiento y recepción, y lo recorremos con registro fotográfico.',
+        },
+      },
+    ],
+    whyUs: [
+      {
+        headline: {en: 'No torn-up driveway', es: 'Sin entrada destrozada'},
+        description: {
+          en: 'We bore under the slab instead of cutting through it — minimal surface disruption.',
+          es: 'Perforamos bajo la losa en vez de cortarla — mínima alteración de la superficie.',
+        },
+        icon: 'TrendingDown',
+      },
+      {
+        headline: {en: 'Locate before we dig', es: 'Localizar antes de excavar'},
+        description: {
+          en: 'Every bore starts with an 811 locate — we know what is down there first.',
+          es: 'Cada cruce empieza con una localización 811 — sabemos qué hay abajo primero.',
+        },
+        icon: 'SearchCheck',
+      },
+      {
+        headline: {en: 'One crew, one contact', es: 'Un equipo, un contacto'},
+        description: {
+          en: 'Same crew start to finish, family-run since 2000, licensed and insured, EN·ES.',
+          es: 'El mismo equipo de principio a fin, familiar desde 2000, con licencia y seguro, EN·ES.',
+        },
+        icon: 'UserCheck',
+      },
+    ],
+    pricing: {mode: 'explainer', explainerFactors: TRENCHLESS_FACTORS},
+    projects: [
+      {
+        title: {en: 'Naperville driveway crossing', es: 'Cruce bajo entrada en Naperville'},
+        meta: {en: 'Naperville · 2025', es: 'Naperville · 2025'},
+        imageKey: 'driveways-1',
+      },
+      {
+        title: {en: 'Wheaton walkway bore', es: 'Cruce bajo acera en Wheaton'},
+        meta: {en: 'Wheaton · 2025', es: 'Wheaton · 2025'},
+        imageKey: 'driveways-2',
+      },
+    ],
+    related: ['conduit-installation', 'trenching-excavation', 'sewer-line-replacement'],
+    projectsTag: 'missile-boring',
+  },
+
+  {
+    slug: 'handhole-pull-box',
+    division: 'trenchless',
+    icon: 'Box',
+    name: {en: 'Handhole / Pull Box Installation', es: 'Cajas de Registro y de Tiro'},
+    imageKey: 'property-enhancement',
+    hero: {
+      h1: {
+        en: 'Handhole / Pull Box Installation in DuPage County.',
+        es: 'Cajas de Registro y de Tiro en DuPage County.',
+      },
+      subhead: {
+        en: 'Underground handholes, pull boxes, and splice vaults set along your conduit or fiber run so wire can be pulled, spliced, and serviced later without re-digging. We place each box where the run actually needs access and tie it cleanly into the conduit.',
+        es: 'Cajas de registro, cajas de tiro y bóvedas de empalme subterráneas colocadas a lo largo de tu tramo de conducto o fibra, para que el cable se jale, empalme y atienda después sin volver a excavar. Colocamos cada caja donde el tramo de verdad necesita acceso y la conectamos limpio al conducto.',
+      },
+      photoSlot: 'service.handhole-pull-box.16x9',
+    },
+    whatsIncluded: [
+      {
+        headline: {en: 'Polymer-concrete handholes', es: 'Cajas de registro de polímero'},
+        description: {
+          en: 'Polymer-concrete handholes and pull boxes sized to the run and the conductors inside.',
+          es: 'Cajas de registro y de tiro de polímero-concreto dimensionadas al tramo y a los conductores que lleva.',
+        },
+        icon: 'Box',
+      },
+      {
+        headline: {en: 'Junction & splice vaults', es: 'Bóvedas de unión y empalme'},
+        description: {
+          en: 'Larger vaults where runs branch or splice, with room to work the cable inside.',
+          es: 'Bóvedas más grandes donde los tramos se ramifican o empalman, con espacio para trabajar el cable adentro.',
+        },
+        icon: 'Container',
+      },
+      {
+        headline: {en: 'Set flush to grade', es: 'A ras del terreno'},
+        description: {
+          en: 'Each box set true to finished grade, with a traffic-rated lid where it sees vehicles.',
+          es: 'Cada caja a ras del terreno terminado, con tapa para tráfico donde pasan vehículos.',
+        },
+        icon: 'Ruler',
+      },
+      {
+        headline: {en: 'Gravel sump for drainage', es: 'Sumidero de grava para drenaje'},
+        description: {
+          en: 'A gravel base under the box lets water drain instead of pooling around the splice.',
+          es: 'Una base de grava bajo la caja deja drenar el agua en vez de que se acumule junto al empalme.',
+        },
+        icon: 'Layers',
+      },
+      {
+        headline: {en: 'Clean tie-in to the run', es: 'Conexión limpia al tramo'},
+        description: {
+          en: 'Conduit entered and sealed at the box so pulls run smooth and the box stays dry.',
+          es: 'Conducto entrado y sellado en la caja para que los jalados corran suave y la caja quede seca.',
+        },
+        icon: 'Spline',
+      },
+    ],
+    process: [
+      {
+        headline: {en: 'Locate & plan the boxes', es: 'Localizamos y planeamos las cajas'},
+        description: {
+          en: 'We call 811, then mark where access and splice points should fall along the run.',
+          es: 'Llamamos al 811 y luego marcamos dónde deben caer los puntos de acceso y empalme en el tramo.',
+        },
+      },
+      {
+        headline: {en: 'Itemized estimate', es: 'Estimado detallado'},
+        description: {
+          en: 'Free, within 48 hours. Box sizes, lid rating, and restoration all spelled out.',
+          es: 'Gratis, en 48 horas. Tamaños de caja, tapa y restauración, todo detallado.',
+        },
+      },
+      {
+        headline: {en: 'Set to grade & tie in', es: 'A ras y conectamos'},
+        description: {
+          en: 'Same crew sets each box true to grade, beds it on gravel, and ties in the conduit.',
+          es: 'La misma cuadrilla coloca cada caja a ras, la asienta sobre grava y conecta el conducto.',
+        },
+      },
+      {
+        headline: {en: 'Backfill, restore & walkthrough', es: 'Rellenamos, restauramos y recorremos'},
+        description: {
+          en: 'We backfill, restore the surface, then walk it with you and hand over a photo log.',
+          es: 'Rellenamos, restauramos la superficie, recorremos contigo y entregamos un registro fotográfico.',
+        },
+      },
+    ],
+    whyUs: [
+      {
+        headline: {en: 'Set true, tied in clean', es: 'A ras y bien conectado'},
+        description: {
+          en: 'Boxes set flush to grade with clean conduit tie-ins, so the next pull is easy.',
+          es: 'Cajas a ras del terreno con conexiones de conducto limpias, para que el próximo jalado sea fácil.',
+        },
+        icon: 'SearchCheck',
+      },
+      {
+        headline: {en: 'One crew, one contact', es: 'Una cuadrilla, un contacto'},
+        description: {
+          en: 'Same crew start to finish, with one person you call who actually answers.',
+          es: 'La misma cuadrilla de principio a fin, con una persona a la que llamas y de verdad contesta.',
+        },
+        icon: 'UserCheck',
+      },
+      {
+        headline: {en: 'Family-run since 2000', es: 'Familiar desde 2000'},
+        description: {
+          en: 'Licensed, insured, and bilingual EN·ES — a DuPage family business, not a call center.',
+          es: 'Con licencia, asegurados y bilingües EN·ES — un negocio familiar de DuPage, no un call center.',
+        },
+        icon: 'ShieldCheck',
+      },
+    ],
+    pricing: {mode: 'explainer', explainerFactors: TRENCHLESS_FACTORS},
+    projects: [
+      {
+        title: {en: 'Naperville fiber splice vault', es: 'Bóveda de empalme de fibra en Naperville'},
+        meta: {en: 'Naperville · 2024', es: 'Naperville · 2024'},
+        imageKey: 'property-enhancement-1',
+      },
+      {
+        title: {en: 'Wheaton pull-box run', es: 'Tramo con cajas de tiro en Wheaton'},
+        meta: {en: 'Wheaton · 2024', es: 'Wheaton · 2024'},
+        imageKey: 'property-enhancement-2',
+      },
+    ],
+    related: ['conduit-installation', 'pipe-fusing', 'trenching-excavation'],
+    projectsTag: 'handhole-pull-box',
+  },
+
+  {
+    slug: 'pipe-fusing',
+    division: 'trenchless',
+    icon: 'Spline',
+    name: {en: 'HDPE Pipe Fusing', es: 'Fusión de Tubería de Polietileno'},
+    imageKey: 'sprinkler-systems',
+    hero: {
+      h1: {
+        en: 'HDPE Pipe Fusing in DuPage County.',
+        es: 'Fusión de Tubería de Polietileno en DuPage County.',
+      },
+      subhead: {
+        en: 'We heat-fuse HDPE pipe into one continuous, leak-free run with no couplings to fail underground — for water, gas, geothermal, or conduit. Fused sections pre-stage on the surface and pull cleanly behind a directional bore, so the line goes in monolithic and stays put.',
+        es: 'Fusionamos por calor la tubería de polietileno en un solo tramo continuo y sin fugas, sin acoples que fallen bajo tierra — para agua, gas, geotermia o conducto. Las secciones fusionadas se preparan en la superficie y se jalan limpias detrás de un bore direccional, así la línea queda monolítica y firme.',
+      },
+      photoSlot: 'service.pipe-fusing.16x9',
+    },
+    whatsIncluded: [
+      {
+        headline: {en: 'Butt-fusion joints', es: 'Uniones por termofusión a tope'},
+        description: {
+          en: 'Pipe ends faced, heated, and fused into one wall — as strong as the pipe itself.',
+          es: 'Los extremos se rectifican, calientan y fusionan en una sola pared — tan fuertes como el tubo mismo.',
+        },
+        icon: 'Spline',
+      },
+      {
+        headline: {en: 'Electrofusion fittings', es: 'Accesorios por electrofusión'},
+        description: {
+          en: 'Coupler and saddle fittings fused with embedded coils where butt-fusion won\'t reach.',
+          es: 'Acoples y sillas fusionados con resistencias internas donde la fusión a tope no alcanza.',
+        },
+        icon: 'Zap',
+      },
+      {
+        headline: {en: 'Leak-free monolithic runs', es: 'Tramos monolíticos sin fugas'},
+        description: {
+          en: 'Water, gas, geothermal, or conduit joined end to end — no couplings to leak.',
+          es: 'Agua, gas, geotermia o conducto unidos de extremo a extremo — sin acoples que goteen.',
+        },
+        icon: 'Waypoints',
+      },
+      {
+        headline: {en: 'Pre-fused pull sections', es: 'Secciones fusionadas para jalado'},
+        description: {
+          en: 'Runs fused on the surface, then pulled in one piece behind a directional bore.',
+          es: 'Tramos fusionados en la superficie y luego jalados en una pieza detrás de un bore direccional.',
+        },
+        icon: 'Route',
+      },
+      {
+        headline: {en: 'Each joint logged', es: 'Cada unión registrada'},
+        description: {
+          en: 'Every fusion recorded joint by joint, so you have a written record of the run.',
+          es: 'Cada fusión queda registrada unión por unión, así tienes un registro escrito del tramo.',
+        },
+        icon: 'FileText',
+      },
+    ],
+    process: [
+      {
+        headline: {en: 'Plan the run & stage pipe', es: 'Planeamos el tramo y preparamos el tubo'},
+        description: {
+          en: 'We measure lengths, set the fittings, and lay out the fusion plan before any heat goes on.',
+          es: 'Medimos las longitudes, definimos los accesorios y trazamos el plan de fusión antes de aplicar calor.',
+        },
+      },
+      {
+        headline: {en: 'Itemized estimate', es: 'Estimado detallado'},
+        description: {
+          en: 'Free, within 48 hours. Pipe size, joint count, and method all spelled out.',
+          es: 'Gratis, en 48 horas. Tamaño del tubo, número de uniones y método, todo detallado.',
+        },
+      },
+      {
+        headline: {en: 'Fuse the joints', es: 'Fusionamos las uniones'},
+        description: {
+          en: 'Same crew runs the butt-fusion and electrofusion joints to spec, one after another.',
+          es: 'La misma cuadrilla realiza las uniones por fusión a tope y electrofusión según especificación, una tras otra.',
+        },
+      },
+      {
+        headline: {en: 'Pressure-check & walkthrough', es: 'Prueba de presión y recorrido'},
+        description: {
+          en: 'We pressure-test the run, then walk it with you and hand over a photo and fusion log.',
+          es: 'Probamos el tramo a presión, lo recorremos contigo y entregamos un registro fotográfico y de fusión.',
+        },
+      },
+    ],
+    whyUs: [
+      {
+        headline: {en: 'Leak-free, logged by joint', es: 'Sin fugas, registrado por unión'},
+        description: {
+          en: 'Fused joints have no coupling to fail, and we log every fusion joint by joint.',
+          es: 'Las uniones fusionadas no tienen acople que falle, y registramos cada fusión unión por unión.',
+        },
+        icon: 'SearchCheck',
+      },
+      {
+        headline: {en: 'One crew, one contact', es: 'Una cuadrilla, un contacto'},
+        description: {
+          en: 'Same crew start to finish, with one person you call who actually answers.',
+          es: 'La misma cuadrilla de principio a fin, con una persona a la que llamas y de verdad contesta.',
+        },
+        icon: 'UserCheck',
+      },
+      {
+        headline: {en: 'Family-run since 2000', es: 'Familiar desde 2000'},
+        description: {
+          en: 'Licensed, insured, and bilingual EN·ES — a DuPage family business, not a call center.',
+          es: 'Con licencia, asegurados y bilingües EN·ES — un negocio familiar de DuPage, no un call center.',
+        },
+        icon: 'ShieldCheck',
+      },
+    ],
+    pricing: {mode: 'explainer', explainerFactors: TRENCHLESS_FACTORS},
+    projects: [
+      {
+        title: {en: 'Naperville geothermal loop fusing', es: 'Fusión de circuito geotérmico en Naperville'},
+        meta: {en: 'Naperville · 2024', es: 'Naperville · 2024'},
+        imageKey: 'property-enhancement-1',
+      },
+      {
+        title: {en: 'Wheaton water-service fusing', es: 'Fusión de acometida de agua en Wheaton'},
+        meta: {en: 'Wheaton · 2025', es: 'Wheaton · 2025'},
+        imageKey: 'retaining-walls-2',
+      },
+    ],
+    related: ['conduit-installation', 'sewer-line-replacement', 'missile-boring'],
+    projectsTag: 'pipe-fusing',
   },
 ];
 

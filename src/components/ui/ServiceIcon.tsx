@@ -47,6 +47,20 @@ import {
   Anchor,
   Square,
   Axe,
+  // Phase B.12 — Trenchless & Directional Boring icon set.
+  Cable,
+  Shovel,
+  Drill,
+  Box,
+  Spline,
+  Waypoints,
+  Construction,
+  Pickaxe,
+  Route,
+  Container,
+  Gauge,
+  MapPin,
+  SearchCheck,
 } from 'lucide-react';
 
 /**
@@ -104,6 +118,22 @@ const ICONS: Record<string, React.ComponentType<{className?: string; strokeWidth
   Anchor,
   Square,
   Axe,
+  // Phase B.12 — Trenchless & Directional Boring icon set. Also registers
+  // Construction, Gauge, and MapPin, which existing waterproofing services
+  // referenced but were silently falling back to BadgeCheck.
+  Cable,
+  Shovel,
+  Drill,
+  Box,
+  Spline,
+  Waypoints,
+  Construction,
+  Pickaxe,
+  Route,
+  Container,
+  Gauge,
+  MapPin,
+  SearchCheck,
   Grid3x3: Layers,
   Wall: Layers,
 };

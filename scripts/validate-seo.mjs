@@ -21,7 +21,6 @@
  *      emits matching alternates back.
  *   9. <meta name="robots"> correctness:
  *      - /thank-you/ + /es/thank-you/ → must include `noindex`
- *      - /dev/system + /es/dev/system → must include `noindex`
  *      - every other expected URL → must NOT include `noindex`
  *
  * Sitewide checks:
@@ -235,8 +234,6 @@ const EXPECTED_PATHS = [...EN_PATHS, ...ES_PATHS];
 const EXCLUDED_PATHS = new Set([
   '/thank-you',
   '/es/thank-you',
-  '/dev/system',
-  '/es/dev/system',
   '/unsubscribe/SAMPLE_TOKEN_INVALID',
   '/es/unsubscribe/SAMPLE_TOKEN_INVALID',
 ]);
@@ -246,8 +243,6 @@ const EXCLUDED_PATHS = new Set([
 const NOINDEX_PATHS = new Set([
   '/thank-you',
   '/es/thank-you',
-  '/dev/system',
-  '/es/dev/system',
   '/unsubscribe/SAMPLE_TOKEN_INVALID',
   '/es/unsubscribe/SAMPLE_TOKEN_INVALID',
 ]);

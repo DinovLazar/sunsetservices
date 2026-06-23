@@ -19,7 +19,7 @@
  */
 
 import type {Metadata} from 'next';
-import {BUSINESS_NAME} from '@/lib/constants/business';
+import {BUSINESS_NAME_FULL} from '@/lib/constants/business';
 import {SITE_URL, type Locale} from './urls';
 
 type OgImage = {
@@ -99,7 +99,7 @@ export function buildSocialMetadata(input: SocialMetadataInput): {
     title: input.title,
     description: input.description,
     url: input.url,
-    siteName: BUSINESS_NAME,
+    siteName: BUSINESS_NAME_FULL,
     locale: ogLocale,
     type: input.type ?? 'website',
     images: normalizedImages,

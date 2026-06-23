@@ -488,7 +488,7 @@ Si quieres que corramos el calendario para tu propiedad, [reserva un recorrido g
     },
     inlineServiceCrossLink: {audience: 'hardscape', serviceSlug: 'patios-walkways'},
     body: {
-      en: `Most homeowners decide between paver brands by walking into the showroom and picking the color they like. Most installers decide between brands by which one comes back with a warranty problem. We've been laying Unilock since 2003 and laid two competitor brands during the 2008–2010 stretch when supply was tight. Here's what 23 years of installs have surfaced.
+      en: `Most homeowners decide between paver brands by walking into the showroom and picking the color they like. Most installers decide between brands by which one comes back with a warranty problem. We've been a Unilock Authorized Contractor since 2021, and our crew brings years of hands-on paver experience across DuPage. Here's what that experience has surfaced.
 
 ## The four things that separate paver brands
 
@@ -552,7 +552,7 @@ Two cases. First, a temporary install — a homeowner planning to sell in 5 year
 Every Sunset Services hardscape bid lists the brand, the SKU, and the freeze-thaw rating in the spec line. If you're looking at three bids and two of them say "premium pavers" without naming the brand, you're being asked to imagine the same product across three quotes. They are not the same product.
 
 [Request a free site walk](/request-quote/?from=blog&slug=why-unilock-premium-pavers) and we'll bring sample pieces of three Unilock product lines for you to see in your own light.`,
-      es: `La mayoría de propietarios decide entre marcas de adoquines caminando al showroom y eligiendo el color que les gusta. La mayoría de instaladores decide entre marcas por cuál regresa con un problema de garantía. Hemos puesto Unilock desde 2003 y pusimos dos marcas competidoras durante 2008–2010 cuando el suministro estaba apretado.
+      es: `La mayoría de propietarios decide entre marcas de adoquines caminando al showroom y eligiendo el color que les gusta. La mayoría de instaladores decide entre marcas por cuál regresa con un problema de garantía. Somos Contratista Autorizado Unilock desde 2021, y nuestro equipo trae años de experiencia práctica con adoquines en DuPage. Esto es lo que esa experiencia ha revelado.
 
 ## Las cuatro cosas que separan a las marcas
 

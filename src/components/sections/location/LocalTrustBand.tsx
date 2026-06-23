@@ -1,5 +1,6 @@
 import {getTranslations} from 'next-intl/server';
 import AnimateIn from '@/components/global/motion/AnimateIn';
+import GoogleRating from '@/components/ui/GoogleRating';
 import type {LocationCity} from '@/data/locations';
 
 type LocalTrustBandProps = {
@@ -110,6 +111,9 @@ export default async function LocalTrustBand({location, locale}: LocalTrustBandP
                 </p>
               </li>
             </ul>
+          </div>
+          <div className="mt-8 flex justify-center">
+            <GoogleRating tone="light" />
           </div>
         </AnimateIn>
       </div>

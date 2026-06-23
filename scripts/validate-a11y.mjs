@@ -579,6 +579,41 @@ async function validateUrl(context, entry) {
     // current DOM, which is well-formed by domcontentloaded.
   }
 
+  // Settle before measuring: wait for fonts + the eager (hero / above-the-fold)
+  // images to DECODE so axe samples the final, painted background. Without this
+  // the run races the hero-photo decode and intermittently composites
+  // over-image / over-dark-section cream text against the transient white page
+  // fallback — producing flaky `color-contrast` (and knock-on `target-size`)
+  // violations that the very same page clears when measured in isolation. Lazy
+  // (below-the-fold) images are excluded so this never blocks on offscreen media
+  // that is never requested in a headless viewport.
+  try {
+    await page.evaluate(async () => {
+      if (document.fonts && document.fonts.ready) {
+        try {
+          await document.fonts.ready;
+        } catch {
+          /* fonts.ready can reject mid-swap; ignore */
+        }
+      }
+      const eager = Array.from(document.images).filter((img) => img.loading !== 'lazy');
+      await Promise.all(
+        eager.map((img) =>
+          img.complete && img.naturalWidth > 0
+            ? Promise.resolve()
+            : img.decode
+              ? img.decode().catch(() => {})
+              : Promise.resolve(),
+        ),
+      );
+      await new Promise((resolve) =>
+        requestAnimationFrame(() => requestAnimationFrame(resolve)),
+      );
+    });
+  } catch {
+    // Best-effort settle — proceed to axe regardless.
+  }
+
   try {
     const axe = await runAxe(page);
     result.axe = axe;

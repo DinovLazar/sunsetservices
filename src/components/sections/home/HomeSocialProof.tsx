@@ -2,8 +2,10 @@ import Image from 'next/image';
 import {getLocale, getTranslations} from 'next-intl/server';
 import {Check} from 'lucide-react';
 import AnimateIn from '@/components/global/motion/AnimateIn';
+import GoogleRating from '@/components/ui/GoogleRating';
 import unilockBadge from '@/assets/brand/unilock-authorized-contractor.png';
 import {getPublishedReviews} from '@sanity-lib/queries';
+import {REVIEW_SNAPSHOT} from '@/lib/constants/reviews';
 
 /**
  * Home trust / credentials band (Phase M.16). Dark `#23231D` surface,
@@ -24,7 +26,11 @@ const CHIP_KEYS = ['founding', 'years', 'insured', 'area', 'bilingual'] as const
 export default async function HomeSocialProof() {
   const locale = (await getLocale()) === 'es' ? 'es' : 'en';
   const t = await getTranslations('home.social');
-  const reviews = await getPublishedReviews(3);
+  // Real Sanity reviews win; until the live GBP feed lands they're empty, so we
+  // fall back to the confirmed launch snapshot (Step 2 / Hand-off B). The live
+  // feed overrides this automatically with no code change.
+  const fetched = await getPublishedReviews(3);
+  const reviews = fetched.length > 0 ? fetched : REVIEW_SNAPSHOT;
 
   return (
     <section
@@ -114,11 +120,14 @@ export default async function HomeSocialProof() {
             {reviews.length > 0 ? (
               <div className="mt-6">
                 <h3
-                  className="m-0 mb-4 font-heading font-semibold"
+                  className="m-0 mb-3 font-heading font-semibold"
                   style={{fontSize: 'var(--text-h6)', color: 'rgba(250,247,241,0.86)'}}
                 >
                   {t('reviews.title')}
                 </h3>
+                <div className="mb-4">
+                  <GoogleRating tone="dark" />
+                </div>
                 <ul className="flex flex-col gap-3 list-none p-0 m-0">
                   {reviews.map((r) => (
                     <li

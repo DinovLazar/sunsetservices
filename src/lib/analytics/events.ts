@@ -4,6 +4,9 @@
 
 export const ANALYTICS_EVENTS = {
   // Wizard (Phase 2.06)
+  // Step 2 / Hand-off B — fires once when the wizard first mounts (a visitor
+  // begins a quote). Counterpart to the quote_submit_succeeded conversion.
+  WIZARD_STARTED: 'quote_start', // ← CONVERSION
   WIZARD_STEP_ADVANCED: 'wizard_step_advanced',
   WIZARD_SUBMIT_ATTEMPTED: 'wizard_submit_attempted',
   WIZARD_SUBMIT_SUCCEEDED: 'quote_submit_succeeded', // ← CONVERSION

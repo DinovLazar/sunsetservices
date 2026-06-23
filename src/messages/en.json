@@ -111,7 +111,7 @@
       "h2Line1": "Started in 2000 by Nick.",
       "h2Line2": "Run today by Erick, the second generation.",
       "body1": "Sunset Services has been mowing lawns, building patios, and clearing snow in DuPage County for 25+ years. Same family, same crew of long-tenure workers, same 6:30am start.",
-      "body2": "Erick took the company over from Nick in 2018 and added the Unilock-authorized hardscape division. Everything else stayed.",
+      "body2": "Erick took the company over from Nick in 2018, then launched the Unilock-authorized hardscape division in 2021. Everything else stayed.",
       "cta": "Read our story",
       "alt": "Erick Valle, owner of Sunset Services, on a job site in Aurora."
     },
@@ -731,7 +731,7 @@
         "invalidEmail": "Please enter a valid email.",
         "errorMessage": "Something went wrong. Please try again."
       },
-      "copyright": "© {year} Sunset Services. All rights reserved.",
+      "copyright": "© {year} E VALLE INC dba Sunset Services U.S. All rights reserved.",
       "privacy": "Privacy",
       "terms": "Terms",
       "accessibility": "Accessibility",
@@ -2017,5 +2017,9 @@
       "primaryCta": "Get a free estimate",
       "secondaryCta": "Call (630) 946-9321"
     }
+  },
+  "ratings": {
+    "summary": "{count} Google reviews",
+    "aria": "Rated {value} out of 5 stars from {count} Google reviews"
   }
 }

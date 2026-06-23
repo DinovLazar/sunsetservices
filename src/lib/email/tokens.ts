@@ -41,7 +41,9 @@ export const emailTokens = {
     bodyPadding: 32,
   },
   business: {
-    name: 'Sunset Services',
+    // Formal full DBA name (BG-01 §2.1.1) — email header wordmark + footer.
+    name: 'Sunset Services U.S.',
+    legalName: 'E VALLE INC',
     addressLine1: '1630 Mountain St',
     addressLine2: 'Aurora, IL 60505',
     phone: '(630) 946-9321',

@@ -88,3 +88,4 @@ next-env.d.ts
 # Phase M.02 — Lighthouse harness temp artifact (committed snapshot of the
 # table lives at src/_project-state/Phase-M-02-Completion.md)
 /scripts/.lighthouse-report.json
+scratch/

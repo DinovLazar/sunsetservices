@@ -3,6 +3,7 @@ import {getTranslations} from 'next-intl/server';
 import {Link} from '@/i18n/navigation';
 import logoColor from '@/assets/brand/logo-horizontal-fullcolor.png';
 import logoWhite from '@/assets/brand/logo-horizontal-white.png';
+import {BUSINESS_NAME_FULL} from '@/lib/constants/business';
 
 type LogoSkin = 'light' | 'dark';
 
@@ -30,7 +31,7 @@ export default async function Logo({skin = 'light', className}: LogoProps) {
     >
       <Image
         src={skin === 'dark' ? logoWhite : logoColor}
-        alt="Sunset Services"
+        alt={BUSINESS_NAME_FULL}
         width={150}
         height={40}
         style={{height: '40px', width: 'auto'}}

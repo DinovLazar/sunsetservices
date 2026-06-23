@@ -7,6 +7,12 @@
  */
 
 export const WIZARD_EVENTS = {
+  /**
+   * Step 2 / Hand-off B — fires exactly once when the wizard mounts (the
+   * visitor has started a quote). Wire value `quote_start` is the GTM Key-Event
+   * tag for the quote-start conversion; mirrors `ANALYTICS_EVENTS.WIZARD_STARTED`.
+   */
+  STARTED: 'quote_start',
   STEP_VIEWED: (n: 1 | 2 | 3 | 4 | 5) => `wizard_step_viewed_${n}`,
   /**
    * Phase 2.10: replaced the per-step `wizard_step_completed_<n>` family

@@ -164,6 +164,17 @@ export default function WizardShell({photoUploadEnabled = false}: WizardShellPro
     setSessionId(getOrCreateSessionId());
   }, []);
 
+  // ----- Fire the quote_start conversion once on first mount (Step 2 / Hand-off
+  // B). A ref guard keeps it to a single fire across the StrictMode double-invoke
+  // and any later URL/locale changes. -----
+  const startFiredRef = React.useRef(false);
+  React.useEffect(() => {
+    if (startFiredRef.current) return;
+    startFiredRef.current = true;
+    fireWizardEvent(WIZARD_EVENTS.STARTED, {locale});
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   // ----- Fire step_viewed event on URL change -----
   React.useEffect(() => {
     fireWizardEvent(WIZARD_EVENTS.STEP_VIEWED(urlStep), {locale, step: urlStep});

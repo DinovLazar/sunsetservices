@@ -20,7 +20,6 @@ import {canonicalUrl, hreflangAlternates, type Locale} from '@/lib/seo/urls';
  *
  * Excluded by design (per D6 + plan §1):
  *   - `/thank-you/` + `/es/thank-you/` (user-data-bearing, noindex)
- *   - `/dev/system` + `/es/dev/system` (dev surface, noindex)
  *   - `/api/*` + `/og/*` (machine-only handlers)
  *
  * The path strings here are **locale-less** (e.g., `/about`); the

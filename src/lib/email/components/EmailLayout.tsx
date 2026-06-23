@@ -86,7 +86,9 @@ export function EmailLayout({
                 sunsetservices.us
               </Link>
             </Text>
-            <Text style={copyrightStyle}>© 2026 Sunset Services. Aurora, IL.</Text>
+            <Text style={copyrightStyle}>
+              © 2026 {T.business.legalName} dba {T.business.name}. Aurora, IL.
+            </Text>
             {unsubscribeUrl ? (
               <Text style={copyrightStyle}>
                 {locale === 'es' ? (

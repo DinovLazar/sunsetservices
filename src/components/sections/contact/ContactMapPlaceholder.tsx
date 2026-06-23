@@ -1,7 +1,7 @@
 import {getTranslations} from 'next-intl/server';
 import AnimateIn from '@/components/global/motion/AnimateIn';
 import {
-  BUSINESS_NAME,
+  BUSINESS_NAME_FULL,
   BUSINESS_ADDRESS_LINE1,
   BUSINESS_ADDRESS_LINE2,
 } from '@/lib/constants/business';
@@ -96,7 +96,7 @@ export default async function ContactMapPlaceholder() {
                   color: 'var(--color-sunset-green-700)',
                 }}
               >
-                {BUSINESS_NAME}
+                {BUSINESS_NAME_FULL}
               </p>
               <p
                 className="m-0 font-heading"

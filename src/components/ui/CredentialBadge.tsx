@@ -7,7 +7,7 @@ type CredentialBadgeProps = {
   kind: BadgeKind;
   /** Localized H4 title (e.g. "Unilock Authorized Contractor"). */
   title: string;
-  /** Localized subtitle (e.g. "Hardscape division" / "DuPage Tribune · 2024"). */
+  /** Localized subtitle (e.g. "Hardscape division"). */
   caption: string;
 };
 
@@ -20,9 +20,11 @@ type CredentialBadgeProps = {
  *  - `bilingual` → "EN · ES" label
  *  - `insured`   → ShieldCheck icon
  *
- * Phase M.14 (Goran QA B-09): the `tribune` ("Top 5 — DuPage Tribune · 2024",
- * unverifiable award, B3) and `google` ("★ 4.8", inflated rating, B2) kinds
- * were removed and replaced with two verifiable, number-free credentials.
+ * Phase M.14 (Goran QA B-09): the unverifiable local-paper award kind (B3) and
+ * the previously inflated hard-coded Google-rating kind (B2) were removed and
+ * replaced with two verifiable, number-free credentials. The real, confirmed
+ * Google rating (4.8 / 37) now renders via `GoogleRating` from the snapshot
+ * constant (Step 2 / Hand-off B) — this card stays number-free.
  *
  * Marked up as a `<dl>` per Phase 1.11 §9.2 — non-interactive informational
  * pairs read clean for SR users without role overrides.

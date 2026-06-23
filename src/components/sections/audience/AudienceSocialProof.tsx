@@ -2,6 +2,7 @@ import {Star} from 'lucide-react';
 import AnimateIn from '@/components/global/motion/AnimateIn';
 import StaggerContainer from '@/components/global/motion/StaggerContainer';
 import StaggerItem from '@/components/global/motion/StaggerItem';
+import GoogleRating from '@/components/ui/GoogleRating';
 
 type Review = {
   quote: string;
@@ -108,6 +109,9 @@ export default function AudienceSocialProof({
           className={hasReviews ? 'mt-12 lg:mt-14 pt-8 lg:pt-12' : ''}
           style={hasReviews ? {borderTop: '1px solid var(--color-border)'} : undefined}
         >
+          <div className="mb-8 lg:mb-10">
+            <GoogleRating tone="light" />
+          </div>
           <dl className="m-0 grid grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
             {credentials.map((c, idx) => (
               <div key={`${idx}-${c.big}`}>

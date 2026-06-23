@@ -25,7 +25,7 @@ export default function NavbarLink({href, labelKey}: NavbarLinkProps) {
       aria-current={isActive ? 'page' : undefined}
       data-active={isActive || undefined}
       className={[
-        'relative inline-flex items-center px-1 py-2 text-[15px] leading-none no-underline',
+        'relative inline-flex items-center min-h-[24px] px-1 py-2 text-[15px] leading-none no-underline',
         'text-[var(--color-text-primary)] font-medium data-[active=true]:font-semibold',
         'hover:text-[var(--color-sunset-green-700)]',
         'after:content-[""] after:absolute after:left-0 after:bottom-[-6px]',

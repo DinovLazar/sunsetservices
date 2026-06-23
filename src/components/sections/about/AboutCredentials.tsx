@@ -1,6 +1,7 @@
 import {getTranslations} from 'next-intl/server';
 import AnimateIn from '@/components/global/motion/AnimateIn';
 import CredentialBadge from '@/components/ui/CredentialBadge';
+import GoogleRating from '@/components/ui/GoogleRating';
 
 /**
  * About credentials row — Phase 1.11 handover §3.4.
@@ -47,6 +48,9 @@ export default async function AboutCredentials() {
           >
             {t('h2')}
           </h2>
+          <div className="mb-10 lg:mb-12 -mt-4 lg:-mt-8">
+            <GoogleRating tone="light" />
+          </div>
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
             <CredentialBadge
               kind="unilock"

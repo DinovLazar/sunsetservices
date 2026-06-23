@@ -13,8 +13,7 @@
  *   static + dynamic routes incl. the live Sanity project/blog/resource
  *   slugs), then adds the reachable-but-sitemap-excluded routes:
  *     /thank-you/?firstName=Test, /es/thank-you/?firstName=Test,
- *     /unsubscribe/SAMPLE_TOKEN_INVALID (+ /es), and /dev/system (+ /es) if
- *     they still exist.
+ *     /unsubscribe/SAMPLE_TOKEN_INVALID (+ /es).
  *
  * PER LINK INSTANCE (every <a href>, <area href>, <form action>) we record:
  *   source page, anchor text / aria-label, RAW href (as authored — so a
@@ -124,8 +123,6 @@ const EXTRA_SEED_PATHS = [
   '/es/thank-you/?firstName=Test',
   '/unsubscribe/SAMPLE_TOKEN_INVALID',
   '/es/unsubscribe/SAMPLE_TOKEN_INVALID',
-  '/dev/system',
-  '/es/dev/system',
 ];
 
 // ---------------------------------------------------------------------------

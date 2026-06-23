@@ -58,7 +58,7 @@
 - `src/app/[locale]/page.tsx` — homepage. **Redesigned (M.16 — Concept A):** composes the 7 sections `HomeHero → HomeAudienceEntries → HomeSocialProof → HomeBeforeAfter → HomeProcess → HomeWhySunset → HomeCTA` (dropped `HomeServicesOverview` + `HomeAbout`). Below-hero deferral uses each section's `content-visibility:auto`, NOT `next/dynamic` (`ssr:false` is disallowed in Server Components in Next 16). Locale-aware metadata + `WebSite` JSON-LD unchanged.
 - `src/app/[locale]/[audience]/page.tsx` — audience-landing dynamic route. **Modified (1.10)**: tile-photo lookup now uses `s.imageKey ?? s.slug` so commercial snow-removal resolves to its own placeholder; removed unused `BUSINESS_URL` import.
 - `src/app/[locale]/[audience]/[service]/page.tsx` — service-detail dynamic route. **Modified (1.10)**: lookup uses audience-aware `getService(service, audience)`; hero asset lookup uses `svc.imageKey ?? svc.slug`; related-services loop uses new `getRelatedService(slug, audience)` helper that prefers same-audience match (so commercial/landscape-maintenance's `related: ['snow-removal']` resolves to commercial/snow-removal, not residential).
-- `src/app/[locale]/dev/system/page.tsx` — dev-only design-system smoke test (Phase 1.04).
+- `src/app/[locale]/dev/system/page.tsx` — **DELETED (Step 2 / Hand-off B)** dev-only design-system smoke test removed before launch (rendered demo testimonials, not production-gated).
 - `src/app/[locale]/projects/page.tsx` — **Modified (Phase 2.05)** projects index. Reads from `getAllProjects()` via Sanity. `export const revalidate = 1800`. Index is ƒ (dynamic) due to searchParams; the 12-project list is fetched via ISR cache.
 - `src/app/[locale]/projects/[slug]/page.tsx` — **Modified (Phase 2.05)** project detail. Reads via `getProjectBySlug` + `getAllProjectSlugs` (generateStaticParams). 24 SSG routes (12 × 2 locales) with 30m ISR. Adapter at `src/lib/sanity-adapters.ts` converts Sanity shape → TS `Project` shape so downstream components are unchanged.
 - `src/app/[locale]/blog/page.tsx` — **Modified (Phase 2.05)** blog index. Reads via `getAllBlogPosts()`.
@@ -67,7 +67,7 @@
 - `src/app/[locale]/resources/[slug]/page.tsx` — **Modified (Phase 2.05)** resource detail. Reads via `getResourceBySlug` + `getFaqsForResource`. PortableText body via `ProseLayoutPT`. HowTo step extraction via `extractHowToStepsFromBlocks`. 10 SSG routes with 30m ISR.
 - `src/app/[locale]/[audience]/[service]/page.tsx` — **Modified (Phase 2.05)** service detail. FAQs read via `getFaqsForService(audience, slug)`. `export const revalidate = 1800`. 32 SSG routes with 30m ISR.
 - `src/app/[locale]/service-areas/[city]/page.tsx` — **Modified (Phase 2.05)** city detail. FAQs read via `getFaqsForCity(slug)`. `export const revalidate = 1800`. 12 SSG routes with 30m ISR.
-- `src/app/[locale]/dev/system/_client-demos.tsx` — client-only Dialog and Tooltip demos.
+- `src/app/[locale]/dev/system/_client-demos.tsx` — **DELETED (Step 2 / Hand-off B)** removed with the `/dev/system` route.
 - `src/components/global/Logo.tsx` — server component, two skins (light/dark).
 - `src/components/global/motion/easings.ts` — three named easings + four duration constants.
 - `src/components/global/motion/variants.ts` — six `<AnimateIn>` variants.
@@ -187,7 +187,9 @@
 - `src/components/sections/location/LocationFaq.tsx` — **Modified (Phase 2.05)** accepts already-projected `items: {id, question, answer}[]` + `cityName: string` props instead of reading `location.faq` internally. Matches the ServiceFAQ component contract.
 - `src/lib/schema/breadcrumb.ts` — **NEW (1.09)** `buildBreadcrumbList(items)` JSON-LD payload builder.
 - `src/lib/schema/service.ts` — **NEW (1.09)** `buildServiceSchema(service, locale)` + `buildFaqPageSchema(faq, locale)` + `buildAudienceItemList(...)` + `localePath(locale, path)` helpers.
-- `src/lib/constants/business.ts` — single source of truth for NAP.
+- `src/lib/constants/business.ts` — single source of truth for NAP. **Step 2 / Hand-off B:** added `BUSINESS_NAME_FULL = 'Sunset Services U.S.'` + `BUSINESS_LEGAL_NAME = 'E VALLE INC'` (formal/structured surfaces).
+- `src/lib/constants/reviews.ts` — **NEW (Step 2 / Hand-off B)** single source for the confirmed Google rating snapshot (`BUSINESS_RATING = 4.8/37`) + the three real Google reviews (`REVIEW_SNAPSHOT`). The live GBP feed overrides both with no rework.
+- `src/components/ui/GoogleRating.tsx` — **NEW (Step 2 / Hand-off B)** shared tone-aware "★ 4.8 · 37 Google reviews" component (home trust band, About credentials, division social proof, location trust band). Reads `BUSINESS_RATING`.
 - `src/lib/constants/navigation.ts` — single source of truth for nav IA.
 - `src/hooks/useScrollState.ts` — client, rAF-throttled scroll boolean.
 - `src/hooks/useBodyScrollLock.ts` — client, body scroll lock for the mobile drawer.

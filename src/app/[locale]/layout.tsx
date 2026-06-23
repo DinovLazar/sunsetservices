@@ -20,10 +20,12 @@ import {
   BUSINESS_ADDRESS,
   BUSINESS_AREA_SERVED,
   BUSINESS_EMAIL,
-  BUSINESS_NAME,
+  BUSINESS_LEGAL_NAME,
+  BUSINESS_NAME_FULL,
   BUSINESS_PHONE_TEL,
   BUSINESS_URL,
 } from '@/lib/constants/business';
+import {BUSINESS_RATING, REVIEW_SNAPSHOT} from '@/lib/constants/reviews';
 import {SITE_URL, hreflangAlternates, isProductionDeploy} from '@/lib/seo/urls';
 import '../globals.css';
 
@@ -62,7 +64,9 @@ const ROOT_HREFLANG = hreflangAlternates('/');
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: 'Sunset Services',
+  // Canonical site-name default (per-page descriptive titles override this with
+  // the conversational short form). Formal full DBA name per BG-01 §2.1.1.
+  title: BUSINESS_NAME_FULL,
   description: 'Landscaping & outdoor living in Aurora, IL.',
   alternates: {
     canonical: ROOT_HREFLANG.en,
@@ -104,7 +108,8 @@ const sitewideJsonLd = {
     {
       '@type': 'LocalBusiness',
       '@id': `${BUSINESS_URL}/#localbusiness`,
-      name: BUSINESS_NAME,
+      name: BUSINESS_NAME_FULL,
+      legalName: BUSINESS_LEGAL_NAME,
       address: {
         '@type': 'PostalAddress',
         ...BUSINESS_ADDRESS,
@@ -113,11 +118,34 @@ const sitewideJsonLd = {
       email: BUSINESS_EMAIL,
       url: BUSINESS_URL,
       areaServed: BUSINESS_AREA_SERVED,
+      // Step 2 / Hand-off B — confirmed real Google snapshot (4.8 / 37). The
+      // single source is `BUSINESS_RATING`; the live GBP feed will override it.
+      aggregateRating: {
+        '@type': 'AggregateRating',
+        ratingValue: BUSINESS_RATING.value,
+        reviewCount: BUSINESS_RATING.count,
+        bestRating: 5,
+        worstRating: 1,
+      },
+      // The three real Google reviews Erick approved (verbatim). datePublished
+      // is omitted — the exact dates were not supplied; we do not invent them.
+      review: REVIEW_SNAPSHOT.map((r) => ({
+        '@type': 'Review',
+        reviewBody: r.quote.en,
+        reviewRating: {
+          '@type': 'Rating',
+          ratingValue: r.rating,
+          bestRating: 5,
+          worstRating: 1,
+        },
+        author: {'@type': 'Person', name: r.attribution.en},
+      })),
     },
     {
       '@type': 'Organization',
       '@id': `${BUSINESS_URL}/#organization`,
-      name: BUSINESS_NAME,
+      name: BUSINESS_NAME_FULL,
+      legalName: BUSINESS_LEGAL_NAME,
       url: BUSINESS_URL,
     },
   ],

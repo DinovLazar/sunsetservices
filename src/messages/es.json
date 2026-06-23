@@ -111,7 +111,7 @@
       "h2Line1": "Empezado en 2000 por Nick.",
       "h2Line2": "Hoy lo dirige Erick, la segunda generación.",
       "body1": "Sunset Services ha cortado césped, construido patios y limpiado nieve en el Condado de DuPage durante 25+ años. Misma familia, mismo equipo de trabajadores con larga trayectoria, mismo arranque a las 6:30am.",
-      "body2": "Erick tomó la empresa de Nick en 2018 y agregó la división de hardscape autorizada por Unilock. Todo lo demás se mantuvo.",
+      "body2": "Erick tomó la empresa de Nick en 2018 y en 2021 lanzó la división de hardscape autorizada por Unilock. Todo lo demás se mantuvo.",
       "cta": "Lee nuestra historia",
       "alt": "Erick Valle, dueño de Sunset Services, en una obra en Aurora."
     },
@@ -731,7 +731,7 @@
         "invalidEmail": "Introduzca un correo electrónico válido.",
         "errorMessage": "Algo no funcionó. Inténtelo de nuevo."
       },
-      "copyright": "© {year} Sunset Services. Todos los derechos reservados.",
+      "copyright": "© {year} E VALLE INC dba Sunset Services U.S. Todos los derechos reservados.",
       "privacy": "Privacidad",
       "terms": "Términos",
       "accessibility": "Accesibilidad",
@@ -2017,5 +2017,9 @@
       "primaryCta": "Solicitar un estimado gratuito",
       "secondaryCta": "Llamar al (630) 946-9321"
     }
+  },
+  "ratings": {
+    "summary": "{count} reseñas de Google",
+    "aria": "Calificado {value} de 5 estrellas con {count} reseñas de Google"
   }
 }

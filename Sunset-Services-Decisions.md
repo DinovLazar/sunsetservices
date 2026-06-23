@@ -2092,3 +2092,40 @@ A full visual + structural redesign of the **homepage only** (`/` EN + `/es`), t
 Work is done on branch **`phase/m16-homepage-redesign`** (pushed; **NOT** merged to `main` — Lazar verifies on Vercel Preview, then merges). Known documented ceiling: mobile Lighthouse Performance may sit <95 on placeholder image weight; the exact LCP gap is documented and closes when M.01's real photos land.
 
 **Logged by:** Code, 2026-06-22, before any source change (Task 1, first commit of the phase).
+
+---
+
+## 2026-06-23 — Step 2 (Hand-off B): confirmed-facts refill + `/dev/system` removal + GA4 quote-start + Calendly cut
+
+**Decided by:** operator brief "Step 2 (Hand-off B) — Confirmed-facts corrections" + the operator-supplied `Hand-off-B-Code-edit-list.md` (§2c verbatim reviews). All facts below are Erick-confirmed (2026-06-22) and were **decided upstream**; Code ratifies none silently — this entry is the audit record, logged **before any source change** per the decision-first convention. Branch: **`phase/step2-confirmed-facts`** (off `main`; PR, never direct-to-main).
+
+### Confirmed-facts refill applied (closes M.14b refill + code-side B-09 items)
+
+- **Brand name = "Sunset Services U.S."** on all formal/structured surfaces (Organization + LocalBusiness schema `name`, OG/Twitter `siteName`, root metadata site-name, header/footer logo `alt`, contact-page business name, every email template). `legalName` = **"E VALLE INC"** on both schema nodes. Copyright line = **"© {year} E VALLE INC dba Sunset Services U.S."** (site footer + email). Conversational **"Sunset Services"** is retained in flowing body copy and per-page descriptive `<title>` strings per the BG-01 §2.1.1 DBA rule (do not clumsily append "U.S." to every sentence) — the canonical site-name *authority* (root title default, OG `siteName`, schema) carries the full name. EN + ES (brand name does not translate).
+- **Founding year = 2000** ("Family-run since 2000 · 25+ years") — already correct sitewide; verified, no "1998" present. Founder **Nick Valle** → owner **Erick Valle** (took over operations **2018**); **second generation**; no third-generation phrasing; no "Solis" (M.14/M.15 cleanup confirmed in code/data/messages).
+- **Unilock-authorized year = 2021.** `src/data/blog.ts` "laying Unilock since 2003 / 23 years of installs / 2008–2010" reworded to the 2021 authorization + crew-experience framing. About `body2` now separates the **2018** takeover from the **2021** Unilock hardscape division. No page states any Unilock year other than 2021; the homepage UNILOCK card stays year-free per M.16 D3.
+- **Hardscape division = 2021**; **no install-count claim** anywhere (none found — M.14 already removed "380+"; verified). Stale specific route-years softened in `locations.ts` (Batavia "since 2003", Winfield "in 2010" → year-free, both postdate the 2000 founding and were never Unilock/hardscape claims).
+- **Google rating = 4.8 / 37**, introduced as a **single source constant** (`src/lib/constants/reviews.ts → BUSINESS_RATING`) so the later live-reviews feed overrides it with no rework. Rendered identically via a shared `GoogleRating` component on the homepage trust band, About credentials, division social-proof, and the location trust band. Valid **`AggregateRating(4.8, 37)`** added to the sitewide `LocalBusiness` graph node. Count never exceeds the real 37.
+- **Three real Google reviews** (Mark C, Sally Del Vecchio McKibbon, Kelli Batitsas) inserted **verbatim** from the operator note §2c as a snapshot constant; the homepage `getPublishedReviews()` slot falls back to the snapshot when Sanity is empty (live feed overrides automatically). **`Review` schema** for all three added to the `LocalBusiness` graph. **Town not supplied** in the operator note → review **cards render attribution-only** (the homepage/location card format), and review cards are **not** forced into the division `name, city` card format (no town fabricated); the aggregate rating shows there instead. **Spanish review text = the original English** (real reviews are English; a native-Spanish pass is out of scope) — flagged, not translated.
+- **Award removed** — "Top 5 Landscaping — DuPage Tribune · 2024" stays gone (M.14 removed it from render); residual literal mentions in code comments reworded so a `DuPage Tribune` / `Top 5` grep is clean.
+- **Waterproofing division kept** — confirmed at launch; full audit (data, routing, nav, Service/FAQ schema, sitemap, hreflang, internal links, brand/NAP strings) found it present and consistent. No code change required.
+
+### `/dev/system` deleted
+
+The non-production-gated dev sandbox route (`src/app/[locale]/dev/system/`, incl. `_client-demos.tsx`) is **deleted** so no demo/placeholder testimonial can render in any environment. It was already excluded from the sitemap (comment updated); nothing else imported it.
+
+### GA4 quote-start conversion event added
+
+GA4 (`G-RY6NT70SH7`) via GTM (`GTM-NL5XX4DV`) behind Consent Mode v2 was already wired, with conversion events for quote-submit, contact-submit, and chat-lead confirmed green. The one gap — **no dedicated quote-wizard *start* event** — is closed with a once-per-session **`quote_start`** event fired on wizard mount. `test:consent` stays green.
+
+### Calendly cut at launch (B-09 §3.8)
+
+The booking embed already hides and shows its tel-fallback when `NEXT_PUBLIC_CALENDLY_URL` is empty (and never renders the personal link when the URL is unset). The committed **`.env.local.example` default is set empty + disabled** with a re-enable note, so the documented launch state ships **no booking widget and no personal `dinovlazar2011` link**. Launch config: leave `NEXT_PUBLIC_CALENDLY_URL` empty/unset on Vercel. Re-enabling post-publish with Erick's real URL is a **one-env-var change, no code edit**.
+
+### Deferred / unchanged (out of scope — respected)
+
+- **301 redirects deferred** to a dedicated pre-cutover step (needs the old-site crawl; only effective after cutover).
+- **Social links unchanged** — remain env-driven and hidden pending real URLs (deferred post-publish).
+- **No live-reviews feed wiring, no image swaps, no DNS/cutover, no Spanish native review, no removed content reintroduced.**
+
+**Logged by:** Code, 2026-06-23, before any source change (first commit of the phase).

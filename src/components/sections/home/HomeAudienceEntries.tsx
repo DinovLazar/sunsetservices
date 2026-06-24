@@ -11,6 +11,10 @@ import {getAllProjects} from '@sanity-lib/queries';
 import residentialSrc from '@/assets/home/audience-residential.jpg';
 import commercialSrc from '@/assets/home/audience-commercial.jpg';
 import hardscapeSrc from '@/assets/home/audience-hardscape.jpg';
+// Trenchless placeholder: a trenching/excavation photo (exposed conduit in an
+// open dig) — a real "utilities in the ground" image that is NOT used anywhere
+// else on the homepage, so the card no longer duplicates the snow-removal photo.
+import trenchlessSrc from '@/assets/service/hero-driveways.jpg';
 
 /**
  * Homepage divisions block (Phase M.16 — "Four divisions. One accountable
@@ -40,7 +44,7 @@ const ENTRIES: Entry[] = [
   {key: 'hardscape', href: '/hardscape/', fallback: hardscapeSrc, tracking: 'home-division-hardscape', unilock: true},
   {key: 'waterproofing', href: '/waterproofing/', fallback: residentialSrc, tracking: 'home-division-waterproofing'},
   {key: 'snow-removal', href: '/snow-removal/', fallback: commercialSrc, tracking: 'home-division-snow-removal'},
-  {key: 'trenchless', href: '/trenchless/', fallback: commercialSrc, tracking: 'home-division-trenchless'},
+  {key: 'trenchless', href: '/trenchless/', fallback: trenchlessSrc, tracking: 'home-division-trenchless'},
 ];
 
 export default async function HomeAudienceEntries() {

@@ -17,9 +17,22 @@ export default async function FooterLegal() {
   return (
     <div className="bg-[var(--color-bg-deep-charcoal)]">
       <div className="mx-auto max-w-[var(--container-default)] px-4 sm:px-6 lg:px-8 xl:px-12 py-4 flex flex-col md:flex-row gap-3 md:items-center md:justify-between text-[13px]">
-        <p className="text-[var(--color-sunset-green-200)] m-0">
-          {t('copyright', {year})}
-        </p>
+        <div className="flex flex-col gap-1">
+          <p className="text-[var(--color-sunset-green-200)] m-0">
+            {t('copyright', {year})}
+          </p>
+          <p className="text-[var(--color-sunset-green-300)] m-0 text-[12px]">
+            Made by{' '}
+            <a
+              href="https://www.vertexconsulting.mk"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[var(--color-sunset-green-300)] hover:text-[var(--color-sunset-green-100)] underline"
+            >
+              Vertex Consulting
+            </a>
+          </p>
+        </div>
         {/* Each legal link wears `inline-flex items-center min-h-[24px]` so
             the tap area clears WCAG SC 2.5.8 (Target Size Minimum) — the
             17-px text alone is 17×~60 which fails the 24×24 floor even with

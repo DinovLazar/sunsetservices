@@ -1,4 +1,8 @@
 {
+  "ratings": {
+    "label": "Reseñas de Google",
+    "aria": "Calificación de {value} de 5 estrellas según {count} reseñas de Google"
+  },
   "home": {
     "meta": {
       "title": "Sunset Services — Paisajismo en Aurora y Naperville",

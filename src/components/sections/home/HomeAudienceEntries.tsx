@@ -72,7 +72,7 @@ export default async function HomeAudienceEntries() {
       aria-labelledby="home-divisions-h2"
       className="bg-[var(--color-bg)] py-14 lg:py-20 [content-visibility:auto] [contain-intrinsic-size:auto_900px]"
     >
-      <div className="mx-auto max-w-[var(--container-default)] px-4 sm:px-6 lg:px-8 xl:px-12">
+      <div className="mx-auto max-w-[var(--container-default)] lg:max-w-[var(--container-wide)] px-4 sm:px-6 lg:px-8 xl:px-12">
         <AnimateIn variant="fade-up" className="mb-12 lg:mb-16 max-w-[64ch]">
           <p
             className="font-heading font-semibold uppercase m-0 mb-2"

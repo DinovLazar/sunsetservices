@@ -109,7 +109,7 @@ export default async function HomeSocialProof() {
             </div>
 
             <div className="mt-6">
-              <GoogleRating />
+              <GoogleRating detailed tone="dark" />
             </div>
           </AnimateIn>
         </div>

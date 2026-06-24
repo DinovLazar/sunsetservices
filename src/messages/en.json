@@ -1,4 +1,8 @@
 {
+  "ratings": {
+    "label": "Google reviews",
+    "aria": "Rated {value} out of 5 stars from {count} Google reviews"
+  },
   "home": {
     "meta": {
       "title": "Sunset Services — Aurora & Naperville Landscaping & Hardscape",

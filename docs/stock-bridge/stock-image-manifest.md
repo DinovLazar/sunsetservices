@@ -2,7 +2,7 @@
 
 **Phase:** B-13 (briefs) + B-13b (download pass)
 **Created:** 2026-07-03 · **Downloads executed:** 2026-07-03
-**Status:** **Downloads complete — ready for B-14 integration**
+**Status:** **Downloads complete — 6 images integrated (B-14); 10 services on diagram track.**
 **Replacement-by date (every image):** **2026-10-01** — after this date, authentic Sunset photography replaces all bridge images.
 
 > These are **temporary bridge images** under Brand Guide §9.1/§9.3. Every file carries the mandatory `stock-` prefix so it stays permanently distinguishable from real Sunset project photos. Alt text is generic and truthful — it never names Sunset, never names a city, never implies the work is Sunset's. See the 2026-07-03 decisions-log entries for the plan-of-record. Repo integration is a later Code phase (B-14); **no `.tsx`/`.ts`/`.json` file was touched here.**

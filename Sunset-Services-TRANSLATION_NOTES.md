@@ -499,3 +499,26 @@ The following components still render `audience`-based labels and were deliberat
 - `src/components/sections/audience/AudienceServicesGrid.tsx` and the rest of `sections/audience/*` — the entire `/audience/` route family (Residential / Commercial / Hardscape pages from Phase 1.09) was de-prioritized in favor of M.01e's `/division/` routes; the components still exist but aren't surfaced via the homepage navbar. Pending a separate phase to retire or rewire them.
 
 The verification checklist scopes M.10c to `src/components/sections/home/` + `src/components/ui/` + (addendum) `src/components/sections/projects/`. All in-scope surfaces are migrated.
+
+## Phase B.14 — Stock-bridge photo alt text (6 services) (added 2026-07-03)
+
+### Scope
+
+Six Waterproofing + Trenchless service pages received real free-license bridge photos (B-13/B-13b) wired into the image pipeline this phase. Each carries a descriptive `photoAlt` (`{en, es}`) on its `services.ts` entry, consumed by the service-detail hero + division-landing tile grid + city-page service grid (falls back to the service name for every other service). The **EN alt is authoritative** in `docs/stock-bridge/stock-image-manifest.md` (used verbatim, including B-13b's adjustments to match exactly what each downloaded photo shows). The **ES below is a drafted translation** — same generic rules as the images themselves: describe only what is in frame, never name Sunset, never name a city, never imply the work is Sunset's.
+
+**Status: awaits native review** like other post-M.03 additions. Register: descriptive/neutral (image alt, not marketing copy). Terminology aligned to the locked service-name glossary (§5 above): *canaleta* (gutter), *zanja/zanjeo* (trench), *conducto* (conduit), *drenaje* (drainage), *hormigón* (concrete).
+
+### EN → ES alt pairs (6)
+
+| Service (slug) | EN (authoritative, from manifest) | ES (drafted, pending native review) |
+| --- | --- | --- |
+| `gutter-services` | Green-painted metal rain gutter and downspout running along the eave and down the wall of a residential building. | Canaleta y bajante de lluvia de metal pintado de verde que recorren el alero y bajan por la pared de un edificio residencial. |
+| `yard-drainage` | Corrugated drainage pipe bedded in gravel within an open excavated trench, before backfilling. | Tubería de drenaje corrugada asentada en grava dentro de una zanja excavada abierta, antes del relleno. |
+| `foundation-repair` | Structural cracks running across a concrete wall. | Grietas estructurales que atraviesan un muro de hormigón. |
+| `trenching-excavation` | An open utility trench excavated across a construction site with drainage pipe staged alongside, before backfilling. | Una zanja de servicios abierta excavada a lo largo de una obra en construcción con tubería de drenaje dispuesta al lado, antes del relleno. |
+| `sewer-line-replacement` | Open excavation exposing underground utility pipes and connections during a pipe replacement. | Excavación abierta que expone tuberías y conexiones de servicios subterráneos durante un reemplazo de tubería. |
+| `conduit-installation` | Bundled lengths of grey PVC conduit staged on site before installation. | Tramos agrupados de conducto de PVC gris dispuestos en el sitio antes de la instalación. |
+
+### Open question for native review (B-14)
+
+- `gutter-services` uses **canaleta** (matching the service name "Servicios de Canaletas"); a Spain-register reviewer may prefer *canalón*. Left as *canaleta* for internal consistency with the locked service name.

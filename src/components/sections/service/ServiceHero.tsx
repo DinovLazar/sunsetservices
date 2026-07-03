@@ -15,6 +15,12 @@ type ServiceHeroProps = {
   h1: string;
   subhead: string;
   photo: StaticImageData;
+  /**
+   * Phase B-14 — descriptive alt for the hero photo when it differs from the
+   * service name (services on a real stock-bridge photo). Falls back to the
+   * service name so every other service is unchanged.
+   */
+  photoAlt?: string;
   primaryCta: string;
   callCta: string;
   callAria: string;
@@ -39,6 +45,7 @@ export default function ServiceHero({
   h1,
   subhead,
   photo,
+  photoAlt,
   primaryCta,
   callCta,
   callAria,
@@ -56,7 +63,7 @@ export default function ServiceHero({
       <div className="absolute inset-0">
         <Image
           src={photo}
-          alt={serviceName}
+          alt={photoAlt ?? serviceName}
           fill
           priority
           fetchPriority="high"

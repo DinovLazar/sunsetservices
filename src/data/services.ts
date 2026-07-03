@@ -93,6 +93,15 @@ export type Service = {
    * from physical asset identity.
    */
   imageKey?: string;
+  /**
+   * Phase B-14 — optional descriptive alt text for the service's hero + tile
+   * photo. Set only for services on a real (stock-bridge) photo whose subject
+   * differs from the service name; the hero and tile grids fall back to
+   * `name` when this is absent, so every other service is unchanged. EN is
+   * authoritative in `docs/stock-bridge/stock-image-manifest.md`; ES is a
+   * drafted translation pending native review (TRANSLATION_NOTES §B-14).
+   */
+  photoAlt?: Localized;
   hero: {
     h1: Localized;
     subhead: Localized;
@@ -2335,7 +2344,10 @@ export const SERVICES: Service[] = [
     division: 'waterproofing',
     icon: 'Construction',
     name: {en: 'Foundation Repair', es: 'Reparación de Cimientos'},
-    imageKey: 'retaining-walls',
+    photoAlt: {
+      en: 'Structural cracks running across a concrete wall.',
+      es: 'Grietas estructurales que atraviesan un muro de hormigón.',
+    },
     hero: {
       h1: {
         en: 'Foundation Repair in DuPage County.',
@@ -2601,7 +2613,10 @@ export const SERVICES: Service[] = [
     division: 'waterproofing',
     icon: 'Waves',
     name: {en: 'Yard Drainage', es: 'Drenaje del Jardín'},
-    imageKey: 'seasonal-cleanup',
+    photoAlt: {
+      en: 'Corrugated drainage pipe bedded in gravel within an open excavated trench, before backfilling.',
+      es: 'Tubería de drenaje corrugada asentada en grava dentro de una zanja excavada abierta, antes del relleno.',
+    },
     hero: {
       h1: {
         en: 'Yard Drainage in DuPage County.',
@@ -2746,7 +2761,10 @@ export const SERVICES: Service[] = [
     division: 'waterproofing',
     icon: 'CloudRain',
     name: {en: 'Gutter Services', es: 'Servicios de Canaletas'},
-    imageKey: 'tree-services',
+    photoAlt: {
+      en: 'Green-painted metal rain gutter and downspout running along the eave and down the wall of a residential building.',
+      es: 'Canaleta y bajante de lluvia de metal pintado de verde que recorren el alero y bajan por la pared de un edificio residencial.',
+    },
     hero: {
       h1: {
         en: 'Gutter Services in DuPage County.',
@@ -4078,7 +4096,10 @@ export const SERVICES: Service[] = [
     division: 'trenchless',
     icon: 'Cable',
     name: {en: 'Conduit Installation', es: 'Instalación de Conductos'},
-    imageKey: 'driveways',
+    photoAlt: {
+      en: 'Bundled lengths of grey PVC conduit staged on site before installation.',
+      es: 'Tramos agrupados de conducto de PVC gris dispuestos en el sitio antes de la instalación.',
+    },
     hero: {
       h1: {
         en: 'Conduit Installation in DuPage County.',
@@ -4210,7 +4231,10 @@ export const SERVICES: Service[] = [
     division: 'trenchless',
     icon: 'Shovel',
     name: {en: 'Trenching & Excavation', es: 'Zanjeo y Excavación'},
-    imageKey: 'retaining-walls',
+    photoAlt: {
+      en: 'An open utility trench excavated across a construction site with drainage pipe staged alongside, before backfilling.',
+      es: 'Una zanja de servicios abierta excavada a lo largo de una obra en construcción con tubería de drenaje dispuesta al lado, antes del relleno.',
+    },
     hero: {
       h1: {
         en: 'Trenching & Excavation in DuPage County.',
@@ -4342,7 +4366,10 @@ export const SERVICES: Service[] = [
     division: 'trenchless',
     icon: 'Waypoints',
     name: {en: 'Sewer Line Replacement', es: 'Reemplazo de Línea de Drenaje'},
-    imageKey: 'property-enhancement',
+    photoAlt: {
+      en: 'Open excavation exposing underground utility pipes and connections during a pipe replacement.',
+      es: 'Excavación abierta que expone tuberías y conexiones de servicios subterráneos durante un reemplazo de tubería.',
+    },
     hero: {
       h1: {
         en: 'Sewer Line Replacement in DuPage County.',

@@ -45,6 +45,18 @@ import svcHeroPergolas from '@/assets/service/hero-pergolas-pavilions.jpg';
 import svcHeroDriveways from '@/assets/service/hero-driveways.jpg';
 import svcHeroKitchens from '@/assets/service/hero-outdoor-kitchens.jpg';
 
+// --- Waterproofing + Trenchless service heroes (6, Phase B-14) ---
+// Real free-license bridge photos (docs/stock-bridge/, optimized by
+// scripts/optimize-stock-bridge.mjs). Replace-by 2026-10-01 — see the
+// manifest + Decisions log. These 6 slugs dropped their B-12 commercial/
+// landscape imageKey aliases so they resolve to their own slug here.
+import svcHeroGutterServices from '@/assets/service/hero-gutter-services.jpg';
+import svcHeroYardDrainage from '@/assets/service/hero-yard-drainage.jpg';
+import svcHeroFoundationRepair from '@/assets/service/hero-foundation-repair.jpg';
+import svcHeroTrenchingExcavation from '@/assets/service/hero-trenching-excavation.jpg';
+import svcHeroSewerLineReplacement from '@/assets/service/hero-sewer-line-replacement.jpg';
+import svcHeroConduitInstallation from '@/assets/service/hero-conduit-installation.jpg';
+
 // --- Service tile photos (16, used in audience-landing services grids) ---
 import svcTileLawnCare from '@/assets/service/tiles/lawn-care.jpg';
 import svcTileLandscapeDesign from '@/assets/service/tiles/landscape-design.jpg';
@@ -62,6 +74,14 @@ import svcTileFire from '@/assets/service/tiles/fire-pits-features.jpg';
 import svcTilePergolas from '@/assets/service/tiles/pergolas-pavilions.jpg';
 import svcTileDriveways from '@/assets/service/tiles/driveways.jpg';
 import svcTileKitchens from '@/assets/service/tiles/outdoor-kitchens.jpg';
+
+// --- Waterproofing + Trenchless service tiles (6, Phase B-14) ---
+import svcTileGutterServices from '@/assets/service/tiles/gutter-services.jpg';
+import svcTileYardDrainage from '@/assets/service/tiles/yard-drainage.jpg';
+import svcTileFoundationRepair from '@/assets/service/tiles/foundation-repair.jpg';
+import svcTileTrenchingExcavation from '@/assets/service/tiles/trenching-excavation.jpg';
+import svcTileSewerLineReplacement from '@/assets/service/tiles/sewer-line-replacement.jpg';
+import svcTileConduitInstallation from '@/assets/service/tiles/conduit-installation.jpg';
 
 // --- About brand-story portrait (Phase 1.12, reused as Phase 1.14 WhyLocal portrait) ---
 import aboutPortrait from '@/assets/about/brand-story.jpg';
@@ -131,6 +151,13 @@ export const SERVICE_HERO: Record<string, StaticImageData> = {
   'pergolas-pavilions': svcHeroPergolas,
   driveways: svcHeroDriveways,
   'outdoor-kitchens': svcHeroKitchens,
+  // Phase B-14 — Waterproofing + Trenchless bridge photos (real, replace-by 2026-10-01).
+  'gutter-services': svcHeroGutterServices,
+  'yard-drainage': svcHeroYardDrainage,
+  'foundation-repair': svcHeroFoundationRepair,
+  'trenching-excavation': svcHeroTrenchingExcavation,
+  'sewer-line-replacement': svcHeroSewerLineReplacement,
+  'conduit-installation': svcHeroConduitInstallation,
 };
 
 export const SERVICE_TILE: Record<string, StaticImageData> = {
@@ -150,6 +177,13 @@ export const SERVICE_TILE: Record<string, StaticImageData> = {
   'pergolas-pavilions': svcTilePergolas,
   driveways: svcTileDriveways,
   'outdoor-kitchens': svcTileKitchens,
+  // Phase B-14 — Waterproofing + Trenchless bridge photos (real, replace-by 2026-10-01).
+  'gutter-services': svcTileGutterServices,
+  'yard-drainage': svcTileYardDrainage,
+  'foundation-repair': svcTileFoundationRepair,
+  'trenching-excavation': svcTileTrenchingExcavation,
+  'sewer-line-replacement': svcTileSewerLineReplacement,
+  'conduit-installation': svcTileConduitInstallation,
 };
 
 /**

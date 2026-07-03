@@ -190,6 +190,7 @@ export default async function ServiceDetailPage({
         h1={svc.hero.h1[loc]}
         subhead={svc.hero.subhead[loc]}
         photo={heroPhoto}
+        photoAlt={svc.photoAlt?.[loc]}
         primaryCta={tSvc('cta.button')}
         callCta={tSvc('hero.callCta')}
         callAria={tSvc('hero.callAria')}

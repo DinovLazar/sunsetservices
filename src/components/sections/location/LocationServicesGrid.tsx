@@ -46,6 +46,9 @@ export default async function LocationServicesGrid({
       slug: svc.slug,
       division: entry.division,
       name: svc.name[locale],
+      // Phase B-14 — descriptive alt for services on a real stock-bridge
+      // photo (e.g. foundation-repair, yard-drainage); falls back to name.
+      photoAlt: svc.photoAlt?.[locale] ?? svc.name[locale],
       photo: SERVICE_TILE[tileKey],
     };
   });
@@ -95,7 +98,7 @@ export default async function LocationServicesGrid({
                     {s.photo ? (
                       <Image
                         src={s.photo}
-                        alt={s.name}
+                        alt={s.photoAlt}
                         fill
                         loading="lazy"
                         sizes="(max-width: 1023px) 50vw, 33vw"

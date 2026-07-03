@@ -2149,3 +2149,23 @@ The booking embed already hides and shows its tel-fallback when `NEXT_PUBLIC_CAL
 - **The 6 services (slugs globally unique, build-guarded):** `conduit-installation`, `trenching-excavation`, `sewer-line-replacement`, `missile-boring`, `handhole-pull-box`, `pipe-fusing`. Each sets `division: 'trenchless'` and omits the optional legacy `audience` field (like waterproofing/snow-removal), so the retired `[audience]` params filter them out automatically.
 
 **Logged by:** Code, 2026-06-23, before any source change (Wave 0a, first commit of the phase).
+
+---
+
+## 2026-07-03 — Phase B.13: Stock-bridge imagery for Waterproofing & Trenchless service pages
+
+**Decided by:** operator brief "Phase B-13 · Cowork — Stock-bridge imagery for Waterproofing & Trenchless service pages." The two newest divisions (Waterproofing, Trenchless & Directional Boring) have no authentic Sunset photography yet; this is the last content blocker before launch. This entry is the plan-of-record, logged **before any image was sourced or downloaded** per the decision-first convention (Task 1). Actual sourcing/download is executed against `docs/stock-bridge/stock-image-manifest.md`; no repo source files are touched this phase (integration is B-14).
+
+**Decision — launch these two divisions on free-license stock as a temporary bridge.** Every Waterproofing service page, and every Trenchless service page for which accurate stock exists, launches with a free-license stock photo (Unsplash / Pexels / Pixabay — commercial-use, no attribution required) as a **temporary bridge** under Brand Guide §9.1/§9.3. Each bridge image carries **generic, non-attributed alt text** that describes only what is physically in the frame — never names Sunset, never names a city, never implies the work is Sunset's. Hard **replacement-by date: 2026-10-01**, after which authentic Sunset photography replaces every bridge image. Bridge files carry a mandatory `stock-` filename prefix so they stay permanently distinguishable from real project photos.
+
+**Trenchless services with no accurate stock ship with diagrams, not photos.** Where a genuine search of all three sources yields no image that truthfully shows the actual equipment/method, the service is flagged **"diagram needed"** and ships with a labeled cutaway diagram built in a follow-up phase — never a generic or inaccurate photo. Expected diagram-needed set: **Missile Boring** and **HDPE Pipe Fusing** (equipment specificity; a directional-drill or generic-trench photo would misrepresent the service — an intolerable credibility risk for the commercial/municipal buyer). **Handhole / Pull Box** is treated as low-confidence: sourced only if a truthful open-vault/pull-box image is found, otherwise it joins the diagram-needed list.
+
+**Alternatives rejected:**
+- **AI-generated imagery (including AI images hosted on stock sites)** — violates the real-projects brand standard (§9.1) and reintroduces exactly the fabrication risk the B-09 QA pass removed. Prohibited with no exceptions, including as a placeholder.
+- **Launching the pages with no imagery** — reads as unfinished and hurts conversion on the last pre-launch blocker.
+- **Reusing Unilock / equipment-manufacturer marketing photos** — category mismatch and licensing risk; equipment-manufacturer photos also imply an accuracy/endorsement we cannot claim.
+- **Paid or free-trial watermarked stock (Shutterstock/Getty/iStock previews)** — cost and watermark/licensing violations.
+
+**Consequence accepted:** for roughly one season, two divisions display non-Sunset work. Mitigated by (a) generic alt text that never implies Sunset attribution or a location, (b) the logged 2026-10-01 expiry, and (c) the `stock-` prefix that makes every bridge asset trivially greppable for the replacement phase. This extends the same bridge pattern Trenchless already carries per the 2026-06-23 B.12 entry ("Photos reused from existing assets… imagery is generic until real trenchless photos land").
+
+**Logged by:** Cowork (on behalf of Goran), 2026-07-03, before any image sourcing or download (Task 1).

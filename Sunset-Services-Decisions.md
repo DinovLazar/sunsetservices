@@ -2169,3 +2169,23 @@ The booking embed already hides and shows its tel-fallback when `NEXT_PUBLIC_CAL
 **Consequence accepted:** for roughly one season, two divisions display non-Sunset work. Mitigated by (a) generic alt text that never implies Sunset attribution or a location, (b) the logged 2026-10-01 expiry, and (c) the `stock-` prefix that makes every bridge asset trivially greppable for the replacement phase. This extends the same bridge pattern Trenchless already carries per the 2026-06-23 B.12 entry ("Photos reused from existing assets… imagery is generic until real trenchless photos land").
 
 **Logged by:** Cowork (on behalf of Goran), 2026-07-03, before any image sourcing or download (Task 1).
+
+---
+
+## 2026-07-03 — Phase B.13b: Stock-bridge download pass — 6 heroes sourced, 7 waterproofing services flagged as gaps, handhole → diagram
+
+**Decided by:** operator brief "Phase B-13b · Cowork — Stock-bridge download pass," executing the download procedure in `docs/stock-bridge/stock-image-manifest.md`. Step-0 tooling check passed (browse + download-to-Downloads + mount + visual-inspect all worked via the connected macOS Chrome). No repo source files touched; all new files under `docs/stock-bridge/`.
+
+**Outcome — 6 of 16 service pages get a free-license bridge photo (all Pexels License, non-AI, landscape ≥1600 px, visually inspected):**
+- Waterproofing: **gutter-services, yard-drainage, foundation-repair.**
+- Trenchless: **trenching-excavation, sewer-line-replacement, conduit-installation.**
+
+**7 waterproofing services could not be sourced accurately from free stock and are flagged as gaps (no photo shipped):** basement-waterproofing, sump-pumps, window-wells, crawl-spaces, concrete-raising, humidity-control, radon-mitigation. In every case the accurate subject exists only as **iStock Sponsored (paid)** results (or not at all); free results were wrong objects (farm/pool pumps for "sump pump," snails for "crawl space," air-conditioners for "dehumidifier," HVAC pipe for "radon," wet-concrete finishing for "concrete raising," etc.). Per the binding accuracy rule — *an inaccurate photo is worse than none* (the B-09 honesty standard) — none was settled. _Alternative rejected: settling for a near-miss free image (e.g., a farm pump on the sump-pump page) — rejected as misleading, exactly what the accuracy rule forbids._
+
+**Handhole / Pull Box → diagram.** No accurate free-license open pull-box/vault image; the niche buried-utility category is paid-iStock-only, and B-13 already pre-flagged it low-confidence. Joins Missile Boring + HDPE Pipe Fusing (B-13) in the diagram follow-up. _(The dedicated pull-box search was cut short by a transient Chrome disconnect; the determination rests on the conclusive category pattern seen across five other niche services.)_
+
+**Consequence / recommendation:** free-license stock reliably covers broad outdoor construction (open trenches, staged pipe, gutter-on-facade, a concrete crack) but not residential interior/appliance/buried-utility specialties, which are paid-iStock-only. The 7 gap services + 3 diagram services should be handled with **labeled diagrams** (cheapest, on-brand) or real Sunset photos when available; paid stock only if a page truly needs a photo before real photography lands. **foundation-repair** shipped a photo of the *condition* (a structural concrete crack), not the repair hardware — honest and relevant, but flagged in case B-14 prefers a diagram of the actual method.
+
+**In-phase judgment calls (surfaced, not self-ratified):** (1) every sourced image took a minor alt-text adjustment to match exactly what the downloaded photo shows (logged in the manifest's "Alt-text adjustments" section); (2) optional supports all skipped (heroes secured; specialty supports share the paid-only problem); (3) handhole resolved on the category pattern after a mid-search Chrome disconnect rather than a fully completed dedicated search.
+
+**Logged by:** Cowork (on behalf of Goran), 2026-07-03, after the download pass, before commit.

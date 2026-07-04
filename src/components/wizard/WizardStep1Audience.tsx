@@ -5,22 +5,29 @@ import Image, {type StaticImageData} from 'next/image';
 import {Check} from 'lucide-react';
 import {useTranslations} from 'next-intl';
 import residentialSrc from '@/assets/home/audience-residential.jpg';
-import commercialSrc from '@/assets/home/audience-commercial.jpg';
 import hardscapeSrc from '@/assets/home/audience-hardscape.jpg';
+import waterproofingSrc from '@/assets/division/hero-waterproofing.jpg';
+import snowRemovalSrc from '@/assets/division/hero-snow-removal.jpg';
+import trenchlessSrc from '@/assets/service/legacy/hero-driveways.jpg';
 import type {WizardDivision} from '@/data/wizard';
-import {DIVISION_META} from '@/data/divisions';
 
 /**
- * Phase M.01e-pt2 — Step 1 is now the 4-division tile picker.
- * Photo aliases mirror `DIVISION_META.heroImageKey` so waterproofing +
- * snow-removal reuse existing audience photos until M.01f real photography
- * lands. Strings come from `wizard.division.<slug>.*` (parity with
- * the M.01e `home.divisions.<slug>.*` block on the homepage).
+ * Phase M.01e-pt2 — Step 1 is now the 5-division tile picker.
+ * Polish-01: tiles are keyed per division instead of aliasing the 3 generic
+ * audience photos (waterproofing/snow-removal/trenchless all showed the wrong
+ * division's image). Waterproofing + snow-removal use their division-landing
+ * heroes (stock-bridge photos — replace-by 2026-10-01 / 2027-01-31, see
+ * docs/stock-bridge/stock-image-manifest.md); trenchless uses the same real
+ * trenching/excavation photo as the homepage divisions card. Strings come
+ * from `wizard.division.<slug>.*` (parity with the M.01e
+ * `home.divisions.<slug>.*` block on the homepage).
  */
-const DIVISION_PHOTO: Record<'residential' | 'commercial' | 'hardscape', StaticImageData> = {
-  residential: residentialSrc,
-  commercial: commercialSrc,
+const DIVISION_PHOTO: Record<WizardDivision, StaticImageData> = {
+  landscape: residentialSrc,
   hardscape: hardscapeSrc,
+  waterproofing: waterproofingSrc,
+  'snow-removal': snowRemovalSrc,
+  trenchless: trenchlessSrc,
 };
 
 const TILE_ORDER: readonly WizardDivision[] = [
@@ -40,8 +47,8 @@ type Props = {
 /**
  * Step 1 — division tile select. Phase M.01e-pt2.
  *
- * Four large 4:3 photo tiles aliased to existing audience photos via
- * `DIVISION_META.heroImageKey`. Hidden `<input type="radio">` is the source
+ * Five large 4:3 photo tiles, one per division (see `DIVISION_PHOTO`
+ * above). Hidden `<input type="radio">` is the source
  * of truth; clicking the tile (which is its `<label>`) selects the radio.
  * Selected tile gets a 2px green ring + a 32px circle check chip in its
  * bottom-right.
@@ -97,8 +104,7 @@ export default function WizardStep1Audience({value, onChange, error}: Props) {
           {TILE_ORDER.map((key) => {
             const selected = value === key;
             const inputId = `wiz-step1-${key}`;
-            const meta = DIVISION_META[key];
-            const src = DIVISION_PHOTO[meta.heroImageKey];
+            const src = DIVISION_PHOTO[key];
             return (
               <label
                 key={key}

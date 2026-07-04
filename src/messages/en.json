@@ -46,21 +46,21 @@
         "h3": "Dry basements.",
         "desc": "Basements, foundations, sump pumps, yard drainage, gutters — ten services for water management.",
         "cta": "Explore Waterproofing",
-        "alt": "An exterior view of a DuPage home foundation with new drainage tile at the perimeter."
+        "alt": "A clean, dry, well-lit finished basement with neutral painted walls, carpeted floor, and a staircase in the background."
       },
       "snow-removal": {
         "tag": "Snow Removal",
         "h3": "Plowed by dawn.",
         "desc": "Driveways, sidewalks, de-icing, and commercial plowing. 24/7 dispatch, 2-hour response after trigger.",
         "cta": "Explore Snow Removal",
-        "alt": "A freshly plowed driveway at dawn with snow piled cleanly off to one side."
+        "alt": "A snow-covered suburban residential street lined with houses and parked cars after a winter snowfall."
       },
       "trenchless": {
         "tag": "Trenchless",
         "h3": "Lines in, yard intact.",
         "desc": "Conduit, sewer lines, trenching, boring, pull boxes, and HDPE fusing — six services for getting utilities in the ground.",
         "cta": "Explore Trenchless",
-        "alt": "Underground utility installation on a DuPage County property at golden hour."
+        "alt": "An open trench excavation on a residential property with compaction equipment during underground utility installation."
       }
     },
     "services": {
@@ -988,24 +988,6 @@
         "hardscape": "See hardscape services →"
       }
     },
-    "team": {
-      "eyebrow": "The team",
-      "h2": "The people you'd be working with.",
-      "role": {
-        "owner": "Owner",
-        "founder": "Founder",
-        "hardscape_lead": "Hardscape Lead"
-      },
-      "erick": {
-        "bio": "Took over operations in 2018. Runs every estimate himself — you meet him before you sign anything."
-      },
-      "nick": {
-        "bio": "Started Sunset Services in 2000. Still on-site most weeks. The senior eye on the complicated jobs."
-      },
-      "marcin": {
-        "bio": "Leads the Unilock-Authorized hardscape division. Patios, walls, fire features — specs to install."
-      }
-    },
     "credentials": {
       "eyebrow": "Credentials",
       "h2": "Verifiable, not just claimed.",
@@ -1530,17 +1512,17 @@
       "waterproofing": {
         "title": "Waterproofing",
         "dek": "Basements, foundations, sump pumps, yard drainage, gutters.",
-        "alt": "An exterior view of a DuPage home foundation with new drainage tile at the perimeter."
+        "alt": "A clean, dry, well-lit finished basement with neutral painted walls, carpeted floor, and a staircase in the background."
       },
       "snow-removal": {
         "title": "Snow Removal",
         "dek": "Driveways, sidewalks, de-icing, commercial plowing 24/7.",
-        "alt": "A freshly plowed driveway at dawn with snow piled cleanly off to one side."
+        "alt": "A snow-covered suburban residential street lined with houses and parked cars after a winter snowfall."
       },
       "trenchless": {
         "title": "Trenchless & Directional Boring",
         "dek": "Conduit, sewer lines, trenching, boring, pull boxes, and HDPE fusing.",
-        "alt": "Underground utility installation on a DuPage County property at golden hour."
+        "alt": "An open trench excavation on a residential property with compaction equipment during underground utility installation."
       }
     },
     "step2": {

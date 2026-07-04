@@ -9,8 +9,15 @@ import {getProjectDivision} from '@/lib/projects/getProjectDivision';
 import {resolveProjectImage} from '@/lib/images/resolveProjectImage';
 import {getAllProjects} from '@sanity-lib/queries';
 import residentialSrc from '@/assets/home/audience-residential.jpg';
-import commercialSrc from '@/assets/home/audience-commercial.jpg';
 import hardscapeSrc from '@/assets/home/audience-hardscape.jpg';
+// Polish-01: waterproofing + snow-removal cards no longer alias the generic
+// residential/commercial audience photos (a paver patio and a summer screened
+// porch — both mismatched). They now use the divisions' own landing heroes:
+// stock-bridge photos (waterproofing replace-by 2026-10-01, snow-removal
+// 2027-01-31 — see docs/stock-bridge/stock-image-manifest.md), same assets
+// the /waterproofing/ and /snow-removal/ landings render via DIVISION_HERO.
+import waterproofingSrc from '@/assets/division/hero-waterproofing.jpg';
+import snowRemovalSrc from '@/assets/division/hero-snow-removal.jpg';
 // Trenchless placeholder: a trenching/excavation photo (exposed conduit in an
 // open dig) — a real "utilities in the ground" image that is NOT used anywhere
 // else on the homepage, so the card no longer duplicates the snow-removal photo.
@@ -45,8 +52,8 @@ type Entry = {
 const ENTRIES: Entry[] = [
   {key: 'landscape', href: '/landscape/', fallback: residentialSrc, tracking: 'home-division-landscape'},
   {key: 'hardscape', href: '/hardscape/', fallback: hardscapeSrc, tracking: 'home-division-hardscape', unilock: true},
-  {key: 'waterproofing', href: '/waterproofing/', fallback: residentialSrc, tracking: 'home-division-waterproofing'},
-  {key: 'snow-removal', href: '/snow-removal/', fallback: commercialSrc, tracking: 'home-division-snow-removal'},
+  {key: 'waterproofing', href: '/waterproofing/', fallback: waterproofingSrc, tracking: 'home-division-waterproofing'},
+  {key: 'snow-removal', href: '/snow-removal/', fallback: snowRemovalSrc, tracking: 'home-division-snow-removal'},
   {key: 'trenchless', href: '/trenchless/', fallback: trenchlessSrc, tracking: 'home-division-trenchless'},
 ];
 

@@ -132,9 +132,11 @@ const URLS = [
     mustHaveTypes: ['LocalBusiness', 'Organization', 'BreadcrumbList', 'ItemList'],
   },
   {
+    // Polish-01: 'Person' dropped — the About team section (and its
+    // Person JSON-LD) was removed; org-level nodes still required.
     path: '/about/',
     label: 'about',
-    mustHaveTypes: ['LocalBusiness', 'Organization', 'BreadcrumbList', 'Person'],
+    mustHaveTypes: ['LocalBusiness', 'Organization', 'BreadcrumbList'],
   },
   {
     path: '/contact/',

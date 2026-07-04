@@ -46,21 +46,21 @@
         "h3": "Sótanos secos.",
         "desc": "Sótanos, cimientos, bombas de sumidero, drenaje del jardín, canaletas — diez servicios para el agua.",
         "cta": "Explorar Impermeabilización",
-        "alt": "Vista exterior del cimiento de una casa de DuPage con tubería de drenaje nueva en el perímetro."
+        "alt": "Un sótano terminado, limpio, seco y bien iluminado, con paredes pintadas en tonos neutros, piso alfombrado y una escalera al fondo."
       },
       "snow-removal": {
         "tag": "Remoción de Nieve",
         "h3": "Nieve limpia al amanecer.",
         "desc": "Entradas, senderos, deshielo y remoción comercial de nieve. Despacho 24/7, respuesta en 2 horas tras activación.",
         "cta": "Explorar Remoción de Nieve",
-        "alt": "Una entrada recién arada al amanecer con la nieve apilada limpiamente a un lado."
+        "alt": "Una calle residencial suburbana cubierta de nieve, bordeada de casas y autos estacionados tras una nevada invernal."
       },
       "trenchless": {
         "tag": "Perforación",
         "h3": "Líneas bajo tierra, jardín intacto.",
         "desc": "Conductos, líneas de drenaje, zanjeo, perforación, cajas de registro y fusión de polietileno — seis servicios para meter servicios bajo tierra.",
         "cta": "Explorar Perforación",
-        "alt": "Instalación de servicios subterráneos en una propiedad de DuPage County a la hora dorada."
+        "alt": "Una excavación de zanja abierta en una propiedad residencial, con equipo de compactación durante la instalación de servicios subterráneos."
       }
     },
     "services": {
@@ -988,24 +988,6 @@
         "hardscape": "Ver servicios de hardscape →"
       }
     },
-    "team": {
-      "eyebrow": "El equipo",
-      "h2": "Las personas con las que trabajarías.",
-      "role": {
-        "owner": "Propietario",
-        "founder": "Fundador",
-        "hardscape_lead": "Líder de Hardscape"
-      },
-      "erick": {
-        "bio": "Asumió las operaciones en 2018. Hace todos los estimados en persona — lo conoces antes de firmar nada."
-      },
-      "nick": {
-        "bio": "Fundó Sunset Services en 2000. Sigue en obra casi todas las semanas. El ojo veterano en los trabajos complicados."
-      },
-      "marcin": {
-        "bio": "Dirige la división de hardscape autorizada por Unilock. Patios, muros, espacios de fuego — del plano a la instalación."
-      }
-    },
     "credentials": {
       "eyebrow": "Credenciales",
       "h2": "Verificables, no solo dichas.",
@@ -1530,17 +1512,17 @@
       "waterproofing": {
         "title": "Impermeabilización",
         "dek": "Sótanos, cimientos, sumideros, drenaje del patio, canaletas.",
-        "alt": "Vista exterior de una casa de DuPage con nueva tubería de drenaje en el perímetro."
+        "alt": "Un sótano terminado, limpio, seco y bien iluminado, con paredes pintadas en tonos neutros, piso alfombrado y una escalera al fondo."
       },
       "snow-removal": {
         "title": "Remoción de nieve",
         "dek": "Entradas, banquetas, deshielo, remoción comercial 24/7.",
-        "alt": "Una entrada recién despejada al amanecer con la nieve apilada limpiamente a un lado."
+        "alt": "Una calle residencial suburbana cubierta de nieve, bordeada de casas y autos estacionados tras una nevada invernal."
       },
       "trenchless": {
         "title": "Perforación Direccional y Sin Zanja",
         "dek": "Conductos, líneas de drenaje, zanjeo, perforación, cajas y fusión de polietileno.",
-        "alt": "Instalación de servicios subterráneos en una propiedad de DuPage County a la hora dorada."
+        "alt": "Una excavación de zanja abierta en una propiedad residencial, con equipo de compactación durante la instalación de servicios subterráneos."
       }
     },
     "step2": {

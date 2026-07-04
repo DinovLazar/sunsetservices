@@ -25,7 +25,11 @@ type AudienceHeroProps = {
 
 /**
  * Audience landing hero — Phase 1.08 §3.1 D1 Layout A (full-bleed photo +
- * dark gradient + text overlay). 60vh desktop / 50vh mobile.
+ * dark gradient + text overlay). Min-heights at every breakpoint (B-16):
+ * ~52svh phone / 50vh sm / 60vh lg — the hero GROWS past these when the
+ * bottom-anchored content stack needs more room, so the CTA row can never
+ * clip (the former fixed sm/lg heights + 720px cap cut it off on short/wide
+ * desktop viewports, e.g. 1280×620).
  *
  * No entrance animation — first-paint render to keep LCP discipline
  * (handover §2.5 + §3.1). The navbar above this hero is the solid white
@@ -33,7 +37,9 @@ type AudienceHeroProps = {
  * per the M.16 handover §4).
  *
  * Audience-accent token applies only to the kicker; buttons stay
- * green/amber regardless of variant (handover §3X.1).
+ * green/amber regardless of variant (handover §3X.1). The kicker carries
+ * the M.10f hero text-shadow at all breakpoints (B-16) so it stays legible
+ * over bright imagery.
  */
 export default function AudienceHero({
   audience,
@@ -50,14 +56,16 @@ export default function AudienceHero({
   return (
     <section
       aria-labelledby="audience-hero-h1"
-      // Phase M.11c — mirror M.10f E1: phone hero uses min-h + svh (grows for
-      // tall EN/ES copy → no clip; svh ignores the mobile URL bar). `sm:min-h-0`
-      // hands back to the fixed sm/lg heights so tablet + desktop are byte-identical.
-      className="relative isolate overflow-hidden flex flex-col min-h-[max(22rem,52svh)] sm:min-h-0 sm:h-[max(50vh,420px)] lg:h-[max(60vh,480px)] text-[var(--color-text-on-dark)]"
+      // Phase M.11c mirrored M.10f E1 on phones (min-h + svh: grows for tall
+      // EN/ES copy → no clip; svh ignores the mobile URL bar). B-16 extends
+      // the same min-height-grow-with-content rule to sm/lg — the former
+      // fixed heights + the 720px maxHeight cap clipped the bottom-anchored
+      // CTA row on short/wide desktop viewports (operator repro: 1280×620).
+      className="relative isolate overflow-hidden flex flex-col min-h-[max(22rem,52svh)] sm:min-h-[max(50vh,420px)] lg:min-h-[max(60vh,480px)] text-[var(--color-text-on-dark)]"
       // bg-charcoal fallback so cream copy clears AA contrast even before
       // the hero photo decodes (Phase B.06 — Lighthouse mobile audit
       // surfaced contrast failures when the photo hadn't loaded yet).
-      style={{maxHeight: '720px', backgroundColor: 'var(--color-bg-charcoal)'}}
+      style={{backgroundColor: 'var(--color-bg-charcoal)'}}
     >
       {/* Photo + gradient overlay */}
       <div className="absolute inset-0">
@@ -113,6 +121,10 @@ export default function AudienceHero({
               fontSize: '13px',
               letterSpacing: 'var(--tracking-eyebrow)',
               color: 'var(--audience-accent)',
+              // B-16 — the accent-colored kicker was near-invisible over
+              // bright imagery; same halo as the homepage hero's
+              // .hero-text-legible (M.10f), applied at all breakpoints.
+              textShadow: '0 1px 2px rgba(0, 0, 0, 0.62), 0 2px 10px rgba(0, 0, 0, 0.45)',
             }}
           >
             {kicker}

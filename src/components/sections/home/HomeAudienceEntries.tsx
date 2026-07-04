@@ -14,7 +14,10 @@ import hardscapeSrc from '@/assets/home/audience-hardscape.jpg';
 // Trenchless placeholder: a trenching/excavation photo (exposed conduit in an
 // open dig) — a real "utilities in the ground" image that is NOT used anywhere
 // else on the homepage, so the card no longer duplicates the snow-removal photo.
-import trenchlessSrc from '@/assets/service/hero-driveways.jpg';
+// B-16 repointed this to the preserved legacy/ copy when the live
+// hero-driveways.jpg became a stock paver-driveway photo — the card keeps
+// rendering the exact pre-B-16 image, byte-identical.
+import trenchlessSrc from '@/assets/service/legacy/hero-driveways.jpg';
 
 /**
  * Homepage divisions block (Phase M.16 — "Four divisions. One accountable

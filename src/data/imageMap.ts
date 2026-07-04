@@ -69,6 +69,22 @@ import svcHeroSidewalkShoveling from '@/assets/service/hero-sidewalk-shoveling.j
 import svcHeroDrivewaySnowRemoval from '@/assets/service/hero-driveway-snow-removal.jpg';
 import svcHeroCommercialSnowPlowing from '@/assets/service/hero-commercial-snow-plowing.jpg';
 
+// --- Waterproofing + Trenchless gap-service heroes (7, Phase B-16) ---
+// Real free-license bridge photos (docs/stock-bridge/{waterproofing,trenchless}/,
+// optimized by scripts/optimize-stock-bridge.mjs). Replace-by 2026-10-01 — see
+// the manifest + Decisions log. These 7 slugs dropped their placeholder
+// imageKey aliases so they resolve to their own slug here. `sump-pumps` keeps
+// its alias (documented GAP — no honest free image found), and
+// `handhole-pull-box` keeps its alias too: its sourced photo failed Code-phase
+// verification (readable Russian signage — see the Decisions log).
+import svcHeroBasementWaterproofing from '@/assets/service/hero-basement-waterproofing.jpg';
+import svcHeroWindowWells from '@/assets/service/hero-window-wells.jpg';
+import svcHeroCrawlSpaces from '@/assets/service/hero-crawl-spaces.jpg';
+import svcHeroConcreteRaising from '@/assets/service/hero-concrete-raising.jpg';
+import svcHeroHumidityControl from '@/assets/service/hero-humidity-control.jpg';
+import svcHeroRadonMitigation from '@/assets/service/hero-radon-mitigation.jpg';
+import svcHeroPipeFusing from '@/assets/service/hero-pipe-fusing.jpg';
+
 // --- Service tile photos (16, used in audience-landing services grids) ---
 import svcTileLawnCare from '@/assets/service/tiles/lawn-care.jpg';
 import svcTileLandscapeDesign from '@/assets/service/tiles/landscape-design.jpg';
@@ -101,10 +117,39 @@ import svcTileSidewalkShoveling from '@/assets/service/tiles/sidewalk-shoveling.
 import svcTileDrivewaySnowRemoval from '@/assets/service/tiles/driveway-snow-removal.jpg';
 import svcTileCommercialSnowPlowing from '@/assets/service/tiles/commercial-snow-plowing.jpg';
 
-// --- Snow Removal division-landing hero (1, Phase B-15) ---
-// Overrides the generic `commercial` audience-hero alias for `/snow-removal/`
-// (see DIVISION_HERO below). Replace-by 2027-01-31.
+// --- Waterproofing + Trenchless gap-service tiles (7, Phase B-16) ---
+import svcTileBasementWaterproofing from '@/assets/service/tiles/basement-waterproofing.jpg';
+import svcTileWindowWells from '@/assets/service/tiles/window-wells.jpg';
+import svcTileCrawlSpaces from '@/assets/service/tiles/crawl-spaces.jpg';
+import svcTileConcreteRaising from '@/assets/service/tiles/concrete-raising.jpg';
+import svcTileHumidityControl from '@/assets/service/tiles/humidity-control.jpg';
+import svcTileRadonMitigation from '@/assets/service/tiles/radon-mitigation.jpg';
+import svcTilePipeFusing from '@/assets/service/tiles/pipe-fusing.jpg';
+
+// --- Legacy hardscape derivatives (Phase B-16) ---
+// B-16 overwrote the 4 hardscape slugs' hero/tile derivatives in place with
+// stock-bridge photos (replace-by 2026-10-01). The ORIGINAL placeholder
+// derivatives were preserved unchanged under `legacy/` and every non-service
+// consumer (city heroes/cards, project leads, the homepage trenchless card)
+// was repointed here so no stock image ever appears on a city, project, or
+// homepage surface. `legacy/tiles/outdoor-kitchens.jpg` is preserved on disk
+// but has no consumer, so it is deliberately not imported.
+import legacyHeroWalls from '@/assets/service/legacy/hero-retaining-walls.jpg';
+import legacyHeroFire from '@/assets/service/legacy/hero-fire-pits-features.jpg';
+import legacyHeroDriveways from '@/assets/service/legacy/hero-driveways.jpg';
+import legacyHeroKitchens from '@/assets/service/legacy/hero-outdoor-kitchens.jpg';
+import legacyTileWalls from '@/assets/service/legacy/tiles/retaining-walls.jpg';
+import legacyTileFire from '@/assets/service/legacy/tiles/fire-pits-features.jpg';
+import legacyTileDriveways from '@/assets/service/legacy/tiles/driveways.jpg';
+
+// --- Division-landing heroes (Phase B-15 + B-16) ---
+// Override the generic audience-hero aliases (see DIVISION_HERO below).
+// snow-removal replace-by 2027-01-31; waterproofing 2026-10-01. The B-16
+// trenchless landing hero was NOT wired: its sourced photo failed Code-phase
+// verification (readable "BARANGAY AYALA ALABANG" shirt print geolocates the
+// scene — see the Decisions log); /trenchless keeps its audience alias.
 import divisionHeroSnowRemoval from '@/assets/division/hero-snow-removal.jpg';
+import divisionHeroWaterproofing from '@/assets/division/hero-waterproofing.jpg';
 
 // --- About brand-story portrait (Phase 1.12, reused as Phase 1.14 WhyLocal portrait) ---
 import aboutPortrait from '@/assets/about/brand-story.jpg';
@@ -186,6 +231,20 @@ export const SERVICE_HERO: Record<string, StaticImageData> = {
   'sidewalk-shoveling': svcHeroSidewalkShoveling,
   'driveway-snow-removal': svcHeroDrivewaySnowRemoval,
   'commercial-snow-plowing': svcHeroCommercialSnowPlowing,
+  // Phase B-16 — Waterproofing + Trenchless gap-service bridge photos
+  // (real, replace-by 2026-10-01). The 4 hardscape slugs above were
+  // overwritten in place the same phase (originals in legacy/).
+  'basement-waterproofing': svcHeroBasementWaterproofing,
+  'window-wells': svcHeroWindowWells,
+  'crawl-spaces': svcHeroCrawlSpaces,
+  'concrete-raising': svcHeroConcreteRaising,
+  'humidity-control': svcHeroHumidityControl,
+  'radon-mitigation': svcHeroRadonMitigation,
+  'pipe-fusing': svcHeroPipeFusing,
+  // B-16 — missile-boring (diagram track, untouched page) aliased
+  // imageKey 'driveways' before that key became a stock photo; its alias
+  // moved to this legacy key so the page keeps its exact pre-B-16 image.
+  'legacy-driveways': legacyHeroDriveways,
 };
 
 export const SERVICE_TILE: Record<string, StaticImageData> = {
@@ -217,23 +276,36 @@ export const SERVICE_TILE: Record<string, StaticImageData> = {
   'sidewalk-shoveling': svcTileSidewalkShoveling,
   'driveway-snow-removal': svcTileDrivewaySnowRemoval,
   'commercial-snow-plowing': svcTileCommercialSnowPlowing,
+  // Phase B-16 — Waterproofing + Trenchless gap-service bridge photos
+  // (real, replace-by 2026-10-01).
+  'basement-waterproofing': svcTileBasementWaterproofing,
+  'window-wells': svcTileWindowWells,
+  'crawl-spaces': svcTileCrawlSpaces,
+  'concrete-raising': svcTileConcreteRaising,
+  'humidity-control': svcTileHumidityControl,
+  'radon-mitigation': svcTileRadonMitigation,
+  'pipe-fusing': svcTilePipeFusing,
+  // B-16 — see the SERVICE_HERO legacy-driveways note (missile-boring alias).
+  'legacy-driveways': legacyTileDriveways,
 };
 
 /**
- * Phase B-15 — per-division landing-hero override. When a division has an
- * entry here, the `/[locale]/[division]/` landing resolves its hero from
- * this map INSTEAD of the `AUDIENCE_HERO[DIVISION_META.heroImageKey]`
+ * Phase B-15 + B-16 — per-division landing-hero override. When a division
+ * has an entry here, the `/[locale]/[division]/` landing resolves its hero
+ * from this map INSTEAD of the `AUDIENCE_HERO[DIVISION_META.heroImageKey]`
  * audience-alias fallback — the consumer reads
  * `DIVISION_HERO[division] ?? AUDIENCE_HERO[meta.heroImageKey]`.
  *
- * Only `snow-removal` overrides today: its `heroImageKey` is the generic
- * `commercial` audience photo (no snow in frame), replaced here by a real
- * free-license snow bridge photo (replace-by 2027-01-31). The other four
- * divisions have no entry and keep resolving through their audience alias,
- * unchanged.
+ * snow-removal (B-15, replace-by 2027-01-31) and waterproofing (B-16,
+ * replace-by 2026-10-01) override their generic audience-alias photos with
+ * real free-license bridge photos. landscape, hardscape and trenchless have
+ * no entry and keep resolving through their audience alias, unchanged
+ * (the sourced trenchless hero failed B-16 Code verification — see the
+ * Decisions log).
  */
 export const DIVISION_HERO: Partial<Record<Division, StaticImageData>> = {
   'snow-removal': divisionHeroSnowRemoval,
+  waterproofing: divisionHeroWaterproofing,
 };
 
 /**
@@ -252,23 +324,26 @@ export const LOCATION_HERO: Record<string, StaticImageData> = {
   lisle: heroCommercial,
   bolingbrook: svcHeroCommercialSnow,
   hinsdale: svcHeroPergolas,
-  'oak-brook': svcHeroKitchens,
+  // B-16: the six hardscape-derived city picks moved to the preserved
+  // legacy/ copies when the live derivatives became stock photos — each
+  // city keeps rendering its exact pre-B-16 image, byte-identical.
+  'oak-brook': legacyHeroKitchens,
   elmhurst: svcHeroPatios,
-  'clarendon-hills': svcHeroFire,
-  'burr-ridge': svcHeroDriveways,
+  'clarendon-hills': legacyHeroFire,
+  'burr-ridge': legacyHeroDriveways,
   'western-springs': svcHeroLandscapeMaintenance,
   'glen-ellyn': svcHeroTreeServices,
   'downers-grove': svcHeroPropertyEnh,
   winfield: svcHeroTurf,
-  lombard: svcHeroWalls,
+  lombard: legacyHeroWalls,
   'st-charles': svcHeroSnow,
   geneva: svcHeroCleanup,
   'south-elgin': svcHeroSprinklers,
   elburn: svcTileLawnCare,
   'north-aurora': svcTileLandscapeDesign,
   oswego: svcTilePatios,
-  yorkville: svcTileFire,
-  plainfield: svcTileWalls,
+  yorkville: legacyTileFire,
+  plainfield: legacyTileWalls,
 };
 
 /**
@@ -284,23 +359,24 @@ export const LOCATION_CARD: Record<string, StaticImageData> = {
   lisle: heroCommercial,
   bolingbrook: svcHeroCommercialSnow,
   hinsdale: svcHeroPergolas,
-  'oak-brook': svcHeroKitchens,
+  // B-16: mirrors LOCATION_HERO — legacy/ copies keep the cards identical.
+  'oak-brook': legacyHeroKitchens,
   elmhurst: svcHeroPatios,
-  'clarendon-hills': svcHeroFire,
-  'burr-ridge': svcHeroDriveways,
+  'clarendon-hills': legacyHeroFire,
+  'burr-ridge': legacyHeroDriveways,
   'western-springs': svcHeroLandscapeMaintenance,
   'glen-ellyn': svcHeroTreeServices,
   'downers-grove': svcHeroPropertyEnh,
   winfield: svcHeroTurf,
-  lombard: svcHeroWalls,
+  lombard: legacyHeroWalls,
   'st-charles': svcHeroSnow,
   geneva: svcHeroCleanup,
   'south-elgin': svcHeroSprinklers,
   elburn: svcTileLawnCare,
   'north-aurora': svcTileLandscapeDesign,
   oswego: svcTilePatios,
-  yorkville: svcTileFire,
-  plainfield: svcTileWalls,
+  yorkville: legacyTileFire,
+  plainfield: legacyTileWalls,
 };
 
 /**
@@ -348,12 +424,14 @@ export const LOCATION_PORTRAIT: StaticImageData = aboutPortrait;
  */
 export const PROJECT_LEAD: Record<string, StaticImageData> = {
   'naperville-hilltop-terrace': svcTilePatios,
-  'naperville-fire-court': svcTileFire,
+  // B-16: fire/driveways/walls leads moved to the preserved legacy/ copies —
+  // stock imagery must never imply Sunset attribution on a project surface.
+  'naperville-fire-court': legacyTileFire,
   'aurora-hoa-curb-refresh': svcTileLawnCare,
-  'aurora-driveway-apron': svcTileDriveways,
+  'aurora-driveway-apron': legacyTileDriveways,
   'wheaton-lawn-reset': svcTileLawnCare,
   'wheaton-bank-frontage': svcTileLandscapeMaintenance,
-  'lisle-retaining-wall': svcTileWalls,
+  'lisle-retaining-wall': legacyTileWalls,
   'lisle-backyard-refresh': svcTileLandscapeDesign,
   'batavia-garden-reset': svcTileLandscapeDesign,
   'batavia-front-walk': svcTilePatios,

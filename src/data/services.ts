@@ -1507,6 +1507,10 @@ export const SERVICES: Service[] = [
     audience: 'hardscape',
     icon: 'Wall',
     name: {en: 'Retaining Walls', es: 'Muros de Contención'},
+    photoAlt: {
+      en: 'A curved segmental-block retaining wall with capstone coping and stone steps enclosing a circular paver patio, edged by shrubs and hedges.',
+      es: 'Un muro de contención curvo de bloques segmentados con remate de albardilla y escalones de piedra que rodea un patio circular de adoquines, bordeado de arbustos y setos.',
+    },
     hero: {
       h1: {
         en: 'Retaining Walls in DuPage County.',
@@ -1646,6 +1650,10 @@ export const SERVICES: Service[] = [
     audience: 'hardscape',
     icon: 'Flame',
     name: {en: 'Fire Pits & Features', es: 'Chimeneas y Elementos de Fuego'},
+    photoAlt: {
+      en: 'A built stone-clad rectangular fire pit on a flagstone patio, ringed by fixed wooden bench seating under a timber pergola.',
+      es: 'Una fogata rectangular de obra revestida de piedra sobre un patio de lajas, rodeada de bancas de madera fijas bajo una pérgola de madera.',
+    },
     hero: {
       h1: {
         en: 'Fire Pits & Features in DuPage.',
@@ -1924,6 +1932,10 @@ export const SERVICES: Service[] = [
     audience: 'hardscape',
     icon: 'Car',
     name: {en: 'Driveways', es: 'Entradas de Auto'},
+    photoAlt: {
+      en: 'A wide interlocking-paver driveway with dark border insets leading up to the garage and entrance of a modern two-story home.',
+      es: 'Una amplia entrada de auto de adoquines entrelazados con franjas de borde oscuras que conduce al garaje y la entrada de una casa moderna de dos pisos.',
+    },
     hero: {
       h1: {
         en: 'Paver Driveways in Aurora & DuPage.',
@@ -2063,6 +2075,10 @@ export const SERVICES: Service[] = [
     audience: 'hardscape',
     icon: 'ChefHat',
     name: {en: 'Outdoor Kitchens', es: 'Cocinas Exteriores'},
+    photoAlt: {
+      en: 'A built-in outdoor kitchen with a stainless grill, sink, and beverage fridge set into cabinetry under a wood-clad covered patio, beside a fenced lawn.',
+      es: 'Una cocina exterior empotrada con parrilla de acero inoxidable, fregadero y refrigerador de bebidas integrados en los gabinetes, bajo un patio techado revestido de madera, junto a un césped cercado.',
+    },
     hero: {
       h1: {
         en: 'Outdoor Kitchens in DuPage County.',
@@ -2206,8 +2222,10 @@ export const SERVICES: Service[] = [
     division: 'waterproofing',
     icon: 'Droplets',
     name: {en: 'Basement Waterproofing', es: 'Impermeabilización de Sótanos'},
-    /** M.01e placeholder alias — real waterproofing photography lands in M.01f. */
-    imageKey: 'retaining-walls',
+    photoAlt: {
+      en: 'Pale mineral streaks left by water tracking down the surface of a weathered concrete wall.',
+      es: 'Vetas minerales pálidas dejadas por el agua al escurrir por la superficie de un muro de hormigón desgastado.',
+    },
     hero: {
       h1: {
         en: 'Basement Waterproofing in DuPage County.',
@@ -2901,7 +2919,10 @@ export const SERVICES: Service[] = [
     division: 'waterproofing',
     icon: 'Square',
     name: {en: 'Window Wells', es: 'Pozos de Ventana'},
-    imageKey: 'patios-walkways',
+    photoAlt: {
+      en: 'Low windows with stone sills set near ground level in the brick exterior walls of a building light-well.',
+      es: 'Ventanas bajas con alféizares de piedra situadas casi al nivel del suelo en las paredes exteriores de ladrillo del patio de luces de un edificio.',
+    },
     hero: {
       h1: {
         en: 'Window Wells in DuPage County.',
@@ -3038,7 +3059,10 @@ export const SERVICES: Service[] = [
     division: 'waterproofing',
     icon: 'Home',
     name: {en: 'Crawl Spaces', es: 'Espacios Bajo el Piso'},
-    imageKey: 'retaining-walls',
+    photoAlt: {
+      en: "An open crawl-space access hatch at the base of a home's shingled exterior wall, with a person crouched beside the opening.",
+      es: 'Una trampilla de acceso abierta al espacio bajo el piso en la base de la pared exterior con tejuelas de una casa, con una persona agachada junto a la abertura.',
+    },
     hero: {
       h1: {
         en: 'Crawl Space Encapsulation in DuPage.',
@@ -3175,7 +3199,10 @@ export const SERVICES: Service[] = [
     division: 'waterproofing',
     icon: 'ArrowUp',
     name: {en: 'Concrete Raising', es: 'Nivelación de Concreto'},
-    imageKey: 'driveways',
+    photoAlt: {
+      en: 'A cracked and crazed concrete pavement surface strewn with fallen yellow flower petals.',
+      es: 'Una superficie de pavimento de hormigón agrietada y cuarteada, cubierta de pétalos amarillos de flores caídos.',
+    },
     hero: {
       h1: {
         en: 'Concrete Raising in DuPage County.',
@@ -3304,7 +3331,10 @@ export const SERVICES: Service[] = [
     division: 'waterproofing',
     icon: 'Wind',
     name: {en: 'Humidity Control', es: 'Control de Humedad'},
-    imageKey: 'sprinkler-systems',
+    photoAlt: {
+      en: 'Heavy condensation and running water droplets covering the interior surface of a window pane.',
+      es: 'Condensación intensa y gotas de agua escurriendo que cubren la superficie interior del cristal de una ventana.',
+    },
     hero: {
       h1: {
         en: 'Humidity Control in DuPage County.',
@@ -3433,7 +3463,10 @@ export const SERVICES: Service[] = [
     division: 'waterproofing',
     icon: 'Radiation',
     name: {en: 'Radon Mitigation', es: 'Mitigación de Radón'},
-    imageKey: 'landscape-maintenance',
+    photoAlt: {
+      en: 'A grey-white PVC vent pipe protruding from the white stucco exterior wall of a building against a clear blue sky.',
+      es: 'Un tubo de ventilación de PVC gris blanquecino que sobresale de la pared exterior de estuco blanco de un edificio contra un cielo azul despejado.',
+    },
     hero: {
       h1: {
         en: 'Radon Mitigation in DuPage County.',
@@ -4512,7 +4545,10 @@ export const SERVICES: Service[] = [
     division: 'trenchless',
     icon: 'Drill',
     name: {en: 'Missile Boring', es: 'Perforación con Topo Neumático'},
-    imageKey: 'driveways',
+    // B-16: 'driveways' now resolves to a stock paver-driveway photo, so this
+    // alias moved to the preserved pre-B-16 copy — the page renders the exact
+    // same placeholder as before (missile-boring stays on the diagram track).
+    imageKey: 'legacy-driveways',
     hero: {
       h1: {
         en: 'Missile Boring in DuPage County.',
@@ -4644,6 +4680,10 @@ export const SERVICES: Service[] = [
     division: 'trenchless',
     icon: 'Box',
     name: {en: 'Handhole / Pull Box Installation', es: 'Cajas de Registro y de Tiro'},
+    // B-16 Code: the sourced bridge photo FAILED verification (readable
+    // Russian signage — "О ПОЖАРЕ ЗВОНИТЬ 101, 112" etc. — geolocates the
+    // scene; never-acceptable per the B-16 accuracy rules). The page keeps
+    // its placeholder alias like the sump-pumps GAP; flagged to Chat.
     imageKey: 'property-enhancement',
     hero: {
       h1: {
@@ -4776,7 +4816,10 @@ export const SERVICES: Service[] = [
     division: 'trenchless',
     icon: 'Spline',
     name: {en: 'HDPE Pipe Fusing', es: 'Fusión de Tubería de Polietileno'},
-    imageKey: 'sprinkler-systems',
+    photoAlt: {
+      en: 'A gloved worker aligning a length of yellow polyethylene pipe clamped in a hydraulic butt-fusion machine for joining.',
+      es: 'Un trabajador con guantes alineando un tramo de tubería de polietileno amarilla sujeta en una máquina hidráulica de fusión a tope para su unión.',
+    },
     hero: {
       h1: {
         en: 'HDPE Pipe Fusing in DuPage County.',

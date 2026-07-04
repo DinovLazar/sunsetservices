@@ -1,26 +1,32 @@
 /**
- * Phase B-14 + B-15 — optimize the stock-bridge source photos into
+ * Phase B-14 + B-15 + B-16 — optimize the stock-bridge source photos into
  * web-ready hero + tile derivatives and write them into the live service
  * image pipeline. B-14 wired 6 Waterproofing/Trenchless services; B-15
- * adds 4 Snow Removal services plus the /snow-removal/ division-landing
- * hero.
+ * added 4 Snow Removal services plus the /snow-removal/ division-landing
+ * hero; B-16 adds 4 Hardscape + 6 Waterproofing + 2 Trenchless services
+ * plus the /waterproofing/ and /trenchless/ division-landing heroes.
  *
  * Source-of-truth archive (READ-ONLY — never written here):
- *   docs/stock-bridge/{waterproofing,trenchless,snow-removal}/stock-{division}-{slug}-hero-01.jpg
+ *   docs/stock-bridge/{hardscape,waterproofing,trenchless,snow-removal}/stock-{division}-{slug}-hero-01.jpg
  *
  * Outputs (overwrite in place — the script is idempotent; re-running
  * regenerates byte-for-byte identical derivatives from the same sources):
  *   src/assets/service/hero-{slug}.jpg          16:9 center-crop, 2400px wide, q80  (< 400 KB)
  *   src/assets/service/tiles/{slug}.jpg          4:3 center-crop, 1200px wide, q80
- *   src/assets/division/hero-snow-removal.jpg   16:9 center-crop, 2400px wide, q80  (< 400 KB) —
- *       the /snow-removal/ division-landing hero (B-15); HERO ONLY, no tile derivative.
+ *   src/assets/division/hero-{division}.jpg     16:9 center-crop, 2400px wide, q80  (< 400 KB) —
+ *       division-landing heroes (B-15: snow-removal; B-16: waterproofing,
+ *       trenchless); HERO ONLY, no tile derivative.
  *
  * The service slugs map 1:1 to service pages whose imageMap.ts entries
- * resolve by slug (B-14: Waterproofing + Trenchless; B-15: Snow Removal).
- * The remaining new-division services stay on their existing placeholders
- * (diagram track). The pre-existing shared snow assets
+ * resolve by slug (B-14: Waterproofing + Trenchless; B-15: Snow Removal;
+ * B-16: Hardscape + the remaining sourced gap services). `sump-pumps`
+ * (GAP — no honest free image found) and `missile-boring` (diagram track)
+ * stay on their existing placeholders. The pre-existing shared snow assets
  * (hero-snow-removal.jpg, hero-commercial-snow-removal.jpg + their tiles)
  * are NOT touched here — they still serve city-page + blog/resource aliases.
+ * The 4 hardscape slugs' ORIGINAL derivatives were preserved under
+ * src/assets/service/legacy/ before B-16 first overwrote them (city/project/
+ * homepage consumers repointed there — see imageMap.ts).
  *
  * Alt text for each image is authoritative in
  * docs/stock-bridge/stock-image-manifest.md (wired via services.ts photoAlt).
@@ -84,6 +90,32 @@ const ITEMS = [
     slug: 'division-landing',
     division: 'snow-removal',
     heroOut: resolve(DIVISION_DIR, 'hero-snow-removal.jpg'),
+    heroOnly: true,
+  },
+  // Phase B-16 — Hardscape + gap-services bridge photos (real, replace-by
+  // 2026-10-01). The 4 hardscape slugs overwrite their placeholder
+  // derivatives in place (originals preserved in src/assets/service/legacy/).
+  // Two sourced B-16 photos are deliberately ABSENT: the trenchless
+  // division-landing hero (readable "BARANGAY AYALA ALABANG" shirt print)
+  // and handhole-pull-box (readable Russian signage) failed Code-phase
+  // verification — never-acceptable readable/geolocating text; see the
+  // Decisions log. Their pages keep their previous imagery.
+  {slug: 'retaining-walls', division: 'hardscape'},
+  {slug: 'fire-pits-features', division: 'hardscape'},
+  {slug: 'driveways', division: 'hardscape'},
+  {slug: 'outdoor-kitchens', division: 'hardscape'},
+  {slug: 'basement-waterproofing', division: 'waterproofing'},
+  {slug: 'window-wells', division: 'waterproofing'},
+  {slug: 'crawl-spaces', division: 'waterproofing'},
+  {slug: 'concrete-raising', division: 'waterproofing'},
+  {slug: 'humidity-control', division: 'waterproofing'},
+  {slug: 'radon-mitigation', division: 'waterproofing'},
+  {slug: 'pipe-fusing', division: 'trenchless'},
+  // /waterproofing/ division-landing hero — hero only, no tile.
+  {
+    slug: 'division-landing',
+    division: 'waterproofing',
+    heroOut: resolve(DIVISION_DIR, 'hero-waterproofing.jpg'),
     heroOnly: true,
   },
 ];

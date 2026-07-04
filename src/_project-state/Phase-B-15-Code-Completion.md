@@ -2,7 +2,7 @@
 
 **Phase:** B-15 · Code — Wire the Snow Removal stock-bridge images into the service pages + division landing
 **Date:** 2026-07-04
-**Branch:** `feat/b15-code-snow-integration` (off `main`) — **committed, NOT pushed/merged** (see §7 Own decisions; final integration deferred to Goran)
+**Branch:** built + verified on `feat/b15-code-snow-integration` (off `main`), then **merged to `main` + pushed** per Goran's integration call (see §7 Own decisions)
 **Author:** Code
 
 ---
@@ -124,7 +124,7 @@ Each confirmed to match its service and its alt text. The 5 optimized source der
 
 ## 7. Own decisions / notes surfaced (never self-ratified)
 
-- **Branch, not `main`.** The brief said "work directly on `main` … pushed to `main`." The immediately-preceding B-15-**Cowork** decision (same person/day/phase-pair) changed push handling to *a dedicated branch, not pushed — Goran reviews and pushes/merges himself*, and the harness guards against committing on the default branch. Resolved in favor of the newer, more specific signal: all work is on `feat/b15-code-snow-integration`, fully verified; **the merge/push to `main` is deferred to Goran**. Logged in the decisions file and surfaced to Chat.
+- **Branch, not `main`.** The brief said "work directly on `main` … pushed to `main`." The immediately-preceding B-15-**Cowork** decision (same person/day/phase-pair) changed push handling to *a dedicated branch, not pushed — Goran reviews and pushes/merges himself*, and the harness guards against committing on the default branch. Resolved in favor of the newer, more specific signal: all work was built + fully verified on `feat/b15-code-snow-integration`, then surfaced to Chat. **Goran chose to merge to `main` + push** (the brief's literal instruction), so the branch was fast-forwarded into `main` and pushed.
 - **Landing-hero alt lives in i18n.** The `/snow-removal/` landing hero alt originates at `division.snow-removal.hero.alt` in `src/messages/{en,es}.json` (consumed via `t('hero.alt')`), so the manifest's division-landing alt was written there (EN verbatim + drafted ES) — following the existing mechanism, no new plumbing. The old aspirational "freshly plowed driveway…" string was replaced because the new hero is a snowy street, not a driveway.
 - **No crop overrides.** All 5 center crops keep their key subject (verified visually at hero and tile aspect ratios), so no `heroPosition`/`tilePosition` was set.
 - **`DIVISION_HERO` is additive.** A new `Partial<Record<Division, StaticImageData>>` map + a `?? AUDIENCE_HERO[…]` fallback in the one consumer; zero `DivisionMeta` type change; the other four divisions are provably unchanged.
@@ -144,4 +144,4 @@ Each confirmed to match its service and its alt text. The 5 optimized source der
 - [x] All 10 snow routes verified (distinct hero + honest alt, EN + ES); division + city tile grids verified; zero regression on shared assets / other divisions.
 - [x] `validate:a11y` 0, `validate:links` hard 0, `validate:mobile` 0 errors.
 - [x] Doc set updated (decisions, TRANSLATION_NOTES §B.15, manifest, current-state, file-map, this report).
-- [ ] **Merge/push to `main`** — deferred to Goran's review (see §7).
+- [x] **Merge/push to `main`** — Goran chose merge-to-main; branch fast-forwarded into `main` + pushed (see §7).

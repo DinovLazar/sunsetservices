@@ -10,6 +10,7 @@
  */
 
 import type {StaticImageData} from 'next/image';
+import type {Division} from './services';
 
 // --- Audience heroes (3) ---
 import heroResidential from '@/assets/audience/hero-residential.jpg';
@@ -57,6 +58,17 @@ import svcHeroTrenchingExcavation from '@/assets/service/hero-trenching-excavati
 import svcHeroSewerLineReplacement from '@/assets/service/hero-sewer-line-replacement.jpg';
 import svcHeroConduitInstallation from '@/assets/service/hero-conduit-installation.jpg';
 
+// --- Snow Removal service heroes (4, Phase B-15) ---
+// Real free-license bridge photos (docs/stock-bridge/snow-removal/, optimized
+// by scripts/optimize-stock-bridge.mjs). Replace-by 2027-01-31 — see the
+// manifest + Decisions log. These 4 slugs dropped their shared snow-removal/
+// commercial-snow-removal imageKey aliases so they resolve to their own slug
+// here; the shared assets stay in place for city/blog/resource surfaces.
+import svcHeroDeIcing from '@/assets/service/hero-de-icing.jpg';
+import svcHeroSidewalkShoveling from '@/assets/service/hero-sidewalk-shoveling.jpg';
+import svcHeroDrivewaySnowRemoval from '@/assets/service/hero-driveway-snow-removal.jpg';
+import svcHeroCommercialSnowPlowing from '@/assets/service/hero-commercial-snow-plowing.jpg';
+
 // --- Service tile photos (16, used in audience-landing services grids) ---
 import svcTileLawnCare from '@/assets/service/tiles/lawn-care.jpg';
 import svcTileLandscapeDesign from '@/assets/service/tiles/landscape-design.jpg';
@@ -82,6 +94,17 @@ import svcTileFoundationRepair from '@/assets/service/tiles/foundation-repair.jp
 import svcTileTrenchingExcavation from '@/assets/service/tiles/trenching-excavation.jpg';
 import svcTileSewerLineReplacement from '@/assets/service/tiles/sewer-line-replacement.jpg';
 import svcTileConduitInstallation from '@/assets/service/tiles/conduit-installation.jpg';
+
+// --- Snow Removal service tiles (4, Phase B-15) ---
+import svcTileDeIcing from '@/assets/service/tiles/de-icing.jpg';
+import svcTileSidewalkShoveling from '@/assets/service/tiles/sidewalk-shoveling.jpg';
+import svcTileDrivewaySnowRemoval from '@/assets/service/tiles/driveway-snow-removal.jpg';
+import svcTileCommercialSnowPlowing from '@/assets/service/tiles/commercial-snow-plowing.jpg';
+
+// --- Snow Removal division-landing hero (1, Phase B-15) ---
+// Overrides the generic `commercial` audience-hero alias for `/snow-removal/`
+// (see DIVISION_HERO below). Replace-by 2027-01-31.
+import divisionHeroSnowRemoval from '@/assets/division/hero-snow-removal.jpg';
 
 // --- About brand-story portrait (Phase 1.12, reused as Phase 1.14 WhyLocal portrait) ---
 import aboutPortrait from '@/assets/about/brand-story.jpg';
@@ -158,6 +181,11 @@ export const SERVICE_HERO: Record<string, StaticImageData> = {
   'trenching-excavation': svcHeroTrenchingExcavation,
   'sewer-line-replacement': svcHeroSewerLineReplacement,
   'conduit-installation': svcHeroConduitInstallation,
+  // Phase B-15 — Snow Removal bridge photos (real, replace-by 2027-01-31).
+  'de-icing': svcHeroDeIcing,
+  'sidewalk-shoveling': svcHeroSidewalkShoveling,
+  'driveway-snow-removal': svcHeroDrivewaySnowRemoval,
+  'commercial-snow-plowing': svcHeroCommercialSnowPlowing,
 };
 
 export const SERVICE_TILE: Record<string, StaticImageData> = {
@@ -184,6 +212,28 @@ export const SERVICE_TILE: Record<string, StaticImageData> = {
   'trenching-excavation': svcTileTrenchingExcavation,
   'sewer-line-replacement': svcTileSewerLineReplacement,
   'conduit-installation': svcTileConduitInstallation,
+  // Phase B-15 — Snow Removal bridge photos (real, replace-by 2027-01-31).
+  'de-icing': svcTileDeIcing,
+  'sidewalk-shoveling': svcTileSidewalkShoveling,
+  'driveway-snow-removal': svcTileDrivewaySnowRemoval,
+  'commercial-snow-plowing': svcTileCommercialSnowPlowing,
+};
+
+/**
+ * Phase B-15 — per-division landing-hero override. When a division has an
+ * entry here, the `/[locale]/[division]/` landing resolves its hero from
+ * this map INSTEAD of the `AUDIENCE_HERO[DIVISION_META.heroImageKey]`
+ * audience-alias fallback — the consumer reads
+ * `DIVISION_HERO[division] ?? AUDIENCE_HERO[meta.heroImageKey]`.
+ *
+ * Only `snow-removal` overrides today: its `heroImageKey` is the generic
+ * `commercial` audience photo (no snow in frame), replaced here by a real
+ * free-license snow bridge photo (replace-by 2027-01-31). The other four
+ * divisions have no entry and keep resolving through their audience alias,
+ * unchanged.
+ */
+export const DIVISION_HERO: Partial<Record<Division, StaticImageData>> = {
+  'snow-removal': divisionHeroSnowRemoval,
 };
 
 /**

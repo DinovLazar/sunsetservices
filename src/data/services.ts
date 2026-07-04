@@ -3567,7 +3567,10 @@ export const SERVICES: Service[] = [
     division: 'snow-removal',
     icon: 'Droplets',
     name: {en: 'De-Icing', es: 'Deshielo'},
-    imageKey: 'snow-removal',
+    photoAlt: {
+      en: 'Close-up of coarse rock-salt crystals scattered across a dark surface — the granular material spread to de-ice snow- and ice-covered pavement.',
+      es: 'Primer plano de gruesos cristales de sal de roca esparcidos sobre una superficie oscura — el material granular que se esparce para deshelar el pavimento cubierto de nieve y hielo.',
+    },
     hero: {
       h1: {
         en: 'De-Icing in DuPage County.',
@@ -3696,7 +3699,10 @@ export const SERVICES: Service[] = [
     division: 'snow-removal',
     icon: 'Footprints',
     name: {en: 'Sidewalk Shoveling', es: 'Limpieza de Aceras'},
-    imageKey: 'snow-removal',
+    photoAlt: {
+      en: 'A person in a hooded winter coat shoveling deep snow from a walkway beside a house.',
+      es: 'Una persona con un abrigo de invierno con capucha paleando nieve profunda de un sendero junto a una casa.',
+    },
     hero: {
       h1: {
         en: 'Sidewalk Shoveling in DuPage County.',
@@ -3825,7 +3831,10 @@ export const SERVICES: Service[] = [
     division: 'snow-removal',
     icon: 'Snowflake',
     name: {en: 'Driveway Snow Removal', es: 'Remoción de Nieve en Entradas'},
-    imageKey: 'snow-removal',
+    photoAlt: {
+      en: 'A person operating a two-stage snow blower to clear deep snow from a residential driveway.',
+      es: 'Una persona operando una máquina quitanieves de dos etapas para despejar nieve profunda de la entrada de una casa.',
+    },
     hero: {
       h1: {
         en: 'Driveway Snow Removal in DuPage.',
@@ -3954,12 +3963,14 @@ export const SERVICES: Service[] = [
     division: 'snow-removal',
     icon: 'Building2',
     name: {en: 'Commercial Snow Plowing', es: 'Remoción Comercial de Nieve'},
-    /**
-     * Phase M.01e — inherits the retired `commercial-snow-removal` photo asset
-     * key so existing imageMap entries (commercial-snow-removal hero + tile)
-     * keep rendering for this service without a duplicate map entry.
-     */
-    imageKey: 'commercial-snow-removal',
+    // Phase B-15 — dropped the `commercial-snow-removal` imageKey alias so this
+    // service resolves to its own slug asset (hero-commercial-snow-plowing.jpg /
+    // tiles/commercial-snow-plowing.jpg). The shared `commercial-snow-removal`
+    // assets stay in place for the bolingbrook city + blog/resource surfaces.
+    photoAlt: {
+      en: 'A plow truck with a front plow blade clearing snow from an open paved area during heavy snowfall.',
+      es: 'Un camión quitanieves con una pala frontal despejando nieve de una zona pavimentada abierta durante una fuerte nevada.',
+    },
     hero: {
       h1: {
         en: 'Commercial Snow Plowing in DuPage.',

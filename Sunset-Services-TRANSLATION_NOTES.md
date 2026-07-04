@@ -522,3 +522,27 @@ Six Waterproofing + Trenchless service pages received real free-license bridge p
 ### Open question for native review (B-14)
 
 - `gutter-services` uses **canaleta** (matching the service name "Servicios de Canaletas"); a Spain-register reviewer may prefer *canalón*. Left as *canaleta* for internal consistency with the locked service name.
+
+## Phase B.15 — Stock-bridge photo alt text (4 Snow Removal services + division landing) (added 2026-07-04)
+
+### Scope
+
+The four Snow Removal service pages (`de-icing`, `sidewalk-shoveling`, `driveway-snow-removal`, `commercial-snow-plowing`) received real free-license bridge photos (B-15 sourcing) wired into the image pipeline this phase, and the `/snow-removal/` division landing got a dedicated snow hero. Each service carries a descriptive `photoAlt` (`{en, es}`) on its `services.ts` entry (consumed by the service-detail hero + division-landing tile grid + city-page service grid, falling back to the service name elsewhere). The division-landing hero alt lives in i18n at `division.snow-removal.hero.alt` in `src/messages/{en,es}.json` (consumed by `[locale]/[division]/page.tsx` via `t('hero.alt')`). The **EN alt is authoritative** in `docs/stock-bridge/stock-image-manifest.md` (used verbatim, including the B-15 adjustments to match exactly what each downloaded photo shows). The **ES below is a drafted translation** — same generic rules as the images: describe only what is in frame, never name Sunset, never name a city, never imply the work is Sunset's.
+
+**Status: awaits native review** like other post-M.03 additions. Register: descriptive/neutral (image alt, not marketing copy). Terminology: *sal de roca* (rock salt), *quitanieves* (snow blower / snow plow), *deshelar* (to de-ice; the service name is *Deshielo*), *pala frontal* (front plow blade), *nevada* (snowfall).
+
+### EN → ES alt pairs (5)
+
+| Surface (slug) | EN (authoritative, from manifest) | ES (drafted, pending native review) |
+| --- | --- | --- |
+| `de-icing` | Close-up of coarse rock-salt crystals scattered across a dark surface — the granular material spread to de-ice snow- and ice-covered pavement. | Primer plano de gruesos cristales de sal de roca esparcidos sobre una superficie oscura — el material granular que se esparce para deshelar el pavimento cubierto de nieve y hielo. |
+| `sidewalk-shoveling` | A person in a hooded winter coat shoveling deep snow from a walkway beside a house. | Una persona con un abrigo de invierno con capucha paleando nieve profunda de un sendero junto a una casa. |
+| `driveway-snow-removal` | A person operating a two-stage snow blower to clear deep snow from a residential driveway. | Una persona operando una máquina quitanieves de dos etapas para despejar nieve profunda de la entrada de una casa. |
+| `commercial-snow-plowing` | A plow truck with a front plow blade clearing snow from an open paved area during heavy snowfall. | Un camión quitanieves con una pala frontal despejando nieve de una zona pavimentada abierta durante una fuerte nevada. |
+| `/snow-removal/` landing hero (`division.snow-removal.hero.alt`) | A snow-covered suburban residential street lined with houses and parked cars after a winter snowfall. | Una calle residencial suburbana cubierta de nieve, bordeada de casas y autos estacionados tras una nevada invernal. |
+
+### Open questions for native review (B-15)
+
+- **`quitanieves`** covers both "snow blower" (driveway-snow-removal) and "snow plow" (commercial-snow-plowing) in the drafts. A reviewer may prefer to differentiate — e.g. *soplanieves* / *máquina sopladora de nieve* for the two-stage blower vs. *camión con pala quitanieves* for the plow truck — if the distinction matters on-page.
+- **`entrada`** is used for "driveway" (matching the `driveway-snow-removal` service name "Remoción de Nieve en Entradas"); a reviewer targeting a different register may prefer *entrada de auto* / *cochera*.
+- The **de-icing** em-dash construction mirrors the EN manifest phrasing; a reviewer may prefer to split it into two sentences in ES.

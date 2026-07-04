@@ -2,7 +2,7 @@
 
 **Phase:** B-13 (briefs) + B-13b (download pass) + B-15 (Snow Removal sourcing pass)
 **Created:** 2026-07-03 · **Downloads executed:** 2026-07-03 (Waterproofing/Trenchless), 2026-07-04 (Snow Removal)
-**Status:** **Waterproofing/Trenchless: 6 images integrated (B-14); 10 services on diagram track. Snow Removal: 5 images sourced (B-15), integration pending B-15-Code.**
+**Status:** **Waterproofing/Trenchless: 6 images integrated (B-14); 10 services on diagram track. Snow Removal: 5 images integrated (B-15 Code).**
 **Replacement-by date (Waterproofing/Trenchless images):** **2026-10-01** — after this date, authentic Sunset photography replaces those bridge images.
 **Replacement-by date (Snow Removal images):** **2027-01-31** — snow photography cannot exist before the first 2026–27 snowfall; crews shoot real work during the first storm cycles, then a replacement phase swaps these out.
 
@@ -141,3 +141,4 @@ The de-icing subject was the one hard case. After ~15 searches across Pexels, Un
 - 2026-07-03 (B-13) — Manifest created with enumerated pages, filenames, alt text, per-image sourcing briefs, diagram-needed analysis.
 - 2026-07-03 (B-13b) — Download pass executed: 6 heroes sourced/verified/saved; 7 waterproofing services flagged as gaps; handhole moved to diagram; alt text adjusted per what was actually found; status set to "Downloads complete."
 - 2026-07-04 (B-15) — Snow Removal sourcing pass: 5 heroes sourced/verified/saved (de-icing, sidewalk-shoveling, driveway-snow-removal, commercial-snow-plowing, division-landing), all Pexels License, non-AI, landscape ≥2400 px, visually distinct. De-icing resolved to a coarse rock-salt material close-up per a Chat decision (accurate action shot unavailable on free stock). Replace-by 2027-01-31 for all 5. Integration pending B-15-Code.
+- 2026-07-04 (B-15 Code) — Integration executed. The 5 source photos optimized into `src/assets/service/hero-{de-icing,sidewalk-shoveling,driveway-snow-removal,commercial-snow-plowing}.jpg` + matching `tiles/` derivatives + `src/assets/division/hero-snow-removal.jpg` (16:9 2400×1350, all < 400 KB), wired via slug-keyed `SERVICE_HERO`/`SERVICE_TILE` + a new `DIVISION_HERO` map. The 4 snow services dropped their `snow-removal`/`commercial-snow-removal` `imageKey` aliases and gained manifest-verbatim `photoAlt`; the landing-hero alt moved to `division.snow-removal.hero.alt`. The pre-existing shared `hero-snow-removal.jpg` / `hero-commercial-snow-removal.jpg` + their tiles + project tiles were left byte-identical (still serve st-charles + city grids + blog/resource). See `src/_project-state/Phase-B-15-Code-Completion.md`.

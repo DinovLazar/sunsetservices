@@ -12,7 +12,7 @@ import AudienceFAQ from '@/components/sections/audience/AudienceFAQ';
 import AudienceCTA from '@/components/sections/audience/AudienceCTA';
 import {getServicesForDivision} from '@/data/services';
 import {DIVISIONS, getDivisionMeta, isDivision} from '@/data/divisions';
-import {AUDIENCE_HERO, AUDIENCE_PROJECT_TILES, SERVICE_TILE} from '@/data/imageMap';
+import {AUDIENCE_HERO, AUDIENCE_PROJECT_TILES, DIVISION_HERO, SERVICE_TILE} from '@/data/imageMap';
 import {buildBreadcrumbList} from '@/lib/schema/breadcrumb';
 import {buildDivisionItemList, localePath} from '@/lib/schema/service';
 import {routing} from '@/i18n/routing';
@@ -80,7 +80,10 @@ export default async function DivisionLandingPage({
   const homeLabel = tShared('breadcrumbHome');
   const services = getServicesForDivision(division);
   const meta = getDivisionMeta(division);
-  const heroPhoto = AUDIENCE_HERO[meta.heroImageKey];
+  // Phase B-15 — a division with its own landing hero (DIVISION_HERO) overrides
+  // the generic AUDIENCE_HERO audience alias; the other divisions fall through
+  // to their `heroImageKey` audience photo unchanged.
+  const heroPhoto = DIVISION_HERO[division] ?? AUDIENCE_HERO[meta.heroImageKey];
 
   // ---- Schema ----
   const breadcrumbSchema = buildBreadcrumbList([

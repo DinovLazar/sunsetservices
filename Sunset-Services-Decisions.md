@@ -2242,3 +2242,19 @@ The booking embed already hides and shows its tel-fallback when `NEXT_PUBLIC_CAL
 **Branch handling (own decision, surfaced — not self-ratified).** The B-15 Code brief says "work directly on `main` … before push" and its Definition of Done says "pushed to `main`." That conflicts with the more recent, more specific B-15-**Cowork** decision immediately above (same person, same day, same phase pair), which changed push handling to *a dedicated branch, not pushed — Goran reviews and pushes/merges himself*. It also conflicts with the harness default (branch before committing on the default branch). Resolving in favor of the newer, more specific signal: this Code leg is committed to a dedicated branch **`feat/b15-code-snow-integration`** with full verification, and the merge/push to `main` is left to Goran's review. Flagged to Chat for the final integration call.
 
 **Logged by:** Code, 2026-07-04, before any source change (first commit of the Code leg).
+
+---
+
+## 2026-07-04 — Phase B-15 Code outcome: in-phase decisions
+
+Appended after the code change + full verification, before the final commit. All items surfaced (not self-ratified):
+
+- **No crop-position overrides.** All 5 photos keep their key subject under a plain `centre` crop at both hero (16:9) and tile (4:3) ratios — verified visually. No `heroPosition`/`tilePosition` was set.
+- **Landing-hero alt lives in i18n.** The `/snow-removal/` division-landing hero alt originates at `division.snow-removal.hero.alt` in `src/messages/{en,es}.json` (consumed via `t('hero.alt')` in `[locale]/[division]/page.tsx`). The manifest's division-landing alt was written there (EN verbatim + drafted ES); the prior aspirational "freshly plowed driveway…" string was replaced because the new hero is a snowy suburban **street**, not a driveway. This is the existing mechanism — no new plumbing.
+- **`DIVISION_HERO` override is additive.** New `DIVISION_HERO: Partial<Record<Division, StaticImageData>>` (only `snow-removal`) + `DIVISION_HERO[division] ?? AUDIENCE_HERO[meta.heroImageKey]` in the one consumer. Zero `DivisionMeta` type change; the other four divisions resolve exactly as before.
+- **Blog/resource featured-image nuance (off the plan-of-record's wording).** The Step-0 plan (from the brief) said the shared assets also serve "one blog featured image and one resource featured image." In fact the blog `snow-for-commercial-properties` and resource `snow-service-levels-for-pms` featured images are independent **public-dir** files (`/images/{blog,resources}/…`), not imageMap aliases — so they never shared the assets and are regression-safe regardless. The genuine shared-asset consumers are the st-charles city hero (`hero-snow-removal.jpg`), the retired bolingbrook entry (`hero-commercial-snow-removal.jpg`), the city service grids, and the 4 snow services' featured-project tiles — all left byte-identical.
+- **Env (verification only).** `npx playwright install chromium` was needed for the a11y/links/mobile validators (one-time browser download to the user cache; no repo/package change).
+
+**Verification result:** build 202/202 (0 TS), lint 0 err, tsc 0 err, optimizer idempotent (6 B-14 derivatives byte-identical), all 10 snow routes distinct-hero + honest-alt, `validate:a11y` 0/0, `validate:links` hard 0, `validate:mobile` 0 err. See `src/_project-state/Phase-B-15-Code-Completion.md`.
+
+**Logged by:** Code, 2026-07-04, after verification, before the final commit.

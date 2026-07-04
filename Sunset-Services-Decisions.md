@@ -2213,3 +2213,22 @@ The booking embed already hides and shows its tel-fallback when `NEXT_PUBLIC_CAL
 **B-15 plan-of-record (Cowork + Code).** The Snow Removal division gets licensed free-stock bridge imagery per Brand Guide §9.1/§9.3: 4 service pages (`de-icing`, `sidewalk-shoveling`, `driveway-snow-removal`, `commercial-snow-plowing`) + the `/snow-removal/` landing hero. Same rules as the B-13/B-14 pass: `stock-` filename prefix, generic truthful alt text (never names Sunset, never names a city, never implies the work is Sunset's), no AI-generated imagery, license + source logged per image. **Replacement-by date: 2027-01-31** (unlike the 2026-10-01 date on the waterproofing/trenchless images — authentic snow photos cannot exist before the first 2026–27 snowfall; crews shoot real work during the first storm cycles, then a replacement phase swaps these out). Division-landing "featured projects" tiles are explicitly **out of scope** — stock photos in a "recent work" strip would imply Sunset attribution, violating the B-09 no-fabrication rule. Why: three of four snow service pages currently show the identical placeholder and the landing hero is not a snow photo.
 
 **Logged by:** Cowork (on behalf of Goran), 2026-07-04, as the phase plan-of-record before commit. An in-phase outcome addendum (the sourcing results + the de-icing decision) is appended below after the download pass.
+
+---
+
+## 2026-07-04 — Phase B.15 outcome: 5 Snow Removal heroes sourced; de-icing resolved to a rock-salt material close-up
+
+**Decided by:** operator brief "Phase B-15 — Snow Removal stock-bridge photos (Cowork: sourcing pass)," executed against `docs/stock-bridge/stock-image-manifest.md`. Sourcing done via the connected macOS Chrome; files downloaded to `~/Downloads` and copied into `docs/stock-bridge/snow-removal/`. No repo source files touched; all new files under `docs/stock-bridge/` + this log + the completion report.
+
+**Outcome — 5 of 5 snow pages get a free-license bridge photo (all Pexels License, non-AI, landscape ≥2400 px, visually distinct, logo/plate/face-clean):**
+- **sidewalk-shoveling** — person shoveling a walkway beside a house (Sergei Starostin, 6000×4000).
+- **driveway-snow-removal** — person running a two-stage snow blower on a brick-house driveway, "Toronto suburb" (Anurag Jamwal, 6000×4000).
+- **commercial-snow-plowing** — plow truck with front blade clearing an open snowy area in a storm (Cara Denison, 4239×2825).
+- **division-landing** — wide snow-covered suburban residential street, deliberately distinct from the plow truck (Frank Taylor, 2995×2448).
+- **de-icing** — coarse rock-salt crystals scattered on a dark surface (Castorly Stock, 6000×4000). See decision below.
+
+**De-icing decision (surfaced to Chat, not self-ratified).** No clean, accurate, landscape, logo-free free-license photo of de-icing salt *being spread* exists: the best action shot (person hand-spreading blue ice-melt) is **portrait**; spreader trucks carry **brand decals** ("GENGRAS") or read **European**; clean coarse-salt close-ups are titled/styled as **culinary "sea salt"**; the accurate action shots are **iStock Sponsored (paid)** — the same paid-only pattern B-13b found for niche subjects. Per the binding accuracy rule (*an inaccurate photo is worse than none*), no rule-breaking option was settled. **Goran was asked in Chat and chose to ship a coarse rock-salt material close-up** (rock salt = the de-icing material) with honest material-focused alt text, keeping all 5 pages covered rather than logging de-icing as a gap. _Alternatives rejected: (a) the portrait person-spreading shot — Goran declined; violates the landscape rule and would crop badly; (b) a gap — Goran preferred full coverage with an honest material photo; (c) mislabeling a culinary "sea salt" photo as de-icing — rejected as dishonest._ The de-icing image is flagged for priority swap at the 2027-01-31 replacement with a real Sunset de-icing action photo.
+
+**Push handling (changed from brief).** The brief's Step 4 said commit + push to `main`. Per a Chat change, this work was committed to a **dedicated branch `docs/b15-snow-stock-bridge`** (two commits mirroring the brief: plan-of-record, then photos + manifest + report), and **not pushed** — Goran reviews and pushes/merges himself. `main` was left untouched.
+
+**Logged by:** Cowork (on behalf of Goran), 2026-07-04, after the sourcing pass, before the second commit.

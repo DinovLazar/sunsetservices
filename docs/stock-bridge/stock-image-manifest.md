@@ -1,9 +1,10 @@
-# Stock-bridge image manifest — Waterproofing & Trenchless
+# Stock-bridge image manifest — Waterproofing, Trenchless & Snow Removal
 
-**Phase:** B-13 (briefs) + B-13b (download pass)
-**Created:** 2026-07-03 · **Downloads executed:** 2026-07-03
-**Status:** **Downloads complete — 6 images integrated (B-14); 10 services on diagram track.**
-**Replacement-by date (every image):** **2026-10-01** — after this date, authentic Sunset photography replaces all bridge images.
+**Phase:** B-13 (briefs) + B-13b (download pass) + B-15 (Snow Removal sourcing pass)
+**Created:** 2026-07-03 · **Downloads executed:** 2026-07-03 (Waterproofing/Trenchless), 2026-07-04 (Snow Removal)
+**Status:** **Waterproofing/Trenchless: 6 images integrated (B-14); 10 services on diagram track. Snow Removal: 5 images sourced (B-15), integration pending B-15-Code.**
+**Replacement-by date (Waterproofing/Trenchless images):** **2026-10-01** — after this date, authentic Sunset photography replaces those bridge images.
+**Replacement-by date (Snow Removal images):** **2027-01-31** — snow photography cannot exist before the first 2026–27 snowfall; crews shoot real work during the first storm cycles, then a replacement phase swaps these out.
 
 > These are **temporary bridge images** under Brand Guide §9.1/§9.3. Every file carries the mandatory `stock-` prefix so it stays permanently distinguishable from real Sunset project photos. Alt text is generic and truthful — it never names Sunset, never names a city, never implies the work is Sunset's. See the 2026-07-03 decisions-log entries for the plan-of-record. Repo integration is a later Code phase (B-14); **no `.tsx`/`.ts`/`.json` file was touched here.**
 
@@ -101,6 +102,42 @@ Takes **no stock photo**; ships with a labeled cutaway diagram (follow-up phase)
 
 ---
 
+## Snow Removal — image table (B-15)
+
+**Snow Removal** (`/snow-removal/<slug>`): de-icing, sidewalk-shoveling, driveway-snow-removal, commercial-snow-plowing. Plus the **`/snow-removal/` division landing hero**. English routes are unprefixed; Spanish equivalents live at `/es/…` and reuse the same image asset.
+
+**Download-pass result (B-15):** 5 of 5 sourced, license-verified, non-AI-confirmed, visually inspected, saved. All from Pexels (Pexels License, no attribution required; photographer + page URL logged anyway). All landscape, all ≥ 2400 px wide (four at 4239–6000 px; the landing hero at 2995 px). All 5 are visually distinct scenes — no two pages share an image. No AI-generated label appeared on any source page; every photographer has a real profile/portfolio.
+
+| Filename | Target page | Role | Source page URL | Photographer | License | Download date | Alt text | Replace by |
+|---|---|---|---|---|---|---|---|---|
+| `stock-snow-removal-de-icing-hero-01.jpg` | `/snow-removal/de-icing` | hero | https://www.pexels.com/photo/macro-photography-of-crystal-salt-3693293/ | Castorly Stock | Pexels License | 2026-07-04 | Close-up of coarse rock-salt crystals scattered across a dark surface — the granular material spread to de-ice snow- and ice-covered pavement. | 2027-01-31 |
+| `stock-snow-removal-sidewalk-shoveling-hero-01.jpg` | `/snow-removal/sidewalk-shoveling` | hero | https://www.pexels.com/photo/snow-clearing-27306418/ | Sergei Starostin | Pexels License | 2026-07-04 | A person in a hooded winter coat shoveling deep snow from a walkway beside a house. | 2027-01-31 |
+| `stock-snow-removal-driveway-snow-removal-hero-01.jpg` | `/snow-removal/driveway-snow-removal` | hero | https://www.pexels.com/photo/winter-snow-removal-in-toronto-suburb-30731980/ | Anurag Jamwal | Pexels License | 2026-07-04 | A person operating a two-stage snow blower to clear deep snow from a residential driveway. | 2027-01-31 |
+| `stock-snow-removal-commercial-snow-plowing-hero-01.jpg` | `/snow-removal/commercial-snow-plowing` | hero | https://www.pexels.com/photo/snow-plow-truck-clearing-winter-roadway-35826492/ | Cara Denison | Pexels License | 2026-07-04 | A plow truck with a front plow blade clearing snow from an open paved area during heavy snowfall. | 2027-01-31 |
+| `stock-snow-removal-division-landing-hero-01.jpg` | `/snow-removal/` (division landing) | hero | https://www.pexels.com/photo/snow-pathway-near-at-houses-774485/ | Frank Taylor | Pexels License | 2026-07-04 | A snow-covered suburban residential street lined with houses and parked cars after a winter snowfall. | 2027-01-31 |
+
+**Dimensions & non-AI check (per image):**
+- `de-icing` — 6000 × 4000, landscape. Photographer *Castorly Stock* (prolific real Pexels contributor). No AI label on source page.
+- `sidewalk-shoveling` — 6000 × 4000, landscape. Photographer *Sergei Starostin* (real profile; already the source of two Trenchless bridge images in this manifest). No AI label.
+- `driveway-snow-removal` — 6000 × 4000, landscape. Photographer *Anurag Jamwal* (real profile). No AI label. Source titled "winter snow removal in Toronto suburb" — North American suburban context.
+- `commercial-snow-plowing` — 4239 × 2825, landscape. Photographer *Cara Denison* (real profile; winter-storm series). No AI label. Only markings on the truck are a fleet unit number ("452") and a faint plow-blade maker stamp — no business/brand decals, no readable plate.
+- `division-landing` — 2995 × 2448, landscape. Photographer *Frank Taylor* (real profile; low photo-id → pre-AI-era upload). No AI label. Wide suburban street scene, deliberately distinct from the plow-truck image (#4).
+
+## Alt-text adjustments made during the Snow Removal pass (B-15)
+
+Each draft alt from the B-15 brief was tightened to describe exactly what the downloaded photo shows (still generic — never "Sunset", never a city, never implied attribution):
+
+- **de-icing** — from "Granular de-icing salt being spread across a snow-and-ice-covered paved surface" → "Close-up of coarse rock-salt crystals scattered across a dark surface — the granular material spread to de-ice snow- and ice-covered pavement." **Why:** an accurate free-license photo of salt *being spread* (hand/spreader/truck) does not exist without a rule violation (see de-icing note below), so this ships a truthful close-up of the de-icing **material** rather than the action. Flagged for the replacement pass to swap in a real Sunset de-icing action photo.
+- **sidewalk-shoveling** — from "A person shoveling fresh snow from a paved sidewalk after a snowfall" → "A person in a hooded winter coat shoveling deep snow from a walkway beside a house" (the found photo shows a walkway beside a house, not a clearly paved public sidewalk).
+- **driveway-snow-removal** — from "A snow blower clearing deep snow from a residential driveway" → "A person operating a two-stage snow blower to clear deep snow from a residential driveway" (the operator is in frame; specifying the machine type is more accurate).
+- **commercial-snow-plowing** — from "A plow truck clearing accumulated snow from a commercial parking lot" → "A plow truck with a front plow blade clearing snow from an open paved area during heavy snowfall" (the scene is an open snow-covered area/roadway in a storm, not identifiably a parking lot).
+- **division-landing** — from "A freshly cleared driveway bordered by deep snow in a suburban neighborhood in winter" → "A snow-covered suburban residential street lined with houses and parked cars after a winter snowfall" (the found photo is a wide snowy suburban street, not a single cleared driveway; it works as an establishing winter-neighborhood hero and is clearly distinct from the plow-truck image).
+
+## De-icing note (in-phase decision, surfaced to Chat — not self-ratified)
+
+The de-icing subject was the one hard case. After ~15 searches across Pexels, Unsplash and Pixabay, **no clean, accurate, landscape, logo-free free-license photo of de-icing salt *being spread* exists.** The options each broke a binding rule: the most accurate action shot (a person hand-spreading blue ice-melt on a suburban walkway) is **portrait**; salt-spreader trucks carry **readable brand decals** (e.g. "GENGRAS") or read as **European**; and the clean coarse-salt close-ups on free stock are titled/styled as **culinary "sea salt."** The accurate action shots were consistently **iStock Sponsored (paid)** — the same paid-only pattern B-13b documented for niche subjects. Per the binding accuracy rule (*an inaccurate photo is worse than none*), none of the rule-breaking options was settled. Goran was asked in Chat and chose to ship a **coarse rock-salt material close-up** (rock salt = the de-icing material) with honest, material-focused alt text, keeping all 5 pages covered, rather than leave de-icing as a gap. This is the honest floor for that page until a real Sunset de-icing photo lands at the 2027-01-31 replacement.
+
 ## Change log
 - 2026-07-03 (B-13) — Manifest created with enumerated pages, filenames, alt text, per-image sourcing briefs, diagram-needed analysis.
 - 2026-07-03 (B-13b) — Download pass executed: 6 heroes sourced/verified/saved; 7 waterproofing services flagged as gaps; handhole moved to diagram; alt text adjusted per what was actually found; status set to "Downloads complete."
+- 2026-07-04 (B-15) — Snow Removal sourcing pass: 5 heroes sourced/verified/saved (de-icing, sidewalk-shoveling, driveway-snow-removal, commercial-snow-plowing, division-landing), all Pexels License, non-AI, landscape ≥2400 px, visually distinct. De-icing resolved to a coarse rock-salt material close-up per a Chat decision (accurate action shot unavailable on free stock). Replace-by 2027-01-31 for all 5. Integration pending B-15-Code.

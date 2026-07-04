@@ -2205,3 +2205,11 @@ The booking embed already hides and shows its tel-fallback when `NEXT_PUBLIC_CAL
 **Off-spec discovery (surfaced, not self-ratified):** the city service grid (`LocationServicesGrid`, `/service-areas/<city>/`) is a **third** surface that renders 2 of the 6 new tiles — several cities feature `foundation-repair` and `yard-drainage` in `featuredServices`. The brief named only the service-detail hero + division-landing grid; this surface picks up the new tile asset + `photoAlt` automatically through the same slug resolution, and is included in verification.
 
 **Logged by:** Code, 2026-07-03, before any source change (Task 1, first commit content of the phase).
+
+---
+
+## 2026-07-04 — Phase B.15 plan-of-record: Snow Removal stock-bridge imagery (Cowork sourcing + Code integration)
+
+**B-15 plan-of-record (Cowork + Code).** The Snow Removal division gets licensed free-stock bridge imagery per Brand Guide §9.1/§9.3: 4 service pages (`de-icing`, `sidewalk-shoveling`, `driveway-snow-removal`, `commercial-snow-plowing`) + the `/snow-removal/` landing hero. Same rules as the B-13/B-14 pass: `stock-` filename prefix, generic truthful alt text (never names Sunset, never names a city, never implies the work is Sunset's), no AI-generated imagery, license + source logged per image. **Replacement-by date: 2027-01-31** (unlike the 2026-10-01 date on the waterproofing/trenchless images — authentic snow photos cannot exist before the first 2026–27 snowfall; crews shoot real work during the first storm cycles, then a replacement phase swaps these out). Division-landing "featured projects" tiles are explicitly **out of scope** — stock photos in a "recent work" strip would imply Sunset attribution, violating the B-09 no-fabrication rule. Why: three of four snow service pages currently show the identical placeholder and the landing hero is not a snow photo.
+
+**Logged by:** Cowork (on behalf of Goran), 2026-07-04, as the phase plan-of-record before commit. An in-phase outcome addendum (the sourcing results + the de-icing decision) is appended below after the download pass.

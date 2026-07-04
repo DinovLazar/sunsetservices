@@ -2258,3 +2258,51 @@ Appended after the code change + full verification, before the final commit. All
 **Verification result:** build 202/202 (0 TS), lint 0 err, tsc 0 err, optimizer idempotent (6 B-14 derivatives byte-identical), all 10 snow routes distinct-hero + honest-alt, `validate:a11y` 0/0, `validate:links` hard 0, `validate:mobile` 0 err. See `src/_project-state/Phase-B-15-Code-Completion.md`.
 
 **Logged by:** Code, 2026-07-04, after verification, before the final commit.
+
+---
+
+## 2026-07-04 — Phase B-16 Cowork plan-of-record: Hardscape + gap-services stock-bridge sourcing (accuracy-ladder relaxation)
+
+**B-16 Cowork plan-of-record.** Source the closest honest free-license bridge image for 15 launch pages still on placeholders or the diagram track: **4 Hardscape** service pages (`retaining-walls`, `fire-pits-features`, `driveways`, `outdoor-kitchens`), **7 Waterproofing** targets (the `/waterproofing/` division-landing hero + `basement-waterproofing`, `sump-pumps`, `window-wells`, `crawl-spaces`, `concrete-raising`, `humidity-control`, `radon-mitigation`), and **3 Trenchless** targets (the `/trenchless/` division-landing hero + `handhole-pull-box`, `pipe-fusing`). Same Brand Guide §9.1/§9.3 bridge rules as B-13/B-15: mandatory `stock-` filename prefix, generic truthful alt text (never names Sunset, a city, or implies Sunset attribution), no AI imagery, license + source logged per image, landscape, ≥1600 px (prefer ≥2400).
+
+**Accuracy-ladder relaxation (operator decision, 2026-07-04) — supersedes the B-13b "exact subject or nothing" disposition for these 9 gap services.** B-13b left 7 waterproofing services and handhole/pipe-fusing on the GAP/diagram track because the exact subject was paid-only. For launch, these pages get the **closest honest image** via a three-tier ladder — **T1** exact subject · **T2** honest adjacent subject (the equipment, material, or setting) · **T3** the condition the service addresses (ratified precedent: B-14's foundation-repair crack photo). Never acceptable: wrong-object images, AI-generated, watermarked, visible brand logos/readable plates/house numbers, or an identifiable person's face as the subject (incidental/back-turned/hooded people are fine — B-15 precedent). The truthfulness safeguard moves **entirely into the alt text**, which describes exactly what the photo shows.
+
+**Replacement-by date: 2026-10-01 for all B-16 images** (matches the existing waterproofing/trenchless bridge date; hardscape is Sunset's flagship division and real photos should replace these first). **Sources:** Pexels first (Pexels License); Pixabay (Content License) and Unsplash (Unsplash License) approved fallbacks. **`missile-boring` is explicitly out of scope** — it stays on the diagram track. Scope is `docs/stock-bridge/**` + this log + the completion report only; no `.ts`/`.tsx`/`.json`/asset-pipeline files (that is Phase B-16 Code). Why: these 15 pages still show placeholder or mismatched photos and need an honest bridge image so the site looks finished at launch.
+
+**Decisions-first-commit convention (environment deviation, surfaced — not self-ratified).** The project convention is to commit this plan-of-record alone before the first download. In this Cowork session the connected repo working copy is a delete/rename-restricted mount on which `git` cannot manage its index (commits fail), so **all git operations are performed manually by Goran** — the decisions-first commit could not be made as a separate pre-sourcing commit from the session. This entry is still authored before the outcome entry below; Goran commits the decisions + images together on his machine. Flagged to Chat.
+
+**Logged by:** Cowork (on behalf of Goran), 2026-07-04, as the phase plan-of-record. In-phase outcome appended below.
+
+---
+
+## 2026-07-04 — Phase B-16 Cowork outcome: 14 of 15 bridge images sourced; sump-pumps left a documented GAP
+
+**Decided by:** operator brief "Phase B.16 · Cowork — Stock-bridge sourcing pass (15 images)," executed against `docs/stock-bridge/stock-image-manifest.md`. Sourcing done via the connected macOS Chrome ("Lazar Mac"); Chrome's download folder was pointed at `docs/stock-bridge/` and each image saved with its original Pexels filename, then copied to the locked `stock-<division>-<slug>-hero-01.jpg` name in the correct subfolder. No repo source files touched; all changes under `docs/stock-bridge/**` + this log + the completion report.
+
+**Outcome — 14 of 15 pages get a free-license bridge photo** (all Pexels License, non-AI-confirmed, landscape, ≥1600 px [3464–9000 px], md5-unique vs each other and the 11 already-integrated images). Full per-image table + dimensions/tier/non-AI block in the manifest's **B-16** section. Summary by tier:
+- **Tier 1 (exact subject):** retaining-walls (segmental-block wall + steps), fire-pits-features (built stone fire pit on flagstone), driveways (paver driveway to a modern home), outdoor-kitchens (built-in grill/sink/fridge island), crawl-spaces (open crawl-space access hatch), trenchless division-landing (HDD rig boring under a street), pipe-fusing (butt-fusion machine joining PE pipe).
+- **Tier 2 (honest adjacent):** window-wells (grade-level exterior basement windows), humidity-control (interior window condensation), radon-mitigation (white PVC vent pipe on a stucco exterior — alt does NOT say "radon"), handhole-pull-box (ground-mounted utility enclosure with conduit).
+- **Tier 3 (the condition):** waterproofing division-landing (clean dry finished basement), basement-waterproofing (water-tracking/efflorescence on concrete), concrete-raising (cracked concrete pavement).
+
+**`sump-pumps` left a documented GAP (surfaced, not self-ratified).** After exhausting Pexels (`sump pump`, `submersible water pump`, `flooded basement`, `water on concrete floor`), **Unsplash**, and **Pixabay**, the accurate sump-pump-in-basin exists only as **iStock Sponsored (paid)** — the same paid-only pattern B-13b documented. The relaxed T3 fallback ("standing water on a basement/concrete floor") also failed: free results were dry cracked-concrete texture, outdoor floods, a **Canva AI-generated ad tile** (rejected: AI), or **people-dominated** shots (feet in a puddle). Per the binding never-wrong-object rule, none was settled. `sump-pumps` closes partial — Chat re-plans that one page (a labeled diagram, a real Sunset photo, or a paid stock image if it truly needs a photo before real photography lands).
+
+**Other in-phase judgment calls (all surfaced):**
+- **crawl-spaces used a T1 access scene with an incidental person** (a home inspector crouched at an open crawl-space hatch, face in profile/down — not the subject). Justified by the B-15 incidental-people precedent; the crawl-space opening is the subject. Same reasoning for the two workers (back/side-on) in the trenchless HDD hero and the gloved-hands-no-face operator in the pipe-fusing hero.
+- **radon-mitigation alt is deliberately generic** ("a grey-white PVC vent pipe protruding from a white stucco exterior wall") and never claims the pipe is a radon system, per the brief's explicit instruction.
+- **pipe-fusing pipe is yellow PE, not black HDPE.** The image shows the actual PE **butt-fusion process** (superior T1) rather than a generic black-pipe stack; the alt states "yellow polyethylene pipe" honestly. Clean, unmistakable black-HDPE free imagery was scarce (mostly B&W abstracts that could read as steel — a B-13 trap — which were rejected).
+- **Duplicate avoided:** the open-pit shot 29274530 (a strong handhole candidate) was rejected because it is already the source of the existing `sewer-line-replacement` bridge image.
+- **Image sizes.** Native full-resolution Pexels downloads were kept (3464–9000 px) to match the existing set's precedent; web-optimization/resizing is Phase B-16 Code's job (`scripts/optimize-stock-bridge.mjs`).
+
+**Push handling (environment + convention).** The connected repo mount forbids git index writes, so **Goran performs all git manually** and pushes/merges himself (matching the B-15 handling where Goran reviews before merge). Per the brief, the branch `feat/b16-cowork-stock-sourcing` is intended for Goran's review, **not merged** — and **Phase B-16 Code must not start until this branch is merged to `main`.** Any stray flat `pexels-*.jpg` downloads left in `docs/stock-bridge/` (the pre-rename originals) are not to be committed; only the `hardscape/`, `waterproofing/`, `trenchless/` subfolder files + the manifest + this log + the report.
+
+**Logged by:** Cowork (on behalf of Goran), 2026-07-04, after the sourcing pass.
+
+## 2026-07-04 — Phase B-16 close-out (executed by Claude Code): commit, cleanup, push
+
+**B-16 Cowork close-out — 14 of 15 accepted.** `sump-pumps` stays a GAP after two failed sourcing passes under two rule sets (B-13b strict "exact subject or nothing," then the B-16 relaxed acceptance ladder); its page keeps the current placeholder and B-16 Code flags it per its own dependency rule. May be revisited as a post-B-16 micro-task. Why: free-stock searches for residential sump pumps reliably return wrong-object results, so shipping 14 honest images now beats blocking the whole phase on the 15th.
+
+**B-16 raw downloads not committed.** The loose `pexels-*` originals were deleted from `docs/stock-bridge/`; the renamed `stock-*` derivatives plus the manifest rows (with source URLs) are the durable record. Why: repo hygiene — the originals are re-downloadable from the logged URLs.
+
+**B-16 close-out executed by Code, not Cowork.** A one-off mechanical git exception because the uncommitted work lived in the local working tree. Why: reliability; not precedent for Code doing sourcing work.
+
+**Logged by:** Claude Code (close-out executor), 2026-07-04.

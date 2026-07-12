@@ -1072,3 +1072,18 @@ Canonical detail in `src/_project-state/Phase-Polish-01-Completion.md`. Wiring-o
 **Flagged, NOT changed (same root cause, out of HF1 scope):** `src/app/api/contact/route.ts` + `src/lib/email/templates/ContactAlertEmail.tsx` carry the identical silent-swallow + `'(no Sanity ID — write failed)'` fallback string + legacy `/desk/contactSubmission;…` link → contact submissions likely also dropping silently in production; the Vercel write-token env fix repairs both. `src/app/api/chat/lead/route.ts` returns 500 (no email fallback) on write failure — noted for a sweep.
 
 **Operator-gated (no repo change):** set a correctly-scoped Sanity **Editor** `SANITY_API_WRITE_TOKEN` on Vercel Production + Preview; capture the live error on Preview; recover lost leads via Resend↔Sanity cross-reference; production smoke test. See `Part-3-Phase-HF1-Completion.md` §"Operator runbook".
+
+---
+
+## Part 3 · Phase HF1b — contact + chat lead write hardening (branch `fix/hf1-contact-lead-sanity-write`, stacked on HF1)
+
+**Modified:**
+- `src/app/api/contact/route.ts` — **Modified (Phase HF1b).** Mirrors the HF1 quote hardening: captures the Sanity write error, logs the real cause via `sanityErrorDetail()`, pages the operator via `notifyOperator()` on failure (name/phone/email/category/reason), passes the **nullable** `sanityDocId` to `ContactAlertEmail` (the `'(no Sanity ID — write failed)'` fallback string is deleted), prefixes the alert subject `⚠️ LEAD NOT SAVED —` on failure, and widens the success contract to any sink (Sanity/email/Telegram). New local `buildWriteFailureAlert(input, error)`.
+- `src/app/api/chat/lead/route.ts` — **Modified (Phase HF1b).** Was `500`-and-drop with no email on write failure; now mirrors quote/contact — logs via `sanityErrorDetail()`, pages via `notifyOperator()` (name/email/session/reason), **still sends** the branded `ChatLeadEmail` (which already drops its Studio link on a null docId), `⚠️ LEAD NOT SAVED —` subject, and succeeds as long as any sink captured the lead. New local `buildWriteFailureAlert`.
+- `src/lib/email/templates/ContactAlertEmail.tsx` — **Modified (Phase HF1b).** `sanityDocId` prop now `string | null`. Studio link corrected `/desk/` → **`/structure/contactSubmission;<id>`**, emitted **only on success**; on failure a red "⚠️ This lead was NOT saved to the CMS" `<Section>` banner at the top (`writeFail*Style` consts) + a re-enter footer note instead of a link. All submitted fields render in both states.
+
+**New:** `src/_project-state/Part-3-Phase-HF1b-Contact-Lead-Completion.md`.
+
+**Depends on:** HF1's `sanityErrorDetail()`/`describeSanityError()` (`safeError.ts`) + `writeFail*` banner precedent — PR base is `fix/hf1-quote-lead-sanity-write`, merges after PR #26.
+
+**Operator-gated (no repo change):** same as HF1 — the Vercel write-token fix restores the write for all four surfaces; extend lost-lead recovery to `contactSubmission` + `chatLead` docs.

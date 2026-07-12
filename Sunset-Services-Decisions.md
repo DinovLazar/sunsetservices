@@ -2396,3 +2396,19 @@ Change nothing else — triggers stay Create + Update + Delete, filter and secre
 **Decision — Studio deep links use `/structure/`, not `/desk/`.** The hosted Studio runs the Structure tool; the correct document link is `…/structure/<type>;<id>`. On write failure **no link is emitted at all** (never a half-broken one). `ContactAlertEmail` still uses the stale `/desk/` form and the same silent-swallow/fallback-string pattern — **flagged for a follow-up hotfix**, not fixed here (HF1 scope = quote path only). The write-token env fix repairs the contact write too.
 
 **Logged by:** Code, 2026-07-12, on branch `fix/hf1-quote-lead-sanity-write` (off `main` @ `c9e314a`); PR to open — Goran/Lazar applies the Vercel token fix, verifies on Preview, completes the lost-lead recovery (Resend↔Sanity cross-reference), then merges. Full detail + runbook in `src/_project-state/Part-3-Phase-HF1-Completion.md`.
+
+---
+
+## 2026-07-12 — Phase HF1b: apply the HF1 fail-loud pattern to the contact + chat lead paths
+
+**Context.** HF1 (PR #26) hardened `/api/quote` and flagged that `/api/contact` + `ContactAlertEmail` carried the **identical** silent-swallow + `/desk/` + `'(no Sanity ID — write failed)'` bug, and that `/api/chat/lead` had a **worse** shape — it returned `500` and dropped the lead with no email fallback. Same environmental root cause (missing/read-only `SANITY_API_WRITE_TOKEN` in Vercel Production); the contact and chat leads were dropping silently too.
+
+**Decision — mirror HF1 exactly on both remaining surfaces.** `ContactAlertEmail.sanityDocId` → `string | null`; Studio link corrected `/desk/` → `/structure/contactSubmission;<id>` and emitted only on success; a red "NOT saved to the CMS" banner + all-fields-retained on failure. Both `/api/contact` and `/api/chat/lead` now log the real Sanity error via `sanityErrorDetail()`, page the operator via `notifyOperator()` on failure, pass the nullable docId through (fallback string deleted), prefix the alert subject `⚠️ LEAD NOT SAVED —`, and succeed as long as any sink (Sanity/email/Telegram) captured the lead.
+
+**Decision — `/api/chat/lead` now falls back instead of `500`-and-drop.** It was the identical latent bug and strictly worse (lead lost *and* visitor errored). Hardened rather than merely documented; low-risk because `ChatLeadEmail` already renders a null docId with no link. Its in-body layout is otherwise unchanged (no red banner added — loud signals are the subject prefix + dropped link + Telegram page).
+
+**Decision — stacked PR, per-route alert helpers.** This branch stacks on `fix/hf1-quote-lead-sanity-write` because it consumes HF1's `sanityErrorDetail()`/`describeSanityError()` and copies its banner; PR base is that branch, must merge after #26. Kept a small per-route `buildWriteFailureAlert` (fields differ per surface) rather than refactoring HF1's committed quote helper into a shared util — scope discipline.
+
+**This does NOT fix the underlying env issue.** The Vercel write-token fix (HF1 runbook §A) is the actual repair for all four surfaces; this change only makes the contact + chat failures loud and lossless until then.
+
+**Logged by:** Code, 2026-07-12, on branch `fix/hf1-contact-lead-sanity-write` (stacked on `fix/hf1-quote-lead-sanity-write` @ `848d352`); PR to open against that branch — Goran/Lazar merges #26 first, applies the Vercel token fix, verifies on Preview, extends lost-lead recovery to `contactSubmission` + `chatLead`, then merges. Full detail in `src/_project-state/Part-3-Phase-HF1b-Contact-Lead-Completion.md`.

@@ -1,12 +1,13 @@
 import * as React from 'react';
 import {NextResponse} from 'next/server';
 import {writeClient} from '@sanity-lib/write-client';
-import {ContactSubmitSchema} from '@/lib/contact/contactSchema';
+import {ContactSubmitSchema, type ContactSubmitInput} from '@/lib/contact/contactSchema';
 import {pushContactToMautic} from '@/lib/contact/mauticStub';
 import {sendBrandedEmail} from '@/lib/email/send';
 import {ContactAlertEmail} from '@/lib/email/templates/ContactAlertEmail';
 import {ContactConfirmationEmail} from '@/lib/email/templates/ContactConfirmationEmail';
-import {safeLogMeta} from '@/lib/logging/safeError';
+import {notifyOperator} from '@/lib/telegram/notify';
+import {describeSanityError, safeLogMeta, sanityErrorDetail} from '@/lib/logging/safeError';
 
 /**
  * POST /api/contact — /contact/ form submission (Phase 2.08).
@@ -79,6 +80,7 @@ export async function POST(request: Request) {
 
   // Write to Sanity FIRST so the lead is never lost.
   let sanityDocId: string | null = null;
+  let sanityWriteError: unknown = null;
   try {
     const doc = await writeClient.create({
       _type: 'contactSubmission',
@@ -97,14 +99,41 @@ export async function POST(request: Request) {
     });
     sanityDocId = doc._id;
   } catch (err) {
-    console.error('[/api/contact] Sanity write failed', safeLogMeta('/api/contact', err));
+    sanityWriteError = err;
+    // Permanent structured error log. Captures the Sanity statusCode +
+    // message/description so a Preview/Production runtime log names the real
+    // cause out loud (e.g. `statusCode: 401` "permission 'create' required" →
+    // the write token is missing or read-only in this Vercel env scope).
+    console.error('[/api/contact] Sanity write FAILED', sanityErrorDetail('/api/contact', err));
   }
 
-  // Branded alert to Erick.
+  // Make the failure LOUD. If the durable write failed, page a human via the
+  // Telegram operator bot (Phase 2.15 — no-ops with a log line when
+  // TELEGRAM_ENABLED!=true). notifyOperator never throws.
+  let leadAlertPaged = false;
+  if (sanityDocId === null) {
+    const telegramResult = await notifyOperator({
+      text: buildWriteFailureAlert(input, sanityWriteError),
+    });
+    leadAlertPaged = telegramResult.sent;
+    if (!telegramResult.sent) {
+      console.error('[/api/contact] Telegram write-failure alert not delivered', {
+        route: '/api/contact',
+        simulated: telegramResult.simulated ?? false,
+      });
+    }
+  }
+
+  // Branded alert to Erick. Pass the nullable docId straight through — the
+  // template self-declares a write failure (banner + dropped Studio link)
+  // rather than concatenating a fallback string into a broken link. On failure
+  // the subject also screams in the inbox list without opening.
+  const baseSubject = `New contact — ${input.name}`;
+  const alertSubject = sanityDocId ? baseSubject : `⚠️ LEAD NOT SAVED — ${baseSubject}`;
   const alertResult = await sendBrandedEmail({
     to: ERICK_TO,
     intendedRecipient: ERICK_TO,
-    subject: `New contact — ${input.name}`,
+    subject: alertSubject,
     react: React.createElement(ContactAlertEmail, {
       submission: {
         name: input.name,
@@ -115,7 +144,7 @@ export async function POST(request: Request) {
         sessionId: input.sessionId,
         referrer: input.referrer,
       },
-      sanityDocId: sanityDocId ?? '(no Sanity ID — write failed)',
+      sanityDocId,
       locale: input.locale,
     }),
   });
@@ -156,8 +185,18 @@ export async function POST(request: Request) {
     console.error('[/api/contact] Mautic stub error', safeLogMeta('/api/contact', err, {sanityDocId})),
   );
 
-  const anySucceeded = sanityDocId !== null || alertResult.ok;
+  // Never fail the visitor over a CMS hiccup: as long as the lead landed
+  // SOMEWHERE a human will see (Sanity doc, alert email, or a delivered
+  // Telegram page), return success. A 500 is reserved for the case where every
+  // sink is down and the lead would truly be lost.
+  const anySucceeded = sanityDocId !== null || alertResult.ok || leadAlertPaged;
   if (!anySucceeded) {
+    console.error('[/api/contact] all sinks failed — lead may be lost', {
+      route: '/api/contact',
+      sanityWrite: false,
+      emailOk: alertResult.ok,
+      telegramPaged: leadAlertPaged,
+    });
     return NextResponse.json(
       {status: 'error', code: 'all_sinks_failed'},
       {status: 500},
@@ -173,4 +212,29 @@ function pickFirstName(name: string): string {
   const first = trimmed.split(/\s+/)[0];
   // Sanitize for safety even though name came through Zod — keep it short.
   return first.slice(0, 50);
+}
+
+/**
+ * Plain-text Telegram alert body for a failed contact-lead write. Carries
+ * enough for the operator to act from the message alone — the visitor's name,
+ * phone, email, and category, plus the Sanity failure reason. Sent WITHOUT
+ * MarkdownV2 so no field needs escaping. Mirrors the /api/quote alert.
+ */
+function buildWriteFailureAlert(input: ContactSubmitInput, error: unknown): string {
+  const {statusCode, message, detail} = describeSanityError(error);
+  const reason = [statusCode ? `HTTP ${statusCode}` : null, detail ?? message ?? 'unknown error']
+    .filter(Boolean)
+    .join(' — ');
+  return [
+    '🚨 Sunset contact lead NOT saved to Sanity',
+    '',
+    `Name:  ${input.name}`,
+    `Phone: ${input.phone || '—'}`,
+    `Email: ${input.email || '—'}`,
+    `Category: ${input.category || '—'}`,
+    '',
+    `Reason: ${reason}`,
+    '',
+    'The contact-alert email was still sent (flagged as unsaved). Re-enter this lead in Studio by hand and check the Vercel runtime logs.',
+  ].join('\n');
 }

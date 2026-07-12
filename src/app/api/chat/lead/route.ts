@@ -4,7 +4,8 @@ import {writeClient} from '@sanity-lib/write-client';
 import {sendBrandedEmail} from '@/lib/email/send';
 import ChatLeadEmail from '@/lib/email/templates/ChatLeadEmail';
 import {pushChatLeadToMautic} from '@/lib/chat/mauticStub';
-import {safeLogMeta} from '@/lib/logging/safeError';
+import {notifyOperator} from '@/lib/telegram/notify';
+import {describeSanityError, safeLogMeta, sanityErrorDetail} from '@/lib/logging/safeError';
 
 /**
  * POST /api/chat/lead — capture a lead from the AI chat panel (Phase 2.09).
@@ -16,9 +17,14 @@ import {safeLogMeta} from '@/lib/logging/safeError';
  *   2. Honeypot BEFORE Zod — silent 200 (bot doesn't learn which field tripped).
  *   3. Zod-validate.
  *   4. Sanity write FIRST. The lead is the most important side effect.
- *   5. Branded `ChatLeadEmail` via sandbox-aware `sendBrandedEmail()`.
- *   6. Mautic stub push (no-op while MAUTIC_ENABLED=false).
- *   7. Return {status:'ok', sanityDocId}.
+ *   5. If the write FAILED: log the real Sanity error (statusCode + description)
+ *      and page a human via the Telegram operator bot — a failed lead must
+ *      never vanish. We no longer 500 + drop the lead here (HF1 pattern).
+ *   6. Branded `ChatLeadEmail` via sandbox-aware `sendBrandedEmail()`. When the
+ *      write failed the subject is prefixed and the Studio link is dropped.
+ *   7. Mautic stub push (no-op while MAUTIC_ENABLED=false).
+ *   8. Succeed as long as any sink (Sanity, email, or a delivered Telegram
+ *      page) captured the lead; 500 only when all sinks are down.
  *
  * Resend / Mautic failures are logged and never break the API contract.
  */
@@ -72,6 +78,7 @@ export async function POST(request: NextRequest) {
 
   // Sanity write — durable-first.
   let sanityDocId: string | null = null;
+  let sanityWriteError: unknown = null;
   try {
     const doc = await writeClient.create({
       _type: 'chatLead',
@@ -94,15 +101,39 @@ export async function POST(request: NextRequest) {
     });
     sanityDocId = doc._id;
   } catch (err) {
-    console.error('[/api/chat/lead] Sanity write failed', safeLogMeta('/api/chat/lead', err));
-    return Response.json({status: 'error'}, {status: 500});
+    sanityWriteError = err;
+    // HF1 pattern: do NOT 500 + drop the lead on a write failure. Log the real
+    // Sanity cause, page a human, and still fire the branded email below so the
+    // lead is captured somewhere. Mirrors /api/quote + /api/contact.
+    console.error('[/api/chat/lead] Sanity write FAILED', sanityErrorDetail('/api/chat/lead', err));
   }
 
-  // Branded email (sandbox routing per Phase 2.08 applies).
+  // Make the failure LOUD — page a human via the Telegram operator bot on a
+  // durable-write failure (no-ops with a log line when TELEGRAM_ENABLED!=true).
+  // notifyOperator never throws.
+  let leadAlertPaged = false;
+  if (sanityDocId === null) {
+    const telegramResult = await notifyOperator({
+      text: buildWriteFailureAlert(parsed, sanityWriteError),
+    });
+    leadAlertPaged = telegramResult.sent;
+    if (!telegramResult.sent) {
+      console.error('[/api/chat/lead] Telegram write-failure alert not delivered', {
+        route: '/api/chat/lead',
+        simulated: telegramResult.simulated ?? false,
+      });
+    }
+  }
+
+  // Branded email (sandbox routing per Phase 2.08 applies). On a write failure
+  // the subject screams in the inbox list and the template drops the Studio
+  // link (ChatLeadEmail already renders a null sanityDocId with no link).
   const intendedRecipient = process.env.RESEND_TO_EMAIL ?? 'info@sunsetservices.us';
+  const baseSubject = `New chat lead — ${parsed.name}`;
+  const subject = sanityDocId ? baseSubject : `⚠️ LEAD NOT SAVED — ${baseSubject}`;
   const emailResult = await sendBrandedEmail({
     to: intendedRecipient,
-    subject: `New chat lead — ${parsed.name}`,
+    subject,
     react: ChatLeadEmail({
       name: parsed.name,
       email: parsed.email,
@@ -137,5 +168,46 @@ export async function POST(request: NextRequest) {
     ),
   );
 
+  // Never fail the visitor over a CMS hiccup: succeed as long as the lead landed
+  // somewhere a human will see (Sanity doc, chat-lead email, or a delivered
+  // Telegram page). A 500 is reserved for the true all-sinks-down case.
+  const anySucceeded = sanityDocId !== null || emailResult.ok || leadAlertPaged;
+  if (!anySucceeded) {
+    console.error('[/api/chat/lead] all sinks failed — lead may be lost', {
+      route: '/api/chat/lead',
+      sanityWrite: false,
+      emailOk: emailResult.ok,
+      telegramPaged: leadAlertPaged,
+    });
+    return Response.json({status: 'error'}, {status: 500});
+  }
+
   return Response.json({status: 'ok', sanityDocId}, {status: 200});
+}
+
+/**
+ * Plain-text Telegram alert body for a failed chat-lead write. Carries enough
+ * for the operator to act from the message alone — the visitor's name, email,
+ * and session, plus the Sanity failure reason. Sent WITHOUT MarkdownV2 so no
+ * field needs escaping. Mirrors the /api/quote + /api/contact alerts.
+ */
+function buildWriteFailureAlert(
+  input: z.infer<typeof ChatLeadSchema>,
+  error: unknown,
+): string {
+  const {statusCode, message, detail} = describeSanityError(error);
+  const reason = [statusCode ? `HTTP ${statusCode}` : null, detail ?? message ?? 'unknown error']
+    .filter(Boolean)
+    .join(' — ');
+  return [
+    '🚨 Sunset chat lead NOT saved to Sanity',
+    '',
+    `Name:  ${input.name}`,
+    `Email: ${input.email}`,
+    `Session: ${input.sessionId}`,
+    '',
+    `Reason: ${reason}`,
+    '',
+    'The chat-lead email was still sent (flagged as unsaved). Re-enter this lead in Studio by hand and check the Vercel runtime logs.',
+  ].join('\n');
 }

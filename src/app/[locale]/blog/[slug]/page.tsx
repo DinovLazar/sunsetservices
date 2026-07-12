@@ -25,6 +25,7 @@ import {
 import {routing} from '@/i18n/routing';
 import {canonicalUrl, hreflangAlternates, SITE_URL} from '@/lib/seo/urls';
 import {buildSocialMetadata} from '@/lib/seo/openGraph';
+import {resolveBlogImage} from '@/lib/images/resolveBlogImage';
 import {
   getAllBlogPosts,
   getAllBlogPostSlugs,
@@ -38,7 +39,11 @@ type Locale = 'en' | 'es';
 // each slug refreshes from Sanity on first request after 30m.
 export const revalidate = 1800;
 export const dynamic = 'force-static';
-export const dynamicParams = false;
+// M.02 — portal-authored posts publish new slugs that did not exist at build
+// time. `dynamicParams = true` renders such a slug on first request and caches
+// it (instead of 404ing). A genuinely non-existent slug still 404s via the
+// `notFound()` guard below when `getBlogPostBySlug()` returns null.
+export const dynamicParams = true;
 
 function locPath(loc: Locale, path: string): string {
   return loc === 'en' ? path : `/${loc}${path}`;
@@ -51,10 +56,6 @@ function formatLongDate(iso: string, locale: Locale): string {
     month: 'long',
     day: 'numeric',
   }).format(date);
-}
-
-function fallbackImage(slug: string): {src: string; width: number; height: number} {
-  return {src: `/images/blog/${slug}.jpg`, width: 1280, height: 720};
 }
 
 export async function generateStaticParams() {
@@ -159,11 +160,21 @@ export default async function BlogPostPage({
   }));
   const breadcrumbSchema = buildBreadcrumbList(breadcrumbSchemaItems);
 
+  // Featured image — Sanity asset when the portal uploaded one, else the
+  // Phase 1.18 static placeholder. Shared by the JSON-LD + the hero <Image>.
+  const featuredImage = resolveBlogImage(post.featuredImage, slug);
+  // schema.org requires an absolute URL; the Sanity branch is already
+  // absolute (cdn.sanity.io), the static fallback is root-relative.
+  const featuredImageAbsolute = featuredImage.src.startsWith('http')
+    ? featuredImage.src
+    : `${SITE_URL}${featuredImage.src}`;
+  const featuredImageAlt = post.featuredImageAlt?.[loc] || post.title[loc];
+
   const articleSchema = buildArticleSchema({
     type: 'BlogPosting',
     headline: post.title[loc],
     description: post.seo?.description[loc] || post.dek[loc],
-    imageUrl: fallbackImage(slug).src,
+    imageUrl: featuredImageAbsolute,
     datePublished: post.publishedAt,
     dateModified: post.publishedAt,
     byline: post.author,
@@ -303,7 +314,8 @@ export default async function BlogPostPage({
               locale={loc}
             />
           </div>
-          {/* Featured image — LCP. Falls back to Phase 1.18 placeholder until 2.04. */}
+          {/* Featured image — LCP. Sanity asset when present, else the
+              Phase 1.18 static placeholder (see resolveBlogImage). */}
           <div
             className="mt-8 relative w-full bg-[var(--color-bg-stone)]"
             style={{
@@ -313,8 +325,8 @@ export default async function BlogPostPage({
             }}
           >
             <Image
-              src={fallbackImage(slug).src}
-              alt={post.featuredImageAlt[loc]}
+              src={featuredImage.src}
+              alt={featuredImageAlt}
               fill
               sizes="(max-width: 1023px) 100vw, 1280px"
               priority
@@ -421,7 +433,7 @@ export default async function BlogPostPage({
               </h2>
               <ul className="m-0 p-0 list-none grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6">
                 {related.map((rel) => {
-                  const fallback = fallbackImage(rel.slug);
+                  const relImage = resolveBlogImage(rel.featuredImage, rel.slug);
                   return (
                     <li key={rel.slug}>
                       <ContentCard
@@ -433,10 +445,10 @@ export default async function BlogPostPage({
                         title={rel.title[loc]}
                         dek={rel.dek[loc]}
                         image={{
-                          src: fallback.src,
-                          alt: rel.featuredImageAlt[loc],
-                          width: fallback.width,
-                          height: fallback.height,
+                          src: relImage.src,
+                          alt: rel.featuredImageAlt?.[loc] || rel.title[loc],
+                          width: relImage.width,
+                          height: relImage.height,
                         }}
                         meta={{
                           bylineLabel:

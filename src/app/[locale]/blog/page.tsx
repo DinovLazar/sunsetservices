@@ -18,6 +18,7 @@ import {buildContentItemList} from '@/lib/schema/article';
 import {routing} from '@/i18n/routing';
 import {canonicalUrl, hreflangAlternates} from '@/lib/seo/urls';
 import {buildSocialMetadata} from '@/lib/seo/openGraph';
+import {resolveBlogImage} from '@/lib/images/resolveBlogImage';
 import {getAllBlogPosts} from '@sanity-lib/queries';
 
 type Locale = 'en' | 'es';
@@ -44,15 +45,6 @@ function formatMonthYear(iso: string, locale: Locale): string {
     month: 'long',
     year: 'numeric',
   }).format(date);
-}
-
-/** Pre-Phase-2.04 placeholder image. Path mirrors the Phase 1.18 seed convention. */
-function fallbackBlogImage(slug: string): {
-  src: string;
-  width: number;
-  height: number;
-} {
-  return {src: `/images/blog/${slug}.jpg`, width: 1280, height: 720};
 }
 
 export async function generateMetadata({
@@ -86,8 +78,8 @@ export async function generateMetadata({
  *
  * Sections: Hero → Featured + Filter + Grid → CTA.
  * Featured post is the most-recently-published post in the filtered set.
- * Image fields fall back to /images/blog/<slug>.jpg until Phase 2.04
- * uploads real Sanity assets.
+ * Featured images resolve from the Sanity asset when present, else fall
+ * back to the static /images/blog/<slug>.jpg placeholder (resolveBlogImage).
  */
 export default async function BlogIndexPage({
   params,
@@ -277,8 +269,8 @@ export default async function BlogIndexPage({
                       style={{aspectRatio: '16/10'}}
                     >
                       <Image
-                        src={fallbackBlogImage(featured.slug).src}
-                        alt={featured.featuredImageAlt[loc]}
+                        src={resolveBlogImage(featured.featuredImage, featured.slug).src}
+                        alt={featured.featuredImageAlt?.[loc] || featured.title[loc]}
                         fill
                         sizes="(max-width: 1023px) 100vw, 640px"
                         priority
@@ -372,7 +364,7 @@ export default async function BlogIndexPage({
                     className="m-0 p-0 list-none grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6"
                   >
                     {remaining.map((post) => {
-                      const fallback = fallbackBlogImage(post.slug);
+                      const postImage = resolveBlogImage(post.featuredImage, post.slug);
                       return (
                         <li key={post.slug}>
                           <ContentCard
@@ -384,10 +376,10 @@ export default async function BlogIndexPage({
                             title={post.title[loc]}
                             dek={post.dek[loc]}
                             image={{
-                              src: fallback.src,
-                              alt: post.featuredImageAlt[loc],
-                              width: fallback.width,
-                              height: fallback.height,
+                              src: postImage.src,
+                              alt: post.featuredImageAlt?.[loc] || post.title[loc],
+                              width: postImage.width,
+                              height: postImage.height,
                             }}
                             meta={{
                               bylineLabel:

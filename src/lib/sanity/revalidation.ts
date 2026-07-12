@@ -26,12 +26,42 @@ import {DIVISIONS} from '@/data/divisions';
 import {SURFACED_LOCATION_SLUGS} from '@/data/locations';
 import {SERVICES} from '@/data/services';
 
+/** The Sanity mutation kind, as returned by `delta::operation()`. */
+export type SanityOperation = 'create' | 'update' | 'delete';
+
 export type SanityRevalidationPayload = {
   _type: string;
   _id?: string;
   /** Pre-projected from `slug.current` by the webhook payload projection. */
   slug?: string;
+  /**
+   * The Sanity mutation kind, projected via `delta::operation()` in the
+   * webhook (`"create" | "update" | "delete"`).
+   *
+   * **Optional for backwards compatibility.** The projection that adds it is an
+   * operator step (manage.sanity.io) that may not be applied at the moment this
+   * code deploys, and the test route may omit it. When `operation` is absent,
+   * revalidation behaves exactly as it did before this signal existed —
+   * concrete path when a slug is present, whole-route literal when it isn't —
+   * so this code is safe to ship before the webhook is edited.
+   */
+  operation?: SanityOperation;
 };
+
+const SANITY_OPERATIONS: readonly SanityOperation[] = ['create', 'update', 'delete'];
+
+/**
+ * Narrow an untrusted webhook field to a known `SanityOperation`, or
+ * `undefined` for anything else (an absent projection, a `null` tombstone, or
+ * an unexpected value). `undefined` is the safe default — it selects the
+ * pre-operation behaviour, so a malformed `operation` can never make a
+ * revalidation worse than it was before this signal existed.
+ */
+export function coerceSanityOperation(value: unknown): SanityOperation | undefined {
+  return typeof value === 'string' && (SANITY_OPERATIONS as readonly string[]).includes(value)
+    ? (value as SanityOperation)
+    : undefined;
+}
 
 export type RevalidationResult = {
   docType: string;
@@ -128,26 +158,41 @@ type ExpandedPaths = {
  * A slug-driven detail page (`/blog/[slug]`, `/resources/[slug]`,
  * `/projects/[slug]`).
  *
- * With a slug we purge that one concrete page (both locales, via
- * `withLocales`). Without one — the delete case, because the webhook
- * projection can't read `slug.current` off a deleted document — we can't
- * name the concrete page, so we fall back to the route-file literal to purge
- * EVERY cached page of the route.
+ * Two outcomes:
  *
- * Returning `[]` here (the old behaviour) was correct only while
- * `dynamicParams = false`: a deleted slug fell out of the build-time param
- * list, so its page 404'd on its own. Once the blog-portal fix (PR #22) set
- * `dynamicParams = true`, an on-demand-rendered detail page lives in the
- * full-route cache and nothing revalidated it on delete — so it kept serving
- * a stale 200 until `revalidate = 1800` expired. This literal closes that
- * hole while `dynamicParams` stays `true`.
+ *   • **A publish (create/update) with a known slug** → purge that one
+ *     concrete page (both locales, via `withLocales`). Surgical: a publish must
+ *     not re-render every other cached post's detail page.
+ *
+ *   • **Everything else** → purge EVERY cached page of the route via its
+ *     route-file literal. Two payloads land here:
+ *       – `operation === 'delete'` — the load-bearing case. A deleted page's
+ *         detail route is an on-demand-generated dynamic page (M.02/PR #22 set
+ *         `dynamicParams = true`) living in Vercel's full-route cache. A
+ *         concrete-URL `revalidatePath('/blog/<slug>')` does NOT evict such a
+ *         page; the whole-route literal DOES (proven live on `next start`:
+ *         `x-nextjs-cache` flips HIT → MISS — PR #23 §5). So a delete must
+ *         purge the whole route **regardless of whether it carries a slug**.
+ *       – slug absent (any operation) — with no slug we can't name the concrete
+ *         page, so purge the route. This is PR #23's original fallback, kept as
+ *         a belt to the delete braces.
+ *
+ * Why key on `operation === 'delete'` and not "slug absent" (PR #23's premise):
+ * the live Sanity delete webhook DOES carry the slug (its projection reads
+ * `slug.current`, which resolves off the pre-delete document), empirically
+ * confirmed 2026-07-12 — a delete's attempt log showed the concrete
+ * `/blog/<slug>` path, so the "slug absent" branch never fired on a real
+ * delete and the deleted page kept serving a cached 200. `delta::operation()`
+ * is the signal that actually distinguishes a delete from a publish.
  *
  * The literal MUST carry the `[locale]` segment (`/[locale]/blog/[slug]`,
  * not `/blog/[slug]`): `revalidatePath` keys off the route *file* structure
- * (`src/app/[locale]/blog/[slug]/page.tsx`), not the browser URL.
+ * (`src/app/[locale]/blog/[slug]/page.tsx`), not the browser URL. That is also
+ * why it must bypass `withLocales` — locale-expanding it yields a nonsense
+ * `/es/[locale]/blog/[slug]`.
  */
 function expandSlugDetail(pattern: string, doc: SanityRevalidationPayload): ExpandedPaths {
-  if (doc.slug) {
+  if (doc.operation !== 'delete' && doc.slug) {
     const collection = pattern.replace('/[slug]', ''); // '/blog/[slug]' -> '/blog'
     return {concrete: [`${collection}/${doc.slug}`], literal: []};
   }

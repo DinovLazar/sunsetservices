@@ -13,11 +13,14 @@
  *
  *   node --import tsx --test src/lib/sanity/revalidation.test.ts
  *
- * The slug-less cases are the regression guard for the deleted-post bug
- * (observed live 2026-07-12): a post deleted from the Vertex portal kept
- * serving a cached 200 at `/blog/<slug>` for up to 30 min because the
- * slug-less branch returned `[]` (dropping the page instead of purging it)
- * once `dynamicParams = true` put on-demand pages in the full-route cache.
+ * The delete cases are the regression guard for the deleted-post bug (observed
+ * live 2026-07-12): a post deleted from the Vertex portal kept serving a cached
+ * 200 at `/blog/<slug>`. The whole-route purge is now keyed on
+ * `operation === 'delete'` (projected via `delta::operation()`), NOT on the
+ * slug being absent — the live delete webhook DOES carry the slug, so the old
+ * slug-absent trigger never fired on a real delete. The `no operation` cases
+ * assert byte-for-byte back-compat, so this code is safe to ship before the
+ * Sanity projection is edited to send `operation`.
  */
 import {test, before, beforeEach} from 'node:test';
 import assert from 'node:assert/strict';
@@ -88,6 +91,20 @@ function revalidatedTagCalls(): string[] {
   return calls.filter((c) => c[0] === 'tag').map((c) => c[1] as string);
 }
 
+// No emitted path may ever contain a literal `null` / `undefined` (the sign of
+// a `null`-slug tombstone or an unresolved `[token]` leaking into a URL), and
+// a route literal must never be locale-expanded into `/es/[locale]/…`.
+function assertPathsWellFormed(paths: string[]): void {
+  for (const p of paths) {
+    assert.ok(!p.includes('null'), `path must not contain "null": ${p}`);
+    assert.ok(!p.includes('undefined'), `path must not contain "undefined": ${p}`);
+    assert.ok(
+      !/^\/es\/\[locale\]/.test(p),
+      `route literal was wrongly locale-expanded: ${p}`,
+    );
+  }
+}
+
 test('blogPost WITH a slug → tags blogPost+faq, index + detail paths in both locales', async () => {
   const result = await revalidateForDocument({_type: 'blogPost', _id: 'b1', slug: 'my-post'});
 
@@ -105,6 +122,123 @@ test('blogPost WITH a slug → tags blogPost+faq, index + detail paths in both l
   // The returned plan is exactly what was pushed to next/cache.
   assert.deepEqual(new Set(revalidatedTagCalls()), new Set(result.revalidatedTags));
   assert.deepEqual(new Set(revalidatedPathCalls()), new Set(result.revalidatedPaths));
+});
+
+test('blogPost DELETE that CARRIES a slug → whole-route literal (regression guard)', async () => {
+  // The load-bearing case this phase fixes. The live delete webhook DOES send
+  // the slug (proven 2026-07-12), so keying the whole-route purge on "slug
+  // absent" never fired on a real delete. A concrete-URL revalidatePath does
+  // NOT evict an on-demand-generated dynamic page on Vercel; the route literal
+  // does. So a delete must emit the literal even WITH a slug present.
+  const result = await revalidateForDocument({
+    _type: 'blogPost',
+    _id: 'b1',
+    slug: 'my-post',
+    operation: 'delete',
+  });
+
+  assert.deepEqual(new Set(result.revalidatedTags), new Set(['blogPost', 'faq']));
+
+  // RED before this phase (today a delete-with-slug emits ONLY /blog/my-post).
+  assert.ok(
+    result.revalidatedPaths.includes('/[locale]/blog/[slug]'),
+    `expected route literal /[locale]/blog/[slug] on delete, got ${JSON.stringify(result.revalidatedPaths)}`,
+  );
+  assert.ok(
+    calls.some((c) => c[0] === 'path' && c[1] === '/[locale]/blog/[slug]' && c[2] === 'page'),
+    'revalidatePath was not called with the route literal + "page" type on delete',
+  );
+
+  // The index still refreshes so the deleted post drops off the listing.
+  assert.ok(result.revalidatedPaths.includes('/blog'));
+  assert.ok(result.revalidatedPaths.includes('/es/blog'));
+
+  // The literal must NOT be locale-expanded, and nothing null/undefined.
+  assert.ok(!result.revalidatedPaths.includes('/es/[locale]/blog/[slug]'));
+  assertPathsWellFormed(result.revalidatedPaths);
+});
+
+test('blogPost UPDATE with a slug → concrete path only, NO literal (publishes stay surgical)', async () => {
+  const result = await revalidateForDocument({
+    _type: 'blogPost',
+    _id: 'b1',
+    slug: 'my-post',
+    operation: 'update',
+  });
+
+  assert.ok(result.revalidatedPaths.includes('/blog/my-post'));
+  assert.ok(result.revalidatedPaths.includes('/es/blog/my-post'));
+  // A publish must never purge the whole route — that would re-render every
+  // cached post's detail page on the next request.
+  assert.ok(!result.revalidatedPaths.includes('/[locale]/blog/[slug]'));
+  assert.ok(!result.revalidatedPaths.some((p) => p.includes('[slug]')));
+  assertPathsWellFormed(result.revalidatedPaths);
+});
+
+test('blogPost with a slug and NO operation → byte-identical to a publish (back-compat)', async () => {
+  // The projection is an operator step that may not be applied when this code
+  // deploys. With `operation` absent the plan must match a publish exactly —
+  // concrete page, no literal — so this is safe to ship before the webhook is
+  // edited.
+  const withUpdateOp = await revalidateForDocument({
+    _type: 'blogPost',
+    _id: 'b1',
+    slug: 'my-post',
+    operation: 'update',
+  });
+  const noOp = await revalidateForDocument({_type: 'blogPost', _id: 'b1', slug: 'my-post'});
+
+  assert.deepEqual(new Set(noOp.revalidatedPaths), new Set(withUpdateOp.revalidatedPaths));
+  assert.ok(noOp.revalidatedPaths.includes('/blog/my-post'));
+  assert.ok(!noOp.revalidatedPaths.includes('/[locale]/blog/[slug]'));
+  assertPathsWellFormed(noOp.revalidatedPaths);
+});
+
+test('resourceArticle DELETE with a slug → /[locale]/resources/[slug] literal', async () => {
+  const result = await revalidateForDocument({
+    _type: 'resourceArticle',
+    _id: 'r1',
+    slug: 'my-guide',
+    operation: 'delete',
+  });
+
+  assert.deepEqual(new Set(result.revalidatedTags), new Set(['resourceArticle', 'faq']));
+  assert.ok(result.revalidatedPaths.includes('/resources'));
+  assert.ok(result.revalidatedPaths.includes('/es/resources'));
+  assert.ok(
+    result.revalidatedPaths.includes('/[locale]/resources/[slug]'),
+    `expected route literal, got ${JSON.stringify(result.revalidatedPaths)}`,
+  );
+  assert.ok(
+    calls.some((c) => c[0] === 'path' && c[1] === '/[locale]/resources/[slug]' && c[2] === 'page'),
+  );
+  // The concrete detail page must NOT leak (the literal covers the whole route).
+  assert.ok(!result.revalidatedPaths.includes('/resources/my-guide'));
+  assert.ok(!result.revalidatedPaths.includes('/es/[locale]/resources/[slug]'));
+  assertPathsWellFormed(result.revalidatedPaths);
+});
+
+test('project DELETE with a slug → /[locale]/projects/[slug] literal, no concrete detail leak', async () => {
+  const result = await revalidateForDocument({
+    _type: 'project',
+    _id: 'p1',
+    slug: 'my-job',
+    operation: 'delete',
+  });
+
+  assert.deepEqual(new Set(result.revalidatedTags), new Set(['project']));
+  assert.ok(result.revalidatedPaths.includes('/projects'));
+  assert.ok(
+    result.revalidatedPaths.includes('/[locale]/projects/[slug]'),
+    `expected route literal, got ${JSON.stringify(result.revalidatedPaths)}`,
+  );
+  assert.ok(
+    calls.some((c) => c[0] === 'path' && c[1] === '/[locale]/projects/[slug]' && c[2] === 'page'),
+  );
+  assert.ok(!result.revalidatedPaths.some((p) => p.startsWith('/projects/')));
+  assert.ok(!result.revalidatedPaths.some((p) => p.startsWith('/es/projects/')));
+  assert.ok(!result.revalidatedPaths.includes('/es/[locale]/projects/[slug]'));
+  assertPathsWellFormed(result.revalidatedPaths);
 });
 
 test('blogPost WITHOUT a slug (delete) → purges index + the /[locale]/blog/[slug] route literal', async () => {

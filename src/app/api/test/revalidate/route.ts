@@ -32,6 +32,11 @@ const bodySchema = z
     docType: z.string().min(1),
     slug: z.string().optional(),
     _id: z.string().optional(),
+    // Mirrors the production webhook's `delta::operation()` projection so the
+    // harness can exercise the delete path. Optional — an omitted value drives
+    // the pre-operation behaviour, same as the real webhook before the
+    // projection is edited.
+    operation: z.enum(['create', 'update', 'delete']).optional(),
   })
   .strict();
 
@@ -69,6 +74,7 @@ export async function POST(request: Request) {
       _type: parsed.data.docType,
       _id: parsed.data._id,
       slug: parsed.data.slug,
+      operation: parsed.data.operation,
     };
     const result = await revalidateForDocument(payload);
     return NextResponse.json({status: 'ok', ...result});

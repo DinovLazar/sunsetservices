@@ -9,7 +9,12 @@
  * around `@sanity/webhook`'s `isValidSignature`).
  *
  * Body shape (configured by the Sanity webhook projection):
- *   { "_type": <docType>, "_id": <docId>, "slug": <slug.current> }
+ *   { "_type": <docType>, "_id": <docId>, "slug": <slug.current>,
+ *     "operation": <delta::operation()> }
+ * `operation` (`"create" | "update" | "delete"`) is optional: it is added by an
+ * operator projection edit (manage.sanity.io) that may lag this deploy. When
+ * absent, `revalidateForDocument` falls back to its pre-operation behaviour —
+ * see `SanityRevalidationPayload.operation`.
  *
  * We route through `revalidateForDocument` (the single source of truth
  * for doc-type → cache-tag + page-path mapping) and return what we
@@ -31,7 +36,11 @@
 import type {NextRequest} from 'next/server';
 import {NextResponse} from 'next/server';
 import {parseBody} from 'next-sanity/webhook';
-import {revalidateForDocument, type SanityRevalidationPayload} from '@/lib/sanity/revalidation';
+import {
+  revalidateForDocument,
+  coerceSanityOperation,
+  type SanityRevalidationPayload,
+} from '@/lib/sanity/revalidation';
 import {safeLogMeta} from '@/lib/logging/safeError';
 
 export const runtime = 'nodejs';
@@ -41,6 +50,8 @@ type SanityWebhookBody = {
   _type?: string;
   _id?: string;
   slug?: string;
+  /** Projected via `delta::operation()`; absent until the operator adds it. */
+  operation?: string;
 };
 
 export async function POST(request: NextRequest) {
@@ -96,6 +107,7 @@ export async function POST(request: NextRequest) {
       _type: body._type,
       _id: body._id,
       slug: body.slug,
+      operation: coerceSanityOperation(body.operation),
     };
     const result = await revalidateForDocument(payload);
     return NextResponse.json({status: 'ok', ...result});

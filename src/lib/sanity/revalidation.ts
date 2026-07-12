@@ -107,40 +107,87 @@ function withLocales(paths: string[]): string[] {
 }
 
 /**
- * Resolve a path pattern to concrete EN-only paths. `withLocales` layers
- * the ES variants on top.
- *
- * Patterns that name a collection (e.g. `/[division]/[service]`) expand
- * to the cross-product of the static-param sources (the same sources
- * `generateStaticParams` already uses). Patterns that name a single
- * slug-driven detail page (e.g. `/blog/[slug]`) expand to the concrete
- * slug if the payload carries one; otherwise they drop out (the doc was
- * likely deleted — the detail page 404s itself and the index revalidates
- * separately).
+ * A resolved path pattern, split by how it must reach `revalidatePath`.
  */
-function expandPattern(pattern: string, doc: SanityRevalidationPayload): string[] {
+type ExpandedPaths = {
+  /**
+   * Concrete, locale-agnostic paths (e.g. `/blog/my-post`). `withLocales`
+   * layers the EN + `/es` variants on top before they are revalidated.
+   */
+  concrete: string[];
+  /**
+   * Route-file literals passed to `revalidatePath` verbatim (e.g.
+   * `/[locale]/blog/[slug]`). These already name the `[locale]` segment, so
+   * they must NOT go through `withLocales` — that would produce a nonsense
+   * `/es/[locale]/blog/[slug]`.
+   */
+  literal: string[];
+};
+
+/**
+ * A slug-driven detail page (`/blog/[slug]`, `/resources/[slug]`,
+ * `/projects/[slug]`).
+ *
+ * With a slug we purge that one concrete page (both locales, via
+ * `withLocales`). Without one — the delete case, because the webhook
+ * projection can't read `slug.current` off a deleted document — we can't
+ * name the concrete page, so we fall back to the route-file literal to purge
+ * EVERY cached page of the route.
+ *
+ * Returning `[]` here (the old behaviour) was correct only while
+ * `dynamicParams = false`: a deleted slug fell out of the build-time param
+ * list, so its page 404'd on its own. Once the blog-portal fix (PR #22) set
+ * `dynamicParams = true`, an on-demand-rendered detail page lives in the
+ * full-route cache and nothing revalidated it on delete — so it kept serving
+ * a stale 200 until `revalidate = 1800` expired. This literal closes that
+ * hole while `dynamicParams` stays `true`.
+ *
+ * The literal MUST carry the `[locale]` segment (`/[locale]/blog/[slug]`,
+ * not `/blog/[slug]`): `revalidatePath` keys off the route *file* structure
+ * (`src/app/[locale]/blog/[slug]/page.tsx`), not the browser URL.
+ */
+function expandSlugDetail(pattern: string, doc: SanityRevalidationPayload): ExpandedPaths {
+  if (doc.slug) {
+    const collection = pattern.replace('/[slug]', ''); // '/blog/[slug]' -> '/blog'
+    return {concrete: [`${collection}/${doc.slug}`], literal: []};
+  }
+  return {concrete: [], literal: [`/[locale]${pattern}`]};
+}
+
+/**
+ * Resolve a path pattern into the concrete + literal paths it maps to.
+ *
+ * Patterns that name a collection (e.g. `/[division]/[service]`) expand to
+ * the cross-product of the static-param sources (the same sources
+ * `generateStaticParams` already uses). Patterns that name a single
+ * slug-driven detail page (e.g. `/blog/[slug]`) resolve via
+ * `expandSlugDetail` — concrete page when the slug is known, whole-route
+ * literal when it isn't.
+ */
+function expandPattern(pattern: string, doc: SanityRevalidationPayload): ExpandedPaths {
   switch (pattern) {
     case '/[division]/[service]':
       // Service-detail pages. The projection doesn't carry division, so a
       // service publish bulk-invalidates every live division/service URL.
-      return SERVICES.map((s) => `/${s.division}/${s.slug}`);
+      return {concrete: SERVICES.map((s) => `/${s.division}/${s.slug}`), literal: []};
     case '/[division]':
-      return DIVISIONS.map((division) => `/${division}`);
+      return {concrete: DIVISIONS.map((division) => `/${division}`), literal: []};
     case '/service-areas/[city]':
       // Location publishes know the city via slug; everything else
       // (service / project / review) bulk-invalidates all surfaced cities.
       if (doc._type === 'location' && doc.slug) {
-        return [`/service-areas/${doc.slug}`];
+        return {concrete: [`/service-areas/${doc.slug}`], literal: []};
       }
-      return SURFACED_LOCATION_SLUGS.map((slug) => `/service-areas/${slug}`);
+      return {
+        concrete: SURFACED_LOCATION_SLUGS.map((slug) => `/service-areas/${slug}`),
+        literal: [],
+      };
     case '/projects/[slug]':
-      return doc.slug ? [`/projects/${doc.slug}`] : [];
     case '/blog/[slug]':
-      return doc.slug ? [`/blog/${doc.slug}`] : [];
     case '/resources/[slug]':
-      return doc.slug ? [`/resources/${doc.slug}`] : [];
+      return expandSlugDetail(pattern, doc);
     default:
-      return [pattern];
+      return {concrete: [pattern], literal: []};
   }
 }
 
@@ -180,15 +227,23 @@ export async function revalidateForDocument(
     revalidateTag(tag, 'max');
   }
 
-  const concretePaths = mapping.paths.flatMap((p) => expandPattern(p, payload));
-  const pathsWithLocales = withLocales(concretePaths);
-  for (const path of pathsWithLocales) {
+  const expanded = mapping.paths.map((p) => expandPattern(p, payload));
+  const concretePaths = expanded.flatMap((e) => e.concrete);
+  const literalPaths = expanded.flatMap((e) => e.literal);
+  // Concrete paths get their EN + `/es` variants layered on; route literals
+  // already carry the `[locale]` segment and are passed through verbatim.
+  // Both kinds are revalidated and both are returned so the Sanity webhook
+  // log stays informative.
+  const revalidatedPaths = Array.from(
+    new Set([...withLocales(concretePaths), ...literalPaths]),
+  );
+  for (const path of revalidatedPaths) {
     revalidatePath(path, 'page');
   }
 
   return {
     docType,
     revalidatedTags: tags,
-    revalidatedPaths: pathsWithLocales,
+    revalidatedPaths,
   };
 }

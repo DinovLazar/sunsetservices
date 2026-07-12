@@ -17,7 +17,13 @@ import type {QuoteSubmitInput} from '@/lib/quote/validation';
 export type QuoteLeadAlertEmailProps = {
   lead: QuoteSubmitInput;
   primaryServiceDisplayName: string;
-  sanityDocId: string;
+  /**
+   * The created `quoteLead` document ID, or `null` when the Sanity write
+   * failed. When null the email self-declares the failure with a banner and
+   * drops the Studio deep-link (never a half-broken link). Mirrors the
+   * ChatLeadEmail contract.
+   */
+  sanityDocId: string | null;
   locale: 'en' | 'es';
   intendedRecipient?: string;
   /**
@@ -52,7 +58,13 @@ export function QuoteLeadAlertEmail({
   const fullName = `${lead.firstName} ${lead.lastName}`.trim();
   const addressLine1 = [lead.address.street, lead.address.unit].filter(Boolean).join(' ');
   const addressLine2 = `${lead.address.city}, ${lead.address.state} ${lead.address.zip}`;
-  const studioUrl = `https://sunsetservices.sanity.studio/desk/quoteLead;${sanityDocId}`;
+  // A single valid Structure deep-link, only when the write succeeded. The
+  // hosted Studio uses the Structure tool (`/structure/...`), not the legacy
+  // `/desk/...` alias — matches ChatLeadEmail.
+  const studioUrl = sanityDocId
+    ? `https://sunsetservices.sanity.studio/structure/quoteLead;${sanityDocId}`
+    : null;
+  const writeFailed = sanityDocId === null;
   const divisionLabel = DIVISION_LABEL[lead.division] ?? lead.division;
   const propertyTypeLabel = PROPERTY_TYPE_LABEL[lead.propertyType] ?? lead.propertyType;
 
@@ -68,6 +80,21 @@ export function QuoteLeadAlertEmail({
       <Text style={subheadStyle}>
         From <strong>{fullName}</strong> · {lead.email}
       </Text>
+
+      {/* Write-failure banner — self-declares that the CMS did NOT capture this
+          lead, so it can never be mistaken for a saved enquiry. Every field the
+          customer submitted still renders below, so the lead can be re-entered
+          by hand from this email alone. */}
+      {writeFailed ? (
+        <Section style={writeFailBannerStyle}>
+          <Text style={writeFailTitleStyle}>⚠️ This lead was NOT saved to the CMS</Text>
+          <Text style={writeFailBodyStyle}>
+            The Sanity write failed, so there is no Studio record for this
+            request. Re-enter it by hand from the details below (all fields are
+            included) and check the server logs / Telegram alert for the cause.
+          </Text>
+        </Section>
+      ) : null}
 
       {/* Contact */}
       <SectionHeader>Contact</SectionHeader>
@@ -219,11 +246,18 @@ export function QuoteLeadAlertEmail({
       <Text style={metaStyle}>
         Submitted {new Date().toISOString()} · session {lead.sessionId} · locale {locale}
       </Text>
-      <Text style={metaStyle}>
-        <Link href={studioUrl} style={metaLinkStyle}>
-          Open in Sanity Studio →
-        </Link>
-      </Text>
+      {studioUrl ? (
+        <Text style={metaStyle}>
+          <Link href={studioUrl} style={metaLinkStyle}>
+            Open in Sanity Studio →
+          </Link>
+        </Text>
+      ) : (
+        <Text style={metaStyle}>
+          Not saved to Sanity — no Studio link. Re-enter this lead from the
+          fields above.
+        </Text>
+      )}
     </EmailLayout>
   );
 }
@@ -344,6 +378,31 @@ const metaStyle: React.CSSProperties = {
 const metaLinkStyle: React.CSSProperties = {
   color: T.color.green700,
   textDecoration: 'underline',
+};
+
+// Write-failure banner — a distinct alarm red (not the amber used for sandbox /
+// high-intent callouts) so an unsaved lead reads as an error at a glance.
+const writeFailBannerStyle: React.CSSProperties = {
+  margin: '0 0 20px',
+  padding: '12px 16px',
+  backgroundColor: '#FEF3F2',
+  borderLeft: '4px solid #D92D20',
+  borderRadius: 4,
+};
+
+const writeFailTitleStyle: React.CSSProperties = {
+  margin: 0,
+  fontFamily: T.font.heading,
+  fontSize: 14,
+  fontWeight: 700,
+  color: '#B42318',
+};
+
+const writeFailBodyStyle: React.CSSProperties = {
+  margin: '6px 0 0',
+  fontSize: 13,
+  lineHeight: '1.5',
+  color: '#7A271A',
 };
 
 const photoThumbStyle: React.CSSProperties = {

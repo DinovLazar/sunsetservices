@@ -6,7 +6,7 @@
 // REVALIDATE_TEST_ROUTES_ENABLED to be unset at process boot — env can't be
 // toggled per-request once the server is running):
 //
-//   1. Server A — flag ON. Tests 1-10 (webhook) + 12-14 (test route).
+//   1. Server A — flag ON. Tests 1-10 (webhook) + 12-15 (test route).
 //   2. Server B — flag OFF. Test 11 (test route returns 404 forbidden).
 //
 // Tests:
@@ -29,6 +29,10 @@
 //  12. Test route — flag-on + missing auth header → 401 invalid-auth
 //  13. Test route — flag-on + wrong secret → 401 invalid-auth
 //  14. Test route — flag-on + valid auth + blogPost → 200 same shape as test 5
+//  15. Test route — blogPost DELETE carrying a slug (operation:'delete') → 200 +
+//      paths include the whole-route literal /[locale]/blog/[slug] (NOT just the
+//      concrete /blog/<slug>), no /es/[locale]/…, and the live server ACCEPTS
+//      the literal (200 proves revalidatePath did not reject it)
 //
 // Harness runtime note: parseBody (next-sanity/webhook) waits 3 seconds
 // per valid-signature request for Sanity Content Lake eventual consistency.
@@ -487,6 +491,37 @@ async function runFlagOnTests() {
       'T14 test-route valid auth + blogPost → 200 + same shape as T5',
       tagsOk && pathsOk,
       tagsOk && pathsOk ? '' : `body=${JSON.stringify(r.body)}`,
+    );
+  }
+
+  // Test 15 — test route: blogPost DELETE carrying a slug → whole-route literal.
+  // This is the phase's load-bearing case: the live delete webhook DOES send
+  // the slug, so the purge must be keyed on operation:'delete', not slug
+  // absence. Asserts the literal is emitted (not just the concrete path), is
+  // not locale-expanded, and — critically — that the real `next start` server
+  // ACCEPTS the [locale]-wrapped literal through revalidatePath (a 200, not a
+  // 500 from a rejected route pattern).
+  {
+    const res = await fetch(`${APP_BASE_A}/api/test/revalidate`, {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+        authorization: `Bearer ${TEST_ROUTES_SECRET}`,
+      },
+      body: jsonBody({docType: 'blogPost', slug: 'my-test-post', operation: 'delete'}),
+    });
+    const r = await expectJson(res, 200, 'T15');
+    const paths = r.body?.revalidatedPaths ?? [];
+    const literalOk = paths.includes('/[locale]/blog/[slug]');
+    const noEsLiteral = !paths.includes('/es/[locale]/blog/[slug]');
+    const indexOk = paths.includes('/blog') && paths.includes('/es/blog');
+    const ok = r.ok && literalOk && noEsLiteral && indexOk;
+    record(
+      'T15 test-route blogPost DELETE(slug) → 200 + whole-route literal /[locale]/blog/[slug]',
+      ok,
+      ok
+        ? ''
+        : `literalOk=${literalOk} noEsLiteral=${noEsLiteral} indexOk=${indexOk} body=${JSON.stringify(r.body)}`,
     );
   }
 }

@@ -18,13 +18,12 @@ import hardscapeSrc from '@/assets/home/audience-hardscape.jpg';
 // the /waterproofing/ and /snow-removal/ landings render via DIVISION_HERO.
 import waterproofingSrc from '@/assets/division/hero-waterproofing.jpg';
 import snowRemovalSrc from '@/assets/division/hero-snow-removal.jpg';
-// Trenchless placeholder: a trenching/excavation photo (exposed conduit in an
-// open dig) — a real "utilities in the ground" image that is NOT used anywhere
-// else on the homepage, so the card no longer duplicates the snow-removal photo.
-// B-16 repointed this to the preserved legacy/ copy when the live
-// hero-driveways.jpg became a stock paver-driveway photo — the card keeps
-// rendering the exact pre-B-16 image, byte-identical.
-import trenchlessSrc from '@/assets/service/legacy/hero-driveways.jpg';
+// Trenchless fallback: the real open-trench / underground-utility photo
+// (`hero-trenching-excavation.jpg`) — the same asset the /request-quote wizard
+// division tile uses (WizardStep1Audience.tsx), so the homepage card and the
+// wizard tile stay in sync. There are no trenchless projects in Sanity, so this
+// fallback always renders.
+import trenchlessSrc from '@/assets/service/hero-trenching-excavation.jpg';
 
 /**
  * Homepage divisions block (Phase M.16 — "Four divisions. One accountable

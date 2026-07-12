@@ -8,7 +8,7 @@ import residentialSrc from '@/assets/home/audience-residential.jpg';
 import hardscapeSrc from '@/assets/home/audience-hardscape.jpg';
 import waterproofingSrc from '@/assets/division/hero-waterproofing.jpg';
 import snowRemovalSrc from '@/assets/division/hero-snow-removal.jpg';
-import trenchlessSrc from '@/assets/service/legacy/hero-driveways.jpg';
+import trenchlessSrc from '@/assets/service/hero-trenching-excavation.jpg';
 import type {WizardDivision} from '@/data/wizard';
 
 /**
@@ -17,8 +17,11 @@ import type {WizardDivision} from '@/data/wizard';
  * audience photos (waterproofing/snow-removal/trenchless all showed the wrong
  * division's image). Waterproofing + snow-removal use their division-landing
  * heroes (stock-bridge photos — replace-by 2026-10-01 / 2027-01-31, see
- * docs/stock-bridge/stock-image-manifest.md); trenchless uses the same real
- * trenching/excavation photo as the homepage divisions card. Strings come
+ * docs/stock-bridge/stock-image-manifest.md); trenchless uses the real
+ * open-trench/underground-utility photo (`hero-trenching-excavation.jpg`),
+ * which matches the tile's alt text. (The homepage divisions card still points
+ * at the driveways placeholder — sync it separately if the two should match.)
+ * Strings come
  * from `wizard.division.<slug>.*` (parity with the M.01e
  * `home.divisions.<slug>.*` block on the homepage).
  */

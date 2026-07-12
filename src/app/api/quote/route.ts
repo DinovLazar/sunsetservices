@@ -4,7 +4,8 @@ import {QuoteSubmitSchema, type QuoteSubmitInput} from '@/lib/quote/validation';
 import {sendQuoteLeadAlertEmail, sendQuoteVisitorConfirmationEmail} from '@/lib/quote/resend';
 import {pushFullLeadToMautic} from '@/lib/quote/mautic';
 import {getServiceOptionsForDivision} from '@/data/wizard';
-import {safeLogMeta} from '@/lib/logging/safeError';
+import {notifyOperator} from '@/lib/telegram/notify';
+import {describeSanityError, safeLogMeta, sanityErrorDetail} from '@/lib/logging/safeError';
 
 /**
  * POST /api/quote — full Step-5 wizard submission.
@@ -20,10 +21,16 @@ import {safeLogMeta} from '@/lib/logging/safeError';
  *  4. Write to Sanity FIRST. Lead capture is the most important side effect;
  *     a Resend or Mautic failure must never lose the lead.
  *  5. Mark any matching `quoteLeadPartial` as `converted: true` (best-effort).
- *  6. Send the branded lead-alert email to Erick (best-effort).
- *  7. Send the branded visitor-confirmation email (best-effort).
- *  8. Push to Mautic (no-op while disabled).
- *  9. Succeed as long as at least one of (Sanity, Resend) worked.
+ *  6. If the Sanity write FAILED: log the full Sanity error (statusCode +
+ *     message/description) and fire the Telegram operator alert so a human is
+ *     paged — a failed lead must never sit in an inbox looking normal.
+ *  7. Send the branded lead-alert email to Erick (best-effort). When the write
+ *     failed, the email self-declares it (subject prefix + banner) and still
+ *     carries every submitted field so the lead can be re-entered by hand.
+ *  8. Send the branded visitor-confirmation email (best-effort).
+ *  9. Push to Mautic (no-op while disabled).
+ * 10. Succeed as long as at least one sink (Sanity, Resend, or the Telegram
+ *     alert) worked — the customer never sees an error because our CMS hiccuped.
  */
 
 const ENABLED = process.env.WIZARD_SUBMIT_ENABLED === 'true';
@@ -91,6 +98,7 @@ export async function POST(request: Request) {
 
   // Write to Sanity FIRST so the lead is never lost.
   let sanityDocId: string | null = null;
+  let sanityWriteError: unknown = null;
   try {
     const doc = await writeClient.create({
       _type: 'quoteLead',
@@ -124,16 +132,40 @@ export async function POST(request: Request) {
         // Never block on partial linkage.
       });
   } catch (err) {
-    console.error('[/api/quote] Sanity write failed', safeLogMeta('/api/quote', err));
+    sanityWriteError = err;
+    // Permanent structured error log. Captures the Sanity statusCode +
+    // message/description so a Preview/Production runtime log names the real
+    // cause out loud (e.g. `statusCode: 401` "permission 'create' required"
+    // → the write token is missing or read-only in this Vercel env scope).
+    console.error('[/api/quote] Sanity write FAILED', sanityErrorDetail('/api/quote', err));
+  }
+
+  // Make the failure LOUD. If the durable write failed, page a human via the
+  // Telegram operator bot (Phase 2.15 — no-ops with a log line when
+  // TELEGRAM_ENABLED!=true). notifyOperator never throws.
+  let leadAlertPaged = false;
+  if (sanityDocId === null) {
+    const telegramResult = await notifyOperator({
+      text: buildWriteFailureAlert(input, sanityWriteError),
+    });
+    leadAlertPaged = telegramResult.sent;
+    if (!telegramResult.sent) {
+      console.error('[/api/quote] Telegram write-failure alert not delivered', {
+        route: '/api/quote',
+        simulated: telegramResult.simulated ?? false,
+      });
+    }
   }
 
   const primaryServiceDisplayName = resolvePrimaryServiceDisplayName(input);
 
-  // Branded lead alert to Erick (sandbox-aware routing).
+  // Branded lead alert to Erick (sandbox-aware routing). Pass the nullable
+  // docId straight through — the sender/template self-declare a write failure
+  // rather than concatenating a fallback string into a broken Studio link.
   const alertResult = await sendQuoteLeadAlertEmail(
     input,
     primaryServiceDisplayName,
-    sanityDocId ?? '(no Sanity ID — write failed)',
+    sanityDocId,
   );
   if (!alertResult.ok) {
     console.error('[/api/quote] lead-alert send failed', {
@@ -159,8 +191,18 @@ export async function POST(request: Request) {
     console.error('[/api/quote] Mautic stub error', safeLogMeta('/api/quote', err, {sanityDocId})),
   );
 
-  const anySucceeded = sanityDocId !== null || alertResult.ok;
+  // Never fail the customer over a CMS hiccup: as long as the lead landed
+  // SOMEWHERE a human will see (Sanity doc, lead-alert email, or a delivered
+  // Telegram page), return success. A 500 is reserved for the case where every
+  // sink is down and the lead would truly be lost.
+  const anySucceeded = sanityDocId !== null || alertResult.ok || leadAlertPaged;
   if (!anySucceeded) {
+    console.error('[/api/quote] all sinks failed — lead may be lost', {
+      route: '/api/quote',
+      sanityWrite: false,
+      emailOk: alertResult.ok,
+      telegramPaged: leadAlertPaged,
+    });
     return NextResponse.json(
       {status: 'error', code: 'all_sinks_failed'},
       {status: 500},
@@ -182,4 +224,29 @@ function resolvePrimaryServiceDisplayName(input: QuoteSubmitInput): string {
   const found = options.find((o) => o.slug === slug);
   if (!found) return slug;
   return found.name[input.locale] ?? found.name.en;
+}
+
+/**
+ * Plain-text Telegram alert body for a failed lead write. Carries enough for
+ * the operator to act from the message alone — the customer's name, phone, and
+ * email, plus the Sanity failure reason. Sent WITHOUT MarkdownV2 so no field
+ * needs escaping.
+ */
+function buildWriteFailureAlert(input: QuoteSubmitInput, error: unknown): string {
+  const {statusCode, message, detail} = describeSanityError(error);
+  const reason = [statusCode ? `HTTP ${statusCode}` : null, detail ?? message ?? 'unknown error']
+    .filter(Boolean)
+    .join(' — ');
+  return [
+    '🚨 Sunset quote lead NOT saved to Sanity',
+    '',
+    `Name:  ${input.firstName} ${input.lastName}`,
+    `Phone: ${input.phone}`,
+    `Email: ${input.email}`,
+    `Division: ${input.division}`,
+    '',
+    `Reason: ${reason}`,
+    '',
+    'The lead-alert email was still sent (flagged as unsaved). Re-enter this lead in Studio by hand and check the Vercel runtime logs.',
+  ].join('\n');
 }

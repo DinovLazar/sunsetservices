@@ -1056,3 +1056,19 @@ Canonical detail in `src/_project-state/Phase-Polish-01-Completion.md`. Wiring-o
 **New:** `src/_project-state/Phase-Polish-01-Completion.md`.
 
 **Flagged, not changed:** `HomeServicesOverview.tsx` + `HomeAbout.tsx` remain orphaned dead code (the brief's "second homepage divisions section" doesn't render); `src/assets/about/team-{erick,nick,marcin}.jpg` remain pre-existing unreferenced placeholders (+ their `scripts/gen-about-placeholders.mjs` generator entries).
+
+---
+
+## Part 3 · Phase HF1 — quote-lead Sanity write hardening (branch `fix/hf1-quote-lead-sanity-write`)
+
+**Modified:**
+- `src/app/api/quote/route.ts` — **Modified (Phase HF1).** On Sanity write failure: captures the error, logs the real cause via `sanityErrorDetail()` (statusCode + description), and pages the operator via `notifyOperator()` (Telegram, Phase 2.15) with name/phone/email/division/reason. Passes the **nullable** `sanityDocId` to `sendQuoteLeadAlertEmail` (the `'(no Sanity ID — write failed)'` fallback string is deleted). Success contract widened: `200` when any sink (Sanity doc / lead-alert email / delivered Telegram page) captured the lead; `500` + explicit log only when all fail. New helper `buildWriteFailureAlert(input, error)` builds the plain-text Telegram body.
+- `src/lib/email/templates/QuoteLeadAlertEmail.tsx` — **Modified (Phase HF1).** `sanityDocId` prop now `string | null`. Studio deep link corrected `/desk/` → **`/structure/quoteLead;<id>`** and rendered **only on success**; on failure a red "⚠️ This lead was NOT saved to the CMS" `<Section>` banner renders at the top (new `writeFail*Style` consts) and the footer shows a "re-enter from the fields above" note instead of a link. All submitted fields still render in both states.
+- `src/lib/quote/resend.ts` — **Modified (Phase HF1).** `sendQuoteLeadAlertEmail(input, name, sanityDocId: string | null)`; subject prefixed `⚠️ LEAD NOT SAVED — …` when `sanityDocId` is null.
+- `src/lib/logging/safeError.ts` — **Modified (Phase HF1).** Added `describeSanityError(error) → {statusCode, message, detail}` (probes ClientError `details.description` / `responseBody` JSON / `response.body.error.description`, PII-safe — never the mutation payload) and `sanityErrorDetail(route, error, extra)` structured-log helper. Existing `safeErrorCode`/`safeLogMeta` untouched.
+
+**New:** `src/_project-state/Part-3-Phase-HF1-Completion.md`.
+
+**Flagged, NOT changed (same root cause, out of HF1 scope):** `src/app/api/contact/route.ts` + `src/lib/email/templates/ContactAlertEmail.tsx` carry the identical silent-swallow + `'(no Sanity ID — write failed)'` fallback string + legacy `/desk/contactSubmission;…` link → contact submissions likely also dropping silently in production; the Vercel write-token env fix repairs both. `src/app/api/chat/lead/route.ts` returns 500 (no email fallback) on write failure — noted for a sweep.
+
+**Operator-gated (no repo change):** set a correctly-scoped Sanity **Editor** `SANITY_API_WRITE_TOKEN` on Vercel Production + Preview; capture the live error on Preview; recover lost leads via Resend↔Sanity cross-reference; production smoke test. See `Part-3-Phase-HF1-Completion.md` §"Operator runbook".

@@ -2382,3 +2382,17 @@ Standalone polish batch (not a numbered B/M/P phase), executed on branch `polish
 Change nothing else — triggers stay Create + Update + Delete, filter and secret unchanged. Until this is applied, the code runs its back-compat path and the delete bug persists (the code is correct but inert).
 
 **Logged by:** Code, 2026-07-12, on branch `fix/delete-revalidation-operation` (off `origin/main` @ `addf709`); PR to open, Goran verifies on Preview + applies the projection + merges.
+
+---
+
+## 2026-07-12 — Phase HF1: quote-lead Sanity write must fail loud, never silent; Studio link corrected to `/structure/`
+
+**Context.** The live quote wizard emailed the lead but did not save it to Sanity; the failure was swallowed (opaque log, email sent anyway, `200` returned) and the email carried a malformed Studio link (`…/desk/quoteLead;(no Sanity ID — write failed)`). A real revenue leak with no alarm.
+
+**Root cause is environmental, not a code regression.** The write path is byte-stable since Phase 2.06 (2026-05-12). The write client is correct (`useCdn:false`, server-only non-`NEXT_PUBLIC_` token, same dataset as the working reads). Reads work in production; only writes fail → **`SANITY_API_WRITE_TOKEN` is missing or read-only (Viewer) in the Vercel Production scope**. The repair is an operator env fix (a correctly-scoped Editor token on Production + Preview), not a code change. Suspects #3 (dataset mismatch), #4 (schema/validation — the mutation API doesn't run Studio validation), and #5 (`useCdn`/`NEXT_PUBLIC`) are ruled out in code.
+
+**Decision — a lead must never be lost silently.** Regardless of cause: (1) the caught Sanity error is logged with its real `statusCode` + `description` (new PII-safe `describeSanityError()`); (2) a write failure pages the operator via the existing Telegram bot; (3) the notification email self-declares the failure — subject prefix `⚠️ LEAD NOT SAVED —`, a red "NOT saved to the CMS" banner, and every submitted field retained so the lead is re-enterable by hand; (4) the customer still sees success as long as the lead landed in any sink (Sanity doc, email, or a delivered Telegram page). A `500` is reserved for the true all-sinks-down case.
+
+**Decision — Studio deep links use `/structure/`, not `/desk/`.** The hosted Studio runs the Structure tool; the correct document link is `…/structure/<type>;<id>`. On write failure **no link is emitted at all** (never a half-broken one). `ContactAlertEmail` still uses the stale `/desk/` form and the same silent-swallow/fallback-string pattern — **flagged for a follow-up hotfix**, not fixed here (HF1 scope = quote path only). The write-token env fix repairs the contact write too.
+
+**Logged by:** Code, 2026-07-12, on branch `fix/hf1-quote-lead-sanity-write` (off `main` @ `c9e314a`); PR to open — Goran/Lazar applies the Vercel token fix, verifies on Preview, completes the lost-lead recovery (Resend↔Sanity cross-reference), then merges. Full detail + runbook in `src/_project-state/Part-3-Phase-HF1-Completion.md`.

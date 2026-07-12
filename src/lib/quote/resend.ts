@@ -55,11 +55,16 @@ async function fetchPhotoUrlsByAssetIds(
   }
 }
 
-/** Branded lead-alert email to Erick. */
+/**
+ * Branded lead-alert email to Erick. Pass `sanityDocId = null` when the durable
+ * Sanity write failed: the subject line is prefixed with a loud "LEAD NOT SAVED"
+ * marker (visible in the inbox list without opening) and the template renders
+ * its failure banner + drops the Studio link.
+ */
 export async function sendQuoteLeadAlertEmail(
   input: QuoteSubmitInput,
   primaryServiceDisplayName: string,
-  sanityDocId: string,
+  sanityDocId: string | null,
 ): Promise<SendBrandedEmailResult> {
   const photoAssetIds = input.photoAssetIds ?? [];
   const photoRows = await fetchPhotoUrlsByAssetIds(photoAssetIds);
@@ -67,10 +72,12 @@ export async function sendQuoteLeadAlertEmail(
     url: p.url,
     alt: `Project photo ${i + 1}`,
   }));
+  const baseSubject = `New quote — ${input.firstName} ${input.lastName} (${input.division})`;
+  const subject = sanityDocId ? baseSubject : `⚠️ LEAD NOT SAVED — ${baseSubject}`;
   return sendBrandedEmail({
     to: TO,
     intendedRecipient: TO,
-    subject: `New quote — ${input.firstName} ${input.lastName} (${input.division})`,
+    subject,
     react: React.createElement(QuoteLeadAlertEmail, {
       lead: input,
       primaryServiceDisplayName,

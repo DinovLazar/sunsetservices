@@ -44,6 +44,15 @@
 import {spawn} from 'node:child_process';
 import {readFileSync} from 'node:fs';
 import {encodeSignatureHeader, SIGNATURE_HEADER_NAME} from '@sanity/webhook';
+// Data source of truth for T6's expected `service` fan-out. These are the
+// exact three modules the webhook's revalidation lib reads
+// (src/lib/sanity/revalidation.ts), so deriving the expected path count from
+// them keeps T6 in lockstep when a division / service / city is added or
+// removed. They only export `type` cross-references (stripped at load), so a
+// bare `node scripts/…mjs` run imports them cleanly with no bundler.
+import {SERVICES} from '../src/data/services.ts';
+import {DIVISIONS} from '../src/data/divisions.ts';
+import {SURFACED_LOCATION_SLUGS} from '../src/data/locations.ts';
 
 const APP_PORT_A = 3055;
 const APP_PORT_B = 3056;
@@ -55,6 +64,15 @@ const APP_BASE_B = `http://127.0.0.1:${APP_PORT_B}`;
 const TEST_REVALIDATE_SECRET = 'test-revalidate-secret-' + '0'.repeat(44);
 const WRONG_REVALIDATE_SECRET = 'wrong-revalidate-secret-' + '1'.repeat(43);
 const TEST_ROUTES_SECRET = 'test-routes-secret-' + '0'.repeat(45);
+
+// A `service` publish bulk-invalidates every live division/service pair,
+// every division landing, and every surfaced city page (revalidation.ts
+// `expandPattern`), then `withLocales` doubles each EN path for the `/es`
+// variant. None of those EN paths collide, so the total is exactly the EN
+// count × 2. Derived here rather than hardcoded so the count tracks the data.
+const SERVICE_REVALIDATE_EN_PATHS =
+  SERVICES.length + DIVISIONS.length + SURFACED_LOCATION_SLUGS.length;
+const SERVICE_REVALIDATE_TOTAL_PATHS = SERVICE_REVALIDATE_EN_PATHS * 2;
 
 const results = [];
 function record(name, pass, detail) {
@@ -302,11 +320,16 @@ async function runFlagOnTests() {
         '/service-areas/hinsdale',
         '/es/service-areas/aurora',
       ]) &&
-      // 28 division/service pairs + 4 division landings + 22 live city pages
-      // = 54 EN paths × 2 locales = 108 total.
-      paths.length === 108;
+      // Every division/service pair + division landing + live city page
+      // = SERVICE_REVALIDATE_EN_PATHS EN paths, × 2 locales. Derived from the
+      // live data modules above so adding a division/service/city can't
+      // silently re-break this literal (it did once — the `trenchless`
+      // division was added after this harness was first written).
+      paths.length === SERVICE_REVALIDATE_TOTAL_PATHS;
     record(
-      'T6 webhook service(slug) → tags + 108 fanned-out paths (56 service + 8 division + 44 city)',
+      `T6 webhook service(slug) → tags + ${SERVICE_REVALIDATE_TOTAL_PATHS} fanned-out paths ` +
+        `(${SERVICES.length} service + ${DIVISIONS.length} division + ` +
+        `${SURFACED_LOCATION_SLUGS.length} city EN, × 2 locales)`,
       tagsOk && pathsOk,
       tagsOk && pathsOk
         ? `total paths=${paths.length}`

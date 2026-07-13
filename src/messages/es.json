@@ -26,26 +26,24 @@
       "eyebrow": "Lo que hacemos",
       "h2": "Cinco divisiones. Un equipo responsable.",
       "sub": "Elige el trabajo que te queda — paisajismo, hardscape, impermeabilización, remoción de nieve, perforación. La misma responsabilidad de equipo en las cinco.",
-      "unilockChip": "UNILOCK",
+      "featuredChip": "Destacado",
       "landscape": {
         "tag": "Paisajismo",
-        "h3": "Jardines que aguantan.",
-        "desc": "Cuidado de césped, diseño, riego, árboles y limpiezas de temporada — ocho servicios, un equipo.",
-        "cta": "Explorar Paisajismo",
+        "label": "Paisajismo y Cuidado de Propiedad",
+        "desc": "Plantaciones, césped y mantenimiento durante todo el año — incluyendo limpiezas de temporada y remoción de nieve en invierno.",
         "alt": "Un jardín frondoso de DuPage con bordes definidos y plantaciones maduras al atardecer."
       },
       "hardscape": {
         "tag": "Hardscape",
-        "h3": "Construido para durar.",
-        "desc": "Patios, muros, fogatas, cocinas, pérgolas y entradas — instalaciones autorizadas por Unilock.",
-        "cta": "Explorar Hardscape",
+        "label": "Espacios Exteriores y Hardscape",
+        "desc": "Patios a medida, muros de contención y espacios de vida al aire libre — diseño y construcción certificados, hechos para durar.",
+        "cta": "Explorar espacios exteriores",
         "alt": "Un patio de adoquines Unilock con muro de asiento y fogata de piedra al atardecer."
       },
       "waterproofing": {
         "tag": "Impermeabilización",
-        "h3": "Sótanos secos.",
-        "desc": "Sótanos, cimientos, bombas de sumidero, drenaje del jardín, canaletas — diez servicios para el agua.",
-        "cta": "Explorar Impermeabilización",
+        "label": "Impermeabilización y Drenaje",
+        "desc": "Mantén el agua fuera y lejos — impermeabilización de cimientos y drenaje que protegen tu hogar.",
         "alt": "Un sótano terminado, limpio, seco y bien iluminado, con paredes pintadas en tonos neutros, piso alfombrado y una escalera al fondo."
       },
       "snow-removal": {
@@ -57,9 +55,8 @@
       },
       "trenchless": {
         "tag": "Perforación",
-        "h3": "Líneas bajo tierra, jardín intacto.",
-        "desc": "Conductos, líneas de drenaje, zanjeo, perforación, cajas de registro y fusión de polietileno — seis servicios para meter servicios bajo tierra.",
-        "cta": "Explorar Perforación",
+        "label": "Zanjeo y Trabajo Subterráneo",
+        "desc": "Líneas de servicios, alcantarillado y agua instaladas con métodos sin zanja que cuidan tu jardín.",
         "alt": "Una excavación de zanja abierta en una propiedad residencial, con equipo de compactación durante la instalación de servicios subterráneos."
       }
     },

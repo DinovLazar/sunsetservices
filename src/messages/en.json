@@ -26,26 +26,24 @@
       "eyebrow": "What we do",
       "h2": "Five divisions. One accountable crew.",
       "sub": "Pick the work that fits — landscape, hardscape, waterproofing, snow removal, trenchless. Same crew accountability across all five.",
-      "unilockChip": "UNILOCK",
+      "featuredChip": "Featured",
       "landscape": {
         "tag": "Landscape",
-        "h3": "Yards that hold up.",
-        "desc": "Lawn care, design, sprinklers, trees, and seasonal cleanups — eight services, one crew.",
-        "cta": "Explore Landscape",
+        "label": "Landscape & Property Care",
+        "desc": "Plantings, lawns, and year-round upkeep — including seasonal cleanups and winter snow removal.",
         "alt": "A lush DuPage front yard with crisp edging and mature plantings at golden hour."
       },
       "hardscape": {
         "tag": "Hardscape",
-        "h3": "Built to last.",
-        "desc": "Patios, walls, fire features, kitchens, pergolas, and driveways — Unilock-authorized installs.",
-        "cta": "Explore Hardscape",
+        "label": "Outdoor Living & Hardscapes",
+        "desc": "Custom patios, retaining walls, and outdoor living spaces — certified design-build craftsmanship, built to last.",
+        "cta": "Explore outdoor living",
         "alt": "A Unilock paver patio with a seating wall and a stone fire feature at sunset."
       },
       "waterproofing": {
         "tag": "Waterproofing",
-        "h3": "Dry basements.",
-        "desc": "Basements, foundations, sump pumps, yard drainage, gutters — ten services for water management.",
-        "cta": "Explore Waterproofing",
+        "label": "Waterproofing & Drainage",
+        "desc": "Keep water out and away — foundation waterproofing and drainage that protect your home.",
         "alt": "A clean, dry, well-lit finished basement with neutral painted walls, carpeted floor, and a staircase in the background."
       },
       "snow-removal": {
@@ -57,9 +55,8 @@
       },
       "trenchless": {
         "tag": "Trenchless",
-        "h3": "Lines in, yard intact.",
-        "desc": "Conduit, sewer lines, trenching, boring, pull boxes, and HDPE fusing — six services for getting utilities in the ground.",
-        "cta": "Explore Trenchless",
+        "label": "Trenching & Underground Work",
+        "desc": "Utility, sewer, and water lines installed with trenchless methods that spare your yard.",
         "alt": "An open trench excavation on a residential property with compaction equipment during underground utility installation."
       }
     },

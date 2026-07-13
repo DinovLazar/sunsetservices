@@ -10,14 +10,10 @@ import {resolveProjectImage} from '@/lib/images/resolveProjectImage';
 import {getAllProjects} from '@sanity-lib/queries';
 import residentialSrc from '@/assets/home/audience-residential.jpg';
 import hardscapeSrc from '@/assets/home/audience-hardscape.jpg';
-// Polish-01: waterproofing + snow-removal cards no longer alias the generic
-// residential/commercial audience photos (a paver patio and a summer screened
-// porch — both mismatched). They now use the divisions' own landing heroes:
-// stock-bridge photos (waterproofing replace-by 2026-10-01, snow-removal
-// 2027-01-31 — see docs/stock-bridge/stock-image-manifest.md), same assets
-// the /waterproofing/ and /snow-removal/ landings render via DIVISION_HERO.
+// Phase HOME-01 uses the same four division images as the prior M.16 grid.
+// Waterproofing reuses the /waterproofing/ landing hero (stock-bridge, replace-by
+// 2026-10-01 — see docs/stock-bridge/stock-image-manifest.md).
 import waterproofingSrc from '@/assets/division/hero-waterproofing.jpg';
-import snowRemovalSrc from '@/assets/division/hero-snow-removal.jpg';
 // Trenchless fallback: the real open-trench / underground-utility photo
 // (`hero-trenching-excavation.jpg`) — the same asset the /request-quote wizard
 // division tile uses (WizardStep1Audience.tsx), so the homepage card and the
@@ -26,33 +22,42 @@ import snowRemovalSrc from '@/assets/division/hero-snow-removal.jpg';
 import trenchlessSrc from '@/assets/service/hero-trenching-excavation.jpg';
 
 /**
- * Homepage divisions block (Phase M.16 — "Four divisions. One accountable
- * crew."). Four uniform division cards (D4); the Hardscape card carries the
- * small ◆ UNILOCK chip. The grid degrades to 3 columns cleanly if a division
- * is ever removed (D4).
+ * Homepage divisions block (Phase HOME-01 — entry-point restructure). The five
+ * equal cards were re-weighted into a need-based set of FOUR paths: one dominant
+ * feature (Outdoor Living & Hardscapes → /hardscape/) plus a secondary trio
+ * (Landscape & Property Care · Waterproofing & Drainage · Trenching & Underground
+ * Work). Snow Removal is folded into the Landscape descriptor — /snow-removal/
+ * stays live and reachable via nav/footer; there is no standalone Snow card here.
  *
  * Card images are Sanity-asset-first: the newest project in each division
  * (division derived from a project's services via `getProjectDivision` — the
  * Sanity `audience` field is the legacy 3-audience tag, not the 4-division IA)
  * with a lead-image asset wins; otherwise the bundled placeholder renders. When
- * M.01 lands real photos, division cards update with no code change.
+ * real photos land, cards update with no code change.
  *
  * Per handover §7 there is NO per-item scroll animation on this grid — only the
- * heading block fades in once.
+ * heading block fades in once. The eyebrow + heading are retained from M.16.
  */
 type Entry = {
   key: Division;
   href: string;
   fallback: StaticImageData;
   tracking: string;
-  unilock?: boolean;
 };
 
-const ENTRIES: Entry[] = [
+// The dominant feature path — full-bleed image, scrim, "Featured" chip, CTA.
+const FEATURE: Entry = {
+  key: 'hardscape',
+  href: '/hardscape/',
+  fallback: hardscapeSrc,
+  tracking: 'home-division-hardscape',
+};
+
+// The secondary trio — equal weight to each other, subordinate to the feature.
+// Keyboard/visual order: feature → landscape → waterproofing → trenchless.
+const TRIO: Entry[] = [
   {key: 'landscape', href: '/landscape/', fallback: residentialSrc, tracking: 'home-division-landscape'},
-  {key: 'hardscape', href: '/hardscape/', fallback: hardscapeSrc, tracking: 'home-division-hardscape', unilock: true},
   {key: 'waterproofing', href: '/waterproofing/', fallback: waterproofingSrc, tracking: 'home-division-waterproofing'},
-  {key: 'snow-removal', href: '/snow-removal/', fallback: snowRemovalSrc, tracking: 'home-division-snow-removal'},
   {key: 'trenchless', href: '/trenchless/', fallback: trenchlessSrc, tracking: 'home-division-trenchless'},
 ];
 
@@ -75,10 +80,7 @@ export default async function HomeAudienceEntries() {
     return {photo: entry.fallback, fromSanity: false};
   };
 
-  // D4 — the grid stays balanced as divisions are added/removed: 5 → one row
-  // of 5, 4 → one row of 4, ≤3 → 3 columns. (Phase B.12 added trenchless = 5.)
-  const lgCols =
-    ENTRIES.length >= 5 ? 'lg:grid-cols-5' : ENTRIES.length >= 4 ? 'lg:grid-cols-4' : 'lg:grid-cols-3';
+  const feature = imageFor(FEATURE);
 
   return (
     <section
@@ -111,80 +113,108 @@ export default async function HomeAudienceEntries() {
           </p>
         </AnimateIn>
 
-        <div className={`grid grid-cols-1 sm:grid-cols-2 ${lgCols} gap-5 lg:gap-6`}>
-          {ENTRIES.map((entry) => {
-            const {photo, fromSanity} = imageFor(entry);
-            return (
-              <Link
-                key={entry.key}
-                href={entry.href}
-                className="card card-photo block h-full"
-                data-cr-tracking={entry.tracking}
+        {/* [A] dominant feature + [B] secondary trio */}
+        <div className="grid grid-cols-1 lg:grid-cols-[1.42fr_1fr] gap-[14px] md:gap-[18px] lg:gap-5">
+          {/* [A] Outdoor Living & Hardscapes — full-bleed, scrim, chip, CTA */}
+          <Link
+            href={FEATURE.href}
+            data-cr-tracking={FEATURE.tracking}
+            className="card-photo group relative flex min-h-[340px] md:min-h-[360px] lg:min-h-[532px] flex-col justify-end overflow-hidden rounded-[var(--radius-lg)] shadow-[var(--shadow-card)] transition-[box-shadow] duration-300 hover:shadow-[0_20px_46px_rgba(26,26,26,0.24)] focus-visible:[outline-style:solid] focus-visible:[outline-width:3px] focus-visible:[outline-color:rgba(242,140,56,0.6)] focus-visible:outline-offset-2"
+          >
+            <Image
+              src={feature.photo}
+              alt={t('hardscape.alt')}
+              fill
+              sizes="(max-width: 1023px) 100vw, 56vw"
+              placeholder={feature.fromSanity ? 'empty' : 'blur'}
+              className="object-cover"
+            />
+            <div
+              aria-hidden="true"
+              className="absolute inset-0"
+              style={{
+                background:
+                  'linear-gradient(180deg, transparent 34%, rgba(28,43,43,.42) 62%, rgba(20,32,32,.82) 100%)',
+              }}
+            />
+            <div className="relative flex flex-col items-start gap-3 p-[22px] md:p-[30px]">
+              <span
+                className="inline-flex items-center rounded-full font-heading font-semibold"
+                style={{
+                  background: 'var(--color-sunset-orange-500)',
+                  color: 'var(--color-text-on-orange)',
+                  padding: '4px 12px',
+                  fontSize: '12px',
+                  letterSpacing: '0.04em',
+                }}
               >
-                <div className="relative w-full" style={{aspectRatio: '4 / 3'}}>
-                  <Image
-                    src={photo}
-                    alt={t(`${entry.key}.alt`)}
-                    fill
-                    sizes="(max-width: 639px) 100vw, (max-width: 1023px) 50vw, 25vw"
-                    placeholder={fromSanity ? 'empty' : 'blur'}
-                    style={{objectFit: 'cover'}}
-                  />
-                  {entry.unilock ? (
-                    <span
-                      className="absolute top-3 left-3 inline-flex items-center gap-1.5 font-heading font-semibold"
-                      style={{
-                        background: 'rgba(255,255,255,0.92)',
-                        color: 'var(--color-text-primary)',
-                        borderRadius: '9999px',
-                        padding: '4px 10px',
-                        fontSize: '11px',
-                        letterSpacing: '0.04em',
-                        boxShadow: 'var(--shadow-soft)',
-                      }}
+                {t('featuredChip')}
+              </span>
+              <h3
+                className="font-heading font-extrabold text-white m-0 leading-[1.12] text-[25px] md:text-[30px] lg:text-[34px]"
+              >
+                {t('hardscape.label')}
+              </h3>
+              <p
+                className="m-0 max-w-[440px] text-[14.5px] md:text-[16px] lg:text-[16.5px]"
+                style={{color: 'rgba(255,255,255,.92)', lineHeight: 1.5}}
+              >
+                {t('hardscape.desc')}
+              </p>
+              <span
+                className="btn btn-md btn-orange mt-1 transition-colors group-hover:[background:var(--color-sunset-orange-700)] group-hover:[color:var(--color-text-on-dark)]"
+              >
+                {t('hardscape.cta')}
+                <ArrowRight aria-hidden="true" size={18} />
+              </span>
+            </div>
+          </Link>
+
+          {/* [B] Secondary trio */}
+          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-1 gap-3 md:gap-4">
+            {TRIO.map((entry) => {
+              const {photo, fromSanity} = imageFor(entry);
+              return (
+                <Link
+                  key={entry.key}
+                  href={entry.href}
+                  data-cr-tracking={entry.tracking}
+                  className="group flex min-h-[92px] md:min-h-0 flex-row md:flex-col lg:flex-row overflow-hidden rounded-[14px] border bg-[var(--color-bg)] shadow-[var(--shadow-card)] transition-[transform,box-shadow,border-color] duration-300 border-[rgba(26,26,26,0.10)] hover:border-[rgba(77,138,63,0.5)] hover:shadow-[0_16px_32px_rgba(26,26,26,0.15)] motion-safe:hover:-translate-y-[3px] focus-visible:[outline-style:solid] focus-visible:[outline-width:3px] focus-visible:[outline-color:rgba(77,138,63,0.55)] focus-visible:outline-offset-2"
+                >
+                  <div className="relative shrink-0 self-stretch overflow-hidden w-[116px] md:w-full md:h-[148px] lg:w-[156px] lg:h-auto">
+                    <Image
+                      src={photo}
+                      alt={t(`${entry.key}.alt`)}
+                      fill
+                      sizes="(max-width: 767px) 116px, (max-width: 1023px) 33vw, 156px"
+                      placeholder={fromSanity ? 'empty' : 'blur'}
+                      className="object-cover"
+                    />
+                  </div>
+                  <div className="flex flex-1 flex-col justify-center gap-1.5 p-[15px] md:p-4 lg:p-[18px]">
+                    <h3
+                      className="font-heading font-bold m-0 leading-[1.2] text-[16px] md:text-[18px]"
+                      style={{color: 'var(--color-text-primary)'}}
                     >
-                      <span aria-hidden="true" style={{color: 'var(--color-sunset-orange-500)'}}>
-                        ◆
-                      </span>
-                      {t('unilockChip')}
-                    </span>
-                  ) : null}
-                </div>
-                <div className="p-5 lg:p-6">
-                  <p
-                    className="font-heading font-semibold uppercase m-0 mb-2"
-                    style={{
-                      fontSize: '12px',
-                      letterSpacing: 'var(--tracking-eyebrow)',
-                      color: 'var(--color-sunset-green-700)',
-                    }}
-                  >
-                    {t(`${entry.key}.tag`)}
-                  </p>
-                  <h3 className="m-0 mb-2">{t(`${entry.key}.h3`)}</h3>
-                  <p
-                    className="m-0 mb-4"
-                    style={{
-                      fontSize: 'var(--text-body-sm)',
-                      color: 'var(--color-text-secondary)',
-                    }}
-                  >
-                    {t(`${entry.key}.desc`)}
-                  </p>
-                  <span
-                    className="inline-flex items-center gap-2 font-heading font-semibold"
-                    style={{
-                      fontSize: 'var(--text-body-sm)',
-                      color: 'var(--color-sunset-green-700)',
-                    }}
-                  >
-                    {t(`${entry.key}.cta`)}
-                    <ArrowRight aria-hidden="true" size={18} />
-                  </span>
-                </div>
-              </Link>
-            );
-          })}
+                      {t(`${entry.key}.label`)}
+                    </h3>
+                    <p
+                      className="m-0 text-[13px] lg:text-[13.5px]"
+                      style={{color: 'var(--color-text-secondary)', lineHeight: 1.45}}
+                    >
+                      {t(`${entry.key}.desc`)}
+                    </p>
+                    <ArrowRight
+                      aria-hidden="true"
+                      size={18}
+                      className="mt-0.5 motion-safe:transition-transform motion-safe:group-hover:translate-x-[3px]"
+                      style={{color: 'var(--color-sunset-green-500)'}}
+                    />
+                  </div>
+                </Link>
+              );
+            })}
+          </div>
         </div>
       </div>
     </section>

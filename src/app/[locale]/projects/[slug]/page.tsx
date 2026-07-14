@@ -7,6 +7,17 @@ import ProjectGallery from '@/components/sections/projects/detail/ProjectGallery
 import ProjectFacts from '@/components/sections/projects/detail/ProjectFacts';
 import BeforeAfterToggle from '@/components/sections/projects/detail/BeforeAfterToggle';
 import RelatedProjects from '@/components/sections/projects/detail/RelatedProjects';
+// Phase M.18 — the PSS-002 project feature sections.
+import ProjectAtAGlance from '@/components/sections/projects/detail/ProjectAtAGlance';
+import ProjectStory, {
+  hasContent,
+  type StorySection,
+} from '@/components/sections/projects/detail/ProjectStory';
+import ProjectMaterials from '@/components/sections/projects/detail/ProjectMaterials';
+import ProjectTestimonial from '@/components/sections/projects/detail/ProjectTestimonial';
+import ProjectFaqSection from '@/components/sections/projects/detail/ProjectFaqSection';
+import ProjectInternalLinks from '@/components/sections/projects/detail/ProjectInternalLinks';
+import {buildContentFaqSchema} from '@/lib/schema/article';
 import CTA from '@/components/sections/CTA';
 import {selectRelatedProjects, type Project} from '@/data/projects';
 import {getLocation} from '@/data/locations';
@@ -81,8 +92,16 @@ export async function generateMetadata({
   // real project content) get the leading street number stripped from the
   // rendered output — Sanity keeps the full address; visitors don't see it.
   const displayTitle = stripStreetNumber(project.title[loc]);
-  const title = `${displayTitle} — ${labelForTitle} project in ${cityName} · Sunset Services`;
-  const description = `${project.shortDek[loc]} ${cityName}, IL. By Sunset Services.`;
+  // Phase M.18 — a hand-written SEO title/description wins when the project has
+  // one (PSS-002 §4 ships them per project); otherwise the derived pair stands.
+  const seoTitle = sanityProject.seo?.title?.[loc]?.trim();
+  const seoDescription = sanityProject.seo?.description?.[loc]?.trim();
+  const title =
+    seoTitle ||
+    `${displayTitle} — ${labelForTitle} project in ${cityName} · Sunset Services`;
+  const description =
+    seoDescription || `${project.shortDek[loc]} ${cityName}, IL. By Sunset Services.`;
+  const keywords = (sanityProject.keywords ?? []).filter(Boolean);
   const path = `/projects/${slug}`;
   // Phase M.10d §B — prefer the project's lead photo on the OG card so the
   // social preview shows the actual job. Falls back to /og/fallback when the
@@ -112,6 +131,7 @@ export async function generateMetadata({
   return {
     title,
     description,
+    ...(keywords.length > 0 ? {keywords} : {}),
     alternates: {
       canonical: canonicalUrl(path, loc),
       languages: hreflangAlternates(path),
@@ -209,6 +229,86 @@ export default async function ProjectDetailPage({
     imageUrls,
   });
 
+  // ───────────────────── Phase M.18 — the PSS-002 story ─────────────────────
+  // The six named sections, in the order the standard tells them: the site & the
+  // goal → our approach → the work → the standout feature → the result → the
+  // long-term value. Each carries its own photos, so the "before" shots sit with
+  // the paragraph about the site and the evening shots with the one about the
+  // lighting. A writer can override any heading; otherwise the localized default
+  // from the message catalog is used.
+  const tStory = await getTranslations({locale, namespace: 'project.story'});
+  const sections: StorySection[] = [
+    {
+      id: 'overview',
+      heading: {en: '', es: ''},
+      fallbackHeading: tStory('overview'),
+      body: sanityProject.overview,
+      photos: [],
+    },
+    {
+      id: 'site',
+      heading: sanityProject.siteHeading,
+      fallbackHeading: tStory('site'),
+      body: sanityProject.site,
+      photos: sanityProject.sitePhotos ?? [],
+    },
+    {
+      id: 'approach',
+      heading: sanityProject.approachHeading,
+      fallbackHeading: tStory('approach'),
+      body: sanityProject.approach,
+      photos: sanityProject.approachPhotos ?? [],
+    },
+    {
+      id: 'work',
+      heading: sanityProject.workHeading,
+      fallbackHeading: tStory('work'),
+      body: sanityProject.work,
+      photos: sanityProject.workPhotos ?? [],
+    },
+    {
+      id: 'feature',
+      heading: sanityProject.featureHeading,
+      fallbackHeading: tStory('feature'),
+      body: sanityProject.feature,
+      photos: sanityProject.featurePhotos ?? [],
+    },
+    {
+      id: 'result',
+      heading: sanityProject.resultHeading,
+      fallbackHeading: tStory('result'),
+      body: sanityProject.result,
+      photos: sanityProject.resultPhotos ?? [],
+    },
+    {
+      id: 'durability',
+      heading: sanityProject.durabilityHeading,
+      fallbackHeading: tStory('durability'),
+      body: sanityProject.durability,
+      photos: [],
+    },
+  ];
+
+  // The load-bearing compatibility switch: a project written BEFORE M.18 has no
+  // story sections, so it renders exactly as it always did — the legacy
+  // <ProjectNarrative>. Nothing already published moves. A project that has any
+  // story content renders the feature layout instead, and its narrative (if any)
+  // is left alone in Sanity, unread.
+  const hasStory = sections.some((section) => hasContent(section, loc));
+
+  // Phase M.18 — the FAQ is emitted as FAQPage JSON-LD from the SAME entries the
+  // page renders, so what a reader sees and what an answer engine quotes can
+  // never drift apart.
+  const faqEntries = (sanityProject.faq ?? []).filter(
+    (e) => e.question[loc]?.trim() && e.answer[loc]?.trim(),
+  );
+  const faqSchema =
+    faqEntries.length > 0
+      ? buildContentFaqSchema(
+          faqEntries.map((e) => ({q: e.question[loc], a: e.answer[loc]})),
+        )
+      : null;
+
   return (
     <>
       <script
@@ -219,23 +319,79 @@ export default async function ProjectDetailPage({
         type="application/ld+json"
         dangerouslySetInnerHTML={{__html: JSON.stringify(creativeWorkSchema)}}
       />
-      <ProjectHero project={project} locale={loc} breadcrumbItems={breadcrumbItems} />
-      <ProjectNarrative project={project} locale={loc} />
-      <ProjectGallery photos={photos} />
-      <ProjectFacts project={project} locale={loc} />
-      {project.hasBeforeAfter &&
-      beforeAfter &&
-      beforeAfter.before &&
-      beforeAfter.after &&
-      project.beforeAlt &&
-      project.afterAlt ? (
-        <BeforeAfterToggle
-          before={beforeAfter.before}
-          after={beforeAfter.after}
-          beforeAlt={project.beforeAlt[loc]}
-          afterAlt={project.afterAlt[loc]}
+      {faqSchema ? (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{__html: JSON.stringify(faqSchema)}}
         />
       ) : null}
+
+      <ProjectHero project={project} locale={loc} breadcrumbItems={breadcrumbItems} />
+
+      {hasStory ? (
+        <>
+          <ProjectAtAGlance facts={sanityProject.atAGlance ?? []} locale={loc} />
+          <ProjectStory sections={sections} locale={loc} />
+          <ProjectMaterials
+            materials={sanityProject.materials ?? []}
+            note={sanityProject.materialsNote}
+            heading={tStory('materials')}
+            locale={loc}
+          />
+          {project.hasBeforeAfter &&
+          beforeAfter &&
+          beforeAfter.before &&
+          beforeAfter.after &&
+          project.beforeAlt &&
+          project.afterAlt ? (
+            <BeforeAfterToggle
+              before={beforeAfter.before}
+              after={beforeAfter.after}
+              beforeAlt={project.beforeAlt[loc]}
+              afterAlt={project.afterAlt[loc]}
+            />
+          ) : null}
+          <ProjectTestimonial
+            statement={sanityProject.testimonialStatement}
+            quote={sanityProject.testimonialQuote}
+            attribution={sanityProject.testimonialAttribution}
+            heading={tStory('testimonial')}
+            locale={loc}
+          />
+          {photos.length > 0 ? <ProjectGallery photos={photos} /> : null}
+          <ProjectFacts project={project} locale={loc} />
+          <ProjectFaqSection
+            faq={sanityProject.faq ?? []}
+            heading={tStory('faq')}
+            locale={loc}
+          />
+          <ProjectInternalLinks
+            links={sanityProject.internalLinks ?? []}
+            heading={tStory('links')}
+            locale={loc}
+          />
+        </>
+      ) : (
+        <>
+          <ProjectNarrative project={project} locale={loc} />
+          <ProjectGallery photos={photos} />
+          <ProjectFacts project={project} locale={loc} />
+          {project.hasBeforeAfter &&
+          beforeAfter &&
+          beforeAfter.before &&
+          beforeAfter.after &&
+          project.beforeAlt &&
+          project.afterAlt ? (
+            <BeforeAfterToggle
+              before={beforeAfter.before}
+              after={beforeAfter.after}
+              beforeAlt={project.beforeAlt[loc]}
+              afterAlt={project.afterAlt[loc]}
+            />
+          ) : null}
+        </>
+      )}
+
       <RelatedProjects current={project} locale={loc} all={ALL} />
       <CTA
         copyNamespace="project.cta"

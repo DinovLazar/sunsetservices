@@ -52,18 +52,61 @@ export type ProjectSummary = {
   serviceSlugs: string[];
 };
 
+/** Phase M.18 — one photo of a project photo set. */
+export type ProjectPhoto = {image: SanityImageAsset; alt: Localized};
+
+/** Phase M.18 — one row of the at-a-glance strip. */
+export type ProjectFact = {label: Localized; value: Localized};
+
+/** Phase M.18 — one FAQ entry (also emitted as FAQPage JSON-LD). */
+export type ProjectFaqEntry = {question: Localized; answer: Localized};
+
+/** Phase M.18 — one internal link out of a project page. */
+export type ProjectLink = {label: Localized; href: string};
+
 export type ProjectDetail = ProjectSummary & {
   durationWeeks: number | null;
   narrativeHeading: Localized;
   narrative: Localized;
   materials: Localized[];
+  materialsNote: Localized;
   hasBeforeAfter: boolean;
   beforeImage: SanityImageAsset;
   beforeAlt: Localized;
   afterImage: SanityImageAsset;
   afterAlt: Localized;
-  gallery: {image: SanityImageAsset; alt: Localized}[];
+  gallery: ProjectPhoto[];
   serviceAudiences: Audience[];
+
+  // ───────────────── Phase M.18 — the PSS-002 project feature ─────────────────
+  // Every one of these is optional in Sanity; the projection coalesces them to
+  // empty strings / empty arrays, and the page renders only what is filled in.
+  atAGlance: ProjectFact[];
+  overview: Localized;
+  siteHeading: Localized;
+  site: Localized;
+  sitePhotos: ProjectPhoto[];
+  approachHeading: Localized;
+  approach: Localized;
+  approachPhotos: ProjectPhoto[];
+  workHeading: Localized;
+  work: Localized;
+  workPhotos: ProjectPhoto[];
+  featureHeading: Localized;
+  feature: Localized;
+  featurePhotos: ProjectPhoto[];
+  resultHeading: Localized;
+  result: Localized;
+  resultPhotos: ProjectPhoto[];
+  durabilityHeading: Localized;
+  durability: Localized;
+  testimonialStatement: Localized;
+  testimonialQuote: Localized;
+  testimonialAttribution: string;
+  faq: ProjectFaqEntry[];
+  internalLinks: ProjectLink[];
+  keywords: string[];
+  seo: {title: Localized; description: Localized};
 };
 
 // ---------- Blog ----------

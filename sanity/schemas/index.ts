@@ -1,4 +1,13 @@
-import {localizedString, localizedText, localizedBody, localizedSeo} from './objects';
+import {
+  localizedString,
+  localizedText,
+  localizedBody,
+  localizedSeo,
+  galleryEntry,
+  projectFact,
+  projectFaq,
+  projectLink,
+} from './objects';
 import {service} from './service';
 import {project} from './project';
 import {blogPost} from './blogPost';
@@ -23,6 +32,11 @@ export const schemaTypes = [
   localizedText,
   localizedBody,
   localizedSeo,
+  // Phase M.18 — the project feature blocks (photo sets, facts, FAQ, links).
+  galleryEntry,
+  projectFact,
+  projectFaq,
+  projectLink,
   // Documents.
   service,
   project,

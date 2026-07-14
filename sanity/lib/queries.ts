@@ -81,6 +81,17 @@ const PROJECT_SUMMARY_PROJECTION = `{
   "serviceSlugs": services[]->slug.current
 }`;
 
+// Phase M.18 — a photo set (a story section's photos, or the gallery).
+const photoSet = (field: string): string =>
+  `"${field}": coalesce(${field}[]{ image, "alt": {"en": coalesce(alt.en, ""), "es": coalesce(alt.es, alt.en, "")} }, [])`;
+
+// Phase M.18 — one story section: its optional custom heading, its body, and its
+// own photos. An empty section comes back as empty strings + [] and doesn't render.
+const storySection = (body: string, heading: string, photos?: string): string =>
+  [biling(heading), biling(body), photos ? photoSet(photos) : null]
+    .filter(Boolean)
+    .join(',\n  ');
+
 const PROJECT_DETAIL_PROJECTION = `{
   _id,
   "slug": slug.current,
@@ -96,14 +107,43 @@ const PROJECT_DETAIL_PROJECTION = `{
   ${biling('narrativeHeading')},
   ${biling('narrative')},
   "materials": coalesce(materials[]{ "en": coalesce(en, ""), "es": coalesce(es, en, "") }, []),
+  ${biling('materialsNote')},
   hasBeforeAfter,
   beforeImage,
   ${biling('beforeAlt')},
   afterImage,
   ${biling('afterAlt')},
-  "gallery": coalesce(gallery[]{ image, "alt": {"en": coalesce(alt.en, ""), "es": coalesce(alt.es, alt.en, "")} }, []),
+  ${photoSet('gallery')},
   "serviceSlugs": services[]->slug.current,
-  "serviceAudiences": services[]->audience
+  "serviceAudiences": services[]->audience,
+
+  "atAGlance": coalesce(atAGlance[]{
+    "label": {"en": coalesce(label.en, ""), "es": coalesce(label.es, label.en, "")},
+    "value": {"en": coalesce(value.en, ""), "es": coalesce(value.es, value.en, "")}
+  }, []),
+  ${biling('overview')},
+  ${storySection('site', 'siteHeading', 'sitePhotos')},
+  ${storySection('approach', 'approachHeading', 'approachPhotos')},
+  ${storySection('work', 'workHeading', 'workPhotos')},
+  ${storySection('feature', 'featureHeading', 'featurePhotos')},
+  ${storySection('result', 'resultHeading', 'resultPhotos')},
+  ${storySection('durability', 'durabilityHeading')},
+  ${biling('testimonialStatement')},
+  ${biling('testimonialQuote')},
+  "testimonialAttribution": coalesce(testimonialAttribution, ""),
+  "faq": coalesce(faq[]{
+    "question": {"en": coalesce(question.en, ""), "es": coalesce(question.es, question.en, "")},
+    "answer": {"en": coalesce(answer.en, ""), "es": coalesce(answer.es, answer.en, "")}
+  }, []),
+  "internalLinks": coalesce(internalLinks[]{
+    "label": {"en": coalesce(label.en, ""), "es": coalesce(label.es, label.en, "")},
+    href
+  }, []),
+  "keywords": coalesce(keywords, []),
+  "seo": {
+    "title": {"en": coalesce(seo.title.en, ""), "es": coalesce(seo.title.es, seo.title.en, "")},
+    "description": {"en": coalesce(seo.description.en, ""), "es": coalesce(seo.description.es, seo.description.en, "")}
+  }
 }`;
 
 export async function getAllProjects(): Promise<ProjectSummary[]> {

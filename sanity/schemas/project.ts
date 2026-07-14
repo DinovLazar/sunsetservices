@@ -1,4 +1,4 @@
-import {defineArrayMember, defineField, defineType} from 'sanity';
+import {defineField, defineType} from 'sanity';
 
 export const project = defineType({
   name: 'project',
@@ -6,6 +6,7 @@ export const project = defineType({
   title: 'Project',
   groups: [
     {name: 'content', title: 'Content', default: true},
+    {name: 'story', title: 'Story sections'},
     {name: 'media', title: 'Media'},
     {name: 'beforeAfter', title: 'Before / After'},
     {name: 'taxonomy', title: 'Taxonomy'},
@@ -90,16 +91,185 @@ export const project = defineType({
       title: 'Short dek (≤120 chars)',
       group: 'content',
     }),
+    // ───────────────────── Legacy narrative (pre-M.18) ─────────────────────
+    // Kept, not removed. A project written before the PSS-002 story sections
+    // existed renders exactly as it always did: the detail route falls back to
+    // <ProjectNarrative> whenever `overview` and the story sections are empty.
+    // New projects leave these blank and write the story sections below.
     defineField({
       name: 'narrativeHeading',
       type: 'localizedString',
-      title: 'Narrative H2 (falls back to title)',
+      title: 'Narrative H2 (legacy — falls back to title)',
       group: 'content',
     }),
     defineField({
       name: 'narrative',
       type: 'localizedText',
-      title: 'Narrative body',
+      title: 'Narrative body (legacy — superseded by the story sections)',
+      group: 'content',
+    }),
+
+    // ═══════════════════ M.18 — the PSS-002 project feature ═══════════════════
+    // A project reads as a story: an at-a-glance strip, then a run of named
+    // sections, each with its own photos. Every section is OPTIONAL — an empty
+    // one simply doesn't render, so a project can be as short or as complete as
+    // its photos and its copy allow.
+
+    defineField({
+      name: 'atAGlance',
+      type: 'array',
+      title: 'At a glance',
+      group: 'content',
+      description:
+        'The facts strip under the hero — Location, Service, Walls, Planting, Lighting, Completed…',
+      of: [{type: 'projectFact'}],
+    }),
+    defineField({
+      name: 'overview',
+      type: 'localizedText',
+      title: 'Overview — the story (the lead)',
+      group: 'story',
+      description: 'The opening paragraphs. What the project was and why it matters.',
+    }),
+
+    defineField({
+      name: 'siteHeading',
+      type: 'localizedString',
+      title: 'Section 1 heading (default: "The site & the goal")',
+      group: 'story',
+    }),
+    defineField({
+      name: 'site',
+      type: 'localizedText',
+      title: 'Section 1 — the site & the goal',
+      group: 'story',
+    }),
+    defineField({
+      name: 'sitePhotos',
+      type: 'array',
+      title: 'Section 1 photos (the "before" shots)',
+      group: 'story',
+      of: [{type: 'galleryEntry'}],
+    }),
+
+    defineField({
+      name: 'approachHeading',
+      type: 'localizedString',
+      title: 'Section 2 heading (default: "Our approach")',
+      group: 'story',
+    }),
+    defineField({
+      name: 'approach',
+      type: 'localizedText',
+      title: 'Section 2 — our approach',
+      group: 'story',
+    }),
+    defineField({
+      name: 'approachPhotos',
+      type: 'array',
+      title: 'Section 2 photos (in-progress shots)',
+      group: 'story',
+      of: [{type: 'galleryEntry'}],
+    }),
+
+    defineField({
+      name: 'workHeading',
+      type: 'localizedString',
+      title: 'Section 3 heading (e.g. "The landscaping — designed planting beds")',
+      group: 'story',
+    }),
+    defineField({
+      name: 'work',
+      type: 'localizedText',
+      title: 'Section 3 — the work in detail',
+      group: 'story',
+    }),
+    defineField({
+      name: 'workPhotos',
+      type: 'array',
+      title: 'Section 3 photos',
+      group: 'story',
+      of: [{type: 'galleryEntry'}],
+    }),
+
+    defineField({
+      name: 'featureHeading',
+      type: 'localizedString',
+      title: 'Section 4 heading (e.g. "The lighting — Kichler landscape lighting")',
+      group: 'story',
+    }),
+    defineField({
+      name: 'feature',
+      type: 'localizedText',
+      title: 'Section 4 — the standout feature',
+      group: 'story',
+    }),
+    defineField({
+      name: 'featurePhotos',
+      type: 'array',
+      title: 'Section 4 photos',
+      group: 'story',
+      of: [{type: 'galleryEntry'}],
+    }),
+
+    defineField({
+      name: 'resultHeading',
+      type: 'localizedString',
+      title: 'Section 5 heading (default: "The result")',
+      group: 'story',
+    }),
+    defineField({
+      name: 'result',
+      type: 'localizedText',
+      title: 'Section 5 — the result',
+      group: 'story',
+    }),
+    defineField({
+      name: 'resultPhotos',
+      type: 'array',
+      title: 'Section 5 photos (the finished job)',
+      group: 'story',
+      of: [{type: 'galleryEntry'}],
+    }),
+
+    defineField({
+      name: 'durabilityHeading',
+      type: 'localizedString',
+      title: 'Section 6 heading (default: "Long-term durability & value")',
+      group: 'story',
+    }),
+    defineField({
+      name: 'durability',
+      type: 'localizedText',
+      title: 'Section 6 — long-term durability & value',
+      group: 'story',
+    }),
+
+    defineField({
+      name: 'testimonialStatement',
+      type: 'localizedText',
+      title: 'Homeowner satisfaction — in Sunset\u2019s voice',
+      group: 'story',
+      description:
+        'What we can say about how happy they are. Publish a direct quote only with permission.',
+    }),
+    defineField({
+      name: 'testimonialQuote',
+      type: 'localizedText',
+      title: 'Pull-quote — the homeowner\u2019s own words',
+      group: 'story',
+    }),
+    defineField({
+      name: 'testimonialAttribution',
+      type: 'string',
+      title: 'Pull-quote attribution (e.g. "Homeowner, Sugar Grove")',
+      group: 'story',
+    }),
+
+    defineField({
+      name: 'materialsNote',
+      type: 'localizedText',
+      title: 'Materials — intro note (optional)',
       group: 'content',
     }),
     defineField({
@@ -125,36 +295,9 @@ export const project = defineType({
     defineField({
       name: 'gallery',
       type: 'array',
-      title: 'Gallery',
+      title: 'Gallery (photos not placed in a story section)',
       group: 'media',
-      of: [
-        defineArrayMember({
-          type: 'object',
-          name: 'galleryEntry',
-          title: 'Gallery entry',
-          fields: [
-            defineField({
-              name: 'image',
-              type: 'image',
-              title: 'Image',
-              options: {hotspot: true},
-              validation: (r) => r.required(),
-            }),
-            defineField({
-              name: 'alt',
-              type: 'localizedString',
-              title: 'Alt text',
-              validation: (r) => r.required(),
-            }),
-          ],
-          preview: {
-            select: {title: 'alt.en', media: 'image'},
-            prepare({title, media}) {
-              return {title: title ?? '(no alt)', media};
-            },
-          },
-        }),
-      ],
+      of: [{type: 'galleryEntry'}],
     }),
     defineField({
       name: 'hasBeforeAfter',
@@ -203,6 +346,30 @@ export const project = defineType({
         defineField({name: 'durationDays', type: 'number', title: 'Duration (days)'}),
         defineField({name: 'crewSize', type: 'number', title: 'Crew size'}),
       ],
+    }),
+    defineField({
+      name: 'faq',
+      type: 'array',
+      title: 'FAQ (emitted as FAQPage structured data)',
+      group: 'meta',
+      description:
+        'The questions answer engines quote. Each entry becomes a Q&A on the page and in the FAQPage JSON-LD.',
+      of: [{type: 'projectFaq'}],
+    }),
+    defineField({
+      name: 'internalLinks',
+      type: 'array',
+      title: 'Internal links from this page',
+      group: 'meta',
+      of: [{type: 'projectLink'}],
+    }),
+    defineField({
+      name: 'keywords',
+      type: 'array',
+      title: 'Target keywords (not rendered; used for metadata)',
+      group: 'meta',
+      of: [{type: 'string'}],
+      options: {layout: 'tags'},
     }),
     defineField({
       name: 'seo',

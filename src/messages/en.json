@@ -1295,6 +1295,19 @@
     "narrative": {
       "eyebrow": "The project"
     },
+    "story": {
+      "overview": "The project",
+      "site": "The site & the goal",
+      "approach": "Our approach",
+      "work": "The work",
+      "feature": "The standout feature",
+      "result": "The result",
+      "durability": "Long-term durability & value",
+      "materials": "Materials",
+      "testimonial": "Homeowner satisfaction",
+      "faq": "Common questions",
+      "links": "Explore more"
+    },
     "gallery": {
       "h2": "Gallery",
       "open": "Open photo",

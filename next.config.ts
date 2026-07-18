@@ -70,6 +70,100 @@ function buildRedirects() {
   return redirects;
 }
 
+/**
+ * Phase B.18 — redirects from the retired V1 (WordPress) URL scheme.
+ *
+ * THE PROBLEM THESE FIX
+ * ---------------------
+ * The V1 WordPress site ran on this same domain for years and earned real
+ * ranking signal. The V2 rebuild changed every path, and nothing was ever
+ * redirected — so the URLs Google still has indexed now return 404. Verified
+ * live on 2026-07-18:
+ *
+ *     https://sunsetservices.us/about-us/              → 404
+ *     https://sunsetservices.us/hardscaping-services/  → 404
+ *     https://sunsetservices.us/privacy-policy/        → 404
+ *     https://sunsetservices.us/yellow-grass-chicago-lawn-fix/ → 404
+ *
+ * All four are still returned by a `site:sunsetservices.us` search, which
+ * means real people click them and land on an error page, and whatever link
+ * equity those pages accumulated is being thrown away rather than passed to
+ * the pages that replaced them. A 301/308 to the closest equivalent is how
+ * that signal transfers.
+ *
+ * CONFIRMED vs. INFERRED
+ * ----------------------
+ * The V1 site is gone, so its full URL list cannot be enumerated — there is no
+ * old sitemap, no crawl, no archive in this repo. The table below is therefore
+ * in two halves, and the distinction is deliberate:
+ *
+ *   - CONFIRMED — verified indexed AND verified 404ing today. These are the
+ *     ones actually costing something.
+ *   - INFERRED — conventional WordPress paths for the services the V1 site is
+ *     known to have offered (the old copy described "landscape design,
+ *     maintenance, hardscaping, commercial services, tree removal, snow
+ *     removal"). Each 404s today. A redirect for a URL that never existed is
+ *     inert — nothing requests it — so the cost is zero and the payoff is
+ *     catching a real legacy URL this list would otherwise miss.
+ *
+ * WHEN GOOGLE SEARCH CONSOLE IS CONNECTED, REPLACE THE GUESSWORK: the Pages →
+ * "Not found (404)" report lists the real legacy URLs Google is still trying.
+ * Move anything real from that report into the CONFIRMED half and delete the
+ * inferred entries that never appear. See the ranking playbook, Week 1.
+ *
+ * NO ES VARIANTS. Unlike `buildRedirects()` above, these get no `/es` pair —
+ * the V1 site was English-only, so `/es/about-us/` never existed and never
+ * earned anything.
+ *
+ * Both slash variants are listed explicitly so a legacy URL resolves in ONE
+ * hop. Without the with-slash entry, `/about-us/` would 308 to `/about-us`
+ * (the `trailingSlash: false` default) and only then to `/about` — a two-hop
+ * chain that dilutes the signal being passed.
+ */
+function buildLegacyRedirects() {
+  const pairs: Array<[string, string]> = [
+    // ────────────── CONFIRMED: indexed + 404ing as of 2026-07-18 ──────────────
+    ['/about-us', '/about'],
+    ['/hardscaping-services', '/hardscape'],
+    ['/privacy-policy', '/privacy'],
+    // The V1 lawn-yellowing article. V2 republished the same subject at
+    // /blog/why-is-my-lawn-yellow (confirmed live in the sitemap), so this is
+    // a true content match, not a homepage dump.
+    ['/yellow-grass-chicago-lawn-fix', '/blog/why-is-my-lawn-yellow'],
+
+    // ────────────── INFERRED: conventional V1 paths, all 404 today ──────────────
+    // Division-level equivalents.
+    ['/landscaping-services', '/landscape'],
+    ['/snow-removal-services', '/snow-removal'],
+    ['/tree-services', '/landscape/tree-services'],
+    ['/landscape-design', '/landscape/landscape-design'],
+    ['/lawn-care', '/landscape/lawn-care'],
+    ['/outdoor-living', '/hardscape'],
+    ['/patios', '/hardscape/patios-walkways'],
+    ['/driveways', '/hardscape/driveways'],
+    // Navigational pages.
+    ['/contact-us', '/contact'],
+    ['/services', '/'],
+    ['/commercial-services', '/'],
+    ['/home', '/'],
+    ['/gallery', '/projects'],
+    ['/portfolio', '/projects'],
+    ['/testimonials', '/'],
+    ['/request-a-quote', '/request-quote'],
+    ['/free-estimate', '/request-quote'],
+    // WordPress leftovers.
+    ['/feed', '/blog'],
+  ];
+
+  const redirects: Array<{source: string; destination: string; permanent: true}> = [];
+  const withSlash = (s: string): string => (s === '/' ? '/' : `${s}/`);
+  for (const [from, to] of pairs) {
+    redirects.push({source: from, destination: to, permanent: true});
+    redirects.push({source: `${from}/`, destination: withSlash(to), permanent: true});
+  }
+  return redirects;
+}
+
 const nextConfig: NextConfig = {
   // Strict mode is on by default in Next 16.
   // Phase M.01c: allow next/image to serve real project photography from
@@ -80,7 +174,10 @@ const nextConfig: NextConfig = {
     ],
   },
   async redirects() {
-    return buildRedirects();
+    // Order matters only if two sources could collide; they cannot here
+    // (the M.01e set is all `/residential|/commercial|/service-areas` paths,
+    // the B.18 set is all retired WordPress paths). Concatenated for clarity.
+    return [...buildRedirects(), ...buildLegacyRedirects()];
   },
 };
 

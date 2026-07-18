@@ -22,7 +22,38 @@ export const BUSINESS_PHONE_TEL = '+16309469321';
 
 export const BUSINESS_EMAIL = 'info@sunsetservices.us';
 
-export const BUSINESS_URL = 'https://sunsetservices.us';
+/**
+ * Canonical site origin — **including the `www.` subdomain**.
+ *
+ * Phase B.18 correction. This was `https://sunsetservices.us` (no `www`) from
+ * Phase 1 through B.17, while the production deployment has always SERVED from
+ * `https://www.sunsetservices.us` — the apex 308-redirects to `www`. Verified
+ * live on 2026-07-18:
+ *
+ *     curl -sI https://sunsetservices.us/  →  308 → https://www.sunsetservices.us/
+ *
+ * The mismatch meant every page served at `www.…` carried
+ * `<link rel="canonical" href="https://sunsetservices.us">` — a canonical
+ * pointing at a URL that immediately redirects back to the page it was on.
+ * Same for every hreflang, every `<loc>` in the sitemap, the `Sitemap:` line
+ * in robots.txt, and every schema.org `@id` and `url`. Google usually
+ * untangles this, but "usually" costs crawl budget and leaves the host
+ * ambiguous while it does.
+ *
+ * Goran's call (2026-07-18): `www` is canonical — match the code to the
+ * serving reality rather than reconfiguring the domain.
+ *
+ * This constant is the single lever: `SITE_URL` derives from it (canonicals,
+ * hreflang, sitemap, OG), and every `src/lib/schema/*` builder interpolates it
+ * directly for `@id` and `url` values. Changing it here moves all of them
+ * together, which is the only safe way to change it — the `@id`s must stay
+ * consistent with each other or the entity graph fragments.
+ *
+ * IF THE HOST EVER CHANGES AGAIN: change it here and nowhere else, then
+ * re-submit the sitemap in Google Search Console and Bing Webmaster Tools so
+ * the new host is recrawled promptly.
+ */
+export const BUSINESS_URL = 'https://www.sunsetservices.us';
 
 export const BUSINESS_ADDRESS_LINE1 = '1630 Mountain St';
 export const BUSINESS_ADDRESS_LINE2 = 'Aurora, IL 60505';

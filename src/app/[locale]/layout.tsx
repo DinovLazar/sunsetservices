@@ -16,15 +16,8 @@ import ConsentBanner from '@/components/analytics/ConsentBanner';
 import ConsentModeDefault from '@/components/analytics/ConsentModeDefault';
 import GTMNoScript from '@/components/analytics/GTMNoScript';
 import GTMScript from '@/components/analytics/GTMScript';
-import {
-  BUSINESS_ADDRESS,
-  BUSINESS_AREA_SERVED,
-  BUSINESS_EMAIL,
-  BUSINESS_LEGAL_NAME,
-  BUSINESS_NAME_FULL,
-  BUSINESS_PHONE_TEL,
-  BUSINESS_URL,
-} from '@/lib/constants/business';
+import {BUSINESS_NAME_FULL} from '@/lib/constants/business';
+import {buildSitewideGraph} from '@/lib/schema/organization';
 import {SITE_URL, hreflangAlternates, isProductionDeploy} from '@/lib/seo/urls';
 import '../globals.css';
 
@@ -94,39 +87,20 @@ export const viewport: Viewport = {
   interactiveWidget: 'resizes-content',
 };
 
-// Phase B.04 — Two sitewide entity nodes shipped together in a `@graph`
+// Phase B.04 → B.17 — Two sitewide entity nodes shipped together in a `@graph`
 // container. The `@id`s are stable hash-fragment URIs so per-page builders
 // (Place.areaServed, Person.worksFor, ContactPage.mainEntity,
 // CreativeWork.creator, Article/BlogPosting.publisher, Service.provider)
 // can reference them without restating the NAP block. LocalBusiness covers
 // physical-storefront cases; Organization covers publisher/author cases.
-// Both reference the same canonical name/url so they stay in lockstep.
-const sitewideJsonLd = {
-  '@context': 'https://schema.org',
-  '@graph': [
-    {
-      '@type': 'LocalBusiness',
-      '@id': `${BUSINESS_URL}/#localbusiness`,
-      name: BUSINESS_NAME_FULL,
-      legalName: BUSINESS_LEGAL_NAME,
-      address: {
-        '@type': 'PostalAddress',
-        ...BUSINESS_ADDRESS,
-      },
-      telephone: BUSINESS_PHONE_TEL,
-      email: BUSINESS_EMAIL,
-      url: BUSINESS_URL,
-      areaServed: BUSINESS_AREA_SERVED,
-    },
-    {
-      '@type': 'Organization',
-      '@id': `${BUSINESS_URL}/#organization`,
-      name: BUSINESS_NAME_FULL,
-      legalName: BUSINESS_LEGAL_NAME,
-      url: BUSINESS_URL,
-    },
-  ],
-};
+//
+// Phase B.17 moved the literal into `@/lib/schema/organization` and expanded
+// it (all 22 cities as typed City nodes, all 34 services as an OfferCatalog,
+// hours, credential, logo, sameAs). It is built once per module load — the
+// inputs are static seed data, so there is nothing per-request about it.
+// See that file for the three deliberate omissions (aggregateRating,
+// priceRange, geo) and why each one is a decision rather than a gap.
+const sitewideJsonLd = buildSitewideGraph();
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({locale}));

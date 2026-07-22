@@ -2426,3 +2426,13 @@ Change nothing else — triggers stay Create + Update + Delete, filter and secre
 **Decision 3 — `sameAs` stays env-driven and is currently empty; the Facebook URL found by web search was NOT hardcoded.** A public search surfaced `facebook.com/SunsetLawnService` under the **retired** "Sunset Lawn Service & Pro Brick" name; it was not committed. _Alternative rejected: hardcode the found URL to fill what is the site's single largest entity-signal gap. Rejected because an unconfirmed profile under a retired name tells Google the wrong thing about who this entity is and would fight the current DBA for the brand — a truth-rule violation._ `BUSINESS_SAME_AS` reads the existing `NEXT_PUBLIC_SOCIAL_*` env vars, so once Erick confirms the live profile URLs and they are set in Vercel, `sameAs` **and** the footer icons light up together with no code change. Flagged as the highest-leverage remaining SEO fix.
 
 **Logged by:** Code, 2026-07-18, after the phase was committed + pushed to `main` @ `a3f1d43` (Goran's direct-to-`main` integration call; verified `build`/`lint` locally first). Derived-DoD phase — no phase prompt existed; full detail in `src/_project-state/Phase-B-17-Completion.md` §3.
+
+---
+
+## 2026-07-22 — Portfolio projects are never titled or slugged with a client's personal name; house style is place/feature
+
+**Context.** The single `project` document `project-scott-and-sarahs` was live titled "Scott & Sarah's" with the slug `scott-and-sarahs` — a client's personal name in both the visible H1 and the public URL. The Part-2 Hotfix renamed it to the feature-descriptive **"Granite Fusion Walkway & Seating Wall"** / slug `granite-fusion-walkway-seating-wall`.
+
+**Decision.** Portfolio project `title` and `slug` are **place/feature**, never a client's personal name. Prefer the standout material or built feature (and the city, once a `citySlug` is known — this project currently has none). _Alternative rejected: keep the human-readable "Scott & Sarah's" because it's friendly. Rejected — a client's name in a public URL and page title is a privacy issue, reads as unfinished/unprofessional, and carries no SEO value; feature+city is what visitors and search actually query._ This is a naming house-rule, not a one-off: any future project authored with a personal-name title/slug should be corrected the same way before it goes near production.
+
+**Logged by:** Code, 2026-07-22, on branch `fix/project-scott-sarah-hotfix` (off `main` @ `a0936ff`); PR to open — operator verifies on Preview + merges. Full detail in `src/_project-state/Part-2-Hotfix-Project-Scott-Sarah-Completion.md`.

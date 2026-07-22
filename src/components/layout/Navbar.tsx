@@ -14,7 +14,7 @@ export default async function Navbar() {
     <header className="sticky top-0 z-[var(--z-sticky)]">
       <NavbarScrollState>
         <NavbarDesktop />
-        <NavbarMobile logo={<Logo skin="light" />} />
+        <NavbarMobile logo={<Logo skin="light" priority />} />
       </NavbarScrollState>
     </header>
   );

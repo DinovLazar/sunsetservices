@@ -20,7 +20,7 @@ export default async function NavbarDesktop() {
     <div className="hidden lg:block">
       <div className="mx-auto h-[72px] flex items-center justify-between gap-6 max-w-[var(--container-wide)] px-4 sm:px-6 lg:px-8 xl:px-12">
         <div className="flex items-center gap-10">
-          <Logo skin="light" />
+          <Logo skin="light" priority />
           <nav aria-label={t('nav.primaryAriaLabel')} className="flex items-center gap-8">
             <ServicesMegaPanel />
             <NavbarLink href="/projects/" labelKey="chrome.nav.projects" />

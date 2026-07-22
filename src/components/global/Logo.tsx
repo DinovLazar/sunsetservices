@@ -10,6 +10,15 @@ type LogoSkin = 'light' | 'dark';
 type LogoProps = {
   skin?: LogoSkin;
   className?: string;
+  /**
+   * Header logos are above the fold — hint the browser to fetch them early
+   * so the mark never flashes blank on first paint. Left off for the footer
+   * (below the fold) so we don't compete with real LCP imagery. Uses
+   * `fetchPriority` rather than `priority`/eager because the navbar renders
+   * two instances (desktop + mobile); eager-loading would fetch both
+   * (Next.js 16 image docs, art-direction note).
+   */
+  priority?: boolean;
 };
 
 /**
@@ -19,23 +28,32 @@ type LogoProps = {
  *
  * Wraps in a locale-aware Link to the homepage. No hover transform —
  * the most stable element on the chrome doesn't move (Phase 1.05 §3.4).
+ *
+ * Sizing is aspect-ratio-safe on every device: a fixed height with `w-auto`
+ * lets the width follow the image's true ratio, `object-contain` guarantees
+ * the mark is never stretched, and `max-w-full` lets it scale down inside a
+ * squeezed flex row instead of overflowing or compressing (the previous
+ * default `object-fit: fill` collapsed the logo whenever the navbar row ran
+ * out of width on narrow screens).
  */
-export default async function Logo({skin = 'light', className}: LogoProps) {
+export default async function Logo({skin = 'light', className, priority = false}: LogoProps) {
   const t = await getTranslations('chrome.nav');
 
   return (
     <Link
       href="/"
       aria-label={t('logoAriaLabel')}
-      className={['inline-flex items-center no-underline', className].filter(Boolean).join(' ')}
+      className={['inline-flex items-center no-underline shrink-0', className]
+        .filter(Boolean)
+        .join(' ')}
     >
       <Image
         src={skin === 'dark' ? logoWhite : logoColor}
         alt={BUSINESS_NAME_FULL}
         width={150}
         height={40}
-        style={{height: '40px', width: 'auto'}}
-        className="shrink-0"
+        fetchPriority={priority ? 'high' : undefined}
+        className="h-10 w-auto max-w-full object-contain"
       />
     </Link>
   );

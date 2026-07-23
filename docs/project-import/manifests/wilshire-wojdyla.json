@@ -1,0 +1,52 @@
+{
+  "_template": "SCAFFOLD — Phase B.18. Fill every empty string/array from the PROCESSED photos before importing. The importer REJECTS empty alt/title/narrative (by design). Voice: honest, neighborly, design-forward (BG-01 §3.3). alt.en AND alt.es required on EVERY photo. ES drafted LatAm-MX, tú register (append to Sunset-Services-TRANSLATION_NOTES.md §B.18). slug/title/alt/copy: never a house number, street name, client surname, or city (D5) — in particular NOT 'wilshire' (street) or 'wojdyla' (surname). Say only what the photos support (D11). Renders get alt saying '3D design rendering' (D13). See docs/project-import/README.md.",
+  "_status": "provenance pre-filled; copy + confirmed[] pending the photo-authoring pass (photos not present in this session)",
+  "_privacyNote": "The folder id / local paths carry the Drive folder name (street + surname) for provenance ONLY — never written to Sanity and never shipped. sanityDocId is left blank so the _id derives from the privacy-clean slug (D5). Set a stable, surname-free sanityDocId once the slug is final, and do not change it after the first --commit.",
+  "_inventoryNote": "After/ holds ~36 .HEIC (IMG_1616–IMG_1640) PLUS a duplicate copy of the same set (two upload dates) PLUS a March 2026/ sub-subfolder; the importer dedupes by SHA-256. Before/Progress/iPad/RENDER were not enumerated in Drive — count them on disk. Any iPad/RENDER shots are 3D design renders, not built work (D13).",
+
+  "id": "wilshire-wojdyla",
+  "rawFolder": "C:/sunset-photos/import/wilshire-wojdyla",
+  "sourceFolder": "C:/sunset-photos/import/wilshire-wojdyla/_processed",
+  "driveFolderUrl": "https://drive.google.com/drive/folders/1cZQv6JkN3gBA-Rzgj9l9H6-hzSw7jBrr",
+  "sanityDocId": "",
+
+  "confirmed": {
+    "citySlug": null,
+    "year": null,
+    "durationWeeks": null,
+    "sqft": null,
+    "durationDays": null,
+    "crewSize": null,
+    "materials": [],
+    "clientPhotoPermission": false
+  },
+
+  "title": {"en": "", "es": ""},
+  "slug": "",
+  "audience": "hardscape",
+  "services": ["patios-walkways"],
+  "featuredOnHome": false,
+
+  "shortDek": {"en": "", "es": ""},
+  "narrativeHeading": {"en": "", "es": ""},
+  "narrative": {"en": "", "es": ""},
+
+  "leadImage": "",
+  "leadAlt": {"en": "", "es": ""},
+
+  "hasBeforeAfter": false,
+  "beforeImage": null,
+  "beforeAlt": null,
+  "afterImage": null,
+  "afterAlt": null,
+
+  "gallery": [],
+
+  "seo": {
+    "title": {"en": "", "es": ""},
+    "description": {"en": "", "es": ""}
+  },
+
+  "deferredVideo": [],
+  "droppedDuplicates": []
+}

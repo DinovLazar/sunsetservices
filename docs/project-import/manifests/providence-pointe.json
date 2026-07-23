@@ -1,0 +1,50 @@
+{
+  "_template": "SCAFFOLD — Phase B.18. Fill every empty string/array from the PROCESSED photos before importing. The importer REJECTS empty alt/title/narrative (by design), so this bare template will not import until authored. Voice: honest, neighborly, design-forward (BG-01 §3.3) — no 'elevate your outdoor living', no 'nestled', no unprovable superlatives. alt.en AND alt.es required on EVERY photo. ES drafted LatAm-MX, tú register (append to Sunset-Services-TRANSLATION_NOTES.md §B.18). slug/title/alt/copy: never a house number, street name, client surname, or city (D5). Say only what the photos support (D11). Renders get alt saying '3D design rendering' (D13). See docs/project-import/README.md.",
+  "_status": "provenance pre-filled; copy + confirmed[] pending the photo-authoring pass (photos not present in this session)",
+
+  "id": "providence-pointe",
+  "rawFolder": "C:/sunset-photos/import/providence-pointe",
+  "sourceFolder": "C:/sunset-photos/import/providence-pointe/_processed",
+  "driveFolderUrl": "https://drive.google.com/drive/folders/1GF8CYB2EJmG-6KL6XPCKJJjZNmYgVtZU",
+  "sanityDocId": "project-providence-pointe",
+
+  "confirmed": {
+    "citySlug": null,
+    "year": null,
+    "durationWeeks": null,
+    "sqft": null,
+    "durationDays": null,
+    "crewSize": null,
+    "materials": [],
+    "clientPhotoPermission": false
+  },
+
+  "title": {"en": "", "es": ""},
+  "slug": "",
+  "audience": "hardscape",
+  "services": ["patios-walkways"],
+  "featuredOnHome": false,
+
+  "shortDek": {"en": "", "es": ""},
+  "narrativeHeading": {"en": "", "es": ""},
+  "narrative": {"en": "", "es": ""},
+
+  "leadImage": "",
+  "leadAlt": {"en": "", "es": ""},
+
+  "hasBeforeAfter": false,
+  "beforeImage": null,
+  "beforeAlt": null,
+  "afterImage": null,
+  "afterAlt": null,
+
+  "gallery": [],
+
+  "seo": {
+    "title": {"en": "", "es": ""},
+    "description": {"en": "", "es": ""}
+  },
+
+  "deferredVideo": ["IMG_3571.MOV", "IMG_3572.MOV", "IMG_3573.MOV", "IMG_3574.MOV"],
+  "droppedDuplicates": []
+}

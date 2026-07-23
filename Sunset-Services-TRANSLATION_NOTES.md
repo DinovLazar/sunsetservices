@@ -546,3 +546,36 @@ The four Snow Removal service pages (`de-icing`, `sidewalk-shoveling`, `driveway
 - **`quitanieves`** covers both "snow blower" (driveway-snow-removal) and "snow plow" (commercial-snow-plowing) in the drafts. A reviewer may prefer to differentiate — e.g. *soplanieves* / *máquina sopladora de nieve* for the two-stage blower vs. *camión con pala quitanieves* for the plow truck — if the distinction matters on-page.
 - **`entrada`** is used for "driveway" (matching the `driveway-snow-removal` service name "Remoción de Nieve en Entradas"); a reviewer targeting a different register may prefer *entrada de auto* / *cochera*.
 - The **de-icing** em-dash construction mirrors the EN manifest phrasing; a reviewer may prefer to split it into two sentences in ES.
+
+## Phase B.18 — Portfolio project-import ES strings (added 2026-07-23)
+
+### Scope
+
+Phase B.18 shipped the reusable project-folder importer + two manifest
+**templates** (`docs/project-import/manifests/{providence-pointe,wilshire-wojdyla}.json`).
+The manifests carry bilingual copy — `title`, `shortDek`, `narrativeHeading`,
+`narrative`, `seo.{title,description}`, and an `alt.{en,es}` on **every** photo —
+but the copy could not be authored this session: the staged photos are not
+present on this host, and no honest ES (or EN) string can be written about a
+photo that has not been seen (D11). **No new ES strings exist yet.** This section
+is the standing home for the ES drafts produced when the manifests are authored.
+
+### Register + glossary for the manifest author (binding when the copy is written)
+
+- **Marketing/portfolio copy → LatAm-MX, `tú` register** (per §M.01f1), not
+  `usted`. Narrative, dek, alt text, SEO description all read as a real person
+  talking to a homeowner.
+- **Alt text** is drafted, specific ES — never machine-literal, never "foto del
+  proyecto". Describe what's in frame + the material/feature.
+- **Renders** (D13): the ES alt must plainly say it is a 3D design rendering —
+  e.g. *"Render de diseño 3D del patio propuesto (no es una foto de la obra
+  construida)"*.
+- Reuse the locked hardscape glossary already in this file (e.g. *adoquines* =
+  pavers, *muro de contención* = retaining wall, *muro de asientos* = seating
+  wall, *patio* = patio). "Hardscape" stays **Hardscape** (§M.01d D1).
+- Never a street, house number, surname, or city in any ES string (D5), same as EN.
+
+### Status
+
+Pending the photo-authoring pass. Every ES string produced then is appended
+here, **pending native review (Phase M.03)** — no `[TBR]` prefix (retired B.01).

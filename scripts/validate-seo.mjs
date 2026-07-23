@@ -176,11 +176,16 @@ const PROJECT_SLUGS = [
   '807-edgewater-drive',
   '811-edgewater-drive',
   'aurora-area-patio',
-  'scott-and-sarahs',
+  // Phase B.18 — the hotfix renamed 'scott-and-sarahs' -> this slug; the stale
+  // entry was 404-ing the validator (verified against live Sanity 2026-07-23).
+  'granite-fusion-walkway-seating-wall',
   // Phase M.11 — reconcile harness with live Sanity portfolio (M.10b/M.10d additions)
   'aurora-area-paver-patio-firepit',
   'oswego-landscape-design-install',
   'tree-removal-service',
+  // Phase B.18 — the two new imported projects (providence-pointe, wilshire-wojdyla)
+  // are added here once their manifests are authored + published; the drafts this
+  // phase creates carry no live slug yet, so adding them now would 404 the validator.
 ];
 
 const BLOG_SLUGS = [

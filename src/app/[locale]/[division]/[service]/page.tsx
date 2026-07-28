@@ -43,8 +43,10 @@ export async function generateMetadata({
   if (!svc || svc.division !== division) return {};
   const loc = (routing.locales.includes(locale as Locale) ? locale : 'en') as Locale;
   const path = `/${division}/${svc.slug}`;
-  const title = `${svc.hero.h1[loc]} — Sunset Services`;
-  const description = svc.hero.subhead[loc];
+  // Polish-02 — `seo` overrides keep locality keywords in the metadata when
+  // the ratified on-page hero copy carries none.
+  const title = `${svc.seo?.title[loc] ?? svc.hero.h1[loc]} — Sunset Services`;
+  const description = svc.seo?.description[loc] ?? svc.hero.subhead[loc];
   const social = buildSocialMetadata({
     title,
     description,
@@ -161,7 +163,9 @@ export default async function ServiceDetailPage({
     .filter((s): s is NonNullable<typeof s> => Boolean(s))
     .map((rs) => ({
       service: rs,
-      teaser: rs.hero.subhead[loc].split('.')[0] + '.',
+      // Polish-02 — `teaser` override for services whose ratified subhead
+      // first sentence is too long for a related card.
+      teaser: rs.teaser?.[loc] ?? rs.hero.subhead[loc].split('.')[0] + '.',
     }));
 
   return (
@@ -183,7 +187,7 @@ export default async function ServiceDetailPage({
       <ServiceHero
         audience={division}
         audienceLabel={divisionLabel}
-        audienceKicker={divisionKicker}
+        audienceKicker={svc.hero.eyebrow?.[loc] ?? divisionKicker}
         serviceName={serviceName}
         serviceSlug={svc.slug}
         homeLabel={homeLabel}
@@ -191,7 +195,14 @@ export default async function ServiceDetailPage({
         subhead={svc.hero.subhead[loc]}
         photo={heroPhoto}
         photoAlt={svc.photoAlt?.[loc]}
-        primaryCta={tSvc('cta.button')}
+        primaryCta={svc.hero.primaryCta?.label[loc] ?? tSvc('cta.button')}
+        primaryCtaHref={svc.hero.primaryCta?.href}
+        secondaryCta={
+          svc.hero.secondaryCta
+            ? {label: svc.hero.secondaryCta.label[loc], href: svc.hero.secondaryCta.href}
+            : undefined
+        }
+        trustPoints={svc.hero.trustPoints?.map((p) => p[loc])}
         callCta={tSvc('hero.callCta')}
         callAria={tSvc('hero.callAria')}
       />

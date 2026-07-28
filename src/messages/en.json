@@ -6,12 +6,12 @@
   "home": {
     "meta": {
       "title": "Sunset Services — Aurora & Naperville Landscaping & Hardscape",
-      "description": "Family-run landscaping, hardscape, and snow management for residential and commercial properties across DuPage County. 25+ years. Free estimates."
+      "description": "Family-run landscaping, hardscape, and snow management for residential and commercial properties throughout Aurora, Naperville, and Chicago's western suburbs. 25+ years. Free estimates."
     },
     "hero": {
       "kicker": "Aurora · Naperville · DuPage County",
       "h1": "Craft Your Outdoor Legacy",
-      "credential": "UNILOCK-Certified · 25 Years Strong · Built for Chicagoland",
+      "credential": "Unilock Authorized Contractor · 25 Years Strong · Built for Chicagoland",
       "alt": "A paver patio with a stone fire feature at golden hour, surrounded by mature plantings.",
       "primary": "Get a Free Estimate — 48-Hour Response",
       "secondary": "View Our Work",
@@ -24,8 +24,8 @@
     },
     "divisions": {
       "eyebrow": "What we do",
-      "h2": "Five divisions. One accountable crew.",
-      "sub": "Pick the work that fits — landscape, hardscape, waterproofing, snow removal, trenchless. Same crew accountability across all five.",
+      "h2": "Complete Property Solutions. One Accountable Company.",
+      "sub": "From outdoor-living construction to year-round property management, Sunset brings the specialized crews, equipment, experience, and oversight needed to improve, protect, and maintain your property.",
       "featuredChip": "Featured",
       "landscape": {
         "tag": "Landscape",
@@ -56,7 +56,7 @@
       "trenchless": {
         "tag": "Trenchless",
         "label": "Trenching & Underground Work",
-        "desc": "Utility, sewer, and water lines installed with trenchless methods that spare your yard.",
+        "desc": "Utility, sewer, and water lines — trenchless where possible, open trenching where the job calls for it.",
         "alt": "An open trench excavation on a residential property with compaction equipment during underground utility installation."
       }
     },
@@ -132,7 +132,7 @@
     "beforeAfter": {
       "eyebrow": "Before & after",
       "h2": "The transformation is the pitch.",
-      "sub": "One project, two states — real Sunset Services work across DuPage County.",
+      "sub": "One property. A complete transformation — designed and built by Sunset Services.",
       "beforeLabel": "Before",
       "afterLabel": "After",
       "caption": "A DuPage backyard, reimagined — drainage corrected, the patio and plantings rebuilt to last.",
@@ -220,12 +220,12 @@
       "label": "Landscape",
       "meta": {
         "title": "Landscape Services in DuPage County — Sunset Services",
-        "description": "Lawn care, landscape design, sprinkler systems, tree services, and seasonal cleanups for homes and businesses across DuPage County. 25+ years."
+        "description": "Lawn care, landscape design, sprinkler systems, tree services, and seasonal cleanups for homes and businesses throughout Aurora, Naperville, and Chicago's western suburbs. 25+ years."
       },
       "hero": {
         "kicker": "LANDSCAPE DIVISION",
         "h1": "Yards that look intentional in every season.",
-        "subhead": "Lawn care, design, sprinklers, trees, and seasonal cleanups — eight services, one crew. Residential and commercial properties across DuPage County.",
+        "subhead": "Lawn care, design, sprinklers, trees, and seasonal cleanups — eight services, one crew. Residential and commercial properties throughout Aurora, Naperville, and Chicago's western suburbs.",
         "alt": "A lush front yard with crisp edging, mature plantings, and a paver walkway at golden hour.",
         "primary": "Get a Free Estimate",
         "secondary": "View Landscape Projects"
@@ -300,7 +300,7 @@
       "label": "Hardscape",
       "meta": {
         "title": "Hardscape & Unilock Pavers in DuPage County — Sunset Services",
-        "description": "Patios, walls, fire features, outdoor kitchens, pergolas, and driveways by a Unilock Authorized Contractor. 5-year installation warranty. 25+ years."
+        "description": "Patios, walls, fire features, outdoor kitchens, pergolas, and driveways by a Unilock Authorized Contractor. 5-year workmanship warranty. 25+ years."
       },
       "hero": {
         "kicker": "HARDSCAPE DIVISION",
@@ -313,10 +313,10 @@
       "qualifier": {
         "eyebrow": "FOR DUPAGE HOMEOWNERS",
         "h2": "Who this is for.",
-        "body": "If you want a patio, walkway, retaining wall, or outdoor kitchen built by a Unilock Authorized Contractor — engineering reviewed, base prep in-house, and a 5-year installation warranty — this page is for you.",
+        "body": "If you want a patio, walkway, retaining wall, or outdoor kitchen built by a Unilock Authorized Contractor — engineering reviewed, base prep in-house, and a 5-year workmanship warranty — this page is for you.",
         "pills": {
           "one": "Unilock Authorized",
-          "two": "5-yr installation warranty",
+          "two": "5-year workmanship warranty",
           "three": "Engineered for the soil",
           "four": "20+ years on hardscape"
         }
@@ -341,7 +341,7 @@
         "h2": "Two decades on pavers.",
         "props": {
           "one": {"headline": "Unilock Authorized Contractor", "description": "Awarded — not bought. Earned by proven install quality.", "icon": "Unilock"},
-          "two": {"headline": "5-year installation warranty", "description": "Workmanship covered five years, no questions asked.", "icon": "BadgeCheck"},
+          "two": {"headline": "5-year workmanship warranty", "description": "Covered for five years, no questions asked.", "icon": "BadgeCheck"},
           "three": {"headline": "In-house design", "description": "Designer, engineer, and crew lead under one roof.", "icon": "PencilRuler"},
           "four": {"headline": "Seasoned paver crew", "description": "Marcin's team brings deep Unilock paver experience.", "icon": "Hammer"}
         }
@@ -350,7 +350,7 @@
         "eyebrow": "UNILOCK AUTHORIZED CONTRACTOR",
         "h2": "The paver brand pros pick.",
         "body": "Unilock Authorization is awarded — not bought — to contractors who can prove consistent installation quality. We've held our authorization through years of proven work.",
-        "stat": "UNILOCK AUTHORIZED · 5-YEAR INSTALLATION WARRANTY",
+        "stat": "UNILOCK AUTHORIZED · 5-YEAR WORKMANSHIP WARRANTY",
         "viewProjects": "View Unilock projects",
         "badgeAlt": "Unilock Authorized Contractor"
       },
@@ -360,7 +360,7 @@
         "credentials": {
           "one": {"big": "Family-run", "sub": "since 2000"},
           "two": {"big": "Unilock", "sub": "Authorized Contractor"},
-          "three": {"big": "5-year", "sub": "installation warranty"},
+          "three": {"big": "5-year", "sub": "workmanship warranty"},
           "four": {"big": "EN · ES", "sub": "bilingual crews"}
         }
       },
@@ -548,12 +548,12 @@
       "label": "Trenchless & Directional Boring",
       "meta": {
         "title": "Trenchless Drilling & Directional Boring in DuPage County — Sunset Services",
-        "description": "Conduit installation, trenching, sewer line replacement, missile boring, handhole and pull-box installation, and HDPE pipe fusing across DuPage County. We locate before we dig. Free 48-hour estimates."
+        "description": "Conduit installation, trenching, sewer line replacement, missile boring, handhole and pull-box installation, and HDPE pipe fusing throughout Aurora, Naperville, and Chicago's western suburbs. We locate before we dig. Free 48-hour estimates."
       },
       "hero": {
         "kicker": "TRENCHLESS & DIRECTIONAL BORING DIVISION",
         "h1": "Lines in the ground. Yard intact.",
-        "subhead": "Conduit, sewer laterals, and utility crossings — installed by directional boring and open-cut trenching. Six services for getting lines in the ground across DuPage County. We locate before we dig, and restore what we touch.",
+        "subhead": "Conduit, sewer laterals, and utility crossings — installed by directional boring and open-cut trenching. Six services for getting lines in the ground throughout Aurora, Naperville, and Chicago's western suburbs. We locate before we dig, and restore what we touch.",
         "alt": "Underground utility installation on a DuPage County property at golden hour.",
         "primary": "Get a Free Estimate",
         "secondary": "View Trenchless Projects"
@@ -965,7 +965,7 @@
       "h1": "Family-run, since 2000.",
       "lead": {
         "line1": "Twenty-five years on DuPage County properties.",
-        "line2": "Same crews. Same 6:30 a.m. start. No subcontracted surprises."
+        "line2": "Same crews. Same 6:30 a.m. start. One accountable company."
       },
       "alt": "Erick on a DuPage County job site at golden hour, hardscape installation in progress."
     },
@@ -976,7 +976,7 @@
         "line2": "Run today by Erick."
       },
       "p1": "Nick Valle started Sunset Services in 2000 with one truck and a maintenance route across Aurora and Naperville. The first contract is still active, twenty-five years later. We've stayed locally owned and family operated since day one — based in Aurora, IL.",
-      "p2": "In 2018, Erick — Nick's son — took over operations. Same crew, same 6:30 a.m. start, same standard for what a finished property looks like. We answer to our customers, not to outside ownership groups or private-equity quotas. No subcontracted surprises; the people who measure your project are the people who do it.",
+      "p2": "In 2018, Erick — Nick's son — took over operations. Same crew, same 6:30 a.m. start, same standard for what a finished property looks like. We answer to our customers, not to outside ownership groups or private-equity quotas. The people who measure your project are the people who do it.",
       "p3": "Marcin joined to lead the hardscape division — Unilock-Authorized installs, paver patios, retaining walls, fire features. The standard is exceptional workmanship, fair pricing, and a finished property you can hand off to the family with confidence. The trucks share a yard; your job stays one phone call long.",
       "p4": "Our goal isn't to sell projects. It's to help homeowners make smart investments — outdoor spaces families can enjoy for years to come. Our reputation is built one homeowner, one neighborhood, one project at a time.",
       "alt": "Erick and Nick working on-site together at a DuPage County property, late afternoon light.",
@@ -1241,12 +1241,12 @@
   "projects": {
     "meta": {
       "title": "Projects · Sunset Services",
-      "description": "Patios, walls, lawns, and entire properties built across DuPage County by Sunset Services since 2000. Browse our portfolio."
+      "description": "Patios, walls, lawns, and entire properties built throughout Aurora, Naperville, and Chicago's western suburbs by Sunset Services since 2000. Browse our portfolio."
     },
     "hero": {
       "eyebrow": "Portfolio · Our Work",
       "h1": "Built last season, aging into the property.",
-      "dek": "Patios, walls, lawns, and entire properties from across DuPage County. Filter by division, or scroll to see everything we've built.",
+      "dek": "Patios, walls, lawns, and entire properties from Aurora, Naperville, and Chicago's western suburbs. Filter by division, or scroll to see everything we've built.",
       "count": "{count} projects · {cities} cities · {minYear}–{maxYear}"
     },
     "tag": {

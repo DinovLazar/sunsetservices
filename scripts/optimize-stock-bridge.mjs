@@ -101,7 +101,11 @@ const ITEMS = [
   // verification — never-acceptable readable/geolocating text; see the
   // Decisions log. Their pages keep their previous imagery.
   {slug: 'retaining-walls', division: 'hardscape'},
-  {slug: 'fire-pits-features', division: 'hardscape'},
+  // Phase Polish-02 — `fire-pits-features` RETIRED from the stock bridge:
+  // its hero + tile derivatives now come from a REAL Sunset project photo
+  // via scripts/optimize-real-photos.mjs. Deliberately absent here so a
+  // re-run can't overwrite the real photo with stock. The stock source
+  // stays archived in docs/stock-bridge/hardscape/ (manifest annotated).
   {slug: 'driveways', division: 'hardscape'},
   {slug: 'outdoor-kitchens', division: 'hardscape'},
   {slug: 'basement-waterproofing', division: 'waterproofing'},

@@ -22,6 +22,18 @@ type ServiceHeroProps = {
    */
   photoAlt?: string;
   primaryCta: string;
+  /**
+   * Polish-02 — optional primary-CTA destination override (consultation-first
+   * pages link /contact/ instead of the quote wizard).
+   */
+  primaryCtaHref?: string;
+  /**
+   * Polish-02 — optional secondary page-link CTA. When present it replaces
+   * the tel: call button (the phone stays in the navbar, dock, and footer).
+   */
+  secondaryCta?: {label: string; href: string};
+  /** Polish-02 — optional trust-point pills rendered beneath the CTA row. */
+  trustPoints?: string[];
   callCta: string;
   callAria: string;
 };
@@ -47,13 +59,19 @@ export default function ServiceHero({
   photo,
   photoAlt,
   primaryCta,
+  primaryCtaHref,
+  secondaryCta,
+  trustPoints,
   callCta,
   callAria,
 }: ServiceHeroProps) {
   return (
     <section
       aria-labelledby="service-hero-h1"
-      className="relative isolate overflow-hidden flex flex-col h-[max(62vh,560px)] sm:h-[max(66vh,600px)] md:h-[max(70vh,640px)] lg:h-[max(74vh,680px)] 2xl:max-h-[820px] text-[var(--color-text-on-dark)]"
+      // Polish-02 — min-heights (B.16 AudienceHero precedent): the ratified
+      // consultation-page copy + trust pills can exceed the old fixed
+      // heights on short/narrow viewports; min-h grows instead of clipping.
+      className="relative isolate overflow-hidden flex flex-col min-h-[max(62vh,560px)] sm:min-h-[max(66vh,600px)] md:min-h-[max(70vh,640px)] lg:min-h-[max(74vh,680px)] text-[var(--color-text-on-dark)]"
       // bg-charcoal fallback — keeps cream copy AA-readable while the hero
       // photo loads (or if it fails to load entirely). Lighthouse on mobile
       // form-factor was computing contrast against #ffffff because the photo
@@ -146,22 +164,56 @@ export default function ServiceHero({
           </p>
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mt-2">
             <Link
-              href={`/request-quote/?division=${audience}`}
+              href={primaryCtaHref ?? `/request-quote/?division=${audience}`}
               className="btn btn-primary btn-lg"
               data-cr-tracking={`service-${serviceSlug}-hero-primary`}
             >
               {primaryCta}
             </Link>
-            <a
-              href={`tel:${BUSINESS_PHONE_TEL}`}
-              aria-label={callAria}
-              className="btn btn-ghost btn-on-dark btn-lg"
-              data-cr-tracking={`service-${serviceSlug}-hero-tel`}
-            >
-              <Phone aria-hidden="true" strokeWidth={1.75} style={{width: 16, height: 16}} />
-              {callCta}
-            </a>
+            {secondaryCta ? (
+              <Link
+                href={secondaryCta.href}
+                className="btn btn-ghost btn-on-dark btn-lg"
+                data-cr-tracking={`service-${serviceSlug}-hero-secondary`}
+              >
+                {secondaryCta.label}
+              </Link>
+            ) : (
+              <a
+                href={`tel:${BUSINESS_PHONE_TEL}`}
+                aria-label={callAria}
+                className="btn btn-ghost btn-on-dark btn-lg"
+                data-cr-tracking={`service-${serviceSlug}-hero-tel`}
+              >
+                <Phone aria-hidden="true" strokeWidth={1.75} style={{width: 16, height: 16}} />
+                {callCta}
+              </a>
+            )}
           </div>
+          {trustPoints && trustPoints.length > 0 ? (
+            /* Polish-02 — trust points under the CTA row, reusing the B.12
+               qualifier-pill treatment (badge-pill on the division chip
+               tokens) so the two surfaces stay visually consistent. */
+            <ul className="m-0 mt-3 p-0 list-none flex flex-wrap gap-2 sm:gap-3">
+              {trustPoints.map((point) => (
+                <li key={point} className="m-0 p-0">
+                  <span
+                    className="badge badge-md badge-pill"
+                    style={{
+                      background: 'var(--audience-chip-bg)',
+                      color: 'var(--audience-accent)',
+                      minHeight: '36px',
+                      height: 'auto',
+                      padding: '6px 16px',
+                      fontSize: '13px',
+                    }}
+                  >
+                    {point}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          ) : null}
         </div>
       </div>
     </section>

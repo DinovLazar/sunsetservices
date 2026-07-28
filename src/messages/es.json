@@ -6,12 +6,12 @@
   "home": {
     "meta": {
       "title": "Sunset Services — Paisajismo en Aurora y Naperville",
-      "description": "Paisajismo, hardscape y manejo de nieve para hogares y empresas en el Condado de DuPage. Empresa familiar, 25+ años. Presupuestos gratis."
+      "description": "Paisajismo, hardscape y manejo de nieve para hogares y empresas en Aurora, Naperville y los suburbios del oeste de Chicago. Empresa familiar, 25+ años. Presupuestos gratis."
     },
     "hero": {
       "kicker": "Aurora · Naperville · Condado de DuPage",
       "h1": "Crea tu legado al aire libre",
-      "credential": "Certificado UNILOCK · 25 años de trayectoria · Hecho para Chicagoland",
+      "credential": "Contratista Autorizado Unilock · 25 años de trayectoria · Hecho para Chicagoland",
       "alt": "Un patio de adoquines con chimenea de piedra al atardecer, rodeado de plantaciones maduras.",
       "primary": "Solicita un Presupuesto Gratis — Respuesta en 48 h",
       "secondary": "Ver Nuestro Trabajo",
@@ -24,8 +24,8 @@
     },
     "divisions": {
       "eyebrow": "Lo que hacemos",
-      "h2": "Cinco divisiones. Un equipo responsable.",
-      "sub": "Elige el trabajo que te queda — paisajismo, hardscape, impermeabilización, remoción de nieve, perforación. La misma responsabilidad de equipo en las cinco.",
+      "h2": "Soluciones completas para tu propiedad. Una sola empresa responsable.",
+      "sub": "Desde la construcción de espacios exteriores hasta el cuidado de tu propiedad todo el año, Sunset aporta las cuadrillas especializadas, la maquinaria, la experiencia y la supervisión necesarias para mejorar, proteger y mantener tu propiedad.",
       "featuredChip": "Destacado",
       "landscape": {
         "tag": "Paisajismo",
@@ -56,7 +56,7 @@
       "trenchless": {
         "tag": "Perforación",
         "label": "Zanjeo y Trabajo Subterráneo",
-        "desc": "Líneas de servicios, alcantarillado y agua instaladas con métodos sin zanja que cuidan tu jardín.",
+        "desc": "Líneas de servicios, alcantarillado y agua — sin zanja donde es posible, zanjeo abierto donde el trabajo lo requiere.",
         "alt": "Una excavación de zanja abierta en una propiedad residencial, con equipo de compactación durante la instalación de servicios subterráneos."
       }
     },
@@ -132,7 +132,7 @@
     "beforeAfter": {
       "eyebrow": "Antes y después",
       "h2": "La transformación es el argumento.",
-      "sub": "Un proyecto, dos estados — trabajo real de Sunset Services en el Condado de DuPage.",
+      "sub": "Una propiedad. Una transformación completa — diseñada y construida por Sunset Services.",
       "beforeLabel": "Antes",
       "afterLabel": "Después",
       "caption": "Un patio trasero de DuPage, reimaginado — drenaje corregido, patio y plantaciones reconstruidos para durar.",
@@ -220,12 +220,12 @@
       "label": "Paisajismo",
       "meta": {
         "title": "Servicios de Paisajismo en DuPage County — Sunset Services",
-        "description": "Cuidado de césped, diseño paisajista, sistemas de riego, servicios de árboles y limpiezas de temporada para hogares y negocios en DuPage County. 25+ años."
+        "description": "Cuidado de césped, diseño paisajista, sistemas de riego, servicios de árboles y limpiezas de temporada para hogares y negocios en Aurora, Naperville y los suburbios del oeste de Chicago. 25+ años."
       },
       "hero": {
         "kicker": "DIVISIÓN PAISAJISMO",
         "h1": "Jardines que se ven cuidados en cada estación.",
-        "subhead": "Cuidado de césped, diseño, riego, árboles y limpiezas de temporada — ocho servicios, un solo equipo. Propiedades residenciales y comerciales en DuPage County.",
+        "subhead": "Cuidado de césped, diseño, riego, árboles y limpiezas de temporada — ocho servicios, un solo equipo. Propiedades residenciales y comerciales en Aurora, Naperville y los suburbios del oeste de Chicago.",
         "alt": "Un jardín delantero frondoso con bordes definidos, plantaciones maduras y un sendero de adoquines al atardecer.",
         "primary": "Obtén un Estimado Gratis",
         "secondary": "Ver Proyectos de Paisajismo"
@@ -300,7 +300,7 @@
       "label": "Pavimentos y Construcción Exterior",
       "meta": {
         "title": "Hardscape y Adoquines Unilock en DuPage County — Sunset Services",
-        "description": "Patios, muros, fogatas, cocinas exteriores, pérgolas y entradas por un Contratista Autorizado Unilock. Garantía de 5 años en instalación. 25+ años."
+        "description": "Patios, muros, fogatas, cocinas exteriores, pérgolas y entradas por un Contratista Autorizado Unilock. Garantía de mano de obra de 5 años. 25+ años."
       },
       "hero": {
         "kicker": "DIVISIÓN HARDSCAPE",
@@ -313,10 +313,10 @@
       "qualifier": {
         "eyebrow": "PARA PROPIETARIOS DE DUPAGE",
         "h2": "Para quién es esta página.",
-        "body": "Si quieres un patio, sendero, muro de contención o cocina exterior construido por un Contratista Autorizado Unilock — con ingeniería revisada, preparación de base en casa y garantía de 5 años de instalación — esta página es para ti.",
+        "body": "Si quieres un patio, sendero, muro de contención o cocina exterior construido por un Contratista Autorizado Unilock — con ingeniería revisada, preparación de base en casa y garantía de mano de obra de 5 años — esta página es para ti.",
         "pills": {
           "one": "Autorizado Unilock",
-          "two": "Garantía de instalación 5 años",
+          "two": "Garantía de mano de obra 5 años",
           "three": "Diseñado para el suelo",
           "four": "20+ años en hardscape"
         }
@@ -341,7 +341,7 @@
         "h2": "Dos décadas en adoquines.",
         "props": {
           "one": {"headline": "Contratista Autorizado Unilock", "description": "Otorgada — no comprada. Ganada por calidad de instalación comprobada.", "icon": "Unilock"},
-          "two": {"headline": "Garantía de instalación 5 años", "description": "Mano de obra cubierta cinco años, sin preguntas.", "icon": "BadgeCheck"},
+          "two": {"headline": "Garantía de mano de obra 5 años", "description": "Cubierta cinco años, sin preguntas.", "icon": "BadgeCheck"},
           "three": {"headline": "Diseño en casa", "description": "Diseñador, ingeniero y líder de equipo bajo un mismo techo.", "icon": "PencilRuler"},
           "four": {"headline": "Equipo experto en adoquines", "description": "El equipo de Marcin trae amplia experiencia en adoquines Unilock.", "icon": "Hammer"}
         }
@@ -350,7 +350,7 @@
         "eyebrow": "CONTRATISTA AUTORIZADO UNILOCK",
         "h2": "La marca de adoquines que escogen los profesionales.",
         "body": "La autorización Unilock se otorga — no se compra — a contratistas que demuestran consistencia en la calidad de instalación. La hemos mantenido a lo largo de años de trabajo comprobado.",
-        "stat": "AUTORIZADO UNILOCK · GARANTÍA DE 5 AÑOS DE INSTALACIÓN",
+        "stat": "AUTORIZADO UNILOCK · GARANTÍA DE MANO DE OBRA DE 5 AÑOS",
         "viewProjects": "Ver proyectos Unilock",
         "badgeAlt": "Contratista Autorizado Unilock"
       },
@@ -360,7 +360,7 @@
         "credentials": {
           "one": {"big": "Familiar", "sub": "desde 2000"},
           "two": {"big": "Unilock", "sub": "Contratista Autorizado"},
-          "three": {"big": "5 años", "sub": "garantía de instalación"},
+          "three": {"big": "5 años", "sub": "garantía de mano de obra"},
           "four": {"big": "EN · ES", "sub": "equipos bilingües"}
         }
       },
@@ -548,12 +548,12 @@
       "label": "Perforación Direccional y Sin Zanja",
       "meta": {
         "title": "Perforación Direccional y Sin Zanja en DuPage County — Sunset Services",
-        "description": "Instalación de conductos, zanjeo, reemplazo de líneas de drenaje, perforación con topo neumático, cajas de registro y de tiro, y fusión de tubería de polietileno en DuPage County. Localizamos antes de excavar. Estimados gratis en 48 horas."
+        "description": "Instalación de conductos, zanjeo, reemplazo de líneas de drenaje, perforación con topo neumático, cajas de registro y de tiro, y fusión de tubería de polietileno en Aurora, Naperville y los suburbios del oeste de Chicago. Localizamos antes de excavar. Estimados gratis en 48 horas."
       },
       "hero": {
         "kicker": "DIVISIÓN DE PERFORACIÓN DIRECCIONAL Y SIN ZANJA",
         "h1": "Líneas bajo tierra. Jardín intacto.",
-        "subhead": "Conductos, líneas de drenaje y cruces de servicios — instalados con perforación direccional y zanjeo a cielo abierto. Seis servicios para meter líneas bajo tierra en DuPage County. Localizamos antes de excavar y restauramos lo que tocamos.",
+        "subhead": "Conductos, líneas de drenaje y cruces de servicios — instalados con perforación direccional y zanjeo a cielo abierto. Seis servicios para meter líneas bajo tierra en Aurora, Naperville y los suburbios del oeste de Chicago. Localizamos antes de excavar y restauramos lo que tocamos.",
         "alt": "Instalación de servicios subterráneos en una propiedad de DuPage County a la hora dorada.",
         "primary": "Obtén un Estimado Gratis",
         "secondary": "Ver Proyectos de Perforación"
@@ -965,7 +965,7 @@
       "h1": "Negocio familiar, desde 2000.",
       "lead": {
         "line1": "Veinticinco años en propiedades del condado de DuPage.",
-        "line2": "Las mismas cuadrillas. El mismo arranque a las 6:30 a.m. Sin sorpresas subcontratadas."
+        "line2": "Las mismas cuadrillas. El mismo arranque a las 6:30 a.m. Una sola empresa responsable."
       },
       "alt": "Erick en obra en el condado de DuPage durante el atardecer, instalación de hardscape en progreso."
     },
@@ -976,7 +976,7 @@
         "line2": "Hoy lo dirige Erick."
       },
       "p1": "Nick Valle fundó Sunset Services en 2000 con un camión y una ruta de mantenimiento entre Aurora y Naperville. El primer contrato sigue activo, veinticinco años después. Seguimos siendo una empresa de propiedad local y operación familiar desde el primer día — con base en Aurora, IL.",
-      "p2": "En 2018, Erick — el hijo de Nick — asumió las operaciones. La misma cuadrilla, el mismo arranque a las 6:30 a.m., el mismo estándar para una propiedad terminada. Le respondemos a nuestros clientes, no a grupos de propiedad externos ni a cuotas de private equity. Sin sorpresas subcontratadas; quienes miden tu proyecto son quienes lo hacen.",
+      "p2": "En 2018, Erick — el hijo de Nick — asumió las operaciones. La misma cuadrilla, el mismo arranque a las 6:30 a.m., el mismo estándar para una propiedad terminada. Le respondemos a nuestros clientes, no a grupos de propiedad externos ni a cuotas de private equity. Quienes miden tu proyecto son quienes lo hacen.",
       "p3": "Marcin se sumó para dirigir la división de hardscape — instalaciones autorizadas por Unilock, patios de adoquines, muros de contención, espacios de fuego. El estándar es mano de obra excepcional, precios justos y una propiedad terminada que entregas a la familia con confianza. Los camiones comparten patio; tu proyecto cabe en una sola llamada.",
       "p4": "Nuestra meta no es vender proyectos. Es ayudar a los propietarios a hacer inversiones inteligentes — espacios al aire libre que las familias puedan disfrutar por años. Nuestra reputación se construye un propietario, un vecindario, un proyecto a la vez.",
       "alt": "Erick y Nick trabajando juntos en una propiedad del condado de DuPage, luz de la tarde.",
@@ -1241,12 +1241,12 @@
   "projects": {
     "meta": {
       "title": "Proyectos · Sunset Services",
-      "description": "Patios, muros, jardines y propiedades enteras en todo el Condado de DuPage por Sunset Services desde el año 2000. Explora nuestro portafolio."
+      "description": "Patios, muros, jardines y propiedades enteras en Aurora, Naperville y los suburbios del oeste de Chicago por Sunset Services desde el año 2000. Explora nuestro portafolio."
     },
     "hero": {
       "eyebrow": "Portafolio · Nuestro trabajo",
       "h1": "Construido la temporada pasada, asentándose en la propiedad.",
-      "dek": "Patios, muros, jardines y propiedades enteras en todo el Condado de DuPage. Filtra por división o desplázate para verlo todo.",
+      "dek": "Patios, muros, jardines y propiedades enteras de Aurora, Naperville y los suburbios del oeste de Chicago. Filtra por división o desplázate para verlo todo.",
       "count": "{count} proyectos · {cities} ciudades · {minYear}–{maxYear}"
     },
     "tag": {

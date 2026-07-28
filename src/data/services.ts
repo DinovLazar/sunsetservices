@@ -103,11 +103,36 @@ export type Service = {
    */
   photoAlt?: Localized;
   hero: {
+    /**
+     * Polish-02 — optional per-service kicker override. Falls back to the
+     * division kicker (`division.<division>.hero.kicker`) when absent.
+     */
+    eyebrow?: Localized;
     h1: Localized;
     subhead: Localized;
     /** Photo slot identifier — Phase 2.04 swaps to real photography. */
     photoSlot: string;
+    /**
+     * Polish-02 — optional hero CTA overrides for consultation-first pages.
+     * When `primaryCta` is absent the hero links the quote wizard; when
+     * `secondaryCta` is absent the hero renders the tel: call button.
+     */
+    primaryCta?: {label: Localized; href: string};
+    secondaryCta?: {label: Localized; href: string};
+    /** Polish-02 — optional trust-point pills rendered beneath the hero CTAs. */
+    trustPoints?: Localized[];
   };
+  /**
+   * Polish-02 — optional SEO overrides. The service <title>/meta description
+   * default to hero.h1/subhead; set these when the ratified on-page hero copy
+   * drops the locality keywords the metadata must keep.
+   */
+  seo?: {title: Localized; description: Localized};
+  /**
+   * Polish-02 — optional short related-card teaser. Falls back to the first
+   * sentence of hero.subhead.
+   */
+  teaser?: Localized;
   whatsIncluded: WhatsIncludedItem[];
   process: ProcessStep[];
   whyUs: WhyUsItem[];
@@ -479,8 +504,8 @@ export const SERVICES: Service[] = [
       {
         headline: {en: 'In-house design + build', es: 'Diseño y construcción internos'},
         description: {
-          en: 'No subcontracted handoffs between designer and crew.',
-          es: 'Sin transferencias entre diseñador y equipo subcontratado.',
+          en: 'Designer and crew work under the same roof, on the same plan.',
+          es: 'Diseñador y cuadrilla trabajan bajo el mismo techo, con el mismo plan.',
         },
         icon: 'Workflow',
       },
@@ -1355,16 +1380,49 @@ export const SERVICES: Service[] = [
     audience: 'hardscape',
     icon: 'Layers',
     name: {en: 'Patios & Walkways', es: 'Patios y Senderos'},
+    // Polish-02 — Marcin round-1 ratified hero copy (2026-07-28). The h1
+    // deliberately carries no locality; the locality keywords live in `seo`.
     hero: {
       h1: {
-        en: 'Patios & Walkways in Aurora & DuPage.',
-        es: 'Patios y Senderos en Aurora y DuPage.',
+        en: 'Patios and Walkways Designed Around Your Home',
+        es: 'Patios y senderos diseñados en torno a tu hogar',
       },
       subhead: {
-        en: 'Unilock-trained crew, no subcontracted base prep, and a 5-year installation warranty. Two decades of paver experience under one project lead.',
-        es: 'Equipo entrenado por Unilock, sin preparación de base subcontratada, y garantía de instalación de 5 años. Dos décadas de experiencia bajo un solo líder.',
+        en: 'Create a more functional and inviting outdoor space with a custom paver patio or walkway designed for your property, lifestyle, and long-term use. As a Unilock Authorized Contractor, Sunset provides thoughtful design guidance, proper base preparation, and experienced installation built for Chicagoland conditions.',
+        es: 'Crea un espacio exterior más funcional y acogedor con un patio o sendero de adoquines a la medida, diseñado para tu propiedad, tu estilo de vida y el uso a largo plazo. Como Contratista Autorizado Unilock, Sunset ofrece orientación de diseño con criterio, preparación adecuada de la base e instalación con experiencia, hecha para las condiciones de Chicagoland.',
       },
       photoSlot: 'service.patios-walkways.16x9',
+      primaryCta: {
+        label: {en: 'Schedule a Consultation', es: 'Agenda una Consulta'},
+        href: '/contact/',
+      },
+      secondaryCta: {
+        label: {en: 'View Patio Projects', es: 'Ver Proyectos de Patios'},
+        href: '/projects/?division=hardscape',
+      },
+      trustPoints: [
+        {en: 'Unilock Authorized Contractor', es: 'Contratista Autorizado Unilock'},
+        {en: '5-Year Workmanship Warranty', es: 'Garantía de Mano de Obra de 5 Años'},
+        {en: 'HOA and Permit Assistance', es: 'Asistencia con HOA y Permisos'},
+        {
+          en: "Serving Aurora and Chicago's Western Suburbs",
+          es: 'Sirviendo a Aurora y los Suburbios del Oeste de Chicago',
+        },
+      ],
+    },
+    seo: {
+      title: {
+        en: "Patios & Walkways in Aurora, Naperville & Chicago's Western Suburbs",
+        es: 'Patios y Senderos en Aurora, Naperville y los Suburbios del Oeste de Chicago',
+      },
+      description: {
+        en: 'Custom paver patios and walkways by a Unilock Authorized Contractor — design guidance, proper base preparation, and a 5-year workmanship warranty across DuPage and Kane County.',
+        es: 'Patios y senderos de adoquines por un Contratista Autorizado Unilock — orientación de diseño, preparación adecuada de la base y garantía de mano de obra de 5 años en los condados de DuPage y Kane.',
+      },
+    },
+    teaser: {
+      en: 'Custom paver patios and walkways designed around your home.',
+      es: 'Patios y senderos de adoquines diseñados en torno a tu hogar.',
     },
     whatsIncluded: [
       {
@@ -1455,28 +1513,28 @@ export const SERVICES: Service[] = [
     ],
     whyUs: [
       {
-        headline: {en: 'Unilock-trained crew', es: 'Equipo entrenado por Unilock'},
+        headline: {en: 'Unilock Authorized Contractor', es: 'Contratista Autorizado Unilock'},
         description: {
-          en: 'Authorized Contractor — pavers laid to spec, every time.',
-          es: 'Contratista autorizado — adoquines instalados al estándar.',
+          en: 'Pavers laid to spec, every time.',
+          es: 'Adoquines instalados al estándar, siempre.',
         },
         icon: 'Award',
       },
       {
-        headline: {en: '5-yr installation warranty', es: '5 años de garantía de instalación'},
+        headline: {en: 'Proper base preparation', es: 'Preparación adecuada de la base'},
         description: {
-          en: 'Workmanship covered five years; reset at no charge.',
-          es: 'Mano de obra cubierta cinco años; reasentado sin costo.',
-        },
-        icon: 'BadgeCheck',
-      },
-      {
-        headline: {en: 'No subcontracted base prep', es: 'Sin preparación de base subcontratada'},
-        description: {
-          en: 'Our crew digs the base — the part that makes it last.',
-          es: 'Nuestro equipo hace la base — la parte que hace durar el patio.',
+          en: "Proper excavation, drainage planning, and compacted base preparation for Chicagoland's freeze-thaw conditions.",
+          es: 'Excavación adecuada, planificación del drenaje y base compactada para las condiciones de hielo y deshielo de Chicagoland.',
         },
         icon: 'ShieldCheck',
+      },
+      {
+        headline: {en: 'One point of contact', es: 'Un solo punto de contacto'},
+        description: {
+          en: 'Your project is coordinated by one experienced point of contact from initial planning through final walkthrough.',
+          es: 'Tu proyecto lo coordina un solo punto de contacto con experiencia, desde la planificación inicial hasta el recorrido final.',
+        },
+        icon: 'Users',
       },
     ],
     pricing: {mode: 'explainer', explainerFactors: HARDSCAPE_FACTORS},
@@ -1650,27 +1708,57 @@ export const SERVICES: Service[] = [
     audience: 'hardscape',
     icon: 'Flame',
     name: {en: 'Fire Pits & Features', es: 'Chimeneas y Elementos de Fuego'},
+    // Polish-02 — real Sunset project photo (operator-supplied, reduced-res;
+    // full-res original requested). Alt ratified in Chat 2026-07-28.
     photoAlt: {
-      en: 'A built stone-clad rectangular fire pit on a flagstone patio, ringed by fixed wooden bench seating under a timber pergola.',
-      es: 'Una fogata rectangular de obra revestida de piedra sobre un patio de lajas, rodeada de bancas de madera fijas bajo una pérgola de madera.',
+      en: 'Gas fire pit burning at dusk inside a circular paver patio, surrounded by a curved seating wall with built-in lighting and two stone pillars.',
+      es: 'Fogata de gas encendida al anochecer dentro de un patio circular de adoquines, rodeada por un muro de asiento curvo con iluminación integrada y dos pilares de piedra.',
     },
+    // Polish-02 — Marcin round-1 ratified hero copy (2026-07-28). The eyebrow
+    // overrides the shared division kicker; locality lives in `seo`.
     hero: {
+      eyebrow: {
+        en: 'Fire Pits & Outdoor Fire Features',
+        es: 'Chimeneas y Elementos de Fuego Exteriores',
+      },
       h1: {
-        en: 'Fire Pits & Features in DuPage.',
-        es: 'Chimeneas y Elementos de Fuego en DuPage.',
+        en: 'Create a Gathering Place That Brings Everyone Together',
+        es: 'Crea un lugar de reunión que una a todos',
       },
       subhead: {
-        en: 'Custom designs, licensed gas-line coordination, and surrounds in Unilock pavers. Seating walls and sealing included where they belong.',
-        es: 'Diseños personalizados, coordinación de gas con licencia y rodeos en adoquines Unilock. Muros asiento y sellado donde corresponde.',
+        en: 'Custom fire pits, seating walls, pillars, and integrated lighting — thoughtfully designed to complement your patio and create a comfortable outdoor gathering space.',
+        es: 'Fogatas personalizadas, muros de asiento, pilares e iluminación integrada — diseñados con cuidado para complementar tu patio y crear un espacio exterior cómodo para reunirse.',
       },
       photoSlot: 'service.fire-pits-features.16x9',
+      primaryCta: {
+        label: {en: 'Schedule a Consultation', es: 'Agenda una Consulta'},
+        href: '/contact/',
+      },
+      secondaryCta: {
+        label: {en: 'View Fire Feature Projects', es: 'Ver Proyectos de Elementos de Fuego'},
+        href: '/projects/?division=hardscape',
+      },
+    },
+    seo: {
+      title: {
+        en: "Fire Pits & Outdoor Fire Features in Aurora & Chicago's Western Suburbs",
+        es: 'Chimeneas y Elementos de Fuego en Aurora y los Suburbios del Oeste de Chicago',
+      },
+      description: {
+        en: 'Custom fire pits, seating walls, pillars, and integrated lighting for outdoor gathering spaces in Aurora, Naperville, and across DuPage and Kane County.',
+        es: 'Fogatas personalizadas, muros de asiento, pilares e iluminación integrada para espacios de reunión al aire libre en Aurora, Naperville y los condados de DuPage y Kane.',
+      },
+    },
+    teaser: {
+      en: 'Custom fire pits, seating walls, pillars, and integrated lighting.',
+      es: 'Fogatas personalizadas, muros de asiento, pilares e iluminación integrada.',
     },
     whatsIncluded: [
       {
         headline: {en: 'Pit design', es: 'Diseño de chimenea'},
         description: {
-          en: 'Wood-burning, gas, or hybrid — designed for the yard.',
-          es: 'Leña, gas o híbrido — diseñado para el jardín.',
+          en: 'Custom-designed to fit the patio, the yard, and how you gather.',
+          es: 'Diseñada a la medida del patio, el jardín y tu forma de reunirte.',
         },
         icon: 'Flame',
       },
@@ -1683,12 +1771,12 @@ export const SERVICES: Service[] = [
         icon: 'Grid3x3',
       },
       {
-        headline: {en: 'Gas-line coordination', es: 'Coordinación de gas'},
+        headline: {en: 'Pillars & lighting', es: 'Pilares e iluminación'},
         description: {
-          en: 'Licensed plumber for gas lines and shut-offs.',
-          es: 'Plomero licenciado para líneas de gas y válvulas.',
+          en: 'Stone pillars and built-in lighting, integrated with the design.',
+          es: 'Pilares de piedra e iluminación integrada al diseño.',
         },
-        icon: 'BadgeCheck',
+        icon: 'Lightbulb',
       },
       {
         headline: {en: 'Seating walls', es: 'Muros asiento'},
@@ -1711,8 +1799,8 @@ export const SERVICES: Service[] = [
       {
         headline: {en: 'Concept', es: 'Concepto'},
         description: {
-          en: 'Wood vs gas, size, integration with patio.',
-          es: 'Leña vs gas, tamaño, integración con el patio.',
+          en: 'Size, style, and integration with the patio.',
+          es: 'Tamaño, estilo e integración con el patio.',
         },
       },
       {
@@ -1725,31 +1813,31 @@ export const SERVICES: Service[] = [
       {
         headline: {en: 'Permits', es: 'Permisos'},
         description: {
-          en: 'Gas lines need permits — we file them.',
-          es: 'Las líneas de gas necesitan permisos — los manejamos.',
+          en: 'Permit and HOA paperwork handled where the project needs it.',
+          es: 'Permisos y trámites de HOA gestionados cuando el proyecto lo requiere.',
         },
       },
       {
         headline: {en: 'Install', es: 'Instalación'},
         description: {
-          en: 'Excavate, base, gas (if any), block install, finish.',
-          es: 'Excavación, base, gas (si aplica), bloques, acabado.',
+          en: 'Excavate, base, block install, finish.',
+          es: 'Excavación, base, bloques, acabado.',
         },
       },
       {
         headline: {en: 'Walkthrough', es: 'Recorrido final'},
         description: {
-          en: 'Lighting demo, gas-shutoff location, warranty paperwork.',
-          es: 'Demo de encendido, ubicación de válvula, papelería de garantía.',
+          en: 'Lighting demo, care guidance, warranty paperwork.',
+          es: 'Demo de iluminación, guía de cuidado, papelería de garantía.',
         },
       },
     ],
     whyUs: [
       {
-        headline: {en: 'Licensed gas coordination', es: 'Gas con licencia'},
+        headline: {en: 'Unilock Authorized Contractor', es: 'Contratista Autorizado Unilock'},
         description: {
-          en: 'IL-licensed plumber on every gas-fed feature.',
-          es: 'Plomero licenciado de Illinois en cada chimenea con gas.',
+          en: 'Surrounds and seating walls installed to spec, every time.',
+          es: 'Entornos y muros de asiento instalados al estándar, siempre.',
         },
         icon: 'BadgeCheck',
       },

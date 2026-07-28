@@ -173,7 +173,7 @@ const EN: LocaleLabels = {
   identityLine1:
     'Sunset Services is a family-run landscaping and outdoor-living company founded in 2000 and headquartered in Aurora, IL.',
   identityLine2:
-    'We serve residential and commercial clients across DuPage County with grounds care, design-build, and hardscape installation.',
+    "We serve residential and commercial clients throughout Aurora, Naperville, and Chicago's western suburbs with grounds care, design-build, and hardscape installation.",
   phoneLabel: 'Phone',
   emailLabel: 'Email',
   addressLabel: 'Address',
@@ -205,7 +205,7 @@ const EN: LocaleLabels = {
       'Took over operations from his father Nick in 2018; runs estimates, project oversight, and customer relationships.',
     nick: 'Founded Sunset Services in 2000; still consults on tree work and complex grading.',
     marcin:
-      'Leads the hardscape crew; Unilock-trained, specialises in paver patios, walls, and outdoor kitchens.',
+      'Leads the hardscape crew of a Unilock Authorized Contractor; specialises in paver patios, walls, and outdoor kitchens.',
   },
 };
 
@@ -217,7 +217,7 @@ const ES: LocaleLabels = {
   identityLine1:
     'Sunset Services es una empresa familiar de paisajismo y espacios al aire libre, fundada en el año 2000 con sede en Aurora, IL.',
   identityLine2:
-    'Atendemos a clientes residenciales y comerciales en todo el condado de DuPage con mantenimiento de jardines, diseño y construcción, e instalación de hardscape.',
+    'Atendemos a clientes residenciales y comerciales en Aurora, Naperville y los suburbios del oeste de Chicago con mantenimiento de jardines, diseño y construcción, e instalación de hardscape.',
   phoneLabel: 'Teléfono',
   emailLabel: 'Correo',
   addressLabel: 'Dirección',
@@ -250,7 +250,7 @@ const ES: LocaleLabels = {
     nick:
       'Fundó Sunset Services en el año 2000; sigue asesorando en trabajos de arboricultura y nivelación compleja.',
     marcin:
-      'Dirige el equipo de hardscape; capacitado por Unilock, especializado en patios de adoquines, muros de contención y cocinas al aire libre.',
+      'Dirige el equipo de hardscape de un Contratista Autorizado Unilock; especializado en patios de adoquines, muros de contención y cocinas al aire libre.',
   },
 };
 

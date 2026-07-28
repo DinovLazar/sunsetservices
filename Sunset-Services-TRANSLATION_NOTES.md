@@ -583,3 +583,84 @@ Eleven service pages (4 Hardscape: `retaining-walls`, `fire-pits-features`, `dri
 - **`tejuelas`** (crawl-spaces) renders wall "shingles"; some registers prefer *tejas* (typically roof tiles) or *tablillas*.
 - **`bancas`** (fire-pits-features) is Latin-American; a Spain register would use *bancos*.
 - **`gabinete eléctrico de servicios`** (handhole-pull-box) renders "utility power cabinet"; *armario eléctrico* is a common alternative.
+
+## Phase Polish-02 — Marcin copy review round 1 (added 2026-07-28)
+
+### Scope
+
+Marcin's round-1 copy corrections (ratified in Chat 2026-07-28) rewrote the homepage divisions heading + supporting line, the Before & After subline, both premium-hardscape service heroes (`patios-walkways`, `fire-pits-features`), and ran five sitewide accuracy sweeps (Unilock credential, gas-licensing removal, "5-year workmanship warranty" standardization, "subcontracted" claims, "across DuPage County" locality). **Every EN change below is ratified/authoritative; every ES value is a drafted translation pending native review.** Register: marketing **tú** throughout (no legal/transactional surfaces were touched except one English-only Terms sentence, which has no ES pair by design — B.03e). Glossary held: *Contratista Autorizado Unilock* (existing es.json phrasing — not "de Unilock"), *fogata* (B.16), *muro de asiento*, *adoquines*, *sin zanja / zanjeo abierto* (B.12), and warranty = **garantía de mano de obra** (matches the existing hardscape FAQ answer).
+
+### EN → ES pairs (messages)
+
+| Surface (key) | EN (ratified) | ES (drafted) |
+| --- | --- | --- |
+| `home.divisions.h2` | Complete Property Solutions. One Accountable Company. | Soluciones completas para tu propiedad. Una sola empresa responsable. |
+| `home.divisions.sub` | From outdoor-living construction to year-round property management, Sunset brings the specialized crews, equipment, experience, and oversight needed to improve, protect, and maintain your property. | Desde la construcción de espacios exteriores hasta el cuidado de tu propiedad todo el año, Sunset aporta las cuadrillas especializadas, la maquinaria, la experiencia y la supervisión necesarias para mejorar, proteger y mantener tu propiedad. |
+| `home.beforeAfter.sub` | One property. A complete transformation — designed and built by Sunset Services. | Una propiedad. Una transformación completa — diseñada y construida por Sunset Services. |
+| `home.hero.credential` | Unilock Authorized Contractor · 25 Years Strong · Built for Chicagoland | Contratista Autorizado Unilock · 25 años de trayectoria · Hecho para Chicagoland |
+| `home.divisions.trenchless.desc` | Utility, sewer, and water lines — trenchless where possible, open trenching where the job calls for it. | Líneas de servicios, alcantarillado y agua — sin zanja donde es posible, zanjeo abierto donde el trabajo lo requiere. |
+| `home.meta.description` (tail) | …throughout Aurora, Naperville, and Chicago's western suburbs. | …en Aurora, Naperville y los suburbios del oeste de Chicago. |
+| `division.landscape.meta.description` / `hero.subhead` (tail) | …throughout Aurora, Naperville, and Chicago's western suburbs. | …en Aurora, Naperville y los suburbios del oeste de Chicago. |
+| `division.trenchless.meta.description` / `hero.subhead` (tail) | …throughout Aurora, Naperville, and Chicago's western suburbs. | …en Aurora, Naperville y los suburbios del oeste de Chicago. |
+| `projects.meta.description` / `hero.dek` (locality) | …throughout / from Aurora, Naperville, and Chicago's western suburbs… | …en / de Aurora, Naperville y los suburbios del oeste de Chicago… |
+| `division.hardscape.*` warranty strings (meta, qualifier body + pill, whySunset prop, unilock stat, socialProof credential) | 5-year workmanship warranty (5-YEAR WORKMANSHIP WARRANTY) | Garantía de mano de obra de 5 años / "Garantía de mano de obra 5 años" (pill/headline) / GARANTÍA DE MANO DE OBRA DE 5 AÑOS (stat) / "garantía de mano de obra" (credential sub) |
+| `about.*` line2 | Same crews. Same 6:30 a.m. start. One accountable company. | Las mismas cuadrillas. El mismo arranque a las 6:30 a.m. Una sola empresa responsable. |
+| `about.*` p2 (clause removed) | …The people who measure your project are the people who do it. | …Quienes miden tu proyecto son quienes lo hacen. |
+
+### EN → ES pairs (services.ts — patios-walkways)
+
+| Field | EN (ratified) | ES (drafted) |
+| --- | --- | --- |
+| `hero.h1` | Patios and Walkways Designed Around Your Home | Patios y senderos diseñados en torno a tu hogar |
+| `hero.subhead` | Create a more functional and inviting outdoor space with a custom paver patio or walkway designed for your property, lifestyle, and long-term use. As a Unilock Authorized Contractor, Sunset provides thoughtful design guidance, proper base preparation, and experienced installation built for Chicagoland conditions. | Crea un espacio exterior más funcional y acogedor con un patio o sendero de adoquines a la medida, diseñado para tu propiedad, tu estilo de vida y el uso a largo plazo. Como Contratista Autorizado Unilock, Sunset ofrece orientación de diseño con criterio, preparación adecuada de la base e instalación con experiencia, hecha para las condiciones de Chicagoland. |
+| `hero.primaryCta.label` | Schedule a Consultation | Agenda una Consulta |
+| `hero.secondaryCta.label` | View Patio Projects | Ver Proyectos de Patios |
+| `hero.trustPoints[0..3]` | Unilock Authorized Contractor · 5-Year Workmanship Warranty · HOA and Permit Assistance · Serving Aurora and Chicago's Western Suburbs | Contratista Autorizado Unilock · Garantía de Mano de Obra de 5 Años · Asistencia con HOA y Permisos · Sirviendo a Aurora y los Suburbios del Oeste de Chicago |
+| `seo.title` | Patios & Walkways in Aurora, Naperville & Chicago's Western Suburbs | Patios y Senderos en Aurora, Naperville y los Suburbios del Oeste de Chicago |
+| `seo.description` | Custom paver patios and walkways by a Unilock Authorized Contractor — design guidance, proper base preparation, and a 5-year workmanship warranty across DuPage and Kane County. | Patios y senderos de adoquines por un Contratista Autorizado Unilock — orientación de diseño, preparación adecuada de la base y garantía de mano de obra de 5 años en los condados de DuPage y Kane. |
+| `teaser` | Custom paver patios and walkways designed around your home. | Patios y senderos de adoquines diseñados en torno a tu hogar. |
+| `whyUs[0]` | Unilock Authorized Contractor / Pavers laid to spec, every time. | Contratista Autorizado Unilock / Adoquines instalados al estándar, siempre. |
+| `whyUs[1]` (ratified detail line 1) | Proper base preparation / Proper excavation, drainage planning, and compacted base preparation for Chicagoland's freeze-thaw conditions. | Preparación adecuada de la base / Excavación adecuada, planificación del drenaje y base compactada para las condiciones de hielo y deshielo de Chicagoland. |
+| `whyUs[2]` (ratified detail line 2) | One point of contact / Your project is coordinated by one experienced point of contact from initial planning through final walkthrough. | Un solo punto de contacto / Tu proyecto lo coordina un solo punto de contacto con experiencia, desde la planificación inicial hasta el recorrido final. |
+
+### EN → ES pairs (services.ts — fire-pits-features)
+
+| Field | EN (ratified) | ES (drafted) |
+| --- | --- | --- |
+| `photoAlt` (real photo) | Gas fire pit burning at dusk inside a circular paver patio, surrounded by a curved seating wall with built-in lighting and two stone pillars. | Fogata de gas encendida al anochecer dentro de un patio circular de adoquines, rodeada por un muro de asiento curvo con iluminación integrada y dos pilares de piedra. |
+| `hero.eyebrow` | Fire Pits & Outdoor Fire Features | Chimeneas y Elementos de Fuego Exteriores |
+| `hero.h1` | Create a Gathering Place That Brings Everyone Together | Crea un lugar de reunión que una a todos |
+| `hero.subhead` | Custom fire pits, seating walls, pillars, and integrated lighting — thoughtfully designed to complement your patio and create a comfortable outdoor gathering space. | Fogatas personalizadas, muros de asiento, pilares e iluminación integrada — diseñados con cuidado para complementar tu patio y crear un espacio exterior cómodo para reunirse. |
+| `hero.primaryCta.label` | Schedule a Consultation | Agenda una Consulta |
+| `hero.secondaryCta.label` | View Fire Feature Projects | Ver Proyectos de Elementos de Fuego |
+| `seo.title` | Fire Pits & Outdoor Fire Features in Aurora & Chicago's Western Suburbs | Chimeneas y Elementos de Fuego en Aurora y los Suburbios del Oeste de Chicago |
+| `seo.description` | Custom fire pits, seating walls, pillars, and integrated lighting for outdoor gathering spaces in Aurora, Naperville, and across DuPage and Kane County. | Fogatas personalizadas, muros de asiento, pilares e iluminación integrada para espacios de reunión al aire libre en Aurora, Naperville y los condados de DuPage y Kane. |
+| `teaser` | Custom fire pits, seating walls, pillars, and integrated lighting. | Fogatas personalizadas, muros de asiento, pilares e iluminación integrada. |
+| `whatsIncluded[0].description` | Custom-designed to fit the patio, the yard, and how you gather. | Diseñada a la medida del patio, el jardín y tu forma de reunirte. |
+| `whatsIncluded[2]` (replaces gas item) | Pillars & lighting / Stone pillars and built-in lighting, integrated with the design. | Pilares e iluminación / Pilares de piedra e iluminación integrada al diseño. |
+| `process[0].description` | Size, style, and integration with the patio. | Tamaño, estilo e integración con el patio. |
+| `process[2].description` | Permit and HOA paperwork handled where the project needs it. | Permisos y trámites de HOA gestionados cuando el proyecto lo requiere. |
+| `process[3].description` | Excavate, base, block install, finish. | Excavación, base, bloques, acabado. |
+| `process[4].description` | Lighting demo, care guidance, warranty paperwork. | Demo de iluminación, guía de cuidado, papelería de garantía. |
+| `whyUs[0]` (replaces gas item) | Unilock Authorized Contractor / Surrounds and seating walls installed to spec, every time. | Contratista Autorizado Unilock / Entornos y muros de asiento instalados al estándar, siempre. |
+
+### EN → ES pairs (other files)
+
+| Surface | EN | ES (drafted) |
+| --- | --- | --- |
+| `services.ts` landscape `design-build` `whyUs[0].description` | Designer and crew work under the same roof, on the same plan. | Diseñador y cuadrilla trabajan bajo el mismo techo, con el mismo plan. |
+| `locations.ts` accountability sentence (Aurora, Western Springs, Downers Grove, Elburn, Oswego) | One point of contact from the first walk to the final walkthrough. | Un solo punto de contacto desde la primera visita hasta el recorrido final. |
+| `locations.ts` Yorkville tail | One crew, one phone, one point of contact. | Un equipo, un teléfono, un solo punto de contacto. |
+| `knowledgeBase.ts` `identityLine2` | We serve residential and commercial clients throughout Aurora, Naperville, and Chicago's western suburbs with grounds care, design-build, and hardscape installation. | Atendemos a clientes residenciales y comerciales en Aurora, Naperville y los suburbios del oeste de Chicago con mantenimiento de jardines, diseño y construcción, e instalación de hardscape. |
+| `knowledgeBase.ts` `bios.marcin` | Leads the hardscape crew of a Unilock Authorized Contractor; specialises in paver patios, walls, and outdoor kitchens. | Dirige el equipo de hardscape de un Contratista Autorizado Unilock; especializado en patios de adoquines, muros de contención y cocinas al aire libre. |
+
+### Open questions for native review (Polish-02)
+
+- **`que una a todos`** (fire-pits h1) — subjunctive of *unir*; a reviewer may prefer *"que reúne a todos"* or *"que reúna a todos"* (*reunir* echoes "gathering" more directly and avoids the una/una homograph with the article).
+- **`Agenda una Consulta`** — LatAm imperative *agendar*; alternatives *"Programa una Consulta"* or usted-register *"Agende su Consulta"* (kept **tú** per the locked marketing register).
+- **`Ver Proyectos de Elementos de Fuego`** — long for a ghost button; *"Ver Proyectos con Fuego"* is shorter but looser. Kept the service-name echo for accuracy.
+- **`la maquinaria`** (divisions sub) — renders "equipment" while avoiding the *equipo* (team/equipment) ambiguity; a reviewer may prefer *"los equipos"* if the ambiguity is acceptable.
+- **`el cuidado de tu propiedad todo el año`** — renders "year-round property management" in the residential register; *"la gestión de propiedades"* reads commercial/B2B and was avoided.
+- **`hielo y deshielo`** (freeze-thaw) — standard rendering; *congelación y deshielo* is the more technical alternative.
+- **`Sirviendo a Aurora…`** (trust pill) — gerund opener mirrors the EN pill; *"Servimos a Aurora…"* is the full-sentence alternative.
+- **`Chimeneas y Elementos de Fuego Exteriores`** (eyebrow) — follows the locked service name (*Chimeneas y Elementos de Fuego*); note the B.16 alt-text register uses *fogata* for the object itself (kept: *fogata* = the pit, *Chimeneas y Elementos de Fuego* = the service).

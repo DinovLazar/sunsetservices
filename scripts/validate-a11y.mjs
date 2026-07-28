@@ -258,6 +258,25 @@ async function checkFocusNotObscured(page) {
     }, {box: focusedBox});
 
     if (overlapInfo.maxOverlap > 0.5) {
+      // Polish-02 — confirm by paint order before flagging. The geometric
+      // box-intersection alone false-positives on focus-revealed overlays
+      // (the skip link animates in over 120ms and then paints ON TOP of the
+      // sticky header it geometrically intersects — z 70 over z 20). Settle
+      // the reveal transition, then ask the browser what actually paints at
+      // the focused element's center; only a control that is genuinely
+      // covered (or still off-viewport) stays a finding.
+      await page.waitForTimeout(250);
+      const paintedOnTop = await el
+        .evaluate((e) => {
+          const r = e.getBoundingClientRect();
+          const cx = r.left + r.width / 2;
+          const cy = r.top + r.height / 2;
+          if (cx < 0 || cy < 0 || cx > window.innerWidth || cy > window.innerHeight) return false;
+          const at = document.elementFromPoint(cx, cy);
+          return Boolean(at && (at === e || e.contains(at) || at.contains(e)));
+        })
+        .catch(() => false);
+      if (paintedOnTop) continue;
       const outer = await el.evaluate((e) => e.outerHTML.slice(0, 200)).catch(() => '?');
       findings.push({
         rule: 'wcag22-2.4.11-focus-not-obscured',

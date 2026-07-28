@@ -78,7 +78,11 @@ const SKIP_REMOTE = process.env.SKIP_REMOTE === '1';
 
 const REPORT_PATH = resolve('scripts/.seo-validation-report.json');
 
-const SITE_ORIGIN = 'https://sunsetservices.us';
+// Phase B.18 moved the canonical host to www (BUSINESS_URL in
+// src/lib/constants/business.ts — apex 308s to www in production); this
+// hardcoded mirror missed that change and left the harness red on every
+// route. Kept in lockstep with BUSINESS_URL. (Polish-02)
+const SITE_ORIGIN = 'https://www.sunsetservices.us';
 
 // ---------------------------------------------------------------------------
 // Expected routes — the harness's hardcoded contract.
@@ -176,7 +180,9 @@ const PROJECT_SLUGS = [
   '807-edgewater-drive',
   '811-edgewater-drive',
   'aurora-area-patio',
-  'scott-and-sarahs',
+  // Part-2 Hotfix renamed the mis-titled personal-name project; harness
+  // swap was the flagged follow-up (see current-state.md). (Polish-02)
+  'granite-fusion-walkway-seating-wall',
   // Phase M.11 — reconcile harness with live Sanity portfolio (M.10b/M.10d additions)
   'aurora-area-paver-patio-firepit',
   'oswego-landscape-design-install',

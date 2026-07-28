@@ -1137,7 +1137,7 @@ Canonical detail in `src/_project-state/Phase-Polish-01-Completion.md`. Wiring-o
 =======
 ---
 
-## Hotfix — schema offer catalog `Offer.url` + harness page-level narrowing (added 2026-07-28, branch `fix/schema-offer-url`, PR open, NOT merged)
+## Hotfix — schema offer catalog `Offer.url` + harness page-level narrowing (added 2026-07-28, branch `fix/schema-offer-url`, MERGED to `main` via PR #32)
 
 **Modified:**
 - `src/lib/schema/organization.ts` — **Modified (Hotfix 2026-07-28).** `buildOfferCatalog()` now emits `url` on every catalog `Offer`, same value as its `itemOffered` Service page URL (deliberately the service page, not the quote wizard — the catalog exists to give answer engines a page to cite). Closes the B.17 defect that left `validate:schema` red with 816 missing-`url` errors (34 Offers × 24 URLs).

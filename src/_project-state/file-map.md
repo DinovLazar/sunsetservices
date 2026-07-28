@@ -1107,3 +1107,12 @@ Canonical detail in `src/_project-state/Phase-Polish-01-Completion.md`. Wiring-o
 - `src/app/[locale]/layout.tsx` — **Modified (Phase B.17, +9/−33)** the ~25-line inline `sitewideJsonLd` literal replaced with `buildSitewideGraph()` from `lib/schema/organization.ts`; the seven now-unused `BUSINESS_*` imports dropped (kept only `BUSINESS_NAME_FULL`).
 
 **NOT committed (left untracked in the working tree):** `src/_project-state/session-2026-06-23-launch-runway-docs.patch` — an unrelated Jun-23 doc-diff dump (`Decisions.md` + `current-state.md`), not part of B.17.
+
+---
+
+## Chore — ESLint ignores `.claude/**` (added 2026-07-28, branch `chore/eslint-ignore-claude-worktrees`, PR to open, NOT merged)
+
+**Modified:**
+- `eslint.config.mjs` — **Modified (Chore 2026-07-28).** `globalIgnores` gained `.claude/**`: the harness keeps per-session git worktrees under the gitignored `.claude/worktrees/`, and a stale one's `.next/build/chunks/` was flooding `npm run lint` with ~1224 generated-code errors (the top-level `".next/**"` ignore doesn't match nested copies; ESLint flat config doesn't read `.gitignore`). Same rationale as the existing `dist/**` ignore. Verified red→green with planted artifacts: post-fix `npm run lint` = 0 errors / 9 pre-existing warnings with the artifacts present.
+
+**New:** `src/_project-state/Chore-Eslint-Ignore-Claude-Completion.md` — completion report. Config note appended to `00_stack-and-config.md` (2026-07-28).

@@ -2516,3 +2516,43 @@ Change nothing else — triggers stay Create + Update + Delete, filter and secre
 **Decision.** The subline becomes **"One property. A complete transformation — designed and built by Sunset Services."** The "two states" device is retired permanently, and "across DuPage County"-restrictive phrasing is retired from `src/messages/` wherever it appears (home + division meta descriptions, subheads, projects-index copy), replaced with Aurora / Naperville / Chicago's-western-suburbs phrasing per surface. Kicker "BEFORE & AFTER" and headline "The transformation is the pitch." stay. _Alternative rejected: keep the "two states" wordplay and add a clarifier. Rejected — copy that needs a footnote to not be misread has failed; homeowner-first means zero ambiguity._ Downside accepted: locality strings now name cities rather than the county; meta descriptions change accordingly (same-intent SEO, verified by `validate:seo`).
 
 **Logged by:** Code, 2026-07-28, on branch `polish/02-marcin-copy-round-1`; PR to open — operator verifies on Preview, then merges.
+
+---
+
+## 2026-07-28 — Polish-02b (a): "one crew" retired repo-wide — the Polish-02 (a) accountability rule applied to every flagged occurrence
+
+**Context.** Polish-02 (a) ratified the standing rule — accountability = company, capability = specialized crews; never imply one crew performs multiple divisions' or services' work — but its DoD swept only the homepage divisions block. The Polish-02 audit flagged the survivors: the landscape hero subhead + services-grid eyebrow ("eight services, one crew"), the service-areas hero sub ("Six cities, one crew, one phone number"), eleven city write-ups closing "One crew, one phone, …" (Lisle, Bolingbrook, Oak Brook, Clarendon Hills, Winfield, Lombard, Geneva, South Elgin, North Aurora, Yorkville, Plainfield), and five trenchless whyUs cards headlined "One crew, one contact". The operator ratified in Chat (2026-07-28) applying the already-ratified rules to every remaining flagged occurrence without waiting for Marcin's round 2.
+
+**Decision.** Every "one crew"-class claim spanning multiple services/divisions/cities becomes company-level: the landscape subhead carries the ratified "Eight services. One accountable company."; the eyebrow becomes "EIGHT SERVICES · ONE COMPANY"; city closers become "One company, one phone, …"; the trenchless whyUs headline becomes "One point of contact" (each card's description keeps its job-level "same crew start to finish" claim — a crew running a single job is the allowed claim). ES pairs move in lockstep using Polish-02's ratified "una sola empresa (responsable)" vocabulary. `grep -ri "one crew" src/` (excluding `_project-state/`) must return 0 so no future occurrence can hide behind a grandfathered one. _Alternative rejected: keep "One crew, one contact" on the five single-service whyUs cards since one job genuinely gets one crew. Rejected — the phase DoD pins the grep to 0, and "One point of contact" states the same customer benefit without the ambiguity._ Downside accepted: the city closers trade a word of punch ("crew" → "company").
+
+**Logged by:** Code, 2026-07-28, on branch `polish/02b-copy-leftovers`; PR to open — operator verifies on Vercel Preview, then merges.
+
+---
+
+## 2026-07-28 — Polish-02b (b): the five "subcontractor handoff" claims (+ ES pairs) rewritten as positive same-fact statements — Marcin's §5.2 pattern extended
+
+**Context.** Polish-02 swept `subcontracted` 11→0 but flagged five EN "subcontractor"-variant claims + their ES pairs (home process sub, waterproofing whySunset card, Naperville / Elmhurst / Glen Ellyn city prose) — the same claim in different morphology, left because that phase's DoD named "subcontracted" only. Marcin's ratified §5.2 pattern: replace the defensive negative with a positive customer-benefit statement of the same underlying fact ("no subcontracted base prep" → "Proper excavation, drainage planning, and compacted base preparation for Chicagoland's freeze-thaw conditions."). The operator ratified applying it to all five without waiting for round 2.
+
+**Decision.** Each defensive negative ("No subcontractor handoffs…", "no handoff to a subcontractor you've never met") is replaced by the positive statement of the fact it was defending — design-build continuity, in-house crew accountability, one point of contact — with no new facts invented and no "we don't hand you off"-style framing kept, EN + ES in the same commit. The full before → after table lives in `completions/Part-3-Phase-Polish-02b-Completion.md`; Chat runs the rewrites past Marcin post-hoc. _Alternative rejected: wait for Marcin's round 2. Rejected by the operator — a flagged defensive-claim class shouldn't keep shipping when the rewrite rule is already ratified._ Downside accepted: five surfaces change ahead of Marcin's direct review; post-hoc review may adjust wording.
+
+**Logged by:** Code, 2026-07-28, on branch `polish/02b-copy-leftovers`; PR to open — operator verifies on Vercel Preview, then merges.
+
+---
+
+## 2026-07-28 — Polish-02b (c): "across DuPage County" accuracy rule (h) applied to blog.ts, the sewer-line service, and the chat personas; genuinely DuPage-specific content kept
+
+**Context.** Polish-02 (h) retired service-area-restrictive "across DuPage County" phrasing from `src/messages/` + the chat KB identity line, and flagged the residuals: `blog.ts` and the sewer-line service copy. This phase's audit found the same restriction in both hand-authored chat personas (`src/lib/chat/systemPrompt.ts`: EN "serving DuPage County", ES "cobertura en todo el condado de DuPage") — the bot's own self-description, the same class as the KB identity line Polish-02 already fixed.
+
+**Decision.** Replace only where the wording restricts Sunset's service area — the blog site-walk CTA, the blog paver-experience line, the sewer-line description ("across DuPage County") and its whyUs "family-run in DuPage County" (→ "family-run in Aurora", the factual base), and both chat personas — using Aurora / Naperville / Chicago's-western-suburbs-class wording. Keep and list content that is genuinely DuPage-specific (the DuPage patio-cost guide's title/description/prices; the snow-vendor article's DuPage audience framing) and the ratified SEO locality metadata ("… in DuPage County." service titles; the patios/fire-pits `seo` descriptions naming DuPage + Kane — Polish-02 explicitly keeps locality in `<title>`/meta). _Alternative rejected: sweep every "DuPage" mention. Rejected — county-targeted SEO metadata and county-specific editorial content are accurate and deliberate; only service-area restriction is the defect._ Downside accepted: both chat personas change ahead of the pending native ES review (drafts logged in TRANSLATION_NOTES §Polish-02b).
+
+**Logged by:** Code, 2026-07-28, on branch `polish/02b-copy-leftovers`; PR to open — operator verifies on Vercel Preview, then merges.
+
+---
+
+## 2026-07-28 — Polish-02b (d): `fix/schema-offer-url` PR opened on operator go-ahead
+
+**Context.** The B.17 `Offer.url` repair (+ harness page-level narrowing) sat on branch `fix/schema-offer-url` since Polish-02 spun it off; until it merges, `validate:schema` reports the pre-existing 818 errors on every branch. The operator ratified opening its PR in Chat 2026-07-28 (Polish-02b Task 1).
+
+**Decision.** The branch was rebased onto `main` @ `a6986e6` (keep-both resolution of the three state-doc tails, no code change) and re-verified on fresh production builds of both sides: before (main) **818 errors** (816 × `Offer` missing `url` + 2 × false-positive forbidden `Service`), after (branch) **0 errors / 0 warnings / 24 URLs**; `build` exit 0 (204/204). PR #32 carries the evidence; nothing else lands on the branch. Merge-order note recorded on both PRs: this PR and `polish/02b-copy-leftovers` both append to the state-doc tails, so whichever merges second needs a trivial keep-both resolution. _Alternative rejected: fold the schema fix into the Polish-02b copy branch to avoid the conflict. Rejected — the brief mandates strictly separate PRs so the operator can verify and merge them independently._ Downside accepted: one trivial doc conflict for whichever PR merges second.
+
+**Logged by:** Code, 2026-07-28, on branches `fix/schema-offer-url` (PR #32) + `polish/02b-copy-leftovers`; operator verifies on Vercel Preview, then merges.

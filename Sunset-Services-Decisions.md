@@ -2436,3 +2436,83 @@ Change nothing else — triggers stay Create + Update + Delete, filter and secre
 **Decision.** Portfolio project `title` and `slug` are **place/feature**, never a client's personal name. Prefer the standout material or built feature (and the city, once a `citySlug` is known — this project currently has none). _Alternative rejected: keep the human-readable "Scott & Sarah's" because it's friendly. Rejected — a client's name in a public URL and page title is a privacy issue, reads as unfinished/unprofessional, and carries no SEO value; feature+city is what visitors and search actually query._ This is a naming house-rule, not a one-off: any future project authored with a personal-name title/slug should be corrected the same way before it goes near production.
 
 **Logged by:** Code, 2026-07-22, on branch `fix/project-scott-sarah-hotfix` (off `main` @ `a0936ff`); PR to open — operator verifies on Preview + merges. Full detail in `src/_project-state/Part-2-Hotfix-Project-Scott-Sarah-Completion.md`.
+
+---
+
+## 2026-07-28 — Polish-02 (a): Homepage divisions heading → "Complete Property Solutions. One Accountable Company." — never imply one crew performs all divisions' work
+
+**Context.** Marcin's external copy review (round 1, ratified in Chat 2026-07-28) flagged the homepage divisions section: the live H2 "Five divisions. One accountable crew." and its supporting line ("…Same crew accountability across all five.") claim that a single crew performs the work of all five divisions. That is not how the company operates — divisions run specialized crews — and it is exactly the kind of inaccuracy an industry reader catches instantly.
+
+**Decision.** The H2 becomes **"Complete Property Solutions. One Accountable Company."** and the supporting line becomes "From outdoor-living construction to year-round property management, Sunset brings the specialized crews, equipment, experience, and oversight needed to improve, protect, and maintain your property." Accountability attaches to the **company**, capability to **specialized crews** — never one crew across divisions. This is a standing copy rule for future surfaces, not just this section. _Alternative rejected: keep "one accountable crew" for its punch and brevity. Rejected — it is factually wrong, and the truth rule outranks rhythm._ Downside accepted: the new heading is materially longer; verified against 320–1440px layouts this phase.
+
+**Logged by:** Code, 2026-07-28, on branch `polish/02-marcin-copy-round-1` (off `origin/main` @ `e5a0e50`); PR to open — operator verifies on Vercel Preview, then merges.
+
+---
+
+## 2026-07-28 — Polish-02 (b): "Unilock-trained" retired sitewide → "Unilock Authorized Contractor"
+
+**Context.** Marcin's review (ratified in Chat 2026-07-28): "Unilock-trained" undersells the credential the company actually holds — **Unilock Authorized Contractor** (held since 2021, already the phrasing on the hardscape division page, JSON-LD `hasCredential`, and the Unilock band). Underselling a real credential is an accuracy defect the same way inflating one is.
+
+**Decision.** Every "Unilock-trained" (and equivalent understatements or mislabels found by the sweep — including the homepage hero chip "UNILOCK-Certified", which names a credential that doesn't exist) is replaced with Authorized Contractor phrasing: **"Unilock Authorized Contractor"** as a chip/label, **"Installed by a Unilock Authorized Contractor"** where a sentence is needed. This is consistency with the established, Erick-confirmed credential — **not a new claim**. _Alternative rejected: keep "trained" as the humbler word. Rejected — the site should state the credential it holds, in the credential's own name, one way, everywhere._ Downside accepted: slightly longer strings in tight chip layouts.
+
+**Logged by:** Code, 2026-07-28, on branch `polish/02-marcin-copy-round-1`; PR to open — operator verifies on Preview, then merges.
+
+---
+
+## 2026-07-28 — Polish-02 (c): ALL gas-licensing phrasing removed — no gas claim ships until the operator confirms who performs hookups
+
+**Context.** Marcin's review (ratified in Chat 2026-07-28): the Fire Pits & Features page claimed "licensed gas-line coordination", "Licensed plumber for gas lines and shut-offs", "IL-licensed plumber on every gas-fed feature", and "Gas lines need permits — we file them". Who actually performs and permits gas hookups on Sunset jobs is **unconfirmed** — these are claims the company may not be able to stand behind.
+
+**Decision.** Every claim that gas licensing/coordination/permitting attaches to Sunset is removed, and **no substitute gas claim ships** — the copy goes quiet on gas arrangements entirely (fuel-mode menus like "wood vs gas" on the fire-pits surfaces are neutralized too, so the page doesn't implicitly promise gas installs). Factual, non-claim-bearing records stay: the portfolio project's "gas-line fire ring" materials line and the operator-ratified photo alt "Gas fire pit burning at dusk…" describe real completed work, not a licensing claim. Refill happens only after Erick/the operator confirms who performs hookups. _Alternative rejected: soften to "coordination with licensed plumbers". Rejected — still a claim about how gas work is arranged, which is the exact unverified fact._ Downside accepted: the fire-pits page temporarily says less than the service may genuinely offer.
+
+**Logged by:** Code, 2026-07-28, on branch `polish/02-marcin-copy-round-1`; PR to open — operator verifies on Preview, then merges.
+
+---
+
+## 2026-07-28 — Polish-02 (d): "Schedule a Consultation" becomes the hero CTA on the two reviewed premium hardscape pages only
+
+**Context.** Marcin's review (ratified in Chat 2026-07-28): premium design-build work (patios & walkways, fire features) sells through a consultation, not a price-quote wizard. The hero CTA on those two pages should match the actual sales motion.
+
+**Decision.** On **`/hardscape/patios-walkways/` and `/hardscape/fire-pits-features/` only**: primary hero CTA → **"Schedule a Consultation"** linking `/contact/`; secondary hero CTA → **"View Patio Projects"** / **"View Fire Feature Projects"** linking the projects gallery filtered to hardscape (`/projects/?division=hardscape`, the D8 filter param). The hero `tel:` button is displaced by the secondary CTA on these two pages (the phone stays in the navbar, footer, dock, and bottom CTA band). The **sitewide orange dock "Get a Free Estimate" stays everywhere**, including these pages. Implemented as optional per-service copy data (`hero.primaryCta`/`secondaryCta`), so no other service page changes. _Alternative rejected: swap the CTA across all hardscape pages. Rejected — Marcin has only reviewed these two; more rounds are coming._ Downside accepted: two pages diverge from the standard service-hero CTA pattern.
+
+**Logged by:** Code, 2026-07-28, on branch `polish/02-marcin-copy-round-1`; PR to open — operator verifies on Preview, then merges.
+
+---
+
+## 2026-07-28 — Polish-02 (e): real fire-pit project photo replaces the stock hero now, at reduced resolution; full-res upgrade to follow
+
+**Context.** The operator supplied a REAL Sunset project photo ("Firepit with wall pillars & lighting .JPG", Google Drive, 1142×846, ~252 KB) for the Fire Pits & Features page — but only at reduced resolution; the full-resolution original has been requested. The live hero/tile are B-16 stock (Pexels, Matheus Bertelli).
+
+**Decision.** Ship the real photo now: hero derivative capped at **~1600×900 (≤1.5× upscale**, high-quality resampling — a deliberate deviation from the 2400px hero standard**)**, tile at the standard 1200×900; asset flagged "replace with full-res original when supplied". The stock predecessor is retired B-16-style: derivatives overwritten in place, the source stays archived in `docs/stock-bridge/` with a superseded annotation in the manifest. _Alternative rejected: wait for the full-res original to keep the 2400px standard. Rejected — a real Sunset project photo beats stock on the page today, and the upgrade is a drop-in re-run of the optimizer._ Downside accepted: hero resolution below standard until the original arrives.
+
+**Logged by:** Code, 2026-07-28, on branch `polish/02-marcin-copy-round-1`; PR to open — operator verifies on Preview, then merges.
+
+---
+
+## 2026-07-28 — Polish-02 (f): trenchless photo/copy contradiction resolved via honest copy now; real boring photos requested
+
+**Context.** Marcin's review (ratified in Chat 2026-07-28): the homepage trenchless division card says lines are "installed with trenchless methods that spare your yard" directly over the division's real photo — an **open trench**. The division genuinely offers open `trenching-excavation` as a service, so the copy is both contradictory and incomplete.
+
+**Decision.** The card copy honestly covers both modes — pattern: **"trenchless where possible, open trenching where the job calls for it."** Applied only where the photo/claim contradiction exists (the homepage card; the `/trenchless/` landing hero already names "directional boring and open-cut trenching" since B.12 and is untouched, as are the six service pages). The photo stays — it is real Sunset work; real *boring* photos have been requested from the operator for a future swap. _Alternative rejected: swap the photo instead of the copy. Rejected — no real boring photo exists yet, and B-16 already rejected the stock candidates for geolocating text._ Downside accepted: the card copy trades a punchy promise for accuracy.
+
+**Logged by:** Code, 2026-07-28, on branch `polish/02-marcin-copy-round-1`; PR to open — operator verifies on Preview, then merges.
+
+---
+
+## 2026-07-28 — Polish-02 (g): the warranty phrase is "5-year workmanship warranty" — one claim, one phrase, everywhere
+
+**Context.** Marcin's review (ratified in Chat 2026-07-28): the same 5-year warranty appeared as "5-year installation warranty", "5-yr installation warranty", and "5-year workmanship warranty" (the hardscape FAQ's phrasing). One claim wearing three phrasings reads as three different warranties — and "workmanship" is what the coverage actually is.
+
+**Decision.** Standardize on **"5-year workmanship warranty"** everywhere the 5-year warranty is mentioned, both locales ("garantía de mano de obra de 5 años"). Same claim, one phrase — not a coverage change. _Alternative rejected: standardize on "installation warranty" as the more consumer-plain word. Rejected — "workmanship" states the actual scope of coverage; the FAQ already used it correctly._ Downside accepted: none material.
+
+**Logged by:** Code, 2026-07-28, on branch `polish/02-marcin-copy-round-1`; PR to open — operator verifies on Preview, then merges.
+
+---
+
+## 2026-07-28 — Polish-02 (h): Before & After subline replaced — "two states" + "across DuPage County" wording retired
+
+**Context.** Marcin's review (ratified in Chat 2026-07-28): the Before & After subline "One project, two states — real Sunset Services work across DuPage County." confuses homeowners — "two states" reads as two *US states*, and "across DuPage County" understates a service area that spans DuPage, Kane, Kendall, Will, and Cook counties.
+
+**Decision.** The subline becomes **"One property. A complete transformation — designed and built by Sunset Services."** The "two states" device is retired permanently, and "across DuPage County"-restrictive phrasing is retired from `src/messages/` wherever it appears (home + division meta descriptions, subheads, projects-index copy), replaced with Aurora / Naperville / Chicago's-western-suburbs phrasing per surface. Kicker "BEFORE & AFTER" and headline "The transformation is the pitch." stay. _Alternative rejected: keep the "two states" wordplay and add a clarifier. Rejected — copy that needs a footnote to not be misread has failed; homeowner-first means zero ambiguity._ Downside accepted: locality strings now name cities rather than the county; meta descriptions change accordingly (same-intent SEO, verified by `validate:seo`).
+
+**Logged by:** Code, 2026-07-28, on branch `polish/02-marcin-copy-round-1`; PR to open — operator verifies on Preview, then merges.

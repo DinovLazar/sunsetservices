@@ -109,7 +109,11 @@ const REPORT_PATH = resolve('scripts/.links-validation-report.json');
 // Production origin the sitemap emits + canonicals point at. Used to (a) map
 // sitemap <loc> back to BASE_URL paths and (b) recognise hardcoded absolute
 // internal links that should be relative.
-const SITE_ORIGIN = 'https://sunsetservices.us';
+// Phase B.18 moved the canonical host to www (BUSINESS_URL); this stale apex
+// mirror made the crawler treat sitemap <loc>s as foreign and navigate to the
+// not-yet-live production domain (6 timeout "hard failures" per run). Kept in
+// lockstep with BUSINESS_URL, like validate-seo.mjs. (Polish-02)
+const SITE_ORIGIN = 'https://www.sunsetservices.us';
 
 // NAP canonicals (D8).
 const NAP_PHONE_DIGITS = '6309469321';

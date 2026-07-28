@@ -143,7 +143,7 @@
     "process": {
       "eyebrow": "Cómo trabajamos",
       "h2": "Diseñar, construir, mantener — un solo equipo.",
-      "sub": "Sin traspasos a subcontratistas. El equipo que diseña tu proyecto lo construye — y lo mantiene impecable.",
+      "sub": "El equipo que diseña tu proyecto lo construye — y lo mantiene impecable, temporada tras temporada.",
       "steps": [
         {
           "title": "Diseñar",
@@ -225,7 +225,7 @@
       "hero": {
         "kicker": "DIVISIÓN PAISAJISMO",
         "h1": "Jardines que se ven cuidados en cada estación.",
-        "subhead": "Cuidado de césped, diseño, riego, árboles y limpiezas de temporada — ocho servicios, un solo equipo. Propiedades residenciales y comerciales en Aurora, Naperville y los suburbios del oeste de Chicago.",
+        "subhead": "Cuidado de césped, diseño, riego, árboles y limpiezas de temporada para propiedades residenciales y comerciales en Aurora, Naperville y los suburbios del oeste de Chicago. Ocho servicios. Una sola empresa responsable.",
         "alt": "Un jardín delantero frondoso con bordes definidos, plantaciones maduras y un sendero de adoquines al atardecer.",
         "primary": "Obtén un Estimado Gratis",
         "secondary": "Ver Proyectos de Paisajismo"
@@ -242,7 +242,7 @@
         }
       },
       "servicesGrid": {
-        "eyebrow": "OCHO SERVICIOS · UN EQUIPO",
+        "eyebrow": "OCHO SERVICIOS · UNA SOLA EMPRESA",
         "h2": "Servicios en la división de paisajismo.",
         "sub": "Elige un servicio para ver qué incluye, nuestro proceso y proyectos recientes."
       },
@@ -431,7 +431,7 @@
           "one": {"headline": "Diagnóstico primero", "description": "Encontramos la fuente real del agua antes de recomendar una solución.", "icon": "SearchCheck"},
           "two": {"headline": "Garantías 5–25 años", "description": "Por servicio. Te decimos el rango antes de cotizar.", "icon": "ShieldCheck"},
           "three": {"headline": "Experiencia en casas antiguas", "description": "Cimientos de ladrillo, casas centenarias, ampliaciones sobre ampliaciones.", "icon": "Home"},
-          "four": {"headline": "Mismo equipo, misma responsabilidad", "description": "Sin entregas a subcontratistas en el trabajo que más importa.", "icon": "Users"}
+          "four": {"headline": "Mismo equipo, misma responsabilidad", "description": "El equipo que empieza tu reparación la termina — un solo equipo responsable de la primera visita a la revisión final.", "icon": "Users"}
         }
       },
       "socialProof": {
@@ -1131,7 +1131,7 @@
     "breadcrumbSelf": "Áreas de servicio",
     "eyebrow": "ÁREAS DE SERVICIO",
     "h1": "Donde trabajamos — Condado de DuPage, Illinois.",
-    "sub": "Empresa familiar desde el año 2000. Seis ciudades, un equipo, un teléfono.",
+    "sub": "Empresa familiar desde el año 2000. Seis ciudades, una sola compañía, un teléfono.",
     "heroCta": "Solicita un estimado gratis",
     "heroPhonePrefix": "o llama al",
     "heroPhoneNumber": "(630) 946-9321",

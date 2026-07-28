@@ -664,3 +664,47 @@ Marcin's round-1 copy corrections (ratified in Chat 2026-07-28) rewrote the home
 - **`hielo y deshielo`** (freeze-thaw) — standard rendering; *congelación y deshielo* is the more technical alternative.
 - **`Sirviendo a Aurora…`** (trust pill) — gerund opener mirrors the EN pill; *"Servimos a Aurora…"* is the full-sentence alternative.
 - **`Chimeneas y Elementos de Fuego Exteriores`** (eyebrow) — follows the locked service name (*Chimeneas y Elementos de Fuego*); note the B.16 alt-text register uses *fogata* for the object itself (kept: *fogata* = the pit, *Chimeneas y Elementos de Fuego* = the service).
+
+## Phase Polish-02b — Copy leftovers under the ratified Polish-02 rules (added 2026-07-28)
+
+All ES strings below are Code drafts in the locked **tú** marketing register, pending native review. Vocabulary anchors reused from Polish-02: *una sola empresa (responsable)* for "one (accountable) company", *un solo punto de contacto* for "one point of contact".
+
+### `src/messages/es.json`
+
+| Key | EN (new) | ES draft |
+|---|---|---|
+| `division.landscape.hero.subhead` | Lawn care, design, sprinklers, trees, and seasonal cleanups for residential and commercial properties throughout Aurora, Naperville, and Chicago's western suburbs. Eight services. One accountable company. | Cuidado de césped, diseño, riego, árboles y limpiezas de temporada para propiedades residenciales y comerciales en Aurora, Naperville y los suburbios del oeste de Chicago. Ocho servicios. Una sola empresa responsable. |
+| `division.landscape.servicesGrid.eyebrow` | EIGHT SERVICES · ONE COMPANY | OCHO SERVICIOS · UNA SOLA EMPRESA |
+| `serviceAreas.sub` | Family-run since 2000. Six cities, one company, one phone number. | Empresa familiar desde el año 2000. Seis ciudades, una sola compañía, un teléfono. |
+| `home.process.sub` | The crew that designs your project builds it — and keeps it looking right, season after season. | El equipo que diseña tu proyecto lo construye — y lo mantiene impecable, temporada tras temporada. |
+| `division.waterproofing.whySunset.props.four.description` | The crew that starts your repair finishes it — one accountable team from first visit to final walkthrough. | El equipo que empieza tu reparación la termina — un solo equipo responsable de la primera visita a la revisión final. |
+
+### `src/data/locations.ts` (city write-ups)
+
+| Surface | EN (new) | ES draft |
+|---|---|---|
+| 10 city closers (Lisle, Oak Brook, Clarendon Hills, Winfield, Lombard, Geneva, South Elgin, North Aurora, Yorkville, Plainfield) | One company, one phone, … | Una sola empresa, un teléfono, … |
+| Bolingbrook | we're a family-run company based in Aurora … | somos una empresa familiar con sede en Aurora … |
+| Naperville (§5.2 rewrite) | One point of contact from the first site walk to the final walkthrough. | Un solo punto de contacto desde el primer recorrido hasta la revisión final. |
+| Elmhurst (§5.2 rewrite) | you get Erick — direct answers and one point of contact from the first call to the final walkthrough. | te atiende Erick — respuestas directas y un solo punto de contacto desde la primera llamada hasta la revisión final. |
+| Glen Ellyn (§5.2 rewrite) | you get Erick — direct answers and one point of contact from the first conversation on. | te atiende Erick — respuestas directas y un solo punto de contacto desde la primera conversación. |
+
+### `src/data/services.ts` + `src/data/blog.ts` + `src/lib/chat/systemPrompt.ts`
+
+| Surface | EN (new) | ES draft |
+|---|---|---|
+| 5 trenchless whyUs headlines (conduit, sewer-line, missile-boring, handhole, pipe-fusing) | One point of contact | Un solo punto de contacto |
+| Sewer-line description | … — across Aurora, Naperville, and Chicago's western suburbs, no guesswork, no upsell. | … — en Aurora, Naperville y los suburbios del oeste de Chicago, sin adivinar, sin presionar. |
+| Sewer-line whyUs "Licensed, insured, family-run" description | … family-run in Aurora since 2000. | … un negocio familiar en Aurora desde 2000. |
+| Blog `why-unilock-premium-pavers` body | … hands-on paver experience across Chicago's western suburbs. | … experiencia práctica con adoquines en los suburbios del oeste de Chicago. |
+| Chat ES persona (`systemPrompt.ts` — **highest-stakes hand-authored ES surface**, see the M.03 note in that file) | (EN persona) … in Aurora, IL serving Chicago's western suburbs. | … con sede en Aurora, IL y cobertura en los suburbios del oeste de Chicago. |
+
+EN-only change with no ES pair needed: the blog `dupage-patio-cost-2026` site-walk CTA ("across DuPage County" → "across Aurora, Naperville, and Chicago's western suburbs") — its ES body was already unrestricted ("Hacemos recorridos de sitio gratis de 30 minutos."), so EN moved *toward* ES.
+
+### Open questions for native review (Polish-02b)
+
+- **`una sola compañía`** (`serviceAreas.sub`) — chosen to avoid "Empresa familiar … una sola empresa" repetition; a reviewer may prefer *una sola empresa* for vocabulary consistency anyway.
+- **`Una sola empresa, un teléfono, una familia que rinde cuentas.`** — the closers keep the original tricolon; a reviewer may prefer *un solo teléfono* for parallel emphasis.
+- **`temporada tras temporada`** — renders "season after season"; alternative *todo el año* reads more idiomatic but drops the seasonal-continuity echo of the maintain step.
+- **`respuestas directas`** — renders "direct answers"; alternative *trato directo* is warmer but shifts the meaning from answers to treatment.
+- **Chat ES persona** — one clause changed inside the hand-authored block flagged "DO NOT machine-translate"; this is a minimal accuracy edit (service-area), but the persona remains top priority for native review.

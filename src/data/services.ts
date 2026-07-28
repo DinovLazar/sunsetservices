@@ -4325,7 +4325,7 @@ export const SERVICES: Service[] = [
         icon: 'SearchCheck',
       },
       {
-        headline: {en: 'One crew, one contact', es: 'Una cuadrilla, un contacto'},
+        headline: {en: 'One point of contact', es: 'Un solo punto de contacto'},
         description: {
           en: 'Same crew start to finish, with one person you call who actually answers.',
           es: 'La misma cuadrilla de principio a fin, con una persona a la que llamas y de verdad contesta.',
@@ -4508,8 +4508,8 @@ export const SERVICES: Service[] = [
         es: 'Reemplazo de Línea de Drenaje en DuPage County.',
       },
       subhead: {
-        en: 'Root-intruded, bellied, or collapsed sewer laterals replaced house-to-main. We camera the line and locate the problem before we quote — across DuPage County, no guesswork, no upsell.',
-        es: 'Líneas de drenaje invadidas por raíces, hundidas o colapsadas, reemplazadas de la casa al colector. Inspeccionamos con cámara y localizamos el problema antes de cotizar — en todo DuPage County, sin adivinar, sin presionar.',
+        en: 'Root-intruded, bellied, or collapsed sewer laterals replaced house-to-main. We camera the line and locate the problem before we quote — across Aurora, Naperville, and Chicago\'s western suburbs, no guesswork, no upsell.',
+        es: 'Líneas de drenaje invadidas por raíces, hundidas o colapsadas, reemplazadas de la casa al colector. Inspeccionamos con cámara y localizamos el problema antes de cotizar — en Aurora, Naperville y los suburbios del oeste de Chicago, sin adivinar, sin presionar.',
       },
       photoSlot: 'service.sewer-line-replacement.16x9',
     },
@@ -4595,7 +4595,7 @@ export const SERVICES: Service[] = [
         icon: 'SearchCheck',
       },
       {
-        headline: {en: 'One crew, one contact', es: 'Un equipo, un contacto'},
+        headline: {en: 'One point of contact', es: 'Un solo punto de contacto'},
         description: {
           en: 'The same crew runs the job start to finish, with one accountable person on your call.',
           es: 'El mismo equipo hace el trabajo de principio a fin, con una persona responsable atendiéndote.',
@@ -4605,8 +4605,8 @@ export const SERVICES: Service[] = [
       {
         headline: {en: 'Licensed, insured, family-run', es: 'Licenciados, asegurados y familiares'},
         description: {
-          en: 'Licensed and insured, bilingual EN·ES, and family-run in DuPage County since 2000.',
-          es: 'Licenciados y asegurados, bilingües EN·ES, y un negocio familiar en DuPage County desde 2000.',
+          en: 'Licensed and insured, bilingual EN·ES, and family-run in Aurora since 2000.',
+          es: 'Licenciados y asegurados, bilingües EN·ES, y un negocio familiar en Aurora desde 2000.',
         },
         icon: 'BadgeCheck',
       },
@@ -4738,7 +4738,7 @@ export const SERVICES: Service[] = [
         icon: 'SearchCheck',
       },
       {
-        headline: {en: 'One crew, one contact', es: 'Un equipo, un contacto'},
+        headline: {en: 'One point of contact', es: 'Un solo punto de contacto'},
         description: {
           en: 'Same crew start to finish, family-run since 2000, licensed and insured, EN·ES.',
           es: 'El mismo equipo de principio a fin, familiar desde 2000, con licencia y seguro, EN·ES.',
@@ -4866,7 +4866,7 @@ export const SERVICES: Service[] = [
         icon: 'SearchCheck',
       },
       {
-        headline: {en: 'One crew, one contact', es: 'Una cuadrilla, un contacto'},
+        headline: {en: 'One point of contact', es: 'Un solo punto de contacto'},
         description: {
           en: 'Same crew start to finish, with one person you call who actually answers.',
           es: 'La misma cuadrilla de principio a fin, con una persona a la que llamas y de verdad contesta.',
@@ -5001,7 +5001,7 @@ export const SERVICES: Service[] = [
         icon: 'SearchCheck',
       },
       {
-        headline: {en: 'One crew, one contact', es: 'Una cuadrilla, un contacto'},
+        headline: {en: 'One point of contact', es: 'Un solo punto de contacto'},
         description: {
           en: 'Same crew start to finish, with one person you call who actually answers.',
           es: 'La misma cuadrilla de principio a fin, con una persona a la que llamas y de verdad contesta.',

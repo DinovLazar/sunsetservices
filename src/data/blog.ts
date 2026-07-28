@@ -183,7 +183,7 @@ Multiply by your square footage. That's the number to compare bids against. Anyo
 
 ## Get a real bid
 
-We do free 30-minute site walks across DuPage County. We measure the lot, sketch the patio shape, list the spec line-by-line, and email a one-page bid within 48 hours. [Request a free estimate](/request-quote/?from=blog&slug=dupage-patio-cost-2026) and we'll come look at the property.`,
+We do free 30-minute site walks across Aurora, Naperville, and Chicago's western suburbs. We measure the lot, sketch the patio shape, list the spec line-by-line, and email a one-page bid within 48 hours. [Request a free estimate](/request-quote/?from=blog&slug=dupage-patio-cost-2026) and we'll come look at the property.`,
       es: `Si estás en la etapa de recolección de cotizaciones de un patio de DuPage en 2026, tres números llegarán a tu correo: uno bajo casi sospechosamente barato, uno medio que cuadra con lo que te dijo tu vecino, y uno alto que te sorprende. Usualmente son las tres cotizaciones reales — solo que para tres patios distintos que te están pidiendo imaginar como el mismo.
 
 Esto es lo que hemos cotizado en las seis ciudades de DuPage donde trabajamos esta primavera, y qué compra realmente cada precio.
@@ -488,7 +488,7 @@ Si quieres que corramos el calendario para tu propiedad, [reserva un recorrido g
     },
     inlineServiceCrossLink: {audience: 'hardscape', serviceSlug: 'patios-walkways'},
     body: {
-      en: `Most homeowners decide between paver brands by walking into the showroom and picking the color they like. Most installers decide between brands by which one comes back with a warranty problem. We've been a Unilock Authorized Contractor since 2021, and our crew brings years of hands-on paver experience across DuPage. Here's what that experience has surfaced.
+      en: `Most homeowners decide between paver brands by walking into the showroom and picking the color they like. Most installers decide between brands by which one comes back with a warranty problem. We've been a Unilock Authorized Contractor since 2021, and our crew brings years of hands-on paver experience across Chicago's western suburbs. Here's what that experience has surfaced.
 
 ## The four things that separate paver brands
 
@@ -552,7 +552,7 @@ Two cases. First, a temporary install — a homeowner planning to sell in 5 year
 Every Sunset Services hardscape bid lists the brand, the SKU, and the freeze-thaw rating in the spec line. If you're looking at three bids and two of them say "premium pavers" without naming the brand, you're being asked to imagine the same product across three quotes. They are not the same product.
 
 [Request a free site walk](/request-quote/?from=blog&slug=why-unilock-premium-pavers) and we'll bring sample pieces of three Unilock product lines for you to see in your own light.`,
-      es: `La mayoría de propietarios decide entre marcas de adoquines caminando al showroom y eligiendo el color que les gusta. La mayoría de instaladores decide entre marcas por cuál regresa con un problema de garantía. Somos Contratista Autorizado Unilock desde 2021, y nuestro equipo trae años de experiencia práctica con adoquines en DuPage. Esto es lo que esa experiencia ha revelado.
+      es: `La mayoría de propietarios decide entre marcas de adoquines caminando al showroom y eligiendo el color que les gusta. La mayoría de instaladores decide entre marcas por cuál regresa con un problema de garantía. Somos Contratista Autorizado Unilock desde 2021, y nuestro equipo trae años de experiencia práctica con adoquines en los suburbios del oeste de Chicago. Esto es lo que esa experiencia ha revelado.
 
 ## Las cuatro cosas que separan a las marcas
 

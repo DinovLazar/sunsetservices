@@ -143,7 +143,7 @@
     "process": {
       "eyebrow": "How we work",
       "h2": "Design, build, maintain — one team.",
-      "sub": "No subcontractor handoffs. The crew that designs your project builds it — and keeps it looking right.",
+      "sub": "The crew that designs your project builds it — and keeps it looking right, season after season.",
       "steps": [
         {
           "title": "Design",
@@ -225,7 +225,7 @@
       "hero": {
         "kicker": "LANDSCAPE DIVISION",
         "h1": "Yards that look intentional in every season.",
-        "subhead": "Lawn care, design, sprinklers, trees, and seasonal cleanups — eight services, one crew. Residential and commercial properties throughout Aurora, Naperville, and Chicago's western suburbs.",
+        "subhead": "Lawn care, design, sprinklers, trees, and seasonal cleanups for residential and commercial properties throughout Aurora, Naperville, and Chicago's western suburbs. Eight services. One accountable company.",
         "alt": "A lush front yard with crisp edging, mature plantings, and a paver walkway at golden hour.",
         "primary": "Get a Free Estimate",
         "secondary": "View Landscape Projects"
@@ -242,7 +242,7 @@
         }
       },
       "servicesGrid": {
-        "eyebrow": "EIGHT SERVICES · ONE CREW",
+        "eyebrow": "EIGHT SERVICES · ONE COMPANY",
         "h2": "Services in the landscape division.",
         "sub": "Pick a service to see what's included, our process, and recent projects."
       },
@@ -431,7 +431,7 @@
           "one": {"headline": "Diagnose first", "description": "We find the actual source of water before we recommend a fix.", "icon": "SearchCheck"},
           "two": {"headline": "5–25-year warranties", "description": "Per service. We tell you the range before we quote.", "icon": "ShieldCheck"},
           "three": {"headline": "Old-house experienced", "description": "Brick foundations, century homes, additions on additions.", "icon": "Home"},
-          "four": {"headline": "Same crew, same accountability", "description": "No subcontractor handoffs on the work that matters most.", "icon": "Users"}
+          "four": {"headline": "Same crew, same accountability", "description": "The crew that starts your repair finishes it — one accountable team from first visit to final walkthrough.", "icon": "Users"}
         }
       },
       "socialProof": {
@@ -1131,7 +1131,7 @@
     "breadcrumbSelf": "Service Areas",
     "eyebrow": "SERVICE AREAS",
     "h1": "Where we work — DuPage County, Illinois.",
-    "sub": "Family-run since 2000. Six cities, one crew, one phone number.",
+    "sub": "Family-run since 2000. Six cities, one company, one phone number.",
     "heroCta": "Request a free estimate",
     "heroPhonePrefix": "or call",
     "heroPhoneNumber": "(630) 946-9321",

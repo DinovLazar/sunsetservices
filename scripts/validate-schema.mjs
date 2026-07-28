@@ -66,8 +66,11 @@ const SITEWIDE_IDS = [
 
 // Representative pages. `mustHaveTypes` are types we expect to find at least
 // once in the page's combined JSON-LD; missing one is an error. `mustNotHaveTypes`
-// asserts deliberate-omission decisions (D14 + D15). `expectedCount` (optional)
-// pins the number of <script type="application/ld+json"> blocks for the page.
+// asserts deliberate-omission decisions (D14 + D15) against PAGE-LEVEL nodes
+// only — entities nested inside the sitewide graph (e.g. the B.17 offer
+// catalog's `Service` nodes) don't count as the route emitting the type.
+// `expectedCount` (optional) pins the number of
+// <script type="application/ld+json"> blocks for the page.
 const URLS = [
   // ----- EN: full sweep -----
   {
@@ -578,9 +581,15 @@ async function validateUrl(entry) {
     }
   }
 
-  // mustNotHaveTypes
+  // mustNotHaveTypes — only PAGE-LEVEL nodes count: top-level blocks and
+  // direct `@graph` members. The D14/D15 assertion is about what the ROUTE
+  // emits; the sitewide graph is allowed on every page, and since B.17 it
+  // legitimately embeds `Service` nodes inside `hasOfferCatalog`. Matching
+  // the full recursive index would false-positive on those nested entities.
+  const TOP_LEVEL_NODE = /^block\[\d+\](\.@graph\[\d+\])?$/;
   for (const t of entry.mustNotHaveTypes || []) {
-    if (nodesByType[t]) {
+    const pageLevel = (nodesByType[t] || []).filter(({path}) => TOP_LEVEL_NODE.test(path));
+    if (pageLevel.length > 0) {
       result.errors.push(
         `forbidden @type "${t}" present on page (D14/D15 says this route should not emit it)`,
       );

@@ -1125,6 +1125,7 @@ Canonical detail in `src/_project-state/Phase-Polish-01-Completion.md`. Wiring-o
 - `scripts/validate-seo.mjs` — **Modified (Polish-02)** harness repairs: `SITE_ORIGIN` → `https://www.sunsetservices.us` (B.18 canonical-host change had left the harness red on every route) and `PROJECT_SLUGS` `scott-and-sarahs` → `granite-fusion-walkway-seating-wall` (the Part-2 Hotfix flagged follow-up).
 - `src/_project-state/completions/Part-3-Phase-Polish-02-Completion.md` — **NEW (Polish-02)** this phase's completion report.
 
+<<<<<<< HEAD
 ## Phase Polish-02b — Copy leftovers under the ratified rules (added 2026-07-28)
 
 - `src/messages/{en,es}.json` — **Modified (Polish-02b)** landscape hero subhead (ratified "Eight services. One accountable company.") + services-grid eyebrow; `serviceAreas.sub` crew→company; home `process.sub` + waterproofing whySunset card four rewritten positive per §5.2. Leaf parity 1337 = 1337.
@@ -1133,3 +1134,14 @@ Canonical detail in `src/_project-state/Phase-Polish-01-Completion.md`. Wiring-o
 - `src/data/blog.ts` — **Modified (Polish-02b)** `dupage-patio-cost-2026` site-walk CTA + `why-unilock-premium-pavers` paver-experience line de-restricted (EN + ES where a pair existed). **Source of truth only** — live blog detail bodies come from Sanity (`getBlogPostBySlug`, ISR); the two `blogPost` docs need a content touch-up for the fix to show live (flagged).
 - `src/lib/chat/systemPrompt.ts` — **Modified (Polish-02b)** EN + ES personas no longer DuPage-restrictive ("serving Chicago's western suburbs" / "cobertura en los suburbios del oeste de Chicago"); ES edit inside the hand-authored block, top native-review priority.
 - `src/_project-state/completions/Part-3-Phase-Polish-02b-Completion.md` — **NEW (Polish-02b)** this phase's completion report (subcontractor before→after table, DuPage replaced/kept tables, PR #32 + #35 links, validate:schema 818→0 evidence).
+=======
+---
+
+## Hotfix — schema offer catalog `Offer.url` + harness page-level narrowing (added 2026-07-28, branch `fix/schema-offer-url`, PR open, NOT merged)
+
+**Modified:**
+- `src/lib/schema/organization.ts` — **Modified (Hotfix 2026-07-28).** `buildOfferCatalog()` now emits `url` on every catalog `Offer`, same value as its `itemOffered` Service page URL (deliberately the service page, not the quote wizard — the catalog exists to give answer engines a page to cite). Closes the B.17 defect that left `validate:schema` red with 816 missing-`url` errors (34 Offers × 24 URLs).
+- `scripts/validate-schema.mjs` — **Modified (Hotfix 2026-07-28).** The D14/D15 `mustNotHaveTypes` assertion narrowed to **page-level** nodes only (paths `block[N]` / `block[N].@graph[M]`) so `Service` entities B.17 legitimately nests inside the allowed sitewide graph no longer false-positive on `/request-quote/` + `/thank-you/`. Required-field checks still walk all nested nodes. Negative-control verified (a page-level forbidden type still flags).
+
+**New:** `src/_project-state/Hotfix-Schema-Offer-URL-Completion.md` — completion report (red 818 → green 0/0/24 evidence, decisions, follow-ups).
+>>>>>>> origin/main

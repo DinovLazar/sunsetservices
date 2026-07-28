@@ -1124,3 +1124,13 @@ Canonical detail in `src/_project-state/Phase-Polish-01-Completion.md`. Wiring-o
 - `src/content/legal/terms.tsx` — **Modified (Polish-02)** §2 "Unilock-certified" → "installed by a Unilock Authorized Contractor".
 - `scripts/validate-seo.mjs` — **Modified (Polish-02)** harness repairs: `SITE_ORIGIN` → `https://www.sunsetservices.us` (B.18 canonical-host change had left the harness red on every route) and `PROJECT_SLUGS` `scott-and-sarahs` → `granite-fusion-walkway-seating-wall` (the Part-2 Hotfix flagged follow-up).
 - `src/_project-state/completions/Part-3-Phase-Polish-02-Completion.md` — **NEW (Polish-02)** this phase's completion report.
+
+---
+
+## Hotfix — schema offer catalog `Offer.url` + harness page-level narrowing (added 2026-07-28, branch `fix/schema-offer-url`, PR open, NOT merged)
+
+**Modified:**
+- `src/lib/schema/organization.ts` — **Modified (Hotfix 2026-07-28).** `buildOfferCatalog()` now emits `url` on every catalog `Offer`, same value as its `itemOffered` Service page URL (deliberately the service page, not the quote wizard — the catalog exists to give answer engines a page to cite). Closes the B.17 defect that left `validate:schema` red with 816 missing-`url` errors (34 Offers × 24 URLs).
+- `scripts/validate-schema.mjs` — **Modified (Hotfix 2026-07-28).** The D14/D15 `mustNotHaveTypes` assertion narrowed to **page-level** nodes only (paths `block[N]` / `block[N].@graph[M]`) so `Service` entities B.17 legitimately nests inside the allowed sitewide graph no longer false-positive on `/request-quote/` + `/thank-you/`. Required-field checks still walk all nested nodes. Negative-control verified (a page-level forbidden type still flags).
+
+**New:** `src/_project-state/Hotfix-Schema-Offer-URL-Completion.md` — completion report (red 818 → green 0/0/24 evidence, decisions, follow-ups).

@@ -125,17 +125,24 @@ function buildOfferCatalog() {
       '@type': 'OfferCatalog',
       name: DIVISION_LABELS[division] ?? division,
       url: `${SITE_URL}/${division}`,
-      itemListElement: services.map((s) => ({
-        '@type': 'Offer',
-        itemOffered: {
-          '@type': 'Service',
-          name: s.name.en,
-          url: `${SITE_URL}/${s.division}/${s.slug}`,
-          serviceType: s.name.en,
-          provider: {'@id': LOCAL_BUSINESS_ID},
-          areaServed: {'@type': 'State', name: 'Illinois'},
-        },
-      })),
+      itemListElement: services.map((s) => {
+        // The offer's landing page IS the service page, so the `Offer` node
+        // carries the same URL as its `itemOffered` Service. Consumers (and
+        // scripts/validate-schema.mjs) require `url` on the Offer itself.
+        const serviceUrl = `${SITE_URL}/${s.division}/${s.slug}`;
+        return {
+          '@type': 'Offer',
+          url: serviceUrl,
+          itemOffered: {
+            '@type': 'Service',
+            name: s.name.en,
+            url: serviceUrl,
+            serviceType: s.name.en,
+            provider: {'@id': LOCAL_BUSINESS_ID},
+            areaServed: {'@type': 'State', name: 'Illinois'},
+          },
+        };
+      }),
     };
   }).filter(Boolean);
 

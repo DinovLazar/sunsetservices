@@ -2598,3 +2598,15 @@ Change nothing else — triggers stay Create + Update + Delete, filter and secre
 **Decision.** The new 404's nine cards and four CTAs use unslashed hrefs, matching the live convention rather than the neighbouring files; verified all 24 targets (12 EN + 12 ES) return 200 with no redirect hop. _Alternative rejected: match the sibling 404 files for local consistency — would have shipped nine links that each cost a redirect._ Downside accepted: the repo now has three 404 files under two conventions. Retrofitting the two older files (and `qa/page.tsx`) was outside the operator's request and is left as a follow-up; **unslashed is the correct target** if anyone unifies them.
 
 **Logged by:** Code, 2026-08-18, commit `638f96f`.
+
+---
+
+## 2026-08-18 — CORRECTION, superseding the "unslashed hrefs" entry above: next-intl `Link` normalizes trailing slashes, so the 308 claim was wrong
+
+**Context.** The 2026-08-18 entry "Internal links on the new 404 carry no trailing slash" justified itself on the claim that slashed hrefs like `/projects/` "308-redirect before landing," and that matching the sibling 404 files "would have shipped nine links that each cost a redirect." **That reasoning was wrong.** It came from observing that `curl http://localhost:3111/projects/` returns 308 — true, but that is a *direct HTTP request*, which is not what an in-app `Link` produces. Caught while acting on the operator's follow-up request to fix the two older 404s, when a repo-wide grep showed 36 slashed hrefs — far more than the "three files" the original entry implied — which did not fit the claim that each one cost a redirect.
+
+**What is actually true.** next-intl's `Link` normalizes the trailing slash away before the href reaches the DOM. Verified two ways: `blog/[slug]/not-found.tsx` wrote `href="/blog/"` while the live DOM attribute read `/blog`; and the homepage's three slashed `/projects/` sources all render `href="/projects"`, with zero slashed occurrences in the served HTML. The 308 is real only for direct requests to slashed URLs — sitemaps, canonical/hreflang, JSON-LD `item`, inbound external links — which bypass `Link` entirely and should indeed stay unslashed.
+
+**Decision.** The unslashed convention **stands**, but on honest grounds: source consistency, not redirect avoidance. The two older 404s (`blog/[slug]`, `resources/[slug]`) were brought in line on the operator's request, so all three 404 files now match. The remaining **~34 slashed hrefs across `src/` are harmless and are deliberately left alone** — mass-editing them would be churn with no user-visible effect. _Alternative rejected: sweep all 36 for consistency. Rejected — no functional benefit, and a large diff across unrelated components invites regressions for nothing._
+
+**Logged by:** Code, 2026-08-18. Supersedes the trailing-slash reasoning in the entry above and in `Feat-Sitewide-404-Page-Completion.md` §3 decision 3 (report carries a matching addendum; the original text is left intact for the audit trail).

@@ -71,3 +71,19 @@ No secrets touched. No dependencies added or upgraded.
 ## 8. What's now possible that wasn't before
 
 A visitor who hits a dead link — an old WordPress URL the `next.config.ts` redirect table doesn't cover, a typo, a stale share — stays inside the site with a way back, in their own language, instead of hitting a dead end.
+
+---
+
+## Addendum — 2026-08-18 (same day): §3 decision 3 rested on a wrong premise
+
+Filed text above is left unedited for the audit trail. This addendum corrects it.
+
+**What was wrong.** §3 decision 3 and the §2/§7 notes that lean on it claim slashed hrefs like `/projects/` "308-redirect," and that matching the sibling 404 files "would have shipped nine links that each cost a redirect." That is false. The observation behind it — `curl http://localhost:3111/projects/` returns 308 — is real, but a direct HTTP request is not what an in-app `Link` emits.
+
+**What is actually true.** next-intl's `Link` normalizes the trailing slash away before the href reaches the DOM. Verified two ways: `blog/[slug]/not-found.tsx` wrote `href="/blog/"` while the live DOM attribute read `/blog`; and the homepage's three slashed `/projects/` sources (`HomeHero`, `HomeProjects`, `HomeBeforeAfter`) all render `href="/projects"`, zero slashed in the served HTML. The 308 matters only for direct requests to slashed URLs — sitemaps, canonical/hreflang, JSON-LD `item`, inbound external links — which bypass `Link`.
+
+**How it surfaced.** The operator asked for the two older 404s to be fixed. A repo-wide grep returned 36 slashed hrefs, not the three files the original entry implied — a scale that did not fit "each one costs a redirect" — which prompted the re-test.
+
+**What changed as a result.** The unslashed convention stands, but as source consistency, not redirect avoidance. `blog/[slug]/not-found.tsx` and `resources/[slug]/not-found.tsx` are now unslashed, so all three 404 files match. The remaining ~34 slashed hrefs across `src/` are harmless and deliberately left alone. `current-state.md` and `file-map.md` were corrected in place (they are live mirrors); `00_stack-and-config.md` and `Sunset-Services-Decisions.md` carry appended corrections.
+
+**Lesson for the next agent:** a redirect observed via `curl` on a bare URL says nothing about what the framework's `Link` component emits. Check the rendered DOM attribute before concluding a link costs a hop.

@@ -35,7 +35,7 @@ export default function BlogPostNotFound() {
           The post may have moved. Browse the latest writing from the field.
         </p>
         <div className="mt-8">
-          <Link href="/blog/" prefetch={false} className="btn btn-primary btn-md">
+          <Link href="/blog" prefetch={false} className="btn btn-primary btn-md">
             See all posts
           </Link>
         </div>

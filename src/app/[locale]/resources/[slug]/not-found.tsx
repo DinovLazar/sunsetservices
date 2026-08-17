@@ -37,7 +37,7 @@ export default function ResourceNotFound() {
         </p>
         <div className="mt-8">
           <Link
-            href="/resources/"
+            href="/resources"
             prefetch={false}
             className="btn btn-primary btn-md"
           >

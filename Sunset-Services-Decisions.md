@@ -2568,3 +2568,33 @@ Change nothing else — triggers stay Create + Update + Delete, filter and secre
 **Decision.** The branch was rebased onto `main` @ `a6986e6` (keep-both resolution of the three state-doc tails, no code change) and re-verified on fresh production builds of both sides: before (main) **818 errors** (816 × `Offer` missing `url` + 2 × false-positive forbidden `Service`), after (branch) **0 errors / 0 warnings / 24 URLs**; `build` exit 0 (204/204). PR #32 carries the evidence; nothing else lands on the branch. Merge-order note recorded on both PRs: this PR and `polish/02b-copy-leftovers` both append to the state-doc tails, so whichever merges second needs a trivial keep-both resolution. _Alternative rejected: fold the schema fix into the Polish-02b copy branch to avoid the conflict. Rejected — the brief mandates strictly separate PRs so the operator can verify and merge them independently._ Downside accepted: one trivial doc conflict for whichever PR merges second.
 
 **Logged by:** Code, 2026-07-28, on branches `fix/schema-offer-url` (PR #32) + `polish/02b-copy-leftovers`; operator verifies on Vercel Preview, then merges.
+
+---
+
+## 2026-08-18 — Sitewide 404 lives under `[locale]/`, with a `[...rest]` catch-all; no root layout added
+
+**Context.** The site had no sitewide 404 — only two scoped ones (`blog/[slug]`, `resources/[slug]`). Every other unmatched URL fell through to Next's bare built-in "404 This page could not be found": no chrome, no Spanish, no way back. Next 16's file conventions say only a *root* `app/not-found.tsx` catches URLs that match no route at all — and a root `not-found` requires a root `app/layout.tsx`, which this repo deliberately does not have (the root layout is `src/app/[locale]/layout.tsx` so each locale can set its own `<html lang>`; `AGENTS.md` forbids adding one).
+
+**Decision.** Put the 404 at `src/app/[locale]/not-found.tsx` so it renders inside the real locale layout (Navbar, Footer, chat, consent, working translations), and add `src/app/[locale]/[...rest]/page.tsx` — a page that renders nothing and calls `notFound()` — to funnel otherwise-unmatched deep paths into it. The catch-all cannot shadow real routes: Next prefers the more specific matcher, so `[division]` and `[division]/[service]` still win and already call `notFound()` themselves; in practice the catch-all only receives paths of three or more segments. _Alternative rejected: add a root `src/app/layout.tsx` so a root `not-found.tsx` becomes legal — directly against a standing repo constraint, and would cost the per-locale `<html lang>`._ Downside accepted: see the companion entry below on `global-not-found`.
+
+**Logged by:** Code, 2026-08-18, commit `638f96f` pushed direct to `main` on the operator's explicit instruction. Report: `src/_project-state/completions/Feat-Sitewide-404-Page-Completion.md`.
+
+---
+
+## 2026-08-18 — `experimental.globalNotFound` deliberately NOT enabled; the `__next_error__` shell is accepted for now
+
+**Context.** All 404 surfaces in this app — the two new ones and the two already shipped — serve a bare `<!DOCTYPE html><html id="__next_error__">` shell with no `lang` attribute and no markup; the real tree lives in the RSC flight payload and only materializes after client hydration. Verified against a production build on all four paths, so this is a property of the app, not a regression from the new page. The cause is exactly the case the Next 16 docs name for `global-not-found.js`: "your root layout is defined using top-level dynamic segments."
+
+**Decision.** Ship the `[locale]/not-found.tsx` + catch-all shape and accept the shell for now. Impact is narrow: Next returns a correct 404 status and auto-injects `noindex`, so search is unaffected, and JS-enabled visitors see the full branded page; the exposure is no-JS visitors and the missing `lang` attribute (WCAG 3.1.1). _Alternative rejected — for the operator, not for Code: `global-not-found.tsx` + `experimental.globalNotFound: true` in `next.config.ts`. It would server-render a real document with a correct `lang`, but it bypasses the layout entirely (no Navbar/Footer/chat; `globals.css` and fonts must be imported by hand), it is still flagged experimental, and it would have to coexist with `not-found.tsx` for segment-level `notFound()` calls — a second parallel 404 implementation. Enabling an experimental Next flag is a plan decision, not a code tweak._ Downside accepted: the a11y `lang` gap persists on 404s until the operator rules on it.
+
+**Logged by:** Code, 2026-08-18, commit `638f96f`. Open for the operator to reverse.
+
+---
+
+## 2026-08-18 — Internal links on the new 404 carry no trailing slash; unslashed is the live sitewide convention
+
+**Context.** The existing scoped 404s (`blog/[slug]`, `resources/[slug]`) and `qa/page.tsx` write hrefs as `/projects/`, `/request-quote/`, `/blog/`. Under the repo's default `trailingSlash: false`, every one of those 308-redirects before landing. The rendered homepage — the actual sitewide convention — emits `/projects`, `/landscape`, `/contact`, unslashed.
+
+**Decision.** The new 404's nine cards and four CTAs use unslashed hrefs, matching the live convention rather than the neighbouring files; verified all 24 targets (12 EN + 12 ES) return 200 with no redirect hop. _Alternative rejected: match the sibling 404 files for local consistency — would have shipped nine links that each cost a redirect._ Downside accepted: the repo now has three 404 files under two conventions. Retrofitting the two older files (and `qa/page.tsx`) was outside the operator's request and is left as a follow-up; **unslashed is the correct target** if anyone unifies them.
+
+**Logged by:** Code, 2026-08-18, commit `638f96f`.

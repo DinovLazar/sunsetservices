@@ -2090,5 +2090,17 @@
       "primaryCta": "Solicitar un estimado gratuito",
       "secondaryCta": "Llamar al (630) 946-9321"
     }
+  },
+  "notFound": {
+    "eyebrow": "404",
+    "title": "No encontramos esa página.",
+    "body": "Es posible que el enlace esté desactualizado o que la página haya cambiado de lugar. Aquí es adonde va la mayoría de los visitantes.",
+    "primaryCta": "Volver al inicio",
+    "secondaryCta": "Solicitar cotización",
+    "linksHeading": "Páginas populares",
+    "linksIntro": "Vaya directamente a una de nuestras divisiones o explore el resto del sitio.",
+    "helpHeading": "¿Aún no la encuentra?",
+    "helpBody": "Llame al {phone} o envíenos un mensaje y le indicamos la página correcta.",
+    "helpCta": "Contáctenos"
   }
 }

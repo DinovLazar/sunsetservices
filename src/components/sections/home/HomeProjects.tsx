@@ -11,6 +11,7 @@ import {SERVICES} from '@/data/services';
 import {PROJECT_LEAD} from '@/data/imageMap';
 import {getAllProjects} from '@sanity-lib/queries';
 import {sanityProjectSummaryToTs} from '@/lib/sanity-adapters';
+import {resolveProjectTitle} from '@/lib/projects/resolveProjectTitle';
 
 type Locale = 'en' | 'es';
 
@@ -102,7 +103,7 @@ export default async function HomeProjects() {
                   href={`/projects/${p.slug}/`}
                   photo={photo}
                   alt={p.leadAlt[locale]}
-                  title={stripStreetNumber(p.title[locale])}
+                  title={stripStreetNumber(resolveProjectTitle(p, locale))}
                   meta={cityLabel}
                   audienceLabel={tDivisions(`${division}.tag`)}
                 />

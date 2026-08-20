@@ -1,6 +1,7 @@
 import {getTranslations} from 'next-intl/server';
 import AnimateIn from '@/components/global/motion/AnimateIn';
 import type {Project} from '@/data/projects';
+import {resolveProjectTitle} from '@/lib/projects/resolveProjectTitle';
 
 type Locale = 'en' | 'es';
 
@@ -20,7 +21,7 @@ type ProjectNarrativeProps = {
  */
 export default async function ProjectNarrative({project, locale}: ProjectNarrativeProps) {
   const t = await getTranslations('project.narrative');
-  const heading = project.narrativeHeading?.[locale] ?? project.title[locale];
+  const heading = project.narrativeHeading?.[locale]?.trim() || resolveProjectTitle(project, locale);
 
   // Split narrative on blank lines for natural paragraph breaks.
   const paragraphs = project.narrative[locale]

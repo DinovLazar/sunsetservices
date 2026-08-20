@@ -85,13 +85,39 @@ export default function ConsentBanner() {
 
   // Focus trap — Tab cycles within the banner's tabbable elements only
   // when the modal is NOT open (the modal does its own trapping).
+  //
+  // a11y remediation (SC 1.4.13 / SC 2.1.2): `shouldRender` MUST be part of
+  // this guard and of the dep array. When the visitor accepts or rejects,
+  // `state.status` leaves 'pending' and `shouldRender` goes false — but the
+  // component returns null WITHOUT unmounting, and `visible` (its own state)
+  // is never reset. With deps of only [visible, modalOpen], nothing changed,
+  // so this effect never re-ran, its cleanup never fired, and the
+  // document-level CAPTURE-phase listener below stayed attached for the rest
+  // of the session. Because that listener calls stopPropagation() on Escape,
+  // every Escape keypress sitewide was swallowed after any consent choice —
+  // the two navbar mega-panels could not be dismissed with Escape (SC 1.4.13
+  // Dismissible), and the same swallow reached every other Escape consumer.
+  // Adding shouldRender lets the effect tear the listener down the moment the
+  // banner stops rendering.
   React.useEffect(() => {
-    if (!visible || modalOpen) return;
+    if (!shouldRender || !visible || modalOpen) return;
     function onKeyDown(e: KeyboardEvent) {
       if (e.key === 'Escape') {
-        // Swallow — no implicit consent.
-        e.preventDefault();
-        e.stopPropagation();
+        // Swallow — no implicit consent. Scoped (a11y remediation, SC 1.4.13):
+        // the intent is only that Escape must not dismiss THIS banner, so the
+        // swallow applies only while the keystroke belongs to the banner —
+        // i.e. focus is inside it (the normal case, since the banner focuses
+        // its Accept button on show and traps Tab). Escape raised anywhere
+        // else on the page must still reach its own handler: a pointer user
+        // can hover the navbar mega-panels open while consent is pending, and
+        // those must stay dismissible per SC 1.4.13. The previous unscoped
+        // stopPropagation() cancelled Escape for the whole document.
+        const root = containerRef.current;
+        const target = e.target as Node | null;
+        if (root && target && root.contains(target)) {
+          e.preventDefault();
+          e.stopPropagation();
+        }
         return;
       }
       if (e.key !== 'Tab') return;
@@ -113,7 +139,7 @@ export default function ConsentBanner() {
     }
     document.addEventListener('keydown', onKeyDown, true);
     return () => document.removeEventListener('keydown', onKeyDown, true);
-  }, [visible, modalOpen]);
+  }, [shouldRender, visible, modalOpen]);
 
   if (!shouldRender) return null;
 

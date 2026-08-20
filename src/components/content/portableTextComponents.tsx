@@ -94,12 +94,21 @@ export const portableTextComponents: PortableTextComponents = {
     h2: ({value, children}) => {
       const id = headingIdFromBlock(value);
       return (
+        // a11y remediation (SC 2.5.3 Label in Name / SC 2.4.6 / SC 4.1.2):
+        // the anchor previously carried aria-label="Anchor link". Because the
+        // <a> is the h2's only child, that label won the accessible-name
+        // computation for BOTH the link and — via name-from-content — the
+        // heading. Every H2 in every blog post and resource article announced
+        // as "Anchor link, heading level 2" instead of its own text, and a
+        // page with N sections produced N identically-named links, making
+        // heading/link rotor navigation useless on the site's longest-form
+        // content. The wrapped heading text is already a correct and unique
+        // accessible name, so the override is simply removed. (The legacy
+        // Markdown renderer at src/lib/proseRenderer.ts names these anchors
+        // correctly — this was a regression introduced in the Portable Text
+        // port, not an intentional pattern.)
         <h2 id={id} className="prose__h2">
-          <a
-            className="prose__anchor"
-            href={`#${id}`}
-            aria-label={`Anchor link`}
-          >
+          <a className="prose__anchor" href={`#${id}`}>
             {children}
           </a>
         </h2>

@@ -40,6 +40,7 @@ import {
   sanityProjectDetailToTs,
   sanityProjectSummaryToTs,
 } from '@/lib/sanity-adapters';
+import {resolveProjectTitle} from '@/lib/projects/resolveProjectTitle';
 
 type Locale = 'en' | 'es';
 
@@ -91,7 +92,7 @@ export async function generateMetadata({
   // Phase M.01d: address-bearing title strings (when M.01c uploader lands
   // real project content) get the leading street number stripped from the
   // rendered output — Sanity keeps the full address; visitors don't see it.
-  const displayTitle = stripStreetNumber(project.title[loc]);
+  const displayTitle = stripStreetNumber(resolveProjectTitle(project, loc));
   // Phase M.18 — a hand-written SEO title/description wins when the project has
   // one (PSS-002 §4 ships them per project); otherwise the derived pair stands.
   const seoTitle = sanityProject.seo?.title?.[loc]?.trim();
@@ -182,7 +183,7 @@ export default async function ProjectDetailPage({
   const breadcrumbItems = [
     {name: tBreadcrumb('home'), href: '/'},
     {name: tBreadcrumb('projects'), href: '/projects'},
-    {name: stripStreetNumber(project.title[loc])},
+    {name: stripStreetNumber(resolveProjectTitle(project, loc))},
   ];
   const localizeForSchema = (path: string) =>
     loc === 'en' ? path : `/${loc}${path === '/' ? '' : path}`;

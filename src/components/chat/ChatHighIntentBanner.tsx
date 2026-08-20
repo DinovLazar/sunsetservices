@@ -106,7 +106,12 @@ export default function ChatHighIntentBanner({highIntent, onDismiss}: Props) {
             fontSize: 12,
             padding: '6px 12px',
             background: 'transparent',
-            color: 'var(--color-sunset-amber-700)',
+            // a11y remediation (SC 1.4.3): the LABEL was amber-700, which is
+            // 3.48:1 against this banner's amber-50 fill — below AA for a 12px
+            // label. amber-800 is 5.25:1. The BORDER stays amber-700: it is a
+            // UI boundary, judged against the 3:1 SC 1.4.11 threshold, which
+            // 3.48:1 already clears.
+            color: 'var(--color-sunset-amber-800)',
             border: '1px solid var(--color-sunset-amber-700)',
           }}
         >

@@ -417,7 +417,15 @@ const inputStyle: React.CSSProperties = {
   height: 46,
   padding: '0 14px',
   background: 'var(--color-bg)',
-  border: '1px solid var(--color-border-soft, #C9C2AE)',
+  // a11y remediation (SC 1.4.11 Non-text Contrast): was
+  // `var(--color-border-soft, #C9C2AE)`. --color-border-soft is a phantom
+  // token — it is not defined anywhere, so every control here rendered at the
+  // hardcoded #C9C2AE fallback, which is 1.80:1 against the white field fill.
+  // A white input on a white page is identified ONLY by its border, so that
+  // border is a UI component boundary and needs 3:1. --color-border-field is
+  // 3.81:1. (Phase M.11 already noted the phantom-token pattern; this is the
+  // one instance of it that carries an accessibility requirement.)
+  border: '1px solid var(--color-border-field)',
   borderRadius: 'var(--radius-sm, 6px)',
   color: 'var(--color-text-primary)',
   fontSize: 'var(--text-body)',

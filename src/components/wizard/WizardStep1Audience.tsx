@@ -120,7 +120,15 @@ export default function WizardStep1Audience({value, onChange, error}: Props) {
                   borderColor: selected
                     ? 'var(--color-sunset-green-500)'
                     : 'transparent',
-                  outline: selected ? 'none' : undefined,
+                  // a11y remediation (SC 2.4.7 Focus Visible): this was
+                  // `outline: selected ? 'none' : undefined`, which cancelled
+                  // the `.card:has(:focus-visible)` ring on the SELECTED tile.
+                  // In a radio group arrow keys move selection with focus, so
+                  // the focused tile is always the selected tile — meaning the
+                  // focus indicator was suppressed exactly when it was needed,
+                  // and keyboard users had no visible focus anywhere in the
+                  // wizard's first step. The green selected-state border is a
+                  // selection cue, not a focus cue, and cannot substitute.
                   padding: 0,
                 }}
               >

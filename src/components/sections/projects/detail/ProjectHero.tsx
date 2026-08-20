@@ -7,6 +7,7 @@ import {getProjectDivision} from '@/lib/projects/getProjectDivision';
 import {stripStreetNumber} from '@/lib/projects/stripStreetNumber';
 import {PROJECT_LEAD} from '@/data/imageMap';
 import {getTranslations} from 'next-intl/server';
+import {resolveProjectTitle} from '@/lib/projects/resolveProjectTitle';
 
 type Locale = 'en' | 'es';
 
@@ -37,7 +38,7 @@ export default async function ProjectHero({project, locale, breadcrumbItems}: Pr
   const photo = project.leadImageUrl ?? PROJECT_LEAD[project.slug];
   // Phase M.10c addendum — division-derived badge (was project.audience).
   const division = getProjectDivision(project, SERVICES);
-  const displayTitle = stripStreetNumber(project.title[locale]);
+  const displayTitle = stripStreetNumber(resolveProjectTitle(project, locale));
 
   return (
     <section

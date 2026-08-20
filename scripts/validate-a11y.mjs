@@ -107,10 +107,43 @@ const URLS = [
   {path: '/privacy', label: 'legal-termly'},
   {path: '/accessibility', label: 'accessibility-statement'},
   {path: '/unsubscribe/SAMPLE_TOKEN_INVALID', label: 'unsubscribe-invalid'},
+  // ----- a11y-remediation additions: route families the B.06 set never covered -----
+  // The original 19+3 set sampled ONE division landing (/landscape) and one
+  // trenchless service. The other three divisions were never scanned, and each
+  // division re-themes --audience-accent. That gap is exactly what hid a real
+  // AA failure: hardscape's accent (amber-700) is a TEXT color measuring
+  // 3.72:1 on white / 3.48:1 on its chip fill, which fired 58 axe
+  // color-contrast nodes across six hardscape URLs while the 22-URL set stayed
+  // green. Every division landing + one service beneath the previously
+  // unscanned ones is now in the set.
+  {path: '/hardscape', label: 'division-hardscape'},
+  {path: '/hardscape/patios-walkways', label: 'service-detail-hardscape'},
+  {path: '/waterproofing', label: 'division-waterproofing'},
+  {path: '/snow-removal', label: 'division-snow-removal'},
+  // /terms and /thank-you are real, linked, indexable surfaces that no prior
+  // a11y run had ever loaded (/privacy was standing in for both Termly embeds).
+  {path: '/terms', label: 'legal-termly-terms'},
+  {path: '/thank-you', label: 'thank-you'},
+  // The sitewide 404 (shipped 2026-08-18) had never been a11y-scanned. It
+  // serves an __next_error__ shell and only materialises on hydration, so it
+  // is worth asserting it still reaches a clean AA state once hydrated.
+  {
+    path: '/this-route-does-not-exist-a11y-probe',
+    label: 'sitewide-404',
+    expectStatus: 404,
+    skipLighthouse: true,
+  },
   // ----- ES parity spot-check (3 URLs) -----
   {path: '/es', label: 'es-home'},
   {path: '/es/landscape/lawn-care', label: 'es-service-detail'},
   {path: '/es/request-quote', label: 'es-quote-wizard'},
+  // ES parity was 3 URLs against 19 EN, and none of them rendered
+  // Sanity-authored per-project copy. That is why six ES project pages were
+  // shipping a COMPLETELY EMPTY <h1> (missing es titles, rendered raw) with
+  // every harness run green. Both ES project surfaces are now asserted.
+  {path: '/es/projects', label: 'es-projects-index'},
+  {path: '/es/projects/aurora-area-patio', label: 'es-project-detail'},
+  {path: '/es/hardscape', label: 'es-division-hardscape'},
 ];
 
 // The WCAG tags the harness enforces — WCAG 2.0/2.1/2.2 Level A + AA.
@@ -505,6 +538,52 @@ async function runLighthouse(targetUrl) {
 // Reduced-motion check
 // ---------------------------------------------------------------------------
 
+/**
+ * Empty headings (SC 1.3.1 Info and Relationships / SC 2.4.6 Headings and
+ * Labels) — added by the a11y-remediation pass.
+ *
+ * Why this is a hand-rolled walk rather than an axe rule: axe DOES ship an
+ * `empty-heading` rule, but it is tagged `best-practice`, and this harness
+ * deliberately filters to the six WCAG A/AA tags only (see ALL_AUDIT_TAGS —
+ * B.06/D6 excluded best-practice so informational findings can't gate a
+ * phase). The consequence was a real, shipped defect going unseen: six of the
+ * ten `/es/projects/*` pages rendered a COMPLETELY EMPTY <h1> (Spanish titles
+ * unauthored in Sanity, interpolated raw), and every harness run stayed green
+ * because the only rule that would have caught it was filtered out.
+ *
+ * An empty heading is not cosmetic. Screen-reader users navigate by heading;
+ * an <h1> with no text means the page announces a heading level and then says
+ * nothing, and heading-jump lands on emptiness.
+ *
+ * A heading counts as empty when it has no trimmed text content AND no
+ * accessible name from aria-label / aria-labelledby / an <img alt> inside it.
+ * `aria-hidden` headings are skipped — they are intentionally not exposed.
+ */
+async function checkEmptyHeadings(page) {
+  return page.evaluate(() => {
+    const findings = [];
+    for (const h of document.querySelectorAll('h1, h2, h3, h4, h5, h6')) {
+      if (h.closest('[aria-hidden="true"]')) continue;
+      const style = window.getComputedStyle(h);
+      if (style.display === 'none' || style.visibility === 'hidden') continue;
+      if ((h.textContent || '').trim()) continue;
+      if ((h.getAttribute('aria-label') || '').trim()) continue;
+      const labelledby = h.getAttribute('aria-labelledby');
+      if (labelledby && labelledby.split(/\s+/).some((id) => {
+        const el = document.getElementById(id);
+        return el && (el.textContent || '').trim();
+      })) continue;
+      if ([...h.querySelectorAll('img[alt]')].some((img) => img.getAttribute('alt').trim())) continue;
+      findings.push({
+        tag: h.tagName.toLowerCase(),
+        id: h.id || '',
+        outer: h.outerHTML.slice(0, 160),
+      });
+    }
+    return findings;
+  });
+}
+
 async function checkReducedMotionResolves(browser) {
   // A single check: with `prefers-reduced-motion: reduce` emulated, the
   // homepage's matchMedia returns true. Confirms the media query chain to
@@ -560,6 +639,7 @@ async function validateUrl(context, entry) {
     lighthouse: {score: null, audits: [], runtimeError: null, skipped: SKIP_LIGHTHOUSE},
     sc2_4_11: [],
     sc2_5_8: [],
+    emptyHeadings: [],
     errors: [],
     warnings: [],
   };
@@ -578,8 +658,16 @@ async function validateUrl(context, entry) {
     return result;
   }
   result.httpStatus = nav ? nav.status() : null;
-  if (!nav || !nav.ok()) {
-    result.errors.push(`HTTP ${result.httpStatus} on initial navigation`);
+  // `expectStatus` lets an entry declare a non-200 as CORRECT. The sitewide
+  // 404 probe must return 404 — that is the behaviour under test — but its
+  // markup still has to reach the same AA bar as any other page, so it needs
+  // to continue into the axe/SC walks rather than bail out here.
+  const expected = entry.expectStatus ?? 200;
+  const statusOk = nav && result.httpStatus === expected;
+  if (!statusOk) {
+    result.errors.push(
+      `HTTP ${result.httpStatus} on initial navigation (expected ${expected})`,
+    );
     await page.close();
     return result;
   }
@@ -675,9 +763,22 @@ async function validateUrl(context, entry) {
     result.errors.push(`SC 2.5.8 walk failed: ${err.message}`);
   }
 
+  try {
+    const emptyHeadings = await checkEmptyHeadings(page);
+    result.emptyHeadings = emptyHeadings;
+    for (const f of emptyHeadings) {
+      result.errors.push(`WCAG 1.3.1 empty-heading: <${f.tag}>${f.id ? ` id="${f.id}"` : ''} renders no text`);
+    }
+  } catch (err) {
+    result.errors.push(`empty-heading walk failed: ${err.message}`);
+  }
+
   await page.close();
 
-  if (!SKIP_LIGHTHOUSE) {
+  // Lighthouse refuses to audit a document whose request returned an error
+  // status, so an intentional-404 entry opts out of the Lighthouse leg and is
+  // graded on axe + the SC walks alone.
+  if (!SKIP_LIGHTHOUSE && !entry.skipLighthouse) {
     try {
       const lh = await runLighthouse(url);
       result.lighthouse = {...result.lighthouse, ...lh, skipped: false};
@@ -943,6 +1044,7 @@ async function main() {
     incomplete: results.reduce((acc, r) => acc + r.axe.incomplete.length, 0),
     sc2_4_11: results.reduce((acc, r) => acc + r.sc2_4_11.length, 0),
     sc2_5_8: results.reduce((acc, r) => acc + r.sc2_5_8.length, 0),
+    emptyHeadings: results.reduce((acc, r) => acc + (r.emptyHeadings?.length ?? 0), 0),
     lighthouseBelow95: results.filter(
       (r) => !r.lighthouse.skipped && r.lighthouse.score !== null && r.lighthouse.score < LIGHTHOUSE_MIN_SCORE,
     ).length,
@@ -958,7 +1060,7 @@ async function main() {
     `  axe AA violations: ${totals.axeAA}  best-practice: ${totals.axeBestPractice}  incomplete (manual): ${totals.incomplete}`,
   );
   console.log(
-    `  WCAG 2.2 SC 2.4.11: ${totals.sc2_4_11}  SC 2.5.8: ${totals.sc2_5_8}  lighthouse <95: ${totals.lighthouseBelow95}`,
+    `  WCAG 2.2 SC 2.4.11: ${totals.sc2_4_11}  SC 2.5.8: ${totals.sc2_5_8}  empty headings: ${totals.emptyHeadings}  lighthouse <95: ${totals.lighthouseBelow95}`,
   );
   console.log(`Report: ${REPORT_PATH}`);
 

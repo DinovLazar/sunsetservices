@@ -75,7 +75,12 @@ export default function AudienceUnilockBand({
               >
                 {body}
               </p>
-              <dl
+              {/* a11y remediation (SC 1.3.1): this was a <dl> wrapping a lone
+                  <dd> with no <dt>, which axe flags as `definition-list` and
+                  which exposes a broken description-list structure to AT.
+                  `stat` is a single credential line, not a term/description
+                  pair, so a <p> is the honest markup. */}
+              <p
                 className="m-0 mb-6 lg:mb-8 font-heading uppercase"
                 style={{
                   fontSize: 'var(--text-body-sm)',
@@ -84,8 +89,8 @@ export default function AudienceUnilockBand({
                   color: 'var(--color-sunset-amber-200, #FAEBC2)',
                 }}
               >
-                <dd className="m-0">{stat}</dd>
-              </dl>
+                {stat}
+              </p>
               <Link
                 href="/projects/?division=hardscape"
                 className="link link-cta inline-flex items-center gap-2"

@@ -1,0 +1,1330 @@
+{
+  "base": "http://localhost:3007",
+  "engine": "HTML_CodeSniffer WCAG2AA",
+  "totals": {
+    "errorCount": 100,
+    "urls": 76
+  },
+  "results": [
+    {
+      "path": "/",
+      "label": "home",
+      "url": "http://localhost:3007/",
+      "errors": [
+        {
+          "code": "WCAG2AA.Principle1.Guideline1_4.1_4_3.G145.Fail",
+          "message": "This element has insufficient contrast at this conformance level. Expected a contrast ratio of at least 3:1, but text in this element has a contrast ratio of 1:1. Recommendation:  change text colour to #949494.",
+          "selector": "#main > section:nth-child(3) > div > div:nth-child(2) > a > div:nth-child(3) > h3",
+          "context": "<h3 class=\"font-heading font-extrabold text-white m-0 leading-[1.12] text-[25px] md:text-[30px] lg:text-[34px]\">Outdoor Living &amp; Hardscapes</h3>"
+        }
+      ],
+      "warnings": 0,
+      "notices": 0,
+      "error": null
+    },
+    {
+      "path": "/about",
+      "label": "about",
+      "url": "http://localhost:3007/about",
+      "errors": [],
+      "warnings": 0,
+      "notices": 0,
+      "error": null
+    },
+    {
+      "path": "/contact",
+      "label": "contact",
+      "url": "http://localhost:3007/contact",
+      "errors": [],
+      "warnings": 0,
+      "notices": 0,
+      "error": null
+    },
+    {
+      "path": "/accessibility",
+      "label": "accessibility-statement",
+      "url": "http://localhost:3007/accessibility",
+      "errors": [],
+      "warnings": 0,
+      "notices": 0,
+      "error": null
+    },
+    {
+      "path": "/privacy",
+      "label": "legal-privacy",
+      "url": "http://localhost:3007/privacy",
+      "errors": [],
+      "warnings": 0,
+      "notices": 0,
+      "error": null
+    },
+    {
+      "path": "/terms",
+      "label": "legal-terms",
+      "url": "http://localhost:3007/terms",
+      "errors": [],
+      "warnings": 0,
+      "notices": 0,
+      "error": null
+    },
+    {
+      "path": "/request-quote",
+      "label": "quote-wizard",
+      "url": "http://localhost:3007/request-quote",
+      "errors": [],
+      "warnings": 0,
+      "notices": 0,
+      "error": null
+    },
+    {
+      "path": "/thank-you",
+      "label": "thank-you",
+      "url": "http://localhost:3007/thank-you",
+      "errors": [],
+      "warnings": 0,
+      "notices": 0,
+      "error": null
+    },
+    {
+      "path": "/qa",
+      "label": "qa-internal",
+      "url": "http://localhost:3007/qa",
+      "errors": [],
+      "warnings": 0,
+      "notices": 0,
+      "error": null
+    },
+    {
+      "path": "/service-areas",
+      "label": "service-areas-index",
+      "url": "http://localhost:3007/service-areas",
+      "errors": [],
+      "warnings": 0,
+      "notices": 0,
+      "error": null
+    },
+    {
+      "path": "/service-areas/aurora",
+      "label": "city-1",
+      "url": "http://localhost:3007/service-areas/aurora",
+      "errors": [],
+      "warnings": 0,
+      "notices": 0,
+      "error": null
+    },
+    {
+      "path": "/service-areas/naperville",
+      "label": "city-2",
+      "url": "http://localhost:3007/service-areas/naperville",
+      "errors": [],
+      "warnings": 0,
+      "notices": 0,
+      "error": null
+    },
+    {
+      "path": "/projects",
+      "label": "projects-index",
+      "url": "http://localhost:3007/projects",
+      "errors": [],
+      "warnings": 0,
+      "notices": 0,
+      "error": null
+    },
+    {
+      "path": "/projects/aurora-area-patio",
+      "label": "project-1",
+      "url": "http://localhost:3007/projects/aurora-area-patio",
+      "errors": [],
+      "warnings": 0,
+      "notices": 0,
+      "error": null
+    },
+    {
+      "path": "/projects/tree-removal-service",
+      "label": "project-2",
+      "url": "http://localhost:3007/projects/tree-removal-service",
+      "errors": [],
+      "warnings": 0,
+      "notices": 0,
+      "error": null
+    },
+    {
+      "path": "/blog",
+      "label": "blog-index",
+      "url": "http://localhost:3007/blog",
+      "errors": [],
+      "warnings": 0,
+      "notices": 0,
+      "error": null
+    },
+    {
+      "path": "/blog/dupage-patio-cost-2026",
+      "label": "blog-1",
+      "url": "http://localhost:3007/blog/dupage-patio-cost-2026",
+      "errors": [],
+      "warnings": 0,
+      "notices": 0,
+      "error": null
+    },
+    {
+      "path": "/blog/why-unilock-premium-pavers",
+      "label": "blog-2",
+      "url": "http://localhost:3007/blog/why-unilock-premium-pavers",
+      "errors": [],
+      "warnings": 0,
+      "notices": 0,
+      "error": null
+    },
+    {
+      "path": "/resources",
+      "label": "resources-index",
+      "url": "http://localhost:3007/resources",
+      "errors": [],
+      "warnings": 0,
+      "notices": 0,
+      "error": null
+    },
+    {
+      "path": "/resources/patio-materials-guide",
+      "label": "resource-1",
+      "url": "http://localhost:3007/resources/patio-materials-guide",
+      "errors": [],
+      "warnings": 0,
+      "notices": 0,
+      "error": null
+    },
+    {
+      "path": "/resources/lawn-care-glossary",
+      "label": "resource-2",
+      "url": "http://localhost:3007/resources/lawn-care-glossary",
+      "errors": [],
+      "warnings": 0,
+      "notices": 0,
+      "error": null
+    },
+    {
+      "path": "/landscape",
+      "label": "division-landscape",
+      "url": "http://localhost:3007/landscape",
+      "errors": [
+        {
+          "code": "WCAG2AA.Principle1.Guideline1_4.1_4_3.G18.Fail",
+          "message": "This element has insufficient contrast at this conformance level. Expected a contrast ratio of at least 4.5:1, but text in this element has a contrast ratio of 2.25:1. Recommendation:  change text colour to #fdfffc.",
+          "selector": "#main > div > section:nth-child(3) > div:nth-child(2) > div > p:nth-child(2)",
+          "context": "<p class=\"font-heading font-semibold uppercase m-0\" style=\"font-size:13px;letter-spacing:var(--tracking-eyebrow);color:var(--audience-accent);text-shadow:0 1px 2px rgba(0, 0, 0, 0.62), 0 2px 10px rgba(0, 0, 0, 0.45)\">LANDSCAPE DIVISION</p>"
+        }
+      ],
+      "warnings": 0,
+      "notices": 0,
+      "error": null
+    },
+    {
+      "path": "/landscape/lawn-care",
+      "label": "svc-landscape-1",
+      "url": "http://localhost:3007/landscape/lawn-care",
+      "errors": [
+        {
+          "code": "WCAG2AA.Principle1.Guideline1_4.1_4_3.G18.Fail",
+          "message": "This element has insufficient contrast at this conformance level. Expected a contrast ratio of at least 4.5:1, but text in this element has a contrast ratio of 2.25:1. Recommendation:  change text colour to #fdfffc.",
+          "selector": "#main > div > section:nth-child(4) > div:nth-child(2) > div > p:nth-child(2)",
+          "context": "<p class=\"font-heading font-semibold uppercase m-0\" style=\"font-size:13px;letter-spacing:var(--tracking-eyebrow);color:var(--audience-accent)\">LANDSCAPE DIVISION</p>"
+        }
+      ],
+      "warnings": 0,
+      "notices": 0,
+      "error": null
+    },
+    {
+      "path": "/landscape/tree-services",
+      "label": "svc-landscape-2",
+      "url": "http://localhost:3007/landscape/tree-services",
+      "errors": [
+        {
+          "code": "WCAG2AA.Principle1.Guideline1_4.1_4_3.G18.Fail",
+          "message": "This element has insufficient contrast at this conformance level. Expected a contrast ratio of at least 4.5:1, but text in this element has a contrast ratio of 2.25:1. Recommendation:  change text colour to #fdfffc.",
+          "selector": "#main > div > section:nth-child(4) > div:nth-child(2) > div > p:nth-child(2)",
+          "context": "<p class=\"font-heading font-semibold uppercase m-0\" style=\"font-size:13px;letter-spacing:var(--tracking-eyebrow);color:var(--audience-accent)\">LANDSCAPE DIVISION</p>"
+        }
+      ],
+      "warnings": 0,
+      "notices": 0,
+      "error": null
+    },
+    {
+      "path": "/hardscape",
+      "label": "division-hardscape",
+      "url": "http://localhost:3007/hardscape",
+      "errors": [
+        {
+          "code": "WCAG2AA.Principle1.Guideline1_4.1_4_3.G18.Fail",
+          "message": "This element has insufficient contrast at this conformance level. Expected a contrast ratio of at least 4.5:1, but text in this element has a contrast ratio of 3.72:1. Recommendation:  change text colour to #a56912.",
+          "selector": "#main > div > section:nth-child(4) > div > div:nth-child(1) > p:nth-child(1)",
+          "context": "<p class=\"font-heading font-semibold uppercase m-0 mb-3\" style=\"font-size:13px;letter-spacing:var(--tracking-eyebrow);color:var(--audience-accent)\">FOR DUPAGE HOMEOWNERS</p>"
+        },
+        {
+          "code": "WCAG2AA.Principle1.Guideline1_4.1_4_3.G18.Fail",
+          "message": "This element has insufficient contrast at this conformance level. Expected a contrast ratio of at least 4.5:1, but text in this element has a contrast ratio of 3.48:1. Recommendation:  change text colour to #040300.",
+          "selector": "#main > div > section:nth-child(4) > div > div:nth-child(2) > div:nth-child(1) > span",
+          "context": "<span class=\"badge badge-md badge-pill\" style=\"background:var(--audience-chip-bg);color:var(--audience-accent);height:36px;padding:0 16px;font-size:13px\">Unilock Authorized</span>"
+        },
+        {
+          "code": "WCAG2AA.Principle1.Guideline1_4.1_4_3.G18.Fail",
+          "message": "This element has insufficient contrast at this conformance level. Expected a contrast ratio of at least 4.5:1, but text in this element has a contrast ratio of 3.48:1. Recommendation:  change text colour to #040300.",
+          "selector": "#main > div > section:nth-child(4) > div > div:nth-child(2) > div:nth-child(2) > span",
+          "context": "<span class=\"badge badge-md badge-pill\" style=\"background:var(--audience-chip-bg);color:var(--audience-accent);height:36px;padding:0 16px;font-size:13px\">5-year workmanship warranty</span>"
+        },
+        {
+          "code": "WCAG2AA.Principle1.Guideline1_4.1_4_3.G18.Fail",
+          "message": "This element has insufficient contrast at this conformance level. Expected a contrast ratio of at least 4.5:1, but text in this element has a contrast ratio of 3.48:1. Recommendation:  change text colour to #040300.",
+          "selector": "#main > div > section:nth-child(4) > div > div:nth-child(2) > div:nth-child(3) > span",
+          "context": "<span class=\"badge badge-md badge-pill\" style=\"background:var(--audience-chip-bg);color:var(--audience-accent);height:36px;padding:0 16px;font-size:13px\">Engineered for the soil</span>"
+        },
+        {
+          "code": "WCAG2AA.Principle1.Guideline1_4.1_4_3.G18.Fail",
+          "message": "This element has insufficient contrast at this conformance level. Expected a contrast ratio of at least 4.5:1, but text in this element has a contrast ratio of 3.48:1. Recommendation:  change text colour to #040300.",
+          "selector": "#main > div > section:nth-child(4) > div > div:nth-child(2) > div:nth-child(4) > span",
+          "context": "<span class=\"badge badge-md badge-pill\" style=\"background:var(--audience-chip-bg);color:var(--audience-accent);height:36px;padding:0 16px;font-size:13px\">20+ years on hardscape</span>"
+        },
+        {
+          "code": "WCAG2AA.Principle1.Guideline1_4.1_4_3.G18.Fail",
+          "message": "This element has insufficient contrast at this conformance level. Expected a contrast ratio of at least 4.5:1, but text in this element has a contrast ratio of 3.48:1. Recommendation:  change text colour to #0a0600.",
+          "selector": "#main > div > section:nth-child(5) > div > div:nth-child(1) > p:nth-child(1)",
+          "context": "<p class=\"font-heading font-semibold uppercase m-0 mb-3\" style=\"font-size:13px;letter-spacing:var(--tracking-eyebrow);color:var(--audience-accent)\">SIX HARDSCAPE SERVICES</p>"
+        },
+        {
+          "code": "WCAG2AA.Principle1.Guideline1_4.1_4_3.G18.Fail",
+          "message": "This element has insufficient contrast at this conformance level. Expected a contrast ratio of at least 4.5:1, but text in this element has a contrast ratio of 3.72:1. Recommendation:  change text colour to #a56912.",
+          "selector": "#main > div > section:nth-child(6) > div > div:nth-child(1) > div > div > p",
+          "context": "<p class=\"font-heading font-semibold uppercase m-0 mb-3\" style=\"font-size:13px;letter-spacing:var(--tracking-eyebrow);color:var(--audience-accent)\">RECENT INSTALLS</p>"
+        },
+        {
+          "code": "WCAG2AA.Principle1.Guideline1_4.1_4_3.G18.Fail",
+          "message": "This element has insufficient contrast at this conformance level. Expected a contrast ratio of at least 4.5:1, but text in this element has a contrast ratio of 3.48:1. Recommendation:  change text colour to #0a0600.",
+          "selector": "#main > div > section:nth-child(7) > div > div:nth-child(1) > p",
+          "context": "<p class=\"font-heading font-semibold uppercase m-0 mb-3\" style=\"font-size:13px;letter-spacing:var(--tracking-eyebrow);color:var(--audience-accent)\">WHY SUNSET</p>"
+        },
+        {
+          "code": "WCAG2AA.Principle1.Guideline1_4.1_4_3.G18.Fail",
+          "message": "This element has insufficient contrast at this conformance level. Expected a contrast ratio of at least 4.5:1, but text in this element has a contrast ratio of 3.48:1. Recommendation:  change text colour to #0a0600.",
+          "selector": "#main > div > section:nth-child(10) > div > div:nth-child(1) > p",
+          "context": "<p class=\"font-heading font-semibold uppercase m-0 mb-3\" style=\"font-size:13px;letter-spacing:var(--tracking-eyebrow);color:var(--audience-accent)\">QUESTIONS · ANSWERED</p>"
+        }
+      ],
+      "warnings": 0,
+      "notices": 0,
+      "error": null
+    },
+    {
+      "path": "/hardscape/patios-walkways",
+      "label": "svc-hardscape-1",
+      "url": "http://localhost:3007/hardscape/patios-walkways",
+      "errors": [
+        {
+          "code": "WCAG2AA.Principle1.Guideline1_4.1_4_3.G18.Fail",
+          "message": "This element has insufficient contrast at this conformance level. Expected a contrast ratio of at least 4.5:1, but text in this element has a contrast ratio of 3.48:1. Recommendation:  change text colour to #040300.",
+          "selector": "#main > div > section:nth-child(4) > div:nth-child(2) > div > ul > li:nth-child(1) > span",
+          "context": "<span class=\"badge badge-md badge-pill\" style=\"background:var(--audience-chip-bg);color:var(--audience-accent);min-height:36px;height:auto;padding:6px 16px;font-size:13px\">Unilock Authorized Contractor</span>"
+        },
+        {
+          "code": "WCAG2AA.Principle1.Guideline1_4.1_4_3.G18.Fail",
+          "message": "This element has insufficient contrast at this conformance level. Expected a contrast ratio of at least 4.5:1, but text in this element has a contrast ratio of 3.48:1. Recommendation:  change text colour to #040300.",
+          "selector": "#main > div > section:nth-child(4) > div:nth-child(2) > div > ul > li:nth-child(2) > span",
+          "context": "<span class=\"badge badge-md badge-pill\" style=\"background:var(--audience-chip-bg);color:var(--audience-accent);min-height:36px;height:auto;padding:6px 16px;font-size:13px\">5-Year Workmanship Warranty</span>"
+        },
+        {
+          "code": "WCAG2AA.Principle1.Guideline1_4.1_4_3.G18.Fail",
+          "message": "This element has insufficient contrast at this conformance level. Expected a contrast ratio of at least 4.5:1, but text in this element has a contrast ratio of 3.48:1. Recommendation:  change text colour to #040300.",
+          "selector": "#main > div > section:nth-child(4) > div:nth-child(2) > div > ul > li:nth-child(3) > span",
+          "context": "<span class=\"badge badge-md badge-pill\" style=\"background:var(--audience-chip-bg);color:var(--audience-accent);min-height:36px;height:auto;padding:6px 16px;font-size:13px\">HOA and Permit Assistance</span>"
+        },
+        {
+          "code": "WCAG2AA.Principle1.Guideline1_4.1_4_3.G18.Fail",
+          "message": "This element has insufficient contrast at this conformance level. Expected a contrast ratio of at least 4.5:1, but text in this element has a contrast ratio of 3.48:1. Recommendation:  change text colour to #040300.",
+          "selector": "#main > div > section:nth-child(4) > div:nth-child(2) > div > ul > li:nth-child(4) > span",
+          "context": "<span class=\"badge badge-md badge-pill\" style=\"background:var(--audience-chip-bg);color:var(--audience-accent);min-height:36px;height:auto;padding:6px 16px;font-size:13px\">Serving Aurora and Chicago's We...</span>"
+        },
+        {
+          "code": "WCAG2AA.Principle1.Guideline1_4.1_4_3.G18.Fail",
+          "message": "This element has insufficient contrast at this conformance level. Expected a contrast ratio of at least 4.5:1, but text in this element has a contrast ratio of 3.72:1. Recommendation:  change text colour to #a56912.",
+          "selector": "#main > div > section:nth-child(5) > div > div:nth-child(1) > p",
+          "context": "<p class=\"font-heading font-semibold uppercase m-0 mb-3\" style=\"font-size:13px;letter-spacing:var(--tracking-eyebrow);color:var(--audience-accent)\">WHAT'S INCLUDED</p>"
+        },
+        {
+          "code": "WCAG2AA.Principle1.Guideline1_4.1_4_3.G18.Fail",
+          "message": "This element has insufficient contrast at this conformance level. Expected a contrast ratio of at least 4.5:1, but text in this element has a contrast ratio of 3.48:1. Recommendation:  change text colour to #0a0600.",
+          "selector": "#main > div > section:nth-child(6) > div > div > p",
+          "context": "<p class=\"font-heading font-semibold uppercase m-0 mb-3\" style=\"font-size:13px;letter-spacing:var(--tracking-eyebrow);color:var(--audience-accent)\">HOW IT WORKS</p>"
+        },
+        {
+          "code": "WCAG2AA.Principle1.Guideline1_4.1_4_3.G18.Fail",
+          "message": "This element has insufficient contrast at this conformance level. Expected a contrast ratio of at least 4.5:1, but text in this element has a contrast ratio of 3.72:1. Recommendation:  change text colour to #a56912.",
+          "selector": "#main > div > section:nth-child(7) > div > div:nth-child(1) > p",
+          "context": "<p class=\"font-heading font-semibold uppercase m-0 mb-3\" style=\"font-size:13px;letter-spacing:var(--tracking-eyebrow);color:var(--audience-accent)\">WHY SUNSET FOR PATIOS &amp; WAL...</p>"
+        },
+        {
+          "code": "WCAG2AA.Principle1.Guideline1_4.1_4_3.G18.Fail",
+          "message": "This element has insufficient contrast at this conformance level. Expected a contrast ratio of at least 4.5:1, but text in this element has a contrast ratio of 3.72:1. Recommendation:  change text colour to #a56912.",
+          "selector": "#main > div > section:nth-child(8) > div > div > div > div > p:nth-child(1)",
+          "context": "<p class=\"font-heading font-semibold uppercase m-0 mb-3\" style=\"font-size:13px;letter-spacing:var(--tracking-eyebrow);color:var(--audience-accent)\">HOW PRICING WORKS</p>"
+        },
+        {
+          "code": "WCAG2AA.Principle1.Guideline1_4.1_4_3.G18.Fail",
+          "message": "This element has insufficient contrast at this conformance level. Expected a contrast ratio of at least 4.5:1, but text in this element has a contrast ratio of 3.72:1. Recommendation:  change text colour to #a56912.",
+          "selector": "#main > div > section:nth-child(9) > div > div:nth-child(1) > div > div > p",
+          "context": "<p class=\"font-heading font-semibold uppercase m-0 mb-3\" style=\"font-size:13px;letter-spacing:var(--tracking-eyebrow);color:var(--audience-accent)\">RECENT WORK</p>"
+        },
+        {
+          "code": "WCAG2AA.Principle1.Guideline1_4.1_4_3.G18.Fail",
+          "message": "This element has insufficient contrast at this conformance level. Expected a contrast ratio of at least 4.5:1, but text in this element has a contrast ratio of 3.48:1. Recommendation:  change text colour to #0a0600.",
+          "selector": "#main > div > section:nth-child(10) > div > div:nth-child(1) > p",
+          "context": "<p class=\"font-heading font-semibold uppercase m-0 mb-3\" style=\"font-size:13px;letter-spacing:var(--tracking-eyebrow);color:var(--audience-accent)\">QUESTIONS · ANSWERED</p>"
+        },
+        {
+          "code": "WCAG2AA.Principle1.Guideline1_4.1_4_3.G18.Fail",
+          "message": "This element has insufficient contrast at this conformance level. Expected a contrast ratio of at least 4.5:1, but text in this element has a contrast ratio of 3.72:1. Recommendation:  change text colour to #a56912.",
+          "selector": "#main > div > section:nth-child(11) > div > div:nth-child(1) > p",
+          "context": "<p class=\"font-heading font-semibold uppercase m-0 mb-3\" style=\"font-size:13px;letter-spacing:var(--tracking-eyebrow);color:var(--audience-accent)\">CUSTOMERS ALSO ASK</p>"
+        },
+        {
+          "code": "WCAG2AA.Principle1.Guideline1_4.1_4_3.G18.Fail",
+          "message": "This element has insufficient contrast at this conformance level. Expected a contrast ratio of at least 4.5:1, but text in this element has a contrast ratio of 3.48:1. Recommendation:  change text colour to #0a0600.",
+          "selector": "#main > div > section:nth-child(12) > div > div > p:nth-child(1)",
+          "context": "<p class=\"font-heading font-semibold uppercase m-0 mb-4\" style=\"font-size:13px;letter-spacing:var(--tracking-eyebrow);color:var(--audience-accent)\">READY WHEN YOU ARE</p>"
+        }
+      ],
+      "warnings": 0,
+      "notices": 0,
+      "error": null
+    },
+    {
+      "path": "/hardscape/retaining-walls",
+      "label": "svc-hardscape-2",
+      "url": "http://localhost:3007/hardscape/retaining-walls",
+      "errors": [
+        {
+          "code": "WCAG2AA.Principle1.Guideline1_4.1_4_3.G18.Fail",
+          "message": "This element has insufficient contrast at this conformance level. Expected a contrast ratio of at least 4.5:1, but text in this element has a contrast ratio of 3.72:1. Recommendation:  change text colour to #a56912.",
+          "selector": "#main > div > section:nth-child(5) > div > div:nth-child(1) > p",
+          "context": "<p class=\"font-heading font-semibold uppercase m-0 mb-3\" style=\"font-size:13px;letter-spacing:var(--tracking-eyebrow);color:var(--audience-accent)\">WHAT'S INCLUDED</p>"
+        },
+        {
+          "code": "WCAG2AA.Principle1.Guideline1_4.1_4_3.G18.Fail",
+          "message": "This element has insufficient contrast at this conformance level. Expected a contrast ratio of at least 4.5:1, but text in this element has a contrast ratio of 3.48:1. Recommendation:  change text colour to #0a0600.",
+          "selector": "#main > div > section:nth-child(6) > div > div > p",
+          "context": "<p class=\"font-heading font-semibold uppercase m-0 mb-3\" style=\"font-size:13px;letter-spacing:var(--tracking-eyebrow);color:var(--audience-accent)\">HOW IT WORKS</p>"
+        },
+        {
+          "code": "WCAG2AA.Principle1.Guideline1_4.1_4_3.G18.Fail",
+          "message": "This element has insufficient contrast at this conformance level. Expected a contrast ratio of at least 4.5:1, but text in this element has a contrast ratio of 3.72:1. Recommendation:  change text colour to #a56912.",
+          "selector": "#main > div > section:nth-child(7) > div > div:nth-child(1) > p",
+          "context": "<p class=\"font-heading font-semibold uppercase m-0 mb-3\" style=\"font-size:13px;letter-spacing:var(--tracking-eyebrow);color:var(--audience-accent)\">WHY SUNSET FOR RETAINING WALLS</p>"
+        },
+        {
+          "code": "WCAG2AA.Principle1.Guideline1_4.1_4_3.G18.Fail",
+          "message": "This element has insufficient contrast at this conformance level. Expected a contrast ratio of at least 4.5:1, but text in this element has a contrast ratio of 3.72:1. Recommendation:  change text colour to #a56912.",
+          "selector": "#main > div > section:nth-child(8) > div > div > div > div > p:nth-child(1)",
+          "context": "<p class=\"font-heading font-semibold uppercase m-0 mb-3\" style=\"font-size:13px;letter-spacing:var(--tracking-eyebrow);color:var(--audience-accent)\">HOW PRICING WORKS</p>"
+        },
+        {
+          "code": "WCAG2AA.Principle1.Guideline1_4.1_4_3.G18.Fail",
+          "message": "This element has insufficient contrast at this conformance level. Expected a contrast ratio of at least 4.5:1, but text in this element has a contrast ratio of 3.72:1. Recommendation:  change text colour to #a56912.",
+          "selector": "#main > div > section:nth-child(9) > div > div:nth-child(1) > div > div > p",
+          "context": "<p class=\"font-heading font-semibold uppercase m-0 mb-3\" style=\"font-size:13px;letter-spacing:var(--tracking-eyebrow);color:var(--audience-accent)\">RECENT WORK</p>"
+        },
+        {
+          "code": "WCAG2AA.Principle1.Guideline1_4.1_4_3.G18.Fail",
+          "message": "This element has insufficient contrast at this conformance level. Expected a contrast ratio of at least 4.5:1, but text in this element has a contrast ratio of 3.48:1. Recommendation:  change text colour to #0a0600.",
+          "selector": "#main > div > section:nth-child(10) > div > div:nth-child(1) > p",
+          "context": "<p class=\"font-heading font-semibold uppercase m-0 mb-3\" style=\"font-size:13px;letter-spacing:var(--tracking-eyebrow);color:var(--audience-accent)\">QUESTIONS · ANSWERED</p>"
+        },
+        {
+          "code": "WCAG2AA.Principle1.Guideline1_4.1_4_3.G18.Fail",
+          "message": "This element has insufficient contrast at this conformance level. Expected a contrast ratio of at least 4.5:1, but text in this element has a contrast ratio of 3.72:1. Recommendation:  change text colour to #a56912.",
+          "selector": "#main > div > section:nth-child(11) > div > div:nth-child(1) > p",
+          "context": "<p class=\"font-heading font-semibold uppercase m-0 mb-3\" style=\"font-size:13px;letter-spacing:var(--tracking-eyebrow);color:var(--audience-accent)\">CUSTOMERS ALSO ASK</p>"
+        },
+        {
+          "code": "WCAG2AA.Principle1.Guideline1_4.1_4_3.G18.Fail",
+          "message": "This element has insufficient contrast at this conformance level. Expected a contrast ratio of at least 4.5:1, but text in this element has a contrast ratio of 3.48:1. Recommendation:  change text colour to #0a0600.",
+          "selector": "#main > div > section:nth-child(12) > div > div > p:nth-child(1)",
+          "context": "<p class=\"font-heading font-semibold uppercase m-0 mb-4\" style=\"font-size:13px;letter-spacing:var(--tracking-eyebrow);color:var(--audience-accent)\">READY WHEN YOU ARE</p>"
+        }
+      ],
+      "warnings": 0,
+      "notices": 0,
+      "error": null
+    },
+    {
+      "path": "/waterproofing",
+      "label": "division-waterproofing",
+      "url": "http://localhost:3007/waterproofing",
+      "errors": [
+        {
+          "code": "WCAG2AA.Principle1.Guideline1_4.1_4_3.G18.Fail",
+          "message": "This element has insufficient contrast at this conformance level. Expected a contrast ratio of at least 4.5:1, but text in this element has a contrast ratio of 1.31:1. Recommendation:  change text colour to #fcfffc.",
+          "selector": "#main > div > section:nth-child(3) > div:nth-child(2) > div > p:nth-child(2)",
+          "context": "<p class=\"font-heading font-semibold uppercase m-0\" style=\"font-size:13px;letter-spacing:var(--tracking-eyebrow);color:var(--audience-accent);text-shadow:0 1px 2px rgba(0, 0, 0, 0.62), 0 2px 10px rgba(0, 0, 0, 0.45)\">WATERPROOFING DIVISION<"
+        }
+      ],
+      "warnings": 0,
+      "notices": 0,
+      "error": null
+    },
+    {
+      "path": "/waterproofing/basement-waterproofing",
+      "label": "svc-waterproofing-1",
+      "url": "http://localhost:3007/waterproofing/basement-waterproofing",
+      "errors": [
+        {
+          "code": "WCAG2AA.Principle1.Guideline1_4.1_4_3.G18.Fail",
+          "message": "This element has insufficient contrast at this conformance level. Expected a contrast ratio of at least 4.5:1, but text in this element has a contrast ratio of 1.31:1. Recommendation:  change text colour to #fcfffc.",
+          "selector": "#main > div > section:nth-child(4) > div:nth-child(2) > div > p:nth-child(2)",
+          "context": "<p class=\"font-heading font-semibold uppercase m-0\" style=\"font-size:13px;letter-spacing:var(--tracking-eyebrow);color:var(--audience-accent)\">WATERPROOFING DIVISION</p>"
+        }
+      ],
+      "warnings": 0,
+      "notices": 0,
+      "error": null
+    },
+    {
+      "path": "/waterproofing/sump-pumps",
+      "label": "svc-waterproofing-2",
+      "url": "http://localhost:3007/waterproofing/sump-pumps",
+      "errors": [
+        {
+          "code": "WCAG2AA.Principle1.Guideline1_4.1_4_3.G18.Fail",
+          "message": "This element has insufficient contrast at this conformance level. Expected a contrast ratio of at least 4.5:1, but text in this element has a contrast ratio of 1.31:1. Recommendation:  change text colour to #fcfffc.",
+          "selector": "#main > div > section:nth-child(4) > div:nth-child(2) > div > p:nth-child(2)",
+          "context": "<p class=\"font-heading font-semibold uppercase m-0\" style=\"font-size:13px;letter-spacing:var(--tracking-eyebrow);color:var(--audience-accent)\">WATERPROOFING DIVISION</p>"
+        }
+      ],
+      "warnings": 0,
+      "notices": 0,
+      "error": null
+    },
+    {
+      "path": "/snow-removal",
+      "label": "division-snow",
+      "url": "http://localhost:3007/snow-removal",
+      "errors": [
+        {
+          "code": "WCAG2AA.Principle1.Guideline1_4.1_4_3.G18.Fail",
+          "message": "This element has insufficient contrast at this conformance level. Expected a contrast ratio of at least 4.5:1, but text in this element has a contrast ratio of 1:1. Recommendation:  change text colour to #fff.",
+          "selector": "#main > div > section:nth-child(3) > div:nth-child(2) > div > p:nth-child(2)",
+          "context": "<p class=\"font-heading font-semibold uppercase m-0\" style=\"font-size:13px;letter-spacing:var(--tracking-eyebrow);color:var(--audience-accent);text-shadow:0 1px 2px rgba(0, 0, 0, 0.62), 0 2px 10px rgba(0, 0, 0, 0.45)\">SNOW REMOVAL DIVISION</"
+        }
+      ],
+      "warnings": 0,
+      "notices": 0,
+      "error": null
+    },
+    {
+      "path": "/snow-removal/commercial-snow-plowing",
+      "label": "svc-snow-1",
+      "url": "http://localhost:3007/snow-removal/commercial-snow-plowing",
+      "errors": [
+        {
+          "code": "WCAG2AA.Principle1.Guideline1_4.1_4_3.G18.Fail",
+          "message": "This element has insufficient contrast at this conformance level. Expected a contrast ratio of at least 4.5:1, but text in this element has a contrast ratio of 1:1. Recommendation:  change text colour to #fff.",
+          "selector": "#main > div > section:nth-child(4) > div:nth-child(2) > div > p:nth-child(2)",
+          "context": "<p class=\"font-heading font-semibold uppercase m-0\" style=\"font-size:13px;letter-spacing:var(--tracking-eyebrow);color:var(--audience-accent)\">SNOW REMOVAL DIVISION</p>"
+        }
+      ],
+      "warnings": 0,
+      "notices": 0,
+      "error": null
+    },
+    {
+      "path": "/snow-removal/de-icing",
+      "label": "svc-snow-2",
+      "url": "http://localhost:3007/snow-removal/de-icing",
+      "errors": [
+        {
+          "code": "WCAG2AA.Principle1.Guideline1_4.1_4_3.G18.Fail",
+          "message": "This element has insufficient contrast at this conformance level. Expected a contrast ratio of at least 4.5:1, but text in this element has a contrast ratio of 1:1. Recommendation:  change text colour to #fff.",
+          "selector": "#main > div > section:nth-child(4) > div:nth-child(2) > div > p:nth-child(2)",
+          "context": "<p class=\"font-heading font-semibold uppercase m-0\" style=\"font-size:13px;letter-spacing:var(--tracking-eyebrow);color:var(--audience-accent)\">SNOW REMOVAL DIVISION</p>"
+        }
+      ],
+      "warnings": 0,
+      "notices": 0,
+      "error": null
+    },
+    {
+      "path": "/trenchless",
+      "label": "division-trenchless",
+      "url": "http://localhost:3007/trenchless",
+      "errors": [
+        {
+          "code": "WCAG2AA.Principle1.Guideline1_4.1_4_3.G18.Fail",
+          "message": "This element has insufficient contrast at this conformance level. Expected a contrast ratio of at least 4.5:1, but text in this element has a contrast ratio of 3.47:1. Recommendation:  change text colour to #fffcfa.",
+          "selector": "#main > div > section:nth-child(3) > div:nth-child(2) > div > p:nth-child(2)",
+          "context": "<p class=\"font-heading font-semibold uppercase m-0\" style=\"font-size:13px;letter-spacing:var(--tracking-eyebrow);color:var(--audience-accent);text-shadow:0 1px 2px rgba(0, 0, 0, 0.62), 0 2px 10px rgba(0, 0, 0, 0.45)\">TRENCHLESS &amp; DIRECT"
+        }
+      ],
+      "warnings": 0,
+      "notices": 0,
+      "error": null
+    },
+    {
+      "path": "/trenchless/conduit-installation",
+      "label": "svc-trenchless-1",
+      "url": "http://localhost:3007/trenchless/conduit-installation",
+      "errors": [
+        {
+          "code": "WCAG2AA.Principle1.Guideline1_4.1_4_3.G18.Fail",
+          "message": "This element has insufficient contrast at this conformance level. Expected a contrast ratio of at least 4.5:1, but text in this element has a contrast ratio of 3.47:1. Recommendation:  change text colour to #fffcfa.",
+          "selector": "#main > div > section:nth-child(3) > div:nth-child(2) > div > p:nth-child(2)",
+          "context": "<p class=\"font-heading font-semibold uppercase m-0\" style=\"font-size:13px;letter-spacing:var(--tracking-eyebrow);color:var(--audience-accent)\">TRENCHLESS &amp; DIRECTIONAL BO...</p>"
+        }
+      ],
+      "warnings": 0,
+      "notices": 0,
+      "error": null
+    },
+    {
+      "path": "/trenchless/missile-boring",
+      "label": "svc-trenchless-2",
+      "url": "http://localhost:3007/trenchless/missile-boring",
+      "errors": [
+        {
+          "code": "WCAG2AA.Principle1.Guideline1_4.1_4_3.G18.Fail",
+          "message": "This element has insufficient contrast at this conformance level. Expected a contrast ratio of at least 4.5:1, but text in this element has a contrast ratio of 3.47:1. Recommendation:  change text colour to #fffcfa.",
+          "selector": "#main > div > section:nth-child(3) > div:nth-child(2) > div > p:nth-child(2)",
+          "context": "<p class=\"font-heading font-semibold uppercase m-0\" style=\"font-size:13px;letter-spacing:var(--tracking-eyebrow);color:var(--audience-accent)\">TRENCHLESS &amp; DIRECTIONAL BO...</p>"
+        }
+      ],
+      "warnings": 0,
+      "notices": 0,
+      "error": null
+    },
+    {
+      "path": "/unsubscribe/SAMPLE_TOKEN_INVALID",
+      "label": "unsubscribe-invalid",
+      "url": "http://localhost:3007/unsubscribe/SAMPLE_TOKEN_INVALID",
+      "errors": [],
+      "warnings": 0,
+      "notices": 0,
+      "error": null
+    },
+    {
+      "path": "/this-route-does-not-exist-a11y-probe",
+      "label": "sitewide-404",
+      "url": "http://localhost:3007/this-route-does-not-exist-a11y-probe",
+      "errors": [],
+      "warnings": 0,
+      "notices": 0,
+      "error": null
+    },
+    {
+      "path": "/es",
+      "label": "es-home",
+      "url": "http://localhost:3007/es",
+      "errors": [
+        {
+          "code": "WCAG2AA.Principle1.Guideline1_4.1_4_3.G145.Fail",
+          "message": "This element has insufficient contrast at this conformance level. Expected a contrast ratio of at least 3:1, but text in this element has a contrast ratio of 1:1. Recommendation:  change text colour to #949494.",
+          "selector": "#main > section:nth-child(3) > div > div:nth-child(2) > a > div:nth-child(3) > h3",
+          "context": "<h3 class=\"font-heading font-extrabold text-white m-0 leading-[1.12] text-[25px] md:text-[30px] lg:text-[34px]\">Espacios Exteriores y Hardscape</h3>"
+        },
+        {
+          "code": "WCAG2AA.Principle1.Guideline1_3.1_3_1.H42.2",
+          "message": "Heading tag found with no content. Text that is not intended as a heading should not be marked up with heading tags.",
+          "selector": "#main > section:nth-child(5) > div > div:nth-child(3) > div:nth-child(2) > a:nth-child(1) > div > div:nth-child(4) > h3",
+          "context": "<h3 class=\"m-0 font-heading\" style=\"font-size:var(--text-h5);font-weight:600;color:var(--color-text-on-dark);letter-spacing:var(--tracking-snug);line-height:var(--leading-snug)\"></h3>"
+        },
+        {
+          "code": "WCAG2AA.Principle1.Guideline1_3.1_3_1.H42.2",
+          "message": "Heading tag found with no content. Text that is not intended as a heading should not be marked up with heading tags.",
+          "selector": "#main > section:nth-child(5) > div > div:nth-child(3) > div:nth-child(2) > a:nth-child(2) > div > div:nth-child(4) > h3",
+          "context": "<h3 class=\"m-0 font-heading\" style=\"font-size:var(--text-h5);font-weight:600;color:var(--color-text-on-dark);letter-spacing:var(--tracking-snug);line-height:var(--leading-snug)\"></h3>"
+        }
+      ],
+      "warnings": 0,
+      "notices": 0,
+      "error": null
+    },
+    {
+      "path": "/es/about",
+      "label": "es-about",
+      "url": "http://localhost:3007/es/about",
+      "errors": [
+        {
+          "code": "WCAG2AA.Principle1.Guideline1_3.1_3_1.H42.2",
+          "message": "Heading tag found with no content. Text that is not intended as a heading should not be marked up with heading tags.",
+          "selector": "#main > section:nth-child(5) > div > div:nth-child(2) > div:nth-child(1) > a > div > div:nth-child(4) > h3",
+          "context": "<h3 class=\"m-0 font-heading\" style=\"font-size:var(--text-h5);font-weight:600;color:var(--color-text-on-dark);letter-spacing:var(--tracking-snug);line-height:var(--leading-snug)\"></h3>"
+        },
+        {
+          "code": "WCAG2AA.Principle1.Guideline1_3.1_3_1.H42.2",
+          "message": "Heading tag found with no content. Text that is not intended as a heading should not be marked up with heading tags.",
+          "selector": "#main > section:nth-child(5) > div > div:nth-child(2) > div:nth-child(2) > a > div > div:nth-child(4) > h3",
+          "context": "<h3 class=\"m-0 font-heading\" style=\"font-size:var(--text-h5);font-weight:600;color:var(--color-text-on-dark);letter-spacing:var(--tracking-snug);line-height:var(--leading-snug)\"></h3>"
+        },
+        {
+          "code": "WCAG2AA.Principle1.Guideline1_3.1_3_1.H42.2",
+          "message": "Heading tag found with no content. Text that is not intended as a heading should not be marked up with heading tags.",
+          "selector": "#main > section:nth-child(5) > div > div:nth-child(2) > div:nth-child(6) > a > div > div:nth-child(4) > h3",
+          "context": "<h3 class=\"m-0 font-heading\" style=\"font-size:var(--text-h5);font-weight:600;color:var(--color-text-on-dark);letter-spacing:var(--tracking-snug);line-height:var(--leading-snug)\"></h3>"
+        }
+      ],
+      "warnings": 0,
+      "notices": 0,
+      "error": null
+    },
+    {
+      "path": "/es/contact",
+      "label": "es-contact",
+      "url": "http://localhost:3007/es/contact",
+      "errors": [],
+      "warnings": 0,
+      "notices": 0,
+      "error": null
+    },
+    {
+      "path": "/es/accessibility",
+      "label": "es-accessibility-statement",
+      "url": "http://localhost:3007/es/accessibility",
+      "errors": [],
+      "warnings": 0,
+      "notices": 0,
+      "error": null
+    },
+    {
+      "path": "/es/privacy",
+      "label": "es-legal-privacy",
+      "url": "http://localhost:3007/es/privacy",
+      "errors": [],
+      "warnings": 0,
+      "notices": 0,
+      "error": null
+    },
+    {
+      "path": "/es/terms",
+      "label": "es-legal-terms",
+      "url": "http://localhost:3007/es/terms",
+      "errors": [],
+      "warnings": 0,
+      "notices": 0,
+      "error": null
+    },
+    {
+      "path": "/es/request-quote",
+      "label": "es-quote-wizard",
+      "url": "http://localhost:3007/es/request-quote",
+      "errors": [],
+      "warnings": 0,
+      "notices": 0,
+      "error": null
+    },
+    {
+      "path": "/es/thank-you",
+      "label": "es-thank-you",
+      "url": "http://localhost:3007/es/thank-you",
+      "errors": [],
+      "warnings": 0,
+      "notices": 0,
+      "error": null
+    },
+    {
+      "path": "/es/qa",
+      "label": "es-qa-internal",
+      "url": "http://localhost:3007/es/qa",
+      "errors": [],
+      "warnings": 0,
+      "notices": 0,
+      "error": null
+    },
+    {
+      "path": "/es/service-areas",
+      "label": "es-service-areas-index",
+      "url": "http://localhost:3007/es/service-areas",
+      "errors": [],
+      "warnings": 0,
+      "notices": 0,
+      "error": null
+    },
+    {
+      "path": "/es/service-areas/aurora",
+      "label": "es-city-1",
+      "url": "http://localhost:3007/es/service-areas/aurora",
+      "errors": [],
+      "warnings": 0,
+      "notices": 0,
+      "error": null
+    },
+    {
+      "path": "/es/service-areas/naperville",
+      "label": "es-city-2",
+      "url": "http://localhost:3007/es/service-areas/naperville",
+      "errors": [],
+      "warnings": 0,
+      "notices": 0,
+      "error": null
+    },
+    {
+      "path": "/es/projects",
+      "label": "es-projects-index",
+      "url": "http://localhost:3007/es/projects",
+      "errors": [
+        {
+          "code": "WCAG2AA.Principle1.Guideline1_3.1_3_1.H42.2",
+          "message": "Heading tag found with no content. Text that is not intended as a heading should not be marked up with heading tags.",
+          "selector": "#main > section:nth-child(5) > div > div > ul > li:nth-child(1) > a > div > div:nth-child(4) > h3",
+          "context": "<h3 class=\"m-0 font-heading\" style=\"font-size:var(--text-h5);font-weight:600;color:var(--color-text-on-dark);letter-spacing:var(--tracking-snug);line-height:var(--leading-snug)\"></h3>"
+        },
+        {
+          "code": "WCAG2AA.Principle1.Guideline1_3.1_3_1.H42.2",
+          "message": "Heading tag found with no content. Text that is not intended as a heading should not be marked up with heading tags.",
+          "selector": "#main > section:nth-child(5) > div > div > ul > li:nth-child(2) > a > div > div:nth-child(4) > h3",
+          "context": "<h3 class=\"m-0 font-heading\" style=\"font-size:var(--text-h5);font-weight:600;color:var(--color-text-on-dark);letter-spacing:var(--tracking-snug);line-height:var(--leading-snug)\"></h3>"
+        },
+        {
+          "code": "WCAG2AA.Principle1.Guideline1_3.1_3_1.H42.2",
+          "message": "Heading tag found with no content. Text that is not intended as a heading should not be marked up with heading tags.",
+          "selector": "#main > section:nth-child(5) > div > div > ul > li:nth-child(6) > a > div > div:nth-child(4) > h3",
+          "context": "<h3 class=\"m-0 font-heading\" style=\"font-size:var(--text-h5);font-weight:600;color:var(--color-text-on-dark);letter-spacing:var(--tracking-snug);line-height:var(--leading-snug)\"></h3>"
+        },
+        {
+          "code": "WCAG2AA.Principle1.Guideline1_3.1_3_1.H42.2",
+          "message": "Heading tag found with no content. Text that is not intended as a heading should not be marked up with heading tags.",
+          "selector": "#main > section:nth-child(5) > div > div > ul > li:nth-child(7) > a > div > div:nth-child(4) > h3",
+          "context": "<h3 class=\"m-0 font-heading\" style=\"font-size:var(--text-h5);font-weight:600;color:var(--color-text-on-dark);letter-spacing:var(--tracking-snug);line-height:var(--leading-snug)\"></h3>"
+        },
+        {
+          "code": "WCAG2AA.Principle1.Guideline1_3.1_3_1.H42.2",
+          "message": "Heading tag found with no content. Text that is not intended as a heading should not be marked up with heading tags.",
+          "selector": "#main > section:nth-child(5) > div > div > ul > li:nth-child(8) > a > div > div:nth-child(4) > h3",
+          "context": "<h3 class=\"m-0 font-heading\" style=\"font-size:var(--text-h5);font-weight:600;color:var(--color-text-on-dark);letter-spacing:var(--tracking-snug);line-height:var(--leading-snug)\"></h3>"
+        },
+        {
+          "code": "WCAG2AA.Principle1.Guideline1_3.1_3_1.H42.2",
+          "message": "Heading tag found with no content. Text that is not intended as a heading should not be marked up with heading tags.",
+          "selector": "#main > section:nth-child(5) > div > div > ul > li:nth-child(10) > a > div > div:nth-child(4) > h3",
+          "context": "<h3 class=\"m-0 font-heading\" style=\"font-size:var(--text-h5);font-weight:600;color:var(--color-text-on-dark);letter-spacing:var(--tracking-snug);line-height:var(--leading-snug)\"></h3>"
+        }
+      ],
+      "warnings": 0,
+      "notices": 0,
+      "error": null
+    },
+    {
+      "path": "/es/projects/aurora-area-patio",
+      "label": "es-project-1",
+      "url": "http://localhost:3007/es/projects/aurora-area-patio",
+      "errors": [
+        {
+          "code": "WCAG2AA.Principle1.Guideline1_3.1_3_1.H42.2",
+          "message": "Heading tag found with no content. Text that is not intended as a heading should not be marked up with heading tags.",
+          "selector": "#project-hero-h1",
+          "context": "<h1 id=\"project-hero-h1\" class=\"m-0 font-heading font-bold\" style=\"font-size:var(--text-h1);line-height:var(--leading-tight);letter-spacing:var(--tracking-snug);text-wrap:balance;max-width:18ch\"></h1>"
+        },
+        {
+          "code": "WCAG2AA.Principle1.Guideline1_3.1_3_1.H42.2",
+          "message": "Heading tag found with no content. Text that is not intended as a heading should not be marked up with heading tags.",
+          "selector": "#project-narrative-h2",
+          "context": "<h2 id=\"project-narrative-h2\" class=\"m-0 font-heading font-bold\" style=\"font-size:var(--text-h2);line-height:var(--leading-tight);letter-spacing:var(--tracking-snug);text-wrap:balance;max-width:24ch\"></h2>"
+        },
+        {
+          "code": "WCAG2AA.Principle1.Guideline1_3.1_3_1.H42.2",
+          "message": "Heading tag found with no content. Text that is not intended as a heading should not be marked up with heading tags.",
+          "selector": "#main > section:nth-child(7) > div > div > ul > li:nth-child(3) > a > div > div:nth-child(4) > h3",
+          "context": "<h3 class=\"m-0 font-heading\" style=\"font-size:var(--text-h5);font-weight:600;color:var(--color-text-on-dark);letter-spacing:var(--tracking-snug);line-height:var(--leading-snug)\"></h3>"
+        }
+      ],
+      "warnings": 0,
+      "notices": 0,
+      "error": null
+    },
+    {
+      "path": "/es/projects/tree-removal-service",
+      "label": "es-project-2",
+      "url": "http://localhost:3007/es/projects/tree-removal-service",
+      "errors": [
+        {
+          "code": "WCAG2AA.Principle1.Guideline1_3.1_3_1.H42.2",
+          "message": "Heading tag found with no content. Text that is not intended as a heading should not be marked up with heading tags.",
+          "selector": "#main > section:nth-child(7) > div > div > ul > li:nth-child(2) > a > div > div:nth-child(4) > h3",
+          "context": "<h3 class=\"m-0 font-heading\" style=\"font-size:var(--text-h5);font-weight:600;color:var(--color-text-on-dark);letter-spacing:var(--tracking-snug);line-height:var(--leading-snug)\"></h3>"
+        },
+        {
+          "code": "WCAG2AA.Principle1.Guideline1_3.1_3_1.H42.2",
+          "message": "Heading tag found with no content. Text that is not intended as a heading should not be marked up with heading tags.",
+          "selector": "#main > section:nth-child(7) > div > div > ul > li:nth-child(3) > a > div > div:nth-child(4) > h3",
+          "context": "<h3 class=\"m-0 font-heading\" style=\"font-size:var(--text-h5);font-weight:600;color:var(--color-text-on-dark);letter-spacing:var(--tracking-snug);line-height:var(--leading-snug)\"></h3>"
+        }
+      ],
+      "warnings": 0,
+      "notices": 0,
+      "error": null
+    },
+    {
+      "path": "/es/blog",
+      "label": "es-blog-index",
+      "url": "http://localhost:3007/es/blog",
+      "errors": [],
+      "warnings": 0,
+      "notices": 0,
+      "error": null
+    },
+    {
+      "path": "/es/blog/dupage-patio-cost-2026",
+      "label": "es-blog-1",
+      "url": "http://localhost:3007/es/blog/dupage-patio-cost-2026",
+      "errors": [],
+      "warnings": 0,
+      "notices": 0,
+      "error": null
+    },
+    {
+      "path": "/es/blog/why-unilock-premium-pavers",
+      "label": "es-blog-2",
+      "url": "http://localhost:3007/es/blog/why-unilock-premium-pavers",
+      "errors": [],
+      "warnings": 0,
+      "notices": 0,
+      "error": null
+    },
+    {
+      "path": "/es/resources",
+      "label": "es-resources-index",
+      "url": "http://localhost:3007/es/resources",
+      "errors": [],
+      "warnings": 0,
+      "notices": 0,
+      "error": null
+    },
+    {
+      "path": "/es/resources/patio-materials-guide",
+      "label": "es-resource-1",
+      "url": "http://localhost:3007/es/resources/patio-materials-guide",
+      "errors": [],
+      "warnings": 0,
+      "notices": 0,
+      "error": null
+    },
+    {
+      "path": "/es/resources/lawn-care-glossary",
+      "label": "es-resource-2",
+      "url": "http://localhost:3007/es/resources/lawn-care-glossary",
+      "errors": [],
+      "warnings": 0,
+      "notices": 0,
+      "error": null
+    },
+    {
+      "path": "/es/landscape",
+      "label": "es-division-landscape",
+      "url": "http://localhost:3007/es/landscape",
+      "errors": [
+        {
+          "code": "WCAG2AA.Principle1.Guideline1_4.1_4_3.G18.Fail",
+          "message": "This element has insufficient contrast at this conformance level. Expected a contrast ratio of at least 4.5:1, but text in this element has a contrast ratio of 2.25:1. Recommendation:  change text colour to #fdfffc.",
+          "selector": "#main > div > section:nth-child(3) > div:nth-child(2) > div > p:nth-child(2)",
+          "context": "<p class=\"font-heading font-semibold uppercase m-0\" style=\"font-size:13px;letter-spacing:var(--tracking-eyebrow);color:var(--audience-accent);text-shadow:0 1px 2px rgba(0, 0, 0, 0.62), 0 2px 10px rgba(0, 0, 0, 0.45)\">DIVISIÓN PAISAJISMO</p>"
+        }
+      ],
+      "warnings": 0,
+      "notices": 0,
+      "error": null
+    },
+    {
+      "path": "/es/landscape/lawn-care",
+      "label": "es-svc-landscape-1",
+      "url": "http://localhost:3007/es/landscape/lawn-care",
+      "errors": [
+        {
+          "code": "WCAG2AA.Principle1.Guideline1_4.1_4_3.G18.Fail",
+          "message": "This element has insufficient contrast at this conformance level. Expected a contrast ratio of at least 4.5:1, but text in this element has a contrast ratio of 2.25:1. Recommendation:  change text colour to #fdfffc.",
+          "selector": "#main > div > section:nth-child(4) > div:nth-child(2) > div > p:nth-child(2)",
+          "context": "<p class=\"font-heading font-semibold uppercase m-0\" style=\"font-size:13px;letter-spacing:var(--tracking-eyebrow);color:var(--audience-accent)\">DIVISIÓN PAISAJISMO</p>"
+        }
+      ],
+      "warnings": 0,
+      "notices": 0,
+      "error": null
+    },
+    {
+      "path": "/es/landscape/tree-services",
+      "label": "es-svc-landscape-2",
+      "url": "http://localhost:3007/es/landscape/tree-services",
+      "errors": [
+        {
+          "code": "WCAG2AA.Principle1.Guideline1_4.1_4_3.G18.Fail",
+          "message": "This element has insufficient contrast at this conformance level. Expected a contrast ratio of at least 4.5:1, but text in this element has a contrast ratio of 2.25:1. Recommendation:  change text colour to #fdfffc.",
+          "selector": "#main > div > section:nth-child(4) > div:nth-child(2) > div > p:nth-child(2)",
+          "context": "<p class=\"font-heading font-semibold uppercase m-0\" style=\"font-size:13px;letter-spacing:var(--tracking-eyebrow);color:var(--audience-accent)\">DIVISIÓN PAISAJISMO</p>"
+        }
+      ],
+      "warnings": 0,
+      "notices": 0,
+      "error": null
+    },
+    {
+      "path": "/es/hardscape",
+      "label": "es-division-hardscape",
+      "url": "http://localhost:3007/es/hardscape",
+      "errors": [
+        {
+          "code": "WCAG2AA.Principle1.Guideline1_4.1_4_3.G18.Fail",
+          "message": "This element has insufficient contrast at this conformance level. Expected a contrast ratio of at least 4.5:1, but text in this element has a contrast ratio of 3.72:1. Recommendation:  change text colour to #a56912.",
+          "selector": "#main > div > section:nth-child(4) > div > div:nth-child(1) > p:nth-child(1)",
+          "context": "<p class=\"font-heading font-semibold uppercase m-0 mb-3\" style=\"font-size:13px;letter-spacing:var(--tracking-eyebrow);color:var(--audience-accent)\">PARA PROPIETARIOS DE DUPAGE</p>"
+        },
+        {
+          "code": "WCAG2AA.Principle1.Guideline1_4.1_4_3.G18.Fail",
+          "message": "This element has insufficient contrast at this conformance level. Expected a contrast ratio of at least 4.5:1, but text in this element has a contrast ratio of 3.48:1. Recommendation:  change text colour to #040300.",
+          "selector": "#main > div > section:nth-child(4) > div > div:nth-child(2) > div:nth-child(1) > span",
+          "context": "<span class=\"badge badge-md badge-pill\" style=\"background:var(--audience-chip-bg);color:var(--audience-accent);height:36px;padding:0 16px;font-size:13px\">Autorizado Unilock</span>"
+        },
+        {
+          "code": "WCAG2AA.Principle1.Guideline1_4.1_4_3.G18.Fail",
+          "message": "This element has insufficient contrast at this conformance level. Expected a contrast ratio of at least 4.5:1, but text in this element has a contrast ratio of 3.48:1. Recommendation:  change text colour to #040300.",
+          "selector": "#main > div > section:nth-child(4) > div > div:nth-child(2) > div:nth-child(2) > span",
+          "context": "<span class=\"badge badge-md badge-pill\" style=\"background:var(--audience-chip-bg);color:var(--audience-accent);height:36px;padding:0 16px;font-size:13px\">Garantía de mano de obra 5 años</span>"
+        },
+        {
+          "code": "WCAG2AA.Principle1.Guideline1_4.1_4_3.G18.Fail",
+          "message": "This element has insufficient contrast at this conformance level. Expected a contrast ratio of at least 4.5:1, but text in this element has a contrast ratio of 3.48:1. Recommendation:  change text colour to #040300.",
+          "selector": "#main > div > section:nth-child(4) > div > div:nth-child(2) > div:nth-child(3) > span",
+          "context": "<span class=\"badge badge-md badge-pill\" style=\"background:var(--audience-chip-bg);color:var(--audience-accent);height:36px;padding:0 16px;font-size:13px\">Diseñado para el suelo</span>"
+        },
+        {
+          "code": "WCAG2AA.Principle1.Guideline1_4.1_4_3.G18.Fail",
+          "message": "This element has insufficient contrast at this conformance level. Expected a contrast ratio of at least 4.5:1, but text in this element has a contrast ratio of 3.48:1. Recommendation:  change text colour to #040300.",
+          "selector": "#main > div > section:nth-child(4) > div > div:nth-child(2) > div:nth-child(4) > span",
+          "context": "<span class=\"badge badge-md badge-pill\" style=\"background:var(--audience-chip-bg);color:var(--audience-accent);height:36px;padding:0 16px;font-size:13px\">20+ años en hardscape</span>"
+        },
+        {
+          "code": "WCAG2AA.Principle1.Guideline1_4.1_4_3.G18.Fail",
+          "message": "This element has insufficient contrast at this conformance level. Expected a contrast ratio of at least 4.5:1, but text in this element has a contrast ratio of 3.48:1. Recommendation:  change text colour to #0a0600.",
+          "selector": "#main > div > section:nth-child(5) > div > div:nth-child(1) > p:nth-child(1)",
+          "context": "<p class=\"font-heading font-semibold uppercase m-0 mb-3\" style=\"font-size:13px;letter-spacing:var(--tracking-eyebrow);color:var(--audience-accent)\">SEIS SERVICIOS DE HARDSCAPE</p>"
+        },
+        {
+          "code": "WCAG2AA.Principle1.Guideline1_4.1_4_3.G18.Fail",
+          "message": "This element has insufficient contrast at this conformance level. Expected a contrast ratio of at least 4.5:1, but text in this element has a contrast ratio of 3.72:1. Recommendation:  change text colour to #a56912.",
+          "selector": "#main > div > section:nth-child(6) > div > div:nth-child(1) > div > div > p",
+          "context": "<p class=\"font-heading font-semibold uppercase m-0 mb-3\" style=\"font-size:13px;letter-spacing:var(--tracking-eyebrow);color:var(--audience-accent)\">INSTALACIONES RECIENTES</p>"
+        },
+        {
+          "code": "WCAG2AA.Principle1.Guideline1_4.1_4_3.G18.Fail",
+          "message": "This element has insufficient contrast at this conformance level. Expected a contrast ratio of at least 4.5:1, but text in this element has a contrast ratio of 3.48:1. Recommendation:  change text colour to #0a0600.",
+          "selector": "#main > div > section:nth-child(7) > div > div:nth-child(1) > p",
+          "context": "<p class=\"font-heading font-semibold uppercase m-0 mb-3\" style=\"font-size:13px;letter-spacing:var(--tracking-eyebrow);color:var(--audience-accent)\">POR QUÉ SUNSET</p>"
+        },
+        {
+          "code": "WCAG2AA.Principle1.Guideline1_4.1_4_3.G18.Fail",
+          "message": "This element has insufficient contrast at this conformance level. Expected a contrast ratio of at least 4.5:1, but text in this element has a contrast ratio of 3.48:1. Recommendation:  change text colour to #0a0600.",
+          "selector": "#main > div > section:nth-child(10) > div > div:nth-child(1) > p",
+          "context": "<p class=\"font-heading font-semibold uppercase m-0 mb-3\" style=\"font-size:13px;letter-spacing:var(--tracking-eyebrow);color:var(--audience-accent)\">PREGUNTAS · RESPUESTAS</p>"
+        }
+      ],
+      "warnings": 0,
+      "notices": 0,
+      "error": null
+    },
+    {
+      "path": "/es/hardscape/patios-walkways",
+      "label": "es-svc-hardscape-1",
+      "url": "http://localhost:3007/es/hardscape/patios-walkways",
+      "errors": [
+        {
+          "code": "WCAG2AA.Principle1.Guideline1_4.1_4_3.G18.Fail",
+          "message": "This element has insufficient contrast at this conformance level. Expected a contrast ratio of at least 4.5:1, but text in this element has a contrast ratio of 3.48:1. Recommendation:  change text colour to #040300.",
+          "selector": "#main > div > section:nth-child(4) > div:nth-child(2) > div > ul > li:nth-child(1) > span",
+          "context": "<span class=\"badge badge-md badge-pill\" style=\"background:var(--audience-chip-bg);color:var(--audience-accent);min-height:36px;height:auto;padding:6px 16px;font-size:13px\">Contratista Autorizado Unilock</span>"
+        },
+        {
+          "code": "WCAG2AA.Principle1.Guideline1_4.1_4_3.G18.Fail",
+          "message": "This element has insufficient contrast at this conformance level. Expected a contrast ratio of at least 4.5:1, but text in this element has a contrast ratio of 3.48:1. Recommendation:  change text colour to #040300.",
+          "selector": "#main > div > section:nth-child(4) > div:nth-child(2) > div > ul > li:nth-child(2) > span",
+          "context": "<span class=\"badge badge-md badge-pill\" style=\"background:var(--audience-chip-bg);color:var(--audience-accent);min-height:36px;height:auto;padding:6px 16px;font-size:13px\">Garantía de Mano de Obra de 5 A...</span>"
+        },
+        {
+          "code": "WCAG2AA.Principle1.Guideline1_4.1_4_3.G18.Fail",
+          "message": "This element has insufficient contrast at this conformance level. Expected a contrast ratio of at least 4.5:1, but text in this element has a contrast ratio of 3.48:1. Recommendation:  change text colour to #040300.",
+          "selector": "#main > div > section:nth-child(4) > div:nth-child(2) > div > ul > li:nth-child(3) > span",
+          "context": "<span class=\"badge badge-md badge-pill\" style=\"background:var(--audience-chip-bg);color:var(--audience-accent);min-height:36px;height:auto;padding:6px 16px;font-size:13px\">Asistencia con HOA y Permisos</span>"
+        },
+        {
+          "code": "WCAG2AA.Principle1.Guideline1_4.1_4_3.G18.Fail",
+          "message": "This element has insufficient contrast at this conformance level. Expected a contrast ratio of at least 4.5:1, but text in this element has a contrast ratio of 3.48:1. Recommendation:  change text colour to #040300.",
+          "selector": "#main > div > section:nth-child(4) > div:nth-child(2) > div > ul > li:nth-child(4) > span",
+          "context": "<span class=\"badge badge-md badge-pill\" style=\"background:var(--audience-chip-bg);color:var(--audience-accent);min-height:36px;height:auto;padding:6px 16px;font-size:13px\">Sirviendo a Aurora y los Suburb...</span>"
+        },
+        {
+          "code": "WCAG2AA.Principle1.Guideline1_4.1_4_3.G18.Fail",
+          "message": "This element has insufficient contrast at this conformance level. Expected a contrast ratio of at least 4.5:1, but text in this element has a contrast ratio of 3.72:1. Recommendation:  change text colour to #a56912.",
+          "selector": "#main > div > section:nth-child(5) > div > div:nth-child(1) > p",
+          "context": "<p class=\"font-heading font-semibold uppercase m-0 mb-3\" style=\"font-size:13px;letter-spacing:var(--tracking-eyebrow);color:var(--audience-accent)\">QUÉ INCLUYE</p>"
+        },
+        {
+          "code": "WCAG2AA.Principle1.Guideline1_4.1_4_3.G18.Fail",
+          "message": "This element has insufficient contrast at this conformance level. Expected a contrast ratio of at least 4.5:1, but text in this element has a contrast ratio of 3.48:1. Recommendation:  change text colour to #0a0600.",
+          "selector": "#main > div > section:nth-child(6) > div > div > p",
+          "context": "<p class=\"font-heading font-semibold uppercase m-0 mb-3\" style=\"font-size:13px;letter-spacing:var(--tracking-eyebrow);color:var(--audience-accent)\">CÓMO FUNCIONA</p>"
+        },
+        {
+          "code": "WCAG2AA.Principle1.Guideline1_4.1_4_3.G18.Fail",
+          "message": "This element has insufficient contrast at this conformance level. Expected a contrast ratio of at least 4.5:1, but text in this element has a contrast ratio of 3.72:1. Recommendation:  change text colour to #a56912.",
+          "selector": "#main > div > section:nth-child(7) > div > div:nth-child(1) > p",
+          "context": "<p class=\"font-heading font-semibold uppercase m-0 mb-3\" style=\"font-size:13px;letter-spacing:var(--tracking-eyebrow);color:var(--audience-accent)\">POR QUÉ SUNSET PARA PATIOS Y SE...</p>"
+        },
+        {
+          "code": "WCAG2AA.Principle1.Guideline1_4.1_4_3.G18.Fail",
+          "message": "This element has insufficient contrast at this conformance level. Expected a contrast ratio of at least 4.5:1, but text in this element has a contrast ratio of 3.72:1. Recommendation:  change text colour to #a56912.",
+          "selector": "#main > div > section:nth-child(8) > div > div > div > div > p:nth-child(1)",
+          "context": "<p class=\"font-heading font-semibold uppercase m-0 mb-3\" style=\"font-size:13px;letter-spacing:var(--tracking-eyebrow);color:var(--audience-accent)\">CÓMO FUNCIONAN LOS PRECIOS</p>"
+        },
+        {
+          "code": "WCAG2AA.Principle1.Guideline1_4.1_4_3.G18.Fail",
+          "message": "This element has insufficient contrast at this conformance level. Expected a contrast ratio of at least 4.5:1, but text in this element has a contrast ratio of 3.72:1. Recommendation:  change text colour to #a56912.",
+          "selector": "#main > div > section:nth-child(9) > div > div:nth-child(1) > div > div > p",
+          "context": "<p class=\"font-heading font-semibold uppercase m-0 mb-3\" style=\"font-size:13px;letter-spacing:var(--tracking-eyebrow);color:var(--audience-accent)\">TRABAJO RECIENTE</p>"
+        },
+        {
+          "code": "WCAG2AA.Principle1.Guideline1_4.1_4_3.G18.Fail",
+          "message": "This element has insufficient contrast at this conformance level. Expected a contrast ratio of at least 4.5:1, but text in this element has a contrast ratio of 3.48:1. Recommendation:  change text colour to #0a0600.",
+          "selector": "#main > div > section:nth-child(10) > div > div:nth-child(1) > p",
+          "context": "<p class=\"font-heading font-semibold uppercase m-0 mb-3\" style=\"font-size:13px;letter-spacing:var(--tracking-eyebrow);color:var(--audience-accent)\">PREGUNTAS · RESPUESTAS</p>"
+        },
+        {
+          "code": "WCAG2AA.Principle1.Guideline1_4.1_4_3.G18.Fail",
+          "message": "This element has insufficient contrast at this conformance level. Expected a contrast ratio of at least 4.5:1, but text in this element has a contrast ratio of 3.72:1. Recommendation:  change text colour to #a56912.",
+          "selector": "#main > div > section:nth-child(11) > div > div:nth-child(1) > p",
+          "context": "<p class=\"font-heading font-semibold uppercase m-0 mb-3\" style=\"font-size:13px;letter-spacing:var(--tracking-eyebrow);color:var(--audience-accent)\">LOS CLIENTES TAMBIÉN PIDEN</p>"
+        },
+        {
+          "code": "WCAG2AA.Principle1.Guideline1_4.1_4_3.G18.Fail",
+          "message": "This element has insufficient contrast at this conformance level. Expected a contrast ratio of at least 4.5:1, but text in this element has a contrast ratio of 3.48:1. Recommendation:  change text colour to #0a0600.",
+          "selector": "#main > div > section:nth-child(12) > div > div > p:nth-child(1)",
+          "context": "<p class=\"font-heading font-semibold uppercase m-0 mb-4\" style=\"font-size:13px;letter-spacing:var(--tracking-eyebrow);color:var(--audience-accent)\">LISTOS CUANDO TÚ LO ESTÉS</p>"
+        }
+      ],
+      "warnings": 0,
+      "notices": 0,
+      "error": null
+    },
+    {
+      "path": "/es/hardscape/retaining-walls",
+      "label": "es-svc-hardscape-2",
+      "url": "http://localhost:3007/es/hardscape/retaining-walls",
+      "errors": [
+        {
+          "code": "WCAG2AA.Principle1.Guideline1_4.1_4_3.G18.Fail",
+          "message": "This element has insufficient contrast at this conformance level. Expected a contrast ratio of at least 4.5:1, but text in this element has a contrast ratio of 3.72:1. Recommendation:  change text colour to #a56912.",
+          "selector": "#main > div > section:nth-child(5) > div > div:nth-child(1) > p",
+          "context": "<p class=\"font-heading font-semibold uppercase m-0 mb-3\" style=\"font-size:13px;letter-spacing:var(--tracking-eyebrow);color:var(--audience-accent)\">QUÉ INCLUYE</p>"
+        },
+        {
+          "code": "WCAG2AA.Principle1.Guideline1_4.1_4_3.G18.Fail",
+          "message": "This element has insufficient contrast at this conformance level. Expected a contrast ratio of at least 4.5:1, but text in this element has a contrast ratio of 3.48:1. Recommendation:  change text colour to #0a0600.",
+          "selector": "#main > div > section:nth-child(6) > div > div > p",
+          "context": "<p class=\"font-heading font-semibold uppercase m-0 mb-3\" style=\"font-size:13px;letter-spacing:var(--tracking-eyebrow);color:var(--audience-accent)\">CÓMO FUNCIONA</p>"
+        },
+        {
+          "code": "WCAG2AA.Principle1.Guideline1_4.1_4_3.G18.Fail",
+          "message": "This element has insufficient contrast at this conformance level. Expected a contrast ratio of at least 4.5:1, but text in this element has a contrast ratio of 3.72:1. Recommendation:  change text colour to #a56912.",
+          "selector": "#main > div > section:nth-child(7) > div > div:nth-child(1) > p",
+          "context": "<p class=\"font-heading font-semibold uppercase m-0 mb-3\" style=\"font-size:13px;letter-spacing:var(--tracking-eyebrow);color:var(--audience-accent)\">POR QUÉ SUNSET PARA MUROS DE CO...</p>"
+        },
+        {
+          "code": "WCAG2AA.Principle1.Guideline1_4.1_4_3.G18.Fail",
+          "message": "This element has insufficient contrast at this conformance level. Expected a contrast ratio of at least 4.5:1, but text in this element has a contrast ratio of 3.72:1. Recommendation:  change text colour to #a56912.",
+          "selector": "#main > div > section:nth-child(8) > div > div > div > div > p:nth-child(1)",
+          "context": "<p class=\"font-heading font-semibold uppercase m-0 mb-3\" style=\"font-size:13px;letter-spacing:var(--tracking-eyebrow);color:var(--audience-accent)\">CÓMO FUNCIONAN LOS PRECIOS</p>"
+        },
+        {
+          "code": "WCAG2AA.Principle1.Guideline1_4.1_4_3.G18.Fail",
+          "message": "This element has insufficient contrast at this conformance level. Expected a contrast ratio of at least 4.5:1, but text in this element has a contrast ratio of 3.72:1. Recommendation:  change text colour to #a56912.",
+          "selector": "#main > div > section:nth-child(9) > div > div:nth-child(1) > div > div > p",
+          "context": "<p class=\"font-heading font-semibold uppercase m-0 mb-3\" style=\"font-size:13px;letter-spacing:var(--tracking-eyebrow);color:var(--audience-accent)\">TRABAJO RECIENTE</p>"
+        },
+        {
+          "code": "WCAG2AA.Principle1.Guideline1_4.1_4_3.G18.Fail",
+          "message": "This element has insufficient contrast at this conformance level. Expected a contrast ratio of at least 4.5:1, but text in this element has a contrast ratio of 3.48:1. Recommendation:  change text colour to #0a0600.",
+          "selector": "#main > div > section:nth-child(10) > div > div:nth-child(1) > p",
+          "context": "<p class=\"font-heading font-semibold uppercase m-0 mb-3\" style=\"font-size:13px;letter-spacing:var(--tracking-eyebrow);color:var(--audience-accent)\">PREGUNTAS · RESPUESTAS</p>"
+        },
+        {
+          "code": "WCAG2AA.Principle1.Guideline1_4.1_4_3.G18.Fail",
+          "message": "This element has insufficient contrast at this conformance level. Expected a contrast ratio of at least 4.5:1, but text in this element has a contrast ratio of 3.72:1. Recommendation:  change text colour to #a56912.",
+          "selector": "#main > div > section:nth-child(11) > div > div:nth-child(1) > p",
+          "context": "<p class=\"font-heading font-semibold uppercase m-0 mb-3\" style=\"font-size:13px;letter-spacing:var(--tracking-eyebrow);color:var(--audience-accent)\">LOS CLIENTES TAMBIÉN PIDEN</p>"
+        },
+        {
+          "code": "WCAG2AA.Principle1.Guideline1_4.1_4_3.G18.Fail",
+          "message": "This element has insufficient contrast at this conformance level. Expected a contrast ratio of at least 4.5:1, but text in this element has a contrast ratio of 3.48:1. Recommendation:  change text colour to #0a0600.",
+          "selector": "#main > div > section:nth-child(12) > div > div > p:nth-child(1)",
+          "context": "<p class=\"font-heading font-semibold uppercase m-0 mb-4\" style=\"font-size:13px;letter-spacing:var(--tracking-eyebrow);color:var(--audience-accent)\">LISTOS CUANDO TÚ LO ESTÉS</p>"
+        }
+      ],
+      "warnings": 0,
+      "notices": 0,
+      "error": null
+    },
+    {
+      "path": "/es/waterproofing",
+      "label": "es-division-waterproofing",
+      "url": "http://localhost:3007/es/waterproofing",
+      "errors": [
+        {
+          "code": "WCAG2AA.Principle1.Guideline1_4.1_4_3.G18.Fail",
+          "message": "This element has insufficient contrast at this conformance level. Expected a contrast ratio of at least 4.5:1, but text in this element has a contrast ratio of 1.31:1. Recommendation:  change text colour to #fcfffc.",
+          "selector": "#main > div > section:nth-child(3) > div:nth-child(2) > div > p:nth-child(2)",
+          "context": "<p class=\"font-heading font-semibold uppercase m-0\" style=\"font-size:13px;letter-spacing:var(--tracking-eyebrow);color:var(--audience-accent);text-shadow:0 1px 2px rgba(0, 0, 0, 0.62), 0 2px 10px rgba(0, 0, 0, 0.45)\">DIVISIÓN IMPERMEABILIZA"
+        }
+      ],
+      "warnings": 0,
+      "notices": 0,
+      "error": null
+    },
+    {
+      "path": "/es/waterproofing/basement-waterproofing",
+      "label": "es-svc-waterproofing-1",
+      "url": "http://localhost:3007/es/waterproofing/basement-waterproofing",
+      "errors": [
+        {
+          "code": "WCAG2AA.Principle1.Guideline1_4.1_4_3.G18.Fail",
+          "message": "This element has insufficient contrast at this conformance level. Expected a contrast ratio of at least 4.5:1, but text in this element has a contrast ratio of 1.31:1. Recommendation:  change text colour to #fcfffc.",
+          "selector": "#main > div > section:nth-child(4) > div:nth-child(2) > div > p:nth-child(2)",
+          "context": "<p class=\"font-heading font-semibold uppercase m-0\" style=\"font-size:13px;letter-spacing:var(--tracking-eyebrow);color:var(--audience-accent)\">DIVISIÓN IMPERMEABILIZACIÓN</p>"
+        }
+      ],
+      "warnings": 0,
+      "notices": 0,
+      "error": null
+    },
+    {
+      "path": "/es/waterproofing/sump-pumps",
+      "label": "es-svc-waterproofing-2",
+      "url": "http://localhost:3007/es/waterproofing/sump-pumps",
+      "errors": [
+        {
+          "code": "WCAG2AA.Principle1.Guideline1_4.1_4_3.G18.Fail",
+          "message": "This element has insufficient contrast at this conformance level. Expected a contrast ratio of at least 4.5:1, but text in this element has a contrast ratio of 1.31:1. Recommendation:  change text colour to #fcfffc.",
+          "selector": "#main > div > section:nth-child(4) > div:nth-child(2) > div > p:nth-child(2)",
+          "context": "<p class=\"font-heading font-semibold uppercase m-0\" style=\"font-size:13px;letter-spacing:var(--tracking-eyebrow);color:var(--audience-accent)\">DIVISIÓN IMPERMEABILIZACIÓN</p>"
+        }
+      ],
+      "warnings": 0,
+      "notices": 0,
+      "error": null
+    },
+    {
+      "path": "/es/snow-removal",
+      "label": "es-division-snow",
+      "url": "http://localhost:3007/es/snow-removal",
+      "errors": [
+        {
+          "code": "WCAG2AA.Principle1.Guideline1_4.1_4_3.G18.Fail",
+          "message": "This element has insufficient contrast at this conformance level. Expected a contrast ratio of at least 4.5:1, but text in this element has a contrast ratio of 1:1. Recommendation:  change text colour to #fff.",
+          "selector": "#main > div > section:nth-child(3) > div:nth-child(2) > div > p:nth-child(2)",
+          "context": "<p class=\"font-heading font-semibold uppercase m-0\" style=\"font-size:13px;letter-spacing:var(--tracking-eyebrow);color:var(--audience-accent);text-shadow:0 1px 2px rgba(0, 0, 0, 0.62), 0 2px 10px rgba(0, 0, 0, 0.45)\">DIVISIÓN REMOCIÓN DE NI"
+        }
+      ],
+      "warnings": 0,
+      "notices": 0,
+      "error": null
+    },
+    {
+      "path": "/es/snow-removal/commercial-snow-plowing",
+      "label": "es-svc-snow-1",
+      "url": "http://localhost:3007/es/snow-removal/commercial-snow-plowing",
+      "errors": [
+        {
+          "code": "WCAG2AA.Principle1.Guideline1_4.1_4_3.G18.Fail",
+          "message": "This element has insufficient contrast at this conformance level. Expected a contrast ratio of at least 4.5:1, but text in this element has a contrast ratio of 1:1. Recommendation:  change text colour to #fff.",
+          "selector": "#main > div > section:nth-child(4) > div:nth-child(2) > div > p:nth-child(2)",
+          "context": "<p class=\"font-heading font-semibold uppercase m-0\" style=\"font-size:13px;letter-spacing:var(--tracking-eyebrow);color:var(--audience-accent)\">DIVISIÓN REMOCIÓN DE NIEVE</p>"
+        }
+      ],
+      "warnings": 0,
+      "notices": 0,
+      "error": null
+    },
+    {
+      "path": "/es/snow-removal/de-icing",
+      "label": "es-svc-snow-2",
+      "url": "http://localhost:3007/es/snow-removal/de-icing",
+      "errors": [
+        {
+          "code": "WCAG2AA.Principle1.Guideline1_4.1_4_3.G18.Fail",
+          "message": "This element has insufficient contrast at this conformance level. Expected a contrast ratio of at least 4.5:1, but text in this element has a contrast ratio of 1:1. Recommendation:  change text colour to #fff.",
+          "selector": "#main > div > section:nth-child(4) > div:nth-child(2) > div > p:nth-child(2)",
+          "context": "<p class=\"font-heading font-semibold uppercase m-0\" style=\"font-size:13px;letter-spacing:var(--tracking-eyebrow);color:var(--audience-accent)\">DIVISIÓN REMOCIÓN DE NIEVE</p>"
+        }
+      ],
+      "warnings": 0,
+      "notices": 0,
+      "error": null
+    },
+    {
+      "path": "/es/trenchless",
+      "label": "es-division-trenchless",
+      "url": "http://localhost:3007/es/trenchless",
+      "errors": [
+        {
+          "code": "WCAG2AA.Principle1.Guideline1_4.1_4_3.G18.Fail",
+          "message": "This element has insufficient contrast at this conformance level. Expected a contrast ratio of at least 4.5:1, but text in this element has a contrast ratio of 3.47:1. Recommendation:  change text colour to #fffcfa.",
+          "selector": "#main > div > section:nth-child(3) > div:nth-child(2) > div > p:nth-child(2)",
+          "context": "<p class=\"font-heading font-semibold uppercase m-0\" style=\"font-size:13px;letter-spacing:var(--tracking-eyebrow);color:var(--audience-accent);text-shadow:0 1px 2px rgba(0, 0, 0, 0.62), 0 2px 10px rgba(0, 0, 0, 0.45)\">DIVISIÓN DE PERFORACIÓN"
+        }
+      ],
+      "warnings": 0,
+      "notices": 0,
+      "error": null
+    },
+    {
+      "path": "/es/trenchless/conduit-installation",
+      "label": "es-svc-trenchless-1",
+      "url": "http://localhost:3007/es/trenchless/conduit-installation",
+      "errors": [
+        {
+          "code": "WCAG2AA.Principle1.Guideline1_4.1_4_3.G18.Fail",
+          "message": "This element has insufficient contrast at this conformance level. Expected a contrast ratio of at least 4.5:1, but text in this element has a contrast ratio of 3.47:1. Recommendation:  change text colour to #fffcfa.",
+          "selector": "#main > div > section:nth-child(3) > div:nth-child(2) > div > p:nth-child(2)",
+          "context": "<p class=\"font-heading font-semibold uppercase m-0\" style=\"font-size:13px;letter-spacing:var(--tracking-eyebrow);color:var(--audience-accent)\">DIVISIÓN DE PERFORACIÓN DIRECCI...</p>"
+        }
+      ],
+      "warnings": 0,
+      "notices": 0,
+      "error": null
+    },
+    {
+      "path": "/es/trenchless/missile-boring",
+      "label": "es-svc-trenchless-2",
+      "url": "http://localhost:3007/es/trenchless/missile-boring",
+      "errors": [
+        {
+          "code": "WCAG2AA.Principle1.Guideline1_4.1_4_3.G18.Fail",
+          "message": "This element has insufficient contrast at this conformance level. Expected a contrast ratio of at least 4.5:1, but text in this element has a contrast ratio of 3.47:1. Recommendation:  change text colour to #fffcfa.",
+          "selector": "#main > div > section:nth-child(3) > div:nth-child(2) > div > p:nth-child(2)",
+          "context": "<p class=\"font-heading font-semibold uppercase m-0\" style=\"font-size:13px;letter-spacing:var(--tracking-eyebrow);color:var(--audience-accent)\">DIVISIÓN DE PERFORACIÓN DIRECCI...</p>"
+        }
+      ],
+      "warnings": 0,
+      "notices": 0,
+      "error": null
+    },
+    {
+      "path": "/es/unsubscribe/SAMPLE_TOKEN_INVALID",
+      "label": "es-unsubscribe-invalid",
+      "url": "http://localhost:3007/es/unsubscribe/SAMPLE_TOKEN_INVALID",
+      "errors": [],
+      "warnings": 0,
+      "notices": 0,
+      "error": null
+    },
+    {
+      "path": "/es/this-route-does-not-exist-a11y-probe",
+      "label": "es-sitewide-404",
+      "url": "http://localhost:3007/es/this-route-does-not-exist-a11y-probe",
+      "errors": [],
+      "warnings": 0,
+      "notices": 0,
+      "error": null
+    }
+  ]
+}

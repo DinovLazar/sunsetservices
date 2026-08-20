@@ -14,6 +14,7 @@ import {BUSINESS_URL} from '@/lib/constants/business';
 import {SERVICES} from '@/data/services';
 import {getLocation} from '@/data/locations';
 import type {Project} from '@/data/projects';
+import {resolveProjectTitle} from '@/lib/projects/resolveProjectTitle';
 
 type Locale = 'en' | 'es';
 
@@ -43,7 +44,7 @@ function projectListItem(p: Project, locale: Locale, leadImageUrl: string, posit
       '@type': 'CreativeWork',
       '@id': absoluteUrl(path),
       url: absoluteUrl(path),
-      name: p.title[locale],
+      name: resolveProjectTitle(p, locale),
       image: leadImageUrl,
       dateCreated: `${p.year}-01-01`,
       // Phase B.04 — locationCreated Place mirrors the detail-page shape so
@@ -117,7 +118,7 @@ export function buildProjectCreativeWork({
     '@type': 'CreativeWork',
     '@id': canonical,
     url: canonical,
-    name: project.title[locale],
+    name: resolveProjectTitle(project, locale),
     description: project.shortDek[locale],
     image: imageUrls,
     dateCreated: `${project.year}-01-01`,

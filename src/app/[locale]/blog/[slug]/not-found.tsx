@@ -2,7 +2,15 @@ import {Link} from '@/i18n/navigation';
 
 export default function BlogPostNotFound() {
   return (
-    <section className="bg-[var(--color-bg)] py-20 lg:py-24">
+    /* a11y remediation (SC 3.1.2 Language of Parts): every string below is
+        hardcoded English, but this component also renders for /es/... — the
+        segment sits under [locale]/layout.tsx, which emits <html lang="es">.
+        A Spanish screen-reader voice was reading the whole page as Spanish.
+        lang="en" marks the part honestly without inventing untranslated copy;
+        it mirrors the existing pattern in src/components/legal/LegalPageBody.tsx.
+        Proper localization (a notFoundBlog / notFoundResource namespace at
+        EN/ES leaf-key parity) is the real fix and is logged for the owner. */
+    <section lang="en" className="bg-[var(--color-bg)] py-20 lg:py-24">
       <div className="mx-auto max-w-[var(--container-narrow)] px-4 sm:px-6 lg:px-8 xl:px-12 text-center">
         <p
           className="font-heading font-semibold uppercase m-0 mb-3"

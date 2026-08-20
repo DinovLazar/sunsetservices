@@ -13,6 +13,7 @@ import {stripStreetNumber} from '@/lib/projects/stripStreetNumber';
 import {resolveProjectImage} from '@/lib/images/resolveProjectImage';
 import {getAllProjects, getFeaturedBeforeAfterProject} from '@sanity-lib/queries';
 import {sanityProjectSummaryToTs} from '@/lib/sanity-adapters';
+import {resolveProjectTitle} from '@/lib/projects/resolveProjectTitle';
 
 /**
  * Home Before/After showcase (Phase M.16 — "The transformation is the pitch.").
@@ -185,7 +186,7 @@ export default async function HomeBeforeAfter() {
                     href={`/projects/${p.slug}/`}
                     photo={photo}
                     alt={p.leadAlt[locale]}
-                    title={stripStreetNumber(p.title[locale])}
+                    title={stripStreetNumber(resolveProjectTitle(p, locale))}
                     meta={cityLabel}
                     audienceLabel={tDivisions(`${division}.tag`)}
                   />

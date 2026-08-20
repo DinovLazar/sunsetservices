@@ -2,6 +2,7 @@ import {ImageResponse} from 'next/og';
 import {NextRequest} from 'next/server';
 import {getResourceBySlug} from '@/data/getResources';
 import {getBlogPostBySlug} from '@/data/getBlog';
+import {resolveProjectTitle} from '@/lib/projects/resolveProjectTitle';
 
 /**
  * Open-Graph image generator for Resource detail + Blog post pages —
@@ -49,7 +50,7 @@ export async function GET(
   } else if (type === 'blog') {
     const p = getBlogPostBySlug(slug);
     if (p) {
-      title = p.title[locale];
+      title = resolveProjectTitle(p, locale);
       category = p.category.replace(/-/g, ' ').toUpperCase();
       meta = `${p.byline} · ${p.readingMinutes ?? 1} min`;
     }

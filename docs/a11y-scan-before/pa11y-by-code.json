@@ -1,0 +1,60 @@
+[
+  {
+    "code": "WCAG2AA.Principle1.Guideline1_4.1_4_3.G18.Fail",
+    "message": "This element has insufficient contrast at this conformance level. Expected a contrast ratio of at least 4.5:1, but text in this element has a contrast ratio of 2.25:1. Recommendation:  change text colour to #fdfffc.",
+    "count": 82,
+    "pages": [
+      "/landscape",
+      "/landscape/lawn-care",
+      "/landscape/tree-services",
+      "/hardscape",
+      "/hardscape/patios-walkways",
+      "/hardscape/retaining-walls",
+      "/waterproofing",
+      "/waterproofing/basement-waterproofing",
+      "/waterproofing/sump-pumps",
+      "/snow-removal",
+      "/snow-removal/commercial-snow-plowing",
+      "/snow-removal/de-icing",
+      "/trenchless",
+      "/trenchless/conduit-installation",
+      "/trenchless/missile-boring",
+      "/es/landscape",
+      "/es/landscape/lawn-care",
+      "/es/landscape/tree-services",
+      "/es/hardscape",
+      "/es/hardscape/patios-walkways",
+      "/es/hardscape/retaining-walls",
+      "/es/waterproofing",
+      "/es/waterproofing/basement-waterproofing",
+      "/es/waterproofing/sump-pumps",
+      "/es/snow-removal",
+      "/es/snow-removal/commercial-snow-plowing",
+      "/es/snow-removal/de-icing",
+      "/es/trenchless",
+      "/es/trenchless/conduit-installation",
+      "/es/trenchless/missile-boring"
+    ]
+  },
+  {
+    "code": "WCAG2AA.Principle1.Guideline1_3.1_3_1.H42.2",
+    "message": "Heading tag found with no content. Text that is not intended as a heading should not be marked up with heading tags.",
+    "count": 16,
+    "pages": [
+      "/es",
+      "/es/about",
+      "/es/projects",
+      "/es/projects/aurora-area-patio",
+      "/es/projects/tree-removal-service"
+    ]
+  },
+  {
+    "code": "WCAG2AA.Principle1.Guideline1_4.1_4_3.G145.Fail",
+    "message": "This element has insufficient contrast at this conformance level. Expected a contrast ratio of at least 3:1, but text in this element has a contrast ratio of 1:1. Recommendation:  change text colour to #949494.",
+    "count": 2,
+    "pages": [
+      "/",
+      "/es"
+    ]
+  }
+]

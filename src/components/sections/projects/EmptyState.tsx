@@ -24,7 +24,11 @@ export default async function EmptyState() {
             className="rounded-2xl px-6 py-12 lg:py-16 text-center"
             style={{background: 'var(--color-bg-cream)'}}
           >
-            <h3
+            {/* a11y remediation (SC 1.3.1): was an <h3> rendered directly
+                under the page <h1>, skipping h2 entirely whenever a filter
+                returned no projects. Tag corrected to h2; the inline
+                fontSize keeps --text-h3 so nothing changes visually. */}
+            <h2
               id="projects-empty-h3"
               className="m-0 font-heading font-bold mx-auto"
               style={{
@@ -36,7 +40,7 @@ export default async function EmptyState() {
               }}
             >
               {t('h3')}
-            </h3>
+            </h2>
             <p
               className="m-0 mt-4 mx-auto"
               style={{

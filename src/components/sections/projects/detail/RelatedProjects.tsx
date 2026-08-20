@@ -9,6 +9,7 @@ import {SERVICES} from '@/data/services';
 import {getProjectDivision} from '@/lib/projects/getProjectDivision';
 import {resolveProjectCity} from '@/lib/projects/resolveProjectCity';
 import {stripStreetNumber} from '@/lib/projects/stripStreetNumber';
+import {resolveProjectTitle} from '@/lib/projects/resolveProjectTitle';
 
 type Locale = 'en' | 'es';
 
@@ -68,7 +69,7 @@ export default async function RelatedProjects({current, locale, all}: RelatedPro
                     href={`/projects/${p.slug}/`}
                     photo={p.leadImageUrl ?? PROJECT_LEAD[p.slug]}
                     alt={p.leadAlt[locale]}
-                    title={stripStreetNumber(p.title[locale])}
+                    title={stripStreetNumber(resolveProjectTitle(p, locale))}
                     meta={cityLabel}
                     audienceLabel={tTag(division)}
                     loading="lazy"

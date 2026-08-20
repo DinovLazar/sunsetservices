@@ -157,6 +157,16 @@ export default function NewsletterSignup() {
               className="flex-1 px-4"
               style={{
                 height: 48,
+                // a11y remediation (SC 2.5.8 Target Size (Minimum)): the form
+                // is `flex flex-col sm:flex-row`, so BELOW the sm breakpoint
+                // the flex main axis is vertical and the `flex-1` class on this
+                // input resolves to `flex: 1 1 0%` on its HEIGHT — which beats
+                // the `height: 48` above and collapsed the field to 22px on
+                // mobile, under the 24px minimum. Desktop was unaffected
+                // (row direction, so flex-1 governs width), which is why a
+                // desktop-viewport scan never saw it. minHeight pins the
+                // cross-breakpoint floor without disturbing the row layout.
+                minHeight: 48,
                 background: '#FFFFFF',
                 color: 'var(--color-text-primary)',
                 border: '1px solid rgba(250,247,241,0.32)',

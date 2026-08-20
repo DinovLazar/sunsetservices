@@ -1,0 +1,1861 @@
+{
+  "base": "http://localhost:3007",
+  "generated": "2026-08-20",
+  "totals": {
+    "violationNodes": 60,
+    "incompleteNodes": 997,
+    "urls": 76
+  },
+  "results": [
+    {
+      "path": "/",
+      "label": "home",
+      "url": "http://localhost:3007/",
+      "status": 200,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "aria-valid-attr-value",
+          "nodes": 2
+        },
+        {
+          "id": "color-contrast",
+          "nodes": 27
+        }
+      ],
+      "error": null
+    },
+    {
+      "path": "/about",
+      "label": "about",
+      "url": "http://localhost:3007/about",
+      "status": 200,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "aria-valid-attr-value",
+          "nodes": 2
+        },
+        {
+          "id": "color-contrast",
+          "nodes": 18
+        }
+      ],
+      "error": null
+    },
+    {
+      "path": "/contact",
+      "label": "contact",
+      "url": "http://localhost:3007/contact",
+      "status": 200,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "aria-valid-attr-value",
+          "nodes": 2
+        },
+        {
+          "id": "color-contrast",
+          "nodes": 1
+        }
+      ],
+      "error": null
+    },
+    {
+      "path": "/accessibility",
+      "label": "accessibility-statement",
+      "url": "http://localhost:3007/accessibility",
+      "status": 200,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "aria-valid-attr-value",
+          "nodes": 2
+        },
+        {
+          "id": "color-contrast",
+          "nodes": 1
+        }
+      ],
+      "error": null
+    },
+    {
+      "path": "/privacy",
+      "label": "legal-privacy",
+      "url": "http://localhost:3007/privacy",
+      "status": 200,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "aria-valid-attr-value",
+          "nodes": 2
+        },
+        {
+          "id": "color-contrast",
+          "nodes": 1
+        }
+      ],
+      "error": null
+    },
+    {
+      "path": "/terms",
+      "label": "legal-terms",
+      "url": "http://localhost:3007/terms",
+      "status": 200,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "aria-valid-attr-value",
+          "nodes": 2
+        },
+        {
+          "id": "color-contrast",
+          "nodes": 1
+        }
+      ],
+      "error": null
+    },
+    {
+      "path": "/request-quote",
+      "label": "quote-wizard",
+      "url": "http://localhost:3007/request-quote",
+      "status": 200,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "aria-valid-attr-value",
+          "nodes": 2
+        }
+      ],
+      "error": null
+    },
+    {
+      "path": "/thank-you",
+      "label": "thank-you",
+      "url": "http://localhost:3007/thank-you",
+      "status": 200,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "aria-valid-attr-value",
+          "nodes": 2
+        }
+      ],
+      "error": null
+    },
+    {
+      "path": "/qa",
+      "label": "qa-internal",
+      "url": "http://localhost:3007/qa",
+      "status": 200,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "aria-valid-attr-value",
+          "nodes": 2
+        },
+        {
+          "id": "color-contrast",
+          "nodes": 1
+        }
+      ],
+      "error": null
+    },
+    {
+      "path": "/service-areas",
+      "label": "service-areas-index",
+      "url": "http://localhost:3007/service-areas",
+      "status": 200,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "aria-valid-attr-value",
+          "nodes": 2
+        },
+        {
+          "id": "color-contrast",
+          "nodes": 55
+        }
+      ],
+      "error": null
+    },
+    {
+      "path": "/service-areas/aurora",
+      "label": "city-1",
+      "url": "http://localhost:3007/service-areas/aurora",
+      "status": 200,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "aria-valid-attr-value",
+          "nodes": 2
+        },
+        {
+          "id": "color-contrast",
+          "nodes": 13
+        }
+      ],
+      "error": null
+    },
+    {
+      "path": "/service-areas/naperville",
+      "label": "city-2",
+      "url": "http://localhost:3007/service-areas/naperville",
+      "status": 200,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "aria-valid-attr-value",
+          "nodes": 2
+        },
+        {
+          "id": "color-contrast",
+          "nodes": 13
+        }
+      ],
+      "error": null
+    },
+    {
+      "path": "/projects",
+      "label": "projects-index",
+      "url": "http://localhost:3007/projects",
+      "status": 200,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "aria-valid-attr-value",
+          "nodes": 2
+        },
+        {
+          "id": "color-contrast",
+          "nodes": 22
+        }
+      ],
+      "error": null
+    },
+    {
+      "path": "/projects/aurora-area-patio",
+      "label": "project-1",
+      "url": "http://localhost:3007/projects/aurora-area-patio",
+      "status": 200,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "aria-valid-attr-value",
+          "nodes": 2
+        },
+        {
+          "id": "color-contrast",
+          "nodes": 6
+        }
+      ],
+      "error": null
+    },
+    {
+      "path": "/projects/tree-removal-service",
+      "label": "project-2",
+      "url": "http://localhost:3007/projects/tree-removal-service",
+      "status": 200,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "aria-valid-attr-value",
+          "nodes": 2
+        },
+        {
+          "id": "color-contrast",
+          "nodes": 6
+        }
+      ],
+      "error": null
+    },
+    {
+      "path": "/blog",
+      "label": "blog-index",
+      "url": "http://localhost:3007/blog",
+      "status": 200,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "aria-valid-attr-value",
+          "nodes": 2
+        }
+      ],
+      "error": null
+    },
+    {
+      "path": "/blog/dupage-patio-cost-2026",
+      "label": "blog-1",
+      "url": "http://localhost:3007/blog/dupage-patio-cost-2026",
+      "status": 200,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "aria-valid-attr-value",
+          "nodes": 2
+        }
+      ],
+      "error": null
+    },
+    {
+      "path": "/blog/why-unilock-premium-pavers",
+      "label": "blog-2",
+      "url": "http://localhost:3007/blog/why-unilock-premium-pavers",
+      "status": 200,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "aria-valid-attr-value",
+          "nodes": 2
+        }
+      ],
+      "error": null
+    },
+    {
+      "path": "/resources",
+      "label": "resources-index",
+      "url": "http://localhost:3007/resources",
+      "status": 200,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "aria-valid-attr-value",
+          "nodes": 2
+        }
+      ],
+      "error": null
+    },
+    {
+      "path": "/resources/patio-materials-guide",
+      "label": "resource-1",
+      "url": "http://localhost:3007/resources/patio-materials-guide",
+      "status": 200,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "aria-valid-attr-value",
+          "nodes": 2
+        }
+      ],
+      "error": null
+    },
+    {
+      "path": "/resources/lawn-care-glossary",
+      "label": "resource-2",
+      "url": "http://localhost:3007/resources/lawn-care-glossary",
+      "status": 200,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "aria-valid-attr-value",
+          "nodes": 2
+        },
+        {
+          "id": "color-contrast",
+          "nodes": 1
+        }
+      ],
+      "error": null
+    },
+    {
+      "path": "/landscape",
+      "label": "division-landscape",
+      "url": "http://localhost:3007/landscape",
+      "status": 200,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "aria-valid-attr-value",
+          "nodes": 2
+        },
+        {
+          "id": "color-contrast",
+          "nodes": 24
+        }
+      ],
+      "error": null
+    },
+    {
+      "path": "/landscape/lawn-care",
+      "label": "svc-landscape-1",
+      "url": "http://localhost:3007/landscape/lawn-care",
+      "status": 200,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "aria-valid-attr-value",
+          "nodes": 2
+        },
+        {
+          "id": "color-contrast",
+          "nodes": 12
+        }
+      ],
+      "error": null
+    },
+    {
+      "path": "/landscape/tree-services",
+      "label": "svc-landscape-2",
+      "url": "http://localhost:3007/landscape/tree-services",
+      "status": 200,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "aria-valid-attr-value",
+          "nodes": 2
+        },
+        {
+          "id": "color-contrast",
+          "nodes": 12
+        }
+      ],
+      "error": null
+    },
+    {
+      "path": "/hardscape",
+      "label": "division-hardscape",
+      "url": "http://localhost:3007/hardscape",
+      "status": 200,
+      "violations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/color-contrast?application=playwright",
+          "tags": [
+            "wcag2aa",
+            "wcag143"
+          ],
+          "nodes": [
+            {
+              "target": [
+                "section[aria-labelledby=\"audience-qualifier-h2\"] > .max-w-\\[var\\(--container-default\\)\\].xl\\:px-12.sm\\:px-6 > .max-w-\\[64ch\\] > .mb-3.uppercase.font-semibold"
+              ],
+              "html": "<p class=\"font-heading font-semibold uppercase m-0 mb-3\" style=\"font-size:13px;letter-spacing:var(--tracking-eyebrow);color:var(--audience-accent)\">FOR DUPAGE HOMEOWNERS</p>",
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 3.71 (foreground color: #b47821, background color: #ffffff, font size: 9.8pt (13px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                "div:nth-child(1) > .badge.badge-md.badge-pill"
+              ],
+              "html": "<span class=\"badge badge-md badge-pill\" style=\"background:var(--audience-chip-bg);color:var(--audience-accent);height:36px;padding:0 16px;font-size:13px\">Unilock Authorized</span>",
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 3.47 (foreground color: #b47821, background color: #fdf7e8, font size: 9.8pt (13px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                "div:nth-child(2) > .badge.badge-md.badge-pill"
+              ],
+              "html": "<span class=\"badge badge-md badge-pill\" style=\"background:var(--audience-chip-bg);color:var(--audience-accent);height:36px;padding:0 16px;font-size:13px\">5-year workmanship warranty</span>",
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 3.47 (foreground color: #b47821, background color: #fdf7e8, font size: 9.8pt (13px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                "div:nth-child(3) > .badge.badge-md.badge-pill"
+              ],
+              "html": "<span class=\"badge badge-md badge-pill\" style=\"background:var(--audience-chip-bg);color:var(--audience-accent);height:36px;padding:0 16px;font-size:13px\">Engineered for the soil</span>",
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 3.47 (foreground color: #b47821, background color: #fdf7e8, font size: 9.8pt (13px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                "div:nth-child(4) > .badge.badge-md.badge-pill"
+              ],
+              "html": "<span class=\"badge badge-md badge-pill\" style=\"background:var(--audience-chip-bg);color:var(--audience-accent);height:36px;padding:0 16px;font-size:13px\">20+ years on hardscape</span>",
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 3.47 (foreground color: #b47821, background color: #fdf7e8, font size: 9.8pt (13px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                ".\\[contain-intrinsic-size\\:auto_1400px\\] > .max-w-\\[var\\(--container-default\\)\\].xl\\:px-12.sm\\:px-6 > .mb-10.lg\\:mb-14.max-w-\\[64ch\\] > .mb-3.uppercase.font-semibold"
+              ],
+              "html": "<p class=\"font-heading font-semibold uppercase m-0 mb-3\" style=\"font-size:13px;letter-spacing:var(--tracking-eyebrow);color:var(--audience-accent)\">SIX HARDSCAPE SERVICES</p>",
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 3.47 (foreground color: #b47821, background color: #faf7f1, font size: 9.8pt (13px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                ".lg\\:items-end > div > .mb-3.uppercase.font-semibold"
+              ],
+              "html": "<p class=\"font-heading font-semibold uppercase m-0 mb-3\" style=\"font-size:13px;letter-spacing:var(--tracking-eyebrow);color:var(--audience-accent)\">RECENT INSTALLS</p>",
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 3.71 (foreground color: #b47821, background color: #ffffff, font size: 9.8pt (13px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                ".\\[contain-intrinsic-size\\:auto_700px\\] > .max-w-\\[var\\(--container-default\\)\\].xl\\:px-12.sm\\:px-6 > .mb-10.lg\\:mb-14.max-w-\\[64ch\\] > .mb-3.uppercase.font-semibold"
+              ],
+              "html": "<p class=\"font-heading font-semibold uppercase m-0 mb-3\" style=\"font-size:13px;letter-spacing:var(--tracking-eyebrow);color:var(--audience-accent)\">WHY SUNSET</p>",
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 3.47 (foreground color: #b47821, background color: #faf7f1, font size: 9.8pt (13px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                ".max-w-\\[var\\(--container-narrow\\)\\].sm\\:px-6.lg\\:px-8 > .mb-10.lg\\:mb-14.max-w-\\[64ch\\] > .mb-3.uppercase.font-semibold"
+              ],
+              "html": "<p class=\"font-heading font-semibold uppercase m-0 mb-3\" style=\"font-size:13px;letter-spacing:var(--tracking-eyebrow);color:var(--audience-accent)\">QUESTIONS · ANSWERED</p>",
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 3.47 (foreground color: #b47821, background color: #faf7f1, font size: 9.8pt (13px), font weight: normal). Expected contrast ratio of 4.5:1"
+            }
+          ]
+        },
+        {
+          "id": "definition-list",
+          "impact": "serious",
+          "help": "<dl> elements must only directly contain properly-ordered <dt> and <dd> groups, <script>, <template> or <div> elements",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/definition-list?application=playwright",
+          "tags": [
+            "wcag2a",
+            "wcag131"
+          ],
+          "nodes": [
+            {
+              "target": [
+                "div:nth-child(2) > dl"
+              ],
+              "html": "<dl class=\"m-0 mb-6 lg:mb-8 font-heading uppercase\" style=\"font-size:var(--text-body-sm);font-weight:600;letter-spacing:0.08em;color:var(--color-sunset-amber-200, #FAEBC2)\"><dd class=\"m-0\">UNILOCK AUTHORIZED · 5-YEAR WORKMANSHIP WARRANTY</dd></dl>",
+              "failureSummary": "Fix all of the following:\n  When not empty, element does not have at least one <dt> element followed by at least one <dd> element"
+            }
+          ]
+        }
+      ],
+      "incomplete": [
+        {
+          "id": "aria-valid-attr-value",
+          "nodes": 2
+        },
+        {
+          "id": "color-contrast",
+          "nodes": 21
+        }
+      ],
+      "error": null
+    },
+    {
+      "path": "/hardscape/patios-walkways",
+      "label": "svc-hardscape-1",
+      "url": "http://localhost:3007/hardscape/patios-walkways",
+      "status": 200,
+      "violations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/color-contrast?application=playwright",
+          "tags": [
+            "wcag2aa",
+            "wcag143"
+          ],
+          "nodes": [
+            {
+              "target": [
+                ".p-0:nth-child(1) > .badge.badge-md.badge-pill"
+              ],
+              "html": "<span class=\"badge badge-md badge-pill\" style=\"background:var(--audience-chip-bg);color:var(--audience-accent);min-height:36px;height:auto;padding:6px 16px;font-size:13px\">Unilock Authorized Contractor</span>",
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 3.47 (foreground color: #b47821, background color: #fdf7e8, font size: 9.8pt (13px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                ".p-0:nth-child(2) > .badge.badge-md.badge-pill"
+              ],
+              "html": "<span class=\"badge badge-md badge-pill\" style=\"background:var(--audience-chip-bg);color:var(--audience-accent);min-height:36px;height:auto;padding:6px 16px;font-size:13px\">5-Year Workmanship Warranty</span>",
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 3.47 (foreground color: #b47821, background color: #fdf7e8, font size: 9.8pt (13px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                ".p-0:nth-child(3) > .badge.badge-md.badge-pill"
+              ],
+              "html": "<span class=\"badge badge-md badge-pill\" style=\"background:var(--audience-chip-bg);color:var(--audience-accent);min-height:36px;height:auto;padding:6px 16px;font-size:13px\">HOA and Permit Assistance</span>",
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 3.47 (foreground color: #b47821, background color: #fdf7e8, font size: 9.8pt (13px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                ".p-0:nth-child(4) > .badge.badge-md.badge-pill"
+              ],
+              "html": "<span class=\"badge badge-md badge-pill\" style=\"background:var(--audience-chip-bg);color:var(--audience-accent);min-height:36px;height:auto;padding:6px 16px;font-size:13px\">Serving Aurora and Chicago's Western Suburbs</span>",
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 3.47 (foreground color: #b47821, background color: #fdf7e8, font size: 9.8pt (13px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                "section[aria-labelledby=\"service-whats-included-h2\"] > .xl\\:px-12.sm\\:px-6.lg\\:px-8 > .lg\\:mb-14.max-w-\\[64ch\\].mb-10 > .uppercase.mb-3.font-semibold"
+              ],
+              "html": "<p class=\"font-heading font-semibold uppercase m-0 mb-3\" style=\"font-size:13px;letter-spacing:var(--tracking-eyebrow);color:var(--audience-accent)\">WHAT'S INCLUDED</p>",
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 3.71 (foreground color: #b47821, background color: #ffffff, font size: 9.8pt (13px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                ".max-w-\\[var\\(--container-default\\)\\].xl\\:px-12.sm\\:px-6 > .lg\\:mb-14.max-w-\\[64ch\\].mb-10 > .uppercase.mb-3.font-semibold"
+              ],
+              "html": "<p class=\"font-heading font-semibold uppercase m-0 mb-3\" style=\"font-size:13px;letter-spacing:var(--tracking-eyebrow);color:var(--audience-accent)\">HOW IT WORKS</p>",
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 3.47 (foreground color: #b47821, background color: #faf7f1, font size: 9.8pt (13px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                "section[aria-labelledby=\"service-why-h2\"] > .max-w-\\[var\\(--container-default\\)\\].xl\\:px-12.sm\\:px-6 > .lg\\:mb-12.max-w-\\[64ch\\].mb-10 > .uppercase.mb-3.font-semibold"
+              ],
+              "html": "<p class=\"font-heading font-semibold uppercase m-0 mb-3\" style=\"font-size:13px;letter-spacing:var(--tracking-eyebrow);color:var(--audience-accent)\">WHY SUNSET FOR PATIOS &amp; WALKWAYS</p>",
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 3.71 (foreground color: #b47821, background color: #ffffff, font size: 9.8pt (13px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                ".p-8 > .uppercase.mb-3.font-semibold"
+              ],
+              "html": "<p class=\"font-heading font-semibold uppercase m-0 mb-3\" style=\"font-size:13px;letter-spacing:var(--tracking-eyebrow);color:var(--audience-accent)\">HOW PRICING WORKS</p>",
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 3.71 (foreground color: #b47821, background color: #ffffff, font size: 9.8pt (13px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                ".lg\\:items-end > div > .uppercase.mb-3.font-semibold"
+              ],
+              "html": "<p class=\"font-heading font-semibold uppercase m-0 mb-3\" style=\"font-size:13px;letter-spacing:var(--tracking-eyebrow);color:var(--audience-accent)\">RECENT WORK</p>",
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 3.71 (foreground color: #b47821, background color: #ffffff, font size: 9.8pt (13px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                ".max-w-\\[var\\(--container-narrow\\)\\].sm\\:px-6.lg\\:px-8 > .lg\\:mb-14.max-w-\\[64ch\\].mb-10 > .uppercase.mb-3.font-semibold"
+              ],
+              "html": "<p class=\"font-heading font-semibold uppercase m-0 mb-3\" style=\"font-size:13px;letter-spacing:var(--tracking-eyebrow);color:var(--audience-accent)\">QUESTIONS · ANSWERED</p>",
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 3.47 (foreground color: #b47821, background color: #faf7f1, font size: 9.8pt (13px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                "section[aria-labelledby=\"service-related-h2\"] > .max-w-\\[var\\(--container-default\\)\\].xl\\:px-12.sm\\:px-6 > .lg\\:mb-12.max-w-\\[64ch\\].mb-10 > .uppercase.mb-3.font-semibold"
+              ],
+              "html": "<p class=\"font-heading font-semibold uppercase m-0 mb-3\" style=\"font-size:13px;letter-spacing:var(--tracking-eyebrow);color:var(--audience-accent)\">CUSTOMERS ALSO ASK</p>",
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 3.71 (foreground color: #b47821, background color: #ffffff, font size: 9.8pt (13px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                ".mb-4.uppercase.font-semibold"
+              ],
+              "html": "<p class=\"font-heading font-semibold uppercase m-0 mb-4\" style=\"font-size:13px;letter-spacing:var(--tracking-eyebrow);color:var(--audience-accent)\">READY WHEN YOU ARE</p>",
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 3.47 (foreground color: #b47821, background color: #faf7f1, font size: 9.8pt (13px), font weight: normal). Expected contrast ratio of 4.5:1"
+            }
+          ]
+        }
+      ],
+      "incomplete": [
+        {
+          "id": "aria-valid-attr-value",
+          "nodes": 2
+        },
+        {
+          "id": "color-contrast",
+          "nodes": 13
+        }
+      ],
+      "error": null
+    },
+    {
+      "path": "/hardscape/retaining-walls",
+      "label": "svc-hardscape-2",
+      "url": "http://localhost:3007/hardscape/retaining-walls",
+      "status": 200,
+      "violations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/color-contrast?application=playwright",
+          "tags": [
+            "wcag2aa",
+            "wcag143"
+          ],
+          "nodes": [
+            {
+              "target": [
+                "section[aria-labelledby=\"service-whats-included-h2\"] > .xl\\:px-12.sm\\:px-6.lg\\:px-8 > .lg\\:mb-14.max-w-\\[64ch\\].mb-10 > .uppercase.mb-3.font-semibold"
+              ],
+              "html": "<p class=\"font-heading font-semibold uppercase m-0 mb-3\" style=\"font-size:13px;letter-spacing:var(--tracking-eyebrow);color:var(--audience-accent)\">WHAT'S INCLUDED</p>",
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 3.71 (foreground color: #b47821, background color: #ffffff, font size: 9.8pt (13px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                ".max-w-\\[var\\(--container-default\\)\\].xl\\:px-12.sm\\:px-6 > .lg\\:mb-14.max-w-\\[64ch\\].mb-10 > .uppercase.mb-3.font-semibold"
+              ],
+              "html": "<p class=\"font-heading font-semibold uppercase m-0 mb-3\" style=\"font-size:13px;letter-spacing:var(--tracking-eyebrow);color:var(--audience-accent)\">HOW IT WORKS</p>",
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 3.47 (foreground color: #b47821, background color: #faf7f1, font size: 9.8pt (13px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                "section[aria-labelledby=\"service-why-h2\"] > .max-w-\\[var\\(--container-default\\)\\].xl\\:px-12.sm\\:px-6 > .lg\\:mb-12.max-w-\\[64ch\\].mb-10 > .uppercase.mb-3.font-semibold"
+              ],
+              "html": "<p class=\"font-heading font-semibold uppercase m-0 mb-3\" style=\"font-size:13px;letter-spacing:var(--tracking-eyebrow);color:var(--audience-accent)\">WHY SUNSET FOR RETAINING WALLS</p>",
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 3.71 (foreground color: #b47821, background color: #ffffff, font size: 9.8pt (13px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                ".p-8 > .uppercase.mb-3.font-semibold"
+              ],
+              "html": "<p class=\"font-heading font-semibold uppercase m-0 mb-3\" style=\"font-size:13px;letter-spacing:var(--tracking-eyebrow);color:var(--audience-accent)\">HOW PRICING WORKS</p>",
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 3.71 (foreground color: #b47821, background color: #ffffff, font size: 9.8pt (13px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                ".lg\\:items-end > div > .uppercase.mb-3.font-semibold"
+              ],
+              "html": "<p class=\"font-heading font-semibold uppercase m-0 mb-3\" style=\"font-size:13px;letter-spacing:var(--tracking-eyebrow);color:var(--audience-accent)\">RECENT WORK</p>",
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 3.71 (foreground color: #b47821, background color: #ffffff, font size: 9.8pt (13px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                ".max-w-\\[var\\(--container-narrow\\)\\].sm\\:px-6.lg\\:px-8 > .lg\\:mb-14.max-w-\\[64ch\\].mb-10 > .uppercase.mb-3.font-semibold"
+              ],
+              "html": "<p class=\"font-heading font-semibold uppercase m-0 mb-3\" style=\"font-size:13px;letter-spacing:var(--tracking-eyebrow);color:var(--audience-accent)\">QUESTIONS · ANSWERED</p>",
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 3.47 (foreground color: #b47821, background color: #faf7f1, font size: 9.8pt (13px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                "section[aria-labelledby=\"service-related-h2\"] > .max-w-\\[var\\(--container-default\\)\\].xl\\:px-12.sm\\:px-6 > .lg\\:mb-12.max-w-\\[64ch\\].mb-10 > .uppercase.mb-3.font-semibold"
+              ],
+              "html": "<p class=\"font-heading font-semibold uppercase m-0 mb-3\" style=\"font-size:13px;letter-spacing:var(--tracking-eyebrow);color:var(--audience-accent)\">CUSTOMERS ALSO ASK</p>",
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 3.71 (foreground color: #b47821, background color: #ffffff, font size: 9.8pt (13px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                ".mb-4.uppercase.font-semibold"
+              ],
+              "html": "<p class=\"font-heading font-semibold uppercase m-0 mb-4\" style=\"font-size:13px;letter-spacing:var(--tracking-eyebrow);color:var(--audience-accent)\">READY WHEN YOU ARE</p>",
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 3.47 (foreground color: #b47821, background color: #faf7f1, font size: 9.8pt (13px), font weight: normal). Expected contrast ratio of 4.5:1"
+            }
+          ]
+        }
+      ],
+      "incomplete": [
+        {
+          "id": "aria-valid-attr-value",
+          "nodes": 2
+        },
+        {
+          "id": "color-contrast",
+          "nodes": 12
+        }
+      ],
+      "error": null
+    },
+    {
+      "path": "/waterproofing",
+      "label": "division-waterproofing",
+      "url": "http://localhost:3007/waterproofing",
+      "status": 200,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "aria-valid-attr-value",
+          "nodes": 2
+        },
+        {
+          "id": "color-contrast",
+          "nodes": 25
+        }
+      ],
+      "error": null
+    },
+    {
+      "path": "/waterproofing/basement-waterproofing",
+      "label": "svc-waterproofing-1",
+      "url": "http://localhost:3007/waterproofing/basement-waterproofing",
+      "status": 200,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "aria-valid-attr-value",
+          "nodes": 2
+        },
+        {
+          "id": "color-contrast",
+          "nodes": 14
+        }
+      ],
+      "error": null
+    },
+    {
+      "path": "/waterproofing/sump-pumps",
+      "label": "svc-waterproofing-2",
+      "url": "http://localhost:3007/waterproofing/sump-pumps",
+      "status": 200,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "aria-valid-attr-value",
+          "nodes": 2
+        },
+        {
+          "id": "color-contrast",
+          "nodes": 14
+        }
+      ],
+      "error": null
+    },
+    {
+      "path": "/snow-removal",
+      "label": "division-snow",
+      "url": "http://localhost:3007/snow-removal",
+      "status": 200,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "aria-valid-attr-value",
+          "nodes": 2
+        },
+        {
+          "id": "color-contrast",
+          "nodes": 19
+        }
+      ],
+      "error": null
+    },
+    {
+      "path": "/snow-removal/commercial-snow-plowing",
+      "label": "svc-snow-1",
+      "url": "http://localhost:3007/snow-removal/commercial-snow-plowing",
+      "status": 200,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "aria-valid-attr-value",
+          "nodes": 2
+        },
+        {
+          "id": "color-contrast",
+          "nodes": 14
+        }
+      ],
+      "error": null
+    },
+    {
+      "path": "/snow-removal/de-icing",
+      "label": "svc-snow-2",
+      "url": "http://localhost:3007/snow-removal/de-icing",
+      "status": 200,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "aria-valid-attr-value",
+          "nodes": 2
+        },
+        {
+          "id": "color-contrast",
+          "nodes": 14
+        }
+      ],
+      "error": null
+    },
+    {
+      "path": "/trenchless",
+      "label": "division-trenchless",
+      "url": "http://localhost:3007/trenchless",
+      "status": 200,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "aria-valid-attr-value",
+          "nodes": 2
+        },
+        {
+          "id": "color-contrast",
+          "nodes": 22
+        }
+      ],
+      "error": null
+    },
+    {
+      "path": "/trenchless/conduit-installation",
+      "label": "svc-trenchless-1",
+      "url": "http://localhost:3007/trenchless/conduit-installation",
+      "status": 200,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "aria-valid-attr-value",
+          "nodes": 2
+        },
+        {
+          "id": "color-contrast",
+          "nodes": 12
+        }
+      ],
+      "error": null
+    },
+    {
+      "path": "/trenchless/missile-boring",
+      "label": "svc-trenchless-2",
+      "url": "http://localhost:3007/trenchless/missile-boring",
+      "status": 200,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "aria-valid-attr-value",
+          "nodes": 2
+        },
+        {
+          "id": "color-contrast",
+          "nodes": 12
+        }
+      ],
+      "error": null
+    },
+    {
+      "path": "/unsubscribe/SAMPLE_TOKEN_INVALID",
+      "label": "unsubscribe-invalid",
+      "url": "http://localhost:3007/unsubscribe/SAMPLE_TOKEN_INVALID",
+      "status": 200,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "aria-valid-attr-value",
+          "nodes": 2
+        },
+        {
+          "id": "color-contrast",
+          "nodes": 1
+        }
+      ],
+      "error": null
+    },
+    {
+      "path": "/this-route-does-not-exist-a11y-probe",
+      "label": "sitewide-404",
+      "url": "http://localhost:3007/this-route-does-not-exist-a11y-probe",
+      "status": 404,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "aria-valid-attr-value",
+          "nodes": 2
+        },
+        {
+          "id": "color-contrast",
+          "nodes": 1
+        }
+      ],
+      "error": null
+    },
+    {
+      "path": "/es",
+      "label": "es-home",
+      "url": "http://localhost:3007/es",
+      "status": 200,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "aria-valid-attr-value",
+          "nodes": 2
+        },
+        {
+          "id": "color-contrast",
+          "nodes": 28
+        }
+      ],
+      "error": null
+    },
+    {
+      "path": "/es/about",
+      "label": "es-about",
+      "url": "http://localhost:3007/es/about",
+      "status": 200,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "aria-valid-attr-value",
+          "nodes": 2
+        },
+        {
+          "id": "color-contrast",
+          "nodes": 16
+        }
+      ],
+      "error": null
+    },
+    {
+      "path": "/es/contact",
+      "label": "es-contact",
+      "url": "http://localhost:3007/es/contact",
+      "status": 200,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "aria-valid-attr-value",
+          "nodes": 2
+        },
+        {
+          "id": "color-contrast",
+          "nodes": 2
+        }
+      ],
+      "error": null
+    },
+    {
+      "path": "/es/accessibility",
+      "label": "es-accessibility-statement",
+      "url": "http://localhost:3007/es/accessibility",
+      "status": 200,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "aria-valid-attr-value",
+          "nodes": 2
+        },
+        {
+          "id": "color-contrast",
+          "nodes": 2
+        }
+      ],
+      "error": null
+    },
+    {
+      "path": "/es/privacy",
+      "label": "es-legal-privacy",
+      "url": "http://localhost:3007/es/privacy",
+      "status": 200,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "aria-valid-attr-value",
+          "nodes": 2
+        },
+        {
+          "id": "color-contrast",
+          "nodes": 2
+        }
+      ],
+      "error": null
+    },
+    {
+      "path": "/es/terms",
+      "label": "es-legal-terms",
+      "url": "http://localhost:3007/es/terms",
+      "status": 200,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "aria-valid-attr-value",
+          "nodes": 2
+        },
+        {
+          "id": "color-contrast",
+          "nodes": 2
+        }
+      ],
+      "error": null
+    },
+    {
+      "path": "/es/request-quote",
+      "label": "es-quote-wizard",
+      "url": "http://localhost:3007/es/request-quote",
+      "status": 200,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "aria-valid-attr-value",
+          "nodes": 2
+        }
+      ],
+      "error": null
+    },
+    {
+      "path": "/es/thank-you",
+      "label": "es-thank-you",
+      "url": "http://localhost:3007/es/thank-you",
+      "status": 200,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "aria-valid-attr-value",
+          "nodes": 2
+        },
+        {
+          "id": "color-contrast",
+          "nodes": 2
+        }
+      ],
+      "error": null
+    },
+    {
+      "path": "/es/qa",
+      "label": "es-qa-internal",
+      "url": "http://localhost:3007/es/qa",
+      "status": 200,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "aria-valid-attr-value",
+          "nodes": 2
+        },
+        {
+          "id": "color-contrast",
+          "nodes": 1
+        }
+      ],
+      "error": null
+    },
+    {
+      "path": "/es/service-areas",
+      "label": "es-service-areas-index",
+      "url": "http://localhost:3007/es/service-areas",
+      "status": 200,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "aria-valid-attr-value",
+          "nodes": 2
+        },
+        {
+          "id": "color-contrast",
+          "nodes": 56
+        }
+      ],
+      "error": null
+    },
+    {
+      "path": "/es/service-areas/aurora",
+      "label": "es-city-1",
+      "url": "http://localhost:3007/es/service-areas/aurora",
+      "status": 200,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "aria-valid-attr-value",
+          "nodes": 2
+        },
+        {
+          "id": "color-contrast",
+          "nodes": 14
+        }
+      ],
+      "error": null
+    },
+    {
+      "path": "/es/service-areas/naperville",
+      "label": "es-city-2",
+      "url": "http://localhost:3007/es/service-areas/naperville",
+      "status": 200,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "aria-valid-attr-value",
+          "nodes": 2
+        },
+        {
+          "id": "color-contrast",
+          "nodes": 14
+        }
+      ],
+      "error": null
+    },
+    {
+      "path": "/es/projects",
+      "label": "es-projects-index",
+      "url": "http://localhost:3007/es/projects",
+      "status": 200,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "aria-valid-attr-value",
+          "nodes": 2
+        },
+        {
+          "id": "color-contrast",
+          "nodes": 17
+        }
+      ],
+      "error": null
+    },
+    {
+      "path": "/es/projects/aurora-area-patio",
+      "label": "es-project-1",
+      "url": "http://localhost:3007/es/projects/aurora-area-patio",
+      "status": 200,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "aria-prohibited-attr",
+          "nodes": 2
+        },
+        {
+          "id": "aria-valid-attr-value",
+          "nodes": 2
+        },
+        {
+          "id": "color-contrast",
+          "nodes": 7
+        }
+      ],
+      "error": null
+    },
+    {
+      "path": "/es/projects/tree-removal-service",
+      "label": "es-project-2",
+      "url": "http://localhost:3007/es/projects/tree-removal-service",
+      "status": 200,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "aria-valid-attr-value",
+          "nodes": 2
+        },
+        {
+          "id": "color-contrast",
+          "nodes": 6
+        }
+      ],
+      "error": null
+    },
+    {
+      "path": "/es/blog",
+      "label": "es-blog-index",
+      "url": "http://localhost:3007/es/blog",
+      "status": 200,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "aria-valid-attr-value",
+          "nodes": 2
+        },
+        {
+          "id": "color-contrast",
+          "nodes": 1
+        }
+      ],
+      "error": null
+    },
+    {
+      "path": "/es/blog/dupage-patio-cost-2026",
+      "label": "es-blog-1",
+      "url": "http://localhost:3007/es/blog/dupage-patio-cost-2026",
+      "status": 200,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "aria-valid-attr-value",
+          "nodes": 2
+        }
+      ],
+      "error": null
+    },
+    {
+      "path": "/es/blog/why-unilock-premium-pavers",
+      "label": "es-blog-2",
+      "url": "http://localhost:3007/es/blog/why-unilock-premium-pavers",
+      "status": 200,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "aria-valid-attr-value",
+          "nodes": 2
+        }
+      ],
+      "error": null
+    },
+    {
+      "path": "/es/resources",
+      "label": "es-resources-index",
+      "url": "http://localhost:3007/es/resources",
+      "status": 200,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "aria-valid-attr-value",
+          "nodes": 2
+        },
+        {
+          "id": "color-contrast",
+          "nodes": 1
+        }
+      ],
+      "error": null
+    },
+    {
+      "path": "/es/resources/patio-materials-guide",
+      "label": "es-resource-1",
+      "url": "http://localhost:3007/es/resources/patio-materials-guide",
+      "status": 200,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "aria-valid-attr-value",
+          "nodes": 2
+        }
+      ],
+      "error": null
+    },
+    {
+      "path": "/es/resources/lawn-care-glossary",
+      "label": "es-resource-2",
+      "url": "http://localhost:3007/es/resources/lawn-care-glossary",
+      "status": 200,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "aria-valid-attr-value",
+          "nodes": 2
+        },
+        {
+          "id": "color-contrast",
+          "nodes": 1
+        }
+      ],
+      "error": null
+    },
+    {
+      "path": "/es/landscape",
+      "label": "es-division-landscape",
+      "url": "http://localhost:3007/es/landscape",
+      "status": 200,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "aria-valid-attr-value",
+          "nodes": 2
+        },
+        {
+          "id": "color-contrast",
+          "nodes": 25
+        }
+      ],
+      "error": null
+    },
+    {
+      "path": "/es/landscape/lawn-care",
+      "label": "es-svc-landscape-1",
+      "url": "http://localhost:3007/es/landscape/lawn-care",
+      "status": 200,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "aria-valid-attr-value",
+          "nodes": 2
+        },
+        {
+          "id": "color-contrast",
+          "nodes": 13
+        }
+      ],
+      "error": null
+    },
+    {
+      "path": "/es/landscape/tree-services",
+      "label": "es-svc-landscape-2",
+      "url": "http://localhost:3007/es/landscape/tree-services",
+      "status": 200,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "aria-valid-attr-value",
+          "nodes": 2
+        },
+        {
+          "id": "color-contrast",
+          "nodes": 13
+        }
+      ],
+      "error": null
+    },
+    {
+      "path": "/es/hardscape",
+      "label": "es-division-hardscape",
+      "url": "http://localhost:3007/es/hardscape",
+      "status": 200,
+      "violations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/color-contrast?application=playwright",
+          "tags": [
+            "wcag2aa",
+            "wcag143"
+          ],
+          "nodes": [
+            {
+              "target": [
+                "section[aria-labelledby=\"audience-qualifier-h2\"] > .max-w-\\[var\\(--container-default\\)\\].xl\\:px-12.sm\\:px-6 > .max-w-\\[64ch\\] > .mb-3.uppercase.font-semibold"
+              ],
+              "html": "<p class=\"font-heading font-semibold uppercase m-0 mb-3\" style=\"font-size:13px;letter-spacing:var(--tracking-eyebrow);color:var(--audience-accent)\">PARA PROPIETARIOS DE DUPAGE</p>",
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 3.71 (foreground color: #b47821, background color: #ffffff, font size: 9.8pt (13px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                "div:nth-child(1) > .badge.badge-md.badge-pill"
+              ],
+              "html": "<span class=\"badge badge-md badge-pill\" style=\"background:var(--audience-chip-bg);color:var(--audience-accent);height:36px;padding:0 16px;font-size:13px\">Autorizado Unilock</span>",
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 3.47 (foreground color: #b47821, background color: #fdf7e8, font size: 9.8pt (13px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                "div:nth-child(2) > .badge.badge-md.badge-pill"
+              ],
+              "html": "<span class=\"badge badge-md badge-pill\" style=\"background:var(--audience-chip-bg);color:var(--audience-accent);height:36px;padding:0 16px;font-size:13px\">Garantía de mano de obra 5 años</span>",
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 3.47 (foreground color: #b47821, background color: #fdf7e8, font size: 9.8pt (13px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                "div:nth-child(3) > .badge.badge-md.badge-pill"
+              ],
+              "html": "<span class=\"badge badge-md badge-pill\" style=\"background:var(--audience-chip-bg);color:var(--audience-accent);height:36px;padding:0 16px;font-size:13px\">Diseñado para el suelo</span>",
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 3.47 (foreground color: #b47821, background color: #fdf7e8, font size: 9.8pt (13px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                "div:nth-child(4) > .badge.badge-md.badge-pill"
+              ],
+              "html": "<span class=\"badge badge-md badge-pill\" style=\"background:var(--audience-chip-bg);color:var(--audience-accent);height:36px;padding:0 16px;font-size:13px\">20+ años en hardscape</span>",
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 3.47 (foreground color: #b47821, background color: #fdf7e8, font size: 9.8pt (13px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                ".\\[contain-intrinsic-size\\:auto_1400px\\] > .max-w-\\[var\\(--container-default\\)\\].xl\\:px-12.sm\\:px-6 > .mb-10.lg\\:mb-14.max-w-\\[64ch\\] > .mb-3.uppercase.font-semibold"
+              ],
+              "html": "<p class=\"font-heading font-semibold uppercase m-0 mb-3\" style=\"font-size:13px;letter-spacing:var(--tracking-eyebrow);color:var(--audience-accent)\">SEIS SERVICIOS DE HARDSCAPE</p>",
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 3.47 (foreground color: #b47821, background color: #faf7f1, font size: 9.8pt (13px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                ".lg\\:items-end > div > .mb-3.uppercase.font-semibold"
+              ],
+              "html": "<p class=\"font-heading font-semibold uppercase m-0 mb-3\" style=\"font-size:13px;letter-spacing:var(--tracking-eyebrow);color:var(--audience-accent)\">INSTALACIONES RECIENTES</p>",
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 3.71 (foreground color: #b47821, background color: #ffffff, font size: 9.8pt (13px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                ".\\[contain-intrinsic-size\\:auto_700px\\] > .max-w-\\[var\\(--container-default\\)\\].xl\\:px-12.sm\\:px-6 > .mb-10.lg\\:mb-14.max-w-\\[64ch\\] > .mb-3.uppercase.font-semibold"
+              ],
+              "html": "<p class=\"font-heading font-semibold uppercase m-0 mb-3\" style=\"font-size:13px;letter-spacing:var(--tracking-eyebrow);color:var(--audience-accent)\">POR QUÉ SUNSET</p>",
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 3.47 (foreground color: #b47821, background color: #faf7f1, font size: 9.8pt (13px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                ".max-w-\\[var\\(--container-narrow\\)\\].sm\\:px-6.lg\\:px-8 > .mb-10.lg\\:mb-14.max-w-\\[64ch\\] > .mb-3.uppercase.font-semibold"
+              ],
+              "html": "<p class=\"font-heading font-semibold uppercase m-0 mb-3\" style=\"font-size:13px;letter-spacing:var(--tracking-eyebrow);color:var(--audience-accent)\">PREGUNTAS · RESPUESTAS</p>",
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 3.47 (foreground color: #b47821, background color: #faf7f1, font size: 9.8pt (13px), font weight: normal). Expected contrast ratio of 4.5:1"
+            }
+          ]
+        },
+        {
+          "id": "definition-list",
+          "impact": "serious",
+          "help": "<dl> elements must only directly contain properly-ordered <dt> and <dd> groups, <script>, <template> or <div> elements",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/definition-list?application=playwright",
+          "tags": [
+            "wcag2a",
+            "wcag131"
+          ],
+          "nodes": [
+            {
+              "target": [
+                "div:nth-child(2) > dl"
+              ],
+              "html": "<dl class=\"m-0 mb-6 lg:mb-8 font-heading uppercase\" style=\"font-size:var(--text-body-sm);font-weight:600;letter-spacing:0.08em;color:var(--color-sunset-amber-200, #FAEBC2)\"><dd class=\"m-0\">AUTORIZADO UNILOCK · GARANTÍA DE MANO DE OBRA DE 5 AÑOS</dd></dl>",
+              "failureSummary": "Fix all of the following:\n  When not empty, element does not have at least one <dt> element followed by at least one <dd> element"
+            }
+          ]
+        }
+      ],
+      "incomplete": [
+        {
+          "id": "aria-valid-attr-value",
+          "nodes": 2
+        },
+        {
+          "id": "color-contrast",
+          "nodes": 23
+        }
+      ],
+      "error": null
+    },
+    {
+      "path": "/es/hardscape/patios-walkways",
+      "label": "es-svc-hardscape-1",
+      "url": "http://localhost:3007/es/hardscape/patios-walkways",
+      "status": 200,
+      "violations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/color-contrast?application=playwright",
+          "tags": [
+            "wcag2aa",
+            "wcag143"
+          ],
+          "nodes": [
+            {
+              "target": [
+                ".p-0:nth-child(1) > .badge.badge-md.badge-pill"
+              ],
+              "html": "<span class=\"badge badge-md badge-pill\" style=\"background:var(--audience-chip-bg);color:var(--audience-accent);min-height:36px;height:auto;padding:6px 16px;font-size:13px\">Contratista Autorizado Unilock</span>",
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 3.47 (foreground color: #b47821, background color: #fdf7e8, font size: 9.8pt (13px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                ".p-0:nth-child(2) > .badge.badge-md.badge-pill"
+              ],
+              "html": "<span class=\"badge badge-md badge-pill\" style=\"background:var(--audience-chip-bg);color:var(--audience-accent);min-height:36px;height:auto;padding:6px 16px;font-size:13px\">Garantía de Mano de Obra de 5 Años</span>",
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 3.47 (foreground color: #b47821, background color: #fdf7e8, font size: 9.8pt (13px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                ".p-0:nth-child(3) > .badge.badge-md.badge-pill"
+              ],
+              "html": "<span class=\"badge badge-md badge-pill\" style=\"background:var(--audience-chip-bg);color:var(--audience-accent);min-height:36px;height:auto;padding:6px 16px;font-size:13px\">Asistencia con HOA y Permisos</span>",
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 3.47 (foreground color: #b47821, background color: #fdf7e8, font size: 9.8pt (13px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                ".p-0:nth-child(4) > .badge.badge-md.badge-pill"
+              ],
+              "html": "<span class=\"badge badge-md badge-pill\" style=\"background:var(--audience-chip-bg);color:var(--audience-accent);min-height:36px;height:auto;padding:6px 16px;font-size:13px\">Sirviendo a Aurora y los Suburbios del Oeste de Chicago</span>",
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 3.47 (foreground color: #b47821, background color: #fdf7e8, font size: 9.8pt (13px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                "section[aria-labelledby=\"service-whats-included-h2\"] > .xl\\:px-12.sm\\:px-6.lg\\:px-8 > .lg\\:mb-14.max-w-\\[64ch\\].mb-10 > .uppercase.mb-3.font-semibold"
+              ],
+              "html": "<p class=\"font-heading font-semibold uppercase m-0 mb-3\" style=\"font-size:13px;letter-spacing:var(--tracking-eyebrow);color:var(--audience-accent)\">QUÉ INCLUYE</p>",
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 3.71 (foreground color: #b47821, background color: #ffffff, font size: 9.8pt (13px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                ".max-w-\\[var\\(--container-default\\)\\].xl\\:px-12.sm\\:px-6 > .lg\\:mb-14.max-w-\\[64ch\\].mb-10 > .uppercase.mb-3.font-semibold"
+              ],
+              "html": "<p class=\"font-heading font-semibold uppercase m-0 mb-3\" style=\"font-size:13px;letter-spacing:var(--tracking-eyebrow);color:var(--audience-accent)\">CÓMO FUNCIONA</p>",
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 3.47 (foreground color: #b47821, background color: #faf7f1, font size: 9.8pt (13px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                "section[aria-labelledby=\"service-why-h2\"] > .max-w-\\[var\\(--container-default\\)\\].xl\\:px-12.sm\\:px-6 > .lg\\:mb-12.max-w-\\[64ch\\].mb-10 > .uppercase.mb-3.font-semibold"
+              ],
+              "html": "<p class=\"font-heading font-semibold uppercase m-0 mb-3\" style=\"font-size:13px;letter-spacing:var(--tracking-eyebrow);color:var(--audience-accent)\">POR QUÉ SUNSET PARA PATIOS Y SENDEROS</p>",
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 3.71 (foreground color: #b47821, background color: #ffffff, font size: 9.8pt (13px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                ".p-8 > .uppercase.mb-3.font-semibold"
+              ],
+              "html": "<p class=\"font-heading font-semibold uppercase m-0 mb-3\" style=\"font-size:13px;letter-spacing:var(--tracking-eyebrow);color:var(--audience-accent)\">CÓMO FUNCIONAN LOS PRECIOS</p>",
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 3.71 (foreground color: #b47821, background color: #ffffff, font size: 9.8pt (13px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                ".lg\\:items-end > div > .uppercase.mb-3.font-semibold"
+              ],
+              "html": "<p class=\"font-heading font-semibold uppercase m-0 mb-3\" style=\"font-size:13px;letter-spacing:var(--tracking-eyebrow);color:var(--audience-accent)\">TRABAJO RECIENTE</p>",
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 3.71 (foreground color: #b47821, background color: #ffffff, font size: 9.8pt (13px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                ".max-w-\\[var\\(--container-narrow\\)\\].sm\\:px-6.lg\\:px-8 > .lg\\:mb-14.max-w-\\[64ch\\].mb-10 > .uppercase.mb-3.font-semibold"
+              ],
+              "html": "<p class=\"font-heading font-semibold uppercase m-0 mb-3\" style=\"font-size:13px;letter-spacing:var(--tracking-eyebrow);color:var(--audience-accent)\">PREGUNTAS · RESPUESTAS</p>",
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 3.47 (foreground color: #b47821, background color: #faf7f1, font size: 9.8pt (13px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                "section[aria-labelledby=\"service-related-h2\"] > .max-w-\\[var\\(--container-default\\)\\].xl\\:px-12.sm\\:px-6 > .lg\\:mb-12.max-w-\\[64ch\\].mb-10 > .uppercase.mb-3.font-semibold"
+              ],
+              "html": "<p class=\"font-heading font-semibold uppercase m-0 mb-3\" style=\"font-size:13px;letter-spacing:var(--tracking-eyebrow);color:var(--audience-accent)\">LOS CLIENTES TAMBIÉN PIDEN</p>",
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 3.71 (foreground color: #b47821, background color: #ffffff, font size: 9.8pt (13px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                ".mb-4.uppercase.font-semibold"
+              ],
+              "html": "<p class=\"font-heading font-semibold uppercase m-0 mb-4\" style=\"font-size:13px;letter-spacing:var(--tracking-eyebrow);color:var(--audience-accent)\">LISTOS CUANDO TÚ LO ESTÉS</p>",
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 3.47 (foreground color: #b47821, background color: #faf7f1, font size: 9.8pt (13px), font weight: normal). Expected contrast ratio of 4.5:1"
+            }
+          ]
+        }
+      ],
+      "incomplete": [
+        {
+          "id": "aria-valid-attr-value",
+          "nodes": 2
+        },
+        {
+          "id": "color-contrast",
+          "nodes": 15
+        }
+      ],
+      "error": null
+    },
+    {
+      "path": "/es/hardscape/retaining-walls",
+      "label": "es-svc-hardscape-2",
+      "url": "http://localhost:3007/es/hardscape/retaining-walls",
+      "status": 200,
+      "violations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/color-contrast?application=playwright",
+          "tags": [
+            "wcag2aa",
+            "wcag143"
+          ],
+          "nodes": [
+            {
+              "target": [
+                "section[aria-labelledby=\"service-whats-included-h2\"] > .xl\\:px-12.sm\\:px-6.lg\\:px-8 > .lg\\:mb-14.max-w-\\[64ch\\].mb-10 > .uppercase.mb-3.font-semibold"
+              ],
+              "html": "<p class=\"font-heading font-semibold uppercase m-0 mb-3\" style=\"font-size:13px;letter-spacing:var(--tracking-eyebrow);color:var(--audience-accent)\">QUÉ INCLUYE</p>",
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 3.71 (foreground color: #b47821, background color: #ffffff, font size: 9.8pt (13px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                ".max-w-\\[var\\(--container-default\\)\\].xl\\:px-12.sm\\:px-6 > .lg\\:mb-14.max-w-\\[64ch\\].mb-10 > .uppercase.mb-3.font-semibold"
+              ],
+              "html": "<p class=\"font-heading font-semibold uppercase m-0 mb-3\" style=\"font-size:13px;letter-spacing:var(--tracking-eyebrow);color:var(--audience-accent)\">CÓMO FUNCIONA</p>",
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 3.47 (foreground color: #b47821, background color: #faf7f1, font size: 9.8pt (13px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                "section[aria-labelledby=\"service-why-h2\"] > .max-w-\\[var\\(--container-default\\)\\].xl\\:px-12.sm\\:px-6 > .lg\\:mb-12.max-w-\\[64ch\\].mb-10 > .uppercase.mb-3.font-semibold"
+              ],
+              "html": "<p class=\"font-heading font-semibold uppercase m-0 mb-3\" style=\"font-size:13px;letter-spacing:var(--tracking-eyebrow);color:var(--audience-accent)\">POR QUÉ SUNSET PARA MUROS DE CONTENCIÓN</p>",
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 3.71 (foreground color: #b47821, background color: #ffffff, font size: 9.8pt (13px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                ".p-8 > .uppercase.mb-3.font-semibold"
+              ],
+              "html": "<p class=\"font-heading font-semibold uppercase m-0 mb-3\" style=\"font-size:13px;letter-spacing:var(--tracking-eyebrow);color:var(--audience-accent)\">CÓMO FUNCIONAN LOS PRECIOS</p>",
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 3.71 (foreground color: #b47821, background color: #ffffff, font size: 9.8pt (13px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                ".lg\\:items-end > div > .uppercase.mb-3.font-semibold"
+              ],
+              "html": "<p class=\"font-heading font-semibold uppercase m-0 mb-3\" style=\"font-size:13px;letter-spacing:var(--tracking-eyebrow);color:var(--audience-accent)\">TRABAJO RECIENTE</p>",
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 3.71 (foreground color: #b47821, background color: #ffffff, font size: 9.8pt (13px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                ".max-w-\\[var\\(--container-narrow\\)\\].sm\\:px-6.lg\\:px-8 > .lg\\:mb-14.max-w-\\[64ch\\].mb-10 > .uppercase.mb-3.font-semibold"
+              ],
+              "html": "<p class=\"font-heading font-semibold uppercase m-0 mb-3\" style=\"font-size:13px;letter-spacing:var(--tracking-eyebrow);color:var(--audience-accent)\">PREGUNTAS · RESPUESTAS</p>",
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 3.47 (foreground color: #b47821, background color: #faf7f1, font size: 9.8pt (13px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                "section[aria-labelledby=\"service-related-h2\"] > .max-w-\\[var\\(--container-default\\)\\].xl\\:px-12.sm\\:px-6 > .lg\\:mb-12.max-w-\\[64ch\\].mb-10 > .uppercase.mb-3.font-semibold"
+              ],
+              "html": "<p class=\"font-heading font-semibold uppercase m-0 mb-3\" style=\"font-size:13px;letter-spacing:var(--tracking-eyebrow);color:var(--audience-accent)\">LOS CLIENTES TAMBIÉN PIDEN</p>",
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 3.71 (foreground color: #b47821, background color: #ffffff, font size: 9.8pt (13px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                ".mb-4.uppercase.font-semibold"
+              ],
+              "html": "<p class=\"font-heading font-semibold uppercase m-0 mb-4\" style=\"font-size:13px;letter-spacing:var(--tracking-eyebrow);color:var(--audience-accent)\">LISTOS CUANDO TÚ LO ESTÉS</p>",
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 3.47 (foreground color: #b47821, background color: #faf7f1, font size: 9.8pt (13px), font weight: normal). Expected contrast ratio of 4.5:1"
+            }
+          ]
+        }
+      ],
+      "incomplete": [
+        {
+          "id": "aria-valid-attr-value",
+          "nodes": 2
+        },
+        {
+          "id": "color-contrast",
+          "nodes": 13
+        }
+      ],
+      "error": null
+    },
+    {
+      "path": "/es/waterproofing",
+      "label": "es-division-waterproofing",
+      "url": "http://localhost:3007/es/waterproofing",
+      "status": 200,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "aria-valid-attr-value",
+          "nodes": 2
+        },
+        {
+          "id": "color-contrast",
+          "nodes": 27
+        }
+      ],
+      "error": null
+    },
+    {
+      "path": "/es/waterproofing/basement-waterproofing",
+      "label": "es-svc-waterproofing-1",
+      "url": "http://localhost:3007/es/waterproofing/basement-waterproofing",
+      "status": 200,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "aria-valid-attr-value",
+          "nodes": 2
+        },
+        {
+          "id": "color-contrast",
+          "nodes": 15
+        }
+      ],
+      "error": null
+    },
+    {
+      "path": "/es/waterproofing/sump-pumps",
+      "label": "es-svc-waterproofing-2",
+      "url": "http://localhost:3007/es/waterproofing/sump-pumps",
+      "status": 200,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "aria-valid-attr-value",
+          "nodes": 2
+        },
+        {
+          "id": "color-contrast",
+          "nodes": 15
+        }
+      ],
+      "error": null
+    },
+    {
+      "path": "/es/snow-removal",
+      "label": "es-division-snow",
+      "url": "http://localhost:3007/es/snow-removal",
+      "status": 200,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "aria-valid-attr-value",
+          "nodes": 2
+        },
+        {
+          "id": "color-contrast",
+          "nodes": 21
+        }
+      ],
+      "error": null
+    },
+    {
+      "path": "/es/snow-removal/commercial-snow-plowing",
+      "label": "es-svc-snow-1",
+      "url": "http://localhost:3007/es/snow-removal/commercial-snow-plowing",
+      "status": 200,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "aria-valid-attr-value",
+          "nodes": 2
+        },
+        {
+          "id": "color-contrast",
+          "nodes": 15
+        }
+      ],
+      "error": null
+    },
+    {
+      "path": "/es/snow-removal/de-icing",
+      "label": "es-svc-snow-2",
+      "url": "http://localhost:3007/es/snow-removal/de-icing",
+      "status": 200,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "aria-valid-attr-value",
+          "nodes": 2
+        },
+        {
+          "id": "color-contrast",
+          "nodes": 15
+        }
+      ],
+      "error": null
+    },
+    {
+      "path": "/es/trenchless",
+      "label": "es-division-trenchless",
+      "url": "http://localhost:3007/es/trenchless",
+      "status": 200,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "aria-valid-attr-value",
+          "nodes": 2
+        },
+        {
+          "id": "color-contrast",
+          "nodes": 23
+        }
+      ],
+      "error": null
+    },
+    {
+      "path": "/es/trenchless/conduit-installation",
+      "label": "es-svc-trenchless-1",
+      "url": "http://localhost:3007/es/trenchless/conduit-installation",
+      "status": 200,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "aria-valid-attr-value",
+          "nodes": 2
+        },
+        {
+          "id": "color-contrast",
+          "nodes": 13
+        }
+      ],
+      "error": null
+    },
+    {
+      "path": "/es/trenchless/missile-boring",
+      "label": "es-svc-trenchless-2",
+      "url": "http://localhost:3007/es/trenchless/missile-boring",
+      "status": 200,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "aria-valid-attr-value",
+          "nodes": 2
+        },
+        {
+          "id": "color-contrast",
+          "nodes": 13
+        }
+      ],
+      "error": null
+    },
+    {
+      "path": "/es/unsubscribe/SAMPLE_TOKEN_INVALID",
+      "label": "es-unsubscribe-invalid",
+      "url": "http://localhost:3007/es/unsubscribe/SAMPLE_TOKEN_INVALID",
+      "status": 200,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "aria-valid-attr-value",
+          "nodes": 2
+        },
+        {
+          "id": "color-contrast",
+          "nodes": 2
+        }
+      ],
+      "error": null
+    },
+    {
+      "path": "/es/this-route-does-not-exist-a11y-probe",
+      "label": "es-sitewide-404",
+      "url": "http://localhost:3007/es/this-route-does-not-exist-a11y-probe",
+      "status": 404,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "aria-valid-attr-value",
+          "nodes": 2
+        },
+        {
+          "id": "color-contrast",
+          "nodes": 2
+        }
+      ],
+      "error": null
+    }
+  ]
+}

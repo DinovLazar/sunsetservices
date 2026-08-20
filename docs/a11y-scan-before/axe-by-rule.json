@@ -1,0 +1,34 @@
+[
+  {
+    "id": "color-contrast",
+    "impact": "serious",
+    "help": "Elements must meet minimum color contrast ratio thresholds",
+    "tags": [
+      "wcag2aa",
+      "wcag143"
+    ],
+    "nodes": 58,
+    "pages": [
+      "/hardscape",
+      "/hardscape/patios-walkways",
+      "/hardscape/retaining-walls",
+      "/es/hardscape",
+      "/es/hardscape/patios-walkways",
+      "/es/hardscape/retaining-walls"
+    ]
+  },
+  {
+    "id": "definition-list",
+    "impact": "serious",
+    "help": "<dl> elements must only directly contain properly-ordered <dt> and <dd> groups, <script>, <template> or <div> elements",
+    "tags": [
+      "wcag2a",
+      "wcag131"
+    ],
+    "nodes": 2,
+    "pages": [
+      "/hardscape",
+      "/es/hardscape"
+    ]
+  }
+]

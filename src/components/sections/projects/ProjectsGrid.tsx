@@ -6,6 +6,7 @@ import type {Project} from '@/data/projects';
 import type {Division} from '@/data/services';
 import {resolveProjectCity} from '@/lib/projects/resolveProjectCity';
 import {stripStreetNumber} from '@/lib/projects/stripStreetNumber';
+import {resolveProjectTitle} from '@/lib/projects/resolveProjectTitle';
 
 type Locale = 'en' | 'es';
 
@@ -83,7 +84,7 @@ export default async function ProjectsGrid({projects, locale, divisionBySlug}: P
                     href={`/projects/${p.slug}/`}
                     photo={photo}
                     alt={p.leadAlt[locale]}
-                    title={stripStreetNumber(p.title[locale])}
+                    title={stripStreetNumber(resolveProjectTitle(p, locale))}
                     meta={cityLabel}
                     audienceLabel={tTag(division)}
                     priority={isLcpCandidate}

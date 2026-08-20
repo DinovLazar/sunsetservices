@@ -76,7 +76,12 @@ export default async function UnsubscribePage({
         : 'confirm';
 
   return (
-    <main className="bg-[var(--color-bg)] py-16 lg:py-24">
+    /* a11y remediation (SC 1.3.1): this was a <main>, nested inside the
+        single <main id="main"> that src/app/[locale]/layout.tsx already wraps
+        around every route. Two nested main landmarks make landmark navigation
+        ambiguous, and the skip link targets the outer one. This page is
+        token-gated and force-dynamic, so it sat outside every prior scan. */
+    <section className="bg-[var(--color-bg)] py-16 lg:py-24">
       <div className="mx-auto max-w-2xl px-4 sm:px-6 lg:px-8">
         <div
           className="bg-[var(--color-bg-cream)] p-8 sm:p-10 lg:p-12 text-center"
@@ -112,6 +117,6 @@ export default async function UnsubscribePage({
           />
         </div>
       </div>
-    </main>
+    </section>
   );
 }

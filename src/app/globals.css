@@ -60,6 +60,16 @@
   --color-sunset-amber-300: #F2C66A;
   --color-sunset-amber-500: #E8A33D;
   --color-sunset-amber-700: #B47821;
+  /* amber-800 (a11y remediation, WCAG 2.2 AA) — AA-compliant amber TEXT.
+     amber-700 as text measures 3.72:1 on white and 3.48:1 on the amber-50
+     chip fill, both below the 4.5:1 AA threshold for normal text; it fired
+     58 axe `color-contrast` nodes across the six hardscape division pages
+     (EN + ES) via `--audience-accent`. -800 clears AA on every page
+     surface: 5.61:1 on white, 5.25:1 on amber-50/cream, 4.81:1 on stone.
+     Same remedy shape as green-600 (Phase B.06). amber-700 remains valid
+     for non-text uses (icon fills, 3px rules, chart marks) where the 3:1
+     SC 1.4.11 threshold applies. */
+  --color-sunset-amber-800: #8F5D14;
 
   /* ---------- Sunset Orange accent (Phase M.16 — BG-01) ----------
      The single per-page accent + primary-CTA fill on the homepage, and the
@@ -97,6 +107,19 @@
   --color-border:        #E5E0D5;
   --color-border-strong: #C9C0AE;
   --color-line:          #E5E0D5;
+  /* Form-control boundaries (a11y remediation, WCAG 2.2 AA — SC 1.4.11).
+     --color-border (1.32:1 on white) and --color-border-strong (1.80:1) are
+     correct for DECORATIVE rules — hairlines, card edges, section dividers —
+     which SC 1.4.11 exempts. They are NOT sufficient for a text input: the
+     field is white-on-white, so its border is the only visual information
+     identifying the control, and that requires 3:1. These two tokens are
+     scoped to .field-input / .field-textarea / .field-select only, so the
+     decorative hairlines elsewhere keep their intended lightness.
+     -field 3.81:1 on white · 3.56 cream · 3.26 stone.
+     -field-strong (hover) 5.81 · 5.43 · 4.98 — darker than resting, so the
+     hover state still reads as a strengthening rather than a fade. */
+  --color-border-field:        #8A8272;
+  --color-border-field-strong: #6E6455;
 
   /* ---------- Semantic feedback (8 tokens) ---------- */
   --color-success:    #2F5D27;
@@ -113,9 +136,17 @@
   --color-info-bg:    #E2ECF0;
 
   /* ---------- Focus + selection + overlay ---------- */
-  /* D1 — green-tinted focus ring (Option A): clears 3:1 on white/cream/charcoal.
-     On green-500 buttons the ring switches to --color-text-on-green per §6.1. */
-  --color-focus-ring:     #6FA85F;
+  /* Green-tinted focus ring. The original D1 value #6FA85F was documented as
+     "clears 3:1 on white/cream/charcoal"; measured, it does not — #6FA85F is
+     2.82:1 on white, 2.64:1 on cream, 2.42:1 on stone and 2.56:1 on green-50,
+     all below the 3:1 that SC 1.4.11 requires of a focus indicator. Only the
+     charcoal case (6.17:1) ever passed. green-500 is the darkest brand green
+     that clears 3:1 against BOTH the light page surfaces and charcoal:
+     white 4.18 · cream 3.91 · stone 3.58 · green-50 3.79 · charcoal 4.16.
+     Every focus-ring callsite pairs this with `outline-offset`, so the ring
+     is drawn on the page background rather than on a button fill — which is
+     what keeps a single token viable on colored CTAs. */
+  --color-focus-ring:     var(--color-sunset-green-500);
   --color-selection-bg:   #DCE8D5;
   --color-selection-text: #1A3617;
   --color-overlay-50:     rgba(26, 26, 26, 0.50);
@@ -406,8 +437,15 @@
     box-shadow: var(--shadow-soft);
     transition-duration: var(--motion-fast);
   }
-  /* Per §6.1 D1 follow-up: white ring on green field for AA contrast. */
-  .btn-primary:focus-visible { outline-color: var(--color-text-on-green); }
+  /* a11y remediation (SC 2.4.7 / SC 1.4.11): this override used to force the
+     ring to --color-text-on-green (white), on the reasoning that a white ring
+     sits on the button's green field. It does not. `.btn:focus-visible` sets
+     `outline-offset: 2px`, so the ring is drawn OUTSIDE the button — on the
+     page background, not on the green. A white ring on the white/cream page
+     surface measures 1.00:1 / 1.07:1: the primary CTA had, in practice, NO
+     visible focus indicator anywhere on the site. Dropping the override lets
+     .btn-primary inherit --color-focus-ring (green-500), which is 4.18:1 on
+     white and 3.91:1 on cream. */
 
   /* Secondary (border green) */
   .btn-secondary {
@@ -452,8 +490,13 @@
     color: var(--color-text-on-amber);
     box-shadow: var(--shadow-soft);
   }
+  /* Hover darkens to amber-800, not amber-700 (a11y remediation, SC 1.4.3):
+     the hover state swaps the label to cream, and cream on amber-700 is
+     3.48:1 — below AA. On amber-800 it is 5.25:1. This is the sitewide
+     one-amber-CTA-per-page button, so the failure applied to the primary
+     conversion control on most pages whenever it was hovered or focused. */
   .btn-amber:hover {
-    background: var(--color-sunset-amber-700);
+    background: var(--color-sunset-amber-800);
     color: var(--color-text-on-dark);
     transform: translateY(-1px);
     box-shadow: var(--shadow-hover);
@@ -605,7 +648,7 @@
     height: 48px;
     padding: var(--spacing-3) var(--spacing-4);
     background: var(--color-bg);
-    border: var(--border-1) solid var(--color-border);
+    border: var(--border-1) solid var(--color-border-field);
     border-radius: var(--radius-sm);
     font-family: var(--font-body);
     font-size: 15px;
@@ -625,7 +668,7 @@
   .field-textarea::placeholder { color: var(--color-text-muted); }
   .field-input:hover,
   .field-textarea:hover,
-  .field-select:hover { border-color: var(--color-border-strong); }
+  .field-select:hover { border-color: var(--color-border-field-strong); }
   .field-input:focus-visible,
   .field-textarea:focus-visible,
   .field-select:focus-visible {
@@ -1162,9 +1205,14 @@
     --audience-accent-strong: var(--color-sunset-green-700);
     --audience-chip-bg: var(--color-sunset-green-100);
   }
+  /* Hardscape uses amber-800 rather than amber-700: --audience-accent is a
+     TEXT color (eyebrows, kicker copy, 13px qualifier pills), and amber-700
+     measures 3.72:1 on white / 3.48:1 on the amber-50 chip — below AA. This
+     is the same correction B.12 already applied to trenchless (orange-700 on
+     -50 rather than -100); hardscape was not re-checked at that time. */
   [data-division='hardscape'] {
-    --audience-accent: var(--color-sunset-amber-700);
-    --audience-accent-strong: var(--color-sunset-amber-700);
+    --audience-accent: var(--color-sunset-amber-800);
+    --audience-accent-strong: var(--color-sunset-amber-800);
     --audience-chip-bg: var(--color-sunset-amber-50);
   }
   [data-division='waterproofing'] {
